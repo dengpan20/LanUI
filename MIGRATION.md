@@ -24,6 +24,21 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.16 command palette contract
+
+`UiCommandPalette` is additive. Use it for cross-page actions, navigation and searchable workspace commands; keep `UiAutoComplete` for form-field suggestions and `UiDropdown` for a small contextual action list.
+
+```vue
+<UiCommandPalette v-model="open" v-model:query="query" :commands="commands" @select="execute" />
+```
+
+- Every command requires a stable unique `key` and visible `label`; duplicate or missing keys emit `data-error` and are excluded from ambiguous output.
+- The default `Ctrl/Cmd + K` shortcut can be replaced with normalized hotkey strings or disabled with `globalShortcut=false`.
+- Remote providers receive `(query, { signal })`. Forward the signal, treat aborted work as expected cancellation and use `load-error` for operational telemetry.
+- Controlled consumers must update `modelValue` and `query` from the matching update events. Selection emits the original command plus `{ source, query }` metadata.
+- The palette owns dialog focus, scroll lock, overlay stacking and opener focus restoration. Avoid adding a second document-level focus trap or manual post-close focus timer.
+- `closeOnSelect=false` supports multi-action workflows; `clearOnClose=false` preserves the last query. Custom command slots must retain the component-owned option button and ARIA structure.
+
 ## 1.15 tree contract
 
 `UiTree` is additive. Use it for visible hierarchical resources, permission assignment and nested navigation; keep `UiTreeSelect` when the hierarchy belongs inside a compact form-field popup.

@@ -19,6 +19,7 @@ const cases=[
   {name:'tree-select-open',viewport:{width:1280,height:1300},query:'theme=light&direction=ltr&density=default&state=advanced',prepare:async page=>{await page.locator('.ui-tree-trigger').click();await page.locator('.ui-tree-menu').waitFor()}},
   {name:'tree-enterprise',viewport:{width:1280,height:1300},query:'theme=light&direction=ltr&density=default&state=advanced',prepare:async page=>{await page.getByRole('tree',{name:'Resource permissions'}).focus()}},
   {name:'cascader-open',viewport:{width:1280,height:1300},query:'theme=dark&direction=rtl&density=compact&state=advanced',prepare:async page=>{await page.locator('.ui-cascader-trigger').click();await page.locator('.ui-cascader-menu').waitFor()}},
+  {name:'command-palette-open',viewport:{width:1280,height:1300},query:'theme=light&direction=ltr&density=default&state=advanced',prepare:async page=>{await page.locator('#visual-command-trigger').click();await page.getByRole('dialog',{name:'Quick commands'}).waitFor()}},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

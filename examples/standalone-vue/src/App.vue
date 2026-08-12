@@ -5,6 +5,7 @@ import {
   UiAutoComplete,
   UiButton,
   UiCard,
+  UiCommandPalette,
   UiConfigProvider,
   UiDateRangePicker,
   UiDescriptions,
@@ -36,11 +37,21 @@ const rollout = ref([25,75])
 const officeCity = ref('hangzhou')
 const selectedResource = ref('dashboard')
 const checkedResources = ref(['dashboard'])
+const commandOpen = ref(false)
+const commandQuery = ref('')
+const lastCommand = ref('尚未执行')
+const commands = [
+  { key:'dashboard', label:'打开经营看板', description:'查看今日核心指标', group:'导航', icon:'home', keywords:['dashboard','首页'] },
+  { key:'customers', label:'搜索客户资料', description:'按名称或编号定位客户', group:'导航', icon:'search', keywords:['customer','客户'] },
+  { key:'create', label:'新建运营任务', description:'创建并分配新的业务任务', group:'操作', icon:'plus', shortcut:['N'] },
+  { key:'audit', label:'查看审计日志', description:'需要管理员权限', group:'系统', icon:'file', disabled:true },
+]
 const resourceTree = [
   { label:'运营中心', value:'operations', children:[{label:'经营看板',value:'dashboard'},{label:'客户数据',value:'customers'}] },
   { label:'系统设置', value:'settings', children:[{label:'成员权限',value:'permissions'},{label:'审计日志',value:'audit'}] },
 ]
 function createProject(){created.value=true;toast.success('独立项目配置已生成')}
+function runCommand(command){lastCommand.value=command.label;toast.success(`已执行：${command.label}`)}
 const steps = [
   { title: '项目配置', description: '名称与模板' },
   { title: '组件装配', description: '加载组件库' },
@@ -81,6 +92,15 @@ const rows = computed(() => [
     </UiCard>
 
     <UiCard title="交付进度"><UiSteps :items="steps" :current="created ? 3 : 2" /></UiCard>
+
+    <UiCard title="全局命令面板">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commands" @select="runCommand">
+          <template #trigger="{open}"><UiButton icon="search" @click="open">搜索命令（Ctrl K）</UiButton></template>
+        </UiCommandPalette>
+        <UiTag color="blue">{{ lastCommand }}</UiTag>
+      </div>
+    </UiCard>
 
     <UiCard title="组件装配结果">
       <UiTable :columns="columns" :rows="rows" row-key="id">

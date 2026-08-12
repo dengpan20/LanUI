@@ -41,7 +41,7 @@ pnpm dev
 按需导入组件，同时载入完整组件样式：
 
 ```js
-import { UiButton, UiIcon, UiInput, UiSteps, UiTable } from 'lan-ui-design-system'
+import { UiButton, UiCommandPalette, UiIcon, UiInput, UiSteps, UiTable } from 'lan-ui-design-system'
 import 'lan-ui-design-system/style.css'
 ```
 
@@ -448,6 +448,18 @@ import 'lan-ui-design-system/styles/UiButton.css'
 
 每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 58 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal 或 Transfer 样式。
 
+## Global command palette
+
+`UiCommandPalette` provides cross-page actions and a unified search entry for administration applications:
+
+```vue
+<UiCommandPalette v-model="open" v-model:query="query" :commands="commands" @select="runCommand">
+  <template #trigger="{ open }"><UiButton @click="open">Search commands (Ctrl K)</UiButton></template>
+</UiCommandPalette>
+```
+
+It supports `Ctrl/Cmd + K`, fuzzy ranking, grouping, disabled items, abortable async search, query caching, keyboard selection, focus trapping/restoration, RTL and content slots. Forward the remote provider `{ signal }` to network requests so stale queries are cancelled.
+
 ## 视觉回归
 
 ```powershell
@@ -464,7 +476,7 @@ pnpm run visual:update # 仅在目视确认预期变化后执行
 pnpm run test:a11y
 ```
 
-Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 11-case matrix covers light, dark RTL, mobile, Select, AutoComplete, MultiSelect, Tree, TreeSelect, Cascader, Modal and Drawer states; detected `violations` must remain zero.
+Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 12-case matrix covers light, dark RTL, mobile, Select, AutoComplete, MultiSelect, Tree, TreeSelect, Cascader, CommandPalette, Modal and Drawer states; detected `violations` must remain zero.
 
 ## 浏览器交互回归与性能预算
 
@@ -474,8 +486,8 @@ pnpm run test:interaction:cross-browser
 pnpm run test:performance
 ```
 
-- The default real-Chromium interaction gate exercises 15 flows: Tree, AutoComplete, Select, NumberInput, Slider, LTR/RTL Tabs, Modal focus, nested overlays, Popconfirm, Pagination/Switch, Upload, Table, Form and Menu.
-- `test:interaction:cross-browser` runs the same 15-scenario matrix on Chromium, Firefox and WebKit for 45 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
+- The default real-Chromium interaction gate exercises 16 flows: CommandPalette, Tree, AutoComplete, Select, NumberInput, Slider, LTR/RTL Tabs, Modal focus, nested overlays, Popconfirm, Pagination/Switch, Upload, Table, Form and Menu.
+- `test:interaction:cross-browser` runs the same 16-scenario matrix on Chromium, Firefox and WebKit for 48 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
 - 所有场景启用 `prefers-reduced-motion: reduce`，确保关闭动效后焦点与键盘行为仍然成立；结果写入 `.verify/interaction/<platform>/report.json`。
 - 每个引擎的明细写入 `.verify/interaction/<platform>/<browser>.json`；聚合报告同时记录引擎、用例、耗时与失败信息。
 - macOS Safari 的焦点语义由 Playwright WebKit 门禁覆盖；发布前仍应在目标系统执行关键业务流程的设备级验收。

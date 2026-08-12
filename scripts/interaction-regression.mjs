@@ -13,6 +13,24 @@ for(const browserName of browserNames)if(!['chromium','firefox','webkit'].includ
 
 const cases = [
   {
+    name: 'command-palette-keyboard',
+    run: async page => {
+      const trigger = page.locator('#open-command-palette')
+      await trigger.click()
+      const input = page.getByRole('combobox', { name: 'Command palette' })
+      await input.waitFor()
+      assert.equal(await page.getByRole('dialog', { name:'Quick commands' }).getAttribute('aria-modal'), 'true')
+      await input.fill('sett')
+      await page.keyboard.press('Enter')
+      await expectText(page, 'command-output', 'settings')
+      await expectFocused(page, trigger)
+      await page.keyboard.press('Control+k')
+      await input.waitFor()
+      await page.keyboard.press('Escape')
+      await expectFocused(page, trigger)
+    },
+  },
+  {
     name: 'tree-enterprise-keyboard',
     run: async page => {
       const tree = page.getByRole('tree', { name: 'Fixture resources' })

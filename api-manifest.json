@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -21,6 +21,7 @@
       "UiCheckbox",
       "UiCol",
       "UiCollapse",
+      "UiCommandPalette",
       "UiConfigProvider",
       "UiDatePicker",
       "UiDateRangePicker",
@@ -217,6 +218,16 @@
       "UiCollapseItem",
       "UiCollapseProps",
       "UiCollapseSlots",
+      "UiCommandPalette",
+      "UiCommandPaletteCommand",
+      "UiCommandPaletteDataError",
+      "UiCommandPaletteEmits",
+      "UiCommandPaletteFetchContext",
+      "UiCommandPaletteLoadError",
+      "UiCommandPaletteOpenMeta",
+      "UiCommandPaletteProps",
+      "UiCommandPaletteSelectMeta",
+      "UiCommandPaletteSlots",
       "UiConfigProvider",
       "UiConfigProviderEmits",
       "UiConfigProviderProps",
@@ -906,6 +917,63 @@
       ],
       "runtimeExports": [
         "UiCollapse",
+        "default"
+      ]
+    },
+    {
+      "name": "UiCommandPalette",
+      "subpath": "./components/UiCommandPalette",
+      "propsType": "UiCommandPaletteProps",
+      "props": [
+        "cache",
+        "clearOnClose",
+        "closeOnEsc",
+        "closeOnMask",
+        "closeOnSelect",
+        "commands",
+        "debounce",
+        "defaultOpen",
+        "defaultQuery",
+        "disabled",
+        "emptyText",
+        "errorText",
+        "fetchCommands",
+        "globalShortcut",
+        "hotkeys",
+        "loadingText",
+        "loop",
+        "maxResults",
+        "minChars",
+        "modelValue",
+        "placeholder",
+        "query",
+        "title",
+        "width"
+      ],
+      "emitsType": "UiCommandPaletteEmits",
+      "emits": [
+        "close",
+        "data-error",
+        "load-error",
+        "open",
+        "search",
+        "select",
+        "update:modelValue",
+        "update:query"
+      ],
+      "slotsType": "UiCommandPaletteSlots",
+      "slots": [
+        "command",
+        "empty",
+        "error",
+        "footer",
+        "group",
+        "header",
+        "loading",
+        "trigger"
+      ],
+      "runtimeExports": [
+        "UiCommandPalette",
         "default"
       ]
     },

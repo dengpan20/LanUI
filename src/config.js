@@ -4,6 +4,7 @@ export const zhCN={
   name:'zh-CN',
   messages:{
     'common.confirm':'确认','common.cancel':'取消','common.clear':'清除','common.loading':'加载中','common.later':'稍后处理','common.reload':'重新加载','common.all':'全部',
+    'command.label':'命令面板','command.title':'快捷命令','command.placeholder':'搜索命令','command.empty':'没有匹配命令','command.loading':'正在加载命令','command.error':'命令加载失败','command.retry':'重新加载命令','command.close':'关闭命令面板','command.hint':'输入关键词快速查找命令','command.results':'命令结果','command.navigate':'导航','command.select':'执行',
     'alert.close':'关闭提示','badge.dot':'有新消息','badge.count':'{count} 条消息','breadcrumb.label':'面包屑导航',
     'cascader.placeholder':'请选择层级','cascader.level':'第 {level} 级选项','descriptions.label':'详情信息','drawer.close':'关闭抽屉',
     'form.field':'此字段','form.required':'{label}为必填项','form.min':'{label}不能少于 {min}','form.max':'{label}不能超过 {max}','form.pattern':'{label}格式不正确','form.invalid':'{label}校验未通过',
@@ -28,6 +29,7 @@ export const enUS={
   name:'en-US',
   messages:{
     'common.confirm':'Confirm','common.cancel':'Cancel','common.clear':'Clear','common.loading':'Loading','common.later':'Later','common.reload':'Reload','common.all':'All',
+    'command.label':'Command palette','command.title':'Quick commands','command.placeholder':'Search commands','command.empty':'No matching commands','command.loading':'Loading commands','command.error':'Commands failed to load','command.retry':'Reload commands','command.close':'Close command palette','command.hint':'Type to quickly find a command','command.results':'Command results','command.navigate':'Navigate','command.select':'Run',
     'alert.close':'Close alert','badge.dot':'New message','badge.count':'Messages: {count}','breadcrumb.label':'Breadcrumb',
     'cascader.placeholder':'Select a hierarchy','cascader.level':'Level {level} options','descriptions.label':'Details','drawer.close':'Close drawer',
     'form.field':'This field','form.required':'{label} is required','form.min':'{label} must be at least {min}','form.max':'{label} must not exceed {max}','form.pattern':'{label} has an invalid format','form.invalid':'{label} did not pass validation',

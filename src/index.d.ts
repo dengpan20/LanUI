@@ -54,6 +54,9 @@ export interface UiBreadcrumbProps { items?:UiBreadcrumbItem[]; separator?:strin
 export interface UiButtonProps { variant?:'primary'|'secondary'|'outline'|'text'|'danger'|'danger-outline'; size?:ComponentSize; icon?:string; loading?:boolean; disabled?:boolean; type?:'button'|'submit'|'reset' }
 export interface UiCardProps { title?:string; titleTag?:'h2'|'h3'|'h4'|'h5'|'h6'; mark?:boolean; bodyClass?:string }
 export interface UiCascaderProps { modelValue?:Key[]; options?:UiTreeNode[]; placeholder?:string; disabled?:boolean; invalid?:boolean }
+export interface UiCommandPaletteCommand { key:Key; label:string; description?:string; group?:string; keywords?:string[]; icon?:string; shortcut?:string|string[]; disabled?:boolean; hidden?:boolean; [key:string]:unknown }
+export interface UiCommandPaletteFetchContext { signal?:AbortSignal }
+export interface UiCommandPaletteProps { modelValue?:boolean; defaultOpen?:boolean; query?:string; defaultQuery?:string; commands?:UiCommandPaletteCommand[]; fetchCommands?:(query:string,context:UiCommandPaletteFetchContext)=>UiCommandPaletteCommand[]|Promise<UiCommandPaletteCommand[]>; debounce?:number; minChars?:number; cache?:boolean; maxResults?:number; title?:string; placeholder?:string; emptyText?:string; loadingText?:string; errorText?:string; hotkeys?:string[]; globalShortcut?:boolean; closeOnSelect?:boolean; closeOnEsc?:boolean; closeOnMask?:boolean; clearOnClose?:boolean; loop?:boolean; disabled?:boolean; width?:string|number }
 export interface UiCollapseItem { key:Key; label:string; content?:string; extra?:string; disabled?:boolean }
 export interface UiCollapseProps { items?:UiCollapseItem[]; modelValue?:Key|Key[]; accordion?:boolean; bordered?:boolean; disabled?:boolean }
 export interface UiCheckboxProps { modelValue?:boolean|Key[]; value?:Key|boolean; label?:string; disabled?:boolean; indeterminate?:boolean }
@@ -149,6 +152,11 @@ export type UiBreadcrumbEmits = { navigate:(item:UiBreadcrumbItem)=>void }
 export type UiButtonEmits = {}
 export type UiCardEmits = {}
 export type UiCascaderEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[],path:UiTreeNode[])=>void; 'open-change':(open:boolean)=>void }
+export interface UiCommandPaletteOpenMeta { source:'programmatic'|'trigger'|'shortcut'|'select'|'escape'|'mask'|'close-button' }
+export interface UiCommandPaletteSelectMeta { source:'pointer'|'keyboard'; query:string }
+export interface UiCommandPaletteLoadError { error:unknown; query:string }
+export interface UiCommandPaletteDataError { errors:Array<{code:'missing-key'|'duplicate-key';key?:Key;index:number;command:unknown}> }
+export type UiCommandPaletteEmits = { 'update:modelValue':(value:boolean)=>void; 'update:query':(value:string)=>void; open:(meta:UiCommandPaletteOpenMeta)=>void; close:(meta:UiCommandPaletteOpenMeta)=>void; select:(command:UiCommandPaletteCommand,meta:UiCommandPaletteSelectMeta)=>void; search:(query:string)=>void; 'load-error':(payload:UiCommandPaletteLoadError)=>void; 'data-error':(payload:UiCommandPaletteDataError)=>void }
 export type UiCheckboxEmits = { 'update:modelValue':(value:boolean|Key[])=>void; change:(value:boolean|Key[])=>void }
 export type UiColEmits = {}
 export type UiCollapseEmits = { 'update:modelValue':(value:Key|Key[])=>void; change:(value:Key|Key[])=>void }
@@ -208,6 +216,7 @@ export type UiBreadcrumbSlots = {}
 export type UiButtonSlots = { default?:()=>VNodeChild }
 export type UiCardSlots = { default?:()=>VNodeChild; header?:()=>VNodeChild; action?:()=>VNodeChild }
 export type UiCascaderSlots = {}
+export type UiCommandPaletteSlots = { trigger?:(scope:{open:()=>void;close:()=>void;toggle:()=>void})=>VNodeChild; header?:()=>VNodeChild; command?:(scope:{command:UiCommandPaletteCommand;active:boolean;query:string})=>VNodeChild; group?:(scope:{group:string})=>VNodeChild; empty?:(scope:{query:string})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown;retry:()=>void})=>VNodeChild; footer?:()=>VNodeChild }
 export type UiCheckboxSlots = { default?:()=>VNodeChild }
 export type UiColSlots = { default?:()=>VNodeChild }
 export type UiCollapseSlots = { [name:`item-${string}`]:((props:{item:UiCollapseItem})=>VNodeChild)|undefined }
@@ -270,7 +279,7 @@ export interface LanUiFeedback { toast:ToastService; toastState:ToastState; noti
 
 export const UiAlert:LanComponent<UiAlertProps,UiAlertEmits,UiAlertSlots>; export const UiAutoComplete:LanComponent<UiAutoCompleteProps,UiAutoCompleteEmits,UiAutoCompleteSlots>; export const UiAvatar:LanComponent<UiAvatarProps,UiAvatarEmits,UiAvatarSlots>; export const UiBadge:LanComponent<UiBadgeProps,UiBadgeEmits,UiBadgeSlots>; export const UiBreadcrumb:LanComponent<UiBreadcrumbProps,UiBreadcrumbEmits,UiBreadcrumbSlots>
 export const UiButton:LanComponent<UiButtonProps,UiButtonEmits,UiButtonSlots>; export const UiCard:LanComponent<UiCardProps,UiCardEmits,UiCardSlots>; export const UiCascader:LanComponent<UiCascaderProps,UiCascaderEmits,UiCascaderSlots>; export const UiCheckbox:LanComponent<UiCheckboxProps,UiCheckboxEmits,UiCheckboxSlots>
-export const UiCollapse:LanComponent<UiCollapseProps,UiCollapseEmits,UiCollapseSlots>; export const UiDescriptions:LanComponent<UiDescriptionsProps,UiDescriptionsEmits,UiDescriptionsSlots>
+export const UiCollapse:LanComponent<UiCollapseProps,UiCollapseEmits,UiCollapseSlots>; export const UiCommandPalette:LanComponent<UiCommandPaletteProps,UiCommandPaletteEmits,UiCommandPaletteSlots>; export const UiDescriptions:LanComponent<UiDescriptionsProps,UiDescriptionsEmits,UiDescriptionsSlots>
 export const UiCol:LanComponent<UiColProps,UiColEmits,UiColSlots>; export const UiDatePicker:LanComponent<UiDatePickerProps,UiDatePickerEmits,UiDatePickerSlots>; export const UiDivider:LanComponent<UiDividerProps,UiDividerEmits,UiDividerSlots>; export const UiDrawer:LanComponent<UiDrawerProps,UiDrawerEmits,UiDrawerSlots>
 export const UiConfigProvider:LanComponent<UiConfigProviderProps,UiConfigProviderEmits,UiConfigProviderSlots>; export const UiDateRangePicker:LanComponent<UiDateRangePickerProps,UiDateRangePickerEmits,UiDateRangePickerSlots>
 export const UiDropdown:LanComponent<UiDropdownProps,UiDropdownEmits,UiDropdownSlots>; export const UiEmpty:LanComponent<UiEmptyProps,UiEmptyEmits,UiEmptySlots>; export const UiFloatButton:LanComponent<UiFloatButtonProps,UiFloatButtonEmits,UiFloatButtonSlots>; export const UiForm:LanComponent<UiFormProps,UiFormEmits,UiFormSlots>

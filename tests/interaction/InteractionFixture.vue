@@ -4,6 +4,7 @@ import {
   UiAutoComplete, UiButton, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
   UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree,
+  UiCommandPalette,
 } from '../../src/index.js'
 
 defineProps({ direction: { type: String, default: 'ltr' } })
@@ -30,6 +31,14 @@ const menuValue = ref('')
 const treeValue = ref('')
 const treeChecked = ref([])
 const treeLoadCount = ref(0)
+const commandResult = ref('idle')
+const commandOpen = ref(false)
+const commandQuery = ref('')
+const commandItems = [
+  {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
+  {key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate',keywords:['preferences']},
+  {key:'disabled',label:'Disabled command',group:'Actions',disabled:true},
+]
 const formModel = reactive({ name: '' })
 const formResult = ref('idle')
 
@@ -185,6 +194,14 @@ async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resol
         <h2>Tree enterprise keyboard contract</h2>
         <UiTree v-model="treeValue" v-model:checked-keys="treeChecked" :data="treeItems" :load-data="loadTreeData" :default-expanded-keys="['workspace']" checkable show-line bordered aria-label="Fixture resources" />
         <output class="interaction-output" data-testid="tree-output">selected={{ treeValue || 'empty' }} checked={{ treeChecked.join(',') || 'none' }} loads={{ treeLoadCount }}</output>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Command palette keyboard contract</h2>
+        <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commandItems" @select="commandResult=$event.key">
+          <template #trigger="{open}"><UiButton id="open-command-palette" @click="open">Open command palette</UiButton></template>
+        </UiCommandPalette>
+        <output class="interaction-output" data-testid="command-output">{{ commandResult }}</output>
       </section>
     </div>
   </UiConfigProvider>

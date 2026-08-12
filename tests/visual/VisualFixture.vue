@@ -3,12 +3,15 @@ import { ref } from 'vue'
 import {
   UiAlert, UiAutoComplete, UiButton, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect,
+  UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiCommandPalette,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
 const tab=ref('overview')
 const segment=ref('month')
+const commandOpen=ref(false)
+const commandQuery=ref('')
+const commandItems=[{key:'dashboard',label:'Open dashboard',group:'Navigate'},{key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate'},{key:'disabled',label:'Disabled command',group:'Actions',disabled:true}]
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
   {key:'owner',label:'Owner'},
@@ -65,6 +68,7 @@ const tableRows=[
         <UiTreeSelect aria-label="Organization unit" model-value="frontend" :options="[{label:'Engineering',value:'engineering',children:[{label:'Frontend',value:'frontend'}]}]"/>
         <UiCascader aria-label="Office location" :model-value="['china','hangzhou']" :options="[{label:'China',value:'china',children:[{label:'Hangzhou',value:'hangzhou'}]}]"/>
         <UiTree aria-label="Resource permissions" model-value="frontend" :checked-keys="['frontend']" :default-expanded-keys="['engineering']" :data="[{label:'Engineering',value:'engineering',children:[{label:'Frontend',value:'frontend'},{label:'Backend',value:'backend'}]},{label:'Archive',value:'archive',disabled:true}]" checkable show-line bordered/>
+        <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commandItems"><template #trigger="{open}"><UiButton id="visual-command-trigger" @click="open">Open command palette</UiButton></template></UiCommandPalette>
       </div>
     </UiCard>
   </UiConfigProvider>

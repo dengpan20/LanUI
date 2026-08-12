@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-08-12
+
+### Added
+
+- Public `UiCommandPalette` with controlled/uncontrolled open and query models, global `Ctrl/Cmd + K`, fuzzy ranking, grouped commands, disabled/hidden entries and fully customizable content slots.
+- Abortable debounced remote search with monotonic stale-response protection, per-query cache, contained retryable errors and deterministic duplicate/missing-key diagnostics.
+- Modal dialog, combobox, listbox, group and option semantics; focus trap/restore, overlay-stack ownership, scroll locking, logical RTL behavior, reduced-motion handling and responsive mobile presentation.
+- Unit, SSR, typed root/subpath, package, static-preview, Axe, three-browser interaction and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 58 to 59 entries.
+- Locale parity advances from 122 to 134 keys; browser interaction coverage advances from 15 to 16 scenarios per engine and Axe coverage advances from 11 to 12 cases.
+- Bounded JS/CSS budgets increase only for the new command-search runtime, overlay presentation and standalone demonstration; raw and gzip limits remain independently enforced.
+
 ## [1.15.0] - 2026-08-12
 
 ### Added

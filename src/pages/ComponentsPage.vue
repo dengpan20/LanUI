@@ -48,6 +48,7 @@ import UiTreeSelect from '../components/UiTreeSelect.vue'
 import UiCascader from '../components/UiCascader.vue'
 import UiTransfer from '../components/UiTransfer.vue'
 import UiCollapse from '../components/UiCollapse.vue'
+import UiCommandPalette from '../components/UiCommandPalette.vue'
 import UiConfigProvider from '../components/UiConfigProvider.vue'
 import UiDateRangePicker from '../components/UiDateRangePicker.vue'
 import UiDescriptions from '../components/UiDescriptions.vue'
@@ -98,6 +99,15 @@ async function loadResourceTree(node,{signal}){
   return node.value==='data-center'?[{label:'经营看板',value:'dashboard',isLeaf:true},{label:'客户分析',value:'customer-analysis',isLeaf:true}]:[]
 }
 const menuDemo=ref('overview');const collapseDemo=ref(['guideline']);const segmentedDemo=ref('week');const spinDemo=ref(false)
+const commandPaletteOpen=ref(false);const commandPaletteQuery=ref('');const commandPaletteSelection=ref('尚未执行')
+const commandPaletteCommands=[
+  {key:'dashboard',label:'打开数据看板',description:'查看核心经营指标',group:'导航',icon:'home',keywords:['首页','dashboard'],shortcut:['G','D']},
+  {key:'components',label:'进入组件中心',description:'浏览组件 API 与交互用例',group:'导航',icon:'layers',keywords:['design system','component']},
+  {key:'theme',label:'切换深色主题',description:'更改当前界面的明暗主题',group:'外观',icon:'palette',keywords:['dark','theme'],shortcut:['T']},
+  {key:'create',label:'新建业务项目',description:'创建新的后台项目空间',group:'操作',icon:'plus',keywords:['new','project']},
+  {key:'archive',label:'归档当前项目',description:'此操作需要项目管理员权限',group:'操作',icon:'folder',disabled:true},
+]
+function runPaletteCommand(command){commandPaletteSelection.value=command.label;emit('notify',`已执行：${command.label}`)}
 const iconDemoNames=['home','search','calendar','clock','bell','upload','download','filter','checkCircle','alert','info','settings']
 const iconDemoRegistry=createIconRegistry({tenantMark:'<path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="m7 9 5 3 5-3M12 12v6"/>'})
 const configLocale=ref('en-US');const configSize=ref('sm');const configDensity=ref('compact');const rangeDemo=ref(['2026-08-01','2026-08-11']);const rangeError=ref('')
@@ -131,7 +141,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'组件名称',value:'UiTree'},{key:'version',label:'当前版本',value:'1.15.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'级联、懒加载、虚拟化、键盘、ARIA'}]
+const descriptionItems=[{key:'name',label:'组件名称',value:'UiCommandPalette'},{key:'version',label:'当前版本',value:'1.16.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'搜索、分组、异步、快捷键、焦点陷阱、ARIA'}]
 const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
 const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}];const timelineItems=[{title:'完成组件审计',time:'09:30',status:'success'},{title:'同步业务页面',time:'11:20',status:'success'},{title:'执行视觉回归',time:'14:00'}]
 const tableDensity=ref('default');const tableVisibleColumns=ref(['component','version','status','coverage','actions']);const tableSelected=ref([]);const tableExpanded=ref([]);const tableSortKey=ref('component');const tableSortOrder=ref('asc');const tableFilters=ref({});const tableLoading=ref(false);const tableError=ref('');const tableEmpty=ref(false)
@@ -312,6 +322,21 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
           <header class="doc-section-header"><h2>通用能力补充</h2><p>补齐项目级组件库常用的导航、折叠、详情、结果、加载与紧凑选择能力，并提供可直接调用的反馈服务。</p></header>
           <div class="demo-block">
             <div class="completion-showcase-grid">
+              <div class="command-palette-showcase" style="grid-column:1/-1">
+                <div>
+                  <span class="demo-label">Command Palette · 全局快捷命令与模糊检索</span>
+                  <p>支持 <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> 全局唤起、分组排序、异步检索、禁用项、焦点陷阱和打开前焦点恢复。</p>
+                  <div class="button-row">
+                    <UiCommandPalette v-model="commandPaletteOpen" v-model:query="commandPaletteQuery" :commands="commandPaletteCommands" @select="runPaletteCommand">
+                      <template #trigger="{open}"><UiButton icon="search" @click="open">打开命令面板 <kbd>Ctrl K</kbd></UiButton></template>
+                    </UiCommandPalette>
+                    <UiTag color="blue">{{ commandPaletteSelection }}</UiTag>
+                  </div>
+                </div>
+                <pre class="code-block"><code>&lt;UiCommandPalette v-model="open"
+  v-model:query="query" :commands="commands"
+  @select="runCommand" /&gt;</code></pre>
+              </div>
               <div class="icon-showcase-card" style="grid-column:1/-1">
                 <span class="demo-label">UiIcon · 公共图标、无障碍语义与隔离注册表</span>
                 <div class="icon-gallery"><span v-for="name in iconDemoNames" :key="name"><UiIcon :name="name" :size="20"/><code>{{ name }}</code></span></div>

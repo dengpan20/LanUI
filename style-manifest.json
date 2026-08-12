@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 6611
+    "bytes": 6675
   },
   "components": [
     {
@@ -16,8 +16,8 @@
     {
       "name": "UiAutoComplete",
       "subpath": "./styles/UiAutoComplete.css",
-      "bytes": 6235,
-      "rules": 43
+      "bytes": 6289,
+      "rules": 44
     },
     {
       "name": "UiAvatar",
@@ -52,7 +52,7 @@
     {
       "name": "UiCascader",
       "subpath": "./styles/UiCascader.css",
-      "bytes": 3296,
+      "bytes": 3295,
       "rules": 22
     },
     {
@@ -72,6 +72,12 @@
       "subpath": "./styles/UiCollapse.css",
       "bytes": 1378,
       "rules": 16
+    },
+    {
+      "name": "UiCommandPalette",
+      "subpath": "./styles/UiCommandPalette.css",
+      "bytes": 9012,
+      "rules": 68
     },
     {
       "name": "UiConfigProvider",
@@ -184,7 +190,7 @@
     {
       "name": "UiMultiSelect",
       "subpath": "./styles/UiMultiSelect.css",
-      "bytes": 4181,
+      "bytes": 4147,
       "rules": 27
     },
     {
@@ -340,13 +346,13 @@
     {
       "name": "UiTree",
       "subpath": "./styles/UiTree.css",
-      "bytes": 6650,
+      "bytes": 6616,
       "rules": 50
     },
     {
       "name": "UiTreeSelect",
       "subpath": "./styles/UiTreeSelect.css",
-      "bytes": 3637,
+      "bytes": 3603,
       "rules": 25
     },
     {

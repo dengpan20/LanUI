@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import {
   UiButton,
   UiAutoComplete,
+  UiCommandPalette,
   UiForm,
   UiFormItem,
   UiInput,
@@ -11,7 +12,7 @@ import {
   UiTabs,
   UiTree,
 } from 'lan-ui-design-system'
-import type { Key, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
+import type { Key, UiCommandPaletteCommand, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
 
 const open = ref(false)
 const activeTab = ref<Key>('summary')
@@ -20,6 +21,9 @@ const model = ref<FormModel>({ name: '' })
 const office = ref('')
 const resource = ref<Key>('dashboard')
 const checkedResources = ref<Key[]>(['dashboard'])
+const commandOpen = ref(false)
+const commandQuery = ref('')
+const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
 const rows = [{ id:1, name:'Lan UI' }]
@@ -61,4 +65,8 @@ function sort(payload:UiTableSortChange) {
   <UiTree v-model="resource" v-model:checked-keys="checkedResources" :data="resources" :default-expanded-keys="['workspace']" checkable show-line>
     <template #node="{ node, selected }">{{ node.label }} / {{ selected }}</template>
   </UiTree>
+  <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commands">
+    <template #trigger="{ open }"><UiButton @click="open">Commands</UiButton></template>
+    <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>
+  </UiCommandPalette>
 </template>

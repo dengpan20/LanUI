@@ -585,3 +585,15 @@
 - Duplicate or missing keys are not rendered ambiguously and emit `data-error`. Node, icon, suffix and empty slots may customize content without replacing the structural ARIA roles.
 - Root/subpath runtime exports, declarations, styles, manifests, component center, static preview, standalone consumer, SSR and three-browser fixtures remain in parity for 58 components and 122 locale keys.
 - CI, 11 Axe cases and 15 interaction cases per Chromium/Firefox/WebKit engine are required for the P19 delivery evidence.
+
+## 33. Maturity P20: global command palette
+
+- `UiCommandPalette` separates the original command payload from its normalized searchable view and requires stable, unique command keys.
+- Matching ranks exact labels, label prefixes, keywords, descriptions and sequential fuzzy matches deterministically; disabled commands remain discoverable but never active, while hidden commands never render.
+- Local and remote commands may be combined. Remote providers are debounced, receive `AbortSignal`, ignore stale completions, support per-query caching and expose loading, empty, error and retry states without collapsing the dialog.
+- The default `Ctrl/Cmd + K` shortcut is configurable. Arrow/Page/Home/End navigation skips disabled commands; Enter selects; Escape closes only the top overlay; Tab remains trapped inside the modal surface.
+- Opening captures the current focus origin, locks document scrolling, joins the shared overlay stack and focuses the combobox. Closing releases the stack/lock and restores focus after DOM removal.
+- The component exposes dialog, combobox, listbox, group and option semantics with stable IDs, active-descendant linkage, busy/error announcements and inherited locale/direction.
+- Trigger, header, group, command, loading, empty, error and footer slots customize content while the component retains structural ARIA and focus ownership.
+- Root/subpath runtime exports, declarations, styles, manifests, component center, 17-section static preview, standalone consumer, SSR and three-browser fixtures remain in parity for 59 components and 134 locale keys.
+- CI, 12 Axe cases and 16 interaction cases per Chromium/Firefox/WebKit engine are required for the P20 delivery evidence.
