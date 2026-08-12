@@ -13,6 +13,26 @@ for(const browserName of browserNames)if(!['chromium','firefox','webkit'].includ
 
 const cases = [
   {
+    name: 'tree-enterprise-keyboard',
+    run: async page => {
+      const tree = page.getByRole('tree', { name: 'Fixture resources' })
+      await tree.focus()
+      await page.keyboard.press('ArrowRight')
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('ArrowRight')
+      await page.keyboard.press('ArrowRight')
+      await page.keyboard.press('Space')
+      await expectText(page, 'tree-output', 'selected=empty checked=settings,security loads=0')
+      await page.keyboard.press('Enter')
+      await expectText(page, 'tree-output', 'selected=security checked=settings,security loads=0')
+      await page.keyboard.press('End')
+      await page.keyboard.press('ArrowRight')
+      await page.getByRole('treeitem', { name:/Remote child/ }).waitFor()
+      await expectText(page, 'tree-output', 'selected=security checked=settings,security loads=1')
+      assert.equal(await tree.getAttribute('aria-busy'), null)
+    },
+  },
+  {
     name: 'autocomplete-keyboard',
     run: async page => {
       const input = page.getByRole('combobox', { name: 'Office city' })

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import {
   UiAlert, UiAutoComplete, UiButton, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTreeSelect,
+  UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -64,6 +64,7 @@ const tableRows=[
         <UiMultiSelect aria-label="Team members" :model-value="['lin']" :options="[{label:'Lin',value:'lin'},{label:'Chen',value:'chen'}]"/>
         <UiTreeSelect aria-label="Organization unit" model-value="frontend" :options="[{label:'Engineering',value:'engineering',children:[{label:'Frontend',value:'frontend'}]}]"/>
         <UiCascader aria-label="Office location" :model-value="['china','hangzhou']" :options="[{label:'China',value:'china',children:[{label:'Hangzhou',value:'hangzhou'}]}]"/>
+        <UiTree aria-label="Resource permissions" model-value="frontend" :checked-keys="['frontend']" :default-expanded-keys="['engineering']" :data="[{label:'Engineering',value:'engineering',children:[{label:'Frontend',value:'frontend'},{label:'Backend',value:'backend'}]},{label:'Archive',value:'archive',disabled:true}]" checkable show-line bordered/>
       </div>
     </UiCard>
   </UiConfigProvider>

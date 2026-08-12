@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import {
   UiAutoComplete, UiButton, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
   UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiTree,
 } from '../../src/index.js'
 
 defineProps({ direction: { type: String, default: 'ltr' } })
@@ -26,6 +27,9 @@ const expandedRows = ref([])
 const sortKey = ref('')
 const sortOrder = ref('')
 const menuValue = ref('')
+const treeValue = ref('')
+const treeChecked = ref([])
+const treeLoadCount = ref(0)
 const formModel = reactive({ name: '' })
 const formResult = ref('idle')
 
@@ -41,6 +45,11 @@ const menuItems = [
   { key: 'workspace', label: 'Workspace', children: [{ key: 'overview', label: 'Overview' }, { key: 'settings', label: 'Settings' }] },
   { key: 'reports', label: 'Reports' },
 ]
+const treeItems = [
+  { label:'Workspace', value:'workspace', children:[{label:'Overview',value:'overview'},{label:'Settings',value:'settings',children:[{label:'Security',value:'security'}]}] },
+  { label:'Remote', value:'remote', isLeaf:false },
+]
+async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resolve=>setTimeout(resolve,40));return node.value==='remote'?[{label:'Remote child',value:'remote-child',isLeaf:true}]:[]}
 </script>
 
 <template>
@@ -170,6 +179,12 @@ const menuItems = [
         <h2>Menu directional keyboard contract</h2>
         <UiMenu v-model="menuValue" aria-label="Fixture navigation" :items="menuItems" />
         <output class="interaction-output" data-testid="menu-output">{{ menuValue || 'empty' }}</output>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Tree enterprise keyboard contract</h2>
+        <UiTree v-model="treeValue" v-model:checked-keys="treeChecked" :data="treeItems" :load-data="loadTreeData" :default-expanded-keys="['workspace']" checkable show-line bordered aria-label="Fixture resources" />
+        <output class="interaction-output" data-testid="tree-output">selected={{ treeValue || 'empty' }} checked={{ treeChecked.join(',') || 'none' }} loads={{ treeLoadCount }}</output>
       </section>
     </div>
   </UiConfigProvider>

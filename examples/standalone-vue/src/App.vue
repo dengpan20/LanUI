@@ -19,6 +19,7 @@ import {
   UiTag,
   UiTimePicker,
   UiToastHost,
+  UiTree,
   toast,
 } from 'lan-ui-design-system'
 
@@ -33,6 +34,12 @@ const reminderAt = ref(new Date('2026-08-12T01:30:00.000Z'))
 const monthlyQuota = ref(12500)
 const rollout = ref([25,75])
 const officeCity = ref('hangzhou')
+const selectedResource = ref('dashboard')
+const checkedResources = ref(['dashboard'])
+const resourceTree = [
+  { label:'运营中心', value:'operations', children:[{label:'经营看板',value:'dashboard'},{label:'客户数据',value:'customers'}] },
+  { label:'系统设置', value:'settings', children:[{label:'成员权限',value:'permissions'},{label:'审计日志',value:'audit'}] },
+]
 function createProject(){created.value=true;toast.success('独立项目配置已生成')}
 const steps = [
   { title: '项目配置', description: '名称与模板' },
@@ -83,6 +90,10 @@ const rows = computed(() => [
     <UiCard title="通用能力验证">
       <UiSegmented v-model="period" :options="[{label:'日',value:'day'},{label:'周',value:'week'},{label:'月',value:'month'}]" />
       <UiDescriptions style="margin-top:16px" bordered :columns="3" :items="[{label:'当前周期',value:period},{label:'组件来源',value:'lan-ui-design-system'},{label:'构建方式',value:'独立 Vite 应用'}]" />
+    </UiCard>
+    <UiCard title="资源权限树">
+      <UiTree v-model="selectedResource" v-model:checked-keys="checkedResources" :data="resourceTree" :default-expanded-keys="['operations','settings']" checkable show-line bordered aria-label="独立项目资源权限" />
+      <UiDescriptions style="margin-top:16px" bordered :columns="2" :items="[{label:'当前资源',value:selectedResource},{label:'已授权',value:checkedResources.join(', ')}]" />
     </UiCard>
     <UiCard title="全局安装与局部配置">
       <UiSegmented v-model="locale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]" />

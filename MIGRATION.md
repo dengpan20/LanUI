@@ -24,6 +24,21 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.15 tree contract
+
+`UiTree` is additive. Use it for visible hierarchical resources, permission assignment and nested navigation; keep `UiTreeSelect` when the hierarchy belongs inside a compact form-field popup.
+
+```vue
+<UiTree v-model="selected" v-model:checked-keys="checked" :data="resources" checkable />
+```
+
+- Every node needs a stable, unique key. The defaults are `value`, `label` and `children`; set `nodeKey`, `labelKey` and `childrenKey` for an existing data model.
+- Selection, expansion and checks support controlled props. When controlled, update the corresponding model from `update:*` events before the visual state changes.
+- Non-strict checking cascades to enabled descendants and derives parent checked/mixed state. Set `checkStrictly=true` for independent permission toggles.
+- Mark unloaded branches with `isLeaf:false`; `loadData(node, { signal })` then runs once until data changes. Existing `children` never trigger an extra request. Forward the signal to remote requests; failures emit `load-error` and expose an inline retry action.
+- Filtering retains matching ancestor paths. For very large expanded trees, enable `virtual` and provide `height` plus the measured `itemHeight`.
+- Arrow behavior follows inherited direction. In RTL, logical expand/collapse keys mirror while model ordering remains unchanged.
+
 ## 1.14 autocomplete contract
 
 `UiAutoComplete` is additive. Use it for editable search fields that suggest local or remote values; keep `UiSelect` for a closed finite choice list.

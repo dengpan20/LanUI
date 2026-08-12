@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-08-12
+
+### Added
+
+- Public `UiTree` for enterprise resource hierarchies with controlled/uncontrolled single or ordered multi-selection, checkbox cascade or strict checks, filtering, custom data keys, slots and optional virtual rendering.
+- WAI-ARIA tree/treeitem semantics, active-descendant focus, LTR/RTL Arrow navigation, Home/End, sibling expansion, typeahead, Space checking and Enter selection.
+- Abortable lazy child loading with stale-request guards, once-loaded caching, parent-check inheritance, busy/error/retry states and duplicate/missing-key diagnostics.
+- Unit, SSR, typed root/subpath, package, static-preview, Axe, three-browser interaction and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 57 to 58 entries.
+- Locale parity advances from 114 to 122 keys; browser interaction coverage advances from 14 to 15 scenarios per engine and Axe coverage advances from 10 to 11 cases.
+- Tree viewport measurement now handles numeric, pixel and responsive CSS heights through `ResizeObserver` while preserving deterministic virtual ranges.
+- The opt-in single-component chunk budget moves from 16,000/5,200B to 25,000/7,500B raw/gzip, aggregate JS from 270,000/108,000B to 290,000/114,000B, and standalone-example JS from 260,000B to 280,000B for Tree; the other ten package/minimal-consumer budgets retain their prior limits.
+
 ## [1.14.0] - 2026-08-12
 
 ### Added

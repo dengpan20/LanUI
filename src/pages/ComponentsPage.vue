@@ -43,6 +43,7 @@ import UiSteps from '../components/UiSteps.vue'
 import UiTimeline from '../components/UiTimeline.vue'
 import UiForm from '../components/UiForm.vue'
 import UiMultiSelect from '../components/UiMultiSelect.vue'
+import UiTree from '../components/UiTree.vue'
 import UiTreeSelect from '../components/UiTreeSelect.vue'
 import UiCascader from '../components/UiCascader.vue'
 import UiTransfer from '../components/UiTransfer.vue'
@@ -83,6 +84,19 @@ const demoPage=ref(3);const demoPageSize=ref(10);const floatDemoOpen=ref(false)
 const checkboxDemo=ref(['邮件通知']);const radioDemo=ref('标准版');const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false)
 const formRef=ref(null);const validatedForm=reactive({name:'',email:''});const validationRules={name:[{required:true,message:'请输入客户名称'},{min:2,message:'客户名称至少 2 个字符'}],email:[{required:true,message:'请输入企业邮箱'},{pattern:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,message:'请输入有效的企业邮箱'}]}
 const multiDemo=ref(['华东区域']);const treeDemo=ref('hangzhou');const cascaderDemo=ref(['zhejiang','hangzhou']);const transferDemo=ref(['api'])
+const resourceTreeFilter=ref('');const resourceTreeSelection=ref('design');const resourceTreeChecked=ref(['design'])
+const resourceTreeData=[
+  {label:'产品工作区',value:'workspace',icon:'layers',children:[
+    {label:'设计系统',value:'design',icon:'palette'},
+    {label:'研发项目',value:'engineering',icon:'file',children:[{label:'Web 管理后台',value:'admin'},{label:'移动端应用',value:'mobile'}]},
+    {label:'归档资料',value:'archive',icon:'folder',disabled:true},
+  ]},
+  {label:'数据中心',value:'data-center',icon:'table',isLeaf:false},
+]
+async function loadResourceTree(node,{signal}){
+  await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,420);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})
+  return node.value==='data-center'?[{label:'经营看板',value:'dashboard',isLeaf:true},{label:'客户分析',value:'customer-analysis',isLeaf:true}]:[]
+}
 const menuDemo=ref('overview');const collapseDemo=ref(['guideline']);const segmentedDemo=ref('week');const spinDemo=ref(false)
 const iconDemoNames=['home','search','calendar','clock','bell','upload','download','filter','checkCircle','alert','info','settings']
 const iconDemoRegistry=createIconRegistry({tenantMark:'<path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="m7 9 5 3 5-3M12 12v6"/>'})
@@ -117,7 +131,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'组件名称',value:'UiAutoComplete'},{key:'version',label:'当前版本',value:'1.14.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'异步、IME、键盘、ARIA'}]
+const descriptionItems=[{key:'name',label:'组件名称',value:'UiTree'},{key:'version',label:'当前版本',value:'1.15.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'级联、懒加载、虚拟化、键盘、ARIA'}]
 const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
 const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}];const timelineItems=[{title:'完成组件审计',time:'09:30',status:'success'},{title:'同步业务页面',time:'11:20',status:'success'},{title:'执行视觉回归',time:'14:00'}]
 const tableDensity=ref('default');const tableVisibleColumns=ref(['component','version','status','coverage','actions']);const tableSelected=ref([]);const tableExpanded=ref([]);const tableSortKey=ref('component');const tableSortOrder=ref('asc');const tableFilters=ref({});const tableLoading=ref(false);const tableError=ref('');const tableEmpty=ref(false)
@@ -304,6 +318,16 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                 <UiConfigProvider :icon-registry="iconDemoRegistry" direction="rtl"><div class="icon-custom-row"><UiIcon name="tenantMark" :size="28" color="var(--brand-600)" aria-label="租户品牌图标"/><UiIcon name="chevronRight" directional :size="22"/><span>自定义图标仅在当前 Provider 生效；方向图标在 RTL 下自动镜像。</span></div></UiConfigProvider>
                 <pre class="code-block"><code>&lt;UiIcon name="tenantMark" :size="20" aria-label="品牌图标" /&gt;</code></pre>
               </div>
+              <div class="tree-showcase-card" style="grid-column:1/-1">
+                <div class="form-demo-title"><strong>Tree · 企业资源导航</strong><span>选择 / 复选级联 / 筛选 / 懒加载 / RTL / 虚拟化</span></div>
+                <div class="tree-showcase-grid">
+                  <div><UiInput v-model="resourceTreeFilter" icon="search" clearable placeholder="筛选资源节点"/><UiTree v-model="resourceTreeSelection" v-model:checked-keys="resourceTreeChecked" :data="resourceTreeData" :filter="resourceTreeFilter" :load-data="loadResourceTree" :default-expanded-keys="['workspace','engineering']" checkable show-line bordered aria-label="资源权限树"><template #suffix="{node}"><UiTag v-if="node.value==='design'" color="blue">当前</UiTag></template></UiTree></div>
+                  <div class="tree-showcase-copy"><strong>当前交互状态</strong><dl><div><dt>选中节点</dt><dd><code>{{ resourceTreeSelection || '—' }}</code></dd></div><div><dt>勾选节点</dt><dd><code>{{ resourceTreeChecked.join(', ') || '—' }}</code></dd></div></dl><p>方向键移动；左右键展开或收起；Space 勾选；Enter 选择；输入字符可跳转。展开“数据中心”可体验 AbortSignal 懒加载与失败重试契约。</p><pre class="code-block"><code>&lt;UiTree v-model="selected"
+  v-model:checked-keys="checked"
+  :data="resources" :load-data="loadChildren"
+  checkable show-line virtual /&gt;</code></pre></div>
+                </div>
+              </div>
               <div><span class="demo-label">Menu · 键盘方向键导航</span><UiMenu v-model="menuDemo" :items="menuItems" :default-open-keys="['resources']" aria-label="示例功能菜单" @select="toast.info(`已进入：${$event.label}`)"/></div>
               <div><span class="demo-label">Collapse · 支持多项与手风琴</span><UiCollapse v-model="collapseDemo" :items="collapseItems"/></div>
               <div style="grid-column:1/-1"><span class="demo-label">Descriptions · 响应式详情</span><UiDescriptions title="组件档案" :items="descriptionItems" bordered/></div>
@@ -397,7 +421,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
           </div>
         </section>
 
-        <section id="states" class="card doc-section"><header class="doc-section-header"><h2>交互状态矩阵</h2><p>每个组件在交付前都需覆盖以下状态和键盘行为。</p></header><div class="demo-block" style="overflow:auto"><table class="state-matrix"><thead><tr><th>组件</th><th>Default</th><th>Hover</th><th>Pressed</th><th>Focus</th><th>Disabled</th><th>Loading / Error</th></tr></thead><tbody><tr><td>Button</td><td>基础视觉</td><td>加深 + 上移</td><td>复位</td><td>3px Ring</td><td>48% 透明</td><td>Spinner</td></tr><tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr><tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr><tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr><tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr><tr><td>Navigation</td><td>次级文字</td><td>弱白背景</td><td>加深</td><td>可见 Ring</td><td>不可点击</td><td>展开/收起</td></tr><tr><td>Table row</td><td>白色表面</td><td>品牌浅背景</td><td>—</td><td>选择框焦点</td><td>—</td><td>Skeleton / Empty</td></tr></tbody></table><div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；数值框和滑块额外支持 Page、Home、End；Esc 关闭浮层；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div></div></section>
+        <section id="states" class="card doc-section"><header class="doc-section-header"><h2>交互状态矩阵</h2><p>每个组件在交付前都需覆盖以下状态和键盘行为。</p></header><div class="demo-block" style="overflow:auto"><table class="state-matrix"><thead><tr><th>组件</th><th>Default</th><th>Hover</th><th>Pressed</th><th>Focus</th><th>Disabled</th><th>Loading / Error</th></tr></thead><tbody><tr><td>Button</td><td>基础视觉</td><td>加深 + 上移</td><td>复位</td><td>3px Ring</td><td>48% 透明</td><td>Spinner</td></tr><tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr><tr><td>Tree supports Arrow, Home/End, *, Enter, Space and typeahead; AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr><tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr><tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr><tr><td>Tree</td><td>Hierarchy</td><td>Active node</td><td>Select / Check</td><td>Active descendant + Ring</td><td>Node / Tree disabled</td><td>Lazy / Retry / Empty</td></tr><tr><td>Navigation</td><td>次级文字</td><td>弱白背景</td><td>加深</td><td>可见 Ring</td><td>不可点击</td><td>展开/收起</td></tr><tr><td>Table row</td><td>白色表面</td><td>品牌浅背景</td><td>—</td><td>选择框焦点</td><td>—</td><td>Skeleton / Empty</td></tr></tbody></table><div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；数值框和滑块额外支持 Page、Home、End；Esc 关闭浮层；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div></div></section>
       </main>
     </div>
   </div>

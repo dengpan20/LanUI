@@ -12,6 +12,7 @@ import UiNumberInput from '../src/components/UiNumberInput.vue'
 import UiSlider from '../src/components/UiSlider.vue'
 import UiPopover from '../src/components/UiPopover.vue'
 import UiToastHost from '../src/components/UiToastHost.vue'
+import UiTree from '../src/components/UiTree.vue'
 import { openOverlay, overlayCount } from '../src/components/overlayManager.js'
 import { createLanUi } from '../src/plugin.js'
 import { useToast } from '../src/feedback.js'
@@ -27,6 +28,7 @@ async function renderFixture() {
         h(UiTimePicker, { modelValue:new Date('2026-08-12T01:30:00.000Z'), valueType:'date', timeZone:'Asia/Shanghai' }),
         h(UiNumberInput, { modelValue:12.5, min:0, max:100, step:0.25 }),
         h(UiSlider, { modelValue:[25,75], range:true, ariaLabel:'SSR range' }),
+        h(UiTree, { data:[{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}], defaultExpandedKeys:['workspace'], modelValue:'dashboard', 'aria-label':'SSR resources' }),
         h(UiPopover, { modelValue:true, title:'Details' }, { trigger:() => h('button', 'Open'), default:() => 'Popover content' }),
         h(UiModal, { modelValue:true, title:'Review' }, { default:() => 'Modal content' }),
         h(UiDrawer, { modelValue:true, title:'Filters' }, { default:() => 'Drawer content' }),
@@ -50,6 +52,8 @@ describe('server rendering', () => {
     expect(result.html).toContain('role="spinbutton"')
     expect(result.html).toContain('role="slider"')
     expect(result.html).toContain('SSR range Range start')
+    expect(result.html).toContain('role="tree"')
+    expect(result.html).toContain('Dashboard')
     expect(result.html).toMatch(/id="ui-number-input-v-\d/)
     expect(result.teleports.body).toContain('Modal content')
     expect(result.teleports.body).toContain('Drawer content')

@@ -274,14 +274,14 @@
 - 主入口 `lan-ui-design-system` 保留 Plugin 和完整命名导出。
 - 每个公开组件提供 `lan-ui-design-system/components/UiXxx` 子路径、默认导出和 `UiXxxProps` 类型。
 - `config / feedback / plugin / style.css / tokens` 使用稳定子路径；Package Exports 是公开边界，不依赖 `dist-lib` 内部路径。
-- 构建必须生成 57 份组件 JS 和 57 份对应声明文件；最小消费者只导入 UiButton 时，Bundle 中不得出现 Table、Modal、Transfer 或 DateRangePicker 实现。
+- 构建必须生成 58 份组件 JS 和 58 份对应声明文件；最小消费者只导入 UiButton 时，Bundle 中不得出现 Table、Modal、Transfer 或 DateRangePicker 实现。
 
 ## 17. 成熟度 P4 公开 API 与发布治理
 
 ### 运行时与类型一致性
 
 - 每个 `components/UiXxx` 子路径同时提供 Default 与同名运行时导出，两者必须引用同一组件。
-- 子路径声明只描述真实存在的运行时导出，并公开对应 `UiXxxProps`；CI 对 57 个入口逐一动态导入验证。
+- 子路径声明只描述真实存在的运行时导出，并公开对应 `UiXxxProps`；CI 对 58 个入口逐一动态导入验证。
 - `api-manifest.json` 固化根运行时/类型导出、Package Exports、Props 字段和 Utility 子路径，构建结果与 Manifest 不一致时阻止交付。
 
 ### SemVer 与迁移
@@ -304,7 +304,7 @@
 
 - `styles/core.css` 包含 Token、Reset 与最小公共基础。
 - 每个组件提供 `styles/UiXxx.css`，自动导入 Core，并只选择该组件及其依赖所需规则。
-- `style-manifest.json` 固化 57 个组件样式入口、规则数和字节数；生成结果必须与清单一致。
+- `style-manifest.json` 固化 58 个组件样式入口、规则数和字节数；生成结果必须与清单一致。
 - 最小消费项目同时验证 JavaScript 与 CSS Tree-shaking；UiButton 构建不得包含 Table、Modal 或 Transfer 样式。
 
 ### 视觉回归
@@ -375,7 +375,7 @@
 
 ### 公开声明边界
 
-- 57 个组件均公开 `UiXxxProps`、`UiXxxEmits`、`UiXxxSlots`，根入口与 `components/UiXxx` 子路径保持同一类型来源。
+- 58 个组件均公开 `UiXxxProps`、`UiXxxEmits`、`UiXxxSlots`，根入口与 `components/UiXxx` 子路径保持同一类型来源。
 - `LanComponent<Props, Emits, Slots>` 将 Emits 转换为监听器 Props 与 `$emit` 重载，并将 Slots 转换为 `$slots` 作用域签名。
 - v-model 的 `update:*`、业务 Change/Select、焦点事件、表格排序/筛选/列宽及错误事件必须使用真实运行时负载类型。
 - 静态插槽与动态 `cell-* / panel-* / item-*` 插槽声明作用域字段；组件模板新增插槽时必须同步公开 Slots 类型。
@@ -383,7 +383,7 @@
 ### 自动一致性门禁
 
 - API Manifest Schema 2 同时记录 Props、Emits、Slots；生成器逐组件比较运行时 Props、运行时 Emits、源码 Slot 与公开声明。
-- 57 个子路径声明必须导出对应 Props、Emits、Slots，禁止只在根入口声明或产生子路径类型漂移。
+- 58 个子路径声明必须导出对应 Props、Emits、Slots，禁止只在根入口声明或产生子路径类型漂移。
 - 严格 vue-tsc Fixture 覆盖根入口、子路径、v-model、事件回调、静态/动态作用域插槽，并以 `@ts-expect-error` 固化错误输入。
 - `test:types` 是 CI 与 `prepack` 的发布门禁；任何公开契约变更都必须同步 Manifest、Changelog 与 Migration，并按 SemVer 审查。
 
@@ -414,7 +414,7 @@
 
 - `zh-CN / en-US` 必须拥有完全一致的消息键集合和插值占位符；任一语言缺键、空值或参数漂移均阻断发布。
 - 选择、树、级联、穿梭、列表工具栏、反馈、导航、详情、步骤、标签页及表单默认错误统一从 Locale Context 解析。
-- 57 个公开 `Ui*` 组件源码不得包含硬编码中文；业务示例页面不受该约束。
+- 58 个公开 `Ui*` 组件源码不得包含硬编码中文；业务示例页面不受该约束。
 - 显式 Placeholder、Title、Titles、ARIA Label、Rule Message 等业务 Props 的优先级始终高于语言包默认值。
 
 ### 响应式切换
@@ -572,3 +572,16 @@
 - Suggestion panels flip and shift within the viewport, preserve logical start/end in RTL, and expose loading, error, empty and option slots without breaking the listbox contract.
 - Root/subpath runtime exports, declarations, styles, manifests, component center, static preview, standalone consumer, SSR and three-browser fixtures remain in parity for 57 components and 114 locale keys.
 - CI, 10 Axe cases and 14 interaction cases per Chromium/Firefox/WebKit engine are required for the P18 delivery evidence.
+
+## 32. Maturity P19: enterprise tree
+
+- `UiTree` owns a visible hierarchical collection with stable node keys, single or ordered multi-selection, controlled/uncontrolled selection, expansion and checked models, and custom key/label/children fields.
+- Non-strict checks cascade through enabled descendants and derive checked or mixed ancestors; strict mode keeps nodes independent. Disabled selection and disabled checkboxes remain distinct constraints.
+- Filtering keeps matching nodes and their complete ancestor paths visible without mutating expansion state. Custom filtering failures are contained as non-matches.
+- Lazy branches are declared with `isLeaf:false`; they receive `{ signal }`, load once, never reload existing `children`, ignore stale/aborted responses, inherit an already-checked parent, expose root busy state and provide localized inline retry after contained errors.
+- Up/Down, Home/End, logical expand/collapse, `*`, Enter, Space and typeahead follow the WAI tree keyboard model. Expand/collapse keys mirror in inherited RTL direction.
+- The root owns focus and a stable active descendant. Each rendered item exposes level, sibling position/count, expanded, selected and disabled state; checks expose true, false or mixed semantics.
+- Virtual mode requires a reliable `itemHeight`; numeric/pixel heights are deterministic and responsive CSS heights are measured with `ResizeObserver`. Overscan must never alter logical order or active-node scrolling.
+- Duplicate or missing keys are not rendered ambiguously and emit `data-error`. Node, icon, suffix and empty slots may customize content without replacing the structural ARIA roles.
+- Root/subpath runtime exports, declarations, styles, manifests, component center, static preview, standalone consumer, SSR and three-browser fixtures remain in parity for 58 components and 122 locale keys.
+- CI, 11 Axe cases and 15 interaction cases per Chromium/Firefox/WebKit engine are required for the P19 delivery evidence.

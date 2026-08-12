@@ -9,6 +9,7 @@ import {
   UiModal,
   UiTable,
   UiTabs,
+  UiTree,
 } from 'lan-ui-design-system'
 import type { Key, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
 
@@ -17,6 +18,9 @@ const activeTab = ref<Key>('summary')
 interface FormModel extends Record<string, unknown> { name:string }
 const model = ref<FormModel>({ name: '' })
 const office = ref('')
+const resource = ref<Key>('dashboard')
+const checkedResources = ref<Key[]>(['dashboard'])
+const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
 const rows = [{ id:1, name:'Lan UI' }]
 const tabs:UiTabsItem[] = [{ label:'Summary', value:'summary' }]
@@ -54,4 +58,7 @@ function sort(payload:UiTableSortChange) {
   <UiTabs v-model="activeTab" :items="tabs">
     <template #panel-summary="{ item }">{{ typeof item === 'object' ? item.label : item }}</template>
   </UiTabs>
+  <UiTree v-model="resource" v-model:checked-keys="checkedResources" :data="resources" :default-expanded-keys="['workspace']" checkable show-line>
+    <template #node="{ node, selected }">{{ node.label }} / {{ selected }}</template>
+  </UiTree>
 </template>

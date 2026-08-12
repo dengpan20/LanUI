@@ -38,7 +38,8 @@ export interface LanUiLocaleTools { locale:LanUiLocale; fallbackLocale:LanUiLoca
 export interface LanUiLocaleContext { locale:ComputedRef<LanUiLocale>; fallbackLocale:ComputedRef<LanUiLocale|null>; fallbackLocales:ComputedRef<LanUiLocale[]>; localeRegistry:ComputedRef<LocaleRegistry>; t:LanUiLocaleTools['t']; tc:LanUiLocaleTools['tc']; formatNumber:LanUiLocaleTools['formatNumber']; formatDate:LanUiLocaleTools['formatDate']; formatRelativeTime:LanUiLocaleTools['formatRelativeTime']; formatList:LanUiLocaleTools['formatList'] }
 export interface SelectOption { label:string; value:Key; disabled?:boolean }
 export type SelectOptionInput = SelectOption | Key
-export interface UiTreeNode { label:string; value:Key; disabled?:boolean; children?:UiTreeNode[] }
+export interface UiTreeNode { label:string; value:Key; disabled?:boolean; disableCheckbox?:boolean; selectable?:boolean; checkable?:boolean; isLeaf?:boolean; icon?:string; children?:UiTreeNode[]; [key:string]:unknown }
+export interface UiTreeDataNode { label?:string; value?:Key; disabled?:boolean; disableCheckbox?:boolean; selectable?:boolean; checkable?:boolean; isLeaf?:boolean; icon?:string; children?:UiTreeDataNode[]; [key:string]:unknown }
 export interface UiFormRule { required?:boolean; min?:number; max?:number; pattern?:RegExp; message?:string; trigger?:string|string[]; validator?:(value:unknown,model:Record<string,unknown>)=>boolean|string|Promise<boolean|string> }
 export type UiFormRules = Record<string,UiFormRule|UiFormRule[]|UiFormRule['validator']>
 
@@ -113,6 +114,8 @@ export interface UiToastItem extends UiNotice { id:Key; placement?:ToastPlacemen
 export interface UiToastHostProps { items?:UiToastItem[]; feedback?:LanUiFeedback }
 export interface UiTooltipProps { content?:string; placement?:Placement; disabled?:boolean; offset?:number }
 export interface UiTransferProps { modelValue?:Key[]; options?:SelectOptionInput[]; titles?:[string,string]; searchable?:boolean }
+export interface UiTreeLoadContext { signal?:AbortSignal }
+export interface UiTreeProps { data?:UiTreeDataNode[]; modelValue?:Key|Key[]; expandedKeys?:Key[]; checkedKeys?:Key[]; defaultValue?:Key|Key[]; defaultExpandedKeys?:Key[]; defaultCheckedKeys?:Key[]; multiple?:boolean; selectable?:boolean; checkable?:boolean; checkStrictly?:boolean; defaultExpandAll?:boolean; accordion?:boolean; disabled?:boolean; invalid?:boolean; filter?:string; filterMethod?:(query:string,node:UiTreeDataNode)=>boolean; loadData?:(node:UiTreeDataNode,context:UiTreeLoadContext)=>UiTreeDataNode[]|Promise<UiTreeDataNode[]>; showIcon?:boolean; showLine?:boolean; bordered?:boolean; expandOnClickNode?:boolean; checkOnClickNode?:boolean; virtual?:boolean; height?:number|string; itemHeight?:number; overscan?:number; indent?:number; nodeKey?:string; labelKey?:string; childrenKey?:string; emptyText?:string; size?:ComponentSize }
 export interface UiTreeSelectProps { modelValue?:Key; options?:UiTreeNode[]; placeholder?:string; disabled?:boolean; invalid?:boolean }
 export interface UiUploadFile { id:Key; name:string; size:number; sizeText?:string; type?:string; status?:'ready'|'uploading'|'success'|'error'; percent?:number; error?:string }
 export interface UiUploadProps { modelValue?:UiUploadFile[]; accept?:string; multiple?:boolean; disabled?:boolean; maxSize?:number; maxCount?:number; hint?:string }
@@ -131,6 +134,12 @@ export interface UiAutoCompleteLoadError { error:unknown; query:string }
 export interface UiPaginationChange { page:number; pageSize:number }
 export interface UiTableSortChange { key:string; order:''|'asc'|'desc' }
 export interface UiTableColumnResize { key:string; width:number }
+export interface UiTreeSelectMeta { selected:boolean; source:'pointer'|'keyboard' }
+export interface UiTreeExpandMeta { expanded:boolean; source:'pointer'|'keyboard' }
+export interface UiTreeCheckMeta { node:UiTreeDataNode; checked:boolean; halfCheckedKeys:Key[]; source:'pointer'|'keyboard'|'load' }
+export interface UiTreeLoadPayload { node:UiTreeDataNode; children:UiTreeDataNode[] }
+export interface UiTreeLoadError { error:unknown; node:UiTreeDataNode }
+export interface UiTreeDataError { errors:Array<{code:'missing-key'|'duplicate-key';key?:Key;node:UiTreeDataNode}> }
 
 export type UiAlertEmits = { close:()=>void }
 export type UiAutoCompleteEmits = { 'update:modelValue':(value:Key)=>void; input:(value:string)=>void; change:(value:Key,meta:UiAutoCompleteChangeMeta)=>void; select:(option:UiAutoCompleteOption)=>void; search:(query:string)=>void; 'open-change':(open:boolean)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void; 'load-error':(payload:UiAutoCompleteLoadError)=>void }
@@ -187,6 +196,7 @@ export type UiTimelineEmits = {}
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
 export type UiTooltipEmits = {}
 export type UiTransferEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void }
+export type UiTreeEmits = { 'update:modelValue':(value:Key|Key[])=>void; 'select-change':(value:Key|Key[],node:UiTreeDataNode,meta:UiTreeSelectMeta)=>void; 'node-click':(node:UiTreeDataNode,event:MouseEvent)=>void; 'update:expandedKeys':(value:Key[])=>void; 'expand-change':(value:Key[],node:UiTreeDataNode,meta:UiTreeExpandMeta)=>void; 'update:checkedKeys':(value:Key[])=>void; 'check-change':(value:Key[],meta:UiTreeCheckMeta)=>void; load:(payload:UiTreeLoadPayload)=>void; 'load-error':(payload:UiTreeLoadError)=>void; 'data-error':(payload:UiTreeDataError)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiTreeSelectEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key,node:UiTreeNode)=>void; 'open-change':(open:boolean)=>void }
 export type UiUploadEmits = { 'update:modelValue':(value:UiUploadFile[])=>void; change:(value:UiUploadFile[])=>void; error:(message:string)=>void }
 
@@ -245,6 +255,7 @@ export type UiTimePickerSlots = {}
 export type UiToastHostSlots = {}
 export type UiTooltipSlots = { default?:(props:{describedby:string})=>VNodeChild }
 export type UiTransferSlots = {}
+export type UiTreeSlots = { node?:(scope:{node:UiTreeDataNode;level:number;selected:boolean;checked:boolean;indeterminate:boolean;expanded:boolean;loading:boolean})=>VNodeChild; icon?:(scope:{node:UiTreeDataNode;expanded:boolean})=>VNodeChild; suffix?:(scope:{node:UiTreeDataNode})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiTreeSelectSlots = {}
 export type UiUploadSlots = {}
 
@@ -272,7 +283,7 @@ export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; e
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
 export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>
 export const UiTimePicker:LanComponent<UiTimePickerProps,UiTimePickerEmits,UiTimePickerSlots>
-export const UiToastHost:LanComponent<UiToastHostProps,UiToastHostEmits,UiToastHostSlots>; export const UiTransfer:LanComponent<UiTransferProps,UiTransferEmits,UiTransferSlots>; export const UiTreeSelect:LanComponent<UiTreeSelectProps,UiTreeSelectEmits,UiTreeSelectSlots>; export const UiUpload:LanComponent<UiUploadProps,UiUploadEmits,UiUploadSlots>
+export const UiToastHost:LanComponent<UiToastHostProps,UiToastHostEmits,UiToastHostSlots>; export const UiTransfer:LanComponent<UiTransferProps,UiTransferEmits,UiTransferSlots>; export const UiTree:LanComponent<UiTreeProps,UiTreeEmits,UiTreeSlots>; export const UiTreeSelect:LanComponent<UiTreeSelectProps,UiTreeSelectEmits,UiTreeSelectSlots>; export const UiUpload:LanComponent<UiUploadProps,UiUploadEmits,UiUploadSlots>
 export const feedback:LanUiFeedback; export const lanUiFeedbackKey:symbol; export function createLanUiFeedback():LanUiFeedback; export function useFeedback():LanUiFeedback
 export const toast:ToastService; export const notification:NotificationService; export const toastState:ToastState; export const notificationState:NotificationState; export function useToast():ToastService; export function useNotification():NotificationService
 export const zhCN:LanUiLocale; export const enUS:LanUiLocale; export const lanUiConfigKey:symbol; export const defaultLocaleRegistry:LocaleRegistry; export function createLocaleRegistry(initialLocales?:LocaleModule[]):LocaleRegistry; export function registerLocale(locale:LocaleModule,aliases?:string|string[]):LanUiLocale; export function unregisterLocale(name:string):boolean; export function hasLocale(name:string):boolean; export function listLocales():LanUiLocale[]; export function loadLocale(name:string,loader:LocaleLoader,options?:LocaleLoadOptions):Promise<LanUiLocale>; export function defineLocale(locale:LocaleInput):LanUiLocale; export function createLocaleTools(locale?:LocaleInput,fallbackLocale?:LocaleFallback,localeRegistry?:LocaleRegistry):LanUiLocaleTools; export function normalizeLanUiConfig(options?:LanUiOptions,parent?:LanUiConfig,localeRegistry?:LocaleRegistry):LanUiConfig; export function useLanUiConfig():ComputedRef<LanUiConfig>; export function useLocale():LanUiLocaleContext; export function useComponentSize(value:unknown):ComputedRef<ComponentSize>; export function useDirection():ComputedRef<Direction>

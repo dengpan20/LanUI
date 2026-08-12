@@ -11,6 +11,7 @@ import {
   UiTable,
   UiTabs,
   UiTimePicker,
+  UiTree,
   dateValueToDate,
   formatDateValue,
   createLanUiFeedback,
@@ -27,6 +28,7 @@ import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
+import SubpathTree, { UiTree as NamedSubpathTree } from 'lan-ui-design-system/components/UiTree'
 import type {
   UiInputEmits,
   UiInputProps,
@@ -35,6 +37,7 @@ import type {
 import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } from 'lan-ui-design-system/components/UiAutoComplete'
 import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 'lan-ui-design-system/components/UiNumberInput'
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
+import type { UiTreeEmits, UiTreeProps, UiTreeSlots } from 'lan-ui-design-system/components/UiTree'
 import type {
   UiDateRangeChange,
   UiTableColumn,
@@ -114,6 +117,12 @@ sliderEmit('change',[25,80],{source:'keyboard',thumb:0})
 const sliderSubpathParity:typeof SubpathSlider=NamedSubpathSlider
 const sliderEvent:keyof UiSliderEmits='input'
 const sliderSlot:keyof UiSliderSlots|'none'='none'
+const treeProps:InstanceType<typeof UiTree>['$props']&UiTreeProps={data:[{id:'root',title:'Root',nodes:[{id:'leaf',title:'Leaf',isLeaf:true}]}],nodeKey:'id',labelKey:'title',childrenKey:'nodes',modelValue:'leaf',expandedKeys:['root'],checkedKeys:['leaf'],checkable:true,showLine:true,virtual:true,height:'20rem',loadData:async(node,{signal})=>signal?.aborted?[]:[{label:String(node.title),value:'loaded'}]}
+const treeEmit:InstanceType<typeof UiTree>['$emit']=null as never
+treeEmit('check-change',['leaf'],{node:{id:'leaf',title:'Leaf'},checked:true,halfCheckedKeys:[],source:'keyboard'})
+const treeSubpathParity:typeof SubpathTree=NamedSubpathTree
+const treeEvent:keyof UiTreeEmits='load-error'
+const treeSlot:keyof UiTreeSlots='node'
 const dateContract: UiDateRangeChange = dateChange
 const dateOptions:DateValueOptions={mode:'datetime',valueType:'date',timeZone:'Asia/Shanghai',disambiguation:'reject',precision:'second'}
 const zonedDate:Date|null=dateValueToDate('2026-08-12T09:30',dateOptions)
@@ -138,5 +147,7 @@ const invalidNumberControls:UiNumberInputProps={controlsPosition:'vertical'}
 const invalidSliderTooltip:UiSliderProps={tooltip:'hover'}
 // @ts-expect-error AutoComplete match modes are constrained to documented filtering semantics.
 const invalidAutoCompleteMatch:UiAutoCompleteProps={matchMode:'fuzzy'}
+// @ts-expect-error Tree model values are string or number keys, never booleans.
+const invalidTreeValue:UiTreeProps={modelValue:true}
 
-console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
