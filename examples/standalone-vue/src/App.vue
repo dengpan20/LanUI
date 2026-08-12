@@ -31,6 +31,7 @@ import {
   UiTimePicker,
   UiToastHost,
   UiTree,
+  UiUpload,
   UiStatusPage,
   UiVirtualList,
   toast,
@@ -57,6 +58,8 @@ const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
 const serviceRating = ref(4.5)
 const releaseWindow = ref(['2026-08-10','2026-08-16'])
+const releaseFiles=ref([{id:'release-manifest',name:'release-manifest.json',size:2048,status:'success',percent:100}])
+function releaseUploadRequest({file,signal,onProgress}){return new Promise((resolve,reject)=>{let percent=0;const timer=setInterval(()=>{percent+=25;onProgress(percent);if(percent>=100){clearInterval(timer);resolve({path:`/releases/${file?.name}`})}},100);signal.addEventListener('abort',()=>{clearInterval(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})}
 const gridQuery = ref('')
 const gridPage = ref(1)
 const gridPageSize = ref(5)
@@ -154,6 +157,10 @@ const rows = computed(() => [
       <UiSchemaForm :model="workspaceModel" :schema="workspaceSchema" show-error-summary @submit="toast.success('Schema form submitted')">
         <template #actions="{validating,errors}"><span style="color:var(--text-secondary);font-size:12px">{{ errors.length }} validation errors</span><UiButton type="submit" :loading="validating">Save workspace</UiButton></template>
       </UiSchemaForm>
+    </UiCard>
+
+    <UiCard title="Release asset queue">
+      <UiUpload v-model="releaseFiles" multiple accept=".json,.zip,.pdf" :max-count="4" :concurrency="2" :request="releaseUploadRequest" @success="payload=>toast.success(`${payload.file.name} uploaded`)" @upload-error="payload=>toast.error(String(payload.file.error||'Upload failed'))" />
     </UiCard>
 
     <UiCard title="交付进度"><UiSteps :items="steps" :current="created ? 3 : 2" /></UiCard>

@@ -23,6 +23,7 @@ import {
   UiTabs,
   UiTimePicker,
   UiTree,
+  UiUpload,
   UiVirtualList,
   dateValueToDate,
   formatDateValue,
@@ -56,6 +57,7 @@ import SubpathCommandPalette, { UiCommandPalette as NamedSubpathCommandPalette }
 import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'lan-ui-design-system/components/UiColorPicker'
 import SubpathFormList, { UiFormList as NamedSubpathFormList } from 'lan-ui-design-system/components/UiFormList'
 import SubpathSchemaForm, { UiSchemaForm as NamedSubpathSchemaForm } from 'lan-ui-design-system/components/UiSchemaForm'
+import SubpathUpload, { UiUpload as NamedSubpathUpload } from 'lan-ui-design-system/components/UiUpload'
 import type {
   UiInputEmits,
   UiInputProps,
@@ -76,6 +78,7 @@ import type { UiCommandPaletteEmits, UiCommandPaletteProps, UiCommandPaletteSlot
 import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 'lan-ui-design-system/components/UiColorPicker'
 import type { UiFormListEmits, UiFormListProps, UiFormListSlots } from 'lan-ui-design-system/components/UiFormList'
 import type { UiSchemaFormEmits, UiSchemaFormProps, UiSchemaFormSlots } from 'lan-ui-design-system/components/UiSchemaForm'
+import type { UiUploadEmits, UiUploadProps, UiUploadSlots } from 'lan-ui-design-system/components/UiUpload'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -98,6 +101,12 @@ import type {
   UiSchemaFormInstance,
   UiSchemaFormListChange,
   UiSchemaFormNode,
+  UiUploadAbortEvent,
+  UiUploadFile,
+  UiUploadInstance,
+  UiUploadProgressEvent,
+  UiUploadRequestContext,
+  UiUploadSuccessEvent,
   RgbaColor,
   ColorFormat,
 } from 'lan-ui-design-system'
@@ -172,6 +181,18 @@ const schemaSubpathParity:typeof SubpathSchemaForm=NamedSubpathSchemaForm
 const schemaEvent:keyof UiSchemaFormEmits<SchemaModel>='list-change'
 const schemaSlot:keyof UiSchemaFormSlots<SchemaModel>='list-contacts-item'
 void [schemaProps,schemaChange,schemaListChange,schemaInstance,schemaSubpathParity,schemaEvent,schemaSlot]
+const uploadRequest=async({file,item,signal,onProgress}:UiUploadRequestContext)=>{ if(signal.aborted)throw new DOMException('Aborted','AbortError'); onProgress(50); return {etag:`${file?.name||item.name}-v1`} }
+const uploadProps:InstanceType<typeof UiUpload>['$props']&UiUploadProps={modelValue:[],accept:'.pdf,image/*',multiple:true,maxSize:10,maxCount:5,autoUpload:true,request:uploadRequest,beforeUpload:async file=>file,beforeRemove:async()=>true,concurrency:2,showFileList:true,directory:false,capture:'environment',ariaLabel:'Release assets'}
+const uploadEmit:InstanceType<typeof UiUpload>['$emit']=null as never
+const typedUploadFile:UiUploadFile<{etag:string}>={id:'asset-1',name:'release.pdf',size:128,type:'application/pdf',status:'uploading',percent:50,response:{etag:'release-v1'}}
+const uploadProgress:UiUploadProgressEvent={file:typedUploadFile,percent:50}
+const uploadSuccess:UiUploadSuccessEvent<{etag:string}>={file:typedUploadFile,response:{etag:'release-v1'}}
+const uploadAbort:UiUploadAbortEvent={file:typedUploadFile,reason:'user'}
+uploadEmit('progress',uploadProgress);uploadEmit('success',uploadSuccess);uploadEmit('abort',uploadAbort)
+const uploadInstance:UiUploadInstance={open:()=>{},select:async()=>[],upload:()=>0,abort:()=>0,retry:()=>false,remove:async()=>false,clear:async()=>0,files:null as never,inputRef:null as never,busy:null as never,remaining:null as never}
+const uploadSubpathParity:typeof SubpathUpload=NamedSubpathUpload
+const uploadEvent:keyof UiUploadEmits='upload-error'
+const uploadSlot:keyof UiUploadSlots='file'
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -313,5 +334,7 @@ const invalidTreeValue:UiTreeProps={modelValue:true}
 const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 // @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
+// @ts-expect-error Upload concurrency is a positive numeric worker limit.
+const invalidUploadConcurrency:UiUploadProps={concurrency:'many'}
 
-console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList)
+console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency)

@@ -20,9 +20,10 @@ import {
   UiTable,
   UiTabs,
   UiTree,
+  UiUpload,
   UiVirtualList,
 } from 'lan-ui-design-system'
-import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
+import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem, UiUploadFile, UiUploadInstance, UiUploadRequestContext } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -49,6 +50,13 @@ const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashbo
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
 const rows = [{ id:1, name:'Lan UI' }]
 const tabs:UiTabsItem[] = [{ label:'Summary', value:'summary' }]
+const uploadFiles=ref<UiUploadFile[]>([])
+const uploadRef=ref<UiUploadInstance>()
+async function uploadRequest({file,signal,onProgress}:UiUploadRequestContext){
+  if(signal.aborted)throw new DOMException('Aborted','AbortError')
+  onProgress(75)
+  return {url:`/assets/${file?.name||'asset'}`}
+}
 
 function submit(value:Record<string, unknown>, event:SubmitEvent) {
   event.preventDefault()
@@ -129,5 +137,9 @@ function sort(payload:UiTableSortChange) {
     <template #item="{ index, itemKey, selected, disabled }">{{ index }} / {{ itemKey }} / {{ selected }} / {{ disabled }}</template>
     <template #error="{ retry }"><UiButton @click="retry">Retry list</UiButton></template>
   </UiVirtualList>
+  <UiUpload ref="uploadRef" v-model="uploadFiles" multiple accept=".pdf,image/*" :request="uploadRequest" :concurrency="2" :before-upload="async file=>file" :before-remove="async()=>true" @progress="payload=>payload.percent" @success="payload=>payload.response" @upload-error="payload=>payload.error">
+    <template #trigger="{open,busy,remaining}"><UiButton :loading="busy" @click="open">Select {{ remaining }}</UiButton></template>
+    <template #file="{file,retry,abort,remove}"><span>{{ file.name }} / {{ file.status }}</span><UiButton @click="retry(file.id)">Retry</UiButton><UiButton @click="abort(file.id)">Cancel</UiButton><UiButton @click="remove(file.id)">Remove</UiButton></template>
+  </UiUpload>
   <UiStatusPage status="403" embedded @home="open=false"><template #extra>Typed status page</template></UiStatusPage>
 </template>

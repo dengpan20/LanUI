@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -568,10 +568,26 @@
       "UiTreeSelectSlots",
       "UiTreeSlots",
       "UiUpload",
+      "UiUploadAbortEvent",
+      "UiUploadBefore",
+      "UiUploadBeforeContext",
+      "UiUploadBeforeRemove",
+      "UiUploadChangeMeta",
       "UiUploadEmits",
+      "UiUploadErrorEvent",
+      "UiUploadEvent",
+      "UiUploadExceed",
       "UiUploadFile",
+      "UiUploadInstance",
+      "UiUploadProgressEvent",
       "UiUploadProps",
+      "UiUploadReject",
+      "UiUploadRemoveEvent",
+      "UiUploadRequest",
+      "UiUploadRequestContext",
       "UiUploadSlots",
+      "UiUploadStatus",
+      "UiUploadSuccessEvent",
       "UiVirtualList",
       "UiVirtualListEmits",
       "UiVirtualListItemScope",
@@ -2865,21 +2881,44 @@
       "propsType": "UiUploadProps",
       "props": [
         "accept",
+        "ariaLabel",
+        "autoUpload",
+        "beforeRemove",
+        "beforeUpload",
+        "capture",
+        "concurrency",
+        "directory",
         "disabled",
         "hint",
         "maxCount",
         "maxSize",
         "modelValue",
-        "multiple"
+        "multiple",
+        "request",
+        "showFileList"
       ],
       "emitsType": "UiUploadEmits",
       "emits": [
+        "abort",
         "change",
         "error",
-        "update:modelValue"
+        "exceed",
+        "progress",
+        "reject",
+        "remove",
+        "retry",
+        "select",
+        "start",
+        "success",
+        "update:modelValue",
+        "upload-error"
       ],
       "slotsType": "UiUploadSlots",
-      "slots": [],
+      "slots": [
+        "file",
+        "tip",
+        "trigger"
+      ],
       "runtimeExports": [
         "UiUpload",
         "default"

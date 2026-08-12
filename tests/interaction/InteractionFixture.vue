@@ -34,6 +34,13 @@ const imageFixture=(label,color)=>`data:image/svg+xml;charset=UTF-8,${encodeURIC
 const imageSources=[imageFixture('Architecture','#2563eb'),imageFixture('Components','#7c3aed'),imageFixture('Release','#0f766e')]
 const files = ref([])
 const uploadError = ref('')
+const queueFiles=ref([])
+const queueOutput=ref('idle')
+const queueAttempts=new Map()
+function queueRequest({file,signal,onProgress}){
+  const name=file?.name||'asset';const attempt=(queueAttempts.get(name)||0)+1;queueAttempts.set(name,attempt)
+  return new Promise((resolve,reject)=>{onProgress(20);const progress=setTimeout(()=>onProgress(65),40);const finish=setTimeout(()=>{if(name.includes('retry')&&attempt===1)reject(new Error('Fixture upload failed'));else resolve({name,attempt})},name.includes('slow')?800:100);signal.addEventListener('abort',()=>{clearTimeout(progress);clearTimeout(finish);reject(new DOMException('Aborted','AbortError'))},{once:true})})
+}
 const selectedRows = ref([])
 const expandedRows = ref([])
 const sortKey = ref('')
@@ -251,6 +258,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Upload validation contract</h2>
         <UiUpload v-model="files" accept=".txt" :max-size="1" :max-count="2" @error="uploadError=$event" />
         <output class="interaction-output" data-testid="upload-output">files={{ files.length }} error={{ uploadError || 'none' }}</output>
+      </section>
+
+      <section class="interaction-case interaction-upload-queue">
+        <h2>Upload queue lifecycle contract</h2>
+        <UiUpload v-model="queueFiles" multiple accept=".txt" :max-count="4" :concurrency="1" :request="queueRequest" aria-label="Fixture upload queue" @start="queueOutput=`start:${$event.file.name}`" @success="queueOutput=`success:${$event.file.name}`" @upload-error="queueOutput=`error:${$event.file.name}`" @retry="queueOutput=`retry:${$event.file.name}`" @abort="queueOutput=`abort:${$event.file.name}`" />
+        <output class="interaction-output" data-testid="upload-queue-output">{{ queueOutput }}</output>
       </section>
 
       <section class="interaction-case interaction-wide interaction-table-case">

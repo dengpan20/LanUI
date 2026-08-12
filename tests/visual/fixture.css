@@ -21,3 +21,4 @@ body { margin: 0; padding: 24px; background: var(--bg-page); }
 @media(max-width:720px){body{padding:12px}.visual-header{align-items:flex-start;flex-direction:column}.visual-grid{grid-template-columns:1fr}.visual-grid .card-body{min-height:0}.visual-form{grid-template-columns:1fr}.visual-form .visual-span{grid-column:auto}.visual-header h1{font-size:19px}}
 .visual-form-list-row{padding:14px;margin-bottom:12px;border:1px solid var(--border-color);border-radius:10px;background:var(--surface-subtle)}
 .visual-form-list-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.visual-form-list-heading>span{display:flex;gap:4px}
+.visual-upload-queue .card-body{padding:20px}.visual-upload-queue .ui-upload{max-width:760px;margin-inline:auto}

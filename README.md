@@ -688,3 +688,28 @@ const schema = [{
 - `list-change` forwards the full `UiFormList` change under `payload.change`; successful changes contain immutable current and `previous` arrays. `list-limit` reports guarded operations.
 - `addListItem`, `removeListItem`, `moveListItem`, `replaceListItems` and `getListValue` expose the same behavior programmatically.
 - P31 remains at 69 public components and advances to 223 locale keys. CI requires 7 visual baselines, 25 Axe scenarios and 29 interaction cases per Chromium/Firefox/WebKit engine.
+
+## Production upload orchestration (P32)
+
+`UiUpload` can now own an asynchronous queue while the application keeps controlled ownership of the rendered file list:
+
+~~~vue
+<UiUpload
+  v-model="files"
+  multiple
+  accept=".pdf,image/*"
+  :concurrency="2"
+  :request="({ file, signal, onProgress }) => uploadAsset(file, { signal, onProgress })"
+  :before-upload="inspectAsset"
+  :before-remove="confirmRemoval"
+  @success="handleSuccess"
+  @upload-error="handleFailure"
+/>
+~~~
+
+- `request` receives the raw file, normalized queue item, `AbortSignal` and clamped `onProgress` callback. Failures are isolated per file and never block the next worker.
+- `autoUpload=false` creates a manual queue. Public `upload`, `abort`, `retry`, `remove`, `clear`, `select` and `open` methods support orchestration outside the default controls.
+- `beforeUpload` may reject or transform a file asynchronously; transformed results are revalidated. `beforeRemove` may guard removal without exposing partial state.
+- `change` keeps its compatible first list argument and adds structured reason/previous/file metadata. Dedicated select/reject/exceed/start/progress/success/upload-error/abort/retry/remove events avoid payload guessing.
+- Default rendering exposes native progress semantics, localized ready/uploading/success/error/canceled states and file-specific accessible controls. Trigger, tip and file slots receive the equivalent queue methods and state.
+- P32 remains at 69 public components and advances to 235 locale keys. CI requires 8 visual baselines, 26 zero-violation Axe scenarios and 30 interaction cases per Chromium/Firefox/WebKit engine.

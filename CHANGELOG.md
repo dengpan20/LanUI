@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.28.0] - 2026-08-13
+
+### Added
+
+- Production `UiUpload` request orchestration with a controlled file queue, configurable worker concurrency, progress reporting, cancellation, retry, async preflight transformation and guarded removal.
+- Typed upload files, request contexts, lifecycle payloads, public queue methods and trigger/tip/file slot scopes from both root and component subpath declarations.
+- Component-center, customer import, standalone/static preview, deterministic SSR, visual, Axe and three-browser interaction examples for the complete upload lifecycle.
+
+### Changed
+
+- Existing selection-only usage remains compatible; when no `request` is supplied, accepted files retain the legacy immediate-success behavior.
+- Locale coverage advances from 223 to 235 keys; visual coverage from 7 to 8 baselines, Axe coverage from 25 to 26 scenarios and interaction coverage from 29 to 30 cases per browser.
+- Upload rendering now distinguishes ready, uploading, success, error and canceled states with localized status text, native progress semantics and task-specific accessible action names.
+- Measured P32 ceilings are narrowly rebaselined for the larger upload orchestrator: aggregate package JS `470000 / 171000` B, package CSS Raw `436000` B and standalone raw JS/CSS `413000 / 185000` B; the other 9 budgets remain unchanged.
+
 ## [1.27.0] - 2026-08-13
 
 ### Added

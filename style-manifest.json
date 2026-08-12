@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "core": {
     "subpath": "./styles/core.css",
     "bytes": 6739
@@ -184,7 +184,7 @@
     {
       "name": "UiImage",
       "subpath": "./styles/UiImage.css",
-      "bytes": 11074,
+      "bytes": 11104,
       "rules": 90
     },
     {
@@ -412,8 +412,8 @@
     {
       "name": "UiUpload",
       "subpath": "./styles/UiUpload.css",
-      "bytes": 3052,
-      "rules": 24
+      "bytes": 4510,
+      "rules": 37
     },
     {
       "name": "UiVirtualList",

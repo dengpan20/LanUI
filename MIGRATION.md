@@ -24,6 +24,25 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.28 production upload queues
+
+This release is additive. Existing `v-model`, `accept`, size/count validation, `change`, `error` and removal behavior remains compatible when `request` is omitted.
+
+To enable asynchronous uploads, provide a request function and report transport progress through its context:
+
+```ts
+const request = async ({ file, signal, onProgress }: UiUploadRequestContext) => {
+  return client.upload(file, { signal, onProgress })
+}
+```
+
+- Do not mutate the supplied item. Update application-owned metadata by replacing the controlled `modelValue` received from `update:modelValue` or `change`.
+- Treat `upload-error` as the transport/preflight failure channel. The legacy string `error` event remains the concise validation feedback channel.
+- `abort` invalidates the active run before aborting the signal, so late transport completion cannot convert a canceled or removed item to success.
+- A custom `file` slot owns its visible controls. Preserve the slot-provided retry, abort and remove operations plus equivalent accessible names and progress feedback.
+- `beforeUpload` may return a transformed `File`; it is checked against `accept` and `maxSize` again. Returning `false` rejects only that candidate.
+- Controlled queues should preserve each emitted file `id`. Replacing IDs during progress updates discards active request association.
+
 ## 1.27 repeatable Schema Form nodes
 
 This release is additive. Existing standalone `UiFormList` and P30 `UiSchemaForm` definitions keep their behavior. Use `type: 'list'` only when the schema should own the repeated layout and actions.

@@ -29,6 +29,7 @@ const tableError = ref('')
 const density = ref('default')
 const sortKey = ref('amount')
 const sortOrder = ref('desc')
+const importRequest=({file,signal,onProgress})=>new Promise((resolve,reject)=>{let percent=0;const timer=setInterval(()=>{percent+=25;onProgress(percent);if(percent>=100){clearInterval(timer);resolve({importId:`IMPORT-${Date.now()}`,name:file?.name})}},120);signal.addEventListener('abort',()=>{clearInterval(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})
 
 const columns = [
   { key:'name', label:'客户信息', minWidth:'220px', sortable:true },
@@ -83,7 +84,7 @@ watch([keyword,status,customerType,updatedRange,pageSize],()=>{page.value=1},{de
       <div class="page-actions"><UiButton variant="outline" icon="upload" @click="uploadOpen=!uploadOpen">批量导入</UiButton><UiButton icon="plus" @click="emit('open-modal','新建客户')">新建客户</UiButton></div>
     </div>
 
-    <Transition name="select-menu"><div v-if="uploadOpen" class="card inline-upload-panel"><div class="inline-upload-heading"><div><strong>批量导入客户</strong><span>上传 CSV 或 Excel 文件，完成后可在此确认数据映射。</span></div><button class="icon-btn" aria-label="关闭上传面板" @click="uploadOpen=false"><AppIcon name="close" :size="14"/></button></div><UiUpload v-model="importFiles" accept=".csv,.xls,.xlsx" :max-size="20" :max-count="1" @error="emit('notify',$event,'error')"/></div></Transition>
+    <Transition name="select-menu"><div v-if="uploadOpen" class="card inline-upload-panel"><div class="inline-upload-heading"><div><strong>批量导入客户</strong><span>上传 CSV 或 Excel 文件，完成后可在此确认数据映射。</span></div><button class="icon-btn" aria-label="关闭上传面板" @click="uploadOpen=false"><AppIcon name="close" :size="14"/></button></div><UiUpload v-model="importFiles" accept=".csv,.xls,.xlsx" :max-size="20" :max-count="1" :request="importRequest" @success="emit('notify','Import asset uploaded; field mapping is ready')" @upload-error="emit('notify','Import upload failed; retry is available','error')" @error="emit('notify',$event,'error')"/></div></Transition>
 
     <div class="card filter-card"><div class="filter-row">
       <label class="field search-wide"><span class="field-label">客户搜索</span><UiInput v-model="keyword" icon="search" clearable placeholder="搜索客户名称、编号或负责人"/></label>

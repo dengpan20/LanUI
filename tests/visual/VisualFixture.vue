@@ -4,7 +4,7 @@ import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiStatusPage, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiStatusPage, UiUpload, UiVirtualList,
 } from '../../src/index.js'
 
 const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -42,6 +42,12 @@ const visualSchemaList=[{key:'reviewers',title:'Release reviewers',description:'
     {name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}]},
   ]},
 ]}]
+const visualUploadFiles=ref([
+  {id:'upload-ready',name:'release-notes.pdf',size:184320,status:'ready',percent:0,raw:new File(['release'],'release-notes.pdf',{type:'application/pdf'})},
+  {id:'upload-progress',name:'component-bundle.zip',size:2457600,status:'uploading',percent:46},
+  {id:'upload-error',name:'token-audit.json',size:32768,status:'error',percent:68,error:'Network timeout',raw:new File(['tokens'],'token-audit.json',{type:'application/json'})},
+  {id:'upload-success',name:'checksums.txt',size:2048,status:'success',percent:100},
+])
 onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
@@ -141,6 +147,9 @@ const tableRows=[
       <UiSchemaForm :model="visualSchemaListModel" :schema="visualSchemaList">
         <template #actions><UiButton type="submit">Save reviewers</UiButton></template>
       </UiSchemaForm>
+    </UiCard>
+    <UiCard v-if="state==='upload-queue'" title="Production upload queue" title-tag="h2" class="visual-table-card visual-upload-queue">
+      <UiUpload v-model="visualUploadFiles" multiple accept=".pdf,.zip,.json,.txt" :max-count="6" :concurrency="2" :auto-upload="false" :request="async()=>({ok:true})" aria-label="Release asset upload queue" />
     </UiCard>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">

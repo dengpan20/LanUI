@@ -730,3 +730,16 @@ Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromiu
 - Component center, standalone/static preview, deterministic SSR, eight focused unit cases, seven visual baselines, 25 zero-violation Axe scenarios and 29 interactions per browser are release gates for 69 components and 223 locale keys.
 
 Axe 4.11.4 now runs 25 scenarios. The additional case audits the repeatable Schema Form group, item headings, controls and nested field labelling; detected `violations` must remain zero.
+
+## 45. Maturity P32: production upload orchestration
+
+- `UiUpload` retains controlled `modelValue` ownership and normalizes every accepted file into a stable queue item with id, raw file metadata, status, percent, response and isolated error state.
+- A request worker receives the raw file, normalized item, AbortSignal and clamped progress reporter. `concurrency` limits active workers while queued files keep deterministic selection order.
+- Auto mode schedules accepted files after async preflight. Manual mode exposes ready items until `upload()` is called. Public select/upload/abort/retry/remove/clear/open methods return compact operation results.
+- Async `beforeUpload` may reject or transform a candidate; transformed files are revalidated. Async `beforeRemove` guards removal. Callback rejection is contained and reported without corrupting sibling queue items.
+- Each upload run owns a monotonic token and AbortController. Cancel, remove and retry invalidate older completion, preventing stale success/error writes after a user action.
+- Structured select/reject/exceed/start/progress/success/upload-error/abort/retry/remove events complement the compatible change/error boundary. Change metadata includes reason, previous list and related file/source.
+- The default file list exposes ready/uploading/success/error/canceled text, native progressbar semantics, live updates and file-specific start/cancel/retry/remove names. Trigger/tip/file slots receive equivalent state and methods.
+- Component center, business import, standalone/static preview, deterministic SSR, ten focused unit cases, eight visual baselines, 26 zero-violation Axe scenarios and 30 interactions per browser are release gates for 69 components and 235 locale keys.
+
+Axe 4.11.4 now runs 26 scenarios. The additional case audits a mixed-state upload queue, progress semantics, status labelling and all file-level operations; detected `violations` must remain zero.

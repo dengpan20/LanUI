@@ -1,4 +1,4 @@
-import type { App, Component, ComponentOptionsMixin, ComputedRef, DefineComponent, EmitsOptions, EmitsToProps, InjectionKey, PublicProps, SlotsType, VNodeChild } from 'vue'
+import type { App, Component, ComponentOptionsMixin, ComputedRef, DefineComponent, EmitsOptions, EmitsToProps, InjectionKey, PublicProps, Ref, SlotsType, VNodeChild } from 'vue'
 
 export type Key = string | number
 export type ComponentSize = 'sm' | 'md' | 'lg'
@@ -203,8 +203,24 @@ export interface UiTransferProps { modelValue?:Key[]; options?:SelectOptionInput
 export interface UiTreeLoadContext { signal?:AbortSignal }
 export interface UiTreeProps { data?:UiTreeDataNode[]; modelValue?:Key|Key[]; expandedKeys?:Key[]; checkedKeys?:Key[]; defaultValue?:Key|Key[]; defaultExpandedKeys?:Key[]; defaultCheckedKeys?:Key[]; multiple?:boolean; selectable?:boolean; checkable?:boolean; checkStrictly?:boolean; defaultExpandAll?:boolean; accordion?:boolean; disabled?:boolean; invalid?:boolean; filter?:string; filterMethod?:(query:string,node:UiTreeDataNode)=>boolean; loadData?:(node:UiTreeDataNode,context:UiTreeLoadContext)=>UiTreeDataNode[]|Promise<UiTreeDataNode[]>; showIcon?:boolean; showLine?:boolean; bordered?:boolean; expandOnClickNode?:boolean; checkOnClickNode?:boolean; virtual?:boolean; height?:number|string; itemHeight?:number; overscan?:number; indent?:number; nodeKey?:string; labelKey?:string; childrenKey?:string; emptyText?:string; size?:ComponentSize }
 export interface UiTreeSelectProps { modelValue?:Key; options?:UiTreeNode[]; placeholder?:string; disabled?:boolean; invalid?:boolean }
-export interface UiUploadFile { id:Key; name:string; size:number; sizeText?:string; type?:string; status?:'ready'|'uploading'|'success'|'error'; percent?:number; error?:string }
-export interface UiUploadProps { modelValue?:UiUploadFile[]; accept?:string; multiple?:boolean; disabled?:boolean; maxSize?:number; maxCount?:number; hint?:string }
+export type UiUploadStatus = 'ready'|'uploading'|'success'|'error'|'canceled'
+export interface UiUploadFile<Response=unknown> { id:Key; name:string; size:number; sizeText?:string; type?:string; lastModified?:number; status?:UiUploadStatus; percent?:number; error?:string; raw?:File; response?:Response }
+export interface UiUploadRequestContext<Response=unknown> { file:File|undefined; item:UiUploadFile<Response>; signal:AbortSignal; onProgress:(percent:number)=>void }
+export type UiUploadRequest<Response=unknown> = (context:UiUploadRequestContext<Response>)=>Response|Promise<Response>
+export interface UiUploadBeforeContext { files:UiUploadFile[]; source:'input'|'drop'|string }
+export type UiUploadBefore = (file:File,context:UiUploadBeforeContext)=>boolean|File|Promise<boolean|File>
+export type UiUploadBeforeRemove = (file:UiUploadFile,files:UiUploadFile[])=>boolean|Promise<boolean>
+export interface UiUploadChangeMeta { reason:'select'|'start'|'progress'|'success'|'upload-error'|'abort'|'retry'|'remove'|string; previous:UiUploadFile[]; file?:UiUploadFile; files?:UiUploadFile[]; source?:string }
+export interface UiUploadReject { file:File; reason:'type'|'size'|'before-upload'; message:string; error?:unknown }
+export interface UiUploadExceed { files:File[]; maxCount:number; remaining:number; message:string }
+export interface UiUploadEvent { file:UiUploadFile }
+export interface UiUploadProgressEvent extends UiUploadEvent { percent:number }
+export interface UiUploadSuccessEvent<Response=unknown> extends UiUploadEvent { response:Response }
+export interface UiUploadErrorEvent extends UiUploadEvent { error:unknown; stage?:'before-remove'|string }
+export interface UiUploadAbortEvent extends UiUploadEvent { reason:'user'|'request'|string }
+export interface UiUploadRemoveEvent extends UiUploadEvent { files:UiUploadFile[] }
+export interface UiUploadProps { modelValue?:UiUploadFile[]; accept?:string; multiple?:boolean; disabled?:boolean; maxSize?:number; maxCount?:number; hint?:string; autoUpload?:boolean; request?:UiUploadRequest|null; beforeUpload?:UiUploadBefore|null; beforeRemove?:UiUploadBeforeRemove|null; concurrency?:number; showFileList?:boolean; directory?:boolean; capture?:boolean|'user'|'environment'|string; ariaLabel?:string }
+export interface UiUploadInstance { open:()=>void; select:(files:FileList|File[],source?:string)=>Promise<UiUploadFile[]>; upload:(id?:Key|Key[])=>number; abort:(id?:Key|Key[])=>number; retry:(id:Key)=>boolean; remove:(id:Key)=>Promise<boolean>; clear:()=>Promise<number>; files:Ref<UiUploadFile[]>; inputRef:Ref<HTMLInputElement|null>; busy:ComputedRef<boolean>; remaining:ComputedRef<number> }
 
 export interface UiDateRangeChange { value:DateValue[]; valid:boolean }
 export interface UiDateRangeInvalid { code:'range-order'|'invalid-date-value'; message:string; value:DateValue[] }
@@ -308,7 +324,7 @@ export type UiTooltipEmits = {}
 export type UiTransferEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void }
 export type UiTreeEmits = { 'update:modelValue':(value:Key|Key[])=>void; 'select-change':(value:Key|Key[],node:UiTreeDataNode,meta:UiTreeSelectMeta)=>void; 'node-click':(node:UiTreeDataNode,event:MouseEvent)=>void; 'update:expandedKeys':(value:Key[])=>void; 'expand-change':(value:Key[],node:UiTreeDataNode,meta:UiTreeExpandMeta)=>void; 'update:checkedKeys':(value:Key[])=>void; 'check-change':(value:Key[],meta:UiTreeCheckMeta)=>void; load:(payload:UiTreeLoadPayload)=>void; 'load-error':(payload:UiTreeLoadError)=>void; 'data-error':(payload:UiTreeDataError)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiTreeSelectEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key,node:UiTreeNode)=>void; 'open-change':(open:boolean)=>void }
-export type UiUploadEmits = { 'update:modelValue':(value:UiUploadFile[])=>void; change:(value:UiUploadFile[])=>void; error:(message:string)=>void }
+export type UiUploadEmits = { 'update:modelValue':(value:UiUploadFile[])=>void; change:(value:UiUploadFile[],meta:UiUploadChangeMeta)=>void; error:(message:string)=>void; select:(payload:{files:UiUploadFile[];source:string})=>void; reject:(payload:UiUploadReject)=>void; exceed:(payload:UiUploadExceed)=>void; start:(payload:UiUploadEvent)=>void; progress:(payload:UiUploadProgressEvent)=>void; success:(payload:UiUploadSuccessEvent)=>void; 'upload-error':(payload:UiUploadErrorEvent)=>void; abort:(payload:UiUploadAbortEvent)=>void; retry:(payload:UiUploadEvent)=>void; remove:(payload:UiUploadRemoveEvent)=>void }
 
 export type UiAlertSlots = { default?:()=>VNodeChild }
 export type UiAutoCompleteSlots = { option?:(scope:{option:UiAutoCompleteOption;index:number;active:boolean;selected:boolean;segments:Array<{text:string;match:boolean}>})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown})=>VNodeChild; empty?:()=>VNodeChild }
@@ -384,7 +400,7 @@ export type UiTooltipSlots = { default?:(props:{describedby:string})=>VNodeChild
 export type UiTransferSlots = {}
 export type UiTreeSlots = { node?:(scope:{node:UiTreeDataNode;level:number;selected:boolean;checked:boolean;indeterminate:boolean;expanded:boolean;loading:boolean})=>VNodeChild; icon?:(scope:{node:UiTreeDataNode;expanded:boolean})=>VNodeChild; suffix?:(scope:{node:UiTreeDataNode})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiTreeSelectSlots = {}
-export type UiUploadSlots = {}
+export type UiUploadSlots = { trigger?:(scope:{open:()=>void;dragging:boolean;busy:boolean;remaining:number})=>VNodeChild; tip?:(scope:{remaining:number;busy:boolean})=>VNodeChild; file?:(scope:{file:UiUploadFile;index:number;upload:(id?:Key|Key[])=>number;retry:(id:Key)=>boolean;abort:(id?:Key|Key[])=>number;remove:(id:Key)=>Promise<boolean>})=>VNodeChild }
 
 export type LanComponent<Props=Record<string,unknown>,Emits extends EmitsOptions={},Slots extends Record<string,unknown>={}> = DefineComponent<Props,{}, {}, {}, {},ComponentOptionsMixin,ComponentOptionsMixin,Emits,keyof Emits&string,PublicProps,Readonly<Props>&Readonly<EmitsToProps<Emits>>,{},SlotsType<Slots>>
 export interface ToastOptions { id?:Key; message:string; title?:string; type?:UiNotice['type']; placement?:ToastPlacement; duration?:number; onClose?:()=>void }

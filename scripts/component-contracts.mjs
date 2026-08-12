@@ -17,6 +17,7 @@ const required={
   'UiImage.vue':['role="dialog"','aria-modal="true"','openOverlay','isTopOverlay','focusWithRetry(returnFocus)','previewList','fallback','zoomOnWheel','pointerdown','useDirection','image.preview'],
   'UiVirtualList.vue':["selectionMode==='none'?'list':'listbox'",'aria-activedescendant','aria-setsize','ResizeObserver','scrollToIndex','resetAfterIndex','range-change','selectionMode','typeaheadSearch'],
   'UiTextarea.vue':['uiFormItemContext','aria-labelledby','aria-describedby','aria-invalid'],
+  'UiUpload.vue':['AbortController','beforeUpload','beforeRemove','concurrency','onProgress','activeTokens','releaseToken','upload-error','disabled || !file.raw','aria-busy','defineExpose'],
   'UiDatePicker.vue':['uiFormItemContext','aria-controls','aria-describedby','showPicker','fromDateValue','data-time-zone'],
   'UiTimePicker.vue':['mode="time"','value-type','time-zone','update:modelValue'],
   'UiSwitch.vue':['ariaLabel','aria-labelledby','role="switch"','aria-busy'],

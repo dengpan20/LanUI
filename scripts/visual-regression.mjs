@@ -22,6 +22,7 @@ const cases=[
   {name:'dynamic-form-list',viewport:{width:1280,height:950},query:'theme=light&direction=ltr&density=default&state=form-list',ready:'.visual-form-list'},
   {name:'schema-form',viewport:{width:1280,height:950},query:'theme=light&direction=ltr&density=default&state=schema-form',ready:'.visual-schema-form'},
   {name:'schema-form-list',viewport:{width:1280,height:1050},query:'theme=light&direction=ltr&density=default&state=schema-form-list',ready:'.visual-schema-form-list'},
+  {name:'upload-queue',viewport:{width:1280,height:850},query:'theme=light&direction=ltr&density=default&state=upload-queue',ready:'.visual-upload-queue'},
 ]
 
 const {server,origin}=await startFixtureServer(root)

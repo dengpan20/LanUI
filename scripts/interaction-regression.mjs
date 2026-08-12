@@ -313,13 +313,32 @@ const allCases = [
   {
     name: 'upload-validation-remove',
     run: async page => {
-      const input = page.locator('.ui-upload-input')
+      const section=page.locator('.interaction-case').filter({hasText:'Upload validation contract'})
+      const input = section.locator('.ui-upload-input')
       await input.setInputFiles({ name: 'fixture.txt', mimeType: 'text/plain', buffer: Buffer.from('Lan UI') })
       await expectText(page, 'upload-output', 'files=1 error=none')
       await input.setInputFiles({ name: 'fixture.png', mimeType: 'image/png', buffer: Buffer.from('not-an-image') })
       assert.match(await page.getByTestId('upload-output').innerText(), /files=1 error=.*fixture\.png/)
-      await page.locator('.ui-upload-file .icon-btn').click()
+      await section.locator('.ui-upload-file .icon-btn').click()
       assert.match(await page.getByTestId('upload-output').innerText(), /^files=0 error=/)
+    },
+  },
+  {
+    name: 'upload-queue-lifecycle',
+    run: async page => {
+      const section=page.locator('.interaction-upload-queue')
+      const input=section.locator('.ui-upload-input')
+      await input.setInputFiles({name:'retry-fixture.txt',mimeType:'text/plain',buffer:Buffer.from('retry')})
+      await expectText(page,'upload-queue-output','error:retry-fixture.txt')
+      assert.equal(await section.getByRole('button',{name:'Retry upload for retry-fixture.txt'}).isVisible(),true)
+      await section.getByRole('button',{name:'Retry upload for retry-fixture.txt'}).click()
+      await expectText(page,'upload-queue-output','success:retry-fixture.txt')
+      await input.setInputFiles({name:'slow-fixture.txt',mimeType:'text/plain',buffer:Buffer.from('slow')})
+      const cancel=section.getByRole('button',{name:'Cancel upload for slow-fixture.txt'})
+      await cancel.waitFor();await cancel.click()
+      await expectText(page,'upload-queue-output','abort:slow-fixture.txt')
+      assert.equal(await section.locator('.ui-upload-file.status-success').count(),1)
+      assert.equal(await section.locator('.ui-upload-file.status-canceled').count(),1)
     },
   },
   {
