@@ -16,7 +16,7 @@ required = [
     "src/components/UiModal.vue", "src/components/UiDrawer.vue",
     "src/components/UiTooltip.vue", "src/components/UiPopover.vue",
     "src/components/UiPopconfirm.vue", "src/components/UiToastHost.vue",
-    "src/components/UiNotification.vue", "src/components/UiFormItem.vue", "src/components/UiFormList.vue",
+    "src/components/UiNotification.vue", "src/components/UiFormItem.vue", "src/components/UiFormList.vue", "src/components/UiSchemaForm.vue",
     "src/components/UiCheckbox.vue", "src/components/UiRadio.vue",
     "src/components/UiSwitch.vue",
     "src/components/UiLayout.vue", "src/components/UiGrid.vue", "src/components/UiCol.vue",
@@ -31,7 +31,7 @@ required = [
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
     "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -76,7 +76,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 466 or len(manifest_components) != 68:
+if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 480 or len(manifest_components) != 69:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -87,7 +87,7 @@ style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="u
 style_components = style_manifest.get("components", [])
 if style_manifest.get("package") != package.get("name") or style_manifest.get("version") != package.get("version"):
     failures.append("style-manifest:package-version")
-if len(style_components) != 68 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
+if len(style_components) != 69 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
@@ -121,7 +121,7 @@ type_contract = (ROOT / "tests/types/contracts.ts").read_text(encoding="utf-8")
 type_fixture = (ROOT / "tests/types/Consumer.vue").read_text(encoding="utf-8")
 for component in manifest_components:
     name = component.get("name")
-    if f"{name}:LanComponent<{name}Props,{name}Emits,{name}Slots>" not in type_declarations:
+    if f"{name}:LanComponent<{name}Props" not in type_declarations and f"{name}:{name}Component" not in type_declarations:
         failures.append(f"typescript:component-contract:{name}")
 for marker in ["@ts-expect-error", "UiInputEmits", "UiInputSlots", "cell-${string}", "panel-${string}"]:
     if marker not in type_contract + type_declarations:
@@ -270,6 +270,9 @@ for marker in ["previewOverlayComponents", "previewPopoverPanel", "previewConfir
 for marker in ["previewCompletionSystem", "previewAccessibleTabs", "previewCompletionAlert", "data-completion-tab"]:
     if marker not in preview:
         failures.append(f"preview:completion:{marker}")
+for marker in ["previewSchemaForm", "previewSchemaType", "previewSchemaTax", "syncPreviewSchema"]:
+    if marker not in preview:
+        failures.append(f"preview:schema-form:{marker}")
 for marker in ["previewMenu", "previewCollapse", "previewSegmented", "previewSpin", "positionPreviewFloat"]:
     if marker not in preview:
         failures.append(f"preview:maturity-p1:{marker}")
@@ -293,7 +296,7 @@ if "</i>" in preview.replace('<i class="status-dot"></i>', ""):
 vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in (ROOT / "src").rglob("*.vue"))
 if "<select" in vue_sources:
     failures.append("form:native-select")
-for component in ["UiInput", "UiNumberInput", "UiSlider", "UiAutoComplete", "UiSelect", "UiTextarea"]:
+for component in ["UiInput", "UiNumberInput", "UiSlider", "UiAutoComplete", "UiSelect", "UiTextarea", "UiSchemaForm"]:
     if component not in vue_sources:
         failures.append(f"form:component:{component}")
 for component in ["UiDatePicker", "UiDateRangePicker", "UiTimePicker", "UiPagination", "UiUpload", "UiFloatButton"]:
@@ -392,6 +395,7 @@ behavior_sources = {
     "switch": (ROOT / "src/components/UiSwitch.vue").read_text(encoding="utf-8"),
     "formitem": (ROOT / "src/components/UiFormItem.vue").read_text(encoding="utf-8"),
     "formlist": (ROOT / "src/components/UiFormList.vue").read_text(encoding="utf-8"),
+    "schemaform": (ROOT / "src/components/UiSchemaForm.vue").read_text(encoding="utf-8"),
     "select": (ROOT / "src/components/UiSelect.vue").read_text(encoding="utf-8"),
     "tabs": (ROOT / "src/components/UiTabs.vue").read_text(encoding="utf-8"),
     "form": (ROOT / "src/components/UiForm.vue").read_text(encoding="utf-8"),
@@ -434,6 +438,7 @@ behavior_markers = {
     "switch": ["props.disabled||props.loading", 'role="switch"', ':aria-checked="modelValue"', "ariaLabel", "aria-labelledby"],
     "formitem": ["useId()", "provide('uiFormItemContext'", "controlId", "describedby", "group"],
     "formlist": ["useId()", "entries", "canAdd", "canRemove", "function add", "function remove", "function move", "defineExpose"],
+    "schemaform": ["normalizeSchema", "visibleFields", "resolveComponent", "field-change", "schema-error", "defineExpose"],
     "select": ["useId()", "aria-activedescendant", "aria-controls", "ArrowDown", "Home", "End"],
     "tabs": ['role="tablist"', 'role="tab"', "ArrowRight", "Home", "End"],
     "form": ["provide('uiFormContext'", "async function validate", "defineExpose"],
@@ -489,7 +494,7 @@ declarations = (ROOT / "src/index.d.ts").read_text(encoding="utf-8")
 for component in [path.stem for path in (ROOT / "src/components").glob("Ui*.vue")]:
     if f"default as {component}" not in component_entry:
         failures.append(f"library-export:{component}")
-    if f"{component}:LanComponent<{component}Props,{component}Emits,{component}Slots>" not in declarations:
+    if f"{component}:LanComponent<{component}Props" not in declarations and f"{component}:{component}Component" not in declarations:
         failures.append(f"library-types:{component}")
 for marker in ["createLanUi", "LanUi", "useLanUiConfig", "useLocale", "useDirection", "zhCN", "enUS"]:
     if marker not in entry and marker not in (ROOT / "src/plugin.js").read_text(encoding="utf-8") and marker not in (ROOT / "src/config.js").read_text(encoding="utf-8"):
@@ -523,7 +528,7 @@ for path in [ROOT / "README.md", ROOT / "UI-SPEC.md"]:
         failures.append(f"docs:corrupted-section:{path.name}")
 
 standalone = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
-for component in ["UiAlert", "UiAutoComplete", "UiButton", "UiCalendar", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiRate", "UiStatistic", "UiSelect", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
+for component in ["UiAlert", "UiAutoComplete", "UiButton", "UiCalendar", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiRate", "UiStatistic", "UiSelect", "UiSchemaForm", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
     if component not in standalone:
         failures.append(f"standalone:component:{component}")
 for marker in ["direction", ":direction=", "RTL", "LTR"]:
@@ -547,20 +552,20 @@ if len(visual_baselines) < 4 or any(path.stat().st_size < 1000 for path in visua
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "LAN_UI_BROWSER_PATH"]:
+for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "LAN_UI_BROWSER_PATH"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 22:
+if accessibility_script.count("{name:") < 24:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") < 26:
+if interaction_script.count("name: '") < 28:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -596,13 +601,13 @@ for rel in ["lan-ui.js","lan-ui.css","lan-ui.d.ts"]:
 if dist_lib.exists():
     component_js=list((dist_lib / "components").glob("Ui*.js"))
     component_types=list((dist_lib / "components").glob("Ui*.d.ts"))
-    if len(component_js) != 68 or len(component_types) != 68:
+    if len(component_js) != 69 or len(component_types) != 69:
         failures.append(f"dist-lib:component-subpaths:{len(component_js)}:{len(component_types)}")
     for rel in ["color.js","color.d.ts","config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts"]:
         if not (dist_lib / rel).is_file():
             failures.append(f"dist-lib:subpath:{rel}")
     style_files = list((dist_lib / "styles").glob("Ui*.css"))
-    if len(style_files) != 68 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
+    if len(style_files) != 69 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
         failures.append(f"dist-lib:component-styles:{len(style_files)}")
 
 if failures:
@@ -654,4 +659,5 @@ print("- maturity-p26=status-page+virtual-list,66-public-components,202-locale-k
 print("- maturity-p27=data-grid,67-public-components,211-locale-keys,client-server-orchestration,toolbar-a11y,25-interactions-per-browser")
 print("- maturity-p28=managed-form,67-public-components,216-locale-keys,nested-paths,async-race,server-errors,error-summary,26-interactions-per-browser")
 print("- maturity-p29=dynamic-form-list,68-public-components,216-locale-keys,stable-keys,reindex,dependencies,conditional-rules,27-interactions-per-browser")
+print("- maturity-p30=schema-form,69-public-components,216-locale-keys,conditional-fields,resolvers,custom-registry,28-interactions-per-browser")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

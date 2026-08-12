@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.26.0] - 2026-08-13
+
+### Added
+
+- Public `UiSchemaForm` for flat or grouped schema-driven forms, including nested model paths, responsive grid columns, field spans, conditional visibility and model-aware property resolvers.
+- Built-in field mappings, custom component registries, targeted field/section slots, value normalization, immutable `field-change` payloads and contained/deduplicated `schema-error` reporting.
+- Component-center, standalone/static preview, SSR, root/subpath type, visual, Axe and three-browser interaction coverage for conditional form orchestration.
+
+### Changed
+
+- Public component/style/API parity advances from 68 to 69; visual coverage advances from 5 to 6 baselines, Axe coverage from 23 to 24 scenarios and interaction coverage from 27 to 28 cases per browser.
+- Measured P30 ceilings are narrowly rebaselined: package JS to `444000 / 164000` B, package CSS to `428000 / 102000` B, largest component CSS to `30000 / 5400` B, and standalone JS/CSS raw to `392000 / 181000` B; largest JS chunks, root CSS and minimal-consumer ceilings remain unchanged.
+
 ## [1.25.0] - 2026-08-13
 
 ### Added

@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiInput, UiMenu,
+  UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
   UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -65,6 +65,15 @@ const dynamicForm=ref(null)
 const dynamicFormModel=reactive({password:'secret123',confirm:'secret123',contacts:[{email:'first@example.com'}]})
 const dynamicFormResult=ref('contacts=1')
 const updateDynamicFormResult=()=>{dynamicFormResult.value=`contacts=${dynamicFormModel.contacts.length}`}
+const schemaFormModel=reactive({account:{type:'business',name:'Lan UI workspace',email:'owner@example.com'},taxId:''})
+const schemaFormResult=ref('idle')
+const schemaFormChange=ref('none')
+const schemaFormDefinition=[{key:'workspace',title:'Workspace settings',columns:2,fields:[
+  {name:'account.type',label:'Account type',type:'select',options:[{label:'Business',value:'business'},{label:'Personal',value:'personal'}],span:2},
+  {name:'account.name',label:'Workspace name',required:true,rules:[{required:true}]},
+  {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}]},
+  {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:true,dependencies:['account.type'],rules:[{required:true,message:'Tax ID is required'}],span:2},
+]}]
 const gridQuery=ref('')
 const gridPage=ref(1)
 const gridPageSize=ref(5)
@@ -293,6 +302,14 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiButton type="button" @click="dynamicForm.validateField('confirm')">Validate dependency fields</UiButton>
         </UiForm>
         <output class="interaction-output" data-testid="dynamic-form-output">{{ dynamicFormResult }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-schema-form">
+        <h2>Schema form conditional orchestration contract</h2>
+        <UiSchemaForm :model="schemaFormModel" :schema="schemaFormDefinition" show-error-summary @field-change="schemaFormChange=$event.name" @submit="schemaFormResult='submitted'" @invalid="schemaFormResult='invalid'">
+          <template #actions="{validating}"><UiButton type="submit" :loading="validating">Submit schema form</UiButton></template>
+        </UiSchemaForm>
+        <output class="interaction-output" data-testid="schema-form-output">{{ schemaFormResult }} / {{ schemaFormChange }} / {{ schemaFormModel.account.type }}</output>
       </section>
 
       <section class="interaction-case">

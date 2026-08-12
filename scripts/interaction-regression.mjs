@@ -337,13 +337,14 @@ const allCases = [
   {
     name: 'form-validation-focus',
     run: async page => {
-      await page.getByRole('button', { name: 'Submit form' }).click()
+      const section=page.locator('.interaction-case').filter({hasText:'Form validation and focus contract'})
+      await section.getByRole('button', { name: 'Submit form' }).click()
       await expectText(page, 'form-output', 'invalid')
-      assert.equal(await page.getByRole('alert').innerText(), 'Name is required')
-      const input = page.getByRole('textbox', { name: 'Name' })
+      assert.equal(await section.getByRole('alert').innerText(), 'Name is required')
+      const input = section.getByRole('textbox', { name: 'Name' })
       assert.equal(await input.evaluate(node => node === document.activeElement), true)
       await input.fill('Lan UI')
-      await page.getByRole('button', { name: 'Submit form' }).click()
+      await section.getByRole('button', { name: 'Submit form' }).click()
       await expectText(page, 'form-output', 'submitted')
     },
   },
@@ -398,6 +399,29 @@ const allCases = [
       await confirm.fill('changed123')
       await confirm.blur()
       await section.getByRole('alert').waitFor({state:'detached'})
+    },
+  },
+  {
+    name: 'schema-form-conditional-orchestration',
+    run: async page => {
+      const section=page.locator('.interaction-schema-form')
+      const accountType=section.getByRole('combobox',{name:'Account type'})
+      assert.equal(await section.getByRole('textbox',{name:'Tax ID'}).count(),1)
+      await accountType.click()
+      await page.getByRole('option',{name:'Personal',exact:true}).click()
+      await expectText(page,'schema-form-output','idle / account.type / personal')
+      assert.equal(await section.getByRole('textbox',{name:'Tax ID'}).count(),0)
+      await accountType.click()
+      await page.getByRole('option',{name:'Business',exact:true}).click()
+      await section.getByRole('button',{name:'Submit schema form'}).click()
+      await expectText(page,'schema-form-output','invalid / account.type / business')
+      const taxId=section.getByRole('textbox',{name:'Tax ID'})
+      assert.equal(await taxId.evaluate(node=>node===document.activeElement),true)
+      assert.match(await section.locator('.ui-form-error-summary').innerText(),/Tax ID is required/)
+      await taxId.fill('91330000LANUI2026')
+      await section.getByRole('button',{name:'Submit schema form'}).click()
+      await expectText(page,'schema-form-output','submitted / taxId / business')
+      await section.locator('.ui-form-error-summary').waitFor({state:'detached'})
     },
   },
   {

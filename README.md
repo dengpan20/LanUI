@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、68 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、69 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -314,7 +314,7 @@ pnpm pack
 python scripts/verify.py
 ```
 
-`pnpm ci` 会执行 Token 导出、源码检查、68 个组件契约测试、后台构建、组件库构建及独立项目构建。
+`pnpm ci` 会执行 Token 导出、源码检查、69 个组件契约测试、后台构建、组件库构建及独立项目构建。
 
 组件包公开内容：
 
@@ -385,7 +385,7 @@ app.use(lanUi)
 lanUi.setLocale('en-US') // 已显示的默认文案和生成式表单错误同步更新
 ```
 
-`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 68 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
+`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 69 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
 
 ### Intl、复数与语言回退
 
@@ -487,8 +487,8 @@ const notification = useNotification()
 
 - `pnpm test` 执行 Vitest 行为测试与源码契约测试，覆盖表单语义、组合框键盘操作、浮层碰撞定位、全局配置、本地化、服务式反馈及无 DOM 的 SSR 渲染。
 - Vitest 只收集根目录 `tests/`，排除 `.verify / .baseline / dist`，避免验证副本污染结果。
-- 所有 68 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
-- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、68 个子路径导出、最小消费者 Bundle 和独立消费项目。
+- 所有 69 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
+- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、69 个子路径导出、最小消费者 Bundle 和独立消费项目。
 
 ## SSR 与 Hydration
 
@@ -499,7 +499,7 @@ const notification = useNotification()
 
 ## API 稳定性与升级
 
-- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 68 个组件的 Props、Emits、Slots 与实际运行时导出。
+- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 69 个组件的 Props、Emits、Slots 与实际运行时导出。
 - 每个组件子路径同时导出 `UiXxxProps`、`UiXxxEmits` 和 `UiXxxSlots`；模板事件负载、`$emit` 与作用域插槽均参与 vue-tsc 检查。
 - 构建工具可通过 `lan-ui-design-system/api-manifest` 或 `lan-ui-design-system/api-manifest.json` 读取该清单。
 - `pnpm run api:check` 对比已构建包与提交的 Manifest；公开 API 变化必须先运行 `pnpm run api:generate` 并审查 SemVer 影响。
@@ -537,7 +537,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'
 import 'lan-ui-design-system/styles/UiButton.css'
 ```
 
-每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 68 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
+每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 69 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
 
 ## Global command palette
 
@@ -582,7 +582,7 @@ pnpm run visual:update # 仅在目视确认预期变化后执行
 pnpm run test:a11y
 ```
 
-Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 23-case matrix includes light, dark RTL, mobile, overlays, advanced controls, tables, status pages, managed forms and dynamic form arrays; detected `violations` must remain zero.
+Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 24-case matrix includes light, dark RTL, mobile, overlays, advanced controls, tables, status pages, managed forms, dynamic arrays and Schema Form; detected `violations` must remain zero.
 
 ## 浏览器交互回归与性能预算
 
@@ -592,8 +592,8 @@ pnpm run test:interaction:cross-browser
 pnpm run test:performance
 ```
 
-- The default real-Chromium interaction gate exercises 27 flows, including form arrays, dependency validation, virtualized collections, data grids, status boundaries, overlays, data entry and keyboard navigation.
-- `test:interaction:cross-browser` runs the same 27-scenario matrix on Chromium, Firefox and WebKit for 81 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
+- The default real-Chromium interaction gate exercises 28 flows, including Schema orchestration, form arrays, dependency validation, virtualized collections, data grids, status boundaries, overlays, data entry and keyboard navigation.
+- `test:interaction:cross-browser` runs the same 28-scenario matrix on Chromium, Firefox and WebKit for 84 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
 - 所有场景启用 `prefers-reduced-motion: reduce`，确保关闭动效后焦点与键盘行为仍然成立；结果写入 `.verify/interaction/<platform>/report.json`。
 - 每个引擎的明细写入 `.verify/interaction/<platform>/<browser>.json`；聚合报告同时记录引擎、用例、耗时与失败信息。
 - macOS Safari 的焦点语义由 Playwright WebKit 门禁覆盖；发布前仍应在目标系统执行关键业务流程的设备级验收。
@@ -647,3 +647,23 @@ UiForm and UiFormItem now manage production form state without requiring a secon
 - `UiFormItem.dependencies` revalidates touched related fields. Rules can use `when(model, context)` and validators can inspect related values through typed getters.
 - Root/subpath declarations, component center, standalone/static previews and SSR fixtures remain in parity for 68 components and 216 locale keys.
 - CI requires 5 visual baselines, 23 Axe scenarios and 27 interaction cases per Chromium/Firefox/WebKit engine for the P29 delivery evidence.
+
+## Schema-driven form orchestration (P30)
+
+`UiSchemaForm` turns application-owned field metadata into a managed `UiForm` without replacing the model or hiding the lower-level primitives:
+
+~~~vue
+<UiSchemaForm :model="account" :schema="schema" show-error-summary @submit="save">
+  <template #actions="{ validating, errors }">
+    <UiButton type="submit" :loading="validating">Save ({{ errors.length }})</UiButton>
+  </template>
+</UiSchemaForm>
+~~~
+
+- Flat fields and grouped sections support nested paths, per-section columns, field spans and full-width rows.
+- Built-in mappings cover input, textarea, number, select, autocomplete, checkbox, switch, date, time, date range, slider and segmented controls; `components` and `component` register application controls.
+- `visible`, `required`, `disabled`, `readonly`, `props`, `options` and `placeholder` accept values or model-aware resolvers. Hidden fields unmount and unregister before the next validation pass.
+- `normalize` controls model writes. `field-change` returns immutable previous/next values, while contained consumer callback failures emit a deduplicated `schema-error` event.
+- Dynamic `field-*` and `section-*-header` slots override targeted rendering. The actions/default scopes and exposed methods preserve the full managed-form contract.
+- Root/subpath declarations, component center, standalone/static previews and SSR fixtures remain in parity for 69 components and 216 locale keys.
+- CI requires 6 visual baselines, 24 Axe scenarios and 28 interaction cases per Chromium/Firefox/WebKit engine for the P30 delivery evidence.

@@ -705,3 +705,16 @@
 - A rule-level `when(model, context)` condition controls applicability. Custom validators receive `getFieldValue` and `getFieldsValue` in addition to `signal`, `trigger` and `name` for cross-field logic without closing over a second state store.
 - Dynamic rows use labelled group semantics and their nested controls keep unique label/help/error relationships. Disabled structural operations remain native disabled controls.
 - Component center, standalone/static preview, deterministic SSR, seven focused unit cases, five visual baselines, 23 Axe scenarios and 27 interactions per browser are release gates for 68 components and 216 locale keys.
+
+## 43. Maturity P30: schema-driven form orchestration
+
+- `UiSchemaForm` composes `UiForm` and `UiFormItem`; the consumer retains model ownership and may return to the primitives without a data migration.
+- Flat field lists and grouped sections normalize into a consistent structure. Sections define semantic headings, descriptions, columns and gaps; fields define nested paths, grid spans and control mappings.
+- `visible`, `required`, `disabled`, `readonly`, `props`, `options` and `placeholder` may be static or resolve from current model/context. Hidden controls unmount synchronously and no longer participate in validation.
+- Built-in mappings cover 12 common form controls. A registry or direct component supports domain controls; field and section slots override only the required rendering boundary.
+- Resolver, normalization and component lookup failures preserve a deterministic fallback and emit one deduplicated `schema-error` payload rather than breaking the complete form render.
+- Schema Form forwards managed validation, reset, server-error, field value/state, focus and scroll APIs. `field-change` reports canonical paths plus immutable previous/next values.
+- Required markers, labels, descriptions, error alerts, error summaries and focus-on-error remain provided by the lower-level managed form contract.
+- Component center, standalone/static preview, deterministic SSR, eight focused unit cases, six visual baselines, 24 Axe scenarios and 28 interactions per browser are release gates for 69 components and 216 locale keys.
+
+Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 24-case matrix adds conditional Schema Form rendering to the existing light, dark RTL, mobile, overlays, data and form scenarios; detected `violations` must remain zero.

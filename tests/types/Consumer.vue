@@ -10,6 +10,7 @@ import {
   UiForm,
   UiFormItem,
   UiFormList,
+  UiSchemaForm,
   UiInput,
   UiImage,
   UiModal,
@@ -21,7 +22,7 @@ import {
   UiTree,
   UiVirtualList,
 } from 'lan-ui-design-system'
-import type { Key, UiCommandPaletteCommand, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
+import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -30,6 +31,7 @@ const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
 interface FormModel extends Record<string, unknown> { name:string; contacts:Array<{email:string}>; password:string; confirm:string }
 const model = ref<FormModel>({ name: '', contacts:[{email:''}], password:'', confirm:'' })
+const schema:UiSchemaFormNode<FormModel>[]=[{key:'profile',title:'Profile',fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'password',label:'Password',props:{type:'password'}},{name:'confirm',label:'Confirm',visible:current=>Boolean(current.password),dependencies:['password']}]}]
 const office = ref('')
 const resource = ref<Key>('dashboard')
 const checkedResources = ref<Key[]>(['dashboard'])
@@ -89,6 +91,10 @@ function sort(payload:UiTableSortChange) {
       <UiButton @click="reset">Reset</UiButton>
     </template>
   </UiForm>
+  <UiSchemaForm :model="model" :schema="schema" show-error-summary @field-change="payload=>payload.name" @schema-error="payload=>payload.kind">
+    <template #field-confirm="{ value, update }"><UiInput :model-value="String(value||'')" @update:model-value="update" /></template>
+    <template #actions="{ validating, errors }"><UiButton type="submit" :loading="validating">Save schema {{ errors.length }}</UiButton></template>
+  </UiSchemaForm>
   <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:selected-rows="gridSelected" :columns="columns" :rows="rows" selectable :query-fields="['name']">
     <template #cell-name="{ value, rowIndex }">{{ value }} / {{ rowIndex }}</template>
     <template #footer="{ total, state }">{{ total }} / {{ state.page }}</template>

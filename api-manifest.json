@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.25.0",
+  "version": "1.26.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -55,6 +55,7 @@
       "UiRadio",
       "UiRate",
       "UiResult",
+      "UiSchemaForm",
       "UiSegmented",
       "UiSelect",
       "UiSkeleton",
@@ -435,6 +436,24 @@
       "UiResultEmits",
       "UiResultProps",
       "UiResultSlots",
+      "UiSchemaForm",
+      "UiSchemaFormBuiltinType",
+      "UiSchemaFormCallback",
+      "UiSchemaFormComponent",
+      "UiSchemaFormContext",
+      "UiSchemaFormEmitFn",
+      "UiSchemaFormEmits",
+      "UiSchemaFormError",
+      "UiSchemaFormField",
+      "UiSchemaFormFieldChange",
+      "UiSchemaFormFieldSlotScope",
+      "UiSchemaFormInstance",
+      "UiSchemaFormNode",
+      "UiSchemaFormProps",
+      "UiSchemaFormResolver",
+      "UiSchemaFormSection",
+      "UiSchemaFormSlotScope",
+      "UiSchemaFormSlots",
       "UiSegmented",
       "UiSegmentedEmits",
       "UiSegmentedOption",
@@ -1641,6 +1660,50 @@
       ],
       "runtimeExports": [
         "UiFormList",
+        "default"
+      ]
+    },
+    {
+      "name": "UiSchemaForm",
+      "subpath": "./components/UiSchemaForm",
+      "propsType": "UiSchemaFormProps",
+      "props": [
+        "columns",
+        "components",
+        "disabled",
+        "errorSummaryTitle",
+        "focusOnError",
+        "gap",
+        "initialValues",
+        "model",
+        "readonly",
+        "rules",
+        "schema",
+        "scrollIntoViewOptions",
+        "scrollToError",
+        "showErrorSummary",
+        "validateOnRuleChange",
+        "validateOnSubmit"
+      ],
+      "emitsType": "UiSchemaFormEmits",
+      "emits": [
+        "field-change",
+        "invalid",
+        "reset",
+        "schema-error",
+        "submit",
+        "validate"
+      ],
+      "slotsType": "UiSchemaFormSlots",
+      "slots": [
+        "actions",
+        "default",
+        "empty",
+        "field-*",
+        "section-*-header"
+      ],
+      "runtimeExports": [
+        "UiSchemaForm",
         "default"
       ]
     },

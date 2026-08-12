@@ -15,6 +15,7 @@ import {
   UiForm,
   UiFormItem,
   UiFormList,
+  UiSchemaForm,
   UiInput,
   UiIcon,
   UiImage,
@@ -37,6 +38,13 @@ import {
 
 const projectModel = reactive({ project: { name: '运营管理后台', template: 'dashboard' }, members: [{ name: 'Owner', email: 'owner@example.com' }] })
 const projectRules = { project: { name: [{ required:true, message:'请输入项目名称' }, { min:2, message:'项目名称至少需要 2 个字符' }], template: { required:true } } }
+const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026'})
+const workspaceSchema=[{key:'account',title:'Schema-driven account',description:'Conditional fields are mounted and validated from the consumer-owned schema.',columns:2,fields:[
+  {name:'account.type',label:'Account type',type:'segmented',options:[{label:'Business',value:'business'},{label:'Personal',value:'personal'}],props:{block:true},span:2},
+  {name:'account.name',label:'Workspace name',required:true,rules:[{required:true},{min:2}],props:{clearable:true}},
+  {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}],props:{clearable:true}},
+  {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true}],span:2},
+]}]
 const created = ref(false)
 const period = ref('week')
 const locale = ref('en-US')
@@ -139,6 +147,12 @@ const rows = computed(() => [
       </UiFormItem>
       <UiButton type="submit">生成独立项目</UiButton>
       </UiForm>
+    </UiCard>
+
+    <UiCard title="Schema-driven workspace settings">
+      <UiSchemaForm :model="workspaceModel" :schema="workspaceSchema" show-error-summary @submit="toast.success('Schema form submitted')">
+        <template #actions="{validating,errors}"><span style="color:var(--text-secondary);font-size:12px">{{ errors.length }} validation errors</span><UiButton type="submit" :loading="validating">Save workspace</UiButton></template>
+      </UiSchemaForm>
     </UiCard>
 
     <UiCard title="交付进度"><UiSteps :items="steps" :current="created ? 3 : 2" /></UiCard>

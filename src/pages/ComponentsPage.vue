@@ -23,6 +23,7 @@ import UiTable from '../components/UiTable.vue'
 import UiListToolbar from '../components/UiListToolbar.vue'
 import UiFormItem from '../components/UiFormItem.vue'
 import UiFormList from '../components/UiFormList.vue'
+import UiSchemaForm from '../components/UiSchemaForm.vue'
 import UiCheckbox from '../components/UiCheckbox.vue'
 import UiRadio from '../components/UiRadio.vue'
 import UiSwitch from '../components/UiSwitch.vue'
@@ -97,6 +98,18 @@ const zonedPreview=computed(()=>formatDateValue(zonedInstant.value,{mode:'dateti
 const demoPage=ref(3);const demoPageSize=ref(10);const floatDemoOpen=ref(false)
 const checkboxDemo=ref(['邮件通知']);const radioDemo=ref('标准版');const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false)
 const formRef=ref(null);const validatedForm=reactive({customer:{name:'',email:'',password:'LanUI-2026',confirm:'LanUI-2026'},contacts:[{name:'李明',email:'li@example.com'}]});const validationRules={customer:{name:[{required:true,message:'请输入客户名称'},{min:2,message:'客户名称至少 2 个字符'}],email:[{required:true,message:'请输入企业邮箱'},{type:'email',message:'请输入有效的企业邮箱'}]}}
+const schemaFormRef=ref(null)
+const schemaFormModel=reactive({account:{type:'business',name:'Lan UI 工作区',email:'owner@example.com'},region:'east',taxId:''})
+const schemaFormDefinition=[{
+  key:'workspace',title:'工作区配置',description:'字段、布局、条件显隐与校验均由 Schema 声明。',columns:2,fields:[
+    {name:'account.type',label:'账户类型',type:'segmented',options:[{label:'企业',value:'business'},{label:'个人',value:'personal'}],props:{block:true},span:2},
+    {name:'account.name',label:'工作区名称',required:true,rules:[{required:true,message:'请输入工作区名称'},{min:2,message:'至少输入 2 个字符'}],props:{clearable:true,placeholder:'请输入工作区名称'}},
+    {name:'account.email',label:'管理员邮箱',required:true,rules:[{required:true,message:'请输入管理员邮箱'},{type:'email',message:'请输入有效邮箱'}],props:{clearable:true,placeholder:'owner@example.com'}},
+    {name:'region',label:'业务区域',type:'select',options:[{label:'华东区域',value:'east'},{label:'华南区域',value:'south'},{label:'海外区域',value:'global'}],props:{clearable:true,searchable:true}},
+    {name:'taxId',label:'企业税号',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true,message:'企业账户需填写税号'}],props:{placeholder:'请输入统一社会信用代码'}},
+  ],
+}]
+const schemaFormChange=ref('等待编辑')
 const multiDemo=ref(['华东区域']);const treeDemo=ref('hangzhou');const cascaderDemo=ref(['zhejiang','hangzhou']);const transferDemo=ref(['api'])
 const resourceTreeFilter=ref('');const resourceTreeSelection=ref('design');const resourceTreeChecked=ref(['design'])
 const resourceTreeData=[
@@ -154,7 +167,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'当前成熟度',value:'Dynamic Form P29'},{key:'version',label:'当前版本',value:'1.25.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'动态数组、稳定键、嵌套路径、字段依赖、条件规则、SSR、RTL、ARIA'}]
+const descriptionItems=[{key:'name',label:'当前成熟度',value:'Schema Form P30'},{key:'version',label:'当前版本',value:'1.26.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'Schema 编排、条件显隐、动态解析器、嵌套路径、校验聚焦、SSR、RTL、ARIA'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -268,7 +281,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         </section>
 
         <section id="forms" class="card doc-section">
-          <header class="doc-section-header"><h2>表单控件</h2><p>统一 Input、NumberInput、Slider、ColorPicker、Select、AutoComplete、Textarea 的尺寸、焦点、清除、错误、只读与键盘行为，并同步到所有业务页面。</p></header>
+          <header class="doc-section-header"><h2>表单控件</h2><p>统一基础控件、托管校验、动态数组与 Schema 编排的尺寸、焦点、条件显隐、错误、只读和键盘行为，并同步到所有业务页面。</p></header>
           <div class="demo-block form-showcase">
             <div class="form-demo-section"><div class="form-demo-title"><strong>基础输入</strong><span>Input</span></div><div class="form-demo-content form-row">
               <label class="field"><span class="field-label required">客户名称</span><UiInput v-model="customerName" icon="user" clearable placeholder="请输入客户名称"/><span class="field-help">支持前缀图标与一键清除</span></label>
@@ -349,6 +362,28 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                     <div class="ui-form-actions"><span class="field-help">{{ dirty?'表单已有修改':'尚未修改' }} · {{ errors.length }} 个错误 · {{ validatedForm.contacts.length }}/4 位联系人</span><UiButton type="button" variant="text" @click="formRef.setFieldError('customer.email','该邮箱已被其他账户使用')">模拟服务端错误</UiButton><UiButton type="button" variant="text" @click="formRef.resetFields('customer.email')">重置邮箱</UiButton><UiButton type="reset" variant="secondary">全部重置</UiButton><UiButton type="submit" :loading="validating">提交校验</UiButton></div>
                   </template>
                 </UiForm>
+              </div>
+            </div>
+            <div class="form-demo-section">
+              <div class="form-demo-title"><strong>Schema 驱动表单</strong><span>UiSchemaForm · conditional / resolver / nested path</span></div>
+              <div class="form-demo-content">
+                <UiSchemaForm
+                  ref="schemaFormRef"
+                  :model="schemaFormModel"
+                  :schema="schemaFormDefinition"
+                  show-error-summary
+                  error-summary-title="请检查工作区配置"
+                  @field-change="schemaFormChange=`${$event.name} 已更新`"
+                  @submit="emit('notify','Schema 表单校验通过并已提交')"
+                  @invalid="emit('notify','请完善 Schema 表单中的必填项','error')"
+                >
+                  <template #actions="{validating,errors,dirty}">
+                    <span class="field-help">{{ schemaFormChange }} · {{ dirty?'已修改':'未修改' }} · {{ errors.length }} 个错误</span>
+                    <UiButton type="button" variant="text" @click="schemaFormRef.resetFields()">恢复初始值</UiButton>
+                    <UiButton type="submit" :loading="validating">保存配置</UiButton>
+                  </template>
+                </UiSchemaForm>
+                <div class="preview-note"><strong>编排规则：</strong>企业账户显示并校验税号，切换为个人账户后字段卸载且不再参与校验；所有解析器异常通过 <code>schema-error</code> 独立上报。</div>
               </div>
             </div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>高级选择</strong><span>MultiSelect / TreeSelect / Cascader</span></div><div class="form-demo-content advanced-control-grid"><UiFormItem label="多选与搜索"><UiMultiSelect v-model="multiDemo" :options="advancedOptions" searchable/></UiFormItem><UiFormItem label="树选择"><UiTreeSelect v-model="treeDemo" :options="treeOptions"/></UiFormItem><UiFormItem label="级联选择"><UiCascader v-model="cascaderDemo" :options="cascaderOptions"/></UiFormItem></div></div>

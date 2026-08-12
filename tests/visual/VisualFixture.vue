@@ -4,7 +4,7 @@ import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiStatusPage, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
 const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -24,6 +24,13 @@ const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
 const visualForm=ref(null)
 const visualFormModel=reactive({account:{email:''},profile:{displayName:'L'},contacts:[{name:'Owner',email:'owner@example.com'},{name:'Reviewer',email:'reviewer@example.com'}]})
+const visualSchemaModel=reactive({account:{type:'business',name:'Lan UI workspace',email:'owner@example.com'},taxId:''})
+const visualSchema=[{key:'workspace',title:'Workspace settings',description:'Schema-controlled layout and conditional validation.',columns:2,fields:[
+  {name:'account.type',label:'Account type',type:'segmented',options:[{label:'Business',value:'business'},{label:'Personal',value:'personal'}],props:{block:true},span:2},
+  {name:'account.name',label:'Workspace name',required:true,rules:[{required:true}]},
+  {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}]},
+  {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:true,rules:[{required:true}],span:2},
+]}]
 onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
@@ -113,6 +120,11 @@ const tableRows=[
           </UiFormList>
         </UiFormItem>
       </UiForm>
+    </UiCard>
+    <UiCard v-if="state==='schema-form'" title="Schema-driven workspace" title-tag="h2" class="visual-table-card visual-schema-form">
+      <UiSchemaForm :model="visualSchemaModel" :schema="visualSchema" show-error-summary error-summary-title="Review workspace settings">
+        <template #actions="{validating,errors}"><span>{{ errors.length }} validation errors</span><UiButton type="submit" :loading="validating">Save workspace</UiButton></template>
+      </UiSchemaForm>
     </UiCard>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">

@@ -53,7 +53,7 @@ function declarationMembers(name,seen=new Set()){
   seen.add(name)
   const declaration=declarationBody(name)
   if(!declaration)return []
-  const base=declaration.header.match(/\bextends\s+([A-Za-z_$][\w$]*)/)?.[1]
+  const base=[...declaration.header.matchAll(/\bextends\s+([A-Za-z_$][\w$]*)/g)].at(-1)?.[1]
   const own=topLevelMembers(declaration.body).map(segment=>{
     const dynamic=segment.match(/^\[\w+\s*:\s*`([^`]+)`\]/)?.[1]
     if(dynamic)return dynamic.replace(/\$\{[^}]+\}/g,'*')
@@ -103,7 +103,7 @@ for(const name of components){
   const props=declarationMembers(`${name}Props`)
   const emits=declarationMembers(`${name}Emits`)
   const slots=declarationMembers(`${name}Slots`)
-  if(!declarations.includes(`${name}:LanComponent<${name}Props,${name}Emits,${name}Slots>`))throw new Error(`Missing typed component contract: ${name}`)
+  if(!declarations.includes(`${name}:LanComponent<${name}Props`)&&!declarations.includes(`${name}:${name}Component`))throw new Error(`Missing typed component contract: ${name}`)
   assertEqualMembers(name,'Props',Object.keys(module.default.props||{}),props)
   assertEqualMembers(name,'Emits',Array.isArray(module.default.emits)?module.default.emits:Object.keys(module.default.emits||{}),emits)
   assertEqualMembers(name,'Slots',templateSlots(name),slots)

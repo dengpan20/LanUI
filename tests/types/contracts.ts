@@ -9,6 +9,7 @@ import {
   UiDropdown,
   UiForm,
   UiFormList,
+  UiSchemaForm,
   UiInput,
   UiIcon,
   UiImage,
@@ -54,6 +55,7 @@ import SubpathTree, { UiTree as NamedSubpathTree } from 'lan-ui-design-system/co
 import SubpathCommandPalette, { UiCommandPalette as NamedSubpathCommandPalette } from 'lan-ui-design-system/components/UiCommandPalette'
 import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'lan-ui-design-system/components/UiColorPicker'
 import SubpathFormList, { UiFormList as NamedSubpathFormList } from 'lan-ui-design-system/components/UiFormList'
+import SubpathSchemaForm, { UiSchemaForm as NamedSubpathSchemaForm } from 'lan-ui-design-system/components/UiSchemaForm'
 import type {
   UiInputEmits,
   UiInputProps,
@@ -73,6 +75,7 @@ import type { UiTreeEmits, UiTreeProps, UiTreeSlots } from 'lan-ui-design-system
 import type { UiCommandPaletteEmits, UiCommandPaletteProps, UiCommandPaletteSlots } from 'lan-ui-design-system/components/UiCommandPalette'
 import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 'lan-ui-design-system/components/UiColorPicker'
 import type { UiFormListEmits, UiFormListProps, UiFormListSlots } from 'lan-ui-design-system/components/UiFormList'
+import type { UiSchemaFormEmits, UiSchemaFormProps, UiSchemaFormSlots } from 'lan-ui-design-system/components/UiSchemaForm'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -91,6 +94,9 @@ import type {
   UiFormListInstance,
   UiFormProps,
   UiFormRule,
+  UiSchemaFormFieldChange,
+  UiSchemaFormInstance,
+  UiSchemaFormNode,
   RgbaColor,
   ColorFormat,
 } from 'lan-ui-design-system'
@@ -154,6 +160,16 @@ const formListInstance:UiFormListInstance<{email:string}>={add:()=>false,remove:
 const formListSubpathParity:typeof SubpathFormList=NamedSubpathFormList
 const formListEvent:keyof UiFormListEmits='limit'
 const formListSlot:keyof UiFormListSlots='empty'
+interface SchemaModel extends Record<string,unknown> { account:{name:string;type:string}; taxId:string }
+const schemaModel:SchemaModel={account:{name:'Lan UI',type:'business'},taxId:''}
+const schemaNodes:UiSchemaFormNode<SchemaModel>[]=[{key:'account',title:'Account',columns:2,fields:[{name:'account.name',label:'Name',required:true,props:model=>({placeholder:model.account.type})},{name:'account.type',label:'Type',type:'select',options:['business','personal']},{name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',dependencies:['account.type'],span:2}]}]
+const schemaProps:InstanceType<typeof UiSchemaForm>['$props']&UiSchemaFormProps<SchemaModel>={model:schemaModel,schema:schemaNodes,columns:2,gap:12,showErrorSummary:true,components:{custom:UiInput}}
+const schemaChange:UiSchemaFormFieldChange<SchemaModel>={name:'taxId',value:'A',previous:'',field:{name:'taxId'},model:schemaModel}
+const schemaInstance:UiSchemaFormInstance<SchemaModel>={...formInstance,getFieldDefinition:()=>schemaNodes[0]&&'fields'in schemaNodes[0]?schemaNodes[0].fields?.[0]||null:null,getVisibleFields:()=>[]}
+const schemaSubpathParity:typeof SubpathSchemaForm=NamedSubpathSchemaForm
+const schemaEvent:keyof UiSchemaFormEmits<SchemaModel>='schema-error'
+const schemaSlot:keyof UiSchemaFormSlots<SchemaModel>='field-custom'
+void [schemaProps,schemaChange,schemaInstance,schemaSubpathParity,schemaEvent,schemaSlot]
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -262,6 +278,9 @@ const invalidFormRule:UiFormRule={type:'phone'}
 
 // @ts-expect-error Form list limits are numeric.
 const invalidFormListMax:UiFormListProps={max:'many'}
+
+// @ts-expect-error Schema columns are numeric layout tracks.
+const invalidSchemaColumns:UiSchemaFormProps={model:{},columns:'two'}
 
 // @ts-expect-error Date picker value types are constrained to the public adapter contract.
 const invalidDateValueType:UiTimePickerProps={valueType:'moment'}

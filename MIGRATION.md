@@ -24,6 +24,20 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.26 schema-driven forms
+
+This release is additive. Existing `UiForm`, `UiFormItem` and `UiFormList` usage remains valid; adopt `UiSchemaForm` only where field metadata should own orchestration.
+
+```vue
+<UiSchemaForm :model="model" :schema="schema" show-error-summary @submit="save" />
+```
+
+- The application continues to own a reactive object. Field `name` accepts the same dot/bracket/array paths as managed forms.
+- Prefer built-in `type` names for standard controls. Register application controls with `components`, or set a field-level `component`.
+- Resolver callbacks receive `(model, context)` and should remain pure. Callback failures preserve rendering and emit `schema-error` for telemetry.
+- Conditional fields are mounted only while `visible` resolves true, so hidden controls leave registration, validation and error-summary state.
+- Keep `UiForm` primitives for highly bespoke layouts; Schema Form is an orchestration layer, not a replacement for them.
+
 ## 1.25 dynamic form arrays and dependencies
 
 The release is additive. Existing array fields and custom validators keep their behavior; applications can move repeated field orchestration into `UiFormList` incrementally.
