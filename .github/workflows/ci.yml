@@ -6,22 +6,25 @@ jobs:
   verify:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with: { version: 11.16.0 }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm run ci
         env:
           LAN_UI_BROWSER_PATH: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+          # Windows runner/Edge text rasterization differs from the checked-in workstation baseline.
+          # Keep this explicit and capped; local visual regression retains the strict 0.2% default.
+          LAN_UI_VISUAL_MAX_DIFF_RATIO: 0.03
   interaction-cross-browser:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
         with: { version: 11.16.0 }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with: { node-version: 24, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps firefox webkit

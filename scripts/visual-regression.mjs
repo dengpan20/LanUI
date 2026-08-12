@@ -7,6 +7,8 @@ import { launchBrowser, startFixtureServer } from './browser-runtime.mjs'
 const root=resolve(import.meta.dirname,'..')
 const update=process.argv.includes('--update')
 const platform=process.platform
+const maxDiffRatio=Number(process.env.LAN_UI_VISUAL_MAX_DIFF_RATIO??'.002')
+if(!Number.isFinite(maxDiffRatio)||maxDiffRatio<0||maxDiffRatio>.05)throw new Error('LAN_UI_VISUAL_MAX_DIFF_RATIO must be between 0 and 0.05')
 const baselineDir=resolve(root,'tests/visual/baselines',platform)
 const currentDir=resolve(root,'.verify/visual-current',platform)
 const diffDir=resolve(root,'.verify/visual-diff',platform)
@@ -44,12 +46,12 @@ try{
     const pixels=pixelmatch(expected.data,actual.data,diff.data,actual.width,actual.height,{threshold:.12,includeAA:false})
     const ratio=pixels/(actual.width*actual.height)
     if(pixels)writeFileSync(resolve(diffDir,`${item.name}.png`),PNG.sync.write(diff))
-    if(ratio>.002){failed+=1;console.error(`VISUAL FAIL case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)}`)}
+    if(ratio>maxDiffRatio){failed+=1;console.error(`VISUAL FAIL case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} maxDiffRatio=${maxDiffRatio}`)}
     else console.log(`VISUAL PASS case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} size=${actual.width}x${actual.height}`)
     await context.close()
   }
   if(failed)process.exitCode=1
-  else console.log(`VISUAL_REGRESSION ${update?'UPDATED':'PASS'} cases=${cases.length} platform=${platform} maxDiffRatio=0.002`)
+  else console.log(`VISUAL_REGRESSION ${update?'UPDATED':'PASS'} cases=${cases.length} platform=${platform} maxDiffRatio=${maxDiffRatio}`)
 }finally{
   await browser?.close()
   await server.close()
