@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.23.0] - 2026-08-13
+
+### Added
+
+- Public `UiDataGrid` composition with controlled query, filters, stable sort, pagination, selection, expansion, density and column visibility.
+- Client processing for nested search fields, custom search/filter/sort strategies and contained consumer callbacks; server orchestration emits reasoned `state-change` and `request` payloads with debounced search and optional initial request.
+- Component-center, 25-section static preview, standalone consumer, SSR, root/subpath type, visual and three-browser interaction coverage.
+
+### Changed
+
+- `UiListToolbar` now supports independently hideable total, density, columns and refresh controls, named toolbar semantics, stable popup ownership and Escape focus restoration.
+- `UiPagination` accepts an explicit accessible label so multiple pagination landmarks remain distinguishable; DataGrid generates a grid-specific pagination label.
+- Table selection controls use 24px targets, mobile DataGrid rows avoid clipped interaction targets and secondary grid metadata meets dark-theme contrast.
+- Public component/style/API parity advances from 66 to 67; Locale parity advances from 202 to 211 keys; Axe coverage advances from 19 to 21 scenarios and interaction coverage from 23 to 25 cases per browser.
+- Performance ceilings are narrowly rebaselined for the composed DataGrid entry: package JS `420000/156000`, package CSS `400000/97000`, largest component CSS `24000/4700` and standalone JS `374000` raw/gzip bytes where applicable.
+
 ## [1.22.0] - 2026-08-13
 
 ### Added

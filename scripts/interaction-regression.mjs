@@ -293,10 +293,11 @@ const allCases = [
   {
     name: 'pagination-switch',
     run: async page => {
-      await page.getByRole('button', { name: 'Next page' }).click()
+      const paginationCase = page.locator('.interaction-pagination-case')
+      await paginationCase.getByRole('button', { name: 'Next page' }).click()
       await expectText(page, 'pagination-output', '2 / 10')
-      assert.equal(await page.getByRole('button', { name: '2', exact: true }).getAttribute('aria-current'), 'page')
-      const size = page.locator('.ui-pagination-size [role="combobox"]')
+      assert.equal(await paginationCase.getByRole('button', { name: '2', exact: true }).getAttribute('aria-current'), 'page')
+      const size = paginationCase.locator('.ui-pagination-size [role="combobox"]')
       await size.focus()
       await page.keyboard.press('ArrowDown')
       await page.keyboard.press('ArrowDown')
@@ -324,12 +325,13 @@ const allCases = [
   {
     name: 'table-state-contract',
     run: async page => {
-      await page.getByRole('button', { name: 'Name' }).click()
+      const tableCase = page.locator('.interaction-table-case')
+      await tableCase.getByRole('button', { name: 'Name' }).click()
       await expectText(page, 'table-output', 'sort=name:asc selected=none expanded=none')
-      await page.locator('tbody input[type="checkbox"]').first().check()
-      await page.locator('tbody .ui-table-expand').first().click()
+      await tableCase.locator('tbody input[type="checkbox"]').first().check()
+      await tableCase.locator('tbody .ui-table-expand').first().click()
       await expectText(page, 'table-output', 'sort=name:asc selected=1 expanded=1')
-      assert.equal(await page.getByText('Expanded Foundation').isVisible(), true)
+      assert.equal(await tableCase.getByText('Expanded Foundation').isVisible(), true)
     },
   },
   {
@@ -356,6 +358,37 @@ const allCases = [
       assert.equal(await overview.evaluate(node => node === document.activeElement), true)
       await page.keyboard.press('Enter')
       await expectText(page, 'menu-output', 'overview')
+    },
+  },
+  {
+    name: 'data-grid-client-contract',
+    run: async page => {
+      const grid = page.locator('.interaction-data-grid')
+      const search = grid.getByRole('textbox', { name: 'Search data' })
+      await search.fill('Grid 12')
+      await expectText(page, 'data-grid-output', 'q=Grid 12 page=1 size=5 sort=none:none selected=none visible=name,team,status')
+      assert.equal(await grid.locator('tbody .ui-table-row').count(), 1)
+      await search.fill('')
+      await grid.getByRole('button', { name: 'Name' }).click()
+      await grid.getByRole('checkbox', { name: 'Select grid-1' }).check()
+      await grid.getByRole('button', { name: 'Next page' }).click()
+      await expectText(page, 'data-grid-output', 'q=empty page=2 size=5 sort=name:asc selected=grid-1 visible=name,team,status')
+    },
+  },
+  {
+    name: 'data-grid-columns-keyboard',
+    run: async page => {
+      const grid = page.locator('.interaction-data-grid')
+      const trigger = grid.getByRole('button', { name: 'Display columns' })
+      await trigger.click()
+      const group = grid.getByRole('group', { name: 'Column settings' })
+      const status = group.getByRole('checkbox', { name: 'Status' })
+      await status.uncheck()
+      await status.focus()
+      await page.keyboard.press('Escape')
+      assert.equal(await trigger.getAttribute('aria-expanded'), 'false')
+      assert.equal(await trigger.evaluate(node => node === document.activeElement), true)
+      await expectText(page, 'data-grid-output', 'q=empty page=1 size=5 sort=none:none selected=none visible=name,team')
     },
   },
   {

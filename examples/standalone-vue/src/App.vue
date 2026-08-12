@@ -10,6 +10,7 @@ import {
   UiCommandPalette,
   UiConfigProvider,
   UiDateRangePicker,
+  UiDataGrid,
   UiDescriptions,
   UiInput,
   UiIcon,
@@ -44,6 +45,16 @@ const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
 const serviceRating = ref(4.5)
 const releaseWindow = ref(['2026-08-10','2026-08-16'])
+const gridQuery = ref('')
+const gridPage = ref(1)
+const gridPageSize = ref(5)
+const gridSelected = ref([])
+const gridColumns = [
+  { key:'name', label:'Work item', sortable:true },
+  { key:'team', label:'Team', sortable:true },
+  { key:'status', label:'Status', filterable:true, filterOptions:['Ready','Review'] },
+]
+const gridRows = Array.from({length:24},(_,index)=>({id:index+1,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection = ref('consumer-2')
 const virtualItems = Array.from({length:500},(_,index)=>({id:`consumer-${index}`,label:`Standalone record ${index+1}`,meta:index%4===0?'Measured detail row':'Ready'}))
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="505" cy="80" r="110" fill="white" opacity=".12"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="white" opacity=".18"/><text x="38" y="66" fill="white" font-family="Arial" font-size="28" font-weight="700">${label}</text></svg>`)}`
@@ -140,6 +151,11 @@ const rows = computed(() => [
       <UiTable :columns="columns" :rows="rows" row-key="id">
         <template #cell-status="{ value }"><UiTag :type="value === '待生成' ? 'orange' : 'green'">{{ value }}</UiTag></template>
       </UiTable>
+    </UiCard>
+    <UiCard title="Managed data grid">
+      <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:selected-rows="gridSelected" :columns="gridColumns" :rows="gridRows" :page-size-options="[5,10,20]" selectable :query-fields="['name','team','status']" aria-label="Standalone release grid">
+        <template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':'orange'">{{ value }}</UiTag></template>
+      </UiDataGrid>
     </UiCard>
     <UiCard title="Virtualized collection">
       <UiVirtualList v-model="virtualSelection" :items="virtualItems" :item-size="item=>item.meta.startsWith('Measured')?58:44" :estimated-item-size="48" height="220" selection-mode="single" measure bordered striped aria-label="Standalone records">

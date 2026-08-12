@@ -5,6 +5,7 @@ import UiButton from '../src/components/UiButton.vue'
 import UiCalendar from '../src/components/UiCalendar.vue'
 import UiAutoComplete from '../src/components/UiAutoComplete.vue'
 import UiConfigProvider from '../src/components/UiConfigProvider.vue'
+import UiDataGrid from '../src/components/UiDataGrid.vue'
 import UiDateRangePicker from '../src/components/UiDateRangePicker.vue'
 import UiTimePicker from '../src/components/UiTimePicker.vue'
 import UiDrawer from '../src/components/UiDrawer.vue'
@@ -33,6 +34,7 @@ async function renderFixture() {
         h(UiButton, null, () => 'Save'),
         h(UiCalendar, { modelValue:['2026-08-10','2026-08-16'], selectionMode:'range', viewDate:'2026-08-01', today:'2026-08-12', showWeekNumbers:true, ariaLabel:'SSR release calendar' }),
         h(UiAutoComplete, { modelValue:'hangzhou', options:[{label:'Hangzhou',value:'hangzhou'}], 'aria-label':'SSR city' }),
+        h(UiDataGrid, { columns:[{key:'name',label:'Name',sortable:true},{key:'status',label:'Status'}], rows:[{id:1,name:'SSR DataGrid row',status:'Ready'}], queryFields:['name'], pageSize:10, ariaLabel:'SSR release data grid' }),
         h(UiDateRangePicker, { modelValue:['2026-08-01','2026-08-11'] }),
         h(UiTimePicker, { modelValue:new Date('2026-08-12T01:30:00.000Z'), valueType:'date', timeZone:'Asia/Shanghai' }),
         h(UiNumberInput, { modelValue:12.5, min:0, max:100, step:0.25 }),
@@ -66,6 +68,9 @@ describe('server rendering', () => {
     expect(result.html).toContain('data-date="2026-08-12"')
     expect(result.html).toContain('role="combobox"')
     expect(result.html).toContain('SSR city')
+    expect(result.html).toContain('aria-label="SSR release data grid"')
+    expect(result.html).toContain('SSR DataGrid row')
+    expect(result.html).toContain('Search data')
     expect(result.html).toContain('Start date')
     expect(result.html).toContain('value="09:30"')
     expect(result.html).toContain('role="spinbutton"')

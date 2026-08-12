@@ -55,6 +55,7 @@ import UiColorPicker from '../components/UiColorPicker.vue'
 import UiCommandPalette from '../components/UiCommandPalette.vue'
 import UiConfigProvider from '../components/UiConfigProvider.vue'
 import UiDateRangePicker from '../components/UiDateRangePicker.vue'
+import UiDataGrid from '../components/UiDataGrid.vue'
 import UiDescriptions from '../components/UiDescriptions.vue'
 import UiMenu from '../components/UiMenu.vue'
 import UiResult from '../components/UiResult.vue'
@@ -152,9 +153,12 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'组件名称',value:'UiVirtualList'},{key:'version',label:'当前版本',value:'1.22.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'数据展示组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'固定/动态高度、测量、窗口化、选择、键盘、滚动方法、SSR、RTL、ARIA'}]
+const descriptionItems=[{key:'name',label:'组件名称',value:'UiDataGrid'},{key:'version',label:'当前版本',value:'1.23.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'数据展示组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'固定/动态高度、测量、窗口化、选择、键盘、滚动方法、SSR、RTL、ARIA'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
+const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
+const gridColumns=[{key:'name',label:'Component',sortable:true,minWidth:'180px'},{key:'team',label:'Owner',sortable:true,minWidth:'130px'},{key:'status',label:'Status',filterable:true,filterOptions:['Stable','Review'],minWidth:'110px'},{key:'score',label:'Coverage',sortable:true,width:'110px',align:'right'}]
+const gridRows=Array.from({length:86},(_,index)=>({id:`GRID-${String(index+1).padStart(3,'0')}`,name:['Button','DataGrid','Calendar','Tree','Upload','VirtualList'][index%6]+` ${index+1}`,team:['Forms','Data','Navigation'][index%3],status:index%5===0?'Review':'Stable',score:72+(index*7)%29,updated:`2026-08-${String(1+index%12).padStart(2,'0')}`}))
 const virtualSelection=ref('virtual-3')
 const virtualItems=Array.from({length:1000},(_,index)=>({id:`virtual-${index}`,name:`Component audit #${String(index+1).padStart(4,'0')}`,owner:['Design','Frontend','QA'][index%3],status:index%7===0?'Review':'Ready',detail:index%5===0?'Variable-height note: token and keyboard contracts included.':''}))
 const virtualItemSize=item=>item.detail?68:52
@@ -340,6 +344,17 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="image-showcase-grid">
               <div><span class="demo-label">UiImage · 懒加载画廊与全屏预览</span><div class="image-gallery-demo"><UiImage v-for="(source,index) in imageGallery" :key="source" :src="source" :alt="`发布画廊 ${index+1}`" preview :preview-list="imageGallery" :preview-index="index"><template #caption>发布画廊 · 支持方向键、缩放、旋转与拖拽</template></UiImage></div></div>
               <div><span class="demo-label">Fit / Disabled / Fallback</span><div class="image-state-demo"><UiImage :src="imageGallery[0]" alt="Contain 模式" fit="contain"/><UiImage :src="imageGallery[1]" alt="停用预览" preview disabled/></div><p class="feedback-hint">加载失败时可使用 fallback 或 error 插槽；预览支持焦点闭环、Esc、滚轮缩放、双击与 RTL。</p></div>
+            </div>
+            <div class="data-grid-showcase">
+              <div class="virtual-list-showcase-header"><div><span class="demo-label">UiDataGrid ? client orchestration</span><strong>Search, filter, sort, selection, expansion, columns and pagination</strong></div><UiTag color="blue">Selected: {{ gridSelected.length }}</UiTag></div>
+              <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:filters="gridFilters" v-model:sort-key="gridSortKey" v-model:sort-order="gridSortOrder" v-model:selected-rows="gridSelected" v-model:expanded-rows="gridExpanded" v-model:density="gridDensity" v-model:visible-columns="gridVisibleColumns" :columns="gridColumns" :rows="gridRows" :page-size-options="[10,20,50]" :query-fields="['name','team','status']" selectable expandable sticky-header resizable max-height="420px" aria-label="Component release data grid">
+                <template #toolbar-primary><UiButton size="sm" variant="outline" icon="download">Export</UiButton></template>
+                <template #cell-name="{row}"><div class="cell-title">{{ row.name }}</div><div class="cell-subtitle">{{ row.id }}</div></template>
+                <template #cell-status="{value}"><UiTag :color="value==='Stable'?'green':'orange'">{{ value }}</UiTag></template>
+                <template #cell-score="{value}"><strong>{{ value }}%</strong></template>
+                <template #expanded="{row}"><div class="ui-table-expanded-content"><div><span>Owner</span><strong>{{ row.team }}</strong></div><div><span>Updated</span><strong>{{ row.updated }}</strong></div><div><span>Coverage</span><strong>{{ row.score }}%</strong></div></div></template>
+              </UiDataGrid>
+              <p class="feedback-hint">One controlled state contract replaces manual Table / Toolbar / Pagination wiring. Switch mode to server and handle request for remote datasets.</p>
             </div>
             <div class="virtual-list-showcase">
               <div class="virtual-list-showcase-header"><div><span class="demo-label">UiVirtualList · 1,000 records</span><strong>Fixed/variable height, overscan and keyboard selection</strong></div><UiTag color="blue">Selected: {{ virtualSelection }}</UiTag></div>

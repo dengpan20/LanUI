@@ -26,6 +26,8 @@ const cases=[
   {name:'image-focused',viewport:{width:1280,height:1500},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('button',{name:'Preview image: Release media'}).focus()}},
   {name:'image-preview-open',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact',prepare:async page=>{await page.getByRole('button',{name:'Preview image: Release media'}).click();await page.getByRole('dialog',{name:'Release media'}).waitFor()}},
   {name:'virtual-list-focused',viewport:{width:1280,height:1500},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('listbox',{name:'Virtualized records'}).focus()}},
+  {name:'data-grid-focused',viewport:{width:1280,height:2000},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('textbox',{name:'Search data'}).focus()}},
+  {name:'data-grid-columns-open',viewport:{width:1280,height:2000},query:'theme=dark&direction=rtl&density=compact',prepare:async page=>{await page.getByRole('button',{name:'Display columns'}).click();await page.getByRole('group',{name:'Column settings'}).waitFor()}},
   {name:'status-page-500',viewport:{width:1280,height:1800},query:'theme=light&direction=ltr&density=default&state=status',ready:'[data-status="500"]'},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']

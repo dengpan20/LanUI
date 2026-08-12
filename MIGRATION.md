@@ -24,6 +24,17 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.23 DataGrid and list orchestration
+
+The release is additive. Existing `UiTable`, `UiListToolbar` and `UiPagination` compositions remain supported.
+
+- Adopt `UiDataGrid` when a page currently duplicates query/filter/sort/page coordination. All state remains controllable through matching `update:*` events.
+- Client mode processes the supplied `rows`; server mode never mutates or slices them and uses external `total` for pagination.
+- Handle the single `request` event in server mode and branch on `payload.reason`. Search requests are debounced; other state requests are immediate.
+- `UiPagination.ariaLabel` is optional. Supply it whenever more than one pagination landmark appears on a page; DataGrid supplies a unique composed label automatically.
+- Table selection checkboxes now expose a 24px pointer target. Check custom cell layout if it previously assumed the native 13px checkbox footprint.
+- `UiListToolbar` popup semantics changed from a menu pattern to a labelled checkbox group, matching its actual interaction model.
+
 ## 1.22 status-page and virtual-list contracts
 
 Both components are additive. Existing application routes and list components continue to work unchanged.

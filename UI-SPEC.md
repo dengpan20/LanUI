@@ -672,3 +672,14 @@
 - Loading, empty and error states have localized defaults and typed slots; SSR renders a deterministic initial window without requiring browser measurement APIs.
 - Root/subpath runtime exports, Props/Emits/Slots declarations, styles, manifests, component center, 24-section static preview, standalone consumer and SSR fixtures remain in parity for 66 components and 202 locale keys.
 - CI requires 19 Axe scenarios and 23 interaction cases per Chromium/Firefox/WebKit engine for the P26 delivery evidence.
+
+## 40. Maturity P27: managed enterprise data grids
+
+- `UiDataGrid` is the default orchestration layer for enterprise record lists. It composes the public toolbar, table and pagination primitives without hiding their controlled models or scoped presentation slots.
+- Client mode applies normalized nested-field search, exact/array/custom filtering, stable locale-aware/custom sorting and page slicing in that order. Throwing consumer callbacks are contained and preserve deterministic fallback behavior.
+- Server mode renders supplied rows unchanged and uses external `total`. Initialization, search, filter, sort, page, page-size, refresh, retry and reset transitions use a single typed state envelope with an explicit reason.
+- Search requests debounce only in server mode; controlled query updates and state-change announcements remain immediate. Page resets and out-of-range page clamps emit coherent controlled updates.
+- Toolbar total, density, columns and refresh controls can be shown independently. Column settings use a labelled checkbox group, Escape closes the popup and focus returns to its trigger.
+- Search, region, table caption, result live region and pagination landmarks have distinct accessible names. Selection targets are at least 24px, dark metadata meets contrast and mobile bounded tables do not clip row controls.
+- Root/subpath runtime exports, Props/Emits/Slots declarations, component styles, manifests, component center, 25-section static preview, standalone consumer and SSR fixtures remain in parity for 67 components and 211 locale keys.
+- CI requires 21 Axe scenarios and 25 interaction cases per Chromium/Firefox/WebKit engine for the P27 delivery evidence.

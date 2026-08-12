@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "core": {
     "subpath": "./styles/core.css",
     "bytes": 6739
@@ -98,6 +98,12 @@
       "rules": 1
     },
     {
+      "name": "UiDataGrid",
+      "subpath": "./styles/UiDataGrid.css",
+      "bytes": 23052,
+      "rules": 187
+    },
+    {
       "name": "UiDatePicker",
       "subpath": "./styles/UiDatePicker.css",
       "bytes": 2410,
@@ -190,8 +196,8 @@
     {
       "name": "UiListToolbar",
       "subpath": "./styles/UiListToolbar.css",
-      "bytes": 6566,
-      "rules": 47
+      "bytes": 6754,
+      "rules": 49
     },
     {
       "name": "UiMenu",
@@ -226,8 +232,8 @@
     {
       "name": "UiPagination",
       "subpath": "./styles/UiPagination.css",
-      "bytes": 6436,
-      "rules": 47
+      "bytes": 6652,
+      "rules": 49
     },
     {
       "name": "UiPopconfirm",
@@ -328,8 +334,8 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 11434,
-      "rules": 96
+      "bytes": 11619,
+      "rules": 98
     },
     {
       "name": "UiTabs",

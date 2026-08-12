@@ -11,6 +11,7 @@ const props = defineProps({
   pageSizeOptions: { type: Array, default: () => [10, 20, 50] },
   showSizeChanger: { type: Boolean, default: true },
   compact: Boolean,
+  ariaLabel: { type: String, default: '' },
 })
 const emit = defineEmits(['update:page', 'update:pageSize', 'change'])
 const {t,formatNumber}=useLocale()
@@ -46,7 +47,7 @@ function resize(next) {
 </script>
 
 <template>
-  <nav class="ui-pagination" :class="{compact}" :aria-label="t('pagination.label')">
+  <nav class="ui-pagination" :class="{compact}" :aria-label="ariaLabel||t('pagination.label')">
     <span class="ui-pagination-total">{{ totalText }}</span>
     <div class="ui-pagination-controls">
       <UiSelect v-if="showSizeChanger" class="ui-pagination-size" size="sm" :aria-label="t('pagination.size')" :model-value="pageSize" :options="pageSizeChoices" @update:model-value="resize"/>

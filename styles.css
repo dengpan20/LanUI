@@ -810,7 +810,7 @@ svg { display: block; }
 .inline-upload-panel .ui-upload-dropzone { min-height: 92px; }
 
 /* Pagination */
-.ui-pagination { min-height: 54px; padding: 10px 14px; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--text-tertiary); font-size: 12px; }
+.ui-pagination { min-height: 54px; padding: 10px 14px; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--text-secondary); font-size: 12px; }
 .ui-pagination-controls { display: flex; align-items: center; gap: 4px; }
 .ui-pagination-size { width: 88px; margin-inline-end: 5px; }
 .ui-pagination .page-number { display: grid; place-items: center; }
@@ -824,7 +824,7 @@ svg { display: block; }
 .ui-list-toolbar { min-height: 54px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--border-subtle); }
 .ui-list-toolbar-primary, .ui-list-toolbar-secondary { display: flex; align-items: center; gap: 7px; }
 .ui-list-toolbar-secondary { margin-inline-start: auto; }
-.ui-list-total { color: var(--text-tertiary); font-size: 12px; white-space: nowrap; }
+.ui-list-total { color: var(--text-secondary); font-size: 12px; white-space: nowrap; }
 .ui-list-density { width: 82px; }
 .ui-column-control { position: relative; }
 .ui-column-menu { position: absolute; z-index: 24; top: calc(100% + 7px); inset-inline-end: 0; width: 176px; padding: 8px; border: 1px solid var(--border-default); border-radius: 8px; background: var(--bg-surface); box-shadow: var(--shadow-lg); }
@@ -844,7 +844,7 @@ svg { display: block; }
 .ui-table-row.selected > td { background: var(--brand-50); }
 .ui-table-row.expanded > td { border-bottom-color: transparent; }
 .ui-table-control-column { width: 38px; min-width: 38px; padding-inline-end: 4px !important; padding-inline-start: 10px !important; text-align: center !important; }
-.ui-table-select-column input { accent-color: var(--brand-text); }
+.ui-table-select-column input { width:24px; height:24px; margin:0; accent-color: var(--brand-text); cursor:pointer; }
 .ui-table-sort { width: 100%; min-height: 28px; padding: 0; border: 0; display: inline-flex; align-items: center; justify-content: inherit; gap: 4px; color: inherit; background: transparent; font: inherit; font-weight: inherit; cursor: pointer; }
 .ui-table-sort:hover { color: var(--brand-text); }
 .ui-table-sort-icon { display: grid; place-items: center; opacity: .34; transition: opacity var(--motion-fast), color var(--motion-fast), transform var(--motion-fast); }
@@ -876,6 +876,17 @@ svg { display: block; }
 .table-system-demo { overflow: visible; border: 1px solid var(--border-default); border-radius: 8px; }
 .table-state-controls { margin-bottom: 10px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 .preview-column-hidden { display: none !important; }
+.ui-data-grid { min-width: 0; overflow: visible; border: 1px solid var(--border-default); border-radius: var(--radius-lg); background: var(--bg-surface); box-shadow: var(--shadow-xs); }
+.ui-data-grid > .ui-list-toolbar { border-radius: var(--radius-lg) var(--radius-lg) 0 0; background: var(--bg-elevated); }
+.ui-data-grid-search { width: min(320px,60vw); }
+.ui-data-grid-filters { padding: 10px 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--border-subtle); background: var(--bg-subtle); }
+.ui-data-grid > .ui-table-wrap { border-radius: 0; }
+.ui-data-grid-footer { padding: 10px 14px; border-top: 1px solid var(--border-subtle); background: var(--bg-elevated); }
+.ui-data-grid-footer .ui-pagination { padding: 0; }
+.ui-data-grid.is-loading .ui-list-toolbar { cursor: progress; }
+.ui-data-grid-showcase { margin-top: 18px; }
+.ui-data-grid-showcase .ui-data-grid { box-shadow: none; }
+@media(max-width:720px){.ui-data-grid-search{width:100%}.ui-data-grid>.ui-table-wrap{max-height:none!important}.ui-data-grid-footer{padding:10px}.ui-data-grid-footer .ui-pagination{align-items:stretch}.ui-data-grid-footer .ui-pagination-controls{width:100%;justify-content:flex-end}}
 
 /* Layout specification */
 .layout-showcase, .float-button-showcase { display: grid; gap: 14px; }

@@ -5,6 +5,7 @@ import {
   UiCommandPalette,
   UiColorPicker,
   UiDateRangePicker,
+  UiDataGrid,
   UiDropdown,
   UiInput,
   UiIcon,
@@ -37,6 +38,7 @@ import { createIconRegistry as createSubpathIconRegistry } from 'lan-ui-design-s
 import { parseColor as parseSubpathColor } from 'lan-ui-design-system/color'
 import { createLanUiFeedback as createSubpathFeedback } from 'lan-ui-design-system/feedback'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
+import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathVirtualList, { UiVirtualList as NamedSubpathVirtualList } from 'lan-ui-design-system/components/UiVirtualList'
@@ -54,6 +56,7 @@ import type {
   UiInputProps,
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
+import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiVirtualListEmits, UiVirtualListProps, UiVirtualListSlots } from 'lan-ui-design-system/components/UiVirtualList'
@@ -68,6 +71,7 @@ import type { UiCommandPaletteEmits, UiCommandPaletteProps, UiCommandPaletteSlot
 import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 'lan-ui-design-system/components/UiColorPicker'
 import type {
   UiDateRangeChange,
+  UiDataGridChange,
   UiTableColumn,
   UiTableSortChange,
   LanUiLocale,
@@ -122,6 +126,14 @@ const modalFooter: NonNullable<InstanceType<typeof UiModal>['$slots']['footer']>
 const tableCell: NonNullable<InstanceType<typeof UiTable>['$slots'][`cell-${string}`]> = ({ column, rowIndex }) => `${column.key}:${rowIndex}`
 const tabPanel: NonNullable<InstanceType<typeof UiTabs>['$slots'][`panel-${string}`]> = ({ item }) => typeof item === 'object' ? item.label : String(item)
 const dateChange: Parameters<NonNullable<InstanceType<typeof UiDateRangePicker>['$props']['onChange']>>[0] = { value: ['2026-08-12'], valid: true }
+const dataGridProps:InstanceType<typeof UiDataGrid>['$props']&UiDataGridProps={columns:[{key:'name',label:'Name',sortable:true}],rows:[{id:1,name:'Lan UI'}],mode:'server',total:240,page:2,pageSize:20,query:'lan',queryFields:['name'],filters:{status:'ready'},sortKey:'name',sortOrder:'asc',visibleColumns:['name'],selectable:true,searchDebounce:200,autoRequest:true}
+const dataGridEmit:InstanceType<typeof UiDataGrid>['$emit']=null as never
+const dataGridRequest:UiDataGridChange={reason:'refresh',mode:'server',state:{page:2,pageSize:20,query:'lan',filters:{status:'ready'},sortKey:'name',sortOrder:'asc',density:'default',visibleColumns:['name']}}
+dataGridEmit('request',dataGridRequest)
+dataGridEmit('update:query','component')
+const dataGridSubpathParity:typeof SubpathDataGrid=NamedSubpathDataGrid
+const dataGridEvent:keyof UiDataGridEmits='state-change'
+const dataGridSlot:keyof UiDataGridSlots='footer'
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -222,6 +234,9 @@ const iconProps:InstanceType<typeof UiIcon>['$props']&UiIconProps={name:'tenantM
 plugin.registerIcon('pluginMark',iconDefinition)
 const iconNames:string[]=plugin.listIcons()
 
+// @ts-expect-error Data grid modes are constrained to client or server orchestration.
+const invalidDataGridMode:UiDataGridProps={mode:'offline'}
+
 // @ts-expect-error Date picker value types are constrained to the public adapter contract.
 const invalidDateValueType:UiTimePickerProps={valueType:'moment'}
 // @ts-expect-error Icon flips use the constrained transform contract.
@@ -249,4 +264,4 @@ const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 // @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 
-console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)

@@ -6,6 +6,7 @@ import {
   UiAutoComplete,
   UiCommandPalette,
   UiColorPicker,
+  UiDataGrid,
   UiForm,
   UiFormItem,
   UiInput,
@@ -22,6 +23,9 @@ import {
 import type { Key, UiCommandPaletteCommand, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
 
 const open = ref(false)
+const gridQuery = ref('')
+const gridPage = ref(1)
+const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
 interface FormModel extends Record<string, unknown> { name:string }
 const model = ref<FormModel>({ name: '' })
@@ -70,6 +74,10 @@ function sort(payload:UiTableSortChange) {
       <UiButton @click="reset">Reset</UiButton>
     </template>
   </UiForm>
+  <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:selected-rows="gridSelected" :columns="columns" :rows="rows" selectable :query-fields="['name']">
+    <template #cell-name="{ value, rowIndex }">{{ value }} / {{ rowIndex }}</template>
+    <template #footer="{ total, state }">{{ total }} / {{ state.page }}</template>
+  </UiDataGrid>
   <UiTable :columns="columns" :rows="rows" @sort-change="sort">
     <template #cell-name="{ value, column, rowIndex }">{{ column.label }}: {{ value }} / {{ rowIndex }}</template>
   </UiTable>

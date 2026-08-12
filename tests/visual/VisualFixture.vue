@@ -4,7 +4,7 @@ import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiStatusPage, UiVirtualList,
+  UiDataGrid, UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -15,6 +15,11 @@ const commandQuery=ref('')
 const brandColor=ref('#1677FFCC')
 const visualImage=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs><rect width="640" height="360" rx="24" fill="url(#g)"/><circle cx="520" cy="70" r="95" fill="white" opacity=".12"/><path d="M0 310 170 160l105 92 100-72 265 180H0Z" fill="white" opacity=".18"/><text x="34" y="58" fill="white" font-family="Arial" font-size="28" font-weight="700">Release media</text></svg>')}`
 const commandItems=[{key:'dashboard',label:'Open dashboard',group:'Navigate'},{key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate'},{key:'disabled',label:'Disabled command',group:'Actions',disabled:true}]
+const gridQuery=ref('')
+const gridPage=ref(1)
+const gridSelected=ref([])
+const gridColumns=[{key:'name',label:'Work item',sortable:true},{key:'team',label:'Team'},{key:'status',label:'Status',filterable:true,filterOptions:['Ready','Review']}]
+const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
 const tableColumns=[
@@ -72,7 +77,12 @@ const tableRows=[
       <UiTable :columns="tableColumns" :rows="tableRows">
         <template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':value==='Review'?'orange':'gray'">{{ value }}</UiTag></template>
       </UiTable>
-      <UiPagination :page="2" :page-size="10" :total="86"/>
+      <UiPagination :page="2" :page-size="10" :total="86" aria-label="Project table pagination"/>
+    </UiCard>
+    <UiCard title="Managed data grid" title-tag="h2" class="visual-table-card visual-data-grid-card">
+      <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:selected-rows="gridSelected" :columns="gridColumns" :rows="gridRows" :page-size="5" :page-size-options="[5,10]" :query-fields="['name','team','status']" selectable sticky-header max-height="320px" aria-label="Visual release data grid">
+        <template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':'orange'">{{ value }}</UiTag></template>
+      </UiDataGrid>
     </UiCard>
     <UiModal :model-value="state==='modal'" title="Publish component release" destroy-on-close>
       <p>Review the release notes before publishing this component package.</p>

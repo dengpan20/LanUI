@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiStatusPage, UiVirtualList,
+  UiDataGrid, UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
 defineProps({ direction: { type: String, default: 'ltr' } })
@@ -53,6 +53,18 @@ const commandItems = [
 ]
 const formModel = reactive({ name: '' })
 const formResult = ref('idle')
+const gridQuery=ref('')
+const gridPage=ref(1)
+const gridPageSize=ref(5)
+const gridFilters=ref({})
+const gridSortKey=ref('')
+const gridSortOrder=ref('')
+const gridSelected=ref([])
+const gridExpanded=ref([])
+const gridDensity=ref('default')
+const gridVisibleColumns=ref(['name','team','status'])
+const gridColumns=[{key:'name',label:'Name',sortable:true},{key:'team',label:'Team',sortable:true},{key:'status',label:'Status',filterable:true,filterOptions:['Ready','Review']}]
+const gridRows=Array.from({length:18},(_,index)=>({id:`grid-${index+1}`,name:`Grid ${String(index+1).padStart(2,'0')}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection = ref('virtual-0')
 const virtualActive = ref(0)
 const statusAction = ref('idle')
@@ -194,7 +206,7 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <output class="interaction-output" data-testid="confirm-output">{{ confirmResult }}</output>
       </section>
 
-      <section class="interaction-case">
+      <section class="interaction-case interaction-pagination-case">
         <h2>Pagination and switch contract</h2>
         <div class="interaction-stack">
           <UiPagination v-model:page="page" v-model:page-size="pageSize" :total="95" :page-size-options="[10,20,50]" />
@@ -210,7 +222,7 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <output class="interaction-output" data-testid="upload-output">files={{ files.length }} error={{ uploadError || 'none' }}</output>
       </section>
 
-      <section class="interaction-case interaction-wide">
+      <section class="interaction-case interaction-wide interaction-table-case">
         <h2>Table state contract</h2>
         <UiTable
           v-model:selected-rows="selectedRows"
@@ -262,6 +274,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #trigger="{open}"><UiButton id="open-command-palette" @click="open">Open command palette</UiButton></template>
         </UiCommandPalette>
         <output class="interaction-output" data-testid="command-output">{{ commandResult }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-data-grid">
+        <h2>Data grid orchestration contract</h2>
+        <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:filters="gridFilters" v-model:sort-key="gridSortKey" v-model:sort-order="gridSortOrder" v-model:selected-rows="gridSelected" v-model:expanded-rows="gridExpanded" v-model:density="gridDensity" v-model:visible-columns="gridVisibleColumns" :columns="gridColumns" :rows="gridRows" :page-size-options="[5,10]" :query-fields="['name','team','status']" selectable expandable aria-label="Fixture data grid" />
+        <output class="interaction-output" data-testid="data-grid-output">q={{ gridQuery || 'empty' }} page={{ gridPage }} size={{ gridPageSize }} sort={{ gridSortKey || 'none' }}:{{ gridSortOrder || 'none' }} selected={{ gridSelected.join(',') || 'none' }} visible={{ gridVisibleColumns.join(',') }}</output>
       </section>
 
       <section class="interaction-case interaction-wide">
