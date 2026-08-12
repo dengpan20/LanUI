@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -21,6 +21,7 @@
       "UiCheckbox",
       "UiCol",
       "UiCollapse",
+      "UiColorPicker",
       "UiCommandPalette",
       "UiConfigProvider",
       "UiDatePicker",
@@ -83,24 +84,34 @@
       "defineLocale",
       "enUS",
       "feedback",
+      "formatColor",
       "formatDateValue",
       "fromDateValue",
+      "getContrastRatio",
+      "getReadableTextColor",
       "hasIcon",
       "hasLocale",
+      "hslToRgb",
+      "hsvToRgb",
       "iconRegistryKey",
       "inferDateValueType",
+      "isValidColor",
       "lanUiConfigKey",
       "lanUiFeedbackKey",
       "listIcons",
       "listLocales",
       "loadLocale",
+      "normalizeColorState",
       "normalizeLanUiConfig",
       "notification",
       "notificationState",
+      "parseColor",
       "parseDateValue",
       "registerIcon",
       "registerLocale",
       "resolveTimeZone",
+      "rgbToHsl",
+      "rgbToHsv",
       "toDateValue",
       "toast",
       "toastState",
@@ -119,6 +130,8 @@
     "typeExports": [
       "BUILTIN_ICONS",
       "BUILTIN_ICON_NAMES",
+      "ColorFormat",
+      "ColorInput",
       "ComponentSize",
       "DATE_VALUE_MODES",
       "DATE_VALUE_TYPES",
@@ -130,6 +143,8 @@
       "DateValueOptions",
       "DateValueType",
       "Direction",
+      "HslaColor",
+      "HsvaColor",
       "IconDefinition",
       "IconDefinitionInput",
       "IconNode",
@@ -162,6 +177,7 @@
       "NotificationState",
       "ParsedDateValue",
       "Placement",
+      "RgbaColor",
       "SelectOption",
       "SelectOptionInput",
       "ToastOptions",
@@ -218,6 +234,13 @@
       "UiCollapseItem",
       "UiCollapseProps",
       "UiCollapseSlots",
+      "UiColorPicker",
+      "UiColorPickerChangeMeta",
+      "UiColorPickerEmits",
+      "UiColorPickerInvalid",
+      "UiColorPickerPreset",
+      "UiColorPickerProps",
+      "UiColorPickerSlots",
       "UiCommandPalette",
       "UiCommandPaletteCommand",
       "UiCommandPaletteDataError",
@@ -464,24 +487,34 @@
       "defineLocale",
       "enUS",
       "feedback",
+      "formatColor",
       "formatDateValue",
       "fromDateValue",
+      "getContrastRatio",
+      "getReadableTextColor",
       "hasIcon",
       "hasLocale",
+      "hslToRgb",
+      "hsvToRgb",
       "iconRegistryKey",
       "inferDateValueType",
+      "isValidColor",
       "lanUiConfigKey",
       "lanUiFeedbackKey",
       "listIcons",
       "listLocales",
       "loadLocale",
+      "normalizeColorState",
       "normalizeLanUiConfig",
       "notification",
       "notificationState",
+      "parseColor",
       "parseDateValue",
       "registerIcon",
       "registerLocale",
       "resolveTimeZone",
+      "rgbToHsl",
+      "rgbToHsv",
       "toDateValue",
       "toast",
       "toastState",
@@ -502,6 +535,7 @@
     ".",
     "./api-manifest",
     "./api-manifest.json",
+    "./color",
     "./components/*",
     "./config",
     "./date",
@@ -528,6 +562,11 @@
       "types": "./dist-lib/components/*.d.ts",
       "import": "./dist-lib/components/*.js",
       "default": "./dist-lib/components/*.js"
+    },
+    "./color": {
+      "types": "./dist-lib/color.d.ts",
+      "import": "./dist-lib/color.js",
+      "default": "./dist-lib/color.js"
     },
     "./config": {
       "types": "./dist-lib/config.d.ts",
@@ -571,6 +610,9 @@
       "components/*": [
         "dist-lib/components/*"
       ],
+      "color": [
+        "dist-lib/color.d.ts"
+      ],
       "config": [
         "dist-lib/config.d.ts"
       ],
@@ -589,6 +631,18 @@
     }
   },
   "utilitySubpaths": {
+    "color": [
+      "formatColor",
+      "getContrastRatio",
+      "getReadableTextColor",
+      "hslToRgb",
+      "hsvToRgb",
+      "isValidColor",
+      "normalizeColorState",
+      "parseColor",
+      "rgbToHsl",
+      "rgbToHsv"
+    ],
     "config": [
       "createLocaleRegistry",
       "createLocaleTools",
@@ -917,6 +971,51 @@
       ],
       "runtimeExports": [
         "UiCollapse",
+        "default"
+      ]
+    },
+    {
+      "name": "UiColorPicker",
+      "subpath": "./components/UiColorPicker",
+      "propsType": "UiColorPickerProps",
+      "props": [
+        "alpha",
+        "appendToBody",
+        "clearable",
+        "closeOnSelect",
+        "contrastColor",
+        "defaultOpen",
+        "disabled",
+        "fallbackColor",
+        "format",
+        "invalid",
+        "modelValue",
+        "open",
+        "placement",
+        "presets",
+        "readonly",
+        "showContrast",
+        "showInput",
+        "size"
+      ],
+      "emitsType": "UiColorPickerEmits",
+      "emits": [
+        "blur",
+        "change",
+        "clear",
+        "focus",
+        "input",
+        "invalid",
+        "open-change",
+        "update:modelValue",
+        "update:open"
+      ],
+      "slotsType": "UiColorPickerSlots",
+      "slots": [
+        "trigger"
+      ],
+      "runtimeExports": [
+        "UiColorPicker",
         "default"
       ]
     },

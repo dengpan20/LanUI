@@ -4,6 +4,7 @@ import {
   UiAutoComplete, UiButton, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
   UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree,
+  UiColorPicker,
   UiCommandPalette,
 } from '../../src/index.js'
 
@@ -34,6 +35,7 @@ const treeLoadCount = ref(0)
 const commandResult = ref('idle')
 const commandOpen = ref(false)
 const commandQuery = ref('')
+const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
   {key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate',keywords:['preferences']},
@@ -194,6 +196,12 @@ async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resol
         <h2>Tree enterprise keyboard contract</h2>
         <UiTree v-model="treeValue" v-model:checked-keys="treeChecked" :data="treeItems" :load-data="loadTreeData" :default-expanded-keys="['workspace']" checkable show-line bordered aria-label="Fixture resources" />
         <output class="interaction-output" data-testid="tree-output">selected={{ treeValue || 'empty' }} checked={{ treeChecked.join(',') || 'none' }} loads={{ treeLoadCount }}</output>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Color picker keyboard contract</h2>
+        <UiColorPicker v-model="brandColor" alpha aria-label="Brand color" :presets="['#1677FF','#10B981']" />
+        <output class="interaction-output" data-testid="color-output">{{ brandColor }}</output>
       </section>
 
       <section class="interaction-case">

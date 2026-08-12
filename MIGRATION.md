@@ -24,6 +24,22 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.17 color picker and color runtime contract
+
+`UiColorPicker` is additive. Use it for persisted theme, chart, status and brand color values; keep a closed `UiSelect` when users choose only named semantic tokens.
+
+```vue
+<UiColorPicker v-model="brandColor" format="hex" alpha show-contrast />
+```
+
+- `modelValue` is a color string. Supported input includes short/long HEX, RGB/RGBA, HSL/HSLA, percentages, alpha and the documented basic color names. The emitted model is normalized to `format`.
+- `alpha=false` intentionally emits opaque output even when the incoming color contains alpha. Enable `alpha` before migrating an existing eight-digit HEX or RGBA model.
+- Invalid committed text never reaches the model. Listen to `invalid` for telemetry or field-level messaging; the input restores the last valid display value.
+- Pointer movement emits continuous `input`; pointer release, keyboard steps, range changes, text commit, presets and clear emit `change` with a `source` and previous model.
+- The default popup is teleported and viewport-aware. Set `appendToBody=false` only when an ancestor supplies a suitable positioning/overflow context.
+- Controlled popup consumers pass `open` and update it from `update:open`; `defaultOpen` is for uncontrolled initialization.
+- Import pure helpers from `lan-ui-design-system/color`. They are SSR-safe and return `null`/empty output for invalid values instead of using a browser canvas as an implicit parser.
+
 ## 1.16 command palette contract
 
 `UiCommandPalette` is additive. Use it for cross-page actions, navigation and searchable workspace commands; keep `UiAutoComplete` for form-field suggestions and `UiDropdown` for a small contextual action list.

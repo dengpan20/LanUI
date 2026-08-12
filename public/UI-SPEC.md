@@ -597,3 +597,15 @@
 - Trigger, header, group, command, loading, empty, error and footer slots customize content while the component retains structural ARIA and focus ownership.
 - Root/subpath runtime exports, declarations, styles, manifests, component center, 17-section static preview, standalone consumer, SSR and three-browser fixtures remain in parity for 59 components and 134 locale keys.
 - CI, 12 Axe cases and 16 interaction cases per Chromium/Firefox/WebKit engine are required for the P20 delivery evidence.
+
+## 34. Maturity P21: color picker and color runtime
+
+- `UiColorPicker` owns an optional string model and normalizes supported HEX, RGB or HSL input into the configured output format. Empty values remain empty; malformed committed text restores the last valid value and emits `{ reason:'parse', input }`.
+- The pure `color` runtime parses short/long HEX with alpha, comma/space RGB, HSL angle units, percentages, transparent/basic named colors and normalized RGBA objects without a DOM dependency.
+- `rgbToHsv / hsvToRgb / rgbToHsl / hslToRgb` preserve alpha and round-trip byte colors deterministically. `formatColor` controls explicit alpha output; invalid inputs return an empty string rather than leaking malformed CSS.
+- `getContrastRatio` composites transparency over the supplied background and applies WCAG relative luminance. `getReadableTextColor` compares configurable light/dark candidates.
+- The visual plane maps inline saturation and vertical brightness, mirrors saturation in RTL and supports Arrow keys with Shift acceleration plus Home/End and Page brightness steps. Hue and alpha remain native range controls.
+- The trigger integrates FormItem label/help/error semantics. The popup is a named non-modal dialog with direction-aware viewport flip/shift, outside/Escape close and trigger focus restoration.
+- Presets accept strings or labelled/disabled records. Text input, clear, preset, hue, alpha, plane and keyboard updates emit source metadata; controlled `open` consumers update through `update:open`.
+- Root/component/color-subpath exports, Props/Emits/Slots declarations, styles, manifests, component center, 18-section static preview, standalone consumer and SSR fixtures remain in parity for 60 components and 147 locale keys.
+- CI, 13 Axe cases and 17 interaction cases per Chromium/Firefox/WebKit engine are required for the P21 delivery evidence.

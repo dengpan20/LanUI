@@ -2,6 +2,7 @@ import '../tokens.css'
 import '../styles.css'
 
 export * from './components.js'
+export * from './color.js'
 export * from './date.js'
 export * from './icons.js'
 export { default, createLanUi, LanUi } from './plugin.js'

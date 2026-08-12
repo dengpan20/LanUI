@@ -25,13 +25,13 @@ required = [
     "src/components/UiSkeleton.vue", "src/components/UiEmpty.vue", "src/components/UiAlert.vue",
     "src/components/UiDropdown.vue", "src/components/UiProgress.vue", "src/components/UiSteps.vue",
     "src/components/UiTimeline.vue", "src/components/UiForm.vue", "src/components/UiMultiSelect.vue",
-    "src/components/UiTree.vue", "src/components/UiTreeSelect.vue", "src/components/UiCascader.vue", "src/components/UiTransfer.vue", "src/components/UiCommandPalette.vue",
+    "src/components/UiTree.vue", "src/components/UiTreeSelect.vue", "src/components/UiCascader.vue", "src/components/UiTransfer.vue", "src/components/UiCommandPalette.vue", "src/components/UiColorPicker.vue",
     "src/components/UiMenu.vue", "src/components/UiCollapse.vue", "src/components/UiDescriptions.vue",
     "src/components/UiResult.vue", "src/components/UiSpin.vue", "src/components/UiSegmented.vue",
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
-    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
+    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -59,7 +59,7 @@ for dependency in ["vitest", "@vue/test-utils", "happy-dom", "postcss", "playwri
 if "vitest run" not in package.get("scripts", {}).get("test", ""):
     failures.append("package:behavior-test-script")
 exports = package.get("exports", {})
-for subpath in ["./components/*", "./config", "./date", "./feedback", "./icons", "./plugin", "./style.css", "./styles/core.css", "./styles/*.css", "./tokens", "./style-manifest", "./style-manifest.json"]:
+for subpath in ["./components/*", "./color", "./config", "./date", "./feedback", "./icons", "./plugin", "./style.css", "./styles/core.css", "./styles/*.css", "./tokens", "./style-manifest", "./style-manifest.json"]:
     if subpath not in exports:
         failures.append(f"package:export:{subpath}")
 if "test:package" not in package.get("scripts", {}) or "test:package" not in package.get("scripts", {}).get("check", ""):
@@ -76,7 +76,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 295 or len(manifest_components) != 59:
+if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 295 or len(manifest_components) != 60:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -87,7 +87,7 @@ style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="u
 style_components = style_manifest.get("components", [])
 if style_manifest.get("package") != package.get("name") or style_manifest.get("version") != package.get("version"):
     failures.append("style-manifest:package-version")
-if len(style_components) != 59 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
+if len(style_components) != 60 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
@@ -114,6 +114,8 @@ if "date-contracts.mjs" not in package.get("scripts", {}).get("test:date", "") o
     failures.append("package:p14-date-gate")
 if "icon-contracts.mjs" not in package.get("scripts", {}).get("test:icons", "") or "test:icons" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("package:p15-icon-gate")
+if "color-contracts.mjs" not in package.get("scripts", {}).get("test:color", "") or "test:color" not in package.get("scripts", {}).get("prepack", ""):
+    failures.append("package:p21-color-gate")
 type_declarations = (ROOT / "src/index.d.ts").read_text(encoding="utf-8")
 type_contract = (ROOT / "tests/types/contracts.ts").read_text(encoding="utf-8")
 type_fixture = (ROOT / "tests/types/Consumer.vue").read_text(encoding="utf-8")
@@ -257,7 +259,7 @@ for name,source in [("modal",modal_source),("drawer",drawer_source)]:
         failures.append(f"ssr:stable-id:{name}")
 
 preview = (ROOT / "component-preview.html").read_text(encoding="utf-8")
-if preview.count('class="preview-section"') < 13:
+if preview.count('class="preview-section"') < 18:
     failures.append("preview:section-count")
 for interaction in ["data-modal", "data-drawer", "data-toast", "previewSwitch", "previewTabs", "previewSelect", "previewUpload", "previewPagination", "previewBackTop"]:
     if interaction not in preview:
@@ -336,9 +338,12 @@ for marker in ["previewTableSystem", "previewSelectAll", "previewTableSort", "da
 for marker in ['id="command-palette"', "previewCommandTrigger", "previewCommandInput", "previewCommandMatches", "event.ctrlKey"]:
     if marker not in preview:
         failures.append(f"preview:command-palette:{marker}")
+for marker in ['id="color-picker"', "previewColorPlane", "previewColorHue", "previewColorAlpha", "previewColorContrast", "previewColorPresets", "positionPreviewColor"]:
+    if marker not in preview:
+        failures.append(f"preview:color-picker:{marker}")
 
 components_page = (ROOT / "src/pages/ComponentsPage.vue").read_text(encoding="utf-8")
-for component in ["UiCheckbox", "UiRadio", "UiSwitch", "UiTooltip", "UiPopover", "UiPopconfirm", "UiMenu", "UiCollapse", "UiDescriptions", "UiResult", "UiSpin", "UiSegmented", "UiConfigProvider", "UiDateRangePicker", "UiTimePicker", "UiIcon", "UiNumberInput", "UiSlider", "UiAutoComplete", "UiTree", "UiCommandPalette"]:
+for component in ["UiCheckbox", "UiRadio", "UiSwitch", "UiTooltip", "UiPopover", "UiPopconfirm", "UiMenu", "UiCollapse", "UiDescriptions", "UiResult", "UiSpin", "UiSegmented", "UiConfigProvider", "UiDateRangePicker", "UiTimePicker", "UiIcon", "UiNumberInput", "UiSlider", "UiAutoComplete", "UiTree", "UiCommandPalette", "UiColorPicker"]:
     if component not in components_page:
         failures.append(f"component-center:sync:{component}")
 for marker in ["fontPresets", "selectedFont", "applyFont", "Inter + Noto Sans SC", "LXGW WenKai"]:
@@ -383,6 +388,7 @@ behavior_sources = {
     "treeselect": (ROOT / "src/components/UiTreeSelect.vue").read_text(encoding="utf-8"),
     "tree": (ROOT / "src/components/UiTree.vue").read_text(encoding="utf-8"),
     "commandpalette": (ROOT / "src/components/UiCommandPalette.vue").read_text(encoding="utf-8"),
+    "colorpicker": (ROOT / "src/components/UiColorPicker.vue").read_text(encoding="utf-8"),
     "cascader": (ROOT / "src/components/UiCascader.vue").read_text(encoding="utf-8"),
     "transfer": (ROOT / "src/components/UiTransfer.vue").read_text(encoding="utf-8"),
     "menu": (ROOT / "src/components/UiMenu.vue").read_text(encoding="utf-8"),
@@ -418,6 +424,7 @@ behavior_markers = {
     "treeselect": ['role="tree"', "aria-activedescendant", "ArrowRight", "ArrowLeft"],
     "tree": ['role="tree"', 'role="treeitem"', "aria-activedescendant", "checkStrictly", "AbortController", "ResizeObserver", "load-error", "useDirection"],
     "commandpalette": ['role="dialog"', 'role="combobox"', 'role="listbox"', "aria-activedescendant", "AbortController", "requestSequence", "load-error", "data-error", "openOverlay", "focusWithRetry", "useDirection"],
+    "colorpicker": ['role="dialog"', 'role="slider"', "pointermove", "ArrowRight", "formatColor", "parseColor", "showContrast", "useDirection", "update:open"],
     "cascader": ['ui-cascader-column', "aria-activedescendant", "ArrowRight", "ArrowLeft"],
     "transfer": ["moveRight", "moveLeft", "searchable"],
     "menu": ['role="menu"', 'role="menuitem"', "ArrowDown", "ArrowRight"],
@@ -493,7 +500,7 @@ for path in [ROOT / "README.md", ROOT / "UI-SPEC.md"]:
         failures.append(f"docs:corrupted-section:{path.name}")
 
 standalone = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
-for component in ["UiAlert", "UiAutoComplete", "UiButton", "UiCommandPalette", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiSelect", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
+for component in ["UiAlert", "UiAutoComplete", "UiButton", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiSelect", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
     if component not in standalone:
         failures.append(f"standalone:component:{component}")
 for marker in ["direction", ":direction=", "RTL", "LTR"]:
@@ -506,7 +513,7 @@ for marker in ["createLanUi", "icons", "projectMark"]:
 
 direction_sources = "\n".join((ROOT / rel).read_text(encoding="utf-8") for rel in [
     "src/config.js", "src/components/UiTabs.vue", "src/components/UiSegmented.vue", "src/components/UiMenu.vue",
-    "src/components/UiTree.vue", "src/components/UiTreeSelect.vue", "src/components/UiCascader.vue", "src/components/UiDrawer.vue", "src/components/UiTable.vue", "src/components/UiCommandPalette.vue",
+    "src/components/UiTree.vue", "src/components/UiTreeSelect.vue", "src/components/UiCascader.vue", "src/components/UiDrawer.vue", "src/components/UiTable.vue", "src/components/UiCommandPalette.vue", "src/components/UiColorPicker.vue",
 ])
 for marker in ["useDirection", "rtl", "direction"]:
     if marker not in direction_sources:
@@ -521,16 +528,16 @@ for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-comp
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 12:
+if accessibility_script.count("{name:") < 13:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "menu-directional-keyboard", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "menu-directional-keyboard", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") < 16:
+if interaction_script.count("name: '") < 17:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -566,13 +573,13 @@ for rel in ["lan-ui.js","lan-ui.css","lan-ui.d.ts"]:
 if dist_lib.exists():
     component_js=list((dist_lib / "components").glob("Ui*.js"))
     component_types=list((dist_lib / "components").glob("Ui*.d.ts"))
-    if len(component_js) != 59 or len(component_types) != 59:
+    if len(component_js) != 60 or len(component_types) != 60:
         failures.append(f"dist-lib:component-subpaths:{len(component_js)}:{len(component_types)}")
-    for rel in ["config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts"]:
+    for rel in ["color.js","color.d.ts","config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts"]:
         if not (dist_lib / rel).is_file():
             failures.append(f"dist-lib:subpath:{rel}")
     style_files = list((dist_lib / "styles").glob("Ui*.css"))
-    if len(style_files) != 59 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
+    if len(style_files) != 60 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
         failures.append(f"dist-lib:component-styles:{len(style_files)}")
 
 if failures:
@@ -586,7 +593,7 @@ print(f"- required_files={len(required)}")
 print(f"- vue_pages={len(list((ROOT / 'src/pages').glob('*.vue')))}")
 print("- routes=8")
 print("- preview_sections=" + str(preview.count('class="preview-section"')))
-print("- forms=ui-input,ui-number-input,ui-slider,ui-autocomplete,ui-select,ui-textarea,no-native-select")
+print("- forms=ui-input,ui-number-input,ui-slider,ui-autocomplete,ui-color-picker,ui-select,ui-textarea,no-native-select")
 print("- extensions=date-picker,date-range-picker,time-picker,pagination,upload,layout,float-button")
 print("- table-system=toolbar,columns,density,sort,selection,expand,loading,error,empty,responsive")
 print("- feedback-system=modal,drawer,toast,notification,tooltip,popover,popconfirm,focus-trap")
@@ -615,4 +622,5 @@ print("- maturity-p17=slider-range,56-public-components,108-locale-keys,pointer-
 print("- maturity-p18=autocomplete,57-public-components,114-locale-keys,async-race-cache,ime-composition,combobox-aria,14-interactions-per-browser")
 print("- maturity-p19=tree,58-public-components,122-locale-keys,selection-check-cascade,lazy-load,filter,virtualization,rtl-keyboard,15-interactions-per-browser")
 print("- maturity-p20=command-palette,59-public-components,134-locale-keys,fuzzy-grouped-async,global-hotkey,focus-trap,rtl,16-interactions-per-browser")
+print("- maturity-p21=color-picker,60-public-components,147-locale-keys,hex-rgb-hsl-alpha,wcag-contrast,pointer-keyboard,rtl,17-interactions-per-browser")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

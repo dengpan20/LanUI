@@ -132,6 +132,7 @@ const manifest={
   packageExports:packageJson.exports,
   typeFallbacks:packageJson.typesVersions,
   utilitySubpaths:{
+    color:await moduleExports('dist-lib/color.js'),
     config:await moduleExports('dist-lib/config.js'),
     feedback:await moduleExports('dist-lib/feedback.js'),
     icons:await moduleExports('dist-lib/icons.js'),

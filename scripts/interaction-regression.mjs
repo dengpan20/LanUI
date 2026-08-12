@@ -13,6 +13,26 @@ for(const browserName of browserNames)if(!['chromium','firefox','webkit'].includ
 
 const cases = [
   {
+    name: 'color-picker-keyboard',
+    run: async page => {
+      const trigger = page.getByRole('button', { name: 'Brand color' })
+      await trigger.click()
+      const dialog = page.getByRole('dialog', { name: 'Color picker' })
+      const plane = dialog.getByRole('slider', { name: 'Saturation and brightness' })
+      await plane.waitFor()
+      assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
+      await page.keyboard.press('End')
+      await page.keyboard.press('ArrowDown')
+      const input = dialog.getByRole('textbox', { name: 'Color value' })
+      await input.fill('#FF000080')
+      await page.keyboard.press('Enter')
+      await expectText(page, 'color-output', '#FF000080')
+      await page.keyboard.press('Escape')
+      await dialog.waitFor({ state:'hidden' })
+      await expectFocused(page, trigger)
+    },
+  },
+  {
     name: 'command-palette-keyboard',
     run: async page => {
       const trigger = page.locator('#open-command-palette')

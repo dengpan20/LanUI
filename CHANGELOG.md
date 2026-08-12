@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.17.0] - 2026-08-12
+
+### Added
+
+- Public `UiColorPicker` with HEX/RGB/HSL output, optional alpha, presets, text entry, clear/read-only/disabled/invalid states and FormItem integration.
+- Pointer and keyboard two-dimensional saturation/brightness selection, native hue/alpha sliders, direction-aware floating placement, RTL mapping and focus restoration.
+- SSR-safe `color` package subpath with parsing, formatting, HSV/HSL conversion, WCAG contrast and readable-text helpers.
+- Unit, SSR, typed root/component/color-subpath, package, static-preview, Axe, three-browser interaction and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 59 to 60 entries; public utility subpaths advance from five to six.
+- Locale parity advances from 134 to 147 keys; browser interaction coverage advances from 16 to 17 scenarios per engine and Axe coverage advances from 12 to 13 cases.
+- Static preview advances from 17 to 18 sections and repairs corrupted CommandPalette/Icon headings and keyboard glyphs.
+- The `packageJsRaw` release ceiling moves from 315000 B to 335000 B for the new parser, conversion utilities and production picker while retaining an independently enforced gzip ceiling.
+
 ## [1.16.0] - 2026-08-12
 
 ### Added

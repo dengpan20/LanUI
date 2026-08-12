@@ -2,6 +2,7 @@ import {
   UiButton,
   UiAutoComplete,
   UiCommandPalette,
+  UiColorPicker,
   UiDateRangePicker,
   UiDropdown,
   UiInput,
@@ -20,10 +21,14 @@ import {
   createLocaleRegistry,
   createLocaleTools,
   createIconRegistry,
+  parseColor,
+  formatColor,
+  getContrastRatio,
   useFeedback,
 } from 'lan-ui-design-system'
 import { dateValueToDate as subpathDateValueToDate } from 'lan-ui-design-system/date'
 import { createIconRegistry as createSubpathIconRegistry } from 'lan-ui-design-system/icons'
+import { parseColor as parseSubpathColor } from 'lan-ui-design-system/color'
 import { createLanUiFeedback as createSubpathFeedback } from 'lan-ui-design-system/feedback'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
@@ -31,6 +36,7 @@ import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'la
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathTree, { UiTree as NamedSubpathTree } from 'lan-ui-design-system/components/UiTree'
 import SubpathCommandPalette, { UiCommandPalette as NamedSubpathCommandPalette } from 'lan-ui-design-system/components/UiCommandPalette'
+import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'lan-ui-design-system/components/UiColorPicker'
 import type {
   UiInputEmits,
   UiInputProps,
@@ -41,6 +47,7 @@ import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
 import type { UiTreeEmits, UiTreeProps, UiTreeSlots } from 'lan-ui-design-system/components/UiTree'
 import type { UiCommandPaletteEmits, UiCommandPaletteProps, UiCommandPaletteSlots } from 'lan-ui-design-system/components/UiCommandPalette'
+import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 'lan-ui-design-system/components/UiColorPicker'
 import type {
   UiDateRangeChange,
   UiTableColumn,
@@ -52,6 +59,8 @@ import type {
   IconDefinitionInput,
   IconRegistry,
   UiIconProps,
+  RgbaColor,
+  ColorFormat,
 } from 'lan-ui-design-system'
 import type { DateDisambiguation } from 'lan-ui-design-system/date'
 
@@ -132,6 +141,17 @@ commandPaletteEmit('select',{key:'dashboard',label:'Open dashboard'},{source:'ke
 const commandPaletteSubpathParity:typeof SubpathCommandPalette=NamedSubpathCommandPalette
 const commandPaletteEvent:keyof UiCommandPaletteEmits='load-error'
 const commandPaletteSlot:keyof UiCommandPaletteSlots='command'
+const colorPickerProps:InstanceType<typeof UiColorPicker>['$props']&UiColorPickerProps={modelValue:'#1677FFCC',format:'hex',alpha:true,presets:['#1677FF',{label:'Success',value:'#10B981'}],showContrast:true,contrastColor:'#FFFFFF',placement:'bottom-start'}
+const colorPickerEmit:InstanceType<typeof UiColorPicker>['$emit']=null as never
+colorPickerEmit('change','#1677FFCC',{source:'preset',previous:'#000000'})
+const colorPickerSubpathParity:typeof SubpathColorPicker=NamedSubpathColorPicker
+const colorPickerEvent:keyof UiColorPickerEmits='invalid'
+const colorPickerSlot:keyof UiColorPickerSlots='trigger'
+const parsedColor:RgbaColor|null=parseColor('rgba(22 119 255 / 80%)')
+const formattedColor:string=formatColor(parsedColor||'#1677FF','hex',true)
+const colorContrast:number|null=getContrastRatio(formattedColor,'#FFFFFF')
+const colorSubpathParity:typeof parseColor=parseSubpathColor
+const colorFormat:ColorFormat='hsl'
 const dateContract: UiDateRangeChange = dateChange
 const dateOptions:DateValueOptions={mode:'datetime',valueType:'date',timeZone:'Asia/Shanghai',disambiguation:'reject',precision:'second'}
 const zonedDate:Date|null=dateValueToDate('2026-08-12T09:30',dateOptions)
@@ -160,5 +180,7 @@ const invalidAutoCompleteMatch:UiAutoCompleteProps={matchMode:'fuzzy'}
 const invalidTreeValue:UiTreeProps={modelValue:true}
 // @ts-expect-error Command palette hotkeys are expressed as normalized strings.
 const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
+// @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
+const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 
-console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)

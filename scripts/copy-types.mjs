@@ -24,6 +24,11 @@ writeFileSync(resolve(root, 'dist-lib/config.d.ts'), [
   "export type { ComponentSize, Direction, LanUiConfig, LanUiConfigOptions, LanUiLocale, LanUiLocaleContext, LanUiLocaleTools, LanUiOptions, LocaleFallback, LocaleInput, LocaleLoader, LocaleLoadOptions, LocaleMessage, LocaleModule, LocaleName, LocaleParams, LocaleRegistry } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
+writeFileSync(resolve(root, 'dist-lib/color.d.ts'), [
+  "export { formatColor, getContrastRatio, getReadableTextColor, hslToRgb, hsvToRgb, isValidColor, normalizeColorState, parseColor, rgbToHsl, rgbToHsv } from './lan-ui.js'",
+  "export type { ColorFormat, ColorInput, HslaColor, HsvaColor, RgbaColor } from './lan-ui.js'",
+  '',
+].join('\n'), 'utf8')
 writeFileSync(resolve(root, 'dist-lib/date.d.ts'), [
   "export { DATE_VALUE_MODES, DATE_VALUE_TYPES, compareDateValues, dateValueToDate, formatDateValue, fromDateValue, inferDateValueType, parseDateValue, resolveTimeZone, toDateValue } from './lan-ui.js'",
   "export type { DateDisambiguation, DateInput, DatePrecision, DateValue, DateValueMode, DateValueOptions, DateValueType, ParsedDateValue, UiDateInvalid } from './lan-ui.js'",
@@ -45,4 +50,4 @@ writeFileSync(resolve(root, 'dist-lib/plugin.d.ts'), [
   '',
 ].join('\n'), 'utf8')
 
-console.log(`TYPES_COPY dist-lib/lan-ui.d.ts components=${components.length} subpaths=config,date,feedback,icons,plugin`)
+console.log(`TYPES_COPY dist-lib/lan-ui.d.ts components=${components.length} subpaths=color,config,date,feedback,icons,plugin`)

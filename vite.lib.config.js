@@ -15,6 +15,7 @@ for(const {name,source} of componentRecords){
 const componentEntries = Object.fromEntries(componentRecords.map(({name}) => [`components/${name}`, resolve(generatedEntries,`${name}.js`)]))
 const entries = {
   'lan-ui': resolve(root, 'src/index.js'),
+  color: resolve(root, 'src/color.js'),
   config: resolve(root, 'src/config.js'),
   feedback: resolve(root, 'src/feedback.js'),
   plugin: resolve(root, 'src/plugin.js'),

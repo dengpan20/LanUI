@@ -4,6 +4,7 @@ import {
   UiButton,
   UiAutoComplete,
   UiCommandPalette,
+  UiColorPicker,
   UiForm,
   UiFormItem,
   UiInput,
@@ -23,6 +24,7 @@ const resource = ref<Key>('dashboard')
 const checkedResources = ref<Key[]>(['dashboard'])
 const commandOpen = ref(false)
 const commandQuery = ref('')
+const brandColor = ref('#1677FFCC')
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
@@ -69,4 +71,5 @@ function sort(payload:UiTableSortChange) {
     <template #trigger="{ open }"><UiButton @click="open">Commands</UiButton></template>
     <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>
   </UiCommandPalette>
+  <UiFormItem label="Brand color"><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#10B981']" /></UiFormItem>
 </template>

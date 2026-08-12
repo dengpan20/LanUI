@@ -48,6 +48,7 @@ import UiTreeSelect from '../components/UiTreeSelect.vue'
 import UiCascader from '../components/UiCascader.vue'
 import UiTransfer from '../components/UiTransfer.vue'
 import UiCollapse from '../components/UiCollapse.vue'
+import UiColorPicker from '../components/UiColorPicker.vue'
 import UiCommandPalette from '../components/UiCommandPalette.vue'
 import UiConfigProvider from '../components/UiConfigProvider.vue'
 import UiDateRangePicker from '../components/UiDateRangePicker.vue'
@@ -58,6 +59,7 @@ import UiSegmented from '../components/UiSegmented.vue'
 import UiSpin from '../components/UiSpin.vue'
 import { createLocaleRegistry, createLocaleTools } from '../config.js'
 import { formatDateValue } from '../date.js'
+import { getContrastRatio } from '../color.js'
 import { createIconRegistry } from '../icons.js'
 import { notification, toast } from '../feedback.js'
 const emit=defineEmits(['notify','open-modal','open-drawer','open-notification'])
@@ -77,6 +79,7 @@ async function fetchProjectSuggestions(query,{signal}){
 }
 const quantityDemo=ref(12.5);const budgetDemo=ref(286400);const percentDemo=ref(68)
 const sliderDemo=ref(40);const sliderRangeDemo=ref([20,80]);const verticalSliderDemo=ref(65)
+const brandColorDemo=ref('#1677FFCC');const accentColorDemo=ref('hsl(155, 75%, 38%)');const colorContrast=computed(()=>getContrastRatio(brandColorDemo.value,'#FFFFFF')?.toFixed(2)||'—')
 const formatCurrency=value=>`\u00a5${Number(value).toLocaleString('zh-CN',{minimumFractionDigits:0,maximumFractionDigits:0})}`
 const parseCurrency=text=>String(text).replace(/[\u00a5,\s]/g,'')
 const demoDate=ref('2026-08-11');const demoTime=ref('09:30');const demoDateTime=ref('2026-08-11T14:30');const zonedInstant=ref(new Date('2026-08-11T06:30:00.000Z'));const demoTimeZone=ref('Asia/Shanghai');const demoFiles=ref([])
@@ -141,7 +144,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'组件名称',value:'UiCommandPalette'},{key:'version',label:'当前版本',value:'1.16.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'搜索、分组、异步、快捷键、焦点陷阱、ARIA'}]
+const descriptionItems=[{key:'name',label:'组件名称',value:'UiColorPicker'},{key:'version',label:'当前版本',value:'1.17.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'格式、透明度、指针、键盘、RTL、对比度、ARIA'}]
 const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
 const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}];const timelineItems=[{title:'完成组件审计',time:'09:30',status:'success'},{title:'同步业务页面',time:'11:20',status:'success'},{title:'执行视觉回归',time:'14:00'}]
 const tableDensity=ref('default');const tableVisibleColumns=ref(['component','version','status','coverage','actions']);const tableSelected=ref([]);const tableExpanded=ref([]);const tableSortKey=ref('component');const tableSortOrder=ref('asc');const tableFilters=ref({});const tableLoading=ref(false);const tableError=ref('');const tableEmpty=ref(false)
@@ -247,7 +250,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         </section>
 
         <section id="forms" class="card doc-section">
-          <header class="doc-section-header"><h2>表单控件</h2><p>统一 Input、NumberInput、Slider、Select、AutoComplete、Textarea 的尺寸、焦点、清除、错误、只读与键盘行为，并同步到所有业务页面。</p></header>
+          <header class="doc-section-header"><h2>表单控件</h2><p>统一 Input、NumberInput、Slider、ColorPicker、Select、AutoComplete、Textarea 的尺寸、焦点、清除、错误、只读与键盘行为，并同步到所有业务页面。</p></header>
           <div class="demo-block form-showcase">
             <div class="form-demo-section"><div class="form-demo-title"><strong>基础输入</strong><span>Input</span></div><div class="form-demo-content form-row">
               <label class="field"><span class="field-label required">客户名称</span><UiInput v-model="customerName" icon="user" clearable placeholder="请输入客户名称"/><span class="field-help">支持前缀图标与一键清除</span></label>
@@ -278,6 +281,12 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <UiFormItem label="预算区间" help="双滑块保持最小 10 个单位间距"><UiSlider v-model="sliderRangeDemo" range :step="5" :min-distance="10" :marks="[{value:25,label:'25'},{value:75,label:'75'}]"/></UiFormItem>
               <UiFormItem label="垂直方向" group help="支持 vertical、reverse、RTL 与只读状态"><div class="slider-vertical-demo"><UiSlider v-model="verticalSliderDemo" vertical tooltip="always" aria-label="垂直滑块"/></div></UiFormItem>
               <UiFormItem label="状态" group><div class="slider-state-stack"><UiSlider :model-value="35" readonly aria-label="只读滑块"/><UiSlider :model-value="65" invalid aria-label="错误滑块"/><UiSlider :model-value="50" disabled aria-label="禁用滑块"/></div></UiFormItem>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>Color Picker</strong><span>HEX / RGB / HSL · Alpha · WCAG</span></div><div class="form-demo-content form-row">
+              <UiFormItem label="品牌颜色" help="二维色板、色相与透明度均支持指针和键盘操作"><UiColorPicker v-model="brandColorDemo" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981','#F59E0B','#EF4444']"/></UiFormItem>
+              <UiFormItem label="HSL 输出" help="输入任意支持的格式，模型始终按 HSL 规范化"><UiColorPicker v-model="accentColorDemo" format="hsl" :presets="[{label:'成功色',value:'#10B981'},{label:'警告色',value:'#F59E0B'}]"/></UiFormItem>
+              <div class="field"><span class="field-label">实时可读性</span><div class="color-contrast-demo" :style="{background:brandColorDemo}"><strong>Lan UI</strong><span>与白色对比度 {{ colorContrast }}:1</span></div></div>
+              <UiFormItem label="状态" group><div class="form-inline-pair"><UiColorPicker model-value="#64748B" readonly aria-label="只读颜色"/><UiColorPicker model-value="#EF4444" disabled aria-label="禁用颜色"/></div></UiFormItem>
             </div></div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>日期与时间</strong><span>DatePicker</span></div><div class="form-demo-content form-row">
               <label class="field"><span class="field-label">业务日期</span><UiDatePicker v-model="demoDate"/><span class="field-help">支持清除、键盘输入和系统日历</span></label>

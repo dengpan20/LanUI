@@ -10,7 +10,7 @@ const jsEntries = readdirSync(resolve(root, 'dist-lib/components')).filter(name 
 const typeEntries = readdirSync(resolve(root, 'dist-lib/components')).filter(name => name.endsWith('.d.ts'))
 const styleEntries = readdirSync(resolve(root, 'dist-lib/styles')).filter(name => name.endsWith('.css'))
 
-if (components.length !== 59) throw new Error(`Expected 59 public components, found ${components.length}`)
+if (components.length !== 60) throw new Error(`Expected 60 public components, found ${components.length}`)
 if (jsEntries.length !== components.length) throw new Error(`Component JS entry mismatch: ${jsEntries.length}/${components.length}`)
 if (typeEntries.length !== components.length) throw new Error(`Component type entry mismatch: ${typeEntries.length}/${components.length}`)
 if (styleEntries.length !== components.length+1) throw new Error(`Component style entry mismatch: ${styleEntries.length}/${components.length+1}`)
@@ -30,12 +30,15 @@ for (const name of components) {
   for(const suffix of ['Props','Emits','Slots'])if(!declaration.includes(`${name}${suffix}`))throw new Error(`Missing ${suffix} type export for ${name}`)
 }
 
+const color = await import('lan-ui-design-system/color')
 const config = await import('lan-ui-design-system/config')
 const date = await import('lan-ui-design-system/date')
 const feedback = await import('lan-ui-design-system/feedback')
 const icons = await import('lan-ui-design-system/icons')
 const plugin = await import('lan-ui-design-system/plugin')
 if (config.enUS.name !== 'en-US') throw new Error('Config subpath failed')
+for(const name of ['parseColor','formatColor','rgbToHsv','hsvToRgb','rgbToHsl','hslToRgb','getContrastRatio','getReadableTextColor'])if(typeof color[name]!=='function'||main[name]!==color[name])throw new Error(`Color utility export parity failed: ${name}`)
+if(color.formatColor('rgba(22,119,255,.5)','hex',true)!=='#1677FF80'||color.getContrastRatio('#000','#fff')!==21)throw new Error('Built color utility contract failed')
 for(const name of ['parseDateValue','dateValueToDate','formatDateValue','toDateValue','fromDateValue','compareDateValues','resolveTimeZone'])if(typeof date[name]!=='function'||main[name]!==date[name])throw new Error(`Date adapter export parity failed: ${name}`)
 const packageInstant=date.dateValueToDate('2026-08-12T09:30',{mode:'datetime',timeZone:'Asia/Shanghai'})
 if(packageInstant?.toISOString()!=='2026-08-12T01:30:00.000Z'||date.formatDateValue(packageInstant,{mode:'datetime',timeZone:'America/New_York'})!=='2026-08-11T21:30')throw new Error('Built date adapter time-zone contract failed')
@@ -73,4 +76,4 @@ const app = createSSRApp({ render:() => h(main.UiModal, { modelValue:true, title
 await renderToString(app, context)
 if (!context.teleports?.body?.includes('Rendered from package')) throw new Error('Built package SSR failed')
 
-console.log(`PACKAGE_EXPORTS PASS components=${components.length} js=${jsEntries.length} types=${typeEntries.length} styles=${styleEntries.length} contracts=props+emits+slots named-default-parity=pass ssr=pass feedback-isolation=pass locale-registry=lazy+chain+activation date-adapter=iana+dst icons=isolated+sanitized subpaths=config,date,feedback,icons,plugin`)
+console.log(`PACKAGE_EXPORTS PASS components=${components.length} js=${jsEntries.length} types=${typeEntries.length} styles=${styleEntries.length} contracts=props+emits+slots named-default-parity=pass ssr=pass feedback-isolation=pass locale-registry=lazy+chain+activation color=parser+contrast date-adapter=iana+dst icons=isolated+sanitized subpaths=color,config,date,feedback,icons,plugin`)
