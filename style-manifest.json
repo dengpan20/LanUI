@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "core": {
     "subpath": "./styles/core.css",
     "bytes": 6675
@@ -42,6 +42,12 @@
       "subpath": "./styles/UiButton.css",
       "bytes": 3115,
       "rules": 30
+    },
+    {
+      "name": "UiCalendar",
+      "subpath": "./styles/UiCalendar.css",
+      "bytes": 5905,
+      "rules": 52
     },
     {
       "name": "UiCard",

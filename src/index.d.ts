@@ -12,6 +12,8 @@ export type DatePrecision = 'minute'|'second'|'millisecond'
 export type DateDisambiguation = 'compatible'|'earlier'|'later'|'reject'
 export type DateInput = string|Date|number|null|undefined
 export type DateValue = string|Date|number|null
+export type CalendarSelectionMode = 'single'|'multiple'|'range'
+export type CalendarPanel = 'month'|'year'
 export type ColorFormat = 'hex'|'rgb'|'hsl'
 export interface RgbaColor { r:number; g:number; b:number; a:number }
 export interface HsvaColor { h:number; s:number; v:number; a:number }
@@ -57,6 +59,12 @@ export interface UiBadgeProps { value?:Key; max?:number; dot?:boolean; status?:'
 export interface UiBreadcrumbItem { label:string; href?:string; to?:string; current?:boolean; disabled?:boolean }
 export interface UiBreadcrumbProps { items?:UiBreadcrumbItem[]; separator?:string }
 export interface UiButtonProps { variant?:'primary'|'secondary'|'outline'|'text'|'danger'|'danger-outline'; size?:ComponentSize; icon?:string; loading?:boolean; disabled?:boolean; type?:'button'|'submit'|'reset' }
+export interface UiCalendarDisabledContext { date:string; currentMonth:boolean }
+export interface UiCalendarRangeState { start:boolean; end:boolean; inRange:boolean; preview:boolean }
+export interface UiCalendarCell { date:string; label:number; currentMonth:boolean; today:boolean; selected:boolean; disabled:boolean; weekend:boolean; hidden:boolean; range:UiCalendarRangeState }
+export interface UiCalendarChangeMeta { source:'pointer'|'keyboard'|'today'|'button'|string; selectionMode:CalendarSelectionMode; date:string }
+export interface UiCalendarViewChange { value:string; previous:string; source:'api'|'button'|'keyboard'|'today'|'year-range'|'year-select'|string }
+export interface UiCalendarProps { modelValue?:DateValue|DateValue[]; selectionMode?:CalendarSelectionMode; valueType?:DateValueType; timeZone?:'local'|'UTC'|string; disambiguation?:DateDisambiguation; viewDate?:DateInput; defaultViewDate?:DateInput; today?:DateInput; min?:DateInput; max?:DateInput; firstDayOfWeek?:'auto'|0|1|2|3|4|5|6; weekdayFormat?:'narrow'|'short'|'long'; fixedWeeks?:boolean; showOutsideDays?:boolean; showWeekNumbers?:boolean; maxSelections?:number; disabledDate?:(date:Date,context:UiCalendarDisabledContext)=>boolean; size?:ComponentSize; bordered?:boolean; readonly?:boolean; disabled?:boolean; allowClear?:boolean; ariaLabel?:string }
 export interface UiCardProps { title?:string; titleTag?:'h2'|'h3'|'h4'|'h5'|'h6'; mark?:boolean; bodyClass?:string }
 export interface UiCascaderProps { modelValue?:Key[]; options?:UiTreeNode[]; placeholder?:string; disabled?:boolean; invalid?:boolean }
 export interface UiCommandPaletteCommand { key:Key; label:string; description?:string; group?:string; keywords?:string[]; icon?:string; shortcut?:string|string[]; disabled?:boolean; hidden?:boolean; [key:string]:unknown }
@@ -162,6 +170,7 @@ export type UiAvatarEmits = {}
 export type UiBadgeEmits = {}
 export type UiBreadcrumbEmits = { navigate:(item:UiBreadcrumbItem)=>void }
 export type UiButtonEmits = {}
+export type UiCalendarEmits = { 'update:modelValue':(value:DateValue|DateValue[])=>void; change:(value:DateValue|DateValue[],meta:UiCalendarChangeMeta)=>void; clear:(meta:{source:string})=>void; 'update:viewDate':(value:string)=>void; 'view-change':(meta:UiCalendarViewChange)=>void; 'panel-change':(panel:CalendarPanel)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiCardEmits = {}
 export type UiCascaderEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[],path:UiTreeNode[])=>void; 'open-change':(open:boolean)=>void }
 export interface UiCommandPaletteOpenMeta { source:'programmatic'|'trigger'|'shortcut'|'select'|'escape'|'mask'|'close-button' }
@@ -231,6 +240,7 @@ export type UiAvatarSlots = { default?:()=>VNodeChild }
 export type UiBadgeSlots = { default?:()=>VNodeChild }
 export type UiBreadcrumbSlots = {}
 export type UiButtonSlots = { default?:()=>VNodeChild }
+export type UiCalendarSlots = { header?:(scope:{label:string;viewDate:string;panel:CalendarPanel;previous:()=>void;next:()=>void;setPanel:(panel:CalendarPanel)=>void})=>VNodeChild; cell?:(scope:UiCalendarCell)=>VNodeChild; year?:(scope:{year:number;selected:boolean})=>VNodeChild; footer?:(scope:{today:()=>void;clear:(source?:string)=>void})=>VNodeChild }
 export type UiCardSlots = { default?:()=>VNodeChild; header?:()=>VNodeChild; action?:()=>VNodeChild }
 export type UiCascaderSlots = {}
 export type UiCommandPaletteSlots = { trigger?:(scope:{open:()=>void;close:()=>void;toggle:()=>void})=>VNodeChild; header?:()=>VNodeChild; command?:(scope:{command:UiCommandPaletteCommand;active:boolean;query:string})=>VNodeChild; group?:(scope:{group:string})=>VNodeChild; empty?:(scope:{query:string})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown;retry:()=>void})=>VNodeChild; footer?:()=>VNodeChild }
@@ -298,7 +308,7 @@ export interface NotificationState { current:NotificationOptions|null }
 export interface LanUiFeedback { toast:ToastService; toastState:ToastState; notification:NotificationService; notificationState:NotificationState; readonly disposed:boolean; dispose:()=>void }
 
 export const UiAlert:LanComponent<UiAlertProps,UiAlertEmits,UiAlertSlots>; export const UiAutoComplete:LanComponent<UiAutoCompleteProps,UiAutoCompleteEmits,UiAutoCompleteSlots>; export const UiAvatar:LanComponent<UiAvatarProps,UiAvatarEmits,UiAvatarSlots>; export const UiBadge:LanComponent<UiBadgeProps,UiBadgeEmits,UiBadgeSlots>; export const UiBreadcrumb:LanComponent<UiBreadcrumbProps,UiBreadcrumbEmits,UiBreadcrumbSlots>
-export const UiButton:LanComponent<UiButtonProps,UiButtonEmits,UiButtonSlots>; export const UiCard:LanComponent<UiCardProps,UiCardEmits,UiCardSlots>; export const UiCascader:LanComponent<UiCascaderProps,UiCascaderEmits,UiCascaderSlots>; export const UiCheckbox:LanComponent<UiCheckboxProps,UiCheckboxEmits,UiCheckboxSlots>
+export const UiButton:LanComponent<UiButtonProps,UiButtonEmits,UiButtonSlots>; export const UiCalendar:LanComponent<UiCalendarProps,UiCalendarEmits,UiCalendarSlots>; export const UiCard:LanComponent<UiCardProps,UiCardEmits,UiCardSlots>; export const UiCascader:LanComponent<UiCascaderProps,UiCascaderEmits,UiCascaderSlots>; export const UiCheckbox:LanComponent<UiCheckboxProps,UiCheckboxEmits,UiCheckboxSlots>
 export const UiCollapse:LanComponent<UiCollapseProps,UiCollapseEmits,UiCollapseSlots>; export const UiColorPicker:LanComponent<UiColorPickerProps,UiColorPickerEmits,UiColorPickerSlots>; export const UiCommandPalette:LanComponent<UiCommandPaletteProps,UiCommandPaletteEmits,UiCommandPaletteSlots>; export const UiDescriptions:LanComponent<UiDescriptionsProps,UiDescriptionsEmits,UiDescriptionsSlots>
 export const UiCol:LanComponent<UiColProps,UiColEmits,UiColSlots>; export const UiDatePicker:LanComponent<UiDatePickerProps,UiDatePickerEmits,UiDatePickerSlots>; export const UiDivider:LanComponent<UiDividerProps,UiDividerEmits,UiDividerSlots>; export const UiDrawer:LanComponent<UiDrawerProps,UiDrawerEmits,UiDrawerSlots>
 export const UiConfigProvider:LanComponent<UiConfigProviderProps,UiConfigProviderEmits,UiConfigProviderSlots>; export const UiDateRangePicker:LanComponent<UiDateRangePickerProps,UiDateRangePickerEmits,UiDateRangePickerSlots>

@@ -22,6 +22,7 @@ const cases=[
   {name:'command-palette-open',viewport:{width:1280,height:1300},query:'theme=light&direction=ltr&density=default&state=advanced',prepare:async page=>{await page.locator('#visual-command-trigger').click();await page.getByRole('dialog',{name:'Quick commands'}).waitFor()}},
   {name:'color-picker-open',viewport:{width:1280,height:1300},query:'theme=dark&direction=rtl&density=compact&state=advanced',prepare:async page=>{await page.locator('#visual-color-trigger').click();await page.getByRole('dialog',{name:'Color picker'}).waitFor()}},
   {name:'rate-focused',viewport:{width:1280,height:1300},query:'theme=light&direction=rtl&density=compact&state=advanced',prepare:async page=>{await page.getByRole('slider',{name:'Advanced rating'}).focus()}},
+  {name:'calendar-focused',viewport:{width:1280,height:1400},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.locator('.ui-calendar-day[data-date="2026-08-10"]').focus()}},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

@@ -4,6 +4,7 @@ import {
   UiAlert,
   UiAutoComplete,
   UiButton,
+  UiCalendar,
   UiCard,
   UiColorPicker,
   UiCommandPalette,
@@ -39,6 +40,7 @@ const monthlyQuota = ref(12500)
 const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
 const serviceRating = ref(4.5)
+const releaseWindow = ref(['2026-08-10','2026-08-16'])
 const officeCity = ref('hangzhou')
 const selectedResource = ref('dashboard')
 const checkedResources = ref(['dashboard'])
@@ -107,6 +109,10 @@ const rows = computed(() => [
     </UiCard>
 
     <UiCard title="交付进度"><UiSteps :items="steps" :current="created ? 3 : 2" /></UiCard>
+
+    <UiCard title="Release calendar">
+      <UiCalendar v-model="releaseWindow" selection-mode="range" view-date="2026-08-01" today="2026-08-12" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" />
+    </UiCard>
 
     <UiCard title="全局命令面板">
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -16,6 +16,7 @@
       "UiBadge",
       "UiBreadcrumb",
       "UiButton",
+      "UiCalendar",
       "UiCard",
       "UiCascader",
       "UiCheckbox",
@@ -132,6 +133,8 @@
     "typeExports": [
       "BUILTIN_ICONS",
       "BUILTIN_ICON_NAMES",
+      "CalendarPanel",
+      "CalendarSelectionMode",
       "ColorFormat",
       "ColorInput",
       "ComponentSize",
@@ -215,6 +218,15 @@
       "UiButtonEmits",
       "UiButtonProps",
       "UiButtonSlots",
+      "UiCalendar",
+      "UiCalendarCell",
+      "UiCalendarChangeMeta",
+      "UiCalendarDisabledContext",
+      "UiCalendarEmits",
+      "UiCalendarProps",
+      "UiCalendarRangeState",
+      "UiCalendarSlots",
+      "UiCalendarViewChange",
       "UiCard",
       "UiCardEmits",
       "UiCardProps",
@@ -867,6 +879,58 @@
       ],
       "runtimeExports": [
         "UiButton",
+        "default"
+      ]
+    },
+    {
+      "name": "UiCalendar",
+      "subpath": "./components/UiCalendar",
+      "propsType": "UiCalendarProps",
+      "props": [
+        "allowClear",
+        "ariaLabel",
+        "bordered",
+        "defaultViewDate",
+        "disabled",
+        "disabledDate",
+        "disambiguation",
+        "firstDayOfWeek",
+        "fixedWeeks",
+        "max",
+        "maxSelections",
+        "min",
+        "modelValue",
+        "readonly",
+        "selectionMode",
+        "showOutsideDays",
+        "showWeekNumbers",
+        "size",
+        "timeZone",
+        "today",
+        "valueType",
+        "viewDate",
+        "weekdayFormat"
+      ],
+      "emitsType": "UiCalendarEmits",
+      "emits": [
+        "blur",
+        "change",
+        "clear",
+        "focus",
+        "panel-change",
+        "update:modelValue",
+        "update:viewDate",
+        "view-change"
+      ],
+      "slotsType": "UiCalendarSlots",
+      "slots": [
+        "cell",
+        "footer",
+        "header",
+        "year"
+      ],
+      "runtimeExports": [
+        "UiCalendar",
         "default"
       ]
     },

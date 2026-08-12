@@ -10,8 +10,9 @@ const browserArgument=process.argv.find(argument=>argument.startsWith('--browser
 const requestedBrowsers=browserArgument||process.env.LAN_UI_INTERACTION_BROWSERS||'chromium'
 const browserNames=requestedBrowsers==='all'?['chromium','firefox','webkit']:[...new Set(requestedBrowsers.split(',').map(value=>value.trim()).filter(Boolean))]
 for(const browserName of browserNames)if(!['chromium','firefox','webkit'].includes(browserName))throw new Error(`Unsupported interaction browser: ${browserName}`)
+const caseArgument=process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)
 
-const cases = [
+const allCases = [
   {
     name: 'color-picker-keyboard',
     run: async page => {
@@ -168,6 +169,26 @@ const cases = [
     },
   },
   {
+    name: 'calendar-range-keyboard',
+    run: async page => {
+      const calendar=page.getByRole('region',{name:'Release calendar'})
+      const start=calendar.locator('[data-date="2026-08-12"]')
+      await start.focus()
+      await page.keyboard.press('PageDown')
+      assert.equal(await calendar.getByRole('grid').getAttribute('aria-label'),'September 2026')
+      const septemberStart=calendar.locator('[data-date="2026-09-12"]')
+      assert.equal(await septemberStart.getAttribute('tabindex'),'0')
+      await page.keyboard.press('Enter')
+      await expectText(page,'calendar-output','2026-09-12')
+      await page.keyboard.press('ArrowRight')
+      await page.keyboard.press('Enter')
+      await expectText(page,'calendar-output','2026-09-12 to 2026-09-13')
+      assert.equal(await calendar.locator('[data-date="2026-09-12"]').getAttribute('aria-selected'),'true')
+      await page.keyboard.press('Delete')
+      await expectText(page,'calendar-output','empty')
+    },
+  },
+  {
     name: 'tabs-ltr-keyboard',
     run: async page => {
       await page.getByRole('tab', { name: 'Overview' }).focus()
@@ -314,6 +335,9 @@ const cases = [
     },
   },
 ]
+const requestedCases=caseArgument?[...new Set(caseArgument.split(',').map(value=>value.trim()).filter(Boolean))]:[]
+const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases
+if(requestedCases.length&&cases.length!==requestedCases.length)throw new Error(`Unknown interaction case: ${requestedCases.filter(name=>!cases.some(item=>item.name===name)).join(', ')}`)
 
 async function expectText(page, testId, expected) {
   const target = page.getByTestId(testId)

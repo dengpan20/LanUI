@@ -24,6 +24,23 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.20 calendar contract
+
+`UiCalendar` is additive. Use it when dates must remain visible for planning or range selection; retain `UiDatePicker` for compact single-field input and `UiDateRangePicker` for compact start/end entry.
+
+```vue
+<UiCalendar v-model="releaseRange" selection-mode="range" show-week-numbers />
+```
+
+- `selectionMode="single"` emits one value; `multiple` and `range` emit arrays. A range with one item is an in-progress selection and a two-item range is always normalized in ascending wall-date order.
+- `valueType="auto"` follows the first non-empty model value. Set `string`, `date` or `timestamp` explicitly when an empty model must still emit a specific representation.
+- `viewDate` initializes or controls the displayed month. Update it from `update:viewDate` when the surrounding application owns calendar navigation; `view-change` includes previous value and source metadata.
+- `min`, `max` and `disabledDate(date, context)` affect pointer, keyboard and accessible unavailable state. Consumer callback failures are contained and treated as enabled dates.
+- `firstDayOfWeek="auto"` uses platform Locale week information with a deterministic locale fallback. Set `0–6` to enforce an application-specific week convention.
+- Horizontal Arrow behavior mirrors in RTL. Up/Down, Home/End, Page keys, selection and model ordering remain chronological.
+- The component owns the ARIA grid, roving tab stop and date buttons. Custom `cell`, `year`, `header` and `footer` slots should not add nested focusable controls inside component-owned grid cells.
+- Pass `today` for deterministic SSR snapshots or time-frozen tests. Runtime applications may omit it to use the current date in the configured time zone.
+
 ## 1.19 statistic contract
 
 `UiStatistic` is additive. Use it for a single KPI or dashboard metric; retain `UiProgress` for bounded completion and `UiTable` for comparable record sets.

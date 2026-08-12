@@ -632,3 +632,17 @@
 - Title, prefix, value, suffix, trend and extra slots customize presentation without replacing the component-owned group/output semantics.
 - Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 20-section static preview, standalone consumer and SSR fixtures remain in parity for 62 components and 158 locale keys.
 - CI, 14 Axe cases and 19 interaction cases per Chromium/Firefox/WebKit engine are required for the P23 delivery evidence.
+
+## 37. Maturity P24: calendar and range planning
+
+- `UiCalendar` supports `single`, `multiple` and `range` selection. Single mode emits one value; multiple/range modes emit arrays, and completed ranges normalize start/end wall dates in ascending order.
+- String, Date and timestamp output share the strict date adapter, configured time zone and DST disambiguation contract. `valueType="auto"` infers from the first non-empty model value.
+- Display month is initialized from `viewDate`, `defaultViewDate`, selection or today. Navigation emits controlled `update:viewDate` plus source-aware `view-change`; the 12-year panel preserves the active month and clamped day.
+- Locale-derived weekday order supports platform `weekInfo` and `getWeekInfo`, with deterministic locale fallback and explicit `0–6` override. Month, weekday, date and action labels inherit Locale context.
+- Fixed/natural week rows, outside-day visibility, optional week numbers, three sizes and responsive layout cover embedded cards and full-width mobile use.
+- `min`, `max`, maximum multiple selections and contained `disabledDate` rules affect pointer selection, keyboard movement and accessible unavailable names without preventing users from navigating away from a disabled active cell.
+- The ARIA grid uses one instance-scoped roving tab stop. Arrow, Home/End, Page, Shift+Page, Enter/Space and Delete/Backspace behavior is covered in LTR and RTL; focus never leaks to another calendar instance.
+- Range start/end/in-range/hover-preview styling preserves chronological model order, forced-colors visibility and reduced-motion behavior. Today and selection remain independently perceivable.
+- Header, cell, year and footer slots expose typed presentation scope while the component retains gridcell buttons and accessible labels.
+- Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 21-section static preview, standalone consumer and SSR fixtures remain in parity for 63 components and 172 locale keys.
+- CI, 15 Axe cases and 20 interaction cases per Chromium/Firefox/WebKit engine are required for the P24 delivery evidence.

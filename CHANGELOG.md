@@ -4,6 +4,23 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.20.0] - 2026-08-12
+
+### Added
+
+- Public `UiCalendar` with single, multiple and range selection, string/Date/timestamp output, controlled month navigation and a 12-year selection panel.
+- Locale-aware weekday order and labels, optional week numbers, fixed/natural rows, adjacent-day visibility, minimum/maximum dates, capped multiple selection and contained custom disabled-date rules.
+- Instance-scoped roving focus with Arrow, Home/End, Page, Shift+Page, Enter/Space and Delete/Backspace keyboard operations plus RTL horizontal mapping.
+- Range hover previews, today/range/selection semantics, three sizes, responsive layout, reduced-motion/forced-colors treatment and typed header/cell/year/footer slots.
+- Unit, SSR, typed root/subpath, package, component-center, static-preview, visual, Axe, three-browser keyboard and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 62 to 63 entries.
+- Locale parity advances from 158 to 172 keys; Axe coverage advances from 14 to 15 scenarios and browser interaction coverage from 19 to 20 scenarios per engine.
+- Static preview advances from 20 to 21 sections and includes an interactive range-calendar example.
+- Reviewed package JS raw/gzip ceilings move to `365000 / 138000` B, package CSS to `325000 / 81000` B, root CSS to `160000 / 28500` B, subpath-consumer JS raw to `88000` B and standalone JS/CSS raw to `330000 / 162000` B. The remaining five ceilings are unchanged.
+
 ## [1.19.0] - 2026-08-12
 
 ### Added

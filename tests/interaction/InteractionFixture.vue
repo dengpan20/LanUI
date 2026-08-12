@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAutoComplete, UiButton, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
+  UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
   UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -26,6 +26,7 @@ const serviceRating = ref(3.5)
 const statisticValue = ref(1000)
 const statisticTrend = ref(5)
 const statisticLoading = ref(false)
+const calendarRange = ref(['2026-08-10','2026-08-16'])
 const files = ref([])
 const uploadError = ref('')
 const selectedRows = ref([])
@@ -127,6 +128,14 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiStatistic title="Revenue" :value="statisticValue" prefix="$" :trend="statisticTrend" :loading="statisticLoading" live="polite" />
           <UiButton id="refresh-statistic" variant="outline" @click="refreshStatistic">Refresh statistic</UiButton>
           <output class="interaction-output" data-testid="statistic-output">{{ statisticValue }} / {{ statisticTrend }} / {{ statisticLoading?'loading':'ready' }}</output>
+        </div>
+      </section>
+
+      <section class="interaction-case interaction-wide">
+        <h2>Calendar range keyboard contract</h2>
+        <div class="interaction-stack">
+          <UiCalendar v-model="calendarRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12" show-week-numbers aria-label="Release calendar" />
+          <output class="interaction-output" data-testid="calendar-output">{{ calendarRange.join(' to ') || 'empty' }}</output>
         </div>
       </section>
 

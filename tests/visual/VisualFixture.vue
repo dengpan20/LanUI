@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import {
-  UiAlert, UiAutoComplete, UiButton, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
+  UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
 } from '../../src/index.js'
@@ -47,6 +47,10 @@ const tableRows=[
 
       <UiCard title="Navigation choices" title-tag="h2">
         <div class="visual-stack"><UiTabs v-model="tab" :panels="false" :items="[{label:'Overview',value:'overview'},{label:'Usage',value:'usage'},{label:'API',value:'api'}]"/><UiSegmented v-model="segment" block :options="[{label:'Week',value:'week'},{label:'Month',value:'month'},{label:'Quarter',value:'quarter'}]"/><div class="visual-row"><UiTag color="blue">Active</UiTag><UiTag color="green">Success</UiTag><UiTag color="orange">Pending</UiTag><UiTag color="red">Error</UiTag></div></div>
+      </UiCard>
+
+      <UiCard title="Planning calendar" title-tag="h2">
+        <UiCalendar :model-value="['2026-08-10','2026-08-16']" selection-mode="range" view-date="2026-08-01" today="2026-08-12" size="sm" show-week-numbers aria-label="Planning calendar" />
       </UiCard>
     </section>
 

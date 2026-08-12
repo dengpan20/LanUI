@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import {
   UiButton,
+  UiCalendar,
   UiAutoComplete,
   UiCommandPalette,
   UiColorPicker,
@@ -28,6 +29,7 @@ const commandOpen = ref(false)
 const commandQuery = ref('')
 const brandColor = ref('#1677FFCC')
 const serviceRating = ref(3.5)
+const releaseRange = ref(['2026-08-10','2026-08-16'])
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
@@ -77,4 +79,8 @@ function sort(payload:UiTableSortChange) {
   <UiFormItem label="Brand color"><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#10B981']" /></UiFormItem>
   <UiFormItem label="Service rating"><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`"><template #text="{ text }">{{ text }}</template></UiRate></UiFormItem>
   <UiStatistic title="Revenue" :value="2864000" prefix="$" :trend="12.6"><template #trend="{ direction, tone }">{{ direction }}/{{ tone }}</template><template #extra>Updated now</template></UiStatistic>
+  <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
+    <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
+    <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>
+  </UiCalendar>
 </template>

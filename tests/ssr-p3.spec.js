@@ -2,6 +2,7 @@ import { createSSRApp, h } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import { describe, expect, it } from 'vitest'
 import UiButton from '../src/components/UiButton.vue'
+import UiCalendar from '../src/components/UiCalendar.vue'
 import UiAutoComplete from '../src/components/UiAutoComplete.vue'
 import UiConfigProvider from '../src/components/UiConfigProvider.vue'
 import UiDateRangePicker from '../src/components/UiDateRangePicker.vue'
@@ -27,6 +28,7 @@ async function renderFixture() {
     render: () => h(UiConfigProvider, { locale:'en-US', size:'lg' }, {
       default: () => [
         h(UiButton, null, () => 'Save'),
+        h(UiCalendar, { modelValue:['2026-08-10','2026-08-16'], selectionMode:'range', viewDate:'2026-08-01', today:'2026-08-12', showWeekNumbers:true, ariaLabel:'SSR release calendar' }),
         h(UiAutoComplete, { modelValue:'hangzhou', options:[{label:'Hangzhou',value:'hangzhou'}], 'aria-label':'SSR city' }),
         h(UiDateRangePicker, { modelValue:['2026-08-01','2026-08-11'] }),
         h(UiTimePicker, { modelValue:new Date('2026-08-12T01:30:00.000Z'), valueType:'date', timeZone:'Asia/Shanghai' }),
@@ -53,6 +55,9 @@ describe('server rendering', () => {
     const result = await renderFixture()
     expect(result.html).toContain('data-ui-locale="en-US"')
     expect(result.html).toContain('btn-lg')
+    expect(result.html).toContain('SSR release calendar')
+    expect(result.html).toContain('aria-multiselectable="true"')
+    expect(result.html).toContain('data-date="2026-08-12"')
     expect(result.html).toContain('role="combobox"')
     expect(result.html).toContain('SSR city')
     expect(result.html).toContain('Start date')
