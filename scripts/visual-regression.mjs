@@ -18,6 +18,7 @@ const cases=[
   {name:'light-ltr-default',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default'},
   {name:'dark-rtl-compact',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact'},
   {name:'light-ltr-mobile',viewport:{width:390,height:1600},query:'theme=light&direction=ltr&density=default'},
+  {name:'managed-form-error',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=form',ready:'.ui-form-error-summary'},
 ]
 
 const {server,origin}=await startFixtureServer(root)
@@ -30,6 +31,7 @@ try{
     const page=await context.newPage()
     await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
     await page.waitForSelector('body[data-visual-ready="true"]')
+    if(item.ready)await page.waitForSelector(item.ready)
     const image=await page.locator('#visual-fixture').screenshot({animations:'disabled'})
     const current=resolve(currentDir,`${item.name}.png`)
     const baseline=resolve(baselineDir,`${item.name}.png`)

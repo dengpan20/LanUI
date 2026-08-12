@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.24.0] - 2026-08-13
+
+### Added
+
+- Managed `UiForm` field APIs for nested paths, partial reset, value/state inspection, programmatic submit, validation, focus and scroll control, plus server-error injection through `setFieldError` and `setFields`.
+- Optional localized error summary with actionable field links, aggregate dirty/touched/validating slot state and typed form/item validation events.
+- Built-in type, exact-length, enum and whitespace rules, value transforms and cancellable async validators with stale-result protection.
+- Dedicated unit, SSR, root type, component-center, standalone/static preview, visual, Axe and three-browser interaction coverage for mature form workflows.
+- Performance ceilings are narrowly rebaselined for the managed-form release: package JS `433000/160000` raw/gzip bytes and standalone example JS `383000` raw bytes; all CSS, chunk and minimal-consumer ceilings remain unchanged.
+
+### Changed
+
+- `UiForm` now scopes error focus to registered fields rather than querying the global document, handles native reset, keeps model identity and supports explicit `initialValues`.
+- `UiFormItem` now reports idle/validating/success/error, touched and dirty state, responds to dynamic field names and exposes focus/scroll/error helpers.
+- Locale parity advances from 211 to 216 keys; visual coverage advances from 3 to 4 baselines, Axe coverage from 21 to 22 scenarios and interaction coverage from 25 to 26 cases per browser.
+
 ## [1.23.0] - 2026-08-13
 
 ### Added

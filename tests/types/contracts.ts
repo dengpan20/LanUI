@@ -7,6 +7,7 @@ import {
   UiDateRangePicker,
   UiDataGrid,
   UiDropdown,
+  UiForm,
   UiInput,
   UiIcon,
   UiImage,
@@ -81,6 +82,10 @@ import type {
   IconDefinitionInput,
   IconRegistry,
   UiIconProps,
+  UiFormFieldState,
+  UiFormInstance,
+  UiFormProps,
+  UiFormRule,
   RgbaColor,
   ColorFormat,
 } from 'lan-ui-design-system'
@@ -134,6 +139,10 @@ dataGridEmit('update:query','component')
 const dataGridSubpathParity:typeof SubpathDataGrid=NamedSubpathDataGrid
 const dataGridEvent:keyof UiDataGridEmits='state-change'
 const dataGridSlot:keyof UiDataGridSlots='footer'
+const formProps:InstanceType<typeof UiForm>['$props']&UiFormProps={model:{user:{email:''}},rules:{'user.email':[{required:true,type:'email'}]},initialValues:{user:{email:'owner@example.com'}},validateOnRuleChange:true,focusOnError:true,scrollToError:true,showErrorSummary:true}
+const formRule:UiFormRule={type:'email',trigger:['blur','submit'],transform:value=>String(value).trim(),validator:async(value,_model,{signal,name})=>signal?.aborted?true:name==='user.email'&&Boolean(value)}
+const formState:UiFormFieldState={name:'user.email',label:'Email',errors:[],status:'success',touched:true,dirty:true,validating:false}
+const formInstance:UiFormInstance={validate:async()=>true,validateField:async()=>true,submit:async()=>{},clearValidate:()=>{},reset:()=>{},resetFields:()=>{},setFields:()=>{},setFieldError:()=>{},getFieldValue:()=>'',getFieldsValue:()=>({}),setFieldValue:()=>'',getFieldState:()=>formState,getFieldsState:()=>[formState],getFieldError:()=>[],getFieldsError:()=>[],focusField:()=>true,scrollToField:()=>true}
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -236,6 +245,9 @@ const iconNames:string[]=plugin.listIcons()
 
 // @ts-expect-error Data grid modes are constrained to client or server orchestration.
 const invalidDataGridMode:UiDataGridProps={mode:'offline'}
+
+// @ts-expect-error Form validation types are constrained to supported built-in validators.
+const invalidFormRule:UiFormRule={type:'phone'}
 
 // @ts-expect-error Date picker value types are constrained to the public adapter contract.
 const invalidDateValueType:UiTimePickerProps={valueType:'moment'}

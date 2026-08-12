@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import {
   UiAlert,
   UiAutoComplete,
@@ -12,6 +12,8 @@ import {
   UiDateRangePicker,
   UiDataGrid,
   UiDescriptions,
+  UiForm,
+  UiFormItem,
   UiInput,
   UiIcon,
   UiImage,
@@ -32,8 +34,8 @@ import {
   toast,
 } from 'lan-ui-design-system'
 
-const projectName = ref('运营管理后台')
-const template = ref('dashboard')
+const projectModel = reactive({ project: { name: '运营管理后台', template: 'dashboard' } })
+const projectRules = { project: { name: [{ required:true, message:'请输入项目名称' }, { min:2, message:'项目名称至少需要 2 个字符' }], template: { required:true } } }
 const created = ref(false)
 const period = ref('week')
 const locale = ref('en-US')
@@ -97,7 +99,7 @@ const rows = computed(() => [
 <template>
   <main class="standalone-shell">
     <header class="standalone-header">
-      <div><UiIcon name="projectMark" :size="22" color="var(--brand-600)" aria-label="项目标识"/><span class="standalone-kicker">独立消费示例</span><h1>{{ projectName }}</h1></div>
+      <div><UiIcon name="projectMark" :size="22" color="var(--brand-600)" aria-label="项目标识"/><span class="standalone-kicker">独立消费示例</span><h1>{{ projectModel.project.name }}</h1></div>
       <UiTag color="blue">Vue 3 + Vite</UiTag>
     </header>
 
@@ -115,15 +117,17 @@ const rows = computed(() => [
       </div>
     </UiCard>
 
-    <UiCard title="创建项目" body-class="standalone-form">
-      <label><span>项目名称</span><UiInput v-model="projectName" clearable /></label>
-      <label><span>页面模板</span><UiSelect v-model="template" :options="[{label:'综合看板',value:'dashboard'},{label:'数据列表',value:'list'},{label:'配置中心',value:'settings'}]" /></label>
+    <UiCard title="创建项目">
+      <UiForm :model="projectModel" :rules="projectRules" show-error-summary class="standalone-form" @submit="createProject">
+      <UiFormItem name="project.name" label="项目名称" required><UiInput v-model="projectModel.project.name" clearable /></UiFormItem>
+      <UiFormItem name="project.template" label="页面模板" required><UiSelect v-model="projectModel.project.template" :options="[{label:'综合看板',value:'dashboard'},{label:'数据列表',value:'list'},{label:'配置中心',value:'settings'}]" /></UiFormItem>
       <label><span>办公城市</span><UiAutoComplete v-model="officeCity" :options="[{label:'杭州',value:'hangzhou',keywords:['hz']},{label:'上海',value:'shanghai',keywords:['sh']},{label:'深圳',value:'shenzhen',keywords:['sz']}]" /></label>
       <label><span>Monthly quota</span><UiNumberInput v-model="monthlyQuota" :min="0" :max="100000" :step="500" :precision="0"><template #suffix>CNY</template></UiNumberInput></label>
       <label><span>Rollout range</span><UiSlider v-model="rollout" range :step="5" :min-distance="10" :aria-label="['Rollout start','Rollout end']" /></label>
       <label><span>Service rating</span><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`" /></label>
       <label><span>Brand color</span><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981','#F59E0B']" /></label>
-      <UiButton :disabled="!projectName" @click="createProject">生成独立项目</UiButton>
+      <UiButton type="submit">生成独立项目</UiButton>
+      </UiForm>
     </UiCard>
 
     <UiCard title="交付进度"><UiSteps :items="steps" :current="created ? 3 : 2" /></UiCard>

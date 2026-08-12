@@ -24,6 +24,26 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.24 managed-form orchestration
+
+The release is additive for field rules and exposed methods. Existing `submit(model, event)` handlers remain valid; `invalid` now additionally receives a third `errors` argument and `reset` receives a state payload.
+
+```vue
+<UiForm ref="form" :model="model" :rules="rules" show-error-summary>
+  <UiFormItem name="account.email" label="Account email" required>
+    <UiInput v-model="model.account.email" />
+  </UiFormItem>
+  <UiButton type="submit">Save</UiButton>
+</UiForm>
+```
+
+- Dot and bracket paths are supported without flattening the domain model. Use stable paths for field registration and server errors.
+- Use `resetFields('account.email')` for partial reset and `reset()`/native reset for the initial snapshot. Pass `initialValues` when reset state differs from the first model value.
+- Map API errors with `setFieldError(path, message)` or `setFields([{ name, errors }])`; do not duplicate server errors in a parallel page-local store.
+- Async validators receive `{ signal, trigger, name }`. Forward `signal` to network requests so superseded validation is cancelled; stale results are ignored even when a transport does not abort.
+- `showErrorSummary` appears only after a failed submit. Each summary item focuses its registered field; `focusOnError` and `scrollToError` can be configured independently.
+- Built-in rules now include `type`, `len`, `enum`, `whitespace` and `transform`. Existing required/min/max/pattern/custom-validator semantics remain supported.
+
 ## 1.23 DataGrid and list orchestration
 
 The release is additive. Existing `UiTable`, `UiListToolbar` and `UiPagination` compositions remain supported.

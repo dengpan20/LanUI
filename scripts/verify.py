@@ -29,9 +29,9 @@ required = [
     "src/components/UiMenu.vue", "src/components/UiCollapse.vue", "src/components/UiDescriptions.vue",
     "src/components/UiResult.vue", "src/components/UiSpin.vue", "src/components/UiSegmented.vue",
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
-    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
+    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -76,7 +76,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 454 or len(manifest_components) != 67:
+if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 466 or len(manifest_components) != 67:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -541,24 +541,24 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 3 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 4 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "LAN_UI_BROWSER_PATH"]:
+for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "LAN_UI_BROWSER_PATH"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 19:
+if accessibility_script.count("{name:") < 22:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") < 23:
+if interaction_script.count("name: '") < 26:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -650,4 +650,5 @@ print("- maturity-p24=calendar,63-public-components,172-locale-keys,single-multi
 print("- maturity-p25=image,64-public-components,187-locale-keys,fallback-preview-gallery,zoom-rotate-pan,rtl-keyboard,21-interactions-per-browser")
 print("- maturity-p26=status-page+virtual-list,66-public-components,202-locale-keys,403-404-500,windowing,variable-measurement,23-interactions-per-browser")
 print("- maturity-p27=data-grid,67-public-components,211-locale-keys,client-server-orchestration,toolbar-a11y,25-interactions-per-browser")
+print("- maturity-p28=managed-form,67-public-components,216-locale-keys,nested-paths,async-race,server-errors,error-summary,26-interactions-per-browser")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

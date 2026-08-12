@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -322,14 +322,26 @@
       "UiFloatButtonSlots",
       "UiForm",
       "UiFormEmits",
+      "UiFormFieldState",
+      "UiFormInstance",
       "UiFormItem",
       "UiFormItemEmits",
       "UiFormItemProps",
       "UiFormItemSlots",
+      "UiFormPath",
       "UiFormProps",
+      "UiFormResetPayload",
       "UiFormRule",
+      "UiFormRuleType",
       "UiFormRules",
+      "UiFormSetField",
+      "UiFormSetValueOptions",
       "UiFormSlots",
+      "UiFormValidateOptions",
+      "UiFormValidateStatus",
+      "UiFormValidateTrigger",
+      "UiFormValidationResult",
+      "UiFormValidatorContext",
       "UiGrid",
       "UiGridEmits",
       "UiGridProps",
@@ -1530,15 +1542,23 @@
       "subpath": "./components/UiForm",
       "propsType": "UiFormProps",
       "props": [
+        "errorSummaryTitle",
+        "focusOnError",
+        "initialValues",
         "model",
         "rules",
+        "scrollIntoViewOptions",
+        "scrollToError",
+        "showErrorSummary",
+        "validateOnRuleChange",
         "validateOnSubmit"
       ],
       "emitsType": "UiFormEmits",
       "emits": [
         "invalid",
         "reset",
-        "submit"
+        "submit",
+        "validate"
       ],
       "slotsType": "UiFormSlots",
       "slots": [
@@ -1563,10 +1583,14 @@
         "name",
         "required",
         "reserveMessageSpace",
-        "rules"
+        "rules",
+        "showSuccess",
+        "validateStatus"
       ],
       "emitsType": "UiFormItemEmits",
-      "emits": [],
+      "emits": [
+        "validate"
+      ],
       "slotsType": "UiFormItemSlots",
       "slots": [
         "default"

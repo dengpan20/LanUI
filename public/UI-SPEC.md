@@ -683,3 +683,14 @@
 - Search, region, table caption, result live region and pagination landmarks have distinct accessible names. Selection targets are at least 24px, dark metadata meets contrast and mobile bounded tables do not clip row controls.
 - Root/subpath runtime exports, Props/Emits/Slots declarations, component styles, manifests, component center, 25-section static preview, standalone consumer and SSR fixtures remain in parity for 67 components and 211 locale keys.
 - CI requires 21 Axe scenarios and 25 interaction cases per Chromium/Firefox/WebKit engine for the P27 delivery evidence.
+
+## 41. Maturity P28: managed forms and validation
+
+- UiForm owns registered field orchestration while preserving the consumer model object. Dot/bracket paths address nested values consistently across rules, validation, partial reset and server errors.
+- The initial snapshot is deterministic and may be overridden by initialValues. Native reset and public reset methods restore values in place, preserving Vue reactivity and application references.
+- Form state exposes field/aggregate errors, idle/validating/success/error, touched and dirty metadata. setFields and setFieldError integrate API responses without a parallel error store.
+- Required, whitespace, type, exact length, minimum, maximum, enum, pattern, transform and custom rules share trigger semantics. Async validators receive an AbortSignal and stale completion is ignored.
+- Failed submission may render a localized error summary whose buttons focus registered controls. Focus/scroll behavior is instance-scoped, configurable and never targets another form.
+- Help/error IDs, aria-invalid, aria-busy, field alerts and labelled summary regions remain synchronized. Success display is opt-in so dense forms do not add visual noise.
+- Public methods include validate/validateField/submit, clear/reset, field value/state inspection, server-error injection, focus and scroll. Props, events, slots and UiFormInstance are fully typed.
+- Component center, standalone/static preview, SSR, unit, four visual baselines, 22 Axe scenarios and 26 interactions per browser are release gates for 67 components and 216 locale keys.

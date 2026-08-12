@@ -53,6 +53,14 @@ const commandItems = [
 ]
 const formModel = reactive({ name: '' })
 const formResult = ref('idle')
+const managedForm = ref(null)
+const managedFormModel = reactive({ profile: { email: '' } })
+const managedFormResult = ref('idle')
+const setManagedServerError = () => { managedForm.value?.setFieldError('profile.email', 'Email already belongs to another account'); managedFormResult.value = 'server-error' }
+const resetManagedEmail = () => {
+  managedForm.value?.resetFields('profile.email')
+  managedFormResult.value = 'reset'
+}
 const gridQuery=ref('')
 const gridPage=ref(1)
 const gridPageSize=ref(5)
@@ -248,6 +256,17 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiButton type="submit">Submit form</UiButton>
         </UiForm>
         <output class="interaction-output" data-testid="form-output">{{ formResult }}</output>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Managed nested form contract</h2>
+        <UiForm ref="managedForm" :model="managedFormModel" show-error-summary @submit="managedFormResult='submitted'" @invalid="managedFormResult='invalid'">
+          <UiFormItem label="Account email" name="profile.email" required :rules="[{ required:true }, { type:'email' }]" show-success>
+            <UiInput v-model="managedFormModel.profile.email" />
+          </UiFormItem>
+          <div class="interaction-row"><UiButton type="button" variant="secondary" @click="setManagedServerError">Set server error</UiButton><UiButton type="button" variant="text" @click="resetManagedEmail">Reset managed email</UiButton><UiButton type="submit">Submit managed form</UiButton></div>
+        </UiForm>
+        <output class="interaction-output" data-testid="managed-form-output">{{ managedFormResult }}</output>
       </section>
 
       <section class="interaction-case">

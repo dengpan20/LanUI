@@ -62,8 +62,8 @@ function sort(payload:UiTableSortChange) {
     Typed content
     <template #footer="{ close }"><UiButton @click="close">Close</UiButton></template>
   </UiModal>
-  <UiForm :model="model" @submit="submit">
-    <template #default="{ validate, reset }">
+  <UiForm :model="model" show-error-summary focus-on-error @submit="submit">
+    <template #default="{ validate, validateField, reset, resetFields, errors, validating, dirty }">
       <UiFormItem label="Name" name="name">
         <template #default="{ controlId, invalid }">
           <UiInput :id="controlId" v-model="model.name" :invalid="invalid" />
@@ -71,6 +71,8 @@ function sort(payload:UiTableSortChange) {
       </UiFormItem>
       <UiFormItem label="Office"><UiAutoComplete v-model="office" :options="[{label:'Hangzhou',value:'hangzhou'}]" /></UiFormItem>
       <UiButton @click="validate()">Validate</UiButton>
+      <UiButton :loading="validating" @click="validateField('name')">Validate name {{ errors.length }}/{{ dirty }}</UiButton>
+      <UiButton @click="resetFields('name')">Reset name</UiButton>
       <UiButton @click="reset">Reset</UiButton>
     </template>
   </UiForm>

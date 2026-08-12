@@ -29,6 +29,7 @@ const cases=[
   {name:'data-grid-focused',viewport:{width:1280,height:2000},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('textbox',{name:'Search data'}).focus()}},
   {name:'data-grid-columns-open',viewport:{width:1280,height:2000},query:'theme=dark&direction=rtl&density=compact',prepare:async page=>{await page.getByRole('button',{name:'Display columns'}).click();await page.getByRole('group',{name:'Column settings'}).waitFor()}},
   {name:'status-page-500',viewport:{width:1280,height:1800},query:'theme=light&direction=ltr&density=default&state=status',ready:'[data-status="500"]'},
+  {name:'managed-form-error',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=form',ready:'.ui-form-error-summary'},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

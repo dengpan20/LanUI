@@ -348,6 +348,33 @@ const allCases = [
     },
   },
   {
+    name: 'managed-form-nested-summary-server-error',
+    run: async page => {
+      const section=page.locator('.interaction-case').filter({hasText:'Managed nested form contract'})
+      const input=section.getByRole('textbox',{name:'Account email'})
+      await section.getByRole('button',{name:'Submit managed form'}).click()
+      await expectText(page,'managed-form-output','invalid')
+      assert.match(await section.locator('.ui-form-error-summary').innerText(),/Account email is required/)
+      assert.equal(await input.evaluate(node=>node===document.activeElement),true)
+      await input.fill('owner@example.com')
+      await section.getByRole('button',{name:'Submit managed form'}).click()
+      await expectText(page,'managed-form-output','submitted')
+      await section.locator('.ui-form-error-summary').waitFor({state:'detached'})
+      assert.equal(await section.locator('.ui-form-error-summary').count(),0)
+      await section.getByRole('button',{name:'Set server error'}).click()
+      await expectText(page,'managed-form-output','server-error')
+      assert.match(await section.locator('.ui-form-error-summary').innerText(),/already belongs/)
+      await section.locator('.ui-form-error-summary button').click()
+      assert.equal(await input.evaluate(node=>node===document.activeElement),true)
+      await section.getByRole('button',{name:'Reset managed email'}).click()
+      await expectText(page,'managed-form-output','reset')
+      await page.waitForFunction(node=>node?.value==='',await input.elementHandle())
+      assert.equal(await input.inputValue(),'')
+      await section.locator('.ui-form-error-summary').waitFor({state:'detached'})
+      assert.equal(await section.locator('.ui-form-error-summary').count(),0)
+    },
+  },
+  {
     name: 'menu-directional-keyboard',
     run: async page => {
       const workspace = page.getByRole('menuitem', { name: 'Workspace' })

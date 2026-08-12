@@ -1,13 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiStatusPage, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
-defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
+const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
 const tab=ref('overview')
 const segment=ref('month')
 const commandOpen=ref(false)
@@ -22,6 +22,9 @@ const gridColumns=[{key:'name',label:'Work item',sortable:true},{key:'team',labe
 const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
+const visualForm=ref(null)
+const visualFormModel=reactive({account:{email:''},profile:{displayName:'L'}})
+onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
   {key:'owner',label:'Owner'},
@@ -92,6 +95,12 @@ const tableRows=[
       <div class="visual-stack"><label>Package name<UiInput model-value="lan-ui-design-system"/></label><UiButton>Save settings</UiButton></div>
     </UiDrawer>
     <UiStatusPage v-if="state==='status'" status="500" embedded />
+    <UiCard v-if="state==='form'" title="Managed form validation" title-tag="h2" class="visual-table-card">
+      <UiForm ref="visualForm" :model="visualFormModel" show-error-summary error-summary-title="Review account details">
+        <div class="visual-form"><UiFormItem name="account.email" label="Account email" required :rules="[{required:true},{type:'email'}]"><UiInput v-model="visualFormModel.account.email"/></UiFormItem><UiFormItem name="profile.displayName" label="Display name" :rules="[{min:2}]"><UiInput v-model="visualFormModel.profile.displayName"/></UiFormItem></div>
+        <div class="ui-form-actions"><UiButton type="reset" variant="secondary">Reset</UiButton><UiButton type="submit">Save account</UiButton></div>
+      </UiForm>
+    </UiCard>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">
         <UiMultiSelect aria-label="Team members" :model-value="['lin']" :options="[{label:'Lin',value:'lin'},{label:'Chen',value:'chen'}]"/>

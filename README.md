@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、66 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、67 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -314,7 +314,7 @@ pnpm pack
 python scripts/verify.py
 ```
 
-`pnpm ci` 会执行 Token 导出、源码检查、66 个组件契约测试、后台构建、组件库构建及独立项目构建。
+`pnpm ci` 会执行 Token 导出、源码检查、67 个组件契约测试、后台构建、组件库构建及独立项目构建。
 
 组件包公开内容：
 
@@ -385,7 +385,7 @@ app.use(lanUi)
 lanUi.setLocale('en-US') // 已显示的默认文案和生成式表单错误同步更新
 ```
 
-`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 66 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
+`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 67 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
 
 ### Intl、复数与语言回退
 
@@ -487,8 +487,8 @@ const notification = useNotification()
 
 - `pnpm test` 执行 Vitest 行为测试与源码契约测试，覆盖表单语义、组合框键盘操作、浮层碰撞定位、全局配置、本地化、服务式反馈及无 DOM 的 SSR 渲染。
 - Vitest 只收集根目录 `tests/`，排除 `.verify / .baseline / dist`，避免验证副本污染结果。
-- 所有 66 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
-- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、66 个子路径导出、最小消费者 Bundle 和独立消费项目。
+- 所有 67 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
+- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、67 个子路径导出、最小消费者 Bundle 和独立消费项目。
 
 ## SSR 与 Hydration
 
@@ -499,7 +499,7 @@ const notification = useNotification()
 
 ## API 稳定性与升级
 
-- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 66 个组件的 Props、Emits、Slots 与实际运行时导出。
+- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 67 个组件的 Props、Emits、Slots 与实际运行时导出。
 - 每个组件子路径同时导出 `UiXxxProps`、`UiXxxEmits` 和 `UiXxxSlots`；模板事件负载、`$emit` 与作用域插槽均参与 vue-tsc 检查。
 - 构建工具可通过 `lan-ui-design-system/api-manifest` 或 `lan-ui-design-system/api-manifest.json` 读取该清单。
 - `pnpm run api:check` 对比已构建包与提交的 Manifest；公开 API 变化必须先运行 `pnpm run api:generate` 并审查 SemVer 影响。
@@ -537,7 +537,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'
 import 'lan-ui-design-system/styles/UiButton.css'
 ```
 
-每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 66 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
+每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 67 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
 
 ## Global command palette
 
@@ -600,3 +600,25 @@ pnpm run test:performance
 - `UiFormItem` 可通过 `reserve-message-space` 预留帮助/错误信息行；默认保持紧凑布局，`UiForm` 会保护提交点击过程，修正错误后首次点击即可提交。
 - `performance-budgets.json` 对组件包 JS/CSS、最大 Chunk、最大组件样式、UiButton 最小消费项目和独立示例设置 14 项 Raw/Gzip 上限。
 - 预算报告写入 `.verify/performance/report.json`；预算提高必须与变更说明一并审查，不能通过静默放宽门禁处理回归。
+
+## Managed forms and validation (P28)
+
+UiForm and UiFormItem now manage production form state without requiring a second validation store:
+
+~~~vue
+<UiForm ref="form" :model="account" :rules="rules" show-error-summary @submit="save">
+  <template #default="{ dirty, validating, errors }">
+    <UiFormItem name="profile.email" label="Email" required show-success>
+      <UiInput v-model="account.profile.email" />
+    </UiFormItem>
+    <UiButton type="submit" :loading="validating">Save ({{ errors.length }})</UiButton>
+  </template>
+</UiForm>
+~~~
+
+- Field names accept dot/bracket paths for nested objects and arrays. Validation, value inspection, partial reset, focus and server-error APIs all use the same canonical path.
+- Rules support required, whitespace, type, exact length, range, enum, pattern, transform and custom async validators. Async contexts carry an AbortSignal; superseded results never overwrite newer input.
+- validate, validateField, submit, clearValidate, resetFields, setFields, setFieldError, value/state getters, focusField and scrollToField are public methods described by UiFormInstance.
+- Error summaries are localized and link back to registered controls. Form-level slot state exposes aggregate errors, dirty/touched and validation progress; item slots expose status and field state.
+- Root/subpath Props/Emits/Slots declarations, component center, standalone consumer, static preview and SSR fixtures remain in parity for 67 components and 216 locale keys.
+- CI requires 4 visual baselines, 22 Axe scenarios and 26 interaction cases per Chromium/Firefox/WebKit engine for the P28 delivery evidence.
