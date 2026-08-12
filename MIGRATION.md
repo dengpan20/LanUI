@@ -24,6 +24,30 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.25 dynamic form arrays and dependencies
+
+The release is additive. Existing array fields and custom validators keep their behavior; applications can move repeated field orchestration into `UiFormList` incrementally.
+
+```vue
+<UiForm :model="model">
+  <UiFormList v-slot="{ fields, add, remove, move }" name="contacts" :min="1" :max="5">
+    <div v-for="(field, index) in fields" :key="field.key">
+      <UiFormItem :name="[...field.name, 'email']" label="Email" :rules="[{ required: true }, { type: 'email' }]">
+        <UiInput v-model="model.contacts[index].email" />
+      </UiFormItem>
+      <UiButton type="button" @click="remove(index)">Remove</UiButton>
+    </div>
+    <UiButton type="button" @click="add({ email: '' })">Add contact</UiButton>
+  </UiFormList>
+</UiForm>
+```
+
+- Render rows with `field.key`, not the array index. Keys stay attached to the same object when rows move.
+- Nested item names come from `field.name`; this keeps registration, validation, error summaries and partial reset synchronized after reindexing.
+- Set `min`/`max` for structural limits. Guarded operations emit `limit`; successful operations emit typed `change`, `add`, `remove` or `move` payloads.
+- Use `dependencies` on a `UiFormItem` to revalidate a touched field when related values change. Set `validateOnDependencyChange=false` when the application schedules validation itself.
+- Conditional rules may define `when(model, context)`. Validator context now includes `getFieldValue` and `getFieldsValue` alongside the abort signal, trigger and field name.
+
 ## 1.24 managed-form orchestration
 
 The release is additive for field rules and exposed methods. Existing `submit(model, event)` handlers remain valid; `invalid` now additionally receives a third `errors` argument and `reset` receives a state payload.

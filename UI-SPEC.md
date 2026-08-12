@@ -694,3 +694,14 @@
 - Help/error IDs, aria-invalid, aria-busy, field alerts and labelled summary regions remain synchronized. Success display is opt-in so dense forms do not add visual noise.
 - Public methods include validate/validateField/submit, clear/reset, field value/state inspection, server-error injection, focus and scroll. Props, events, slots and UiFormInstance are fully typed.
 - Component center, standalone/static preview, SSR, unit, four visual baselines, 22 Axe scenarios and 26 interactions per browser are release gates for 67 components and 216 locale keys.
+
+## 42. Maturity P29: dynamic form arrays and dependency validation
+
+- `UiFormList` provides standalone `v-model` and form-bound `name` modes for repeated values. It normalizes string/array paths and never replaces the parent form model identity.
+- Slot fields expose stable `key`, current `name`, `index` and `value`. Object identity preserves row keys through reordering; `field.name` must be used to register nested `UiFormItem` controls after reindexing.
+- `add`, `remove`, `move`, `replace` and `getValue` are exposed methods. Successful changes emit immutable typed payloads; guarded min/max operations emit a `limit` payload without mutating the model.
+- List-level array rules participate in normal form validation, reset, error summaries and focus. Removed rows unregister synchronously and surviving rows re-register under canonical paths without retaining stale fields.
+- `UiFormItem.dependencies` revalidates an already-touched or validated field when related values change. `validateOnDependencyChange` opts out for application-managed scheduling.
+- A rule-level `when(model, context)` condition controls applicability. Custom validators receive `getFieldValue` and `getFieldsValue` in addition to `signal`, `trigger` and `name` for cross-field logic without closing over a second state store.
+- Dynamic rows use labelled group semantics and their nested controls keep unique label/help/error relationships. Disabled structural operations remain native disabled controls.
+- Component center, standalone/static preview, deterministic SSR, seven focused unit cases, five visual baselines, 23 Axe scenarios and 27 interactions per browser are release gates for 68 components and 216 locale keys.

@@ -51,11 +51,11 @@ export type SelectOptionInput = SelectOption | Key
 export interface UiTreeNode { label:string; value:Key; disabled?:boolean; disableCheckbox?:boolean; selectable?:boolean; checkable?:boolean; isLeaf?:boolean; icon?:string; children?:UiTreeNode[]; [key:string]:unknown }
 export interface UiTreeDataNode { label?:string; value?:Key; disabled?:boolean; disableCheckbox?:boolean; selectable?:boolean; checkable?:boolean; isLeaf?:boolean; icon?:string; children?:UiTreeDataNode[]; [key:string]:unknown }
 export type UiFormPath = string|readonly (string|number)[]
-export type UiFormValidateTrigger = 'submit'|'blur'|'change'|string
+export type UiFormValidateTrigger = 'submit'|'blur'|'change'|'dependency'|string
 export type UiFormValidateStatus = 'idle'|'validating'|'success'|'error'
 export type UiFormRuleType = 'string'|'number'|'boolean'|'array'|'object'|'date'|'integer'|'email'|'url'
-export interface UiFormValidatorContext { signal?:AbortSignal; trigger:UiFormValidateTrigger; name:string }
-export interface UiFormRule { required?:boolean; whitespace?:boolean; type?:UiFormRuleType; len?:number; min?:number; max?:number; enum?:unknown[]; pattern?:RegExp; transform?:(value:unknown)=>unknown; message?:string; trigger?:UiFormValidateTrigger|UiFormValidateTrigger[]; validator?:(value:unknown,model:Record<string,unknown>,context:UiFormValidatorContext)=>boolean|string|Error|void|Promise<boolean|string|Error|void> }
+export interface UiFormValidatorContext { signal?:AbortSignal; trigger:UiFormValidateTrigger; name:string; getFieldValue:(name:UiFormPath)=>unknown; getFieldsValue:(names?:UiFormPath[])=>Record<string,unknown> }
+export interface UiFormRule { required?:boolean; whitespace?:boolean; type?:UiFormRuleType; len?:number; min?:number; max?:number; enum?:unknown[]; pattern?:RegExp; transform?:(value:unknown)=>unknown; when?:(model:Record<string,unknown>,context:UiFormValidatorContext)=>boolean; message?:string; trigger?:UiFormValidateTrigger|UiFormValidateTrigger[]; validator?:(value:unknown,model:Record<string,unknown>,context:UiFormValidatorContext)=>boolean|string|Error|void|Promise<boolean|string|Error|void> }
 export type UiFormRules = Record<string,UiFormRule|UiFormRule[]|UiFormRule['validator']>
 export interface UiFormFieldState { name:string; label:string; errors:string[]; status:UiFormValidateStatus; touched:boolean; dirty:boolean; validating:boolean }
 export interface UiFormValidationResult { valid:boolean; errors:UiFormFieldState[]; source:string }
@@ -82,6 +82,10 @@ export interface UiFormInstance<Model extends Record<string,unknown>=Record<stri
   focusField:(name:UiFormPath)=>boolean
   scrollToField:(name:UiFormPath,options?:ScrollIntoViewOptions)=>boolean
 }
+export interface UiFormListField<Item=unknown> { key:string; name:Array<string|number>; index:number; value:Item }
+export interface UiFormListLimit { action:'add'|'remove'|'replace'; min:number; max:number; length:number }
+export interface UiFormListChange<Item=unknown> { type:'add'|'remove'|'move'|'replace'; values:Item[]; index?:number; value?:Item; indices?:number[]; removed?:Item[]; from?:number; to?:number }
+export interface UiFormListInstance<Item=unknown> { add:(item?:Item,index?:number)=>UiFormListChange<Item>|false; remove:(indices:number|number[])=>UiFormListChange<Item>|false; move:(from:number,to:number)=>UiFormListChange<Item>|false; replace:(items:Item[])=>UiFormListChange<Item>|false; getValue:()=>Item[]; readonly fields:UiFormListField<Item>[]; readonly canAdd:boolean; readonly canRemove:boolean }
 
 export interface UiAlertProps { type?:'info'|'success'|'warning'|'error'; title?:string; description?:string; closable?:boolean; showIcon?:boolean; banner?:boolean }
 export interface UiAutoCompleteOption { label:string; value:Key; disabled?:boolean; keywords?:string[]; description?:string }
@@ -126,7 +130,8 @@ export interface UiDropdownProps { modelValue?:boolean; items?:UiDropdownItem[];
 export interface UiEmptyProps { title?:string; description?:string; icon?:string; compact?:boolean }
 export interface UiFloatButtonProps { icon?:string; label?:string; variant?:'default'|'primary'|'danger'; badge?:Key; active?:boolean; disabled?:boolean }
 export interface UiFormProps<Model extends Record<string,unknown>=Record<string,unknown>> { model:Model; rules?:UiFormRules; initialValues?:Partial<Model>; validateOnSubmit?:boolean; validateOnRuleChange?:boolean; focusOnError?:boolean; scrollToError?:boolean; scrollIntoViewOptions?:ScrollIntoViewOptions; showErrorSummary?:boolean; errorSummaryTitle?:string }
-export interface UiFormItemProps { label?:string; name?:UiFormPath; required?:boolean; error?:string; help?:string; forId?:string; group?:boolean; composite?:boolean; reserveMessageSpace?:boolean; rules?:UiFormRule|UiFormRule[]|UiFormRule['validator']; validateStatus?:UiFormValidateStatus; showSuccess?:boolean }
+export interface UiFormItemProps { label?:string; name?:UiFormPath; required?:boolean; error?:string; help?:string; forId?:string; group?:boolean; composite?:boolean; reserveMessageSpace?:boolean; rules?:UiFormRule|UiFormRule[]|UiFormRule['validator']; validateStatus?:UiFormValidateStatus; showSuccess?:boolean; dependencies?:UiFormPath[]; validateOnDependencyChange?:boolean }
+export interface UiFormListProps<Item=unknown> { modelValue?:Item[]; name?:UiFormPath; defaultValue?:Item|((context:{index:number;values:Item[]})=>Item); min?:number; max?:number; disabled?:boolean; validateOnChange?:boolean; ariaLabel?:string }
 export interface UiGridProps { columns?:number|string; gap?:number|string; min?:number|string; align?:'start'|'center'|'end'|'stretch' }
 export interface UiIconProps { name?:string; fallback?:string; size?:number|string; strokeWidth?:number|string; color?:string; fill?:string; rotate?:number; flip?:'none'|'horizontal'|'vertical'|'both'; directional?:boolean; spin?:boolean; ariaLabel?:string }
 export interface UiImageProps { src?:string; alt?:string; fallback?:string; width?:string|number; height?:string|number; aspectRatio?:string|number; fit?:ImageFit; position?:string; radius?:string|number; loading?:'eager'|'lazy'; decoding?:'sync'|'async'|'auto'; crossorigin?:''|'anonymous'|'use-credentials'; referrerpolicy?:string; preview?:boolean; previewOpen?:boolean; previewSrc?:string; previewList?:string[]; previewIndex?:number; loop?:boolean; minScale?:number; maxScale?:number; scaleStep?:number; zoomOnWheel?:boolean; closeOnMask?:boolean; closeOnEsc?:boolean; toolbar?:boolean; disabled?:boolean; teleportTo?:string|HTMLElement; previewZIndex?:number }
@@ -245,6 +250,7 @@ export type UiEmptyEmits = {}
 export type UiFloatButtonEmits = {}
 export type UiFormEmits = { submit:(model:Record<string,unknown>,event:SubmitEvent)=>void; invalid:(model:Record<string,unknown>,event:SubmitEvent,errors:UiFormFieldState[])=>void; reset:(payload:UiFormResetPayload)=>void; validate:(payload:UiFormValidationResult)=>void }
 export type UiFormItemEmits = { validate:(payload:UiFormFieldState&{valid:boolean;trigger:UiFormValidateTrigger})=>void }
+export type UiFormListEmits<Item=unknown> = { 'update:modelValue':(value:Item[])=>void; change:(payload:UiFormListChange<Item>)=>void; add:(payload:UiFormListChange<Item>&{index:number;value:Item})=>void; remove:(payload:UiFormListChange<Item>&{indices:number[];removed:Item[]})=>void; move:(payload:UiFormListChange<Item>&{from:number;to:number})=>void; limit:(payload:UiFormListLimit)=>void }
 export type UiGridEmits = {}
 export type UiIconEmits = {}
 export type UiImageEmits = { load:(event:Event,meta:UiImageLoadMeta)=>void; error:(event:Event,meta:UiImageLoadMeta)=>void; fallback:(meta:UiImageFallbackMeta)=>void; retry:(meta:{src:string})=>void; 'update:previewOpen':(value:boolean)=>void; 'update:previewIndex':(value:number)=>void; 'preview-open':(meta:Omit<UiImagePreviewMeta,'source'>)=>void; 'preview-close':(meta:UiImagePreviewMeta)=>void; 'preview-change':(meta:UiImagePreviewMeta)=>void; 'preview-load':(event:Event,meta:UiImagePreviewEventMeta)=>void; 'preview-error':(event:Event,meta:UiImagePreviewEventMeta)=>void; transform:(meta:UiImageTransform)=>void }
@@ -312,6 +318,7 @@ export type UiEmptySlots = { default?:()=>VNodeChild }
 export type UiFloatButtonSlots = {}
 export type UiFormSlots = { default?:(props:{validate:(names?:string|string[],options?:UiFormValidateOptions)=>Promise<boolean>;validateField:(names:string|string[],options?:UiFormValidateOptions)=>Promise<boolean>;submit:(event?:SubmitEvent)=>Promise<void>;reset:(event?:Event)=>void;resetFields:(names?:string|string[])=>void;errors:UiFormFieldState[];validating:boolean;dirty:boolean;touched:boolean})=>VNodeChild }
 export type UiFormItemSlots = { default?:(props:{controlId:string;labelledby?:string;describedby?:string;invalid:boolean;validating:boolean;status:UiFormValidateStatus;dirty:boolean;touched:boolean;validate:(trigger?:UiFormValidateTrigger)=>Promise<boolean>})=>VNodeChild }
+export type UiFormListSlots<Item=unknown> = { default?:(scope:{fields:UiFormListField<Item>[];add:UiFormListInstance<Item>['add'];remove:UiFormListInstance<Item>['remove'];move:UiFormListInstance<Item>['move'];replace:UiFormListInstance<Item>['replace'];canAdd:boolean;canRemove:boolean})=>VNodeChild; empty?:(scope:{add:UiFormListInstance<Item>['add'];canAdd:boolean})=>VNodeChild }
 export type UiGridSlots = { default?:()=>VNodeChild }
 export type UiIconSlots = { default?:()=>VNodeChild }
 export type UiImageSlots = { placeholder?:()=>VNodeChild; error?:(scope:{retry:()=>void})=>VNodeChild; overlay?:(scope:{state:'loading'|'loaded'|'error';open:()=>void})=>VNodeChild; preview?:(scope:{src:string;index:number;scale:number;rotation:number})=>VNodeChild; caption?:(scope:{src:string;index:number})=>VNodeChild; toolbar?:(scope:{zoomIn:(source?:string)=>void;zoomOut:(source?:string)=>void;rotate:(delta:number,source?:string)=>void;reset:(source?:string)=>void;scale:number;rotation:number})=>VNodeChild }
@@ -372,6 +379,7 @@ export const UiConfigProvider:LanComponent<UiConfigProviderProps,UiConfigProvide
 export const UiDataGrid:LanComponent<UiDataGridProps,UiDataGridEmits,UiDataGridSlots>
 export const UiDropdown:LanComponent<UiDropdownProps,UiDropdownEmits,UiDropdownSlots>; export const UiEmpty:LanComponent<UiEmptyProps,UiEmptyEmits,UiEmptySlots>; export const UiFloatButton:LanComponent<UiFloatButtonProps,UiFloatButtonEmits,UiFloatButtonSlots>; export const UiForm:LanComponent<UiFormProps,UiFormEmits,UiFormSlots>
 export const UiFormItem:LanComponent<UiFormItemProps,UiFormItemEmits,UiFormItemSlots>; export const UiGrid:LanComponent<UiGridProps,UiGridEmits,UiGridSlots>; export const UiIcon:LanComponent<UiIconProps,UiIconEmits,UiIconSlots>; export const UiImage:LanComponent<UiImageProps,UiImageEmits,UiImageSlots>; export const UiInput:LanComponent<UiInputProps,UiInputEmits,UiInputSlots>; export const UiLayout:LanComponent<UiLayoutProps,UiLayoutEmits,UiLayoutSlots>
+export const UiFormList:LanComponent<UiFormListProps,UiFormListEmits,UiFormListSlots>
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>

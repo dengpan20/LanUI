@@ -14,6 +14,7 @@ import {
   UiDescriptions,
   UiForm,
   UiFormItem,
+  UiFormList,
   UiInput,
   UiIcon,
   UiImage,
@@ -34,7 +35,7 @@ import {
   toast,
 } from 'lan-ui-design-system'
 
-const projectModel = reactive({ project: { name: '运营管理后台', template: 'dashboard' } })
+const projectModel = reactive({ project: { name: '运营管理后台', template: 'dashboard' }, members: [{ name: 'Owner', email: 'owner@example.com' }] })
 const projectRules = { project: { name: [{ required:true, message:'请输入项目名称' }, { min:2, message:'项目名称至少需要 2 个字符' }], template: { required:true } } }
 const created = ref(false)
 const period = ref('week')
@@ -126,6 +127,16 @@ const rows = computed(() => [
       <label><span>Rollout range</span><UiSlider v-model="rollout" range :step="5" :min-distance="10" :aria-label="['Rollout start','Rollout end']" /></label>
       <label><span>Service rating</span><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`" /></label>
       <label><span>Brand color</span><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981','#F59E0B']" /></label>
+      <UiFormItem name="members" label="Project members" group :rules="[{ type:'array', min:1, message:'Keep at least one project member' }]">
+        <UiFormList v-slot="{ fields, add, remove, move, canAdd, canRemove }" name="members" :min="1" :max="5" :default-value="()=>({name:'',email:''})" aria-label="Project members">
+          <div v-for="(field,index) in fields" :key="field.key" style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px">
+            <UiFormItem :name="[...field.name,'name']" :label="`Member ${index+1}`" required :rules="[{required:true}]"><UiInput v-model="projectModel.members[index].name" /></UiFormItem>
+            <UiFormItem :name="[...field.name,'email']" label="Email" required :rules="[{required:true},{type:'email'}]"><UiInput v-model="projectModel.members[index].email" /></UiFormItem>
+            <span style="display:flex;gap:4px;padding-bottom:2px"><UiButton type="button" size="sm" variant="text" :disabled="index===0" @click="move(index,index-1)">Up</UiButton><UiButton type="button" size="sm" variant="text" :disabled="!canRemove" @click="remove(index)">Remove</UiButton></span>
+          </div>
+          <UiButton type="button" size="sm" variant="secondary" :disabled="!canAdd" @click="add()">Add member</UiButton>
+        </UiFormList>
+      </UiFormItem>
       <UiButton type="submit">生成独立项目</UiButton>
       </UiForm>
     </UiCard>

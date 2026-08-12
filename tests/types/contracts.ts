@@ -8,6 +8,7 @@ import {
   UiDataGrid,
   UiDropdown,
   UiForm,
+  UiFormList,
   UiInput,
   UiIcon,
   UiImage,
@@ -52,6 +53,7 @@ import SubpathStatistic, { UiStatistic as NamedSubpathStatistic } from 'lan-ui-d
 import SubpathTree, { UiTree as NamedSubpathTree } from 'lan-ui-design-system/components/UiTree'
 import SubpathCommandPalette, { UiCommandPalette as NamedSubpathCommandPalette } from 'lan-ui-design-system/components/UiCommandPalette'
 import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'lan-ui-design-system/components/UiColorPicker'
+import SubpathFormList, { UiFormList as NamedSubpathFormList } from 'lan-ui-design-system/components/UiFormList'
 import type {
   UiInputEmits,
   UiInputProps,
@@ -70,6 +72,7 @@ import type { UiStatisticEmits, UiStatisticProps, UiStatisticSlots } from 'lan-u
 import type { UiTreeEmits, UiTreeProps, UiTreeSlots } from 'lan-ui-design-system/components/UiTree'
 import type { UiCommandPaletteEmits, UiCommandPaletteProps, UiCommandPaletteSlots } from 'lan-ui-design-system/components/UiCommandPalette'
 import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 'lan-ui-design-system/components/UiColorPicker'
+import type { UiFormListEmits, UiFormListProps, UiFormListSlots } from 'lan-ui-design-system/components/UiFormList'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -84,6 +87,8 @@ import type {
   UiIconProps,
   UiFormFieldState,
   UiFormInstance,
+  UiFormListChange,
+  UiFormListInstance,
   UiFormProps,
   UiFormRule,
   RgbaColor,
@@ -140,9 +145,15 @@ const dataGridSubpathParity:typeof SubpathDataGrid=NamedSubpathDataGrid
 const dataGridEvent:keyof UiDataGridEmits='state-change'
 const dataGridSlot:keyof UiDataGridSlots='footer'
 const formProps:InstanceType<typeof UiForm>['$props']&UiFormProps={model:{user:{email:''}},rules:{'user.email':[{required:true,type:'email'}]},initialValues:{user:{email:'owner@example.com'}},validateOnRuleChange:true,focusOnError:true,scrollToError:true,showErrorSummary:true}
-const formRule:UiFormRule={type:'email',trigger:['blur','submit'],transform:value=>String(value).trim(),validator:async(value,_model,{signal,name})=>signal?.aborted?true:name==='user.email'&&Boolean(value)}
+const formRule:UiFormRule={type:'email',trigger:['blur','submit'],transform:value=>String(value).trim(),when:(_model,{getFieldValue})=>getFieldValue('enabled')!==false,validator:async(value,_model,{signal,name,getFieldsValue})=>signal?.aborted?true:name==='user.email'&&Boolean(value)&&Boolean(getFieldsValue(['user.email']))}
 const formState:UiFormFieldState={name:'user.email',label:'Email',errors:[],status:'success',touched:true,dirty:true,validating:false}
 const formInstance:UiFormInstance={validate:async()=>true,validateField:async()=>true,submit:async()=>{},clearValidate:()=>{},reset:()=>{},resetFields:()=>{},setFields:()=>{},setFieldError:()=>{},getFieldValue:()=>'',getFieldsValue:()=>({}),setFieldValue:()=>'',getFieldState:()=>formState,getFieldsState:()=>[formState],getFieldError:()=>[],getFieldsError:()=>[],focusField:()=>true,scrollToField:()=>true}
+const formListProps:InstanceType<typeof UiFormList>['$props']&UiFormListProps<{email:string}>={modelValue:[{email:''}],name:'contacts',defaultValue:({index})=>({email:`owner-${index}@example.com`}),min:1,max:5,validateOnChange:true,ariaLabel:'Contacts'}
+const formListChange:UiFormListChange<{email:string}>={type:'move',values:[{email:'owner@example.com'}],from:0,to:1}
+const formListInstance:UiFormListInstance<{email:string}>={add:()=>false,remove:()=>false,move:()=>formListChange,replace:()=>false,getValue:()=>[],fields:[],canAdd:true,canRemove:false}
+const formListSubpathParity:typeof SubpathFormList=NamedSubpathFormList
+const formListEvent:keyof UiFormListEmits='limit'
+const formListSlot:keyof UiFormListSlots='empty'
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -248,6 +259,9 @@ const invalidDataGridMode:UiDataGridProps={mode:'offline'}
 
 // @ts-expect-error Form validation types are constrained to supported built-in validators.
 const invalidFormRule:UiFormRule={type:'phone'}
+
+// @ts-expect-error Form list limits are numeric.
+const invalidFormListMax:UiFormListProps={max:'many'}
 
 // @ts-expect-error Date picker value types are constrained to the public adapter contract.
 const invalidDateValueType:UiTimePickerProps={valueType:'moment'}

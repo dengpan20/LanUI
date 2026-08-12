@@ -1,5 +1,5 @@
 <script setup>
-import { computed, nextTick, onBeforeUnmount, provide, reactive, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, provide, reactive, ref, shallowReactive, watch } from 'vue'
 import { cloneValue, deletePath, getPath, hasPath, pathKey, setPath } from './formUtils.js'
 import { useLocale } from '../config.js'
 
@@ -18,7 +18,7 @@ const props = defineProps({
 const emit = defineEmits(['submit', 'invalid', 'reset', 'validate'])
 const { t } = useLocale()
 const formElement = ref(null)
-const fields = reactive(new Map())
+const fields = shallowReactive(new Map())
 const fieldStates = reactive(new Map())
 const actionPointer = ref(false)
 const validating = ref(false)
@@ -152,6 +152,10 @@ const context = {
   report,
   getInitialValue,
   getFieldValue,
+  getFieldsValue,
+  setFieldValue,
+  getFieldState,
+  validateField,
   actionPointer,
 }
 provide('uiFormContext', context)

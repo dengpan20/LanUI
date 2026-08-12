@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "core": {
     "subpath": "./styles/core.css",
     "bytes": 6739
@@ -154,14 +154,20 @@
     {
       "name": "UiForm",
       "subpath": "./styles/UiForm.css",
-      "bytes": 1487,
-      "rules": 14
+      "bytes": 1519,
+      "rules": 15
     },
     {
       "name": "UiFormItem",
       "subpath": "./styles/UiFormItem.css",
       "bytes": 1160,
       "rules": 13
+    },
+    {
+      "name": "UiFormList",
+      "subpath": "./styles/UiFormList.css",
+      "bytes": 69,
+      "rules": 1
     },
     {
       "name": "UiGrid",

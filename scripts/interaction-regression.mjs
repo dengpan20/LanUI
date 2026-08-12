@@ -375,6 +375,32 @@ const allCases = [
     },
   },
   {
+    name: 'dynamic-form-list-dependency',
+    run: async page => {
+      const section=page.locator('.interaction-case').filter({hasText:'Dynamic form list and dependency contract'})
+      await section.getByRole('button',{name:'Add contact'}).click()
+      await expectText(page,'dynamic-form-output','contacts=2')
+      const secondEmail=section.getByRole('textbox',{name:'Contact email 2'})
+      await secondEmail.fill('second@example.com')
+      await section.getByRole('button',{name:'Move contact 2 up'}).click()
+      const firstEmail=section.getByRole('textbox',{name:'Contact email 1'})
+      await page.waitForFunction(node=>node?.value==='second@example.com',await firstEmail.elementHandle())
+      assert.equal(await firstEmail.inputValue(),'second@example.com')
+      await section.getByRole('button',{name:'Remove contact 1'}).click()
+      await expectText(page,'dynamic-form-output','contacts=1')
+      const passwordInputs=section.locator('input[type="password"]')
+      const confirm=passwordInputs.nth(1)
+      await section.getByRole('button',{name:'Validate dependency fields'}).click()
+      await passwordInputs.nth(0).fill('changed123')
+      await passwordInputs.nth(0).blur()
+      await section.getByRole('alert').waitFor()
+      assert.equal(await section.getByRole('alert').innerText(),'Passwords differ')
+      await confirm.fill('changed123')
+      await confirm.blur()
+      await section.getByRole('alert').waitFor({state:'detached'})
+    },
+  },
+  {
     name: 'menu-directional-keyboard',
     run: async page => {
       const workspace = page.getByRole('menuitem', { name: 'Workspace' })

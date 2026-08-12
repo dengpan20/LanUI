@@ -9,6 +9,7 @@ import {
   UiDataGrid,
   UiForm,
   UiFormItem,
+  UiFormList,
   UiInput,
   UiImage,
   UiModal,
@@ -27,8 +28,8 @@ const gridQuery = ref('')
 const gridPage = ref(1)
 const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
-interface FormModel extends Record<string, unknown> { name:string }
-const model = ref<FormModel>({ name: '' })
+interface FormModel extends Record<string, unknown> { name:string; contacts:Array<{email:string}>; password:string; confirm:string }
+const model = ref<FormModel>({ name: '', contacts:[{email:''}], password:'', confirm:'' })
 const office = ref('')
 const resource = ref<Key>('dashboard')
 const checkedResources = ref<Key[]>(['dashboard'])
@@ -69,6 +70,18 @@ function sort(payload:UiTableSortChange) {
           <UiInput :id="controlId" v-model="model.name" :invalid="invalid" />
         </template>
       </UiFormItem>
+      <UiFormItem label="Contacts" name="contacts" :rules="[{type:'array',min:1}]" group>
+        <UiFormList name="contacts" :min="1" :max="4" :default-value="{email:''}" aria-label="Contacts">
+          <template #default="{fields,add,remove,move,canAdd}">
+            <div v-for="field in fields" :key="field.key">
+              <UiFormItem :name="[...field.name,'email']" :label="`Email ${field.index+1}`" :rules="[{required:true,type:'email'}]"><UiInput v-model="model.contacts[field.index].email" /></UiFormItem>
+              <UiButton @click="move(field.index,Math.max(0,field.index-1))">Move</UiButton><UiButton @click="remove(field.index)">Remove</UiButton>
+            </div>
+            <UiButton :disabled="!canAdd" @click="add()">Add contact</UiButton>
+          </template>
+        </UiFormList>
+      </UiFormItem>
+      <UiFormItem label="Confirm" name="confirm" :dependencies="['password']" :rules="[{validator:(value,current)=>value===current.password||'Mismatch'}]"><UiInput v-model="model.confirm" /></UiFormItem>
       <UiFormItem label="Office"><UiAutoComplete v-model="office" :options="[{label:'Hangzhou',value:'hangzhou'}]" /></UiFormItem>
       <UiButton @click="validate()">Validate</UiButton>
       <UiButton :loading="validating" @click="validateField('name')">Validate name {{ errors.length }}/{{ dirty }}</UiButton>

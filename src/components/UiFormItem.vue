@@ -17,6 +17,8 @@ const props = defineProps({
   rules: { type: [Array, Object, Function], default: () => [] },
   validateStatus: { type: String, default: '' },
   showSuccess: Boolean,
+  dependencies: { type: Array, default: () => [] },
+  validateOnDependencyChange: { type: Boolean, default: true },
 })
 const emit = defineEmits(['validate'])
 const form = inject('uiFormContext', null)
@@ -32,6 +34,8 @@ let activeValidation = null
 const initialValue = ref()
 const itemElement = ref(null)
 const normalizedName = computed(() => pathKey(props.name))
+const dependencySignature = computed(() => props.dependencies.map(pathKey).filter(Boolean).join('\u0001'))
+const dependencyNames = computed(() => dependencySignature.value ? dependencySignature.value.split('\u0001') : [])
 const controlId = computed(() => props.forId || `ui-form-control-${uid}`)
 const labelId = computed(() => props.label ? `ui-form-label-${uid}` : '')
 const helpId = `ui-form-help-${uid}`
@@ -89,6 +93,14 @@ async function runValidation(trigger, run, currentController) {
     if (trigger !== 'submit' && triggers.length && !triggers.includes(trigger)) continue
     let error = ''
     let generated = null
+    const context = {
+      signal: currentController?.signal,
+      trigger,
+      name: normalizedName.value,
+      getFieldValue: name => form?.getFieldValue?.(name),
+      getFieldsValue: names => form?.getFieldsValue?.(names) || {},
+    }
+    if (target.when && !target.when(form?.model, context)) continue
     const checked = target.transform ? target.transform(value) : value
     const size = typeof checked === 'number' ? checked : checked?.length
     if ((target.required || props.required) && empty(checked)) target.message ? error=target.message : generated={key:'form.required',params:{}}
@@ -101,7 +113,7 @@ async function runValidation(trigger, run, currentController) {
     else if (!empty(checked) && target.pattern && !matchesPattern(target.pattern, checked)) target.message ? error=target.message : generated={key:'form.pattern',params:{}}
     else if (target.validator) {
       try {
-        const result = await target.validator(checked, form?.model, { signal: currentController?.signal, trigger, name: normalizedName.value })
+        const result = await target.validator(checked, form?.model, context)
         if (run !== validationRun.value) return latestResult()
         if (result === false) target.message ? error=target.message : generated={key:'form.invalid',params:{}}
         else if (typeof result === 'string') error = result
@@ -188,6 +200,10 @@ onBeforeUnmount(() => { controller?.abort(); form?.unregister(props.name, api) }
 watch(normalizedName, (name, previous) => { form?.unregister(previous, api); form?.register(name, api); report() })
 watch([message, effectiveStatus, touched, dirty], report)
 watch(() => props.error, () => nextTick(report))
+watch(() => dependencyNames.value.map(name => cloneValue(getPath(form?.model, name))), () => {
+  if (!props.validateOnDependencyChange || (!touched.value && effectiveStatus.value === 'idle')) return
+  validate('dependency')
+}, { deep: true })
 defineExpose({ validate, clear, setErrors, focus, scrollIntoView, getState, controlId })
 </script>
 

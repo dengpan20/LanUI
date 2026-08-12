@@ -19,6 +19,7 @@ const cases=[
   {name:'dark-rtl-compact',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact'},
   {name:'light-ltr-mobile',viewport:{width:390,height:1600},query:'theme=light&direction=ltr&density=default'},
   {name:'managed-form-error',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=form',ready:'.ui-form-error-summary'},
+  {name:'dynamic-form-list',viewport:{width:1280,height:950},query:'theme=light&direction=ltr&density=default&state=form-list',ready:'.visual-form-list'},
 ]
 
 const {server,origin}=await startFixtureServer(root)

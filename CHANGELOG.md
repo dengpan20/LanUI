@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.25.0] - 2026-08-13
+
+### Added
+
+- Public `UiFormList` for standalone or form-bound dynamic arrays, with stable row keys, nested field paths, guarded add/remove/move/replace operations and typed structured events.
+- Cross-field `dependencies`, conditional rule `when(model, context)` and validator value getters for password confirmation, conditional sections and related-field validation.
+- Component-center, standalone/static preview, SSR, unit, root/subpath type, visual, Axe and three-browser interaction coverage for dynamic form workflows.
+
+### Changed
+
+- `UiForm` field registration now uses a shallow reactive map so dynamic unregister/reindex operations preserve public field identity and do not retain stale rows.
+- Public component/style/API parity advances from 67 to 68; visual coverage advances from 4 to 5 baselines, Axe coverage from 22 to 23 scenarios and interaction coverage from 26 to 27 cases per browser.
+- The standalone example JavaScript ceiling is narrowly rebaselined from `383000` to `384000` raw bytes for its new FormList consumer; all package, CSS, chunk and minimal-consumer ceilings remain unchanged.
+
 ## [1.24.0] - 2026-08-13
 
 ### Added

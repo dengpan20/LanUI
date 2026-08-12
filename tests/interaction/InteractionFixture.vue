@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
+  UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiInput, UiMenu,
   UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -61,6 +61,10 @@ const resetManagedEmail = () => {
   managedForm.value?.resetFields('profile.email')
   managedFormResult.value = 'reset'
 }
+const dynamicForm=ref(null)
+const dynamicFormModel=reactive({password:'secret123',confirm:'secret123',contacts:[{email:'first@example.com'}]})
+const dynamicFormResult=ref('contacts=1')
+const updateDynamicFormResult=()=>{dynamicFormResult.value=`contacts=${dynamicFormModel.contacts.length}`}
 const gridQuery=ref('')
 const gridPage=ref(1)
 const gridPageSize=ref(5)
@@ -267,6 +271,28 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-row"><UiButton type="button" variant="secondary" @click="setManagedServerError">Set server error</UiButton><UiButton type="button" variant="text" @click="resetManagedEmail">Reset managed email</UiButton><UiButton type="submit">Submit managed form</UiButton></div>
         </UiForm>
         <output class="interaction-output" data-testid="managed-form-output">{{ managedFormResult }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide">
+        <h2>Dynamic form list and dependency contract</h2>
+        <UiForm ref="dynamicForm" :model="dynamicFormModel">
+          <div class="interaction-row">
+            <UiFormItem label="Password" name="password" required><UiInput v-model="dynamicFormModel.password" type="password" /></UiFormItem>
+            <UiFormItem label="Confirm password" name="confirm" required :dependencies="['password']" :rules="[{validator:value=>value===dynamicFormModel.password||'Passwords differ'}]"><UiInput v-model="dynamicFormModel.confirm" type="password" /></UiFormItem>
+          </div>
+          <UiFormItem label="Contacts" name="contacts" group :rules="[{type:'array',min:1}]">
+            <UiFormList v-slot="{fields,add,remove,move,canAdd,canRemove}" name="contacts" :min="1" :max="3" :default-value="()=>({email:''})" aria-label="Contacts" @change="updateDynamicFormResult">
+              <div v-for="(field,index) in fields" :key="field.key" class="interaction-row interaction-list-row">
+                <UiFormItem :name="[...field.name,'email']" :label="`Contact email ${index+1}`" required :rules="[{required:true},{type:'email'}]"><UiInput v-model="dynamicFormModel.contacts[index].email" /></UiFormItem>
+                <UiButton type="button" variant="text" :disabled="index===0" @click="move(index,index-1)">Move contact {{ index+1 }} up</UiButton>
+                <UiButton type="button" variant="text" :disabled="!canRemove" @click="remove(index)">Remove contact {{ index+1 }}</UiButton>
+              </div>
+              <UiButton type="button" variant="secondary" :disabled="!canAdd" @click="add()">Add contact</UiButton>
+            </UiFormList>
+          </UiFormItem>
+          <UiButton type="button" @click="dynamicForm.validateField('confirm')">Validate dependency fields</UiButton>
+        </UiForm>
+        <output class="interaction-output" data-testid="dynamic-form-output">{{ dynamicFormResult }}</output>
       </section>
 
       <section class="interaction-case">

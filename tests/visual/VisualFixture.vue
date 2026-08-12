@@ -4,7 +4,7 @@ import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiStatusPage, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
 const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -23,7 +23,7 @@ const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,n
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
 const visualForm=ref(null)
-const visualFormModel=reactive({account:{email:''},profile:{displayName:'L'}})
+const visualFormModel=reactive({account:{email:''},profile:{displayName:'L'},contacts:[{name:'Owner',email:'owner@example.com'},{name:'Reviewer',email:'reviewer@example.com'}]})
 onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
@@ -99,6 +99,19 @@ const tableRows=[
       <UiForm ref="visualForm" :model="visualFormModel" show-error-summary error-summary-title="Review account details">
         <div class="visual-form"><UiFormItem name="account.email" label="Account email" required :rules="[{required:true},{type:'email'}]"><UiInput v-model="visualFormModel.account.email"/></UiFormItem><UiFormItem name="profile.displayName" label="Display name" :rules="[{min:2}]"><UiInput v-model="visualFormModel.profile.displayName"/></UiFormItem></div>
         <div class="ui-form-actions"><UiButton type="reset" variant="secondary">Reset</UiButton><UiButton type="submit">Save account</UiButton></div>
+      </UiForm>
+    </UiCard>
+    <UiCard v-if="state==='form-list'" title="Dynamic contact fields" title-tag="h2" class="visual-table-card visual-form-list">
+      <UiForm :model="visualFormModel">
+        <UiFormItem name="contacts" label="Review contacts" group :rules="[{type:'array',min:1}]">
+          <UiFormList v-slot="{fields,add,remove,move,canAdd,canRemove}" name="contacts" :min="1" :max="4" :default-value="()=>({name:'',email:''})" aria-label="Review contacts">
+            <div v-for="(field,index) in fields" :key="field.key" class="visual-form-list-row">
+              <div class="visual-form-list-heading"><strong>Contact {{ index+1 }}</strong><span><UiButton type="button" size="sm" variant="text" :disabled="index===0" @click="move(index,index-1)">Move up</UiButton><UiButton type="button" size="sm" variant="text" :disabled="!canRemove" @click="remove(index)">Remove</UiButton></span></div>
+              <div class="visual-form"><UiFormItem :name="[...field.name,'name']" label="Name" required><UiInput v-model="visualFormModel.contacts[index].name"/></UiFormItem><UiFormItem :name="[...field.name,'email']" label="Email" required :rules="[{type:'email'}]"><UiInput v-model="visualFormModel.contacts[index].email"/></UiFormItem></div>
+            </div>
+            <UiButton type="button" variant="secondary" :disabled="!canAdd" @click="add()">Add contact</UiButton>
+          </UiFormList>
+        </UiFormItem>
       </UiForm>
     </UiCard>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">

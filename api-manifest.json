@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -36,6 +36,7 @@
       "UiFloatButton",
       "UiForm",
       "UiFormItem",
+      "UiFormList",
       "UiGrid",
       "UiIcon",
       "UiImage",
@@ -328,6 +329,14 @@
       "UiFormItemEmits",
       "UiFormItemProps",
       "UiFormItemSlots",
+      "UiFormList",
+      "UiFormListChange",
+      "UiFormListEmits",
+      "UiFormListField",
+      "UiFormListInstance",
+      "UiFormListLimit",
+      "UiFormListProps",
+      "UiFormListSlots",
       "UiFormPath",
       "UiFormProps",
       "UiFormResetPayload",
@@ -1575,6 +1584,7 @@
       "propsType": "UiFormItemProps",
       "props": [
         "composite",
+        "dependencies",
         "error",
         "forId",
         "group",
@@ -1585,6 +1595,7 @@
         "reserveMessageSpace",
         "rules",
         "showSuccess",
+        "validateOnDependencyChange",
         "validateStatus"
       ],
       "emitsType": "UiFormItemEmits",
@@ -1597,6 +1608,39 @@
       ],
       "runtimeExports": [
         "UiFormItem",
+        "default"
+      ]
+    },
+    {
+      "name": "UiFormList",
+      "subpath": "./components/UiFormList",
+      "propsType": "UiFormListProps",
+      "props": [
+        "ariaLabel",
+        "defaultValue",
+        "disabled",
+        "max",
+        "min",
+        "modelValue",
+        "name",
+        "validateOnChange"
+      ],
+      "emitsType": "UiFormListEmits",
+      "emits": [
+        "add",
+        "change",
+        "limit",
+        "move",
+        "remove",
+        "update:modelValue"
+      ],
+      "slotsType": "UiFormListSlots",
+      "slots": [
+        "default",
+        "empty"
+      ],
+      "runtimeExports": [
+        "UiFormList",
         "default"
       ]
     },
