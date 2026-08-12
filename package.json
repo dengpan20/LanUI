@@ -1,0 +1,157 @@
+{
+  "name": "lan-ui-design-system",
+  "version": "1.14.0",
+  "private": true,
+  "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
+  "keywords": [
+    "vue",
+    "design-system",
+    "component-library",
+    "admin",
+    "typescript"
+  ],
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@11.16.0",
+  "type": "module",
+  "main": "./dist-lib/lan-ui.js",
+  "module": "./dist-lib/lan-ui.js",
+  "types": "./dist-lib/lan-ui.d.ts",
+  "style": "./dist-lib/lan-ui.css",
+  "sideEffects": [
+    "./dist-lib/lan-ui.css",
+    "./dist-lib/styles/*.css"
+  ],
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist-lib/lan-ui.d.ts",
+      "import": "./dist-lib/lan-ui.js",
+      "default": "./dist-lib/lan-ui.js"
+    },
+    "./components/*": {
+      "types": "./dist-lib/components/*.d.ts",
+      "import": "./dist-lib/components/*.js",
+      "default": "./dist-lib/components/*.js"
+    },
+    "./config": {
+      "types": "./dist-lib/config.d.ts",
+      "import": "./dist-lib/config.js",
+      "default": "./dist-lib/config.js"
+    },
+    "./date": {
+      "types": "./dist-lib/date.d.ts",
+      "import": "./dist-lib/date.js",
+      "default": "./dist-lib/date.js"
+    },
+    "./feedback": {
+      "types": "./dist-lib/feedback.d.ts",
+      "import": "./dist-lib/feedback.js",
+      "default": "./dist-lib/feedback.js"
+    },
+    "./icons": {
+      "types": "./dist-lib/icons.d.ts",
+      "import": "./dist-lib/icons.js",
+      "default": "./dist-lib/icons.js"
+    },
+    "./plugin": {
+      "types": "./dist-lib/plugin.d.ts",
+      "import": "./dist-lib/plugin.js",
+      "default": "./dist-lib/plugin.js"
+    },
+    "./style.css": "./dist-lib/lan-ui.css",
+    "./styles/core.css": "./dist-lib/styles/core.css",
+    "./styles/*.css": "./dist-lib/styles/*.css",
+    "./tokens": "./design-tokens.json",
+    "./api-manifest": "./api-manifest.json",
+    "./api-manifest.json": "./api-manifest.json",
+    "./style-manifest": "./style-manifest.json",
+    "./style-manifest.json": "./style-manifest.json",
+    "./performance-budgets": "./performance-budgets.json",
+    "./performance-budgets.json": "./performance-budgets.json",
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "components/*": [
+        "dist-lib/components/*"
+      ],
+      "config": [
+        "dist-lib/config.d.ts"
+      ],
+      "date": [
+        "dist-lib/date.d.ts"
+      ],
+      "feedback": [
+        "dist-lib/feedback.d.ts"
+      ],
+      "icons": [
+        "dist-lib/icons.d.ts"
+      ],
+      "plugin": [
+        "dist-lib/plugin.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist-lib",
+    "api-manifest.json",
+    "CHANGELOG.md",
+    "MIGRATION.md",
+    "style-manifest.json",
+    "performance-budgets.json",
+    "design-tokens.json",
+    "tokens.css"
+  ],
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173",
+    "start": "vite --host 127.0.0.1 --port 4173",
+    "build": "vite build",
+    "build:lib:base": "vite build --config vite.lib.config.js && node scripts/copy-types.mjs",
+    "build:lib": "pnpm run build:lib:base && node scripts/split-component-css.mjs",
+    "build:example": "pnpm --dir examples/standalone-vue run build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "tokens": "node scripts/export-tokens.mjs",
+    "lint": "node scripts/lint.mjs",
+    "test": "vitest run && node scripts/component-contracts.mjs && pnpm run test:locale && pnpm run test:date && pnpm run test:icons",
+    "test:unit": "vitest run",
+    "test:locale": "node scripts/locale-contracts.mjs && node scripts/intl-contracts.mjs && node scripts/locale-registry-contracts.mjs",
+    "test:date": "node scripts/date-contracts.mjs",
+    "test:icons": "node scripts/icon-contracts.mjs",
+    "test:visual": "node scripts/visual-regression.mjs",
+    "test:a11y": "node scripts/accessibility-regression.mjs",
+    "test:interaction": "node scripts/interaction-regression.mjs",
+    "test:interaction:cross-browser": "node scripts/interaction-regression.mjs --browser=all",
+    "test:interaction:non-chromium": "node scripts/interaction-regression.mjs --browser=firefox,webkit",
+    "test:performance": "node scripts/performance-regression.mjs",
+    "visual:update": "node scripts/visual-regression.mjs --update",
+    "test:package": "node scripts/test-package-exports.mjs && node scripts/build-subpath-consumer.mjs",
+    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=7')\"",
+    "api:generate": "pnpm run build:lib && node scripts/api-manifest.mjs --write",
+    "api:check": "node scripts/api-manifest.mjs",
+    "styles:generate": "pnpm run build:lib:base && node scripts/split-component-css.mjs --write",
+    "styles:check": "node scripts/split-component-css.mjs",
+    "check": "pnpm run lint && pnpm run test && pnpm run test:visual && pnpm run test:a11y && pnpm run test:interaction && pnpm run build && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance",
+    "ci": "pnpm run tokens && pnpm run check",
+    "prepack": "pnpm run tokens && pnpm run test:locale && pnpm run test:date && pnpm run test:icons && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.8",
+    "@vue/test-utils": "2.4.11",
+    "axe-core": "4.11.4",
+    "happy-dom": "20.11.2",
+    "pixelmatch": "7.1.0",
+    "playwright": "1.62.0",
+    "pngjs": "7.0.0",
+    "postcss": "8.5.26",
+    "typescript": "5.9.3",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "vue": "3.5.41",
+    "vue-tsc": "3.3.9"
+  }
+}

@@ -1,0 +1,11 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg-page); color: var(--text-primary); }
+.interaction-fixture { width: min(1100px, 100%); margin-inline: auto; padding: 24px; }
+.interaction-fixture h1 { margin: 0 0 20px; font-size: 24px; }
+.interaction-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.interaction-case { min-width: 0; padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-container); }
+.interaction-case h2 { margin: 0 0 12px; font-size: 16px; }
+.interaction-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.interaction-output { min-height: 20px; margin: 0; color: var(--text-secondary); font: 12px/20px ui-monospace, SFMono-Regular, Consolas, monospace; }
+.interaction-wide { grid-column: 1 / -1; }
+@media (max-width: 720px) { .interaction-grid { grid-template-columns: 1fr; } .interaction-wide { grid-column: auto; } }

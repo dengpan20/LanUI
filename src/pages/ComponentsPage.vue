@@ -1,0 +1,404 @@
+<script setup>
+import { computed, reactive, ref } from 'vue'
+import AppIcon from '../components/AppIcon.vue'
+import UiIcon from '../components/UiIcon.vue'
+import UiButton from '../components/UiButton.vue'
+import UiCard from '../components/UiCard.vue'
+import UiInput from '../components/UiInput.vue'
+import UiNumberInput from '../components/UiNumberInput.vue'
+import UiSlider from '../components/UiSlider.vue'
+import UiSelect from '../components/UiSelect.vue'
+import UiAutoComplete from '../components/UiAutoComplete.vue'
+import UiTag from '../components/UiTag.vue'
+import UiTextarea from '../components/UiTextarea.vue'
+import UiDatePicker from '../components/UiDatePicker.vue'
+import UiTimePicker from '../components/UiTimePicker.vue'
+import UiPagination from '../components/UiPagination.vue'
+import UiUpload from '../components/UiUpload.vue'
+import UiFloatButton from '../components/UiFloatButton.vue'
+import UiTable from '../components/UiTable.vue'
+import UiListToolbar from '../components/UiListToolbar.vue'
+import UiFormItem from '../components/UiFormItem.vue'
+import UiCheckbox from '../components/UiCheckbox.vue'
+import UiRadio from '../components/UiRadio.vue'
+import UiSwitch from '../components/UiSwitch.vue'
+import UiTooltip from '../components/UiTooltip.vue'
+import UiPopover from '../components/UiPopover.vue'
+import UiPopconfirm from '../components/UiPopconfirm.vue'
+import UiLayout from '../components/UiLayout.vue'
+import UiGrid from '../components/UiGrid.vue'
+import UiCol from '../components/UiCol.vue'
+import UiSpace from '../components/UiSpace.vue'
+import UiDivider from '../components/UiDivider.vue'
+import UiTabs from '../components/UiTabs.vue'
+import UiBreadcrumb from '../components/UiBreadcrumb.vue'
+import UiAvatar from '../components/UiAvatar.vue'
+import UiBadge from '../components/UiBadge.vue'
+import UiSkeleton from '../components/UiSkeleton.vue'
+import UiEmpty from '../components/UiEmpty.vue'
+import UiAlert from '../components/UiAlert.vue'
+import UiDropdown from '../components/UiDropdown.vue'
+import UiProgress from '../components/UiProgress.vue'
+import UiSteps from '../components/UiSteps.vue'
+import UiTimeline from '../components/UiTimeline.vue'
+import UiForm from '../components/UiForm.vue'
+import UiMultiSelect from '../components/UiMultiSelect.vue'
+import UiTreeSelect from '../components/UiTreeSelect.vue'
+import UiCascader from '../components/UiCascader.vue'
+import UiTransfer from '../components/UiTransfer.vue'
+import UiCollapse from '../components/UiCollapse.vue'
+import UiConfigProvider from '../components/UiConfigProvider.vue'
+import UiDateRangePicker from '../components/UiDateRangePicker.vue'
+import UiDescriptions from '../components/UiDescriptions.vue'
+import UiMenu from '../components/UiMenu.vue'
+import UiResult from '../components/UiResult.vue'
+import UiSegmented from '../components/UiSegmented.vue'
+import UiSpin from '../components/UiSpin.vue'
+import { createLocaleRegistry, createLocaleTools } from '../config.js'
+import { formatDateValue } from '../date.js'
+import { createIconRegistry } from '../icons.js'
+import { notification, toast } from '../feedback.js'
+const emit=defineEmits(['notify','open-modal','open-drawer','open-notification'])
+const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
+const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
+const customerName=ref('');const customerType=ref('');const searchableType=ref('');const passwordDemo=ref('LanUI2026');const notes=ref('');const toastPlacement=ref('top-center')
+const cityDemo=ref('');const strictCityDemo=ref('shanghai');const remoteProjectDemo=ref('')
+const cityOptions=[
+  {label:'北京',value:'beijing',description:'华北区域',keywords:['北京','Beijing','BJ']},
+  {label:'上海',value:'shanghai',description:'华东区域',keywords:['上海','Shanghai','SH']},
+  {label:'杭州',value:'hangzhou',description:'华东区域',keywords:['杭州','Hangzhou','HZ']},
+  {label:'深圳',value:'shenzhen',description:'华南区域',keywords:['深圳','Shenzhen','SZ']},
+]
+async function fetchProjectSuggestions(query,{signal}){
+  await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,360);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})
+  return ['Design System','Admin Portal','Analytics Center','AI Workspace'].filter(item=>item.toLowerCase().includes(query.toLowerCase())).map((label,index)=>({label,value:`remote-${index}-${label.toLowerCase().replaceAll(' ','-')}`,description:'异步结果'}))
+}
+const quantityDemo=ref(12.5);const budgetDemo=ref(286400);const percentDemo=ref(68)
+const sliderDemo=ref(40);const sliderRangeDemo=ref([20,80]);const verticalSliderDemo=ref(65)
+const formatCurrency=value=>`\u00a5${Number(value).toLocaleString('zh-CN',{minimumFractionDigits:0,maximumFractionDigits:0})}`
+const parseCurrency=text=>String(text).replace(/[\u00a5,\s]/g,'')
+const demoDate=ref('2026-08-11');const demoTime=ref('09:30');const demoDateTime=ref('2026-08-11T14:30');const zonedInstant=ref(new Date('2026-08-11T06:30:00.000Z'));const demoTimeZone=ref('Asia/Shanghai');const demoFiles=ref([])
+const zonedPreview=computed(()=>formatDateValue(zonedInstant.value,{mode:'datetime',timeZone:'UTC',precision:'second'}))
+const demoPage=ref(3);const demoPageSize=ref(10);const floatDemoOpen=ref(false)
+const checkboxDemo=ref(['邮件通知']);const radioDemo=ref('标准版');const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false)
+const formRef=ref(null);const validatedForm=reactive({name:'',email:''});const validationRules={name:[{required:true,message:'请输入客户名称'},{min:2,message:'客户名称至少 2 个字符'}],email:[{required:true,message:'请输入企业邮箱'},{pattern:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,message:'请输入有效的企业邮箱'}]}
+const multiDemo=ref(['华东区域']);const treeDemo=ref('hangzhou');const cascaderDemo=ref(['zhejiang','hangzhou']);const transferDemo=ref(['api'])
+const menuDemo=ref('overview');const collapseDemo=ref(['guideline']);const segmentedDemo=ref('week');const spinDemo=ref(false)
+const iconDemoNames=['home','search','calendar','clock','bell','upload','download','filter','checkCircle','alert','info','settings']
+const iconDemoRegistry=createIconRegistry({tenantMark:'<path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="m7 9 5 3 5-3M12 12v6"/>'})
+const configLocale=ref('en-US');const configSize=ref('sm');const configDensity=ref('compact');const rangeDemo=ref(['2026-08-01','2026-08-11']);const rangeError=ref('')
+const intlLocale=ref('en-US');const intlCount=ref(1200)
+const intlMessages={
+  'zh-CN':{one:'{count} 项',other:'{count} 项'},
+  'en-US':{one:'{count} item',other:'{count} items'},
+  'ar-EG':{zero:'لا عناصر',one:'عنصر واحد',two:'عنصران',few:'{count} عناصر',many:'{count} عنصرًا',other:'{count} عنصر'},
+}
+const intlTools=computed(()=>createLocaleTools({name:intlLocale.value,messages:{'demo.items':intlMessages[intlLocale.value]}},'en-US'))
+const intlSamples=computed(()=>[
+  ['Number',intlTools.value.formatNumber(1234567.89,{maximumFractionDigits:2})],
+  ['Currency',intlTools.value.formatNumber(286400,{style:'currency',currency:'CNY',maximumFractionDigits:0})],
+  ['Date',intlTools.value.formatDate('2026-08-12T00:00:00Z',{dateStyle:'medium',timeZone:'UTC'})],
+  ['Relative',intlTools.value.formatRelativeTime(-1,'day',{numeric:'auto'})],
+  ['List',intlTools.value.formatList(['Design','Code','QA'])],
+  ['Plural',intlTools.value.tc('demo.items',intlCount.value)],
+])
+const localeRegistryDemo=createLocaleRegistry()
+const registryLocale=ref('en-US');const registryLoading=ref(false);const registryStatus=ref('内置 2 个语言包')
+const registryTools=computed(()=>createLocaleTools(registryLocale.value,['fr-FR','en-US'],localeRegistryDemo))
+const registryPreview=computed(()=>`${registryTools.value.t('demo.greeting')} · ${registryTools.value.t('empty.title')}`)
+async function loadFrenchLocale(){
+  registryLoading.value=true;registryStatus.value='正在异步加载 fr-FR…'
+  await localeRegistryDemo.load('fr-FR',async()=>{
+    await new Promise(resolve=>setTimeout(resolve,360))
+    return {default:{name:'fr-FR',messages:{'demo.greeting':'Bonjour, Lan UI'}}}
+  },{aliases:'fr'})
+  registryLocale.value='fr';registryLoading.value=false
+  registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
+}
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
+const descriptionItems=[{key:'name',label:'组件名称',value:'UiAutoComplete'},{key:'version',label:'当前版本',value:'1.14.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础体验组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'异步、IME、键盘、ARIA'}]
+const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
+const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}];const timelineItems=[{title:'完成组件审计',time:'09:30',status:'success'},{title:'同步业务页面',time:'11:20',status:'success'},{title:'执行视觉回归',time:'14:00'}]
+const tableDensity=ref('default');const tableVisibleColumns=ref(['component','version','status','coverage','actions']);const tableSelected=ref([]);const tableExpanded=ref([]);const tableSortKey=ref('component');const tableSortOrder=ref('asc');const tableFilters=ref({});const tableLoading=ref(false);const tableError=ref('');const tableEmpty=ref(false)
+const tableColumns=[{key:'component',label:'组件',minWidth:'160px',sortable:true},{key:'version',label:'版本',minWidth:'90px'},{key:'status',label:'状态',minWidth:'110px',filterable:true,filterOptions:['稳定','测试中']},{key:'coverage',label:'覆盖场景',minWidth:'110px',sortable:true},{key:'actions',label:'操作',width:'90px',align:'right',configurable:false,resizable:false}]
+const tableRows=[{id:'CMP-001',component:'Button',version:'1.2.0',status:'稳定',coverage:18,owner:'交互组件组',updated:'2026-08-11'},{id:'CMP-002',component:'Table',version:'1.0.0',status:'稳定',coverage:12,owner:'数据组件组',updated:'2026-08-11'},{id:'CMP-003',component:'DatePicker',version:'1.0.0',status:'测试中',coverage:8,owner:'表单组件组',updated:'2026-08-10'},{id:'CMP-004',component:'Upload',version:'1.0.0',status:'测试中',coverage:6,owner:'表单组件组',updated:'2026-08-10'}]
+const renderedTableColumns=computed(()=>tableColumns.map(column=>({...column,hidden:!tableVisibleColumns.value.includes(column.key)})))
+const renderedTableRows=computed(()=>{if(tableEmpty.value)return [];let rows=tableRows.filter(row=>Object.entries(tableFilters.value).every(([key,value])=>!value||row[key]===value));if(!tableSortKey.value||!tableSortOrder.value)return rows;return [...rows].sort((a,b)=>{const left=a[tableSortKey.value],right=b[tableSortKey.value];const value=typeof left==='number'?left-right:String(left).localeCompare(String(right));return value*(tableSortOrder.value==='asc'?1:-1)})})
+function scrollTo(id){current.value=id;document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+function loadingDemo(){loading.value=true;setTimeout(()=>{loading.value=false;emit('notify','异步操作已完成')},1200)}
+function asyncConfirm(){return new Promise(resolve=>setTimeout(resolve,450))}
+function tableLoadingDemo(){tableError.value='';tableEmpty.value=false;tableLoading.value=true;setTimeout(()=>{tableLoading.value=false;emit('notify','列表数据加载完成')},900)}
+const fontPresets=[
+  {value:'inter-noto',name:'Inter + Noto Sans SC',label:'首选',license:'SIL OFL 1.1',stack:'Inter, "Noto Sans SC", sans-serif',description:'数字与拉丁字符紧凑清晰，中文覆盖完整，最适合数据密集型后台。'},
+  {value:'noto',name:'Noto Sans SC',label:'通用',license:'SIL OFL 1.1',stack:'"Noto Sans SC", sans-serif',description:'中英文气质统一、字形中性，适合跨平台产品和国际化界面。'},
+  {value:'source-han',name:'Source Han Sans CN',label:'本地优先',license:'SIL OFL 1.1',stack:'"Source Han Sans CN", "Noto Sans SC", sans-serif',description:'思源黑体简体中文版，信息密度和中文辨识度优秀；未安装时回退到 Noto。'},
+  {value:'system',name:'系统字体栈',label:'零下载',license:'随操作系统',stack:'Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif',description:'加载最快，适合内网系统；不同操作系统之间的中文视觉会略有差异。'},
+  {value:'wenkai',name:'LXGW WenKai',label:'风格化',license:'SIL OFL 1.1',stack:'"LXGW WenKai", "Noto Sans SC", serif',description:'温润的人文风格，适合欢迎页、帮助内容和品牌展示，不作为密集表格默认字体。'},
+]
+const selectedFont=ref(localStorage.getItem('lan-font')||'inter-noto')
+function applyFont(value){selectedFont.value=value;document.documentElement.dataset.font=value;localStorage.setItem('lan-font',value);const preset=fontPresets.find(item=>item.value===value);emit('notify',`已切换至 ${preset?.name||value}`)}
+const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6FF'],['Success','#10B981'],['Warning','#F59E0B'],['Danger','#EF4444'],['Page','#F4F7FB'],['Surface','#FFFFFF'],['Text','#172033'],['Secondary','#526078']]
+</script>
+
+<template>
+  <div class="page-container">
+    <div class="page-heading"><div><UiBreadcrumb :items="[{label:'Design System',href:'#/components'},{label:'组件用例'}]"/><h1>组件用例中心</h1><p>可交互的组件 Variant、State 与使用规范 · Vue 3 实现</p></div><div class="page-actions"><a class="btn btn-outline" href="/component-preview.html" target="_blank"><AppIcon name="external" :size="15"/>打开一页预览</a><UiButton icon="download" @click="emit('notify','Token JSON 已准备')">导出 Token</UiButton></div></div>
+    <div class="docs-layout"><nav class="card docs-toc" aria-label="组件目录"><button v-for="item in toc" :key="item[0]" class="toc-link" :class="{active:current===item[0]}" @click="scrollTo(item[0])">{{ item[1] }}</button></nav>
+      <main class="docs-content">
+        <section id="tokens" class="card doc-section"><header class="doc-section-header"><h2>Design Tokens</h2><p>语义 Token 是设计与代码的共同语言，避免页面中出现无语义的魔法数字。</p></header><div class="demo-block"><div class="token-grid"><div v-for="c in colors" :key="c[0]" class="color-token"><div class="color-swatch" :style="{'--swatch':c[1]}"/><div class="token-copy"><strong>{{ c[0] }}</strong><code>{{ c[1] }}</code></div></div></div><div class="preview-note"><strong>使用原则：</strong> 组件优先引用 `--brand-600`、`--text-secondary` 等语义变量；只有色阶展示才直接引用基础色阶。</div></div></section>
+
+        <section id="typography" class="card doc-section">
+          <header class="doc-section-header"><h2>字体与间距</h2><p>基础字号适合企业后台；中文默认升级为开源字体组合，并支持全局切换与持久化。</p></header>
+          <div class="demo-block">
+            <div class="typography-audit"><div><strong>14 / 22px</strong><span>正文与控件默认值，兼顾密度和可读性</span></div><div><strong>22 / 30px</strong><span>页面标题，保持清晰信息层级</span></div><div><strong>12 / 18px</strong><span>辅助信息下限，避免关键内容使用 9–10px</span></div></div>
+            <h3 class="preview-subtitle">开源字体方案 · 点击即可应用到整个后台</h3>
+            <div class="font-preset-grid">
+              <button v-for="font in fontPresets" :key="font.value" type="button" class="font-preset-card" :class="{active:selectedFont===font.value}" :aria-pressed="selectedFont===font.value" @click="applyFont(font.value)">
+                <span class="font-preset-head"><strong>{{ font.name }}</strong><span class="font-preset-badge">{{ font.label }}</span></span>
+                <span class="font-preset-sample" :style="{fontFamily:font.stack}">经营数据总览 Aa 012345</span>
+                <span class="font-preset-copy" :style="{fontFamily:font.stack}">清晰、稳定、高效的企业级界面文字。</span>
+                <span class="font-preset-meta"><code>{{ font.license }}</code><span>{{ font.description }}</span></span>
+              </button>
+            </div>
+            <div class="preview-note"><strong>推荐：</strong>后台默认使用 <code>Inter + Noto Sans SC</code>；思源黑体适合本地部署；霞鹜文楷用于低密度内容区。正式项目建议自托管 WOFF2 并保留系统字体回退。</div>
+            <h3 class="preview-subtitle">字号层级</h3>
+            <div class="type-sample"><span class="type-name">Display</span><strong style="font-size:36px;line-height:1.3">经营数据总览</strong><span class="type-meta">36 / 47 · 700</span></div><div class="type-sample"><span class="type-name">Page title</span><strong style="font-size:22px">客户数据</strong><span class="type-meta">22 / 30 · 700</span></div><div class="type-sample"><span class="type-name">Card title</span><strong style="font-size:16px">销售趋势</strong><span class="type-meta">16 / 24 · 650</span></div><div class="type-sample"><span class="type-name">Body</span><span>用于大部分正文、表单和数据展示内容。</span><span class="type-meta">14 / 22 · 400</span></div><div class="type-sample"><span class="type-name">Caption</span><span class="subtle" style="font-size:12px">用于时间、备注、帮助信息。</span><span class="type-meta">12 / 18 · 400</span></div>
+            <h3 class="preview-subtitle">Spacing scale</h3><div class="spacing-row"><div v-for="n in [4,8,12,16,20,24,32,40,48]" :key="n" class="space-token"><span class="space-bar" :style="{'--s':`${n}px`}"/><code>{{ n }}</code></div></div>
+          </div>
+        </section>
+
+        <section id="layout" class="card doc-section">
+          <header class="doc-section-header"><h2>布局规范</h2><p>采用 12 栏响应式栅格、统一内容宽度和页面骨架，保证列表、表单与看板在不同屏幕下保持稳定节奏。</p></header>
+          <div class="demo-block layout-showcase">
+            <div class="layout-demo-section"><div class="form-demo-title"><strong>页面骨架</strong><span>Application shell</span></div><div class="layout-shell-demo"><aside><span class="layout-brand-dot"/><i/><i/><i/></aside><div><header><span/><span/></header><main><div class="layout-demo-heading"/><div class="layout-demo-cards"><i/><i/><i/></div><div class="layout-demo-table"/></main></div></div><div class="layout-rule-grid"><span><strong>240 / 64px</strong>侧栏展开 / 收起</span><span><strong>56px</strong>顶部导航高度</span><span><strong>24px</strong>桌面内容边距</span><span><strong>1440px</strong>建议内容最大宽度</span></div></div>
+            <div class="layout-demo-section"><div class="form-demo-title"><strong>12 栏栅格</strong><span>UiLayout / UiGrid / UiCol / UiSpace</span></div><UiLayout :gap="12"><UiGrid :columns="12" :gap="8"><UiCol :span="12"><div class="layout-grid-cell">12</div></UiCol><UiCol :span="8"><div class="layout-grid-cell">8</div></UiCol><UiCol :span="4"><div class="layout-grid-cell">4</div></UiCol><UiCol v-for="(span,index) in [6,6,4,4,4]" :key="index" :span="span"><div class="layout-grid-cell">{{ span }}</div></UiCol></UiGrid><UiDivider label="响应式容器"/><UiSpace :size="8"><UiTag color="blue">桌面 24px</UiTag><UiTag color="gray">平板 20px</UiTag><UiTag color="green">移动端 14px</UiTag></UiSpace></UiLayout><div class="preview-note"><strong>响应规则：</strong> ≥1200px 使用完整侧栏和多栏布局；720–1199px 收起侧栏；&lt;720px 切换为单栏并保留 14px 页面边距。</div></div>
+          </div>
+        </section>
+
+        <section id="buttons" class="card doc-section">
+          <header class="doc-section-header"><h2>Button 按钮</h2><p>用独立展示单元呈现变体、尺寸与状态，避免按钮宽度和状态含义混淆。</p></header>
+          <div class="demo-block button-showcase">
+            <div class="button-demo-group">
+              <div class="button-demo-heading"><strong>按钮变体</strong><span>Variant</span></div>
+              <div class="button-demo-stage button-variant-grid">
+                <div class="button-demo-item"><UiButton @click="emit('notify','主要操作执行成功')">主要按钮</UiButton><small>Primary</small></div>
+                <div class="button-demo-item"><UiButton variant="secondary">次要按钮</UiButton><small>Secondary</small></div>
+                <div class="button-demo-item"><UiButton variant="outline">描边按钮</UiButton><small>Outline</small></div>
+                <div class="button-demo-item"><UiButton variant="text">文字按钮</UiButton><small>Text</small></div>
+                <div class="button-demo-item"><UiButton variant="danger">危险操作</UiButton><small>Danger</small></div>
+              </div>
+            </div>
+            <div class="button-demo-group">
+              <div class="button-demo-heading"><strong>按钮尺寸</strong><span>Size / Height</span></div>
+              <div class="button-demo-stage button-size-grid">
+                <div class="button-demo-item"><UiButton size="sm">小型按钮</UiButton><small>Small · 28px</small></div>
+                <div class="button-demo-item"><UiButton>中型按钮</UiButton><small>Medium · 34px</small></div>
+                <div class="button-demo-item"><UiButton size="lg">大型按钮</UiButton><small>Large · 40px</small></div>
+              </div>
+            </div>
+            <div class="button-demo-group">
+              <div class="button-demo-heading"><strong>交互状态</strong><span>State</span></div>
+              <div class="button-demo-stage button-state-grid">
+                <div class="button-demo-item"><UiButton>默认</UiButton><small>Default</small></div>
+                <div class="button-demo-item"><UiButton class="force-hover">悬停</UiButton><small>Hover</small></div>
+                <div class="button-demo-item"><UiButton class="force-pressed">按下</UiButton><small>Pressed</small></div>
+                <div class="button-demo-item"><UiButton class="force-focus">焦点</UiButton><small>Focus</small></div>
+                <div class="button-demo-item"><UiButton :loading="true">加载中</UiButton><small>Loading</small></div>
+                <div class="button-demo-item"><UiButton disabled>已禁用</UiButton><small>Disabled</small></div>
+              </div>
+            </div>
+            <div class="button-demo-group interactive-button-demo">
+              <div class="button-demo-heading"><strong>真实交互</strong><span>点击体验反馈</span></div>
+              <div class="button-demo-stage">
+                <UiButton icon="plus" @click="emit('notify','新建操作已触发')">带图标按钮</UiButton>
+                <UiButton variant="secondary" :loading="loading" @click="loadingDemo">{{ loading ? '处理中' : '模拟异步操作' }}</UiButton>
+                <button class="icon-btn outline" title="更多操作" aria-label="更多操作"><AppIcon name="more"/></button>
+              </div>
+            </div>
+            <pre class="code-block button-code"><code>&lt;UiButton variant="primary" size="md" icon="plus" :loading="saving"&gt;
+  新建客户
+&lt;/UiButton&gt;</code></pre>
+          </div>
+        </section>
+
+        <section id="forms" class="card doc-section">
+          <header class="doc-section-header"><h2>表单控件</h2><p>统一 Input、NumberInput、Slider、Select、AutoComplete、Textarea 的尺寸、焦点、清除、错误、只读与键盘行为，并同步到所有业务页面。</p></header>
+          <div class="demo-block form-showcase">
+            <div class="form-demo-section"><div class="form-demo-title"><strong>基础输入</strong><span>Input</span></div><div class="form-demo-content form-row">
+              <label class="field"><span class="field-label required">客户名称</span><UiInput v-model="customerName" icon="user" clearable placeholder="请输入客户名称"/><span class="field-help">支持前缀图标与一键清除</span></label>
+              <label class="field"><span class="field-label">登录密码</span><UiInput v-model="passwordDemo" type="password" icon="lock" password-toggle/><span class="field-help">密码显示/隐藏切换</span></label>
+              <label class="field"><span class="field-label">错误状态</span><UiInput model-value="invalid@email" icon="alert" invalid/><span class="field-error"><AppIcon name="alert" :size="12"/>请输入有效的企业邮箱</span></label>
+              <label class="field"><span class="field-label">只读 / 禁用</span><div class="form-inline-pair"><UiInput model-value="系统生成编号" aria-label="只读系统编号" readonly/><UiInput model-value="不可编辑" aria-label="禁用输入框" disabled/></div></label>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>下拉选择</strong><span>Select</span></div><div class="form-demo-content form-row">
+              <label class="field"><span class="field-label">基础选择</span><UiSelect v-model="customerType" :options="['企业客户','渠道客户','战略客户']" clearable placeholder="请选择客户类型"/><span class="field-help">箭头旋转、清除和上下方向自适应</span></label>
+              <label class="field"><span class="field-label">可搜索选择</span><UiSelect v-model="searchableType" :options="['华东区域','华南区域','华北区域','西南区域','海外区域']" searchable clearable placeholder="搜索或选择区域"/><span class="field-help">支持键盘 ↑ ↓、Enter、Esc</span></label>
+              <label class="field"><span class="field-label">尺寸</span><div class="form-size-stack"><UiSelect size="sm" aria-label="小型选择器" :options="['小型选择器']" placeholder="Small · 28px"/><UiSelect aria-label="中型选择器" :options="['中型选择器']" placeholder="Medium · 34px"/><UiSelect size="lg" aria-label="大型选择器" :options="['大型选择器']" placeholder="Large · 40px"/></div></label>
+              <label class="field"><span class="field-label">错误 / 禁用</span><div class="form-inline-pair"><UiSelect invalid aria-label="错误状态选择器" :options="['选项']" placeholder="请选择必填项"/><UiSelect disabled aria-label="禁用选择器" :options="['选项']" placeholder="禁用状态"/></div></label>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>自动完成</strong><span>AutoComplete · combobox</span></div><div class="form-demo-content form-row">
+              <UiFormItem label="城市搜索" help="输入中文、拼音或缩写；支持 Arrow、Enter、Esc 与 IME 输入法"><UiAutoComplete v-model="cityDemo" :options="cityOptions" clearable placeholder="例如：杭州 / Hangzhou / HZ"/></UiFormItem>
+              <UiFormItem label="仅允许选择" help="allow-custom=false 时，自由文本不会写入模型"><UiAutoComplete v-model="strictCityDemo" :options="cityOptions" :allow-custom="false" placeholder="请选择支持的城市"/></UiFormItem>
+              <UiFormItem label="异步项目检索" help="内置防抖、AbortSignal、竞态保护与查询缓存"><UiAutoComplete v-model="remoteProjectDemo" :fetch-suggestions="fetchProjectSuggestions" :debounce="220" :min-chars="1" placeholder="输入项目名称"/></UiFormItem>
+              <UiFormItem label="状态" group><div class="form-inline-pair"><UiAutoComplete model-value="无权限修改" readonly aria-label="只读自动完成"/><UiAutoComplete model-value="" invalid :options="cityOptions" aria-label="错误自动完成" placeholder="必填城市"/></div></UiFormItem>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>Numeric input</strong><span>UiNumberInput / spinbutton</span></div><div class="form-demo-content form-row">
+              <UiFormItem label="Quantity" help="Arrow keys step by 0.25; Page keys step by 2.5"><UiNumberInput v-model="quantityDemo" :min="0" :max="100" :step="0.25" :precision="2"><template #suffix>items</template></UiNumberInput></UiFormItem>
+              <UiFormItem label="Budget" help="Custom formatter and parser keep the model numeric"><UiNumberInput v-model="budgetDemo" :min="0" :step="1000" :formatter="formatCurrency" :parser="parseCurrency"/></UiFormItem>
+              <UiFormItem label="Completion"><UiNumberInput v-model="percentDemo" :min="0" :max="100" controls-position="right"><template #suffix>%</template></UiNumberInput></UiFormItem>
+              <div class="field"><span class="field-label">States</span><div class="form-inline-pair"><UiNumberInput :model-value="8" readonly aria-label="Readonly numeric input"/><UiNumberInput :model-value="120" :max="100" invalid aria-label="Invalid numeric input"/></div></div>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>Slider / Range</strong><span>Pointer + keyboard + ARIA</span></div><div class="form-demo-content form-row">
+              <UiFormItem label="完成度" help="方向键微调，Page 键大步进，Home / End 跳到边界"><UiSlider v-model="sliderDemo" :step="5" :marks="{0:'0',50:'50',100:'100'}" :formatter="value=>`${value}%`"/></UiFormItem>
+              <UiFormItem label="预算区间" help="双滑块保持最小 10 个单位间距"><UiSlider v-model="sliderRangeDemo" range :step="5" :min-distance="10" :marks="[{value:25,label:'25'},{value:75,label:'75'}]"/></UiFormItem>
+              <UiFormItem label="垂直方向" group help="支持 vertical、reverse、RTL 与只读状态"><div class="slider-vertical-demo"><UiSlider v-model="verticalSliderDemo" vertical tooltip="always" aria-label="垂直滑块"/></div></UiFormItem>
+              <UiFormItem label="状态" group><div class="slider-state-stack"><UiSlider :model-value="35" readonly aria-label="只读滑块"/><UiSlider :model-value="65" invalid aria-label="错误滑块"/><UiSlider :model-value="50" disabled aria-label="禁用滑块"/></div></UiFormItem>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>日期与时间</strong><span>DatePicker</span></div><div class="form-demo-content form-row">
+              <label class="field"><span class="field-label">业务日期</span><UiDatePicker v-model="demoDate"/><span class="field-help">支持清除、键盘输入和系统日历</span></label>
+              <label class="field"><span class="field-label">提醒时间</span><UiTimePicker v-model="demoTime" :step="60"/><span class="field-help">独立 TimePicker，支持分钟、秒和毫秒精度</span></label>
+              <label class="field"><span class="field-label">日期时间</span><UiDatePicker v-model="demoDateTime" mode="datetime"/><span class="field-help">合并日期与具体时刻</span></label>
+              <label class="field"><span class="field-label">时区感知时刻</span><div class="form-inline-pair"><UiSelect v-model="demoTimeZone" :options="['Asia/Shanghai','UTC','America/New_York']"/><UiDatePicker v-model="zonedInstant" mode="datetime" value-type="date" :time-zone="demoTimeZone" precision="second" :step="1"/></div><span class="field-help">同一 Instant · UTC {{ zonedPreview }}</span></label>
+              <label class="field"><span class="field-label">错误 / 禁用</span><div class="form-inline-pair"><UiDatePicker invalid aria-label="错误状态日期" placeholder="请选择必填日期"/><UiDatePicker model-value="2026-08-11" aria-label="禁用日期" disabled/></div></label>
+            </div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>长文本</strong><span>Textarea</span></div><div class="form-demo-content"><label class="field"><span class="field-label">客户备注</span><UiTextarea v-model="notes" :maxlength="120" show-count placeholder="填写跟进记录，最多 120 个字符"/></label></div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>文件上传</strong><span>Upload</span></div><div class="form-demo-content"><UiUpload v-model="demoFiles" accept=".pdf,.doc,.docx,.png,.jpg" multiple :max-size="10" :max-count="5" @error="emit('notify',$event,'error')"/><div class="field-help upload-help">支持点击选择、拖拽上传、格式与大小校验、文件移除。</div></div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>选择控件</strong><span>Checkbox / Radio / Switch</span></div><div class="form-demo-content"><div class="selection-component-grid"><UiFormItem label="复选框组" group help="支持 Boolean、Array 与半选状态"><div class="demo-row"><UiCheckbox v-model="checkboxDemo" value="邮件通知">邮件通知</UiCheckbox><UiCheckbox v-model="checkboxDemo" value="短信通知">短信通知</UiCheckbox><UiCheckbox :model-value="false" indeterminate>部分选择</UiCheckbox><UiCheckbox :model-value="false" disabled>禁用</UiCheckbox></div></UiFormItem><UiFormItem label="单选组" group><div class="demo-row"><UiRadio v-model="radioDemo" value="标准版" name="plan">标准版</UiRadio><UiRadio v-model="radioDemo" value="高级版" name="plan">高级版</UiRadio><UiRadio v-model="radioDemo" value="企业版" name="plan" disabled>企业版</UiRadio></div></UiFormItem><UiFormItem label="开关" group><div class="demo-row"><UiSwitch v-model="switchOn" aria-label="通知开关"/><span class="muted">{{ switchOn?'通知已开启':'通知已关闭' }}</span><UiSwitch :model-value="true" loading aria-label="加载中的通知开关"/><UiSwitch :model-value="false" disabled aria-label="禁用通知开关"/></div></UiFormItem></div></div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>表单校验</strong><span>UiForm / rules / reset</span></div><div class="form-demo-content"><UiForm ref="formRef" :model="validatedForm" :rules="validationRules" @submit="emit('notify','表单校验通过并已提交')" @invalid="emit('notify','请修正表单错误','error')"><div class="form-row"><UiFormItem name="name" label="客户名称" required><UiInput v-model="validatedForm.name" clearable placeholder="至少输入 2 个字符"/></UiFormItem><UiFormItem name="email" label="企业邮箱" required><UiInput v-model="validatedForm.email" clearable placeholder="name@company.com"/></UiFormItem></div><div class="ui-form-actions"><UiButton type="button" variant="text" @click="formRef.reset()">重置</UiButton><UiButton type="submit">提交校验</UiButton></div></UiForm></div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>高级选择</strong><span>MultiSelect / TreeSelect / Cascader</span></div><div class="form-demo-content advanced-control-grid"><UiFormItem label="多选与搜索"><UiMultiSelect v-model="multiDemo" :options="advancedOptions" searchable/></UiFormItem><UiFormItem label="树选择"><UiTreeSelect v-model="treeDemo" :options="treeOptions"/></UiFormItem><UiFormItem label="级联选择"><UiCascader v-model="cascaderDemo" :options="cascaderOptions"/></UiFormItem></div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>穿梭框</strong><span>Transfer</span></div><div class="form-demo-content"><UiTransfer v-model="transferDemo" :options="transferOptions" searchable/></div></div>
+            <div class="form-demo-section"><div class="form-demo-title"><strong>标签页</strong><span>Tabs · Arrow / Home / End</span></div><div class="form-demo-content"><UiTabs v-model="demoTab" :items="['概览','详细信息','操作记录']"><div style="color:var(--text-secondary);font-size:12px">当前内容：{{ demoTab }}，支持方向键切换。</div></UiTabs></div></div>
+          </div>
+        </section>
+
+        <section id="data" class="card doc-section">
+          <header class="doc-section-header"><h2>列表与数据展示</h2><p>UiTable、UiListToolbar 与 UiPagination 组成完整列表系统，覆盖列配置、密度、排序、选择、展开和异步状态。</p></header>
+          <div class="demo-block">
+            <div class="demo-row"><span class="demo-label">Tags</span><UiTag color="blue" dot>进行中</UiTag><UiTag color="green" dot>已完成</UiTag><UiTag color="orange" dot>待处理</UiTag><UiTag color="red" dot>失败</UiTag><UiTag color="gray">已停用</UiTag></div>
+            <div class="demo-row"><span class="demo-label">Avatar / Badge</span><UiAvatar name="Deng Pan"/><UiAvatar name="林" color="green"/><UiAvatar name="陈" color="orange"/><UiAvatar name="王" color="purple"/><UiBadge :value="8"><UiAvatar name="组件组" square/></UiBadge><UiBadge dot status="success"><UiAvatar name="在线" color="gray"/></UiBadge></div>
+            <div class="completion-showcase-grid"><div><span class="demo-label">Alert</span><UiAlert type="warning" title="配置尚未发布" description="完成检查后再发布到生产环境。" closable/></div><div><span class="demo-label">Progress</span><UiProgress :value="72"/><UiProgress :value="100" status="success" size="sm"/></div><div><span class="demo-label">Steps</span><UiSteps :items="stepItems" :current="2"/></div><div><span class="demo-label">Timeline</span><UiTimeline :items="timelineItems"/></div><div><span class="demo-label">Skeleton</span><UiSkeleton avatar :rows="3"/></div><div><span class="demo-label">Empty</span><UiEmpty compact title="暂无审批任务" description="新的任务会显示在这里"><UiButton size="sm" variant="outline">刷新</UiButton></UiEmpty></div><div><span class="demo-label">Dropdown</span><UiDropdown v-model="dropdownDemoOpen" :items="[{label:'编辑资料',icon:'edit'},{label:'复制链接',icon:'copy'},{divider:true},{label:'停用账号',icon:'alert'}]" @select="emit('notify',`已选择：${$event.label}`)"><template #trigger><UiButton variant="outline" icon="more">更多操作</UiButton></template></UiDropdown></div></div>
+            <div class="table-state-controls"><span class="demo-label">Table states</span><UiButton size="sm" variant="outline" @click="tableLoadingDemo">Loading</UiButton><UiButton size="sm" variant="outline" @click="tableError='接口请求超时，请检查网络后重试';tableLoading=false;tableEmpty=false">Error</UiButton><UiButton size="sm" variant="outline" @click="tableEmpty=true;tableError='';tableLoading=false">Empty</UiButton><UiButton size="sm" variant="text" @click="tableEmpty=false;tableError='';tableLoading=false">恢复默认</UiButton></div>
+            <div class="table-system-demo">
+              <UiListToolbar v-model:density="tableDensity" v-model:visible-columns="tableVisibleColumns" :columns="tableColumns" :total="86" :selected-count="tableSelected.length" :loading="tableLoading" @refresh="tableLoadingDemo"><template #primary><UiButton size="sm" variant="outline" icon="download">导出</UiButton><UiButton v-if="tableSelected.length" size="sm" variant="danger-outline" icon="trash">批量删除</UiButton></template></UiListToolbar>
+              <UiTable v-model:selected-rows="tableSelected" v-model:expanded-rows="tableExpanded" v-model:sort-key="tableSortKey" v-model:sort-order="tableSortOrder" v-model:filters="tableFilters" :columns="renderedTableColumns" :rows="renderedTableRows" :density="tableDensity" :loading="tableLoading" :error="tableError" selectable expandable resizable sticky-header max-height="420px" @retry="tableLoadingDemo">
+                <template #cell-component="{row}"><div class="cell-title">{{ row.component }}</div><div class="cell-subtitle">{{ row.id }}</div></template>
+                <template #cell-status="{row}"><UiTag :color="row.status==='稳定'?'green':'blue'">{{ row.status }}</UiTag></template>
+                <template #cell-actions="{row}"><button class="btn btn-text btn-sm" @click.stop="emit('notify',`查看 ${row.component}`)">查看</button></template>
+                <template #expanded="{row}"><div class="ui-table-expanded-content"><div><span>维护团队</span><strong>{{ row.owner }}</strong></div><div><span>最新版本</span><strong>{{ row.version }}</strong></div><div><span>更新时间</span><strong>{{ row.updated }}</strong></div><div><span>场景覆盖</span><strong>{{ row.coverage }} 个</strong></div></div></template>
+                <template #empty-action><button class="btn btn-outline btn-sm" @click="tableEmpty=false">恢复数据</button></template>
+              </UiTable>
+              <UiPagination v-model:page="demoPage" v-model:page-size="demoPageSize" :total="86" :page-size-options="[10,20,50]"/>
+            </div>
+            <div class="preview-note"><strong>组合原则：</strong> Toolbar 管理批量操作、密度和显示列；Table 管理结构与行状态；Pagination 只管理翻页信息。服务端模式由页面监听排序和分页事件后请求数据。</div>
+          </div>
+        </section>
+
+        <section id="maturity" class="card doc-section">
+          <header class="doc-section-header"><h2>通用能力补充</h2><p>补齐项目级组件库常用的导航、折叠、详情、结果、加载与紧凑选择能力，并提供可直接调用的反馈服务。</p></header>
+          <div class="demo-block">
+            <div class="completion-showcase-grid">
+              <div class="icon-showcase-card" style="grid-column:1/-1">
+                <span class="demo-label">UiIcon · 公共图标、无障碍语义与隔离注册表</span>
+                <div class="icon-gallery"><span v-for="name in iconDemoNames" :key="name"><UiIcon :name="name" :size="20"/><code>{{ name }}</code></span></div>
+                <UiConfigProvider :icon-registry="iconDemoRegistry" direction="rtl"><div class="icon-custom-row"><UiIcon name="tenantMark" :size="28" color="var(--brand-600)" aria-label="租户品牌图标"/><UiIcon name="chevronRight" directional :size="22"/><span>自定义图标仅在当前 Provider 生效；方向图标在 RTL 下自动镜像。</span></div></UiConfigProvider>
+                <pre class="code-block"><code>&lt;UiIcon name="tenantMark" :size="20" aria-label="品牌图标" /&gt;</code></pre>
+              </div>
+              <div><span class="demo-label">Menu · 键盘方向键导航</span><UiMenu v-model="menuDemo" :items="menuItems" :default-open-keys="['resources']" aria-label="示例功能菜单" @select="toast.info(`已进入：${$event.label}`)"/></div>
+              <div><span class="demo-label">Collapse · 支持多项与手风琴</span><UiCollapse v-model="collapseDemo" :items="collapseItems"/></div>
+              <div style="grid-column:1/-1"><span class="demo-label">Descriptions · 响应式详情</span><UiDescriptions title="组件档案" :items="descriptionItems" bordered/></div>
+              <div><span class="demo-label">Segmented · 单选切换</span><UiSegmented v-model="segmentedDemo" :options="[{label:'日',value:'day'},{label:'周',value:'week'},{label:'月',value:'month'},{label:'季度',value:'quarter',disabled:true}]" block/><p class="feedback-hint">当前周期：{{ segmentedDemo }}</p></div>
+              <div><span class="demo-label">Spin · 延迟显示与 aria-busy</span><UiSpin :spinning="spinDemo" text="正在刷新组件数据"><div style="min-height:72px;padding:12px;border:1px dashed var(--border-default);border-radius:7px">组件数据区域<br><span class="subtle">加载层不会改变内容尺寸</span></div></UiSpin><UiButton size="sm" variant="outline" style="margin-top:9px" @click="spinDemo=true;setTimeout(()=>spinDemo=false,1200)">模拟加载</UiButton></div>
+              <div style="grid-column:1/-1"><span class="demo-label">Result · 结果状态</span><UiResult status="success" title="规范检查通过" description="组件契约、键盘交互和构建产物均已通过本轮校验。"><template #extra><UiButton size="sm" @click="toast.success('报告已导出')">导出报告</UiButton><UiButton size="sm" variant="outline" @click="notification.warning({title:'复核提醒',message:'建议在发布前执行一次业务页面视觉回归。'})">查看提醒</UiButton></template></UiResult></div>
+            </div>
+            <div class="preview-note"><strong>服务式反馈：</strong><code>toast.success('保存成功')</code> 和 <code>notification.error(options)</code> 可在任意业务逻辑中调用；Host 在应用根节点只挂载一次。</div>
+          </div>
+        </section>
+
+        <section id="configuration" class="card doc-section">
+          <header class="doc-section-header"><h2>全局配置与本地化</h2><p>应用可通过 createLanUi 全局安装，也可使用 UiConfigProvider 在局部覆盖语言、尺寸、密度、层级和主题 Token。</p></header>
+          <div class="demo-block">
+            <div class="config-demo-toolbar"><UiSegmented v-model="configLocale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]"/><UiSegmented v-model="configSize" :options="['sm','md','lg']"/><UiSegmented v-model="configDensity" :options="[{label:'紧凑',value:'compact'},{label:'默认',value:'default'},{label:'宽松',value:'comfortable'}]"/></div>
+            <UiConfigProvider :locale="configLocale" :size="configSize" :density="configDensity" :theme="{'brand-600':configLocale==='en-US'?'#7c3aed':'#2563eb'}">
+              <div class="config-demo-surface">
+                <div class="config-demo-row"><UiButton>Primary action</UiButton><UiButton variant="outline">Secondary</UiButton><UiSelect :options="[{label:'Design review',value:'review'},{label:'Ready to ship',value:'ready'}]" clearable searchable/></div>
+                <UiFormItem :label="configLocale==='en-US'?'Delivery window':'交付周期'" :error="rangeError" composite><UiDateRangePicker v-model="rangeDemo" @invalid="rangeError=$event.message" @change="$event.valid&&(rangeError='')"/></UiFormItem>
+                <UiPagination :page="2" :page-size="10" :total="86"/>
+              </div>
+            </UiConfigProvider>
+            <div class="intl-runtime-demo">
+              <div class="form-demo-title"><strong>Intl 本地化运行时</strong><span>逐键回退 · 复数 · 数字 / 日期 / 相对时间 / 列表</span></div>
+              <div class="config-demo-toolbar"><UiSegmented v-model="intlLocale" :options="[{label:'简体中文',value:'zh-CN'},{label:'English',value:'en-US'},{label:'العربية',value:'ar-EG'}]"/><UiSelect v-model="intlCount" :options="[{label:'1',value:1},{label:'2',value:2},{label:'1,200',value:1200}]"/></div>
+              <div class="intl-sample-grid"><div v-for="sample in intlSamples" :key="sample[0]" class="intl-sample"><span>{{ sample[0] }}</span><strong :dir="intlLocale==='ar-EG'?'rtl':'ltr'">{{ sample[1] }}</strong></div></div>
+              <div class="preview-note"><strong>运行时契约：</strong>未知语言会保留自身 Locale 用于 Intl 格式化，并按配置的多级链逐键回退文案；设置 <code>fallbackLocale=false</code> 后缺失文案直接返回键名。</div>
+            </div>
+            <div class="locale-registry-demo">
+              <div><strong>按需语言包注册表</strong><p>{{ registryStatus }}</p><code>{{ registryPreview }}</code></div>
+              <div class="button-row"><UiTag :color="registryLocale==='en-US'?'gray':'green'">{{ registryLocale }}</UiTag><UiButton variant="outline" :loading="registryLoading" @click="loadFrenchLocale">{{ localeRegistryDemo.has('fr')?'重新使用 fr-FR':'按需加载 fr-FR' }}</UiButton></div>
+            </div>
+            <pre class="code-block" style="margin-top:14px"><code>import LanUi, { UiConfigProvider, createLanUi, enUS } from 'lan-ui-design-system'
+app.use(LanUi)
+&lt;UiConfigProvider :locale="enUS" size="sm" density="compact"&gt;...&lt;/UiConfigProvider&gt;
+
+const lanUi = createLanUi({ fallbackLocale: ['fr-FR', 'en-US'] })
+await lanUi.loadLocale('fr-FR', () =&gt; import('./locales/fr-FR'), { activate: true })
+const { tc, formatNumber, formatDate } = createLocaleTools(locale, ['fr-FR', enUS])
+
+// 独立组件入口 · 支持 Tree-shaking 与独立 Props 类型
+import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
+          </div>
+        </section>
+
+        <section id="floating" class="card doc-section">
+          <header class="doc-section-header"><h2>悬浮按钮</h2><p>用于全局高频动作、帮助入口和返回顶部；固定在安全边距内，不遮挡表格操作或移动端底部导航。</p></header>
+          <div class="demo-block float-button-showcase">
+            <div class="float-demo-stage">
+              <div class="float-demo-copy"><strong>单个悬浮按钮</strong><p>主操作使用品牌色，辅助入口使用中性表面；悬停或键盘聚焦时显示文字说明。</p></div>
+              <div class="float-demo-actions"><UiFloatButton icon="plus" label="新建任务" variant="primary" @click="emit('notify','悬浮主操作已触发')"/><UiFloatButton icon="bell" label="查看通知" badge="3" @click="emit('open-notification','info')"/><UiFloatButton icon="arrowUp" label="返回顶部" @click="scrollTo('tokens')"/></div>
+            </div>
+            <div class="float-demo-stage">
+              <div class="float-demo-copy"><strong>可展开按钮组</strong><p>一次只展示一个主入口，点击后沿纵向展开相关动作，再次点击或按 Esc 收起。</p></div>
+              <div class="float-demo-group" :class="{open:floatDemoOpen}"><UiFloatButton v-if="floatDemoOpen" icon="upload" label="上传文件"/><UiFloatButton v-if="floatDemoOpen" icon="info" label="帮助中心"/><UiFloatButton icon="plus" label="展开快捷操作" variant="primary" :active="floatDemoOpen" @click="floatDemoOpen=!floatDemoOpen"/></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="feedback" class="card doc-section">
+          <header class="doc-section-header"><h2>反馈与浮层</h2><p>Toast 默认顶部居中；Notification 用于需要阅读或处理的错误；Modal 与 Drawer 分别承担阻断和上下文任务。多应用与 SSR 可启用实例隔离。</p></header>
+          <div class="demo-block feedback-showcase">
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>Toast 位置</strong><span>轻量反馈 · 自动消失</span></div>
+              <div class="feedback-demo-content"><UiTabs v-model="toastPlacement" :panels="false" size="sm" :items="[{label:'顶部居中',value:'top-center'},{label:'右上角',value:'top-right'},{label:'右下角',value:'bottom-right'}]"/><UiButton variant="outline" @click="emit('notify','数据保存成功','success',toastPlacement)">显示 Toast</UiButton></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>消息类型</strong><span>Message</span></div>
+              <div class="feedback-demo-content"><UiButton variant="outline" @click="emit('notify','数据保存成功','success',toastPlacement)">成功</UiButton><UiButton variant="outline" @click="emit('notify','这是一条普通信息','info',toastPlacement)">信息</UiButton><UiButton variant="outline" @click="emit('notify','请检查必填项','warning',toastPlacement)">警告</UiButton><UiButton variant="danger-outline" @click="emit('notify','操作失败，请稍后重试','error',toastPlacement)">错误</UiButton></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>错误通知</strong><span>Notification · 需主动关闭</span></div>
+              <div class="feedback-demo-content"><UiButton variant="danger-outline" icon="alert" @click="emit('open-notification','error')">显示错误通知</UiButton><UiButton variant="outline" icon="info" @click="emit('open-notification','info')">显示系统通知</UiButton><span class="feedback-hint">适合接口失败、权限异常、批量任务结果等需要保留上下文的信息。</span></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>任务浮层</strong><span>Overlay</span></div>
+              <div class="feedback-demo-content"><UiButton @click="emit('open-modal','Modal 交互示例')">屏幕居中 Modal</UiButton><UiButton variant="secondary" @click="emit('open-drawer',{name:'上海星河科技有限公司',id:'CUS-26081001',owner:'周琪',status:'合作中',amount:286400})">右侧 Drawer</UiButton><UiTooltip content="Tooltip 支持 Hover 与键盘 Focus"><template #default="{describedby}"><button class="icon-btn outline" :aria-describedby="describedby" aria-label="Tooltip 示例"><AppIcon name="info"/></button></template></UiTooltip></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>Popover 与确认</strong><span>上下文内容 · 二次确认</span></div>
+              <div class="feedback-demo-content"><UiPopover v-model="popoverDemoOpen" :width="260"><template #trigger><UiButton variant="outline">打开 Popover</UiButton></template><div><strong style="display:block;font-size:12px">客户快捷信息</strong><p style="margin:5px 0 10px;font-size:10px;color:var(--text-tertiary)">Popover 适合展示轻量信息或少量操作。</p><UiButton size="sm" @click="popoverDemoOpen=false">知道了</UiButton></div></UiPopover><UiPopconfirm title="确认删除这条记录？" message="删除后数据将进入回收站。" :before-confirm="asyncConfirm" danger @confirm="emit('notify','记录已移入回收站')" @error="emit('notify','删除操作失败','error')"><UiButton variant="danger-outline">删除记录</UiButton></UiPopconfirm></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>加载反馈</strong><span>Skeleton</span></div>
+              <div class="feedback-demo-content"><div style="width:260px"><UiSkeleton :rows="3"/></div></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>应用级隔离</strong><span>Multi-app · SSR</span></div>
+              <div class="feedback-demo-content"><code>createLanUi({ isolated: true })</code><span class="feedback-hint">Host 自动绑定当前应用，卸载时清理消息状态与全部计时器；SSR 渲染后调用 plugin.dispose()。</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="states" class="card doc-section"><header class="doc-section-header"><h2>交互状态矩阵</h2><p>每个组件在交付前都需覆盖以下状态和键盘行为。</p></header><div class="demo-block" style="overflow:auto"><table class="state-matrix"><thead><tr><th>组件</th><th>Default</th><th>Hover</th><th>Pressed</th><th>Focus</th><th>Disabled</th><th>Loading / Error</th></tr></thead><tbody><tr><td>Button</td><td>基础视觉</td><td>加深 + 上移</td><td>复位</td><td>3px Ring</td><td>48% 透明</td><td>Spinner</td></tr><tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr><tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr><tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr><tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr><tr><td>Navigation</td><td>次级文字</td><td>弱白背景</td><td>加深</td><td>可见 Ring</td><td>不可点击</td><td>展开/收起</td></tr><tr><td>Table row</td><td>白色表面</td><td>品牌浅背景</td><td>—</td><td>选择框焦点</td><td>—</td><td>Skeleton / Empty</td></tr></tbody></table><div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；数值框和滑块额外支持 Page、Home、End；Esc 关闭浮层；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div></div></section>
+      </main>
+    </div>
+  </div>
+</template>

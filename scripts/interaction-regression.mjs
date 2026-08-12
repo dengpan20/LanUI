@@ -1,0 +1,281 @@
+import assert from 'node:assert/strict'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { launchBrowser, startFixtureServer } from './browser-runtime.mjs'
+
+const root = resolve(import.meta.dirname, '..')
+const reportDir = resolve(root, '.verify/interaction', process.platform)
+mkdirSync(reportDir, { recursive: true })
+const browserArgument=process.argv.find(argument=>argument.startsWith('--browser='))?.split('=')[1]
+const requestedBrowsers=browserArgument||process.env.LAN_UI_INTERACTION_BROWSERS||'chromium'
+const browserNames=requestedBrowsers==='all'?['chromium','firefox','webkit']:[...new Set(requestedBrowsers.split(',').map(value=>value.trim()).filter(Boolean))]
+for(const browserName of browserNames)if(!['chromium','firefox','webkit'].includes(browserName))throw new Error(`Unsupported interaction browser: ${browserName}`)
+
+const cases = [
+  {
+    name: 'autocomplete-keyboard',
+    run: async page => {
+      const input = page.getByRole('combobox', { name: 'Office city' })
+      await input.fill('bei')
+      const listbox = page.getByRole('listbox', { name: 'Suggestions' })
+      await listbox.waitFor()
+      assert.match(await input.getAttribute('aria-activedescendant'), /ui-autocomplete-option-/)
+      await page.keyboard.press('Enter')
+      await expectText(page, 'autocomplete-output', 'beijing')
+      assert.equal(await input.getAttribute('aria-expanded'), 'false')
+      assert.equal(await input.inputValue(), 'Beijing')
+    },
+  },
+  {
+    name: 'select-keyboard',
+    run: async page => {
+      const trigger = page.getByRole('combobox', { name: 'Region' })
+      await trigger.focus()
+      await page.keyboard.press('ArrowDown')
+      await page.getByRole('listbox').waitFor()
+      assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('Enter')
+      await expectText(page, 'select-output', 'north')
+      assert.equal(await trigger.getAttribute('aria-expanded'), 'false')
+      assert.equal(await trigger.evaluate(node => node === document.activeElement), true)
+    },
+  },
+  {
+    name: 'number-input-keyboard',
+    run: async page => {
+      const spinbutton = page.getByRole('spinbutton', { name: 'Quantity' })
+      await spinbutton.focus()
+      await page.keyboard.press('ArrowUp')
+      await expectText(page, 'number-output', '12.75')
+      await page.keyboard.press('PageDown')
+      await expectText(page, 'number-output', '10.25')
+      await page.keyboard.press('End')
+      await expectText(page, 'number-output', '100.00')
+      await page.keyboard.press('Home')
+      await expectText(page, 'number-output', '0.00')
+      assert.equal(await spinbutton.getAttribute('aria-valuenow'), '0')
+    },
+  },
+  {
+    name: 'slider-keyboard',
+    run: async page => {
+      const volume = page.getByRole('slider', { name: 'Volume' })
+      await volume.focus()
+      await page.keyboard.press('ArrowRight')
+      await expectText(page, 'slider-output', '45 / 20-80')
+      await page.keyboard.press('PageUp')
+      await expectText(page, 'slider-output', '95 / 20-80')
+      await page.keyboard.press('Home')
+      await expectText(page, 'slider-output', '0 / 20-80')
+      const start = page.getByRole('slider', { name: 'Price start' })
+      await start.focus()
+      for(let index=0;index<20;index+=1)await page.keyboard.press('ArrowRight')
+      await expectText(page, 'slider-output', '0 / 60-80')
+      assert.equal(await start.getAttribute('aria-valuenow'), '60')
+    },
+  },
+  {
+    name: 'tabs-ltr-keyboard',
+    run: async page => {
+      await page.getByRole('tab', { name: 'Overview' }).focus()
+      await page.keyboard.press('ArrowRight')
+      await expectText(page, 'tabs-output', 'usage')
+      assert.equal(await page.getByRole('tab', { name: 'Usage' }).getAttribute('aria-selected'), 'true')
+      await page.keyboard.press('End')
+      await expectText(page, 'tabs-output', 'api')
+    },
+  },
+  {
+    name: 'tabs-rtl-keyboard',
+    query: 'direction=rtl',
+    run: async page => {
+      await page.getByRole('tab', { name: 'Overview' }).focus()
+      await page.keyboard.press('ArrowLeft')
+      await expectText(page, 'tabs-output', 'usage')
+      assert.equal(await page.getByRole('tab', { name: 'Usage' }).evaluate(node => node === document.activeElement), true)
+    },
+  },
+  {
+    name: 'modal-focus-trap-restore',
+    run: async page => {
+      const opener = page.locator('#open-modal')
+      await opener.click()
+      const dialog = page.getByRole('dialog', { name: 'Review changes' })
+      await dialog.waitFor()
+      const first = dialog.locator('button').first()
+      const last = dialog.getByRole('button', { name: 'Confirm' })
+      assert.equal(await first.evaluate(node => node === document.activeElement), true)
+      await page.keyboard.press('Shift+Tab')
+      assert.equal(await last.evaluate(node => node === document.activeElement), true)
+      await page.keyboard.press('Tab')
+      assert.equal(await first.evaluate(node => node === document.activeElement), true)
+      await page.keyboard.press('Escape')
+      await dialog.waitFor({ state: 'hidden' })
+      await expectFocused(page, opener)
+    },
+  },
+  {
+    name: 'nested-overlay-stack',
+    run: async page => {
+      const modalOpener = page.locator('#open-modal')
+      await modalOpener.click()
+      const modal = page.getByRole('dialog', { name: 'Review changes' })
+      const drawerOpener = modal.locator('#open-drawer')
+      await drawerOpener.click()
+      const drawer = page.getByRole('dialog', { name: 'Change details' })
+      await drawer.waitFor()
+      await page.keyboard.press('Escape')
+      await drawer.waitFor({ state: 'hidden' })
+      assert.equal(await modal.isVisible(), true)
+      await expectFocused(page, drawerOpener)
+      await page.keyboard.press('Escape')
+      await modal.waitFor({ state: 'hidden' })
+      await expectFocused(page, modalOpener)
+    },
+  },
+  {
+    name: 'popconfirm-cancel-confirm',
+    run: async page => {
+      const trigger = page.locator('#delete-record')
+      await trigger.click()
+      const dialog = page.getByRole('alertdialog', { name: 'Delete record?' })
+      await dialog.waitFor()
+      await expectFocused(page, dialog.getByRole('button', { name: 'Cancel' }))
+      await page.keyboard.press('Escape')
+      await dialog.waitFor({ state: 'hidden' })
+      await expectText(page, 'confirm-output', 'cancelled')
+      assert.equal(await trigger.evaluate(node => node === document.activeElement), true)
+      await trigger.click()
+      await dialog.getByRole('button', { name: 'Confirm' }).click()
+      await dialog.waitFor({ state: 'hidden' })
+      await expectText(page, 'confirm-output', 'confirmed')
+      assert.equal(await trigger.evaluate(node => node === document.activeElement), true)
+    },
+  },
+  {
+    name: 'pagination-switch',
+    run: async page => {
+      await page.getByRole('button', { name: 'Next page' }).click()
+      await expectText(page, 'pagination-output', '2 / 10')
+      assert.equal(await page.getByRole('button', { name: '2', exact: true }).getAttribute('aria-current'), 'page')
+      const size = page.locator('.ui-pagination-size [role="combobox"]')
+      await size.focus()
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('Enter')
+      await expectText(page, 'pagination-output', '1 / 20')
+      const toggle = page.getByRole('switch', { name: 'Enable notifications' })
+      await toggle.focus()
+      await page.keyboard.press('Space')
+      await expectText(page, 'switch-output', 'enabled')
+      assert.equal(await toggle.getAttribute('aria-checked'), 'true')
+    },
+  },
+  {
+    name: 'upload-validation-remove',
+    run: async page => {
+      const input = page.locator('.ui-upload-input')
+      await input.setInputFiles({ name: 'fixture.txt', mimeType: 'text/plain', buffer: Buffer.from('Lan UI') })
+      await expectText(page, 'upload-output', 'files=1 error=none')
+      await input.setInputFiles({ name: 'fixture.png', mimeType: 'image/png', buffer: Buffer.from('not-an-image') })
+      assert.match(await page.getByTestId('upload-output').innerText(), /files=1 error=.*fixture\.png/)
+      await page.locator('.ui-upload-file .icon-btn').click()
+      assert.match(await page.getByTestId('upload-output').innerText(), /^files=0 error=/)
+    },
+  },
+  {
+    name: 'table-state-contract',
+    run: async page => {
+      await page.getByRole('button', { name: 'Name' }).click()
+      await expectText(page, 'table-output', 'sort=name:asc selected=none expanded=none')
+      await page.locator('tbody input[type="checkbox"]').first().check()
+      await page.locator('tbody .ui-table-expand').first().click()
+      await expectText(page, 'table-output', 'sort=name:asc selected=1 expanded=1')
+      assert.equal(await page.getByText('Expanded Foundation').isVisible(), true)
+    },
+  },
+  {
+    name: 'form-validation-focus',
+    run: async page => {
+      await page.getByRole('button', { name: 'Submit form' }).click()
+      await expectText(page, 'form-output', 'invalid')
+      assert.equal(await page.getByRole('alert').innerText(), 'Name is required')
+      const input = page.getByRole('textbox', { name: 'Name' })
+      assert.equal(await input.evaluate(node => node === document.activeElement), true)
+      await input.fill('Lan UI')
+      await page.getByRole('button', { name: 'Submit form' }).click()
+      await expectText(page, 'form-output', 'submitted')
+    },
+  },
+  {
+    name: 'menu-directional-keyboard',
+    run: async page => {
+      const workspace = page.getByRole('menuitem', { name: 'Workspace' })
+      await workspace.focus()
+      await page.keyboard.press('ArrowRight')
+      const overview = page.getByRole('menuitem', { name: 'Overview' })
+      assert.equal(await workspace.getAttribute('aria-expanded'), 'true')
+      assert.equal(await overview.evaluate(node => node === document.activeElement), true)
+      await page.keyboard.press('Enter')
+      await expectText(page, 'menu-output', 'overview')
+    },
+  },
+]
+
+async function expectText(page, testId, expected) {
+  const target = page.getByTestId(testId)
+  await target.waitFor()
+  await page.waitForFunction(([selector, value]) => document.querySelector(selector)?.textContent?.trim() === value, [`[data-testid="${testId}"]`, expected])
+  assert.equal((await target.innerText()).trim(), expected)
+}
+
+async function expectFocused(page, locator) {
+  const handle = await locator.elementHandle()
+  assert.ok(handle, 'Expected focus target to exist')
+  await page.waitForFunction(node => node === document.activeElement, handle)
+  assert.equal(await locator.evaluate(node => node === document.activeElement), true)
+}
+
+const { server, origin } = await startFixtureServer(root)
+let failures = 0
+const allResults = []
+try {
+  for(const browserName of browserNames){
+    const browser=await launchBrowser(browserName)
+    const browserResults=[]
+    try{
+      for (const item of cases) {
+        const started = performance.now()
+        const context = await browser.newContext({ viewport: { width: 1280, height: 1100 }, locale: 'en-US', reducedMotion: 'reduce' })
+        const page = await context.newPage()
+        try {
+          await page.goto(`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`, { waitUntil: 'networkidle' })
+          await page.waitForSelector('body[data-interaction-ready="true"]')
+          await item.run(page)
+          const durationMs = Math.round(performance.now() - started)
+          browserResults.push({ browser:browserName, case: item.name, status: 'passed', durationMs })
+          console.log(`INTERACTION PASS browser=${browserName} case=${item.name} duration=${durationMs}ms`)
+        } catch (error) {
+          failures += 1
+          const durationMs = Math.round(performance.now() - started)
+          browserResults.push({ browser:browserName, case: item.name, status: 'failed', durationMs, error: error.stack || String(error) })
+          console.error(`INTERACTION FAIL browser=${browserName} case=${item.name} duration=${durationMs}ms`)
+          console.error(error.stack || error)
+        } finally {
+          await context.close()
+        }
+      }
+    }finally{
+      await browser.close()
+    }
+    allResults.push(...browserResults)
+    writeFileSync(resolve(reportDir, `${browserName}.json`), JSON.stringify({ platform: process.platform, browser:browserName, cases: browserResults }, null, 2) + '\n', 'utf8')
+    if(!browserResults.some(result=>result.status==='failed'))console.log(`INTERACTION_BROWSER PASS browser=${browserName} cases=${browserResults.length} platform=${process.platform}`)
+  }
+  writeFileSync(resolve(reportDir, 'report.json'), JSON.stringify({ platform: process.platform, browsers:browserNames, cases: allResults }, null, 2) + '\n', 'utf8')
+  if (failures) process.exitCode = 1
+  else console.log(`INTERACTION_REGRESSION PASS browsers=${browserNames.length} cases=${allResults.length} platform=${process.platform}`)
+} finally {
+  await server.close()
+}

@@ -1,0 +1,15 @@
+<script setup>
+import { computed, reactive, ref } from 'vue'
+import AppIcon from './AppIcon.vue'
+import UiCheckbox from './UiCheckbox.vue'
+import { useLocale } from '../config.js'
+const props=defineProps({modelValue:{type:Array,default:()=>[]},options:{type:Array,default:()=>[]},titles:{type:Array,default:()=>[]},searchable:Boolean})
+const emit=defineEmits(['update:modelValue','change']);const selected=reactive({left:[],right:[]});const leftQuery=ref('');const rightQuery=ref('')
+const left=computed(()=>props.options.filter(item=>!props.modelValue.includes(item.value)&&(!leftQuery.value||item.label.includes(leftQuery.value))))
+const right=computed(()=>props.options.filter(item=>props.modelValue.includes(item.value)&&(!rightQuery.value||item.label.includes(rightQuery.value))))
+const {t,formatNumber}=useLocale()
+const resolvedTitles=computed(()=>[props.titles[0]||t('transfer.available'),props.titles[1]||t('transfer.selected')])
+function moveRight(){const next=[...new Set([...props.modelValue,...selected.left])];emit('update:modelValue',next);emit('change',next);selected.left=[]}
+function moveLeft(){const next=props.modelValue.filter(value=>!selected.right.includes(value));emit('update:modelValue',next);emit('change',next);selected.right=[]}
+</script>
+<template><div class="ui-transfer"><section class="ui-transfer-panel"><header><strong>{{ resolvedTitles[0] }}</strong><span>{{ t('transfer.count',{count:formatNumber(left.length)}) }}</span></header><div v-if="searchable" class="ui-transfer-search"><AppIcon name="search" :size="12"/><input v-model="leftQuery" :aria-label="t('transfer.search',{title:resolvedTitles[0]})" :placeholder="t('transfer.searchPlaceholder')"/></div><div class="ui-transfer-list"><UiCheckbox v-for="item in left" :key="item.value" v-model="selected.left" :value="item.value" :disabled="item.disabled">{{ item.label }}</UiCheckbox><span v-if="!left.length" class="ui-transfer-empty">{{ t('transfer.empty') }}</span></div></section><div class="ui-transfer-actions"><button type="button" class="btn btn-outline btn-sm" :disabled="!selected.left.length" :aria-label="t('transfer.add')" @click="moveRight"><AppIcon class="ui-transfer-forward" name="chevronRight" :size="13"/></button><button type="button" class="btn btn-outline btn-sm" :disabled="!selected.right.length" :aria-label="t('transfer.remove')" @click="moveLeft"><AppIcon class="ui-transfer-back" name="chevronRight" :size="13"/></button></div><section class="ui-transfer-panel"><header><strong>{{ resolvedTitles[1] }}</strong><span>{{ t('transfer.count',{count:formatNumber(right.length)}) }}</span></header><div v-if="searchable" class="ui-transfer-search"><AppIcon name="search" :size="12"/><input v-model="rightQuery" :aria-label="t('transfer.search',{title:resolvedTitles[1]})" :placeholder="t('transfer.searchPlaceholder')"/></div><div class="ui-transfer-list"><UiCheckbox v-for="item in right" :key="item.value" v-model="selected.right" :value="item.value" :disabled="item.disabled">{{ item.label }}</UiCheckbox><span v-if="!right.length" class="ui-transfer-empty">{{ t('transfer.empty') }}</span></div></section></div></template>

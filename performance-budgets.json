@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 1,
+  "version": "1.14.0",
+  "description": "Deterministic raw and gzip package budgets for Lan UI release gates.",
+  "baseline": {
+    "version": "1.4.0",
+    "metrics": {
+      "packageJsRaw": 180348,
+      "packageJsGzip": 77802,
+      "packageCssRaw": 221588,
+      "packageCssGzip": 57721,
+      "largestChunkRaw": 12847,
+      "largestChunkGzip": 3855,
+      "rootCssRaw": 110541,
+      "rootCssGzip": 20285
+    }
+  },
+  "budgets": {
+    "packageJsRaw": 270000,
+    "packageJsGzip": 108000,
+    "packageCssRaw": 265000,
+    "packageCssGzip": 68000,
+    "largestChunkRaw": 16000,
+    "largestChunkGzip": 5200,
+    "rootCssRaw": 132000,
+    "rootCssGzip": 23500,
+    "largestComponentCssRaw": 12000,
+    "largestComponentCssGzip": 3200,
+    "subpathConsumerJsRaw": 86000,
+    "subpathConsumerCssRaw": 9500,
+    "standaloneExampleJsRaw": 260000,
+    "standaloneExampleCssRaw": 132000
+  }
+}
