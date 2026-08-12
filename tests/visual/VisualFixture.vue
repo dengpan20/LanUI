@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -12,6 +12,7 @@ const segment=ref('month')
 const commandOpen=ref(false)
 const commandQuery=ref('')
 const brandColor=ref('#1677FFCC')
+const visualImage=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs><rect width="640" height="360" rx="24" fill="url(#g)"/><circle cx="520" cy="70" r="95" fill="white" opacity=".12"/><path d="M0 310 170 160l105 92 100-72 265 180H0Z" fill="white" opacity=".18"/><text x="34" y="58" fill="white" font-family="Arial" font-size="28" font-weight="700">Release media</text></svg>')}`
 const commandItems=[{key:'dashboard',label:'Open dashboard',group:'Navigate'},{key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate'},{key:'disabled',label:'Disabled command',group:'Actions',disabled:true}]
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
@@ -51,6 +52,10 @@ const tableRows=[
 
       <UiCard title="Planning calendar" title-tag="h2">
         <UiCalendar :model-value="['2026-08-10','2026-08-16']" selection-mode="range" view-date="2026-08-01" today="2026-08-12" size="sm" show-week-numbers aria-label="Planning calendar" />
+      </UiCard>
+
+      <UiCard title="Media preview" title-tag="h2">
+        <UiImage :src="visualImage" alt="Release media" preview loading="eager" style="width:100%;aspect-ratio:16/9" />
       </UiCard>
     </section>
 

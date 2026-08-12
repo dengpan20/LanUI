@@ -1,4 +1,5 @@
 // @vitest-environment happy-dom
+import fs from 'node:fs'
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -59,5 +60,13 @@ describe('client overlay lifecycle', () => {
 
     drawer.unmount(); modal.unmount(); toast.unmount()
     expect(overlayCount()).toBe(0)
+  })
+
+  it('constrains centered modals to the dynamic viewport and scrolls long content internally', () => {
+    const styles = fs.readFileSync('styles.css', 'utf8')
+    expect(styles).toContain('.ui-modal-overlay { width:100%; height:100%; height:100dvh; min-width:0; min-height:0; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr); overflow:hidden; }')
+    expect(styles).toContain('.modal-body { min-width:0; min-height:0; padding: 20px; overflow:auto; overscroll-behavior:contain; overflow-wrap:anywhere;')
+    expect(styles).toContain('.ui-modal { min-width:0; max-width:100%; max-height:100%; display:grid; grid-template-rows:auto minmax(0,1fr) auto; overflow:hidden; }')
+    expect(styles).toContain('@media(max-width:600px),(max-height:600px){.ui-modal-overlay{padding-block:max(12px,env(safe-area-inset-top))')
   })
 })

@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
-  UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -27,6 +27,10 @@ const statisticValue = ref(1000)
 const statisticTrend = ref(5)
 const statisticLoading = ref(false)
 const calendarRange = ref(['2026-08-10','2026-08-16'])
+const imagePreviewOpen = ref(false)
+const imagePreviewIndex = ref(0)
+const imageFixture=(label,color)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320"><rect width="480" height="320" rx="24" fill="${color}"/><text x="28" y="58" fill="white" font-family="Arial" font-size="26" font-weight="700">${label}</text></svg>`)}`
+const imageSources=[imageFixture('Architecture','#2563eb'),imageFixture('Components','#7c3aed'),imageFixture('Release','#0f766e')]
 const files = ref([])
 const uploadError = ref('')
 const selectedRows = ref([])
@@ -136,6 +140,14 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <div class="interaction-stack">
           <UiCalendar v-model="calendarRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12" show-week-numbers aria-label="Release calendar" />
           <output class="interaction-output" data-testid="calendar-output">{{ calendarRange.join(' to ') || 'empty' }}</output>
+        </div>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Image preview keyboard contract</h2>
+        <div class="interaction-stack">
+          <UiImage v-model:preview-open="imagePreviewOpen" v-model:preview-index="imagePreviewIndex" :src="imageSources[0]" alt="Interaction gallery" preview :preview-list="imageSources" width="240" height="150" />
+          <output class="interaction-output" data-testid="image-output">{{ imagePreviewOpen?'open':'closed' }} / {{ imagePreviewIndex }}</output>
         </div>
       </section>
 

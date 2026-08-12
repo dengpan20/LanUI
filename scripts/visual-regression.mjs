@@ -28,7 +28,7 @@ try{
   for(const item of cases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
-    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'networkidle'})
+    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
     await page.waitForSelector('body[data-visual-ready="true"]')
     const image=await page.locator('#visual-fixture').screenshot({animations:'disabled'})
     const current=resolve(currentDir,`${item.name}.png`)

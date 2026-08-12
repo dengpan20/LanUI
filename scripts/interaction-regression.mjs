@@ -189,6 +189,30 @@ const allCases = [
     },
   },
   {
+    name: 'image-preview-keyboard',
+    run: async page => {
+      const opener=page.getByRole('button',{name:'Preview image: Interaction gallery'})
+      await opener.click()
+      const dialog=page.getByRole('dialog',{name:'Interaction gallery'})
+      await dialog.waitFor()
+      await expectText(page,'image-output','open / 0')
+      assert.equal(await page.getByRole('button',{name:'Close image preview'}).evaluate(node=>node===document.activeElement),true)
+      await page.keyboard.press('ArrowRight')
+      await expectText(page,'image-output','open / 1')
+      assert.equal(await dialog.locator('.ui-image-preview-media').getAttribute('alt'),'Interaction gallery')
+      await page.keyboard.press('+')
+      assert.equal((await page.getByRole('button',{name:'Reset image transform'}).innerText()).trim(),'125%')
+      await page.keyboard.press('r')
+      assert.match(await dialog.locator('.ui-image-preview-media').getAttribute('style'),/rotate\(90deg\)/)
+      await page.keyboard.press('Shift+Tab')
+      assert.equal(await page.getByRole('button',{name:'Rotate right'}).evaluate(node=>node===document.activeElement),true)
+      await page.keyboard.press('Escape')
+      await dialog.waitFor({state:'hidden'})
+      await expectText(page,'image-output','closed / 1')
+      await expectFocused(page,opener)
+    },
+  },
+  {
     name: 'tabs-ltr-keyboard',
     run: async page => {
       await page.getByRole('tab', { name: 'Overview' }).focus()
@@ -366,7 +390,7 @@ try {
         const context = await browser.newContext({ viewport: { width: 1280, height: 1100 }, locale: 'en-US', reducedMotion: 'reduce' })
         const page = await context.newPage()
         try {
-          await page.goto(`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`, { waitUntil: 'networkidle' })
+          await page.goto(`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`, { waitUntil: 'domcontentloaded', timeout: 60000 })
           await page.waitForSelector('body[data-interaction-ready="true"]')
           await item.run(page)
           const durationMs = Math.round(performance.now() - started)

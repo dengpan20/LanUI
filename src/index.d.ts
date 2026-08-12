@@ -14,6 +14,7 @@ export type DateInput = string|Date|number|null|undefined
 export type DateValue = string|Date|number|null
 export type CalendarSelectionMode = 'single'|'multiple'|'range'
 export type CalendarPanel = 'month'|'year'
+export type ImageFit = 'fill'|'contain'|'cover'|'none'|'scale-down'
 export type ColorFormat = 'hex'|'rgb'|'hsl'
 export interface RgbaColor { r:number; g:number; b:number; a:number }
 export interface HsvaColor { h:number; s:number; v:number; a:number }
@@ -92,6 +93,7 @@ export interface UiFormProps<Model extends Record<string,unknown>=Record<string,
 export interface UiFormItemProps { label?:string; name?:string; required?:boolean; error?:string; help?:string; forId?:string; group?:boolean; composite?:boolean; reserveMessageSpace?:boolean; rules?:UiFormRule|UiFormRule[]|UiFormRule['validator'] }
 export interface UiGridProps { columns?:number|string; gap?:number|string; min?:number|string; align?:'start'|'center'|'end'|'stretch' }
 export interface UiIconProps { name?:string; fallback?:string; size?:number|string; strokeWidth?:number|string; color?:string; fill?:string; rotate?:number; flip?:'none'|'horizontal'|'vertical'|'both'; directional?:boolean; spin?:boolean; ariaLabel?:string }
+export interface UiImageProps { src?:string; alt?:string; fallback?:string; width?:string|number; height?:string|number; aspectRatio?:string|number; fit?:ImageFit; position?:string; radius?:string|number; loading?:'eager'|'lazy'; decoding?:'sync'|'async'|'auto'; crossorigin?:''|'anonymous'|'use-credentials'; referrerpolicy?:string; preview?:boolean; previewOpen?:boolean; previewSrc?:string; previewList?:string[]; previewIndex?:number; loop?:boolean; minScale?:number; maxScale?:number; scaleStep?:number; zoomOnWheel?:boolean; closeOnMask?:boolean; closeOnEsc?:boolean; toolbar?:boolean; disabled?:boolean; teleportTo?:string|HTMLElement; previewZIndex?:number }
 export interface UiInputProps { modelValue?:string|number; type?:string; placeholder?:string; icon?:string; size?:ComponentSize; clearable?:boolean; passwordToggle?:boolean; disabled?:boolean; readonly?:boolean; invalid?:boolean; loading?:boolean; maxlength?:string|number }
 export interface UiLayoutProps { tag?:string; direction?:'horizontal'|'vertical'; gap?:string|number; contained?:boolean }
 
@@ -163,6 +165,11 @@ export interface UiTreeCheckMeta { node:UiTreeDataNode; checked:boolean; halfChe
 export interface UiTreeLoadPayload { node:UiTreeDataNode; children:UiTreeDataNode[] }
 export interface UiTreeLoadError { error:unknown; node:UiTreeDataNode }
 export interface UiTreeDataError { errors:Array<{code:'missing-key'|'duplicate-key';key?:Key;node:UiTreeDataNode}> }
+export interface UiImageLoadMeta { src:string; fallback:boolean }
+export interface UiImageFallbackMeta { failedSrc:string; fallbackSrc:string; event:Event }
+export interface UiImagePreviewMeta { index:number; src:string; source:string }
+export interface UiImagePreviewEventMeta { index:number; src:string }
+export interface UiImageTransform { scale:number; rotation:number; offsetX:number; offsetY:number; source:string }
 
 export type UiAlertEmits = { close:()=>void }
 export type UiAutoCompleteEmits = { 'update:modelValue':(value:Key)=>void; input:(value:string)=>void; change:(value:Key,meta:UiAutoCompleteChangeMeta)=>void; select:(option:UiAutoCompleteOption)=>void; search:(query:string)=>void; 'open-change':(open:boolean)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void; 'load-error':(payload:UiAutoCompleteLoadError)=>void }
@@ -198,6 +205,7 @@ export type UiFormEmits = { submit:(model:Record<string,unknown>,event:SubmitEve
 export type UiFormItemEmits = {}
 export type UiGridEmits = {}
 export type UiIconEmits = {}
+export type UiImageEmits = { load:(event:Event,meta:UiImageLoadMeta)=>void; error:(event:Event,meta:UiImageLoadMeta)=>void; fallback:(meta:UiImageFallbackMeta)=>void; retry:(meta:{src:string})=>void; 'update:previewOpen':(value:boolean)=>void; 'update:previewIndex':(value:number)=>void; 'preview-open':(meta:Omit<UiImagePreviewMeta,'source'>)=>void; 'preview-close':(meta:UiImagePreviewMeta)=>void; 'preview-change':(meta:UiImagePreviewMeta)=>void; 'preview-load':(event:Event,meta:UiImagePreviewEventMeta)=>void; 'preview-error':(event:Event,meta:UiImagePreviewEventMeta)=>void; transform:(meta:UiImageTransform)=>void }
 export type UiInputEmits = { 'update:modelValue':(value:string)=>void; input:(value:string)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiLayoutEmits = {}
 export type UiListToolbarEmits = { 'update:density':(value:'compact'|'default'|'comfortable')=>void; 'update:visibleColumns':(value:string[])=>void; refresh:()=>void }
@@ -261,6 +269,7 @@ export type UiFormSlots = { default?:(props:{validate:(names?:string[])=>Promise
 export type UiFormItemSlots = { default?:(props:{controlId:string;labelledby?:string;describedby?:string;invalid:boolean;validate:(trigger?:string)=>Promise<boolean>})=>VNodeChild }
 export type UiGridSlots = { default?:()=>VNodeChild }
 export type UiIconSlots = { default?:()=>VNodeChild }
+export type UiImageSlots = { placeholder?:()=>VNodeChild; error?:(scope:{retry:()=>void})=>VNodeChild; overlay?:(scope:{state:'loading'|'loaded'|'error';open:()=>void})=>VNodeChild; preview?:(scope:{src:string;index:number;scale:number;rotation:number})=>VNodeChild; caption?:(scope:{src:string;index:number})=>VNodeChild; toolbar?:(scope:{zoomIn:(source?:string)=>void;zoomOut:(source?:string)=>void;rotate:(delta:number,source?:string)=>void;reset:(source?:string)=>void;scale:number;rotation:number})=>VNodeChild }
 export type UiInputSlots = {}
 export type UiLayoutSlots = { default?:()=>VNodeChild }
 export type UiListToolbarSlots = { default?:()=>VNodeChild; primary?:()=>VNodeChild }
@@ -313,7 +322,7 @@ export const UiCollapse:LanComponent<UiCollapseProps,UiCollapseEmits,UiCollapseS
 export const UiCol:LanComponent<UiColProps,UiColEmits,UiColSlots>; export const UiDatePicker:LanComponent<UiDatePickerProps,UiDatePickerEmits,UiDatePickerSlots>; export const UiDivider:LanComponent<UiDividerProps,UiDividerEmits,UiDividerSlots>; export const UiDrawer:LanComponent<UiDrawerProps,UiDrawerEmits,UiDrawerSlots>
 export const UiConfigProvider:LanComponent<UiConfigProviderProps,UiConfigProviderEmits,UiConfigProviderSlots>; export const UiDateRangePicker:LanComponent<UiDateRangePickerProps,UiDateRangePickerEmits,UiDateRangePickerSlots>
 export const UiDropdown:LanComponent<UiDropdownProps,UiDropdownEmits,UiDropdownSlots>; export const UiEmpty:LanComponent<UiEmptyProps,UiEmptyEmits,UiEmptySlots>; export const UiFloatButton:LanComponent<UiFloatButtonProps,UiFloatButtonEmits,UiFloatButtonSlots>; export const UiForm:LanComponent<UiFormProps,UiFormEmits,UiFormSlots>
-export const UiFormItem:LanComponent<UiFormItemProps,UiFormItemEmits,UiFormItemSlots>; export const UiGrid:LanComponent<UiGridProps,UiGridEmits,UiGridSlots>; export const UiIcon:LanComponent<UiIconProps,UiIconEmits,UiIconSlots>; export const UiInput:LanComponent<UiInputProps,UiInputEmits,UiInputSlots>; export const UiLayout:LanComponent<UiLayoutProps,UiLayoutEmits,UiLayoutSlots>
+export const UiFormItem:LanComponent<UiFormItemProps,UiFormItemEmits,UiFormItemSlots>; export const UiGrid:LanComponent<UiGridProps,UiGridEmits,UiGridSlots>; export const UiIcon:LanComponent<UiIconProps,UiIconEmits,UiIconSlots>; export const UiImage:LanComponent<UiImageProps,UiImageEmits,UiImageSlots>; export const UiInput:LanComponent<UiInputProps,UiInputEmits,UiInputSlots>; export const UiLayout:LanComponent<UiLayoutProps,UiLayoutEmits,UiLayoutSlots>
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>

@@ -68,8 +68,15 @@ describe('maturity P24 calendar',()=>{
 
   it('models range start, preview, completion and normalized output',async()=>{
     const wrapper=mount(UiCalendar,{props:{modelValue:['2026-08-10'],selectionMode:'range',viewDate:'2026-08-01',today:'2026-08-01'}})
+    expect(day(wrapper,'2026-08-10').classes()).toEqual(expect.arrayContaining(['range-start','range-pending']))
     await day(wrapper,'2026-08-14').trigger('mouseenter')
     expect(day(wrapper,'2026-08-12').classes()).toContain('range-preview')
+    expect(day(wrapper,'2026-08-10').classes()).toContain('range-start')
+    expect(day(wrapper,'2026-08-14').classes()).toEqual(expect.arrayContaining(['range-end','range-preview']))
+    await day(wrapper,'2026-08-08').trigger('mouseenter')
+    expect(day(wrapper,'2026-08-08').classes()).toEqual(expect.arrayContaining(['range-start','range-preview']))
+    expect(day(wrapper,'2026-08-10').classes()).toEqual(expect.arrayContaining(['range-end','selected']))
+    expect(day(wrapper,'2026-08-09').classes()).toEqual(expect.arrayContaining(['in-range','range-preview']))
     await day(wrapper,'2026-08-08').trigger('click')
     expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([['2026-08-08','2026-08-10']])
     expect(wrapper.emitted('change')?.at(-1)?.[1]).toEqual({source:'pointer',selectionMode:'range',date:'2026-08-08'})

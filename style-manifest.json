@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "core": {
     "subpath": "./styles/core.css",
     "bytes": 6675
@@ -46,8 +46,8 @@
     {
       "name": "UiCalendar",
       "subpath": "./styles/UiCalendar.css",
-      "bytes": 5905,
-      "rules": 52
+      "bytes": 7174,
+      "rules": 57
     },
     {
       "name": "UiCard",
@@ -170,6 +170,12 @@
       "rules": 2
     },
     {
+      "name": "UiImage",
+      "subpath": "./styles/UiImage.css",
+      "bytes": 11074,
+      "rules": 90
+    },
+    {
       "name": "UiInput",
       "subpath": "./styles/UiInput.css",
       "bytes": 2306,
@@ -196,8 +202,8 @@
     {
       "name": "UiModal",
       "subpath": "./styles/UiModal.css",
-      "bytes": 1982,
-      "rules": 15
+      "bytes": 2830,
+      "rules": 18
     },
     {
       "name": "UiMultiSelect",
@@ -316,8 +322,8 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 11168,
-      "rules": 92
+      "bytes": 11250,
+      "rules": 93
     },
     {
       "name": "UiTabs",

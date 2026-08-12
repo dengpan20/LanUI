@@ -108,12 +108,12 @@ function isUnavailable(key){
   return false
 }
 function rangeState(key){
-  if(mode.value!=='range'||!selectedKeys.value.length)return {start:false,end:false,inRange:false,preview:false}
+  if(mode.value!=='range'||!selectedKeys.value.length)return {start:false,end:false,inRange:false,preview:false,pending:false}
   const start=selectedKeys.value[0],end=selectedKeys.value[1]
-  if(end)return {start:key===start,end:key===end,inRange:key>start&&key<end,preview:false}
-  if(!hoverDate.value||hoverDate.value===start)return {start:key===start,end:false,inRange:false,preview:false}
+  if(end)return {start:key===start,end:key===end,inRange:key>start&&key<end,preview:false,pending:false}
+  if(!hoverDate.value||hoverDate.value===start)return {start:key===start,end:false,inRange:false,preview:false,pending:key===start}
   const low=[start,hoverDate.value].sort()[0],high=[start,hoverDate.value].sort()[1]
-  return {start:key===start,end:false,inRange:key>low&&key<high,preview:key===hoverDate.value||key>low&&key<high}
+  return {start:key===low,end:key===high,inRange:key>low&&key<high,preview:key>=low&&key<=high,pending:false}
 }
 function dayLabel(key){return formatDate(utcOf(key),{dateStyle:'full',timeZone:'UTC'})}
 function cellDescription(cell){
@@ -244,7 +244,7 @@ function goToday(){
       </div>
       <div v-for="week in weeks" :key="week.days[0].date" class="ui-calendar-week" role="row">
         <span v-if="showWeekNumbers" role="rowheader" class="ui-calendar-week-number" :aria-label="`${t('calendar.week')} ${week.number}`">{{ week.number }}</span>
-        <button v-for="cell in week.days" :key="cell.date" type="button" role="gridcell" class="ui-calendar-day" :class="{outside:!cell.currentMonth,today:cell.today,selected:cell.selected,disabled:cell.disabled,weekend:cell.weekend,hidden:cell.hidden,'range-start':cell.range.start,'range-end':cell.range.end,'in-range':cell.range.inRange,'range-preview':cell.range.preview}" :data-date="cell.date" :tabindex="cell.date===activeDate&&!cell.hidden?0:-1" :aria-label="cellDescription(cell)" :aria-selected="cell.selected||cell.range.inRange" :aria-disabled="cell.disabled||cell.hidden||undefined" :disabled="disabled" @click="selectDate(cell.date)" @keydown="onKeydown($event,cell.date)" @focus="onFocus($event,cell.date)" @blur="emit('blur',$event)" @mouseenter="hoverDate=cell.disabled?'':cell.date" @mouseleave="hoverDate=''">
+        <button v-for="cell in week.days" :key="cell.date" type="button" role="gridcell" class="ui-calendar-day" :class="{outside:!cell.currentMonth,today:cell.today,selected:cell.selected,disabled:cell.disabled,weekend:cell.weekend,hidden:cell.hidden,'range-start':cell.range.start,'range-end':cell.range.end,'range-pending':cell.range.pending,'in-range':cell.range.inRange,'range-preview':cell.range.preview}" :data-date="cell.date" :tabindex="cell.date===activeDate&&!cell.hidden?0:-1" :aria-label="cellDescription(cell)" :aria-selected="cell.selected||cell.range.inRange" :aria-disabled="cell.disabled||cell.hidden||undefined" :disabled="disabled" @click="selectDate(cell.date)" @keydown="onKeydown($event,cell.date)" @focus="onFocus($event,cell.date)" @blur="emit('blur',$event)" @mouseenter="hoverDate=cell.disabled?'':cell.date" @mouseleave="hoverDate=''">
           <slot name="cell" v-bind="cell"><span class="ui-calendar-day-label">{{ cell.label }}</span></slot>
         </button>
       </div>

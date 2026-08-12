@@ -24,6 +24,28 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.21 image and preview contract
+
+`UiImage` is additive. Use it for content images that need loading, fallback or preview behavior; keep plain `<img>` for fully static decorative assets and `UiAvatar` for identity thumbnails.
+
+```vue
+<UiImage
+  src="/thumbnail.jpg"
+  fallback="/image-fallback.jpg"
+  alt="Release architecture"
+  preview
+  :preview-list="gallery"
+/>
+```
+
+- `alt` is forwarded to both inline and preview images. Keep meaningful content concise; use an empty string for decorative images.
+- `fallback` is attempted once after the primary source fails. Terminal failure exposes localized retry UI or the typed `error` slot; consumer retry handlers do not need to rebuild the component.
+- `previewOpen` and `previewIndex` support controlled use. Echo `update:previewOpen` and `update:previewIndex` when application state owns the preview.
+- Arrow Left/Right navigates the gallery and mirrors in RTL. `+`/`-` zoom, `R`/`Shift+R` rotate, `0` resets and Escape closes. Focus remains trapped and returns to the opener.
+- Wheel zoom and double-click zoom are enabled by default. Pointer panning activates only above 100% scale and remains bounded to the preview canvas.
+- Preview participates in the shared overlay stack and restores prior body overflow. Nested dialogs close only when their own overlay is topmost.
+- Custom `preview` and `toolbar` slots own their visual rendering; preserve equivalent accessible controls and feedback when replacing defaults.
+
 ## 1.20 calendar contract
 
 `UiCalendar` is additive. Use it when dates must remain visible for planning or range selection; retain `UiDatePicker` for compact single-field input and `UiDateRangePicker` for compact start/end entry.

@@ -23,6 +23,8 @@ const cases=[
   {name:'color-picker-open',viewport:{width:1280,height:1300},query:'theme=dark&direction=rtl&density=compact&state=advanced',prepare:async page=>{await page.locator('#visual-color-trigger').click();await page.getByRole('dialog',{name:'Color picker'}).waitFor()}},
   {name:'rate-focused',viewport:{width:1280,height:1300},query:'theme=light&direction=rtl&density=compact&state=advanced',prepare:async page=>{await page.getByRole('slider',{name:'Advanced rating'}).focus()}},
   {name:'calendar-focused',viewport:{width:1280,height:1400},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.locator('.ui-calendar-day[data-date="2026-08-10"]').focus()}},
+  {name:'image-focused',viewport:{width:1280,height:1500},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('button',{name:'Preview image: Release media'}).focus()}},
+  {name:'image-preview-open',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact',prepare:async page=>{await page.getByRole('button',{name:'Preview image: Release media'}).click();await page.getByRole('dialog',{name:'Release media'}).waitFor()}},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)
@@ -33,7 +35,7 @@ try{
   for(const item of cases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')||item.name.includes('rtl')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
-    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'networkidle'})
+    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
     await page.waitForSelector('body[data-visual-ready="true"]')
     if(item.ready)await page.waitForSelector(item.ready)
     await item.prepare?.(page)

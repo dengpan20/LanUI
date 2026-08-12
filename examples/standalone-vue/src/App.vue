@@ -13,6 +13,7 @@ import {
   UiDescriptions,
   UiInput,
   UiIcon,
+  UiImage,
   UiNumberInput,
   UiRate,
   UiSelect,
@@ -41,6 +42,8 @@ const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
 const serviceRating = ref(4.5)
 const releaseWindow = ref(['2026-08-10','2026-08-16'])
+const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="505" cy="80" r="110" fill="white" opacity=".12"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="white" opacity=".18"/><text x="38" y="66" fill="white" font-family="Arial" font-size="28" font-weight="700">${label}</text></svg>`)}`
+const releaseImages=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const officeCity = ref('hangzhou')
 const selectedResource = ref('dashboard')
 const checkedResources = ref(['dashboard'])
@@ -112,6 +115,12 @@ const rows = computed(() => [
 
     <UiCard title="Release calendar">
       <UiCalendar v-model="releaseWindow" selection-mode="range" view-date="2026-08-01" today="2026-08-12" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" />
+    </UiCard>
+
+    <UiCard title="Release gallery">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+        <UiImage v-for="(source,index) in releaseImages" :key="source" :src="source" :alt="`Release asset ${index+1}`" preview :preview-list="releaseImages" :preview-index="index" style="width:100%;aspect-ratio:4/3"><template #caption>Standalone package preview</template></UiImage>
+      </div>
     </UiCard>
 
     <UiCard title="全局命令面板">

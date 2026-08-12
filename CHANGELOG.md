@@ -4,6 +4,29 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.21.0] - 2026-08-12
+
+### Added
+
+- Public `UiImage` with native lazy/eager loading, decoding/cross-origin/referrer controls, responsive sizing, aspect ratio, object fit/position and one-shot fallback handling.
+- Accessible full-screen preview with controlled/uncontrolled visibility and index, looping gallery navigation, adjacent preloading, zoom, rotation, reset, wheel/double-click operations and bounded pointer panning.
+- Focus trapping/restoration, overlay-stack participation, body-scroll locking, Escape/mask close, LTR/RTL Arrow mapping, reduced-motion/forced-colors treatment and localized accessible controls.
+- Typed placeholder/error/overlay/preview/caption/toolbar slots plus load, fallback, retry, gallery, preview-error and transform event metadata.
+- Unit, SSR, typed root/subpath, package, component-center, static-preview, visual, Axe, three-browser keyboard and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 63 to 64 entries.
+- Locale parity advances from 172 to 187 keys; Axe coverage advances from 15 to 17 scenarios and browser interaction coverage from 20 to 21 scenarios per engine.
+- Static preview advances from 21 to 22 sections and includes an interactive image gallery.
+- Package, root-style and standalone ceilings are rebaselined narrowly for the image runtime and preview styles: package JS `386000/145000`, package CSS `347000/85000`, root CSS `168000/29500`, standalone JS `348000` and standalone CSS `169000` raw/gzip bytes where applicable.
+- Corrected the component-center interaction matrix so AutoComplete and Tree keep independent, scannable component labels.
+- Static image preview now honors its initial `hidden` state and remains mounted after Escape, preventing an invisible layer from blocking the gallery and preserving repeatable focus restoration.
+- Browser regression navigation now waits for fixture-ready markers after `DOMContentLoaded` with a 60-second navigation ceiling, avoiding false CI failures from an unnecessary `networkidle` wait.
+- Numeric-string image dimensions and radii now normalize to pixels while explicit CSS lengths remain unchanged, fixing zero-size lazy images in Firefox.
+- Calendar range previews now show chronological start/end caps on either side of a pending anchor and expose the unfinished anchor as a distinct state.
+- Centered modals now fit the dynamic viewport, scroll oversized bodies internally, wrap narrow action rows and respect mobile safe-area insets.
+
 ## [1.20.0] - 2026-08-12
 
 ### Added

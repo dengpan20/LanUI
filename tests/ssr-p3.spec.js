@@ -18,6 +18,7 @@ import UiCommandPalette from '../src/components/UiCommandPalette.vue'
 import UiColorPicker from '../src/components/UiColorPicker.vue'
 import UiRate from '../src/components/UiRate.vue'
 import UiStatistic from '../src/components/UiStatistic.vue'
+import UiImage from '../src/components/UiImage.vue'
 import { openOverlay, overlayCount } from '../src/components/overlayManager.js'
 import { createLanUi } from '../src/plugin.js'
 import { useToast } from '../src/feedback.js'
@@ -39,6 +40,7 @@ async function renderFixture() {
         h(UiColorPicker, { modelValue:'#1677FFCC', alpha:true, defaultOpen:true, 'aria-label':'SSR brand color' }),
         h(UiRate, { modelValue:3.5, step:.5, showText:true, ariaLabel:'SSR service rating' }),
         h(UiStatistic, { value:2864000, title:'SSR revenue', prefix:'$', trend:12.6, precision:0 }),
+        h(UiImage, { src:'/ssr-thumbnail.jpg', alt:'SSR architecture', preview:true, previewOpen:true, previewList:['/ssr-large-a.jpg','/ssr-large-b.jpg'], previewIndex:1 }),
         h(UiPopover, { modelValue:true, title:'Details' }, { trigger:() => h('button', 'Open'), default:() => 'Popover content' }),
         h(UiModal, { modelValue:true, title:'Review' }, { default:() => 'Modal content' }),
         h(UiDrawer, { modelValue:true, title:'Filters' }, { default:() => 'Drawer content' }),
@@ -81,6 +83,10 @@ describe('server rendering', () => {
     expect(result.html).toContain('SSR revenue')
     expect(result.html).toContain('2,864,000')
     expect(result.html).toContain('Up 12.6%')
+    expect(result.html).toContain('src="/ssr-thumbnail.jpg"')
+    expect(result.html).toContain('SSR architecture')
+    expect(result.teleports.body).toContain('src="/ssr-large-b.jpg"')
+    expect(result.teleports.body).toContain('Image 2 of 2')
   })
 
   it('keeps generated ids stable across equivalent app renders', async () => {

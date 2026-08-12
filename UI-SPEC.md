@@ -646,3 +646,16 @@
 - Header, cell, year and footer slots expose typed presentation scope while the component retains gridcell buttons and accessible labels.
 - Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 21-section static preview, standalone consumer and SSR fixtures remain in parity for 63 components and 172 locale keys.
 - CI, 15 Axe cases and 20 interaction cases per Chromium/Firefox/WebKit engine are required for the P24 delivery evidence.
+
+## 38. Maturity P25: image loading and gallery preview
+
+- `UiImage` forwards native image semantics and loading controls while standardizing width, height, aspect ratio, fit, position and radius through component styles.
+- The primary source has explicit loading/loaded/error states. `fallback` is attempted once, terminal failure exposes localized retry behavior, and placeholder/error/overlay slots support branded states without changing the state machine.
+- Preview visibility and gallery index support controlled and uncontrolled models. A single source, explicit `previewSrc` or ordered `previewList` all share the same preview contract.
+- Gallery navigation can loop or stop at boundaries and preloads adjacent images. Arrow Left/Right mirrors in RTL while Home/End-style ordering remains source-order deterministic.
+- Zoom is clamped to consumer bounds and supports buttons, `+`/`-`, wheel and double-click. Rotation supports controls and `R`/`Shift+R`; `0` resets. Pointer panning activates only above 100% and remains bounded by the canvas.
+- Preview is an ARIA modal dialog in the shared overlay stack. It locks body scroll, closes only as the top overlay, traps focus and restores the exact opener after Escape, mask or close-button dismissal.
+- Loading, terminal preview errors, live gallery counts, descriptive image alternatives and named toolbar controls remain exposed to assistive technology. Reduced-motion and forced-colors modes retain equivalent behavior.
+- Preview, caption and toolbar slots expose typed transformation scope; load/fallback/retry/preview/navigation/error/transform events carry typed metadata for analytics and application state.
+- Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 22-section static preview, standalone consumer and SSR fixtures remain in parity for 64 components and 187 locale keys.
+- CI, 17 Axe cases and 21 interaction cases per Chromium/Firefox/WebKit engine are required for the P25 delivery evidence.

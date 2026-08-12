@@ -8,6 +8,7 @@ import {
   UiDropdown,
   UiInput,
   UiIcon,
+  UiImage,
   UiModal,
   UiNumberInput,
   UiRate,
@@ -35,6 +36,7 @@ import { parseColor as parseSubpathColor } from 'lan-ui-design-system/color'
 import { createLanUiFeedback as createSubpathFeedback } from 'lan-ui-design-system/feedback'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
+import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
@@ -49,6 +51,7 @@ import type {
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
+import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } from 'lan-ui-design-system/components/UiAutoComplete'
 import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 'lan-ui-design-system/components/UiNumberInput'
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
@@ -127,6 +130,13 @@ calendarEmit('view-change',{value:'2026-09-01',previous:'2026-08-01',source:'key
 const calendarSubpathParity:typeof SubpathCalendar=NamedSubpathCalendar
 const calendarEvent:keyof UiCalendarEmits='panel-change'
 const calendarSlot:keyof UiCalendarSlots='cell'
+const imageProps:InstanceType<typeof UiImage>['$props']&UiImageProps={src:'/thumb.jpg',alt:'Typed image',fallback:'/fallback.jpg',width:320,height:'180px',aspectRatio:'16/9',fit:'contain',loading:'lazy',decoding:'async',preview:true,previewList:['/a.jpg','/b.jpg'],previewIndex:1,minScale:.5,maxScale:4,scaleStep:.25,zoomOnWheel:true,teleportTo:document.body}
+const imageEmit:InstanceType<typeof UiImage>['$emit']=null as never
+imageEmit('preview-change',{index:1,src:'/b.jpg',source:'keyboard'})
+imageEmit('transform',{scale:1.25,rotation:90,offsetX:0,offsetY:0,source:'keyboard'})
+const imageSubpathParity:typeof SubpathImage=NamedSubpathImage
+const imageEvent:keyof UiImageEmits='preview-error'
+const imageSlot:keyof UiImageSlots='toolbar'
 const autoCompleteProps:InstanceType<typeof UiAutoComplete>['$props']&UiAutoCompleteProps={modelValue:'hangzhou',options:[{label:'Hangzhou',value:'hangzhou',keywords:['hz']}],matchMode:'startsWith',placement:'bottom-start',fetchSuggestions:async(query,{signal})=>signal?.aborted?[]:[query]}
 const autoCompleteEmit:InstanceType<typeof UiAutoComplete>['$emit']=null as never
 autoCompleteEmit('change','hangzhou',{source:'option',option:{label:'Hangzhou',value:'hangzhou'},index:0})
@@ -207,6 +217,8 @@ const invalidRateSize:UiRateProps={size:'xl'}
 const invalidStatisticLive:UiStatisticProps={live:'on'}
 // @ts-expect-error Calendar selection mode is constrained to single, multiple or range.
 const invalidCalendarMode:UiCalendarProps={selectionMode:'week'}
+// @ts-expect-error Image fitting follows the native object-fit contract.
+const invalidImageFit:UiImageProps={fit:'stretch'}
 // @ts-expect-error AutoComplete match modes are constrained to documented filtering semantics.
 const invalidAutoCompleteMatch:UiAutoCompleteProps={matchMode:'fuzzy'}
 // @ts-expect-error Tree model values are string or number keys, never booleans.
@@ -216,4 +228,4 @@ const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 // @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 
-console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)

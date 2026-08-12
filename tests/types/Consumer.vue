@@ -9,6 +9,7 @@ import {
   UiForm,
   UiFormItem,
   UiInput,
+  UiImage,
   UiModal,
   UiRate,
   UiStatistic,
@@ -30,6 +31,8 @@ const commandQuery = ref('')
 const brandColor = ref('#1677FFCC')
 const serviceRating = ref(3.5)
 const releaseRange = ref(['2026-08-10','2026-08-16'])
+const imagePreviewOpen = ref(false)
+const imagePreviewIndex = ref(0)
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
@@ -83,4 +86,9 @@ function sort(payload:UiTableSortChange) {
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>
   </UiCalendar>
+  <UiImage v-model:preview-open="imagePreviewOpen" v-model:preview-index="imagePreviewIndex" src="/typed-thumb.jpg" alt="Typed gallery" preview :preview-list="['/typed-a.jpg','/typed-b.jpg']">
+    <template #error="{ retry }"><UiButton @click="retry">Retry</UiButton></template>
+    <template #caption="{ index, src }">{{ index }} / {{ src }}</template>
+    <template #toolbar="{ zoomIn, rotate, scale }"><UiButton @click="zoomIn()">{{ scale }}</UiButton><UiButton @click="rotate(90)">Rotate</UiButton></template>
+  </UiImage>
 </template>
