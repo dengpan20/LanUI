@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "lan-ui-design-system": "file:../..",
+    "lan-ui-design-system": "workspace:*",
     "vue": "3.5.41"
   },
   "devDependencies": {
