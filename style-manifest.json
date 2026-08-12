@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 6675
+    "bytes": 6739
   },
   "components": [
     {
@@ -40,8 +40,8 @@
     {
       "name": "UiButton",
       "subpath": "./styles/UiButton.css",
-      "bytes": 3115,
-      "rules": 30
+      "bytes": 3239,
+      "rules": 32
     },
     {
       "name": "UiCalendar",
@@ -88,8 +88,8 @@
     {
       "name": "UiCommandPalette",
       "subpath": "./styles/UiCommandPalette.css",
-      "bytes": 9012,
-      "rules": 68
+      "bytes": 9136,
+      "rules": 70
     },
     {
       "name": "UiConfigProvider",
@@ -214,8 +214,8 @@
     {
       "name": "UiNotification",
       "subpath": "./styles/UiNotification.css",
-      "bytes": 4622,
-      "rules": 42
+      "bytes": 4746,
+      "rules": 44
     },
     {
       "name": "UiNumberInput",
@@ -232,8 +232,8 @@
     {
       "name": "UiPopconfirm",
       "subpath": "./styles/UiPopconfirm.css",
-      "bytes": 4408,
-      "rules": 41
+      "bytes": 4532,
+      "rules": 43
     },
     {
       "name": "UiPopover",
@@ -268,8 +268,8 @@
     {
       "name": "UiSegmented",
       "subpath": "./styles/UiSegmented.css",
-      "bytes": 1042,
-      "rules": 10
+      "bytes": 1131,
+      "rules": 11
     },
     {
       "name": "UiSelect",
@@ -308,6 +308,12 @@
       "rules": 27
     },
     {
+      "name": "UiStatusPage",
+      "subpath": "./styles/UiStatusPage.css",
+      "bytes": 8345,
+      "rules": 62
+    },
+    {
       "name": "UiSteps",
       "subpath": "./styles/UiSteps.css",
       "bytes": 2486,
@@ -322,8 +328,8 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 11250,
-      "rules": 93
+      "bytes": 11434,
+      "rules": 96
     },
     {
       "name": "UiTabs",
@@ -334,8 +340,8 @@
     {
       "name": "UiTag",
       "subpath": "./styles/UiTag.css",
-      "bytes": 830,
-      "rules": 7
+      "bytes": 917,
+      "rules": 8
     },
     {
       "name": "UiTextarea",
@@ -370,8 +376,8 @@
     {
       "name": "UiTransfer",
       "subpath": "./styles/UiTransfer.css",
-      "bytes": 4879,
-      "rules": 47
+      "bytes": 5003,
+      "rules": 49
     },
     {
       "name": "UiTree",
@@ -390,6 +396,12 @@
       "subpath": "./styles/UiUpload.css",
       "bytes": 3052,
       "rules": 24
+    },
+    {
+      "name": "UiVirtualList",
+      "subpath": "./styles/UiVirtualList.css",
+      "bytes": 6003,
+      "rules": 56
     }
   ]
 }

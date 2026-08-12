@@ -2,14 +2,14 @@
 import UiStatusPage from '../components/UiStatusPage.vue'
 
 defineProps({ embedded: Boolean })
-const emit = defineEmits(['home', 'back'])
+const emit = defineEmits(['home', 'retry'])
 </script>
 
 <template>
   <UiStatusPage
-    status="404"
+    status="500"
     :embedded="embedded"
     @home="emit('home')"
-    @back="emit('back')"
+    @retry="emit('retry')"
   />
 </template>

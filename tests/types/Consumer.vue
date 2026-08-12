@@ -13,9 +13,11 @@ import {
   UiModal,
   UiRate,
   UiStatistic,
+  UiStatusPage,
   UiTable,
   UiTabs,
   UiTree,
+  UiVirtualList,
 } from 'lan-ui-design-system'
 import type { Key, UiCommandPaletteCommand, UiTableColumn, UiTableSortChange, UiTabsItem } from 'lan-ui-design-system'
 
@@ -33,6 +35,8 @@ const serviceRating = ref(3.5)
 const releaseRange = ref(['2026-08-10','2026-08-16'])
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
+const virtualSelection = ref<Key>('typed-1')
+const virtualItems = Array.from({length:100},(_,index)=>({id:`typed-${index}`,label:`Typed row ${index+1}`}))
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
@@ -91,4 +95,9 @@ function sort(payload:UiTableSortChange) {
     <template #caption="{ index, src }">{{ index }} / {{ src }}</template>
     <template #toolbar="{ zoomIn, rotate, scale }"><UiButton @click="zoomIn()">{{ scale }}</UiButton><UiButton @click="rotate(90)">Rotate</UiButton></template>
   </UiImage>
+  <UiVirtualList v-model="virtualSelection" :items="virtualItems" item-key="id" :item-size="(_item,index)=>index%2?44:52" height="220" selection-mode="single" measure bordered>
+    <template #item="{ index, itemKey, selected, disabled }">{{ index }} / {{ itemKey }} / {{ selected }} / {{ disabled }}</template>
+    <template #error="{ retry }"><UiButton @click="retry">Retry list</UiButton></template>
+  </UiVirtualList>
+  <UiStatusPage status="403" embedded @home="open=false"><template #extra>Typed status page</template></UiStatusPage>
 </template>

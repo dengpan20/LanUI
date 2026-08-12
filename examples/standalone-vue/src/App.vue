@@ -26,6 +26,8 @@ import {
   UiTimePicker,
   UiToastHost,
   UiTree,
+  UiStatusPage,
+  UiVirtualList,
   toast,
 } from 'lan-ui-design-system'
 
@@ -42,6 +44,8 @@ const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
 const serviceRating = ref(4.5)
 const releaseWindow = ref(['2026-08-10','2026-08-16'])
+const virtualSelection = ref('consumer-2')
+const virtualItems = Array.from({length:500},(_,index)=>({id:`consumer-${index}`,label:`Standalone record ${index+1}`,meta:index%4===0?'Measured detail row':'Ready'}))
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="505" cy="80" r="110" fill="white" opacity=".12"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="white" opacity=".18"/><text x="38" y="66" fill="white" font-family="Arial" font-size="28" font-weight="700">${label}</text></svg>`)}`
 const releaseImages=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const officeCity = ref('hangzhou')
@@ -136,6 +140,14 @@ const rows = computed(() => [
       <UiTable :columns="columns" :rows="rows" row-key="id">
         <template #cell-status="{ value }"><UiTag :type="value === '待生成' ? 'orange' : 'green'">{{ value }}</UiTag></template>
       </UiTable>
+    </UiCard>
+    <UiCard title="Virtualized collection">
+      <UiVirtualList v-model="virtualSelection" :items="virtualItems" :item-size="item=>item.meta.startsWith('Measured')?58:44" :estimated-item-size="48" height="220" selection-mode="single" measure bordered striped aria-label="Standalone records">
+        <template #item="{item,index,selected}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%"><span>{{ index+1 }} · {{ item.label }}<small style="display:block;color:var(--text-secondary)">{{ item.meta }}</small></span><UiTag :color="selected?'blue':'gray'">{{ selected?'Selected':'Ready' }}</UiTag></div></template>
+      </UiVirtualList>
+    </UiCard>
+    <UiCard title="Reusable status page">
+      <UiStatusPage status="404" embedded @home="toast.info('Home action')" @back="toast.info('Back action')"><template #extra>Rendered from the published component subpath.</template></UiStatusPage>
     </UiCard>
     <UiCard title="通用能力验证">
       <UiSegmented v-model="period" :options="[{label:'日',value:'day'},{label:'周',value:'week'},{label:'月',value:'month'}]" />

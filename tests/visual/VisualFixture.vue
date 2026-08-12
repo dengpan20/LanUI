@@ -4,6 +4,7 @@ import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -14,6 +15,8 @@ const commandQuery=ref('')
 const brandColor=ref('#1677FFCC')
 const visualImage=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs><rect width="640" height="360" rx="24" fill="url(#g)"/><circle cx="520" cy="70" r="95" fill="white" opacity=".12"/><path d="M0 310 170 160l105 92 100-72 265 180H0Z" fill="white" opacity=".18"/><text x="34" y="58" fill="white" font-family="Arial" font-size="28" font-weight="700">Release media</text></svg>')}`
 const commandItems=[{key:'dashboard',label:'Open dashboard',group:'Navigate'},{key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate'},{key:'disabled',label:'Disabled command',group:'Actions',disabled:true}]
+const virtualSelection=ref('visual-1')
+const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
   {key:'owner',label:'Owner'},
@@ -57,6 +60,12 @@ const tableRows=[
       <UiCard title="Media preview" title-tag="h2">
         <UiImage :src="visualImage" alt="Release media" preview loading="eager" style="width:100%;aspect-ratio:16/9" />
       </UiCard>
+
+      <UiCard title="Virtualized records" title-tag="h2">
+        <UiVirtualList v-model="virtualSelection" :items="virtualRecords" :item-size="44" :height="220" :overscan="2" selection-mode="single" aria-label="Virtualized records" bordered striped>
+          <template #item="{item,selected}"><div class="visual-virtual-row"><strong>{{ item.label }}</strong><UiTag :color="selected?'blue':item.status==='Ready'?'green':'orange'">{{ selected?'Selected':item.status }}</UiTag></div></template>
+        </UiVirtualList>
+      </UiCard>
     </section>
 
     <UiCard title="Data table" title-tag="h2" class="visual-table-card">
@@ -72,6 +81,7 @@ const tableRows=[
     <UiDrawer :model-value="state==='drawer'" title="Component settings" placement="end">
       <div class="visual-stack"><label>Package name<UiInput model-value="lan-ui-design-system"/></label><UiButton>Save settings</UiButton></div>
     </UiDrawer>
+    <UiStatusPage v-if="state==='status'" status="500" embedded />
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">
         <UiMultiSelect aria-label="Team members" :model-value="['lin']" :options="[{label:'Lin',value:'lin'},{label:'Chen',value:'chen'}]"/>

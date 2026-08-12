@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -60,6 +60,7 @@
       "UiSpace",
       "UiSpin",
       "UiStatistic",
+      "UiStatusPage",
       "UiSteps",
       "UiSwitch",
       "UiTable",
@@ -74,6 +75,7 @@
       "UiTree",
       "UiTreeSelect",
       "UiUpload",
+      "UiVirtualList",
       "compareDateValues",
       "createIconRegistry",
       "createLanUi",
@@ -437,6 +439,10 @@
       "UiStatisticProps",
       "UiStatisticSlots",
       "UiStatisticTrendContext",
+      "UiStatusPage",
+      "UiStatusPageEmits",
+      "UiStatusPageProps",
+      "UiStatusPageSlots",
       "UiStepItem",
       "UiSteps",
       "UiStepsEmits",
@@ -510,6 +516,15 @@
       "UiUploadFile",
       "UiUploadProps",
       "UiUploadSlots",
+      "UiVirtualList",
+      "UiVirtualListEmits",
+      "UiVirtualListItemScope",
+      "UiVirtualListProps",
+      "UiVirtualListRange",
+      "UiVirtualListScrollMeta",
+      "UiVirtualListSelectionMeta",
+      "UiVirtualListSlots",
+      "VirtualListSelectionMode",
       "compareDateValues",
       "createIconRegistry",
       "createLanUi",
@@ -1994,6 +2009,35 @@
       ]
     },
     {
+      "name": "UiStatusPage",
+      "subpath": "./components/UiStatusPage",
+      "propsType": "UiStatusPageProps",
+      "props": [
+        "description",
+        "embedded",
+        "icon",
+        "status",
+        "title"
+      ],
+      "emitsType": "UiStatusPageEmits",
+      "emits": [
+        "back",
+        "home",
+        "retry"
+      ],
+      "slotsType": "UiStatusPageSlots",
+      "slots": [
+        "actions",
+        "default",
+        "extra",
+        "illustration"
+      ],
+      "runtimeExports": [
+        "UiStatusPage",
+        "default"
+      ]
+    },
+    {
       "name": "UiSegmented",
       "subpath": "./components/UiSegmented",
       "propsType": "UiSegmentedProps",
@@ -2589,6 +2633,63 @@
       "slots": [],
       "runtimeExports": [
         "UiUpload",
+        "default"
+      ]
+    },
+    {
+      "name": "UiVirtualList",
+      "subpath": "./components/UiVirtualList",
+      "propsType": "UiVirtualListProps",
+      "props": [
+        "activeIndex",
+        "ariaLabel",
+        "bordered",
+        "defaultActiveIndex",
+        "deselectable",
+        "disabledKeys",
+        "emptyText",
+        "error",
+        "errorText",
+        "estimatedItemSize",
+        "height",
+        "itemKey",
+        "itemSize",
+        "items",
+        "loading",
+        "loadingText",
+        "loop",
+        "measure",
+        "modelValue",
+        "overscan",
+        "selectionMode",
+        "striped",
+        "tabindex",
+        "textField",
+        "width"
+      ],
+      "emitsType": "UiVirtualListEmits",
+      "emits": [
+        "active-change",
+        "change",
+        "item-click",
+        "range-change",
+        "reach-end",
+        "reach-start",
+        "retry",
+        "scroll",
+        "update:activeIndex",
+        "update:modelValue"
+      ],
+      "slotsType": "UiVirtualListSlots",
+      "slots": [
+        "default",
+        "empty",
+        "error",
+        "item",
+        "loading"
+      ],
+      "runtimeExports": [
+        "UiVirtualList",
         "default"
       ]
     }

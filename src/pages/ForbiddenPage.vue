@@ -7,7 +7,7 @@ const emit = defineEmits(['home', 'back'])
 
 <template>
   <UiStatusPage
-    status="404"
+    status="403"
     :embedded="embedded"
     @home="emit('home')"
     @back="emit('back')"

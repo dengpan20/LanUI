@@ -13,11 +13,13 @@ import {
   UiNumberInput,
   UiRate,
   UiStatistic,
+  UiStatusPage,
   UiSlider,
   UiTable,
   UiTabs,
   UiTimePicker,
   UiTree,
+  UiVirtualList,
   dateValueToDate,
   formatDateValue,
   createLanUiFeedback,
@@ -37,6 +39,8 @@ import { createLanUiFeedback as createSubpathFeedback } from 'lan-ui-design-syst
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
+import SubpathVirtualList, { UiVirtualList as NamedSubpathVirtualList } from 'lan-ui-design-system/components/UiVirtualList'
+import SubpathStatusPage, { UiStatusPage as NamedSubpathStatusPage } from 'lan-ui-design-system/components/UiStatusPage'
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
@@ -52,6 +56,8 @@ import type {
 } from 'lan-ui-design-system/components/UiInput'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
+import type { UiVirtualListEmits, UiVirtualListProps, UiVirtualListSlots } from 'lan-ui-design-system/components/UiVirtualList'
+import type { UiStatusPageEmits, UiStatusPageProps, UiStatusPageSlots } from 'lan-ui-design-system/components/UiStatusPage'
 import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } from 'lan-ui-design-system/components/UiAutoComplete'
 import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 'lan-ui-design-system/components/UiNumberInput'
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
@@ -137,6 +143,19 @@ imageEmit('transform',{scale:1.25,rotation:90,offsetX:0,offsetY:0,source:'keyboa
 const imageSubpathParity:typeof SubpathImage=NamedSubpathImage
 const imageEvent:keyof UiImageEmits='preview-error'
 const imageSlot:keyof UiImageSlots='toolbar'
+const virtualListProps:InstanceType<typeof UiVirtualList>['$props']&UiVirtualListProps={items:[{id:'a',label:'Alpha'}],itemKey:'id',itemSize:(_item,index)=>index%2?44:52,estimatedItemSize:48,height:'18rem',overscan:4,measure:true,selectionMode:'multiple',modelValue:['a'],disabledKeys:['disabled'],loop:true,bordered:true,striped:true}
+const virtualListEmit:InstanceType<typeof UiVirtualList>['$emit']=null as never
+virtualListEmit('change',['a'],{key:'a',index:0,item:{id:'a'},selected:true,source:'keyboard'})
+virtualListEmit('range-change',{start:0,end:8,visibleStart:0,visibleEnd:6,total:100})
+const virtualListSubpathParity:typeof SubpathVirtualList=NamedSubpathVirtualList
+const virtualListEvent:keyof UiVirtualListEmits='reach-end'
+const virtualListSlot:keyof UiVirtualListSlots='item'
+const statusPageProps:InstanceType<typeof UiStatusPage>['$props']&UiStatusPageProps={status:'500',title:'Service unavailable',description:'Retry later',embedded:true}
+const statusPageEmit:InstanceType<typeof UiStatusPage>['$emit']=null as never
+statusPageEmit('retry')
+const statusPageSubpathParity:typeof SubpathStatusPage=NamedSubpathStatusPage
+const statusPageEvent:keyof UiStatusPageEmits='home'
+const statusPageSlot:keyof UiStatusPageSlots='actions'
 const autoCompleteProps:InstanceType<typeof UiAutoComplete>['$props']&UiAutoCompleteProps={modelValue:'hangzhou',options:[{label:'Hangzhou',value:'hangzhou',keywords:['hz']}],matchMode:'startsWith',placement:'bottom-start',fetchSuggestions:async(query,{signal})=>signal?.aborted?[]:[query]}
 const autoCompleteEmit:InstanceType<typeof UiAutoComplete>['$emit']=null as never
 autoCompleteEmit('change','hangzhou',{source:'option',option:{label:'Hangzhou',value:'hangzhou'},index:0})
@@ -219,6 +238,8 @@ const invalidStatisticLive:UiStatisticProps={live:'on'}
 const invalidCalendarMode:UiCalendarProps={selectionMode:'week'}
 // @ts-expect-error Image fitting follows the native object-fit contract.
 const invalidImageFit:UiImageProps={fit:'stretch'}
+// @ts-expect-error Virtual list selection is constrained to none, single or multiple.
+const invalidVirtualSelection:UiVirtualListProps={selectionMode:'range'}
 // @ts-expect-error AutoComplete match modes are constrained to documented filtering semantics.
 const invalidAutoCompleteMatch:UiAutoCompleteProps={matchMode:'fuzzy'}
 // @ts-expect-error Tree model values are string or number keys, never booleans.
@@ -228,4 +249,4 @@ const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 // @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 
-console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)

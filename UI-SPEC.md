@@ -114,7 +114,7 @@
 - `Esc` 关闭 Modal/Drawer/Dropdown；Modal 打开后自动聚焦关闭按钮。
 - 触控目标建议不低于 40×40px；紧凑表格操作最小 32px。
 - 表单错误在提交后聚焦首个错误项；异步动作展示 Loading 并避免重复提交。
-- 空状态解释原因并提供下一步动作；404 提供返回首页；退出前提供确认页。
+- 空状态解释原因并提供下一步动作；403 / 404 / 500 使用统一状态页组件并提供返回、首页或重试动作；退出前提供确认页。
 
 ## 6. 模式与页面
 
@@ -659,3 +659,16 @@
 - Preview, caption and toolbar slots expose typed transformation scope; load/fallback/retry/preview/navigation/error/transform events carry typed metadata for analytics and application state.
 - Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 22-section static preview, standalone consumer and SSR fixtures remain in parity for 64 components and 187 locale keys.
 - CI, 17 Axe cases and 21 interaction cases per Chromium/Firefox/WebKit engine are required for the P25 delivery evidence.
+
+## 39. Maturity P26: status pages and virtualized collections
+
+- `UiStatusPage` owns reusable 403, 404 and 500 application boundaries. It supports full-screen and embedded layouts, localized titles/descriptions/actions, illustration/action/extra slots and typed home/back/retry events.
+- The 500 state exposes an alert; 403/404 expose labelled regions. Responsive, RTL, forced-colors and reduced-motion behavior retain equivalent information and controls.
+- `UiVirtualList` virtualizes vertical collections using a bounded render window, binary offset lookup and configurable overscan. Item size may be fixed, item-derived or live-measured with `ResizeObserver`.
+- Live measurement compensates scroll anchors when rows above the viewport change height. `resetAfterIndex` invalidates cached sizes without replacing the dataset.
+- Single and multiple selection support controlled models, controlled/uncontrolled active index, disabled keys, optional loop/deselect, prefix typeahead and Ctrl/Cmd+A. Arrow, Home/End, Page and Enter/Space keep the active record visible.
+- List/listbox roles, active descendant, selected/disabled state, set size, position and live selected count remain synchronized even though most records are absent from the DOM.
+- `scrollToIndex`, `scrollToKey`, `resetAfterIndex` and `getVisibleRange` are public methods. Scroll/range/reach/selection/click/retry events expose typed metadata for application analytics and infinite loading.
+- Loading, empty and error states have localized defaults and typed slots; SSR renders a deterministic initial window without requiring browser measurement APIs.
+- Root/subpath runtime exports, Props/Emits/Slots declarations, styles, manifests, component center, 24-section static preview, standalone consumer and SSR fixtures remain in parity for 66 components and 202 locale keys.
+- CI requires 19 Axe scenarios and 23 interaction cases per Chromium/Firefox/WebKit engine for the P26 delivery evidence.

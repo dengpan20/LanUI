@@ -91,7 +91,7 @@ const allCases = [
       const trigger = page.getByRole('combobox', { name: 'Region' })
       await trigger.focus()
       await page.keyboard.press('ArrowDown')
-      await page.getByRole('listbox').waitFor()
+      await page.locator('.ui-select-menu[role="listbox"]').waitFor()
       assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
       await page.keyboard.press('ArrowDown')
       await page.keyboard.press('Enter')
@@ -356,6 +356,37 @@ const allCases = [
       assert.equal(await overview.evaluate(node => node === document.activeElement), true)
       await page.keyboard.press('Enter')
       await expectText(page, 'menu-output', 'overview')
+    },
+  },
+  {
+    name: 'virtual-list-keyboard',
+    run: async page => {
+      const listbox = page.getByRole('listbox', { name: 'Fixture virtual records' })
+      await listbox.focus()
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('Enter')
+      await expectText(page, 'virtual-list-output', 'virtual-2 / 2')
+      assert.equal(await listbox.getAttribute('aria-activedescendant'), await page.getByRole('option', { name: /Record 003/ }).getAttribute('id'))
+      assert.ok(await page.getByRole('option').count() < 120, 'Virtual list should render a bounded window')
+      await page.keyboard.press('End')
+      await page.getByRole('option', { name: /Record 120/ }).waitFor()
+      await page.keyboard.press('Enter')
+      await expectText(page, 'virtual-list-output', 'virtual-119 / 119')
+      await page.keyboard.press('Home')
+      await page.getByRole('option', { name: /Record 001/ }).waitFor()
+      await expectText(page, 'virtual-list-output', 'virtual-119 / 0')
+    },
+  },
+  {
+    name: 'status-page-actions',
+    run: async page => {
+      const status = page.locator('.interaction-status-page')
+      assert.equal(await status.locator('[data-status="403"]').getAttribute('role'), 'region')
+      await status.getByRole('button', { name: 'Go back' }).click()
+      await expectText(page, 'status-output', 'back')
+      await status.getByRole('button', { name: 'Back to home' }).click()
+      await expectText(page, 'status-output', 'home')
     },
   },
 ]

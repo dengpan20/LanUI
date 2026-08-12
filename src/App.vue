@@ -21,6 +21,8 @@ import { notification, toast } from './feedback.js'
 import LoginPage from './pages/LoginPage.vue'
 import LogoutPage from './pages/LogoutPage.vue'
 import NotFoundPage from './pages/NotFoundPage.vue'
+import ForbiddenPage from './pages/ForbiddenPage.vue'
+import ServerErrorPage from './pages/ServerErrorPage.vue'
 import DashboardPage from './pages/DashboardPage.vue'
 import WorkbenchPage from './pages/WorkbenchPage.vue'
 import DataPage from './pages/DataPage.vue'
@@ -35,11 +37,15 @@ const routeMeta = {
   '/ai': { title:'智能问答', icon:'bot', component:AiPage },
   '/gantt': { title:'甘特计划', icon:'calendar', component:GanttPage },
   '/components': { title:'组件用例', icon:'palette', component:ComponentsPage },
+  '/403': { title:'403 无权限', icon:'lock', component:ForbiddenPage, statusPage:true },
+  '/404': { title:'404 页面不存在', icon:'file', component:NotFoundPage, statusPage:true },
+  '/500': { title:'500 服务器错误', icon:'alert', component:ServerErrorPage, statusPage:true },
 }
 const navGroups = [
   { label:'工作空间', items:[{path:'/workbench',title:'我的工作台',icon:'home'},{path:'/home',title:'综合看板',icon:'chart'}] },
   { label:'业务示例', items:[{path:'/data',title:'客户数据',icon:'table'},{path:'/ai',title:'智能问答',icon:'bot'},{path:'/gantt',title:'甘特计划',icon:'calendar'}] },
   { label:'设计系统', items:[{path:'/components',title:'组件用例中心',icon:'palette'}] },
+  { label:'通用页面', items:[{path:'/403',title:'403 无权限',icon:'lock'},{path:'/404',title:'404 页面不存在',icon:'file'},{path:'/500',title:'500 服务器错误',icon:'alert'}] },
 ]
 
 const initialHash = location.hash.replace(/^#/, '') || '/login'
@@ -80,6 +86,7 @@ function applyRoute(){
   window.scrollTo({top:0})
 }
 function go(next){setHash(next)}
+function reloadPage(){location.reload()}
 function login(){authenticated.value=true;localStorage.setItem('lan-auth','1');notify('登录成功，欢迎回来');go('/home')}
 function logout(){authenticated.value=false;localStorage.removeItem('lan-auth');tabs.value=[{path:'/home',title:'综合看板',icon:'chart'}];go('/login')}
 function toggleSidebar(){ if(innerWidth<=1024) mobileExpanded.value=!mobileExpanded.value; else {collapsed.value=!collapsed.value;localStorage.setItem('lan-sidebar',collapsed.value?'1':'0')} }
@@ -126,7 +133,7 @@ onBeforeUnmount(()=>{window.removeEventListener('hashchange',applyRoute);window.
         <div v-if="userMenuOpen" class="dropdown" style="top:50px;right:16px"><div class="dropdown-header"><strong>Deng Pan</strong><span>demo@lanui.cn</span></div><button class="dropdown-item" @click="notify('个人中心已打开')"><AppIcon name="user" :size="15"/>个人中心</button><button class="dropdown-item" @click="go('/components')"><AppIcon name="settings" :size="15"/>系统设置</button><button class="dropdown-item" @click="go('/missing-demo')"><AppIcon name="file" :size="15"/>查看 404 示例</button><div class="dropdown-divider"/><button class="dropdown-item danger" @click="go('/logout')"><AppIcon name="logout" :size="15"/>退出登录</button></div>
       </header>
       <nav class="tabbar" aria-label="已打开页面"><span v-for="(tab,i) in tabs" :key="tab.path" class="tab-item" :class="{active:path===tab.path}"><button type="button" class="tab-trigger" :aria-current="path===tab.path?'page':undefined" @click="go(tab.path)"><AppIcon :name="tab.icon" :size="13"/><span class="tab-text">{{ tab.title }}</span></button><button v-if="tabs.length>1" type="button" class="tab-close" :aria-label="`关闭${tab.title}页签`" @click="closeTab(tab,i)"><AppIcon name="close" :size="12"/></button></span></nav>
-      <component :is="pageComponent" :embedded="!route" @notify="notify" @navigate="go" @open-modal="openModal" @open-drawer="openDrawer" @open-notification="openNotification" @home="go('/home')" @back="history.back()" />
+      <component :is="pageComponent" :embedded="Boolean(route?.statusPage) || !route" @notify="notify" @navigate="go" @open-modal="openModal" @open-drawer="openDrawer" @open-notification="openNotification" @home="go('/home')" @back="history.back()" @retry="reloadPage" />
     </main>
   </div>
 

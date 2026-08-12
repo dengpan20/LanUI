@@ -13,6 +13,7 @@ const required={
   'UiAutoComplete.vue':['role="combobox"','aria-autocomplete="list"','aria-activedescendant','compositionstart','AbortController','requestSequence','load-error','allowCustom','useFloatingPosition'],
   'UiIcon.vue':['definition?.nodes','ariaLabel','data-ui-icon','directional','is-spinning'],
   'UiImage.vue':['role="dialog"','aria-modal="true"','openOverlay','isTopOverlay','focusWithRetry(returnFocus)','previewList','fallback','zoomOnWheel','pointerdown','useDirection','image.preview'],
+  'UiVirtualList.vue':["selectionMode==='none'?'list':'listbox'",'aria-activedescendant','aria-setsize','ResizeObserver','scrollToIndex','resetAfterIndex','range-change','selectionMode','typeaheadSearch'],
   'UiTextarea.vue':['uiFormItemContext','aria-labelledby','aria-describedby','aria-invalid'],
   'UiDatePicker.vue':['uiFormItemContext','aria-controls','aria-describedby','showPicker','fromDateValue','data-time-zone'],
   'UiTimePicker.vue':['mode="time"','value-type','time-zone','update:modelValue'],
@@ -32,6 +33,7 @@ const required={
   'UiCollapse.vue':['aria-expanded','aria-controls','role="region"'],
   'UiDescriptions.vue':['<dl','<dt>','<dd>'],
   'UiResult.vue':['status===\'error\'?\'alert\':\'status\'','ui-result-extra'],
+  'UiStatusPage.vue':['statusPage.${props.status}.title','status === \'500\' ? \'alert\' : \'region\'','ui-status-page-actions','emit(\'retry\')','useDirection'],
   'UiSpin.vue':['aria-busy','role="status"'],
   'UiSegmented.vue':['role="radiogroup"','role="radio"','ArrowRight'],
   'UiTooltip.vue':['ui-floating-panel','aria-describedby'],
@@ -48,7 +50,7 @@ for(const marker of ['createLanUi','export { default','useLanUiConfig','useLocal
 const packageJson=JSON.parse(fs.readFileSync('package.json','utf8'));for(const subpath of ['./components/*','./color','./config','./date','./feedback','./icons','./plugin'])if(!packageJson.exports?.[subpath])failures.push(`package-export:${subpath}`)
 const environment=fs.readFileSync('src/env.js','utf8');const overlay=fs.readFileSync('src/components/overlayManager.js','utf8');if(!environment.includes("typeof window !== 'undefined'")||!overlay.includes('getDocument'))failures.push('ssr:environment-boundary')
 const libConfig=fs.readFileSync('vite.lib.config.js','utf8');for(const marker of ['.verify/component-entries','default as ${name}','componentEntries'])if(!libConfig.includes(marker))failures.push(`component-entry:${marker}`)
-const apiManifest=JSON.parse(fs.readFileSync('api-manifest.json','utf8'));if(apiManifest.schemaVersion!==2||apiManifest.components?.length!==64)failures.push(`api-manifest:schema-components:${apiManifest.schemaVersion}:${apiManifest.components?.length}`);for(const component of apiManifest.components||[])if(component.runtimeExports?.length!==2||!component.runtimeExports.includes('default')||!component.runtimeExports.includes(component.name)||!component.props?.length||!Array.isArray(component.emits)||!Array.isArray(component.slots)||component.emitsType!==`${component.name}Emits`||component.slotsType!==`${component.name}Slots`)failures.push(`api-manifest:parity:${component.name}`)
+const apiManifest=JSON.parse(fs.readFileSync('api-manifest.json','utf8'));if(apiManifest.schemaVersion!==2||apiManifest.components?.length!==66)failures.push(`api-manifest:schema-components:${apiManifest.schemaVersion}:${apiManifest.components?.length}`);for(const component of apiManifest.components||[])if(component.runtimeExports?.length!==2||!component.runtimeExports.includes('default')||!component.runtimeExports.includes(component.name)||!component.props?.length||!Array.isArray(component.emits)||!Array.isArray(component.slots)||component.emitsType!==`${component.name}Emits`||component.slotsType!==`${component.name}Slots`)failures.push(`api-manifest:parity:${component.name}`)
 for(const file of ['UiTabs.vue','UiSegmented.vue','UiMenu.vue','UiTreeSelect.vue','UiCascader.vue','UiTable.vue','UiCommandPalette.vue','UiColorPicker.vue','UiCalendar.vue'])if(!fs.readFileSync(`src/components/${file}`,'utf8').includes('useDirection'))failures.push(`rtl:${file}`)
-const styleManifest=JSON.parse(fs.readFileSync('style-manifest.json','utf8'));if(styleManifest.components?.length!==64)failures.push(`style-manifest:components:${styleManifest.components?.length}`);if(!packageJson.exports?.['./styles/*.css']||!packageJson.exports?.['./style-manifest'])failures.push('package-export:component-styles')
+const styleManifest=JSON.parse(fs.readFileSync('style-manifest.json','utf8'));if(styleManifest.components?.length!==66)failures.push(`style-manifest:components:${styleManifest.components?.length}`);if(!packageJson.exports?.['./styles/*.css']||!packageJson.exports?.['./style-manifest'])failures.push('package-export:component-styles')
 if(failures.length){console.error('CONTRACT FAIL\n'+failures.join('\n'));process.exit(1)}console.log(`CONTRACT PASS components=${(componentEntry.match(/default as Ui/g)||[]).length} suites=${Object.keys(required).length}`)

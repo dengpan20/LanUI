@@ -24,6 +24,23 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.22 status-page and virtual-list contracts
+
+Both components are additive. Existing application routes and list components continue to work unchanged.
+
+```vue
+<UiStatusPage status="500" embedded @retry="reload" @home="goHome" />
+<UiVirtualList v-model="selectedKey" :items="records" :item-size="48" selection-mode="single" />
+```
+
+- Replace duplicated 403/404/500 page markup with `UiStatusPage`; route ownership remains in the application and actions are emitted rather than navigating implicitly.
+- For large collections, `UiVirtualList` keys must be stable. Prefer a domain identifier through `itemKey`; index fallback is intended only for immutable ordering.
+- `modelValue` contains keys, not record objects. Multiple mode emits keys in current item order. Echo update events when the application owns controlled selection or active index.
+- Fixed height is the lowest-cost mode. Enable `measure` only when actual row height differs from the estimate; call `resetAfterIndex` after external content changes that bypass ResizeObserver.
+- Consumer item slots keep presentation ownership, while the component-owned wrapper retains option semantics and positioning. Do not add competing `role=option` nodes inside the slot.
+- The initial SSR window uses `height` and estimates. Keep these values identical during hydration; live measurement begins after mount.
+- Infinite-loading consumers can subscribe to `reach-end`; the event is edge-triggered and becomes eligible again after scrolling away from the boundary.
+
 ## 1.21 image and preview contract
 
 `UiImage` is additive. Use it for content images that need loading, fallback or preview behavior; keep plain `<img>` for fully static decorative assets and `UiAvatar` for identity thumbnails.

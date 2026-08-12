@@ -15,6 +15,7 @@ export type DateValue = string|Date|number|null
 export type CalendarSelectionMode = 'single'|'multiple'|'range'
 export type CalendarPanel = 'month'|'year'
 export type ImageFit = 'fill'|'contain'|'cover'|'none'|'scale-down'
+export type VirtualListSelectionMode = 'none'|'single'|'multiple'
 export type ColorFormat = 'hex'|'rgb'|'hsl'
 export interface RgbaColor { r:number; g:number; b:number; a:number }
 export interface HsvaColor { h:number; s:number; v:number; a:number }
@@ -94,6 +95,10 @@ export interface UiFormItemProps { label?:string; name?:string; required?:boolea
 export interface UiGridProps { columns?:number|string; gap?:number|string; min?:number|string; align?:'start'|'center'|'end'|'stretch' }
 export interface UiIconProps { name?:string; fallback?:string; size?:number|string; strokeWidth?:number|string; color?:string; fill?:string; rotate?:number; flip?:'none'|'horizontal'|'vertical'|'both'; directional?:boolean; spin?:boolean; ariaLabel?:string }
 export interface UiImageProps { src?:string; alt?:string; fallback?:string; width?:string|number; height?:string|number; aspectRatio?:string|number; fit?:ImageFit; position?:string; radius?:string|number; loading?:'eager'|'lazy'; decoding?:'sync'|'async'|'auto'; crossorigin?:''|'anonymous'|'use-credentials'; referrerpolicy?:string; preview?:boolean; previewOpen?:boolean; previewSrc?:string; previewList?:string[]; previewIndex?:number; loop?:boolean; minScale?:number; maxScale?:number; scaleStep?:number; zoomOnWheel?:boolean; closeOnMask?:boolean; closeOnEsc?:boolean; toolbar?:boolean; disabled?:boolean; teleportTo?:string|HTMLElement; previewZIndex?:number }
+export interface UiVirtualListRange { start:number; end:number; visibleStart:number; visibleEnd:number; total:number }
+export interface UiVirtualListScrollMeta { scrollTop:number; scrollHeight:number; viewportHeight:number; range:UiVirtualListRange }
+export interface UiVirtualListSelectionMeta<T=unknown> { key:Key; index:number; item:T; selected:boolean; source:string }
+export interface UiVirtualListProps { items?:unknown[]; itemKey?:string|((item:unknown,index:number)=>Key); itemSize?:number|((item:unknown,index:number)=>number); estimatedItemSize?:number; height?:string|number; width?:string|number; overscan?:number; measure?:boolean; selectionMode?:VirtualListSelectionMode; modelValue?:Key|Key[]; activeIndex?:number; defaultActiveIndex?:number; disabledKeys?:Key[]; textField?:string|((item:unknown,index:number)=>string); ariaLabel?:string; tabindex?:number; loop?:boolean; deselectable?:boolean; bordered?:boolean; striped?:boolean; loading?:boolean; error?:string|boolean; emptyText?:string; loadingText?:string; errorText?:string }
 export interface UiInputProps { modelValue?:string|number; type?:string; placeholder?:string; icon?:string; size?:ComponentSize; clearable?:boolean; passwordToggle?:boolean; disabled?:boolean; readonly?:boolean; invalid?:boolean; loading?:boolean; maxlength?:string|number }
 export interface UiLayoutProps { tag?:string; direction?:'horizontal'|'vertical'; gap?:string|number; contained?:boolean }
 
@@ -113,6 +118,7 @@ export interface UiProgressProps { value?:number; max?:number; status?:'normal'|
 export interface UiRadioProps { modelValue?:Key|boolean; value?:Key|boolean; label?:string; name?:string; disabled?:boolean }
 export interface UiRateProps { modelValue?:number; max?:number; step?:number; allowClear?:boolean; clearValue?:number; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; showText?:boolean; texts?:Array<string|number>; formatter?:(value:number,max:number)=>string|number|null|undefined; color?:string; voidColor?:string; disabledColor?:string; ariaLabel?:string }
 export interface UiResultProps { status?:'success'|'error'|'warning'|'info'|'404'; title?:string; description?:string; icon?:string }
+export interface UiStatusPageProps { status?:'403'|'404'|'500'; title?:string; description?:string; icon?:string; embedded?:boolean }
 export interface UiSelectProps { modelValue?:Key; options?:SelectOptionInput[]; placeholder?:string; size?:ComponentSize; disabled?:boolean; invalid?:boolean; clearable?:boolean; searchable?:boolean; emptyText?:string }
 export interface UiSkeletonProps { rows?:number; avatar?:boolean; animated?:boolean; width?:string|number }
 export interface UiStatisticFormatterContext { numericValue:number|null; localeOptions:Intl.NumberFormatOptions }
@@ -206,6 +212,7 @@ export type UiFormItemEmits = {}
 export type UiGridEmits = {}
 export type UiIconEmits = {}
 export type UiImageEmits = { load:(event:Event,meta:UiImageLoadMeta)=>void; error:(event:Event,meta:UiImageLoadMeta)=>void; fallback:(meta:UiImageFallbackMeta)=>void; retry:(meta:{src:string})=>void; 'update:previewOpen':(value:boolean)=>void; 'update:previewIndex':(value:number)=>void; 'preview-open':(meta:Omit<UiImagePreviewMeta,'source'>)=>void; 'preview-close':(meta:UiImagePreviewMeta)=>void; 'preview-change':(meta:UiImagePreviewMeta)=>void; 'preview-load':(event:Event,meta:UiImagePreviewEventMeta)=>void; 'preview-error':(event:Event,meta:UiImagePreviewEventMeta)=>void; transform:(meta:UiImageTransform)=>void }
+export type UiVirtualListEmits = { 'update:modelValue':(value:Key|Key[]|undefined)=>void; change:(value:Key|Key[]|undefined,meta:UiVirtualListSelectionMeta|{source:string;selected:boolean})=>void; 'update:activeIndex':(value:number)=>void; 'active-change':(meta:{index:number;key:Key;item:unknown;source:string})=>void; 'item-click':(item:unknown,index:number,event:MouseEvent)=>void; scroll:(meta:UiVirtualListScrollMeta)=>void; 'range-change':(range:UiVirtualListRange)=>void; 'reach-start':(meta:UiVirtualListScrollMeta)=>void; 'reach-end':(meta:UiVirtualListScrollMeta)=>void; retry:()=>void }
 export type UiInputEmits = { 'update:modelValue':(value:string)=>void; input:(value:string)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiLayoutEmits = {}
 export type UiListToolbarEmits = { 'update:density':(value:'compact'|'default'|'comfortable')=>void; 'update:visibleColumns':(value:string[])=>void; refresh:()=>void }
@@ -221,6 +228,7 @@ export type UiProgressEmits = {}
 export type UiRadioEmits = { 'update:modelValue':(value:Key|boolean)=>void; change:(value:Key|boolean)=>void }
 export type UiRateEmits = { 'update:modelValue':(value:number)=>void; input:(value:number,meta:Pick<UiRateChangeMeta,'source'>)=>void; change:(value:number,meta:UiRateChangeMeta)=>void; 'hover-change':(value:number|null)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiResultEmits = {}
+export type UiStatusPageEmits = { home:()=>void; back:()=>void; retry:()=>void }
 export type UiSelectEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key)=>void; clear:()=>void; 'open-change':(open:boolean)=>void }
 export type UiSkeletonEmits = {}
 export type UiSliderEmits = { 'update:modelValue':(value:number|number[])=>void; input:(value:number|number[],meta:UiSliderChangeMeta)=>void; change:(value:number|number[],meta:UiSliderChangeMeta)=>void; focus:(event:FocusEvent,meta:UiSliderFocusMeta)=>void; blur:(event:FocusEvent,meta:UiSliderFocusMeta)=>void }
@@ -270,6 +278,8 @@ export type UiFormItemSlots = { default?:(props:{controlId:string;labelledby?:st
 export type UiGridSlots = { default?:()=>VNodeChild }
 export type UiIconSlots = { default?:()=>VNodeChild }
 export type UiImageSlots = { placeholder?:()=>VNodeChild; error?:(scope:{retry:()=>void})=>VNodeChild; overlay?:(scope:{state:'loading'|'loaded'|'error';open:()=>void})=>VNodeChild; preview?:(scope:{src:string;index:number;scale:number;rotation:number})=>VNodeChild; caption?:(scope:{src:string;index:number})=>VNodeChild; toolbar?:(scope:{zoomIn:(source?:string)=>void;zoomOut:(source?:string)=>void;rotate:(delta:number,source?:string)=>void;reset:(source?:string)=>void;scale:number;rotation:number})=>VNodeChild }
+export type UiVirtualListItemScope<T=unknown> = { item:T; index:number; itemKey:Key; active:boolean; selected:boolean; disabled:boolean }
+export type UiVirtualListSlots = { default?:(scope:UiVirtualListItemScope)=>VNodeChild; item?:(scope:UiVirtualListItemScope)=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:string|boolean;retry:()=>void})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiInputSlots = {}
 export type UiLayoutSlots = { default?:()=>VNodeChild }
 export type UiListToolbarSlots = { default?:()=>VNodeChild; primary?:()=>VNodeChild }
@@ -285,6 +295,7 @@ export type UiProgressSlots = {}
 export type UiRadioSlots = { default?:()=>VNodeChild }
 export type UiRateSlots = { item?:(scope:{index:number;value:number;fill:number;active:boolean})=>VNodeChild; text?:(scope:{value:number;max:number;text:string})=>VNodeChild }
 export type UiResultSlots = { default?:()=>VNodeChild; icon?:()=>VNodeChild; extra?:()=>VNodeChild }
+export type UiStatusPageSlots = { default?:(scope:{status:'403'|'404'|'500';title:string;description:string})=>VNodeChild; illustration?:(scope:{status:'403'|'404'|'500';icon:string})=>VNodeChild; actions?:(scope:{status:'403'|'404'|'500';home:()=>void;back:()=>void;retry:()=>void})=>VNodeChild; extra?:()=>VNodeChild }
 export type UiSelectSlots = {}
 export type UiSkeletonSlots = {}
 export type UiSliderSlots = {}
@@ -328,6 +339,8 @@ export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
 export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>; export const UiStatistic:LanComponent<UiStatisticProps,UiStatisticEmits,UiStatisticSlots>
+export const UiStatusPage:LanComponent<UiStatusPageProps,UiStatusPageEmits,UiStatusPageSlots>
+export const UiVirtualList:LanComponent<UiVirtualListProps,UiVirtualListEmits,UiVirtualListSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
 export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>
 export const UiTimePicker:LanComponent<UiTimePickerProps,UiTimePickerEmits,UiTimePickerSlots>

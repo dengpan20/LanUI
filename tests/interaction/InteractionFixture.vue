@@ -6,6 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
+  UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
 
 defineProps({ direction: { type: String, default: 'ltr' } })
@@ -52,6 +53,14 @@ const commandItems = [
 ]
 const formModel = reactive({ name: '' })
 const formResult = ref('idle')
+const virtualSelection = ref('virtual-0')
+const virtualActive = ref(0)
+const statusAction = ref('idle')
+const virtualItems = Array.from({ length: 120 }, (_, index) => ({
+  id: `virtual-${index}`,
+  label: `Record ${String(index + 1).padStart(3, '0')}`,
+  description: index % 3 === 0 ? 'Measured enterprise row' : 'Standard enterprise row',
+}))
 
 const tableColumns = [
   { key: 'name', label: 'Name', sortable: true },
@@ -253,6 +262,37 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #trigger="{open}"><UiButton id="open-command-palette" @click="open">Open command palette</UiButton></template>
         </UiCommandPalette>
         <output class="interaction-output" data-testid="command-output">{{ commandResult }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide">
+        <h2>Virtual list windowing and keyboard contract</h2>
+        <div class="interaction-stack interaction-virtual-list">
+          <UiVirtualList
+            v-model="virtualSelection"
+            v-model:active-index="virtualActive"
+            :items="virtualItems"
+            :item-size="48"
+            :height="216"
+            :overscan="2"
+            selection-mode="single"
+            aria-label="Fixture virtual records"
+            bordered
+          >
+            <template #item="{ item, index, selected }">
+              <div class="interaction-virtual-row">
+                <span><strong>{{ item.label }}</strong><small>{{ item.description }}</small></span>
+                <span>{{ selected ? 'Selected' : `#${index + 1}` }}</span>
+              </div>
+            </template>
+          </UiVirtualList>
+          <output class="interaction-output" data-testid="virtual-list-output">{{ virtualSelection }} / {{ virtualActive }}</output>
+        </div>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-status-page">
+        <h2>Status page action contract</h2>
+        <UiStatusPage status="403" embedded @back="statusAction='back'" @home="statusAction='home'" />
+        <output class="interaction-output" data-testid="status-output">{{ statusAction }}</output>
       </section>
     </div>
   </UiConfigProvider>

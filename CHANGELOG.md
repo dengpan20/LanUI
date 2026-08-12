@@ -4,6 +4,24 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.22.0] - 2026-08-13
+
+### Added
+
+- Public `UiVirtualList` with fixed, function-derived and live-measured item sizes, binary window lookup, overscan, scroll-anchor compensation and deterministic SSR output.
+- Single/multiple selection, controlled active index, disabled records, typeahead, Arrow/Home/End/Page/Enter/Space/Ctrl+A keyboard behavior and public scroll/range/cache methods.
+- Public `UiStatusPage` plus reusable 403, 404 and 500 routes with embedded/full-screen layouts, localized actions and typed illustration/action slots.
+- Interactive component-center, standalone-consumer and 24-section static-preview demonstrations for virtualized data and application error boundaries.
+- Unit, SSR, root/subpath type, visual, 19-scenario Axe and 23-case-per-browser interaction regression coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 64 to 66 entries; Locale parity advances from 187 to 202 keys.
+- Static preview advances from 22 to 24 sections and now demonstrates a live 1,000-record rendering window plus switchable status states.
+- Accessibility coverage advances from 17 to 19 scenarios and interaction coverage from 21 to 23 cases for Chromium, Firefox and WebKit.
+- Components center release metadata now describes `UiVirtualList` 1.22.0 and the 403/404/500 application shell.
+- Package and example ceilings are rebaselined with narrow release headroom: package JS `408000/152000`, package CSS `376000/92000`, root CSS `180000/32000`, UiButton subpath JS `92000`, standalone JS `364000` and standalone CSS `180000` raw/gzip bytes where applicable.
+
 ## [1.21.0] - 2026-08-12
 
 ### Added

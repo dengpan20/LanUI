@@ -11,7 +11,7 @@ const cases=[
   {name:'light-ltr-default',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default'},
   {name:'dark-rtl-compact',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact'},
   {name:'light-ltr-mobile',viewport:{width:390,height:1600},query:'theme=light&direction=ltr&density=default'},
-  {name:'select-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('combobox').first().click();await page.getByRole('listbox').waitFor()}},
+  {name:'select-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('combobox').first().click();await page.locator('.ui-select-menu[role="listbox"]').waitFor()}},
   {name:'autocomplete-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('combobox',{name:'Office city'}).click();await page.getByRole('listbox',{name:'Suggestions'}).waitFor()}},
   {name:'modal-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=modal',ready:'[role="dialog"][aria-modal="true"]'},
   {name:'drawer-rtl-open',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=drawer',ready:'[role="dialog"][aria-modal="true"]'},
@@ -25,6 +25,8 @@ const cases=[
   {name:'calendar-focused',viewport:{width:1280,height:1400},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.locator('.ui-calendar-day[data-date="2026-08-10"]').focus()}},
   {name:'image-focused',viewport:{width:1280,height:1500},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('button',{name:'Preview image: Release media'}).focus()}},
   {name:'image-preview-open',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact',prepare:async page=>{await page.getByRole('button',{name:'Preview image: Release media'}).click();await page.getByRole('dialog',{name:'Release media'}).waitFor()}},
+  {name:'virtual-list-focused',viewport:{width:1280,height:1500},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('listbox',{name:'Virtualized records'}).focus()}},
+  {name:'status-page-500',viewport:{width:1280,height:1800},query:'theme=light&direction=ltr&density=default&state=status',ready:'[data-status="500"]'},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

@@ -58,6 +58,8 @@ import UiDateRangePicker from '../components/UiDateRangePicker.vue'
 import UiDescriptions from '../components/UiDescriptions.vue'
 import UiMenu from '../components/UiMenu.vue'
 import UiResult from '../components/UiResult.vue'
+import UiStatusPage from '../components/UiStatusPage.vue'
+import UiVirtualList from '../components/UiVirtualList.vue'
 import UiSegmented from '../components/UiSegmented.vue'
 import UiSpin from '../components/UiSpin.vue'
 import UiStatistic from '../components/UiStatistic.vue'
@@ -69,6 +71,7 @@ import { notification, toast } from '../feedback.js'
 const emit=defineEmits(['notify','open-modal','open-drawer','open-notification'])
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
+const statusPageDemo=ref('403')
 const customerName=ref('');const customerType=ref('');const searchableType=ref('');const passwordDemo=ref('LanUI2026');const notes=ref('');const toastPlacement=ref('top-center')
 const cityDemo=ref('');const strictCityDemo=ref('shanghai');const remoteProjectDemo=ref('')
 const cityOptions=[
@@ -149,9 +152,12 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'组件名称',value:'UiImage'},{key:'version',label:'当前版本',value:'1.21.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'数据展示组'},{key:'updated',label:'最近更新',value:'2026-08-12'},{key:'coverage',label:'用例覆盖',value:'懒加载、回退、预览、画廊、缩放、旋转、拖拽、键盘、RTL、ARIA'}]
+const descriptionItems=[{key:'name',label:'组件名称',value:'UiVirtualList'},{key:'version',label:'当前版本',value:'1.22.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'数据展示组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'固定/动态高度、测量、窗口化、选择、键盘、滚动方法、SSR、RTL、ARIA'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
+const virtualSelection=ref('virtual-3')
+const virtualItems=Array.from({length:1000},(_,index)=>({id:`virtual-${index}`,name:`Component audit #${String(index+1).padStart(4,'0')}`,owner:['Design','Frontend','QA'][index%3],status:index%7===0?'Review':'Ready',detail:index%5===0?'Variable-height note: token and keyboard contracts included.':''}))
+const virtualItemSize=item=>item.detail?68:52
 const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
 const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}];const timelineItems=[{title:'完成组件审计',time:'09:30',status:'success'},{title:'同步业务页面',time:'11:20',status:'success'},{title:'执行视觉回归',time:'14:00'}]
 const tableDensity=ref('default');const tableVisibleColumns=ref(['component','version','status','coverage','actions']);const tableSelected=ref([]);const tableExpanded=ref([]);const tableSortKey=ref('component');const tableSortOrder=ref('asc');const tableFilters=ref({});const tableLoading=ref(false);const tableError=ref('');const tableEmpty=ref(false)
@@ -335,6 +341,13 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div><span class="demo-label">UiImage · 懒加载画廊与全屏预览</span><div class="image-gallery-demo"><UiImage v-for="(source,index) in imageGallery" :key="source" :src="source" :alt="`发布画廊 ${index+1}`" preview :preview-list="imageGallery" :preview-index="index"><template #caption>发布画廊 · 支持方向键、缩放、旋转与拖拽</template></UiImage></div></div>
               <div><span class="demo-label">Fit / Disabled / Fallback</span><div class="image-state-demo"><UiImage :src="imageGallery[0]" alt="Contain 模式" fit="contain"/><UiImage :src="imageGallery[1]" alt="停用预览" preview disabled/></div><p class="feedback-hint">加载失败时可使用 fallback 或 error 插槽；预览支持焦点闭环、Esc、滚轮缩放、双击与 RTL。</p></div>
             </div>
+            <div class="virtual-list-showcase">
+              <div class="virtual-list-showcase-header"><div><span class="demo-label">UiVirtualList · 1,000 records</span><strong>Fixed/variable height, overscan and keyboard selection</strong></div><UiTag color="blue">Selected: {{ virtualSelection }}</UiTag></div>
+              <UiVirtualList v-model="virtualSelection" :items="virtualItems" :item-size="virtualItemSize" :estimated-item-size="56" height="280" :overscan="3" selection-mode="single" measure bordered striped aria-label="Virtualized component audit">
+                <template #item="{item,index,selected}"><div class="virtual-list-demo-row"><span class="virtual-list-demo-index">{{ index+1 }}</span><div><strong>{{ item.name }}</strong><small>{{ item.owner }} · {{ item.status }}<template v-if="item.detail"><br>{{ item.detail }}</template></small></div><UiTag :color="selected?'blue':item.status==='Ready'?'green':'orange'">{{ selected?'Selected':item.status }}</UiTag></div></template>
+              </UiVirtualList>
+              <p class="feedback-hint">Arrow / Home / End / Page keys move the active option; Enter or Space selects it. ResizeObserver keeps measured rows and the scroll anchor stable.</p>
+            </div>
             <div class="demo-row"><span class="demo-label">Tags</span><UiTag color="blue" dot>进行中</UiTag><UiTag color="green" dot>已完成</UiTag><UiTag color="orange" dot>待处理</UiTag><UiTag color="red" dot>失败</UiTag><UiTag color="gray">已停用</UiTag></div>
             <div class="demo-row"><span class="demo-label">Avatar / Badge</span><UiAvatar name="Deng Pan"/><UiAvatar name="林" color="green"/><UiAvatar name="陈" color="orange"/><UiAvatar name="王" color="purple"/><UiBadge :value="8"><UiAvatar name="组件组" square/></UiBadge><UiBadge dot status="success"><UiAvatar name="在线" color="gray"/></UiBadge></div>
             <div class="completion-showcase-grid"><div><span class="demo-label">Alert</span><UiAlert type="warning" title="配置尚未发布" description="完成检查后再发布到生产环境。" closable/></div><div><span class="demo-label">Progress</span><UiProgress :value="72"/><UiProgress :value="100" status="success" size="sm"/></div><div><span class="demo-label">Steps</span><UiSteps :items="stepItems" :current="2"/></div><div><span class="demo-label">Timeline</span><UiTimeline :items="timelineItems"/></div><div><span class="demo-label">Skeleton</span><UiSkeleton avatar :rows="3"/></div><div><span class="demo-label">Empty</span><UiEmpty compact title="暂无审批任务" description="新的任务会显示在这里"><UiButton size="sm" variant="outline">刷新</UiButton></UiEmpty></div><div><span class="demo-label">Dropdown</span><UiDropdown v-model="dropdownDemoOpen" :items="[{label:'编辑资料',icon:'edit'},{label:'复制链接',icon:'copy'},{divider:true},{label:'停用账号',icon:'alert'}]" @select="emit('notify',`已选择：${$event.label}`)"><template #trigger><UiButton variant="outline" icon="more">更多操作</UiButton></template></UiDropdown></div></div>
@@ -395,6 +408,10 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div><span class="demo-label">Segmented · 单选切换</span><UiSegmented v-model="segmentedDemo" :options="[{label:'日',value:'day'},{label:'周',value:'week'},{label:'月',value:'month'},{label:'季度',value:'quarter',disabled:true}]" block/><p class="feedback-hint">当前周期：{{ segmentedDemo }}</p></div>
               <div><span class="demo-label">Spin · 延迟显示与 aria-busy</span><UiSpin :spinning="spinDemo" text="正在刷新组件数据"><div style="min-height:72px;padding:12px;border:1px dashed var(--border-default);border-radius:7px">组件数据区域<br><span class="subtle">加载层不会改变内容尺寸</span></div></UiSpin><UiButton size="sm" variant="outline" style="margin-top:9px" @click="spinDemo=true;setTimeout(()=>spinDemo=false,1200)">模拟加载</UiButton></div>
               <div style="grid-column:1/-1"><span class="demo-label">Result · 结果状态</span><UiResult status="success" title="规范检查通过" description="组件契约、键盘交互和构建产物均已通过本轮校验。"><template #extra><UiButton size="sm" @click="toast.success('报告已导出')">导出报告</UiButton><UiButton size="sm" variant="outline" @click="notification.warning({title:'复核提醒',message:'建议在发布前执行一次业务页面视觉回归。'})">查看提醒</UiButton></template></UiResult></div>
+              <div class="status-page-showcase" style="grid-column:1/-1">
+                <div class="status-page-showcase-toolbar"><span class="demo-label">Status Page · 通用异常页</span><UiSegmented v-model="statusPageDemo" :options="['403','404','500']"/></div>
+                <UiStatusPage :status="statusPageDemo" embedded @home="toast.info('返回首页')" @back="toast.info('返回上一页')" @retry="toast.success('页面已重新加载')"/>
+              </div>
             </div>
             <div class="preview-note"><strong>服务式反馈：</strong><code>toast.success('保存成功')</code> 和 <code>notification.error(options)</code> 可在任意业务逻辑中调用；Host 在应用根节点只挂载一次。</div>
           </div>
