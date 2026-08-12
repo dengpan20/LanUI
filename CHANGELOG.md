@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.27.0] - 2026-08-13
+
+### Added
+
+- Native repeatable `type: 'list'` nodes in `UiSchemaForm`, including nested child fields, responsive item grids, item-aware resolvers, stable row identity and localized add/remove/reorder controls.
+- List instance methods (`addListItem`, `removeListItem`, `moveListItem`, `replaceListItems`, `getListValue`) plus typed `list-change` and `list-limit` events.
+- Component-center, standalone/static preview, deterministic SSR, visual, Axe and cross-browser interaction examples for schema-owned repeatable groups.
+
+### Changed
+
+- `UiFormList` change payloads now include immutable `previous` values; Schema Form forwards the complete structured list change while continuing to emit canonical `field-change` updates.
+- Locale coverage advances from 216 to 223 keys; visual coverage from 6 to 7 baselines, Axe coverage from 24 to 25 scenarios and interaction coverage from 28 to 29 cases per browser.
+- Measured P31 ceilings are narrowly rebaselined for the new orchestration and styles: package JS `456000 / 167000` B, package CSS `433000 / 103000` B, root CSS `183000 / 32500` B, largest component CSS `33000 / 5900` B and standalone raw JS/CSS `402000 / 184000` B.
+
 ## [1.26.0] - 2026-08-13
 
 ### Added

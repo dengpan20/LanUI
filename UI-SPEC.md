@@ -718,3 +718,15 @@
 - Component center, standalone/static preview, deterministic SSR, eight focused unit cases, six visual baselines, 24 Axe scenarios and 28 interactions per browser are release gates for 69 components and 216 locale keys.
 
 Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 24-case matrix adds conditional Schema Form rendering to the existing light, dark RTL, mobile, overlays, data and form scenarios; detected `violations` must remain zero.
+
+## 44. Maturity P31: repeatable Schema Form nodes
+
+- A Schema Form list node uses `type: 'list'`, a canonical root `name`, `fields` with item-relative names, and optional `min`, `max`, `columns`, `gap` and default-item factory settings.
+- Structural controls preserve `UiFormList` stable identity and min/max semantics. Successful changes carry immutable current and previous arrays; blocked operations emit a typed limit event without mutating the model.
+- Child visibility, props, options, placeholder, required, disabled and readonly resolvers receive current root model plus item/index context. Dependencies are item-relative unless explicitly prefixed with `$root`.
+- Default-item factory failures are contained and deduplicated as `schema-error` events. A valid empty object keeps the form operable after a consumer callback fault.
+- Generated controls use deterministic labelled group/item semantics. Responsive item grids collapse to one column on narrow viewports; disabled actions remain native disabled buttons.
+- Targeted list item, empty-state and child-field slots keep the schema orchestration boundary while allowing domain rendering. Instance methods expose add/remove/move/replace/read operations for programmatic workflows.
+- Component center, standalone/static preview, deterministic SSR, eight focused unit cases, seven visual baselines, 25 zero-violation Axe scenarios and 29 interactions per browser are release gates for 69 components and 223 locale keys.
+
+Axe 4.11.4 now runs 25 scenarios. The additional case audits the repeatable Schema Form group, item headings, controls and nested field labelling; detected `violations` must remain zero.

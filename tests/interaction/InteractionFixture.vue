@@ -74,6 +74,16 @@ const schemaFormDefinition=[{key:'workspace',title:'Workspace settings',columns:
   {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}]},
   {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:true,dependencies:['account.type'],rules:[{required:true,message:'Tax ID is required'}],span:2},
 ]}]
+const schemaListModel=reactive({reviewers:[{role:'Owner',name:'Lin',email:'owner@example.com'}]})
+const schemaListResult=ref('idle:1:Lin')
+const updateSchemaListResult=payload=>{schemaListResult.value=`${payload.change.type}:${payload.change.values.length}:${payload.change.values[0]?.name||'empty'}`}
+const schemaListDefinition=[{key:'reviewers',title:'Release reviewers',fields:[
+  {key:'reviewers',name:'reviewers',type:'list',label:'Reviewers',min:1,max:3,columns:3,addText:'Add reviewer',removeText:'Remove reviewer',moveUpText:'Move reviewer up',moveDownText:'Move reviewer down',itemLabel:(_model,{index})=>`Reviewer ${index+1}`,defaultValue:({index})=>({role:'Reviewer',name:`Reviewer ${index+1}`,email:''}),fields:[
+    {name:'role',label:'Role',type:'select',options:[{label:'Owner',value:'Owner'},{label:'Reviewer',value:'Reviewer'}]},
+    {name:'name',label:'Name',required:true,rules:[{required:true}]},
+    {name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}]},
+  ]},
+]}]
 const gridQuery=ref('')
 const gridPage=ref(1)
 const gridPageSize=ref(5)
@@ -310,6 +320,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #actions="{validating}"><UiButton type="submit" :loading="validating">Submit schema form</UiButton></template>
         </UiSchemaForm>
         <output class="interaction-output" data-testid="schema-form-output">{{ schemaFormResult }} / {{ schemaFormChange }} / {{ schemaFormModel.account.type }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-schema-list">
+        <h2>Schema form repeatable list contract</h2>
+        <UiSchemaForm :model="schemaListModel" :schema="schemaListDefinition" @list-change="updateSchemaListResult" />
+        <output class="interaction-output" data-testid="schema-list-output">{{ schemaListResult }}</output>
       </section>
 
       <section class="interaction-case">

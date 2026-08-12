@@ -31,7 +31,7 @@ const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
 interface FormModel extends Record<string, unknown> { name:string; contacts:Array<{email:string}>; password:string; confirm:string }
 const model = ref<FormModel>({ name: '', contacts:[{email:''}], password:'', confirm:'' })
-const schema:UiSchemaFormNode<FormModel>[]=[{key:'profile',title:'Profile',fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'password',label:'Password',props:{type:'password'}},{name:'confirm',label:'Confirm',visible:current=>Boolean(current.password),dependencies:['password']}]}]
+const schema:UiSchemaFormNode<FormModel>[]=[{key:'profile',title:'Profile',fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'password',label:'Password',props:{type:'password'}},{name:'confirm',label:'Confirm',visible:current=>Boolean(current.password),dependencies:['password']},{key:'contacts',name:'contacts',type:'list',label:'Contacts',min:1,max:4,defaultValue:({index})=>({email:`typed-${index}@example.com`}),itemLabel:(_current,{index})=>`Contact ${Number(index)+1}`,fields:[{name:'email',label:'Email',rules:[{required:true,type:'email'}],props:(_current,{index})=>({placeholder:`Email ${Number(index)+1}`})}]}]}]
 const office = ref('')
 const resource = ref<Key>('dashboard')
 const checkedResources = ref<Key[]>(['dashboard'])
@@ -91,8 +91,9 @@ function sort(payload:UiTableSortChange) {
       <UiButton @click="reset">Reset</UiButton>
     </template>
   </UiForm>
-  <UiSchemaForm :model="model" :schema="schema" show-error-summary @field-change="payload=>payload.name" @schema-error="payload=>payload.kind">
+  <UiSchemaForm :model="model" :schema="schema" show-error-summary @field-change="payload=>payload.name" @list-change="payload=>payload.change.previous" @list-limit="payload=>payload.limit.action" @schema-error="payload=>payload.kind">
     <template #field-confirm="{ value, update }"><UiInput :model-value="String(value||'')" @update:model-value="update" /></template>
+    <template #field-contacts-email="{ index, value, update }"><UiInput :model-value="String(value||'')" :placeholder="`Contact ${Number(index)+1}`" @update:model-value="update" /></template>
     <template #actions="{ validating, errors }"><UiButton type="submit" :loading="validating">Save schema {{ errors.length }}</UiButton></template>
   </UiSchemaForm>
   <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:selected-rows="gridSelected" :columns="columns" :rows="rows" selectable :query-fields="['name']">

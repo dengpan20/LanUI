@@ -3,7 +3,8 @@ import fs from 'node:fs'
 const required={
   'UiTabs.vue':['role="tablist"','role="tab"','ArrowRight','aria-controls'],
   'UiForm.vue':['provide(\'uiFormContext\'','async function validate','defineExpose'],
-  'UiSchemaForm.vue':['normalizeSchema','visibleFields','resolveComponent','field-change','schema-error','defineExpose'],
+  'UiSchemaForm.vue':['normalizeSchema','visibleFields','resolveComponent','UiFormList','listItemContext','addListItem','list-change','list-limit','field-change','schema-error','defineExpose'],
+  'UiFormList.vue':['previous = cloneValue','previous','emit(\'change\'','defineExpose'],
   'UiFormItem.vue':['useId()','provide(\'uiFormItemContext\'','controlId','describedby','group'],
   'UiInput.vue':['uiFormItemContext','aria-labelledby','aria-describedby','aria-invalid'],
   'UiNumberInput.vue':['role="spinbutton"','aria-valuemin','PageUp','clampOnBlur','formatter','parser','number.increase'],

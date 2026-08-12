@@ -582,7 +582,7 @@ pnpm run visual:update # 仅在目视确认预期变化后执行
 pnpm run test:a11y
 ```
 
-Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 24-case matrix includes light, dark RTL, mobile, overlays, advanced controls, tables, status pages, managed forms, dynamic arrays and Schema Form; detected `violations` must remain zero.
+Axe 4.11.4 runs WCAG 2.0/2.1/2.2 A/AA and Best Practice audits in a real Chromium DOM. The 25-case matrix includes light, dark RTL, mobile, overlays, advanced controls, tables, status pages, managed forms, dynamic arrays, Schema Form and repeatable schema nodes; detected `violations` must remain zero.
 
 ## 浏览器交互回归与性能预算
 
@@ -592,8 +592,8 @@ pnpm run test:interaction:cross-browser
 pnpm run test:performance
 ```
 
-- The default real-Chromium interaction gate exercises 28 flows, including Schema orchestration, form arrays, dependency validation, virtualized collections, data grids, status boundaries, overlays, data entry and keyboard navigation.
-- `test:interaction:cross-browser` runs the same 28-scenario matrix on Chromium, Firefox and WebKit for 84 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
+- The default real-Chromium interaction gate exercises 29 flows, including repeatable Schema orchestration, form arrays, dependency validation, virtualized collections, data grids, status boundaries, overlays, data entry and keyboard navigation.
+- `test:interaction:cross-browser` runs the same 29-scenario matrix on Chromium, Firefox and WebKit for 87 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
 - 所有场景启用 `prefers-reduced-motion: reduce`，确保关闭动效后焦点与键盘行为仍然成立；结果写入 `.verify/interaction/<platform>/report.json`。
 - 每个引擎的明细写入 `.verify/interaction/<platform>/<browser>.json`；聚合报告同时记录引擎、用例、耗时与失败信息。
 - macOS Safari 的焦点语义由 Playwright WebKit 门禁覆盖；发布前仍应在目标系统执行关键业务流程的设备级验收。
@@ -667,3 +667,24 @@ UiForm and UiFormItem now manage production form state without requiring a secon
 - Dynamic `field-*` and `section-*-header` slots override targeted rendering. The actions/default scopes and exposed methods preserve the full managed-form contract.
 - Root/subpath declarations, component center, standalone/static previews and SSR fixtures remain in parity for 69 components and 216 locale keys.
 - CI requires 6 visual baselines, 24 Axe scenarios and 28 interaction cases per Chromium/Firefox/WebKit engine for the P30 delivery evidence.
+
+## Repeatable Schema Form nodes (P31)
+
+`UiSchemaForm` can now own a repeated group without page-local `UiFormList` markup:
+
+~~~js
+const schema = [{
+  name: 'reviewers', type: 'list', label: 'Reviewers', min: 1, max: 4, columns: 2,
+  defaultValue: ({ index }) => ({ name: `Reviewer ${index + 1}`, email: '' }),
+  fields: [
+    { name: 'name', label: 'Name', required: true },
+    { name: 'email', label: 'Email', rules: [{ required: true }, { type: 'email' }] },
+  ],
+}]
+~~~
+
+- Child paths are item-relative, while `$root` dependencies intentionally address the root model. Visibility, props, disabled/readonly state and action policies receive typed item context.
+- List rows expose localized add/remove/move controls, deterministic headings and responsive grids. Item/empty/child slots support targeted domain rendering without replacing the complete form.
+- `list-change` forwards the full `UiFormList` change under `payload.change`; successful changes contain immutable current and `previous` arrays. `list-limit` reports guarded operations.
+- `addListItem`, `removeListItem`, `moveListItem`, `replaceListItems` and `getListValue` expose the same behavior programmatically.
+- P31 remains at 69 public components and advances to 223 locale keys. CI requires 7 visual baselines, 25 Axe scenarios and 29 interaction cases per Chromium/Firefox/WebKit engine.

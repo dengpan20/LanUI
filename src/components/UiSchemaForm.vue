@@ -1,11 +1,13 @@
 <script setup>
 import { computed, nextTick, ref } from 'vue'
 import UiAutoComplete from './UiAutoComplete.vue'
+import UiButton from './UiButton.vue'
 import UiCheckbox from './UiCheckbox.vue'
 import UiDatePicker from './UiDatePicker.vue'
 import UiDateRangePicker from './UiDateRangePicker.vue'
 import UiForm from './UiForm.vue'
 import UiFormItem from './UiFormItem.vue'
+import UiFormList from './UiFormList.vue'
 import UiInput from './UiInput.vue'
 import UiNumberInput from './UiNumberInput.vue'
 import UiSegmented from './UiSegmented.vue'
@@ -14,7 +16,8 @@ import UiSlider from './UiSlider.vue'
 import UiSwitch from './UiSwitch.vue'
 import UiTextarea from './UiTextarea.vue'
 import UiTimePicker from './UiTimePicker.vue'
-import { cloneValue, getPath, pathKey, setPath } from './formUtils.js'
+import { useLocale } from '../config.js'
+import { cloneValue, getPath, pathKey, setPath, toPath } from './formUtils.js'
 
 const props = defineProps({
   model: { type: Object, required: true },
@@ -34,9 +37,11 @@ const props = defineProps({
   showErrorSummary: Boolean,
   errorSummaryTitle: { type: String, default: '' },
 })
-const emit = defineEmits(['submit', 'invalid', 'reset', 'validate', 'field-change', 'schema-error'])
+const emit = defineEmits(['submit', 'invalid', 'reset', 'validate', 'field-change', 'list-change', 'list-limit', 'schema-error'])
 const form = ref(null)
+const listRefs = new Map()
 const reportedErrors = new Set()
+const { t } = useLocale()
 
 const builtinComponents = Object.freeze({
   input: UiInput,
@@ -67,18 +72,26 @@ function invoke(value, fallback, kind, definition, context) {
   try { return value(props.model, context) }
   catch (error) { reportError(kind, definition, error); return fallback }
 }
-function fieldContext(field, section) {
+function fieldContext(field, section, extras = {}) {
+  const itemPath = extras.itemPath || []
   return {
     field,
     section,
     model: props.model,
+    list: extras.list,
+    item: extras.item,
+    index: extras.index,
+    relativeName: extras.relativeName,
     getFieldValue: name => getPath(props.model, name),
     getFieldsValue: () => cloneValue(props.model),
+    getItemFieldValue: name => itemPath.length ? getPath(props.model, [...itemPath, ...toPath(name)]) : undefined,
   }
 }
-function isVisible(definition, section) {
-  return Boolean(invoke(definition?.visible, true, 'visible', definition, fieldContext(definition, section)))
+function isVisible(definition, section, extras) {
+  return Boolean(invoke(definition?.visible, true, 'visible', definition, fieldContext(definition, section, extras)))
 }
+function isListField(field) { return field?.type === 'list' || field?.component === 'form-list' }
+function listChildren(field) { return Array.isArray(field?.fields) ? field.fields : Array.isArray(field?.children) ? field.children : [] }
 function normalizeSchema(schema) {
   const result = []
   let loose = []
@@ -88,7 +101,7 @@ function normalizeSchema(schema) {
     loose = []
   }
   schema.forEach((item, index) => {
-    const children = item?.fields || item?.children
+    const children = !isListField(item) && (item?.fields || item?.children)
     if (Array.isArray(children)) {
       flush()
       result.push({ ...item, key: item.key || `schema-section-${index}`, fields: children })
@@ -111,7 +124,7 @@ function sectionStyle(section) {
 }
 function fieldStyle(field, section) {
   const columns = Math.max(1, Math.trunc(Number(section.columns ?? props.columns) || 1))
-  const span = field.fullWidth ? columns : Math.max(1, Math.min(columns, Math.trunc(Number(field.span) || 1)))
+  const span = field.fullWidth || (isListField(field) && field.span == null) ? columns : Math.max(1, Math.min(columns, Math.trunc(Number(field.span) || 1)))
   return { gridColumn: `span ${span}` }
 }
 function resolveComponent(field) {
@@ -121,13 +134,13 @@ function resolveComponent(field) {
   if (!resolved) reportError('component', field, new Error(`Unknown schema component: ${type}`))
   return resolved || UiInput
 }
-function resolveFieldProps(field, section) {
-  const context = fieldContext(field, section)
+function resolveFieldProps(field, section, extras = {}) {
+  const context = fieldContext(field, section, extras)
   const custom = invoke(field.props, {}, 'props', field, context) || {}
   const fieldDisabled = invoke(field.disabled, false, 'disabled', field, context)
   const fieldReadonly = invoke(field.readonly, false, 'readonly', field, context)
-  const readonly = Boolean(custom.readonly || props.readonly || fieldReadonly)
-  let disabled = Boolean(custom.disabled || props.disabled || fieldDisabled)
+  const readonly = Boolean(custom.readonly || props.readonly || extras.readonly || fieldReadonly)
+  let disabled = Boolean(custom.disabled || props.disabled || extras.disabled || fieldDisabled)
   const type = typeof field.component === 'string' ? field.component : field.type || 'input'
   const builtin = builtinComponents[type]
   const usesBuiltin = builtin && !props.components[type] && typeof field.component !== 'object' && typeof field.component !== 'function'
@@ -138,8 +151,8 @@ function resolveFieldProps(field, section) {
   return resolved
 }
 function fieldValue(field) { return getPath(props.model, field.name) }
-function updateField(field, section, value) {
-  const context = fieldContext(field, section)
+function updateField(field, section, value, extras = {}) {
+  const context = fieldContext(field, section, extras)
   let next = value
   if (typeof field.normalize === 'function') {
     try { next = field.normalize(value, props.model, context) }
@@ -149,8 +162,123 @@ function updateField(field, section, value) {
   setPath(props.model, field.name, next)
   emit('field-change', { name: pathKey(field.name), value: cloneValue(next), previous, field, model: cloneValue(props.model) })
 }
-function getFieldDefinition(name) { const key = pathKey(name); return allFields.value.find(field => pathKey(field.name) === key) || null }
-function getVisibleFields() { return visibleFields.value.slice() }
+
+function bindListChild(list, item, child) {
+  return { ...child, name: [...item.name, ...toPath(child.name)] }
+}
+function listChildExtras(list, section, item, child) {
+  const state = listState(list, section)
+  return { list, item: item.value, index: item.index, relativeName: child.name, itemPath: item.name, disabled: state.disabled, readonly: state.readonly }
+}
+function listChildVisible(list, section, item, child) {
+  return isVisible(bindListChild(list, item, child), section, listChildExtras(list, section, item, child))
+}
+function listChildRequired(list, section, item, child) {
+  const field = bindListChild(list, item, child)
+  return Boolean(invoke(child.required, false, 'required', field, fieldContext(field, section, listChildExtras(list, section, item, child))))
+}
+function listChildProps(list, section, item, child) {
+  const field = bindListChild(list, item, child)
+  return resolveFieldProps(field, section, listChildExtras(list, section, item, child))
+}
+function listChildValue(list, item, child) { return fieldValue(bindListChild(list, item, child)) }
+function listChildStyle(list, section, child) { return fieldStyle(child, { columns: listNumber(list, section, 'columns', section.columns ?? props.columns) }) }
+function updateListChild(list, section, item, child, value) {
+  const field = bindListChild(list, item, child)
+  updateField(field, section, value, listChildExtras(list, section, item, child))
+}
+function listChildDependencies(item, child) {
+  const dependencies = child.dependencies || child.dependsOn || []
+  return dependencies.map(dependency => {
+    const parts = toPath(dependency)
+    return parts[0] === '$root' ? parts.slice(1) : [...item.name, ...parts]
+  })
+}
+function listChildSlotName(list, child, index) { return `field-${fieldKey(list, 0)}-${fieldKey(child, index)}` }
+function listState(field, section) {
+  const context = fieldContext(field, section, { list: field })
+  const readonly = Boolean(props.readonly || invoke(field.readonly, false, 'readonly', field, context))
+  return { readonly, disabled: Boolean(props.disabled || readonly || invoke(field.disabled, false, 'disabled', field, context)) }
+}
+function listNumber(field, section, property, fallback) {
+  const value = invoke(field[property], fallback, property, field, fieldContext(field, section, { list: field }))
+  return Number.isFinite(Number(value)) ? Number(value) : fallback
+}
+function listDefaultValue(field, section) {
+  const source = field.defaultValue ?? field.defaultItem ?? {}
+  return ({ index, values }) => {
+    if (typeof source !== 'function') return source
+    try {
+      return source({ index, values: cloneValue(values), model: props.model, field, section, getFieldValue: name => getPath(props.model, name), getFieldsValue: () => cloneValue(props.model) })
+    } catch (error) { reportError('default-value', field, error); return {} }
+  }
+}
+function listItemContext(field, section, item) {
+  return fieldContext(field, section, { list: field, item: item.value, index: item.index, itemPath: item.name })
+}
+function listText(field, section, property, fallbackKey, item) {
+  const fallback = t(fallbackKey, item ? { index: item.index + 1 } : {})
+  return String(invoke(field[property], fallback, property, field, item ? listItemContext(field, section, item) : fieldContext(field, section, { list: field })) || fallback)
+}
+function listItemHeadingId(field, item) {
+  return `ui-schema-list-${pathKey(field.name)}-${item.key}`.replace(/[^a-zA-Z0-9_-]+/g, '-')
+}
+function listItemStyle(field, section) {
+  const columns = Math.max(1, Math.trunc(listNumber(field, section, 'columns', section.columns ?? props.columns) || 1))
+  const gap = field.gap ?? section.gap ?? props.gap
+  return { '--ui-schema-list-columns': columns, '--ui-schema-list-gap': typeof gap === 'number' ? `${gap}px` : gap }
+}
+function listActionVisible(field, action) { return field[action] !== false }
+function listActionAllowed(field, section, action, item) {
+  return Boolean(invoke(field[action], true, action, field, item ? listItemContext(field, section, item) : fieldContext(field, section, { list: field })))
+}
+function onListChange(field, section, change) {
+  const payload = { name: pathKey(field.name), field, section, change, model: cloneValue(props.model) }
+  emit('field-change', { name: payload.name, value: cloneValue(change.values), previous: cloneValue(change.previous), field, model: payload.model })
+  emit('list-change', payload)
+}
+function onListLimit(field, section, limit) { emit('list-limit', { name: pathKey(field.name), field, section, limit }) }
+function setListRef(name, instance) {
+  const key = pathKey(name)
+  if (!key) return
+  if (instance) listRefs.set(key, instance)
+  else listRefs.delete(key)
+}
+function callList(name, method, ...args) { return listRefs.get(pathKey(name))?.[method]?.(...args) ?? false }
+const addListItem = (name, ...args) => callList(name, 'add', ...args)
+const removeListItem = (name, ...args) => callList(name, 'remove', ...args)
+const moveListItem = (name, ...args) => callList(name, 'move', ...args)
+const replaceListItems = (name, ...args) => callList(name, 'replace', ...args)
+function getListValue(name) { const value = callList(name, 'getValue'); return value === false ? null : value }
+function getFieldDefinition(name) {
+  const key = pathKey(name)
+  const direct = allFields.value.find(field => pathKey(field.name) === key)
+  if (direct) return direct
+  const target = toPath(name)
+  for (const list of allFields.value.filter(isListField)) {
+    const base = toPath(list.name)
+    if (target.length <= base.length + 1 || !base.every((part, index) => part === target[index]) || !/^\d+$/.test(target[base.length])) continue
+    const index = Number(target[base.length]); const relative = target.slice(base.length + 1)
+    const child = listChildren(list).find(item => pathKey(item.name) === pathKey(relative))
+    if (child) return bindListChild(list, { name: [...base, index], index, value: getPath(props.model, [...base, index]) }, child)
+  }
+  return null
+}
+function getVisibleFields() {
+  const result = []
+  sections.value.forEach(section => section.fields.forEach(field => {
+    if (!field?.name || !isVisible(field, section)) return
+    result.push(field)
+    if (!isListField(field)) return
+    const values = getPath(props.model, field.name)
+    if (!Array.isArray(values)) return
+    values.forEach((value, index) => {
+      const item = { name: [...toPath(field.name), index], index, value }
+      listChildren(field).forEach(child => { if (child?.name && listChildVisible(field, section, item, child)) result.push(bindListChild(field, item, child)) })
+    })
+  }))
+  return result
+}
 
 const callForm = (method, ...args) => form.value?.[method]?.(...args)
 const validate = (...args) => callForm('validate', ...args)
@@ -177,6 +305,7 @@ defineExpose({
   validate, validateField, submit, reset, resetFields, clearValidate, setFields, setFieldError,
   getFieldValue, getFieldsValue, setFieldValue, getFieldState, getFieldsState, getFieldError,
   getFieldsError, focusField, scrollToField, getFieldDefinition, getVisibleFields,
+  addListItem, removeListItem, moveListItem, replaceListItems, getListValue,
 })
 </script>
 
@@ -218,7 +347,7 @@ defineExpose({
                 :validate-on-dependency-change="field.validateOnDependencyChange !== false"
                 :reserve-message-space="field.reserveMessageSpace"
                 :show-success="field.showSuccess"
-                :group="field.group"
+                :group="isListField(field) || field.group"
                 :composite="field.composite"
                 class="ui-schema-form-field"
                 :class="field.class"
@@ -233,6 +362,92 @@ defineExpose({
                   :value="fieldValue(field)"
                   :update="value=>updateField(field,section,value)"
                 />
+                <UiFormList
+                  v-else-if="isListField(field)"
+                  :ref="instance=>setListRef(field.name,instance)"
+                  :name="field.name"
+                  :default-value="listDefaultValue(field,section)"
+                  :min="listNumber(field,section,'min',0)"
+                  :max="listNumber(field,section,'max',Infinity)"
+                  :disabled="listState(field,section).disabled"
+                  :validate-on-change="field.validateOnChange !== false"
+                  :aria-label="field.ariaLabel || field.label || t('schemaForm.list.group')"
+                  @change="change=>onListChange(field,section,change)"
+                  @limit="limit=>onListLimit(field,section,limit)"
+                >
+                  <template #default="{fields,add,remove,move,replace,canAdd,canRemove}">
+                    <div v-if="fields.length" class="ui-schema-form-list-items">
+                      <article v-for="item in fields" :key="item.key" class="ui-schema-form-list-item" :aria-labelledby="listItemHeadingId(field,item)">
+                        <header class="ui-schema-form-list-item-header">
+                          <strong :id="listItemHeadingId(field,item)">{{ listText(field,section,'itemLabel','schemaForm.list.item',item) }}</strong>
+                          <div class="ui-schema-form-list-item-actions">
+                            <UiButton v-if="listActionVisible(field,'reorderable')" type="button" size="sm" variant="text" icon="arrowUp" :disabled="item.index===0 || !listActionAllowed(field,section,'reorderable',item)" @click="move(item.index,item.index-1)">{{ listText(field,section,'moveUpText','schemaForm.list.moveUp',item) }}</UiButton>
+                            <UiButton v-if="listActionVisible(field,'reorderable')" type="button" size="sm" variant="text" icon="arrowDown" :disabled="item.index===fields.length-1 || !listActionAllowed(field,section,'reorderable',item)" @click="move(item.index,item.index+1)">{{ listText(field,section,'moveDownText','schemaForm.list.moveDown',item) }}</UiButton>
+                            <UiButton v-if="listActionVisible(field,'removable')" type="button" size="sm" variant="text" icon="trash" :disabled="!canRemove || !listActionAllowed(field,section,'removable',item)" @click="remove(item.index)">{{ listText(field,section,'removeText','schemaForm.list.remove',item) }}</UiButton>
+                          </div>
+                        </header>
+                        <slot
+                          v-if="$slots[`list-${fieldKey(field,index)}-item`]"
+                          :name="`list-${fieldKey(field,index)}-item`"
+                          :field="field"
+                          :section="section"
+                          :model="model"
+                          :item="item.value"
+                          :item-field="item"
+                          :index="item.index"
+                          :add="add"
+                          :remove="remove"
+                          :move="move"
+                          :replace="replace"
+                        />
+                        <div v-else class="ui-schema-form-list-grid" :style="listItemStyle(field,section)">
+                          <template v-for="(child,childIndex) in listChildren(field)" :key="`${item.key}-${fieldKey(child,childIndex)}`">
+                            <UiFormItem
+                              v-if="child?.name && listChildVisible(field,section,item,child)"
+                              :name="bindListChild(field,item,child).name"
+                              :label="child.label"
+                              :help="child.help"
+                              :required="listChildRequired(field,section,item,child)"
+                              :rules="child.rules || []"
+                              :dependencies="listChildDependencies(item,child)"
+                              :validate-on-dependency-change="child.validateOnDependencyChange !== false"
+                              :reserve-message-space="child.reserveMessageSpace"
+                              :show-success="child.showSuccess"
+                              :group="child.group"
+                              :composite="child.composite"
+                              class="ui-schema-form-field ui-schema-form-list-child"
+                              :class="child.class"
+                              :style="listChildStyle(field,section,child)"
+                            >
+                              <slot
+                                v-if="$slots[listChildSlotName(field,child,childIndex)]"
+                                :name="listChildSlotName(field,child,childIndex)"
+                                :field="bindListChild(field,item,child)"
+                                :relative-field="child"
+                                :list="field"
+                                :section="section"
+                                :model="model"
+                                :item="item.value"
+                                :index="item.index"
+                                :value="listChildValue(field,item,child)"
+                                :update="value=>updateListChild(field,section,item,child,value)"
+                              />
+                              <component v-else :is="resolveComponent(bindListChild(field,item,child))" v-bind="listChildProps(field,section,item,child)" :model-value="listChildValue(field,item,child)" @update:model-value="value=>updateListChild(field,section,item,child,value)" />
+                            </UiFormItem>
+                          </template>
+                        </div>
+                      </article>
+                      <div v-if="listActionVisible(field,'addable')" class="ui-schema-form-list-footer"><UiButton type="button" size="sm" variant="secondary" icon="plus" :disabled="!canAdd || !listActionAllowed(field,section,'addable')" @click="add()">{{ listText(field,section,'addText','schemaForm.list.add') }}</UiButton></div>
+                    </div>
+                  </template>
+                  <template #empty="{add,canAdd}">
+                    <slot v-if="$slots[`list-${fieldKey(field,index)}-empty`]" :name="`list-${fieldKey(field,index)}-empty`" :field="field" :section="section" :model="model" :add="add" :can-add="canAdd" />
+                    <div v-else class="ui-schema-form-list-empty">
+                      <span>{{ listText(field,section,'emptyText','schemaForm.list.empty') }}</span>
+                      <UiButton v-if="listActionVisible(field,'addable')" type="button" size="sm" variant="secondary" icon="plus" :disabled="!canAdd || !listActionAllowed(field,section,'addable')" @click="add()">{{ listText(field,section,'addText','schemaForm.list.add') }}</UiButton>
+                    </div>
+                  </template>
+                </UiFormList>
                 <component v-else :is="resolveComponent(field)" v-bind="resolveFieldProps(field,section)" :model-value="fieldValue(field)" @update:model-value="value=>updateField(field,section,value)" />
               </UiFormItem>
             </template>

@@ -31,6 +31,17 @@ const visualSchema=[{key:'workspace',title:'Workspace settings',description:'Sch
   {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}]},
   {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:true,rules:[{required:true}],span:2},
 ]}]
+const visualSchemaListModel=reactive({reviewers:[
+  {role:'Owner',name:'Lin',email:'owner@example.com'},
+  {role:'Reviewer',name:'Chen',email:'reviewer@example.com'},
+]})
+const visualSchemaList=[{key:'reviewers',title:'Release reviewers',description:'Repeatable list nodes keep item fields, actions, validation, and responsive layout in one schema.',fields:[
+  {key:'reviewers',name:'reviewers',type:'list',label:'Reviewers',min:1,max:4,columns:3,itemLabel:(_model,{index})=>`Reviewer ${index+1}`,defaultValue:({index})=>({role:'Reviewer',name:`Reviewer ${index+1}`,email:''}),fields:[
+    {name:'role',label:'Role',type:'select',options:[{label:'Owner',value:'Owner'},{label:'Reviewer',value:'Reviewer'}]},
+    {name:'name',label:'Name',required:true,rules:[{required:true}]},
+    {name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}]},
+  ]},
+]}]
 onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
@@ -124,6 +135,11 @@ const tableRows=[
     <UiCard v-if="state==='schema-form'" title="Schema-driven workspace" title-tag="h2" class="visual-table-card visual-schema-form">
       <UiSchemaForm :model="visualSchemaModel" :schema="visualSchema" show-error-summary error-summary-title="Review workspace settings">
         <template #actions="{validating,errors}"><span>{{ errors.length }} validation errors</span><UiButton type="submit" :loading="validating">Save workspace</UiButton></template>
+      </UiSchemaForm>
+    </UiCard>
+    <UiCard v-if="state==='schema-form-list'" title="Schema repeatable reviewers" title-tag="h2" class="visual-table-card visual-schema-form-list">
+      <UiSchemaForm :model="visualSchemaListModel" :schema="visualSchemaList">
+        <template #actions><UiButton type="submit">Save reviewers</UiButton></template>
       </UiSchemaForm>
     </UiCard>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">

@@ -53,10 +53,11 @@ function emitLimit(action) {
   return false
 }
 function commit(next, type, detail = {}) {
+  const previous = cloneValue(value.value)
   const committed = next.slice()
   if (form && normalizedName.value) form.setFieldValue?.(props.name, committed)
   emit('update:modelValue', committed)
-  const payload = { type, values: cloneValue(committed), ...detail }
+  const payload = { type, values: cloneValue(committed), previous, ...detail }
   emit('change', payload)
   if (props.validateOnChange && normalizedName.value && form?.getFieldState?.(props.name)) {
     form.validateField?.(props.name, { trigger: 'change', source: 'list', focus: false })

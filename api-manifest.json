@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.26.0",
+  "version": "1.27.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -441,6 +441,7 @@
       "UiSchemaFormCallback",
       "UiSchemaFormComponent",
       "UiSchemaFormContext",
+      "UiSchemaFormDefinition",
       "UiSchemaFormEmitFn",
       "UiSchemaFormEmits",
       "UiSchemaFormError",
@@ -448,6 +449,12 @@
       "UiSchemaFormFieldChange",
       "UiSchemaFormFieldSlotScope",
       "UiSchemaFormInstance",
+      "UiSchemaFormListChange",
+      "UiSchemaFormListDefaultContext",
+      "UiSchemaFormListEmptySlotScope",
+      "UiSchemaFormListField",
+      "UiSchemaFormListItemSlotScope",
+      "UiSchemaFormListLimit",
       "UiSchemaFormNode",
       "UiSchemaFormProps",
       "UiSchemaFormResolver",
@@ -1689,6 +1696,8 @@
       "emits": [
         "field-change",
         "invalid",
+        "list-change",
+        "list-limit",
         "reset",
         "schema-error",
         "submit",
@@ -1700,6 +1709,8 @@
         "default",
         "empty",
         "field-*",
+        "list-*-empty",
+        "list-*-item",
         "section-*-header"
       ],
       "runtimeExports": [

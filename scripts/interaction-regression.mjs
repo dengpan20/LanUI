@@ -425,6 +425,27 @@ const allCases = [
     },
   },
   {
+    name: 'schema-form-repeatable-list',
+    run: async page => {
+      const section=page.locator('.interaction-schema-list')
+      assert.equal(await section.locator('.ui-schema-form-list-item').count(),1)
+      await section.getByRole('button',{name:'Add reviewer'}).click()
+      await expectText(page,'schema-list-output','add:2:Lin')
+      assert.equal(await section.locator('.ui-schema-form-list-item').count(),2)
+      const names=section.getByRole('textbox',{name:'Name'})
+      const emails=section.getByRole('textbox',{name:'Email'})
+      await names.nth(1).fill('Chen')
+      await emails.nth(1).fill('reviewer@example.com')
+      await section.getByRole('button',{name:'Move reviewer up'}).nth(1).click()
+      await expectText(page,'schema-list-output','move:2:Chen')
+      assert.equal(await names.nth(0).inputValue(),'Chen')
+      await section.getByRole('button',{name:'Remove reviewer'}).first().click()
+      await expectText(page,'schema-list-output','remove:1:Lin')
+      assert.equal(await section.locator('.ui-schema-form-list-item').count(),1)
+      assert.equal(await names.nth(0).inputValue(),'Lin')
+    },
+  },
+  {
     name: 'menu-directional-keyboard',
     run: async page => {
       const workspace = page.getByRole('menuitem', { name: 'Workspace' })

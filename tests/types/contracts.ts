@@ -96,6 +96,7 @@ import type {
   UiFormRule,
   UiSchemaFormFieldChange,
   UiSchemaFormInstance,
+  UiSchemaFormListChange,
   UiSchemaFormNode,
   RgbaColor,
   ColorFormat,
@@ -155,21 +156,22 @@ const formRule:UiFormRule={type:'email',trigger:['blur','submit'],transform:valu
 const formState:UiFormFieldState={name:'user.email',label:'Email',errors:[],status:'success',touched:true,dirty:true,validating:false}
 const formInstance:UiFormInstance={validate:async()=>true,validateField:async()=>true,submit:async()=>{},clearValidate:()=>{},reset:()=>{},resetFields:()=>{},setFields:()=>{},setFieldError:()=>{},getFieldValue:()=>'',getFieldsValue:()=>({}),setFieldValue:()=>'',getFieldState:()=>formState,getFieldsState:()=>[formState],getFieldError:()=>[],getFieldsError:()=>[],focusField:()=>true,scrollToField:()=>true}
 const formListProps:InstanceType<typeof UiFormList>['$props']&UiFormListProps<{email:string}>={modelValue:[{email:''}],name:'contacts',defaultValue:({index})=>({email:`owner-${index}@example.com`}),min:1,max:5,validateOnChange:true,ariaLabel:'Contacts'}
-const formListChange:UiFormListChange<{email:string}>={type:'move',values:[{email:'owner@example.com'}],from:0,to:1}
+const formListChange:UiFormListChange<{email:string}>={type:'move',values:[{email:'owner@example.com'}],previous:[{email:'before@example.com'}],from:0,to:1}
 const formListInstance:UiFormListInstance<{email:string}>={add:()=>false,remove:()=>false,move:()=>formListChange,replace:()=>false,getValue:()=>[],fields:[],canAdd:true,canRemove:false}
 const formListSubpathParity:typeof SubpathFormList=NamedSubpathFormList
 const formListEvent:keyof UiFormListEmits='limit'
 const formListSlot:keyof UiFormListSlots='empty'
-interface SchemaModel extends Record<string,unknown> { account:{name:string;type:string}; taxId:string }
-const schemaModel:SchemaModel={account:{name:'Lan UI',type:'business'},taxId:''}
-const schemaNodes:UiSchemaFormNode<SchemaModel>[]=[{key:'account',title:'Account',columns:2,fields:[{name:'account.name',label:'Name',required:true,props:model=>({placeholder:model.account.type})},{name:'account.type',label:'Type',type:'select',options:['business','personal']},{name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',dependencies:['account.type'],span:2}]}]
+interface SchemaModel extends Record<string,unknown> { account:{name:string;type:string}; taxId:string; contacts:Array<{kind:string;email:string}> }
+const schemaModel:SchemaModel={account:{name:'Lan UI',type:'business'},taxId:'',contacts:[{kind:'owner',email:'owner@example.com'}]}
+const schemaNodes:UiSchemaFormNode<SchemaModel>[]=[{key:'account',title:'Account',columns:2,fields:[{name:'account.name',label:'Name',required:true,props:model=>({placeholder:model.account.type})},{name:'account.type',label:'Type',type:'select',options:['business','personal']},{name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',dependencies:['account.type'],span:2},{key:'contacts',name:'contacts',type:'list',label:'Contacts',min:1,max:model=>model.account.type==='business'?5:2,defaultValue:({index,model})=>({kind:index?'member':'owner',email:model.account.name.toLowerCase()+'@example.com'}),removable:(_model,{index,item})=>Boolean(index&&item),itemLabel:(_model,{index})=>`Contact ${Number(index)+1}`,fields:[{name:'kind',label:'Kind'},{name:'email',label:'Email',visible:(_model,{item,getItemFieldValue})=>Boolean(item)&&getItemFieldValue('kind')!=='hidden',dependencies:['kind'],rules:[{required:true,type:'email'}]}]}]}]
 const schemaProps:InstanceType<typeof UiSchemaForm>['$props']&UiSchemaFormProps<SchemaModel>={model:schemaModel,schema:schemaNodes,columns:2,gap:12,showErrorSummary:true,components:{custom:UiInput}}
 const schemaChange:UiSchemaFormFieldChange<SchemaModel>={name:'taxId',value:'A',previous:'',field:{name:'taxId'},model:schemaModel}
-const schemaInstance:UiSchemaFormInstance<SchemaModel>={...formInstance,getFieldDefinition:()=>schemaNodes[0]&&'fields'in schemaNodes[0]?schemaNodes[0].fields?.[0]||null:null,getVisibleFields:()=>[]}
+const schemaListChange:UiSchemaFormListChange<SchemaModel>={name:'contacts',field:schemaNodes[0]&&'fields'in schemaNodes[0]?schemaNodes[0].fields?.[3] as never:null as never,section:schemaNodes[0] as never,change:formListChange,model:schemaModel}
+const schemaInstance:UiSchemaFormInstance<SchemaModel>={...formInstance,getFieldDefinition:()=>schemaNodes[0]&&'fields'in schemaNodes[0]?schemaNodes[0].fields?.[0]||null:null,getVisibleFields:()=>[],addListItem:()=>false,removeListItem:()=>false,moveListItem:()=>false,replaceListItems:()=>false,getListValue:()=>[]}
 const schemaSubpathParity:typeof SubpathSchemaForm=NamedSubpathSchemaForm
-const schemaEvent:keyof UiSchemaFormEmits<SchemaModel>='schema-error'
-const schemaSlot:keyof UiSchemaFormSlots<SchemaModel>='field-custom'
-void [schemaProps,schemaChange,schemaInstance,schemaSubpathParity,schemaEvent,schemaSlot]
+const schemaEvent:keyof UiSchemaFormEmits<SchemaModel>='list-change'
+const schemaSlot:keyof UiSchemaFormSlots<SchemaModel>='list-contacts-item'
+void [schemaProps,schemaChange,schemaListChange,schemaInstance,schemaSubpathParity,schemaEvent,schemaSlot]
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -282,6 +284,9 @@ const invalidFormListMax:UiFormListProps={max:'many'}
 // @ts-expect-error Schema columns are numeric layout tracks.
 const invalidSchemaColumns:UiSchemaFormProps={model:{},columns:'two'}
 
+// @ts-expect-error Schema list limits resolve to numbers.
+const invalidSchemaList:UiSchemaFormNode[] = [{name:'rows',type:'list',min:'one',fields:[]}]
+
 // @ts-expect-error Date picker value types are constrained to the public adapter contract.
 const invalidDateValueType:UiTimePickerProps={valueType:'moment'}
 // @ts-expect-error Icon flips use the constrained transform contract.
@@ -309,4 +314,4 @@ const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 // @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 
-console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList)

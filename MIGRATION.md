@@ -24,6 +24,31 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.27 repeatable Schema Form nodes
+
+This release is additive. Existing standalone `UiFormList` and P30 `UiSchemaForm` definitions keep their behavior. Use `type: 'list'` only when the schema should own the repeated layout and actions.
+
+```js
+const schema = [{
+  name: 'reviewers',
+  type: 'list',
+  min: 1,
+  max: 5,
+  columns: 2,
+  defaultValue: ({ index }) => ({ name: `Reviewer ${index + 1}`, email: '' }),
+  fields: [
+    { name: 'name', label: 'Name', required: true },
+    { name: 'email', label: 'Email', rules: [{ type: 'email' }] },
+  ],
+}]
+```
+
+- Child names are relative to each item by default. Prefix a dependency with `$root` when it intentionally targets the root model.
+- Item resolvers receive `(model, context)`; `context` contains `list`, `item`, `index`, `relativeName` and `getItemFieldValue` in addition to the normal Schema Form helpers.
+- Successful `UiFormList` payloads now include `previous`. Code that narrows payloads structurally should accept this additive property.
+- Listen to `list-change` for structural operations and inspect `payload.change`; use `field-change` when one unified value-change channel is preferable.
+- Prefer the exposed list methods for programmatic actions. They apply the same min/max, disabled, event and validation contract as the rendered controls.
+
 ## 1.26 schema-driven forms
 
 This release is additive. Existing `UiForm`, `UiFormItem` and `UiFormList` usage remains valid; adopt `UiSchemaForm` only where field metadata should own orchestration.
