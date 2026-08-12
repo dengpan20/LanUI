@@ -9,6 +9,7 @@ import {
   UiFormItem,
   UiInput,
   UiModal,
+  UiRate,
   UiTable,
   UiTabs,
   UiTree,
@@ -25,6 +26,7 @@ const checkedResources = ref<Key[]>(['dashboard'])
 const commandOpen = ref(false)
 const commandQuery = ref('')
 const brandColor = ref('#1677FFCC')
+const serviceRating = ref(3.5)
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
@@ -72,4 +74,5 @@ function sort(payload:UiTableSortChange) {
     <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>
   </UiCommandPalette>
   <UiFormItem label="Brand color"><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#10B981']" /></UiFormItem>
+  <UiFormItem label="Service rating"><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`"><template #text="{ text }">{{ text }}</template></UiRate></UiFormItem>
 </template>

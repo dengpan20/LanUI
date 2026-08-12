@@ -13,6 +13,7 @@ import {
   UiInput,
   UiIcon,
   UiNumberInput,
+  UiRate,
   UiSelect,
   UiSegmented,
   UiSlider,
@@ -36,6 +37,7 @@ const reminderAt = ref(new Date('2026-08-12T01:30:00.000Z'))
 const monthlyQuota = ref(12500)
 const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
+const serviceRating = ref(4.5)
 const officeCity = ref('hangzhou')
 const selectedResource = ref('dashboard')
 const checkedResources = ref(['dashboard'])
@@ -90,6 +92,7 @@ const rows = computed(() => [
       <label><span>办公城市</span><UiAutoComplete v-model="officeCity" :options="[{label:'杭州',value:'hangzhou',keywords:['hz']},{label:'上海',value:'shanghai',keywords:['sh']},{label:'深圳',value:'shenzhen',keywords:['sz']}]" /></label>
       <label><span>Monthly quota</span><UiNumberInput v-model="monthlyQuota" :min="0" :max="100000" :step="500" :precision="0"><template #suffix>CNY</template></UiNumberInput></label>
       <label><span>Rollout range</span><UiSlider v-model="rollout" range :step="5" :min-distance="10" :aria-label="['Rollout start','Rollout end']" /></label>
+      <label><span>Service rating</span><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`" /></label>
       <label><span>Brand color</span><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981','#F59E0B']" /></label>
       <UiButton :disabled="!projectName" @click="createProject">生成独立项目</UiButton>
     </UiCard>

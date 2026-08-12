@@ -601,11 +601,18 @@
 ## 34. Maturity P21: color picker and color runtime
 
 - `UiColorPicker` owns an optional string model and normalizes supported HEX, RGB or HSL input into the configured output format. Empty values remain empty; malformed committed text restores the last valid value and emits `{ reason:'parse', input }`.
+
+### Rate
+
+- `UiRate` owns a numeric `0..max` model; `step` supports integer and fractional ratings without floating-point drift.
+- Pointer movement previews a value without mutating the model. Pointer selection commits once; selecting the active value clears when `allowClear` is enabled.
+- One `role="slider"` focus target exposes the current value and localized value text. Arrow keys step, Page keys move five steps, Home/End select the bounds and Delete/Backspace clears.
+- Horizontal Arrow behavior mirrors in RTL. `readonly` remains focusable, `disabled` leaves the tab order, and FormItem label/help/error links are inherited.
 - The pure `color` runtime parses short/long HEX with alpha, comma/space RGB, HSL angle units, percentages, transparent/basic named colors and normalized RGBA objects without a DOM dependency.
 - `rgbToHsv / hsvToRgb / rgbToHsl / hslToRgb` preserve alpha and round-trip byte colors deterministically. `formatColor` controls explicit alpha output; invalid inputs return an empty string rather than leaking malformed CSS.
 - `getContrastRatio` composites transparency over the supplied background and applies WCAG relative luminance. `getReadableTextColor` compares configurable light/dark candidates.
 - The visual plane maps inline saturation and vertical brightness, mirrors saturation in RTL and supports Arrow keys with Shift acceleration plus Home/End and Page brightness steps. Hue and alpha remain native range controls.
 - The trigger integrates FormItem label/help/error semantics. The popup is a named non-modal dialog with direction-aware viewport flip/shift, outside/Escape close and trigger focus restoration.
 - Presets accept strings or labelled/disabled records. Text input, clear, preset, hue, alpha, plane and keyboard updates emit source metadata; controlled `open` consumers update through `update:open`.
-- Root/component/color-subpath exports, Props/Emits/Slots declarations, styles, manifests, component center, 18-section static preview, standalone consumer and SSR fixtures remain in parity for 60 components and 147 locale keys.
+- Root/component/color-subpath exports, Props/Emits/Slots declarations, styles, manifests, component center, 19-section static preview, standalone consumer and SSR fixtures remain in parity for 61 components and 152 locale keys.
 - CI, 13 Axe cases and 17 interaction cases per Chromium/Firefox/WebKit engine are required for the P21 delivery evidence.

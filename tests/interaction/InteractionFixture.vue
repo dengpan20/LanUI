@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAutoComplete, UiButton, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
-  UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree,
   UiColorPicker,
   UiCommandPalette,
@@ -22,6 +22,7 @@ const enabled = ref(false)
 const quantity = ref(12.5)
 const volume = ref(40)
 const priceRange = ref([20,80])
+const serviceRating = ref(3.5)
 const files = ref([])
 const uploadError = ref('')
 const selectedRows = ref([])
@@ -105,6 +106,14 @@ async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resol
           <UiSlider v-model="volume" aria-label="Volume" :min="0" :max="100" :step="5" />
           <UiSlider v-model="priceRange" :aria-label="['Price start','Price end']" range :min-distance="20" :step="5" />
           <output class="interaction-output" data-testid="slider-output">{{ volume }} / {{ priceRange.join('-') }}</output>
+        </div>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Rate keyboard contract</h2>
+        <div class="interaction-stack">
+          <UiRate v-model="serviceRating" aria-label="Service rating" :step="0.5" show-text :formatter="(value,max)=>`${value} of ${max}`" />
+          <output class="interaction-output" data-testid="rate-output">{{ serviceRating.toFixed(1) }}</output>
         </div>
       </section>
 

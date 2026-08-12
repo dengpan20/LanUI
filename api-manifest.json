@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -49,6 +49,7 @@
       "UiPopover",
       "UiProgress",
       "UiRadio",
+      "UiRate",
       "UiResult",
       "UiSegmented",
       "UiSelect",
@@ -369,6 +370,11 @@
       "UiRadioEmits",
       "UiRadioProps",
       "UiRadioSlots",
+      "UiRate",
+      "UiRateChangeMeta",
+      "UiRateEmits",
+      "UiRateProps",
+      "UiRateSlots",
       "UiResult",
       "UiResultEmits",
       "UiResultProps",
@@ -1773,6 +1779,48 @@
       ],
       "runtimeExports": [
         "UiRadio",
+        "default"
+      ]
+    },
+    {
+      "name": "UiRate",
+      "subpath": "./components/UiRate",
+      "propsType": "UiRateProps",
+      "props": [
+        "allowClear",
+        "ariaLabel",
+        "clearValue",
+        "color",
+        "disabled",
+        "disabledColor",
+        "formatter",
+        "invalid",
+        "max",
+        "modelValue",
+        "readonly",
+        "showText",
+        "size",
+        "step",
+        "texts",
+        "voidColor"
+      ],
+      "emitsType": "UiRateEmits",
+      "emits": [
+        "blur",
+        "change",
+        "clear",
+        "focus",
+        "hover-change",
+        "input",
+        "update:modelValue"
+      ],
+      "slotsType": "UiRateSlots",
+      "slots": [
+        "item",
+        "text"
+      ],
+      "runtimeExports": [
+        "UiRate",
         "default"
       ]
     },

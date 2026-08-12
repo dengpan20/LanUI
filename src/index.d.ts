@@ -101,6 +101,7 @@ export interface UiPopconfirmProps { title?:string; message?:string; confirmText
 export interface UiPopoverProps { modelValue?:boolean; placement?:Placement; width?:string|number; closeOnOutside?:boolean; title?:string; offset?:number }
 export interface UiProgressProps { value?:number; max?:number; status?:'normal'|'success'|'warning'|'error'; showText?:boolean; size?:ComponentSize; label?:string }
 export interface UiRadioProps { modelValue?:Key|boolean; value?:Key|boolean; label?:string; name?:string; disabled?:boolean }
+export interface UiRateProps { modelValue?:number; max?:number; step?:number; allowClear?:boolean; clearValue?:number; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; showText?:boolean; texts?:Array<string|number>; formatter?:(value:number,max:number)=>string|number|null|undefined; color?:string; voidColor?:string; disabledColor?:string; ariaLabel?:string }
 export interface UiResultProps { status?:'success'|'error'|'warning'|'info'|'404'; title?:string; description?:string; icon?:string }
 export interface UiSelectProps { modelValue?:Key; options?:SelectOptionInput[]; placeholder?:string; size?:ComponentSize; disabled?:boolean; invalid?:boolean; clearable?:boolean; searchable?:boolean; emptyText?:string }
 export interface UiSkeletonProps { rows?:number; avatar?:boolean; animated?:boolean; width?:string|number }
@@ -139,6 +140,7 @@ export interface UiNumberInputStepMeta { direction:-1|1; step:number; source:'ke
 export interface UiNumberInputInvalid { reason:'parse'; input:string }
 export interface UiSliderChangeMeta { source:'pointer'|'keyboard'|'mark'; thumb:number }
 export interface UiSliderFocusMeta { thumb:number }
+export interface UiRateChangeMeta { source:'pointer'|'keyboard'; previous:number }
 export interface UiAutoCompleteChangeMeta { source:'option'|'clear'|'enter'|'blur'|'tab'; option?:UiAutoCompleteOption; index?:number }
 export interface UiAutoCompleteLoadError { error:unknown; query:string }
 export interface UiPaginationChange { page:number; pageSize:number }
@@ -197,6 +199,7 @@ export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(erro
 export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
 export type UiProgressEmits = {}
 export type UiRadioEmits = { 'update:modelValue':(value:Key|boolean)=>void; change:(value:Key|boolean)=>void }
+export type UiRateEmits = { 'update:modelValue':(value:number)=>void; input:(value:number,meta:Pick<UiRateChangeMeta,'source'>)=>void; change:(value:number,meta:UiRateChangeMeta)=>void; 'hover-change':(value:number|null)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiResultEmits = {}
 export type UiSelectEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key)=>void; clear:()=>void; 'open-change':(open:boolean)=>void }
 export type UiSkeletonEmits = {}
@@ -257,6 +260,7 @@ export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
 export type UiPopoverSlots = { trigger?:(props:{open:boolean})=>VNodeChild; default?:(props:{close:()=>void})=>VNodeChild }
 export type UiProgressSlots = {}
 export type UiRadioSlots = { default?:()=>VNodeChild }
+export type UiRateSlots = { item?:(scope:{index:number;value:number;fill:number;active:boolean})=>VNodeChild; text?:(scope:{value:number;max:number;text:string})=>VNodeChild }
 export type UiResultSlots = { default?:()=>VNodeChild; icon?:()=>VNodeChild; extra?:()=>VNodeChild }
 export type UiSelectSlots = {}
 export type UiSkeletonSlots = {}
@@ -298,7 +302,7 @@ export const UiFormItem:LanComponent<UiFormItemProps,UiFormItemEmits,UiFormItemS
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>
-export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
+export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
 export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
 export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>

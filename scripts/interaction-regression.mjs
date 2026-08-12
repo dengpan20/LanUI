@@ -134,6 +134,23 @@ const cases = [
     },
   },
   {
+    name: 'rate-keyboard',
+    run: async page => {
+      const rate = page.getByRole('slider', { name: 'Service rating' })
+      await rate.focus()
+      await page.keyboard.press('ArrowRight')
+      await expectText(page, 'rate-output', '4.0')
+      await page.keyboard.press('PageDown')
+      await expectText(page, 'rate-output', '1.5')
+      await page.keyboard.press('End')
+      await expectText(page, 'rate-output', '5.0')
+      await page.keyboard.press('Delete')
+      await expectText(page, 'rate-output', '0.0')
+      assert.equal(await rate.getAttribute('aria-valuenow'), '0')
+      assert.equal(await rate.getAttribute('aria-valuetext'), 'Not rated')
+    },
+  },
+  {
     name: 'tabs-ltr-keyboard',
     run: async page => {
       await page.getByRole('tab', { name: 'Overview' }).focus()

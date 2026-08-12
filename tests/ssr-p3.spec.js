@@ -15,6 +15,7 @@ import UiToastHost from '../src/components/UiToastHost.vue'
 import UiTree from '../src/components/UiTree.vue'
 import UiCommandPalette from '../src/components/UiCommandPalette.vue'
 import UiColorPicker from '../src/components/UiColorPicker.vue'
+import UiRate from '../src/components/UiRate.vue'
 import { openOverlay, overlayCount } from '../src/components/overlayManager.js'
 import { createLanUi } from '../src/plugin.js'
 import { useToast } from '../src/feedback.js'
@@ -33,6 +34,7 @@ async function renderFixture() {
         h(UiTree, { data:[{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}], defaultExpandedKeys:['workspace'], modelValue:'dashboard', 'aria-label':'SSR resources' }),
         h(UiCommandPalette, { defaultOpen:true, commands:[{key:'dashboard',label:'Open dashboard',group:'Navigate'}] }),
         h(UiColorPicker, { modelValue:'#1677FFCC', alpha:true, defaultOpen:true, 'aria-label':'SSR brand color' }),
+        h(UiRate, { modelValue:3.5, step:.5, showText:true, ariaLabel:'SSR service rating' }),
         h(UiPopover, { modelValue:true, title:'Details' }, { trigger:() => h('button', 'Open'), default:() => 'Popover content' }),
         h(UiModal, { modelValue:true, title:'Review' }, { default:() => 'Modal content' }),
         h(UiDrawer, { modelValue:true, title:'Filters' }, { default:() => 'Drawer content' }),
@@ -67,6 +69,8 @@ describe('server rendering', () => {
     expect(result.teleports.body).toContain('aria-label="Color picker"')
     expect(result.teleports.body).toContain('Saturation and brightness')
     expect(result.html).toContain('SSR brand color')
+    expect(result.html).toContain('SSR service rating')
+    expect(result.html).toContain('3.5 of 5')
   })
 
   it('keeps generated ids stable across equivalent app renders', async () => {

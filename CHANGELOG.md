@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.18.0] - 2026-08-12
+
+### Added
+
+- Public `UiRate` with integer/fractional steps, pointer preview, repeat-to-clear, configurable text and colors, size/read-only/disabled/invalid states and FormItem integration.
+- Slider ARIA, localized value text, RTL pointer/Arrow mapping and Arrow/Page/Home/End/Delete keyboard contracts.
+- Unit, SSR, typed root/subpath, package, static-preview, visual, Axe, three-browser interaction and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 60 to 61 entries.
+- Locale parity advances from 147 to 152 keys; browser interaction coverage advances from 17 to 18 scenarios per engine and Axe coverage advances from 13 to 14 cases.
+- Static preview advances from 18 to 19 sections.
+- The reviewed package JS gzip ceiling moves from 125000 B to 132000 B and package CSS raw from 300000 B to 310000 B for the new runtime and component-scoped rating styles; the other twelve budgets retain their previous limits.
+
 ## [1.17.0] - 2026-08-12
 
 ### Added

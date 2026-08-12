@@ -24,6 +24,21 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.18 rate contract
+
+`UiRate` is additive. Use it for qualitative bounded scores; keep `UiSlider` for continuous quantities and ranges, and `UiRadio` for a small set of named choices.
+
+```vue
+<UiRate v-model="serviceRating" :step="0.5" show-text />
+```
+
+- The model is always a normalized number from zero through `max`; `step` is greater than zero and at most one.
+- Pointer hover is preview-only. A click commits, and a second click on the selected value clears when `allowClear=true`.
+- Arrow keys step once, Page keys step five times, Home/End jump to bounds, and Delete/Backspace clears.
+- RTL mirrors horizontal Arrow and pointer direction. Up/Down remain logical increase/decrease controls.
+- Use `readonly` when the rating should remain discoverable in the tab order; `disabled` removes it from keyboard navigation.
+- Consumer `item` slots remain decorative. Do not add nested buttons or focusable content inside the component-owned slider target.
+
 ## 1.17 color picker and color runtime contract
 
 `UiColorPicker` is additive. Use it for persisted theme, chart, status and brand color values; keep a closed `UiSelect` when users choose only named semantic tokens.

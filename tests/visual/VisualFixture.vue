@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import {
   UiAlert, UiAutoComplete, UiButton, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiRate, UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -38,7 +38,7 @@ const tableRows=[
       </UiCard>
 
       <UiCard title="Form controls" title-tag="h2">
-        <div class="visual-form"><label>Name<UiInput model-value="Lan UI workspace"/></label><label>Region<UiSelect model-value="east" :options="[{label:'East region',value:'east'},{label:'West region',value:'west'}]"/></label><label>Office city<UiAutoComplete model-value="hangzhou" :options="[{label:'Hangzhou',value:'hangzhou',description:'East region'},{label:'Shenzhen',value:'shenzhen',description:'South region'}]"/></label><label>Quantity<UiNumberInput :model-value="12.5" :min="0" :max="100" :step="0.25"><template #suffix>items</template></UiNumberInput></label><label>Capacity<UiSlider :model-value="68" :step="5" tooltip="always" aria-label="Capacity"/></label><label class="visual-span">Delivery window<UiDateRangePicker :model-value="['2026-08-11','2026-08-28']"/></label></div>
+        <div class="visual-form"><label>Name<UiInput model-value="Lan UI workspace"/></label><label>Region<UiSelect model-value="east" :options="[{label:'East region',value:'east'},{label:'West region',value:'west'}]"/></label><label>Office city<UiAutoComplete model-value="hangzhou" :options="[{label:'Hangzhou',value:'hangzhou',description:'East region'},{label:'Shenzhen',value:'shenzhen',description:'South region'}]"/></label><label>Quantity<UiNumberInput :model-value="12.5" :min="0" :max="100" :step="0.25"><template #suffix>items</template></UiNumberInput></label><label>Capacity<UiSlider :model-value="68" :step="5" tooltip="always" aria-label="Capacity"/></label><label>Service rating<UiRate :model-value="3.5" :step="0.5" show-text aria-label="Service rating"/></label><label class="visual-span">Delivery window<UiDateRangePicker :model-value="['2026-08-11','2026-08-28']"/></label></div>
       </UiCard>
 
       <UiCard title="Feedback and progress" title-tag="h2">
@@ -70,6 +70,7 @@ const tableRows=[
         <UiCascader aria-label="Office location" :model-value="['china','hangzhou']" :options="[{label:'China',value:'china',children:[{label:'Hangzhou',value:'hangzhou'}]}]"/>
         <UiTree aria-label="Resource permissions" model-value="frontend" :checked-keys="['frontend']" :default-expanded-keys="['engineering']" :data="[{label:'Engineering',value:'engineering',children:[{label:'Frontend',value:'frontend'},{label:'Backend',value:'backend'}]},{label:'Archive',value:'archive',disabled:true}]" checkable show-line bordered/>
         <UiColorPicker id="visual-color-trigger" v-model="brandColor" alpha show-contrast :presets="['#1677FF','#10B981','#F59E0B']" />
+        <UiRate id="visual-rate" :model-value="4.5" :step="0.5" show-text aria-label="Advanced rating" />
         <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commandItems"><template #trigger="{open}"><UiButton id="visual-command-trigger" @click="open">Open command palette</UiButton></template></UiCommandPalette>
       </div>
     </UiCard>
