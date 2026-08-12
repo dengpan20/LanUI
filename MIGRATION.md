@@ -24,6 +24,21 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.19 statistic contract
+
+`UiStatistic` is additive. Use it for a single KPI or dashboard metric; retain `UiProgress` for bounded completion and `UiTable` for comparable record sets.
+
+```vue
+<UiStatistic title="Revenue" :value="2864000" prefix="¥" :trend="12.6" />
+```
+
+- Numeric values are formatted with the active locale. `precision` sets both minimum and maximum fraction digits; `formatOptions` exposes the remaining `Intl.NumberFormat` contract.
+- String values are preserved as consumer-formatted display values. `null`, non-finite numeric input and empty strings use `placeholder` or the localized em dash.
+- `trend` stores the signed change while the visual number is its absolute magnitude. Configure `positiveDirection="down"` when decreases are beneficial, or `none` for neutral change semantics.
+- `loading` replaces the value and trend with a stable skeleton and sets `aria-busy`. Choose `live="polite"` only for values that update after the initial render.
+- Prefix and suffix are included in the accessible value even though their visual nodes are decorative. When a custom `value` slot changes the spoken meaning, provide matching `ariaValueText`.
+- Formatter errors and invalid `Intl` options fall back to the normal value rather than aborting the render.
+
 ## 1.18 rate contract
 
 `UiRate` is additive. Use it for qualitative bounded scores; keep `UiSlider` for continuous quantities and ranges, and `UiRadio` for a small set of named choices.

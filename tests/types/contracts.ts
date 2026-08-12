@@ -10,6 +10,7 @@ import {
   UiModal,
   UiNumberInput,
   UiRate,
+  UiStatistic,
   UiSlider,
   UiTable,
   UiTabs,
@@ -36,6 +37,7 @@ import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
+import SubpathStatistic, { UiStatistic as NamedSubpathStatistic } from 'lan-ui-design-system/components/UiStatistic'
 import SubpathTree, { UiTree as NamedSubpathTree } from 'lan-ui-design-system/components/UiTree'
 import SubpathCommandPalette, { UiCommandPalette as NamedSubpathCommandPalette } from 'lan-ui-design-system/components/UiCommandPalette'
 import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'lan-ui-design-system/components/UiColorPicker'
@@ -48,6 +50,7 @@ import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } fr
 import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 'lan-ui-design-system/components/UiNumberInput'
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
 import type { UiRateEmits, UiRateProps, UiRateSlots } from 'lan-ui-design-system/components/UiRate'
+import type { UiStatisticEmits, UiStatisticProps, UiStatisticSlots } from 'lan-ui-design-system/components/UiStatistic'
 import type { UiTreeEmits, UiTreeProps, UiTreeSlots } from 'lan-ui-design-system/components/UiTree'
 import type { UiCommandPaletteEmits, UiCommandPaletteProps, UiCommandPaletteSlots } from 'lan-ui-design-system/components/UiCommandPalette'
 import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 'lan-ui-design-system/components/UiColorPicker'
@@ -138,6 +141,11 @@ rateEmit('change',4,{source:'keyboard',previous:3.5})
 const rateSubpathParity:typeof SubpathRate=NamedSubpathRate
 const rateEvent:keyof UiRateEmits='hover-change'
 const rateSlot:keyof UiRateSlots='item'
+const statisticProps:InstanceType<typeof UiStatistic>['$props']&UiStatisticProps={value:2864000,title:'Revenue',precision:0,formatOptions:{notation:'compact'},prefix:'$',trend:12.6,positiveDirection:'up',status:'success',live:'polite',formatter:(value,{numericValue})=>numericValue??value,trendFormatter:(value,{direction,tone})=>`${direction}:${tone}:${value}`}
+const statisticEmit:InstanceType<typeof UiStatistic>['$emit']=null as never
+const statisticSubpathParity:typeof SubpathStatistic=NamedSubpathStatistic
+const statisticEvent:keyof UiStatisticEmits|'none'='none'
+const statisticSlot:keyof UiStatisticSlots='trend'
 const treeProps:InstanceType<typeof UiTree>['$props']&UiTreeProps={data:[{id:'root',title:'Root',nodes:[{id:'leaf',title:'Leaf',isLeaf:true}]}],nodeKey:'id',labelKey:'title',childrenKey:'nodes',modelValue:'leaf',expandedKeys:['root'],checkedKeys:['leaf'],checkable:true,showLine:true,virtual:true,height:'20rem',loadData:async(node,{signal})=>signal?.aborted?[]:[{label:String(node.title),value:'loaded'}]}
 const treeEmit:InstanceType<typeof UiTree>['$emit']=null as never
 treeEmit('check-change',['leaf'],{node:{id:'leaf',title:'Leaf'},checked:true,halfCheckedKeys:[],source:'keyboard'})
@@ -185,6 +193,8 @@ const invalidNumberControls:UiNumberInputProps={controlsPosition:'vertical'}
 const invalidSliderTooltip:UiSliderProps={tooltip:'hover'}
 // @ts-expect-error Rating size uses the shared sm, md or lg component scale.
 const invalidRateSize:UiRateProps={size:'xl'}
+// @ts-expect-error Statistic live regions use the ARIA off, polite or assertive values.
+const invalidStatisticLive:UiStatisticProps={live:'on'}
 // @ts-expect-error AutoComplete match modes are constrained to documented filtering semantics.
 const invalidAutoCompleteMatch:UiAutoCompleteProps={matchMode:'fuzzy'}
 // @ts-expect-error Tree model values are string or number keys, never booleans.
@@ -194,4 +204,4 @@ const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 // @ts-expect-error Color output formats are constrained to hex, rgb or hsl.
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 
-console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)
+console.log(plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip)

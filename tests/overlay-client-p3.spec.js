@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import UiDrawer from '../src/components/UiDrawer.vue'
 import UiModal from '../src/components/UiModal.vue'
+import UiToastHost from '../src/components/UiToastHost.vue'
 import { overlayCount } from '../src/components/overlayManager.js'
 
 afterEach(() => {
@@ -38,6 +39,25 @@ describe('client overlay lifecycle', () => {
     await modal.setProps({ modelValue:false }); await nextTick()
     expect(document.activeElement).toBe(trigger)
     modal.unmount()
+    expect(overlayCount()).toBe(0)
+  })
+
+  it('keeps error toasts above modal and nested overlay layers', async () => {
+    const toast = mount(UiToastHost, {
+      attachTo:document.body,
+      props:{ items:[{ id:'save-error', type:'error', message:'Save failed', placement:'top-center' }] },
+    })
+    const modal = mount(UiModal, { attachTo:document.body, props:{ modelValue:true, title:'Modal' } })
+    const drawer = mount(UiDrawer, { attachTo:document.body, props:{ modelValue:true, title:'Drawer' } })
+    await nextTick(); await nextTick()
+
+    const toastLayer = document.body.querySelector('.toasts-top-center')
+    const modalLayer = document.body.querySelector('.ui-modal-overlay')
+    const drawerLayer = document.body.querySelector('.ui-drawer-overlay')
+    expect(Number(toastLayer?.style.zIndex)).toBeGreaterThan(Number(modalLayer?.style.zIndex))
+    expect(Number(toastLayer?.style.zIndex)).toBeGreaterThan(Number(drawerLayer?.style.zIndex))
+
+    drawer.unmount(); modal.unmount(); toast.unmount()
     expect(overlayCount()).toBe(0)
   })
 })

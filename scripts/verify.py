@@ -9,7 +9,7 @@ required = [
     "src/pages/LoginPage.vue", "src/pages/LogoutPage.vue", "src/pages/NotFoundPage.vue",
     "src/pages/DashboardPage.vue", "src/pages/WorkbenchPage.vue", "src/pages/DataPage.vue",
     "src/pages/AiPage.vue", "src/pages/GanttPage.vue", "src/pages/ComponentsPage.vue",
-    "src/components/UiIcon.vue", "src/components/UiInput.vue", "src/components/UiNumberInput.vue", "src/components/UiSlider.vue", "src/components/UiRate.vue", "src/components/UiAutoComplete.vue", "src/components/UiSelect.vue", "src/components/UiTextarea.vue",
+    "src/components/UiIcon.vue", "src/components/UiInput.vue", "src/components/UiNumberInput.vue", "src/components/UiSlider.vue", "src/components/UiRate.vue", "src/components/UiStatistic.vue", "src/components/UiAutoComplete.vue", "src/components/UiSelect.vue", "src/components/UiTextarea.vue",
     "src/components/UiDatePicker.vue", "src/components/UiTimePicker.vue", "src/components/UiPagination.vue",
     "src/components/UiUpload.vue", "src/components/UiFloatButton.vue",
     "src/components/UiTable.vue", "src/components/UiListToolbar.vue",
@@ -31,7 +31,7 @@ required = [
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
     "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -76,7 +76,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 299 or len(manifest_components) != 61:
+if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 412 or len(manifest_components) != 62:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -87,7 +87,7 @@ style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="u
 style_components = style_manifest.get("components", [])
 if style_manifest.get("package") != package.get("name") or style_manifest.get("version") != package.get("version"):
     failures.append("style-manifest:package-version")
-if len(style_components) != 61 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
+if len(style_components) != 62 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
@@ -259,7 +259,7 @@ for name,source in [("modal",modal_source),("drawer",drawer_source)]:
         failures.append(f"ssr:stable-id:{name}")
 
 preview = (ROOT / "component-preview.html").read_text(encoding="utf-8")
-if preview.count('class="preview-section"') < 19:
+if preview.count('class="preview-section"') < 20:
     failures.append("preview:section-count")
 for interaction in ["data-modal", "data-drawer", "data-toast", "previewSwitch", "previewTabs", "previewSelect", "previewUpload", "previewPagination", "previewBackTop", "previewRate"]:
     if interaction not in preview:
@@ -341,9 +341,12 @@ for marker in ['id="command-palette"', "previewCommandTrigger", "previewCommandI
 for marker in ['id="color-picker"', "previewColorPlane", "previewColorHue", "previewColorAlpha", "previewColorContrast", "previewColorPresets", "positionPreviewColor"]:
     if marker not in preview:
         failures.append(f"preview:color-picker:{marker}")
+for marker in ['id="statistic"', "Statistic / KPI", "ui-statistic-trend", "ui-statistic-skeleton", "v1.19"]:
+    if marker not in preview:
+        failures.append(f"preview:statistic:{marker}")
 
 components_page = (ROOT / "src/pages/ComponentsPage.vue").read_text(encoding="utf-8")
-for component in ["UiCheckbox", "UiRadio", "UiSwitch", "UiTooltip", "UiPopover", "UiPopconfirm", "UiMenu", "UiCollapse", "UiDescriptions", "UiResult", "UiSpin", "UiSegmented", "UiConfigProvider", "UiDateRangePicker", "UiTimePicker", "UiIcon", "UiNumberInput", "UiSlider", "UiRate", "UiAutoComplete", "UiTree", "UiCommandPalette", "UiColorPicker"]:
+for component in ["UiCheckbox", "UiRadio", "UiSwitch", "UiTooltip", "UiPopover", "UiPopconfirm", "UiMenu", "UiCollapse", "UiDescriptions", "UiResult", "UiSpin", "UiSegmented", "UiConfigProvider", "UiDateRangePicker", "UiTimePicker", "UiIcon", "UiNumberInput", "UiSlider", "UiRate", "UiStatistic", "UiAutoComplete", "UiTree", "UiCommandPalette", "UiColorPicker"]:
     if component not in components_page:
         failures.append(f"component-center:sync:{component}")
 for marker in ["fontPresets", "selectedFont", "applyFont", "Inter + Noto Sans SC", "LXGW WenKai"]:
@@ -390,6 +393,7 @@ behavior_sources = {
     "commandpalette": (ROOT / "src/components/UiCommandPalette.vue").read_text(encoding="utf-8"),
     "colorpicker": (ROOT / "src/components/UiColorPicker.vue").read_text(encoding="utf-8"),
     "rate": (ROOT / "src/components/UiRate.vue").read_text(encoding="utf-8"),
+    "statistic": (ROOT / "src/components/UiStatistic.vue").read_text(encoding="utf-8"),
     "cascader": (ROOT / "src/components/UiCascader.vue").read_text(encoding="utf-8"),
     "transfer": (ROOT / "src/components/UiTransfer.vue").read_text(encoding="utf-8"),
     "menu": (ROOT / "src/components/UiMenu.vue").read_text(encoding="utf-8"),
@@ -427,6 +431,7 @@ behavior_markers = {
     "commandpalette": ['role="dialog"', 'role="combobox"', 'role="listbox"', "aria-activedescendant", "AbortController", "requestSequence", "load-error", "data-error", "openOverlay", "focusWithRetry", "useDirection"],
     "colorpicker": ['role="dialog"', 'role="slider"', "pointermove", "ArrowRight", "formatColor", "parseColor", "showContrast", "useDirection", "update:open"],
     "rate": ['role="slider"', "aria-valuetext", "pointermove", "PageUp", "allowClear", "useDirection", "uiFormItemContext"],
+    "statistic": ['role="group"', "<output", "aria-live", "aria-busy", "formatNumber", "positiveDirection", "ariaValueText"],
     "cascader": ['ui-cascader-column', "aria-activedescendant", "ArrowRight", "ArrowLeft"],
     "transfer": ["moveRight", "moveLeft", "searchable"],
     "menu": ['role="menu"', 'role="menuitem"', "ArrowDown", "ArrowRight"],
@@ -502,7 +507,7 @@ for path in [ROOT / "README.md", ROOT / "UI-SPEC.md"]:
         failures.append(f"docs:corrupted-section:{path.name}")
 
 standalone = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
-for component in ["UiAlert", "UiAutoComplete", "UiButton", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiRate", "UiSelect", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
+for component in ["UiAlert", "UiAutoComplete", "UiButton", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiRate", "UiStatistic", "UiSelect", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
     if component not in standalone:
         failures.append(f"standalone:component:{component}")
 for marker in ["direction", ":direction=", "RTL", "LTR"]:
@@ -536,10 +541,10 @@ for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete
 if accessibility_script.count("{name:") < 14:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "menu-directional-keyboard", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "table-state-contract", "form-validation-focus", "menu-directional-keyboard", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") < 18:
+if interaction_script.count("name: '") < 19:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -575,13 +580,13 @@ for rel in ["lan-ui.js","lan-ui.css","lan-ui.d.ts"]:
 if dist_lib.exists():
     component_js=list((dist_lib / "components").glob("Ui*.js"))
     component_types=list((dist_lib / "components").glob("Ui*.d.ts"))
-    if len(component_js) != 61 or len(component_types) != 61:
+    if len(component_js) != 62 or len(component_types) != 62:
         failures.append(f"dist-lib:component-subpaths:{len(component_js)}:{len(component_types)}")
     for rel in ["color.js","color.d.ts","config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts"]:
         if not (dist_lib / rel).is_file():
             failures.append(f"dist-lib:subpath:{rel}")
     style_files = list((dist_lib / "styles").glob("Ui*.css"))
-    if len(style_files) != 61 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
+    if len(style_files) != 62 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
         failures.append(f"dist-lib:component-styles:{len(style_files)}")
 
 if failures:
@@ -626,4 +631,5 @@ print("- maturity-p19=tree,58-public-components,122-locale-keys,selection-check-
 print("- maturity-p20=command-palette,59-public-components,134-locale-keys,fuzzy-grouped-async,global-hotkey,focus-trap,rtl,16-interactions-per-browser")
 print("- maturity-p21=color-picker,60-public-components,147-locale-keys,hex-rgb-hsl-alpha,wcag-contrast,pointer-keyboard,rtl,17-interactions-per-browser")
 print("- maturity-p22=rate,61-public-components,152-locale-keys,fractional-pointer-keyboard,clear,rtl,form-aria,18-interactions-per-browser")
+print("- maturity-p23=statistic,62-public-components,158-locale-keys,intl-precision,trend-semantics,loading-live-aria,19-interactions-per-browser")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

@@ -151,6 +151,23 @@ const cases = [
     },
   },
   {
+    name: 'statistic-live-update',
+    run: async page => {
+      const statistic=page.getByRole('group',{name:'Revenue'})
+      const output=statistic.locator('output')
+      assert.equal(await output.getAttribute('aria-live'),'polite')
+      assert.equal(await output.getAttribute('aria-label'),'$1,000')
+      assert.equal(await statistic.locator('.ui-statistic-trend').getAttribute('aria-label'),'Up 5%')
+      await page.locator('#refresh-statistic').click()
+      assert.equal(await statistic.getAttribute('aria-busy'),'true')
+      assert.equal(await output.getAttribute('aria-label'),'Loading statistic')
+      await expectText(page,'statistic-output','1250 / -2.5 / ready')
+      assert.equal(await statistic.getAttribute('aria-busy'),null)
+      assert.equal(await output.getAttribute('aria-label'),'$1,250')
+      assert.equal(await statistic.locator('.ui-statistic-trend').getAttribute('aria-label'),'Down 2.5%')
+    },
+  },
+  {
     name: 'tabs-ltr-keyboard',
     run: async page => {
       await page.getByRole('tab', { name: 'Overview' }).focus()

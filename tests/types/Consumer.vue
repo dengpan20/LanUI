@@ -10,6 +10,7 @@ import {
   UiInput,
   UiModal,
   UiRate,
+  UiStatistic,
   UiTable,
   UiTabs,
   UiTree,
@@ -75,4 +76,5 @@ function sort(payload:UiTableSortChange) {
   </UiCommandPalette>
   <UiFormItem label="Brand color"><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#10B981']" /></UiFormItem>
   <UiFormItem label="Service rating"><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`"><template #text="{ text }">{{ text }}</template></UiRate></UiFormItem>
+  <UiStatistic title="Revenue" :value="2864000" prefix="$" :trend="12.6"><template #trend="{ direction, tone }">{{ direction }}/{{ tone }}</template><template #extra>Updated now</template></UiStatistic>
 </template>

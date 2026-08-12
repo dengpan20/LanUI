@@ -4,6 +4,23 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.19.0] - 2026-08-12
+
+### Added
+
+- Public `UiStatistic` for localized numeric or string values, exact precision, arbitrary `Intl.NumberFormat` options, prefix/suffix/placeholder content and contained custom formatters.
+- Directional trends with configurable positive direction, localized accessible text, neutral zero handling, status/size variants, stable loading skeletons and optional live-region announcements.
+- Title, prefix, value, suffix, trend and extra slots plus explicit `ariaLabel` and `ariaValueText` escape hatches for customized visual content.
+- Unit, SSR, typed root/subpath, package, component-center, static-preview, visual, Axe, three-browser live-update and standalone-consumer coverage.
+
+### Changed
+
+- Public component, declaration, style and API-manifest parity advances from 61 to 62 entries.
+- Locale parity advances from 152 to 158 keys; browser interaction coverage advances from 18 to 19 scenarios per engine.
+- Static preview advances from 19 to 20 sections and corrects Rate/ColorPicker section numbering.
+- Error toasts now track the active overlay stack and stay above nested modal/drawer layers; overlay stack entries also preserve monotonic z-index ordering.
+- Reviewed raw-byte ceilings move from 335000 to 345000 B for package JS, 150000 to 155000 B for root CSS, 310000 to 318000 B for standalone JS and 150000 to 155000 B for standalone CSS. All gzip ceilings and the other six raw ceilings remain unchanged.
+
 ## [1.18.0] - 2026-08-12
 
 ### Added

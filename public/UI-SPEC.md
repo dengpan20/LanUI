@@ -601,18 +601,34 @@
 ## 34. Maturity P21: color picker and color runtime
 
 - `UiColorPicker` owns an optional string model and normalizes supported HEX, RGB or HSL input into the configured output format. Empty values remain empty; malformed committed text restores the last valid value and emits `{ reason:'parse', input }`.
-
-### Rate
-
-- `UiRate` owns a numeric `0..max` model; `step` supports integer and fractional ratings without floating-point drift.
-- Pointer movement previews a value without mutating the model. Pointer selection commits once; selecting the active value clears when `allowClear` is enabled.
-- One `role="slider"` focus target exposes the current value and localized value text. Arrow keys step, Page keys move five steps, Home/End select the bounds and Delete/Backspace clears.
-- Horizontal Arrow behavior mirrors in RTL. `readonly` remains focusable, `disabled` leaves the tab order, and FormItem label/help/error links are inherited.
 - The pure `color` runtime parses short/long HEX with alpha, comma/space RGB, HSL angle units, percentages, transparent/basic named colors and normalized RGBA objects without a DOM dependency.
 - `rgbToHsv / hsvToRgb / rgbToHsl / hslToRgb` preserve alpha and round-trip byte colors deterministically. `formatColor` controls explicit alpha output; invalid inputs return an empty string rather than leaking malformed CSS.
 - `getContrastRatio` composites transparency over the supplied background and applies WCAG relative luminance. `getReadableTextColor` compares configurable light/dark candidates.
 - The visual plane maps inline saturation and vertical brightness, mirrors saturation in RTL and supports Arrow keys with Shift acceleration plus Home/End and Page brightness steps. Hue and alpha remain native range controls.
 - The trigger integrates FormItem label/help/error semantics. The popup is a named non-modal dialog with direction-aware viewport flip/shift, outside/Escape close and trigger focus restoration.
 - Presets accept strings or labelled/disabled records. Text input, clear, preset, hue, alpha, plane and keyboard updates emit source metadata; controlled `open` consumers update through `update:open`.
-- Root/component/color-subpath exports, Props/Emits/Slots declarations, styles, manifests, component center, 19-section static preview, standalone consumer and SSR fixtures remain in parity for 61 components and 152 locale keys.
+- Root/component/color-subpath exports, Props/Emits/Slots declarations, styles, manifests, component center, 18-section static preview, standalone consumer and SSR fixtures remain in parity for 60 components and 147 locale keys.
 - CI, 13 Axe cases and 17 interaction cases per Chromium/Firefox/WebKit engine are required for the P21 delivery evidence.
+
+## 35. Maturity P22: rate
+
+- `UiRate` owns a numeric `0..max` model; `step` supports integer and fractional ratings without floating-point drift.
+- Pointer movement previews a value without mutating the model. Pointer selection commits once; selecting the active value clears when `allowClear` is enabled.
+- One `role="slider"` focus target exposes the current value and localized value text. Arrow keys step, Page keys move five steps, Home/End select the bounds and Delete/Backspace clears.
+- Horizontal Arrow and pointer behavior mirror in RTL. `readonly` remains focusable, `disabled` leaves the tab order, and FormItem label/help/error links are inherited.
+- Item and text slots may customize presentation while the component retains slider focus, value and input ownership.
+- Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 19-section static preview, standalone consumer and SSR fixtures remain in parity for 61 components and 152 locale keys.
+- CI, 14 Axe cases and 18 interaction cases per Chromium/Firefox/WebKit engine are required for the P22 delivery evidence.
+
+## 36. Maturity P23: statistic and KPI display
+
+- `UiStatistic` displays a localized number or an already-formatted string without introducing an editable model. Non-finite, null and empty input resolve to an explicit placeholder or localized em dash.
+- `precision` fixes minimum and maximum fractional digits; `formatOptions` exposes currency, percent, compact notation and other `Intl.NumberFormat` options from the inherited locale.
+- Custom value and trend formatters receive typed context and are contained: empty, throwing or invalid runtime formatting falls back to stable display text.
+- Signed `trend` determines up/down/flat direction. `positiveDirection` maps business meaning so lower latency, cost or defect rates can use positive styling; zero and `none` remain neutral.
+- Prefix and suffix are visually decorative but included in the output accessible name. Custom value slots use `ariaValueText` when their spoken meaning differs from the fallback.
+- `loading` preserves the value footprint, hides trend output, exposes `aria-busy` and announces localized loading text. `live` is opt-in with off, polite or assertive values.
+- Small, medium and large sizes, default/success/warning/danger statuses, responsive stacking, reduced motion and forced-colors behavior use shared tokens.
+- Title, prefix, value, suffix, trend and extra slots customize presentation without replacing the component-owned group/output semantics.
+- Root/component exports, Props/Emits/Slots declarations, styles, manifests, component center, 20-section static preview, standalone consumer and SSR fixtures remain in parity for 62 components and 158 locale keys.
+- CI, 14 Axe cases and 19 interaction cases per Chromium/Firefox/WebKit engine are required for the P23 delivery evidence.

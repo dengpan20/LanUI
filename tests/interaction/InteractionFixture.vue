@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import {
   UiAutoComplete, UiButton, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiInput, UiMenu,
   UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
-  UiTree,
+  UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
 } from '../../src/index.js'
@@ -23,6 +23,9 @@ const quantity = ref(12.5)
 const volume = ref(40)
 const priceRange = ref([20,80])
 const serviceRating = ref(3.5)
+const statisticValue = ref(1000)
+const statisticTrend = ref(5)
+const statisticLoading = ref(false)
 const files = ref([])
 const uploadError = ref('')
 const selectedRows = ref([])
@@ -62,6 +65,7 @@ const treeItems = [
   { label:'Remote', value:'remote', isLeaf:false },
 ]
 async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resolve=>setTimeout(resolve,40));return node.value==='remote'?[{label:'Remote child',value:'remote-child',isLeaf:true}]:[]}
+function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisticValue.value=1250;statisticTrend.value=-2.5;statisticLoading.value=false},40)}
 </script>
 
 <template>
@@ -114,6 +118,15 @@ async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resol
         <div class="interaction-stack">
           <UiRate v-model="serviceRating" aria-label="Service rating" :step="0.5" show-text :formatter="(value,max)=>`${value} of ${max}`" />
           <output class="interaction-output" data-testid="rate-output">{{ serviceRating.toFixed(1) }}</output>
+        </div>
+      </section>
+
+      <section class="interaction-case">
+        <h2>Statistic live-value contract</h2>
+        <div class="interaction-stack">
+          <UiStatistic title="Revenue" :value="statisticValue" prefix="$" :trend="statisticTrend" :loading="statisticLoading" live="polite" />
+          <UiButton id="refresh-statistic" variant="outline" @click="refreshStatistic">Refresh statistic</UiButton>
+          <output class="interaction-output" data-testid="statistic-output">{{ statisticValue }} / {{ statisticTrend }} / {{ statisticLoading?'loading':'ready' }}</output>
         </div>
       </section>
 

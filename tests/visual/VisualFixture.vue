@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import {
   UiAlert, UiAutoComplete, UiButton, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiRate, UiSelect, UiSlider, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
 } from '../../src/index.js'
 
 defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -42,7 +42,7 @@ const tableRows=[
       </UiCard>
 
       <UiCard title="Feedback and progress" title-tag="h2">
-        <div class="visual-stack"><UiAlert type="success" title="Changes published" description="All package contracts passed."/><UiAlert type="warning" title="Review required" description="Two tokens are pending approval."/><UiProgress :value="68"/><UiSteps :current="1" :items="[{title:'Foundation',description:'Tokens'},{title:'Components',description:'Contracts'},{title:'Delivery',description:'Package'}]"/></div>
+        <div class="visual-stack"><UiAlert type="success" title="Changes published" description="All package contracts passed."/><UiAlert type="warning" title="Review required" description="Two tokens are pending approval."/><UiStatistic title="Monthly revenue" :value="2864000" prefix="$" :trend="12.6"><template #extra>Compared with last month</template></UiStatistic><UiProgress :value="68"/><UiSteps :current="1" :items="[{title:'Foundation',description:'Tokens'},{title:'Components',description:'Contracts'},{title:'Delivery',description:'Package'}]"/></div>
       </UiCard>
 
       <UiCard title="Navigation choices" title-tag="h2">

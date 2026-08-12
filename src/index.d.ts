@@ -105,6 +105,9 @@ export interface UiRateProps { modelValue?:number; max?:number; step?:number; al
 export interface UiResultProps { status?:'success'|'error'|'warning'|'info'|'404'; title?:string; description?:string; icon?:string }
 export interface UiSelectProps { modelValue?:Key; options?:SelectOptionInput[]; placeholder?:string; size?:ComponentSize; disabled?:boolean; invalid?:boolean; clearable?:boolean; searchable?:boolean; emptyText?:string }
 export interface UiSkeletonProps { rows?:number; avatar?:boolean; animated?:boolean; width?:string|number }
+export interface UiStatisticFormatterContext { numericValue:number|null; localeOptions:Intl.NumberFormatOptions }
+export interface UiStatisticTrendContext { direction:'up'|'down'|'flat'; tone:'positive'|'negative'|'neutral' }
+export interface UiStatisticProps { value?:number|string|null; title?:string; precision?:number|null; formatOptions?:Intl.NumberFormatOptions; formatter?:(value:number|string|null,context:UiStatisticFormatterContext)=>string|number|null|undefined; prefix?:string; suffix?:string; placeholder?:string; trend?:number|null; trendSuffix?:string; trendFormatOptions?:Intl.NumberFormatOptions; trendFormatter?:(value:number|null,context:UiStatisticTrendContext)=>string|number|null|undefined; positiveDirection?:'up'|'down'|'none'; status?:'default'|'success'|'warning'|'danger'; size?:ComponentSize; loading?:boolean; loadingText?:string; ariaLabel?:string; ariaValueText?:string; live?:'off'|'polite'|'assertive' }
 export interface UiSliderMark { value:number; label?:string|number }
 export interface UiSliderProps { modelValue?:number|number[]; min?:number; max?:number; step?:number; range?:boolean; minDistance?:number; vertical?:boolean; reverse?:boolean; disabled?:boolean; readonly?:boolean; invalid?:boolean; tooltip?:'auto'|'always'|'never'; formatter?:(value:number)=>string|number|null|undefined; marks?:UiSliderMark[]|Record<string|number,string|number>; ariaLabel?:string|string[] }
 export interface UiSegmentedOption { label:string; value:Key|boolean; icon?:string; disabled?:boolean }
@@ -207,6 +210,7 @@ export type UiSliderEmits = { 'update:modelValue':(value:number|number[])=>void;
 export type UiSegmentedEmits = { 'update:modelValue':(value:Key|boolean)=>void; change:(value:Key|boolean)=>void }
 export type UiSpaceEmits = {}
 export type UiSpinEmits = {}
+export type UiStatisticEmits = {}
 export type UiStepsEmits = {}
 export type UiSwitchEmits = { 'update:modelValue':(value:boolean)=>void; change:(value:boolean)=>void }
 export type UiTableEmits = { 'update:selectedRows':(value:Key[])=>void; 'update:expandedRows':(value:Key[])=>void; 'update:sortKey':(value:string)=>void; 'update:sortOrder':(value:''|'asc'|'desc')=>void; 'update:filters':(value:Record<string,unknown>)=>void; 'sort-change':(payload:UiTableSortChange)=>void; 'filter-change':(value:Record<string,unknown>)=>void; 'column-resize':(payload:UiTableColumnResize)=>void; 'row-click':(row:Record<string,unknown>)=>void; retry:()=>void }
@@ -268,6 +272,7 @@ export type UiSliderSlots = {}
 export type UiSegmentedSlots = { option?:(props:{option:UiSegmentedOption})=>VNodeChild }
 export type UiSpaceSlots = { default?:()=>VNodeChild }
 export type UiSpinSlots = { default?:()=>VNodeChild }
+export type UiStatisticSlots = { title?:(scope:{title:string})=>VNodeChild; prefix?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; value?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; suffix?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; trend?:(scope:{value:number;direction:'up'|'down'|'flat';tone:'positive'|'negative'|'neutral';text:string})=>VNodeChild; extra?:()=>VNodeChild }
 export type UiStepsSlots = {}
 export type UiSwitchSlots = {}
 export type UiTableSlots = { caption?:()=>VNodeChild; 'empty-action'?:()=>VNodeChild; expanded?:(props:{row:Record<string,unknown>})=>VNodeChild; [name:`cell-${string}`]:((props:{row:Record<string,unknown>;value:unknown;column:UiTableColumn;rowIndex:number})=>VNodeChild)|undefined }
@@ -303,7 +308,7 @@ export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,Ui
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
-export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>
+export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>; export const UiStatistic:LanComponent<UiStatisticProps,UiStatisticEmits,UiStatisticSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
 export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>
 export const UiTimePicker:LanComponent<UiTimePickerProps,UiTimePickerEmits,UiTimePickerSlots>

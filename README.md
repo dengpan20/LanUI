@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、61 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、62 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -216,6 +216,25 @@ Keyboard: Arrow keys move one step, Page keys move ten steps, and `Home/End` mov
 
 Keyboard: Arrow keys move one step, Page keys move five steps, `Home/End` jump to empty/full, and `Delete` or `Backspace` clears when `allowClear` is enabled. `readonly` remains focusable for inspection; `disabled` is removed from the tab order.
 
+## Statistic / KPI
+
+`UiStatistic` is the dashboard data-display primitive for localized numbers, currencies, percentages, semantic trends and stable loading placeholders. It accepts numeric or preformatted string values, passes `formatOptions` to the active `Intl.NumberFormat`, and keeps screen-reader value text independent from decorative prefix/suffix slots.
+
+```vue
+<UiStatistic
+  title="Monthly revenue"
+  :value="2864000"
+  prefix="¥"
+  :precision="0"
+  :trend="12.6"
+  live="polite"
+>
+  <template #extra>Compared with last month</template>
+</UiStatistic>
+```
+
+Set `positiveDirection="down"` for metrics such as latency, defect rate or cost, where a decrease is beneficial. `loading` preserves the value footprint and exposes `aria-busy`; `live="polite"` announces operational updates. Use `ariaValueText` whenever a custom `value` slot communicates something different from the formatted fallback.
+
 ## 独立项目示例
 
 ```powershell
@@ -234,7 +253,7 @@ pnpm pack
 python scripts/verify.py
 ```
 
-`pnpm ci` 会执行 Token 导出、源码检查、61 个组件契约测试、后台构建、组件库构建及独立项目构建。
+`pnpm ci` 会执行 Token 导出、源码检查、62 个组件契约测试、后台构建、组件库构建及独立项目构建。
 
 组件包公开内容：
 
@@ -305,7 +324,7 @@ app.use(lanUi)
 lanUi.setLocale('en-US') // 已显示的默认文案和生成式表单错误同步更新
 ```
 
-`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 61 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
+`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 62 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
 
 ### Intl、复数与语言回退
 
@@ -407,8 +426,8 @@ const notification = useNotification()
 
 - `pnpm test` 执行 Vitest 行为测试与源码契约测试，覆盖表单语义、组合框键盘操作、浮层碰撞定位、全局配置、本地化、服务式反馈及无 DOM 的 SSR 渲染。
 - Vitest 只收集根目录 `tests/`，排除 `.verify / .baseline / dist`，避免验证副本污染结果。
-- 所有 61 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
-- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、61 个子路径导出、最小消费者 Bundle 和独立消费项目。
+- 所有 62 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
+- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、62 个子路径导出、最小消费者 Bundle 和独立消费项目。
 
 ## SSR 与 Hydration
 
@@ -419,7 +438,7 @@ const notification = useNotification()
 
 ## API 稳定性与升级
 
-- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 61 个组件的 Props、Emits、Slots 与实际运行时导出。
+- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 62 个组件的 Props、Emits、Slots 与实际运行时导出。
 - 每个组件子路径同时导出 `UiXxxProps`、`UiXxxEmits` 和 `UiXxxSlots`；模板事件负载、`$emit` 与作用域插槽均参与 vue-tsc 检查。
 - 构建工具可通过 `lan-ui-design-system/api-manifest` 或 `lan-ui-design-system/api-manifest.json` 读取该清单。
 - `pnpm run api:check` 对比已构建包与提交的 Manifest；公开 API 变化必须先运行 `pnpm run api:generate` 并审查 SemVer 影响。
@@ -457,7 +476,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'
 import 'lan-ui-design-system/styles/UiButton.css'
 ```
 
-每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 61 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、ColorPicker 或 Transfer 样式。
+每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 62 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、ColorPicker、Statistic 或 Transfer 样式。
 
 ## Global command palette
 

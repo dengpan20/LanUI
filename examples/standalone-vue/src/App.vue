@@ -17,6 +17,7 @@ import {
   UiSelect,
   UiSegmented,
   UiSlider,
+  UiStatistic,
   UiSteps,
   UiTable,
   UiTag,
@@ -85,6 +86,14 @@ const rows = computed(() => [
       :title="created ? '独立项目已完成初始化' : '组件包、样式和 Token 已从父项目加载'"
       description="该页面拥有独立 package.json、Vite 配置和应用入口。"
     />
+
+    <UiCard title="业务指标">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
+        <UiStatistic title="Monthly revenue" :value="2864000" prefix="¥" :precision="0" :trend="12.6"><template #extra>Compared with last month</template></UiStatistic>
+        <UiStatistic title="Active customers" :value="12580" suffix=" users" :trend="-3.2" status="warning" />
+        <UiStatistic title="Defect rate" :value="0.0037" :format-options="{style:'percent',minimumFractionDigits:2}" :trend="-18.4" positive-direction="down" status="success" />
+      </div>
+    </UiCard>
 
     <UiCard title="创建项目" body-class="standalone-form">
       <label><span>项目名称</span><UiInput v-model="projectName" clearable /></label>

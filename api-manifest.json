@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -57,6 +57,7 @@
       "UiSlider",
       "UiSpace",
       "UiSpin",
+      "UiStatistic",
       "UiSteps",
       "UiSwitch",
       "UiTable",
@@ -407,6 +408,12 @@
       "UiSpinEmits",
       "UiSpinProps",
       "UiSpinSlots",
+      "UiStatistic",
+      "UiStatisticEmits",
+      "UiStatisticFormatterContext",
+      "UiStatisticProps",
+      "UiStatisticSlots",
+      "UiStatisticTrendContext",
       "UiStepItem",
       "UiSteps",
       "UiStepsEmits",
@@ -1997,6 +2004,48 @@
       ],
       "runtimeExports": [
         "UiSpin",
+        "default"
+      ]
+    },
+    {
+      "name": "UiStatistic",
+      "subpath": "./components/UiStatistic",
+      "propsType": "UiStatisticProps",
+      "props": [
+        "ariaLabel",
+        "ariaValueText",
+        "formatOptions",
+        "formatter",
+        "live",
+        "loading",
+        "loadingText",
+        "placeholder",
+        "positiveDirection",
+        "precision",
+        "prefix",
+        "size",
+        "status",
+        "suffix",
+        "title",
+        "trend",
+        "trendFormatOptions",
+        "trendFormatter",
+        "trendSuffix",
+        "value"
+      ],
+      "emitsType": "UiStatisticEmits",
+      "emits": [],
+      "slotsType": "UiStatisticSlots",
+      "slots": [
+        "extra",
+        "prefix",
+        "suffix",
+        "title",
+        "trend",
+        "value"
+      ],
+      "runtimeExports": [
+        "UiStatistic",
         "default"
       ]
     },
