@@ -16,7 +16,7 @@ import UiSlider from './UiSlider.vue'
 import UiSwitch from './UiSwitch.vue'
 import UiTextarea from './UiTextarea.vue'
 import UiTimePicker from './UiTimePicker.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 import { cloneValue, getPath, pathKey, setPath, toPath } from './formUtils.js'
 
 const props = defineProps({

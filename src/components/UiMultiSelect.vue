@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 defineOptions({ inheritAttrs: false })
 
 const props=defineProps({modelValue:{type:Array,default:()=>[]},options:{type:Array,default:()=>[]},placeholder:{type:String,default:''},searchable:Boolean,disabled:Boolean,invalid:Boolean,maxTagCount:{type:Number,default:2}})

@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 const props=defineProps({modelValue:[String,Number],items:{type:Array,default:()=>[]},orientation:{type:String,default:'horizontal'},size:{type:String,default:'md'},panels:{type:Boolean,default:true}})
 const emit=defineEmits(['update:modelValue','change','close'])
 const buttons=ref([])

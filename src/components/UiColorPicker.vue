@@ -3,7 +3,7 @@ import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, use
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
 import { formatColor, getContrastRatio, hsvToRgb, parseColor, rgbToHsv } from '../color.js'
-import { useComponentSize, useDirection, useLocale } from '../config.js'
+import { useComponentSize, useDirection, useLocale } from '../config-runtime.js'
 
 defineOptions({inheritAttrs:false})
 

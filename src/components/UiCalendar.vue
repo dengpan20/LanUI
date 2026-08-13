@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, ref, toRef, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useComponentSize, useDirection, useLocale } from '../config.js'
+import { useComponentSize, useDirection, useLocale } from '../config-runtime.js'
 import { fromDateValue, inferDateValueType, toDateValue } from '../date.js'
 
 const props=defineProps({

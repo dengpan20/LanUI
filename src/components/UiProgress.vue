@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 const props=defineProps({value:{type:Number,default:0},max:{type:Number,default:100},status:{type:String,default:'normal'},showText:{type:Boolean,default:true},size:{type:String,default:'md'},label:{type:String,default:''}})
 const {t,formatNumber}=useLocale()
 const percent=computed(()=>Math.min(100,Math.max(0,Math.round(props.value/props.max*100))))

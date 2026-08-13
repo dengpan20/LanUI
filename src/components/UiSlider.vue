@@ -1,6 +1,6 @@
 <script setup>
 import { computed, inject, onBeforeUnmount, ref, useAttrs, useId, watch } from 'vue'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 
 defineOptions({ inheritAttrs:false })
 

@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.29.0] - 2026-08-13
+
+### Added
+
+- A deterministic post-build ESM minifier and a `CSS_BOUNDARY` contract that verifies all 69 component styles, manifest byte parity, required selectors and the absence of 16 application/showcase selector families.
+- A previous-release performance comparison gate: every one of the 14 measured metrics must improve on the recorded 1.28.0 release, not merely remain below a larger ceiling.
+- Focused package-boundary tests for locale activation, protected built-ins, component runtime imports and cascade-layer containment.
+
+### Changed
+
+- Published `style.css` is now a minified union of public component selectors, Tokens and shared baseline rules. Admin shell, documentation, preview and example-only selectors remain in the showcase source stylesheet but no longer leak into the package.
+- Per-component styles split comma-separated selectors at safe top-level boundaries, keep only selectors rooted at that component and are minified with pinned Lightning CSS.
+- Component subpaths use a lean configuration runtime with the default Chinese locale. Importing the public `config` facade, `UiConfigProvider` or plugin installs the compatible English built-in and keeps both built-ins protected.
+- Compared with 1.28.0, measured package JS falls from `467295 / 169161` B to about `363229 / 150087` B, package CSS from `434213 / 102085` B to about `337774 / 82667` B, root CSS from `182767 / 31846` B to about `127236 / 21761` B, and the UiButton consumer from `91716 / 8294` B to about `83067 / 7658` B.
+
 ## [1.28.0] - 2026-08-13
 
 ### Added

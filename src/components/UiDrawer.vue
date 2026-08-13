@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, watch } fro
 import AppIcon from './AppIcon.vue'
 import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'
 import { isClient } from '../env.js'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 import { captureFocusOrigin, focusWithRetry, registerFocusOriginTracking } from './focusUtils.js'
 
 const props = defineProps({ modelValue:Boolean, title:{type:String,default:''}, width:{type:[String,Number],default:420}, placement:{type:String,default:'right'}, closeOnMask:{type:Boolean,default:true}, closeOnEsc:{type:Boolean,default:true} })

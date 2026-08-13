@@ -2,7 +2,7 @@
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, useAttrs, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
-import { useComponentSize, useDirection, useLocale } from '../config.js'
+import { useComponentSize, useDirection, useLocale } from '../config-runtime.js'
 
 defineOptions({ inheritAttrs:false })
 

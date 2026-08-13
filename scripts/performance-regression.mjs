@@ -68,7 +68,20 @@ for (const [name, budget] of Object.entries(config.budgets)) {
   else console.log(`PERFORMANCE PASS metric=${name} actual=${actual}B budget=${budget}B headroom=${budget - actual}B${details[name] ? ` file=${details[name]}` : ''}`)
 }
 
-const report = { schemaVersion: config.schemaVersion, version: config.version, platform: process.platform, metrics, budgets: config.budgets, details, failures }
+const releaseBaseline=config.releaseBaseline
+const comparison={}
+if(releaseBaseline?.metrics){
+  for(const [name,previous] of Object.entries(releaseBaseline.metrics)){
+    const actual=metrics[name]
+    const saved=previous-actual
+    comparison[name]={previous,actual,saved,ratio:Number((saved/previous).toFixed(6))}
+    if(!Number.isFinite(actual))failures.push(`${name}: missing release comparison metric`)
+    else if(saved<=0)failures.push(`${name}: ${actual}B did not improve on ${releaseBaseline.version} ${previous}B`)
+  }
+  if(!failures.length)console.log(`PERFORMANCE_DELTA PASS baseline=${releaseBaseline.version} improved=${Object.keys(comparison).length}/${Object.keys(releaseBaseline.metrics).length} packageJs=${comparison.packageJsRaw.saved}B packageCss=${comparison.packageCssRaw.saved}B subpathJs=${comparison.subpathConsumerJsRaw.saved}B`)
+}
+
+const report = { schemaVersion: config.schemaVersion, version: config.version, platform: process.platform, metrics, budgets: config.budgets, details, releaseBaseline, comparison, failures }
 writeFileSync(resolve(reportDir, 'report.json'), JSON.stringify(report, null, 2) + '\n', 'utf8')
 if (failures.length) {
   for (const failure of failures) console.error(`PERFORMANCE FAIL ${failure}`)

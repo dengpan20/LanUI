@@ -30,6 +30,8 @@ export default defineConfig({
   build: {
     outDir: 'dist-lib',
     emptyOutDir: true,
+    minify: 'oxc',
+    cssMinify: 'lightningcss',
     cssCodeSplit: true,
     lib: { entry: entries, formats: ['es'], cssFileName: 'lan-ui' },
     rollupOptions: {

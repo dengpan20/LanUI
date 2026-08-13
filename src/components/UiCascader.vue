@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 defineOptions({ inheritAttrs: false })
 
 const props=defineProps({modelValue:{type:Array,default:()=>[]},options:{type:Array,default:()=>[]},placeholder:{type:String,default:''},disabled:Boolean,invalid:Boolean})

@@ -24,6 +24,17 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.29 package and style boundaries
+
+This release keeps every documented import path and component API compatible. The changes affect generated package internals and remove undocumented application/showcase selectors from `style.css`.
+
+- Applications using public component classes, root component imports or `components/UiXxx` imports require no source migration.
+- Import `lan-ui-design-system/style.css` for the complete public component theme. Admin shell, component-center and static-preview classes are example assets and should come from the application's own styles.
+- Import `lan-ui-design-system/styles/UiXxx.css` for an explicit component stylesheet; it still imports the shared Token/core baseline exactly once through normal CSS import processing.
+- Direct component imports start with the Chinese built-in only. Import `enUS` from `lan-ui-design-system/config`, install the plugin, or render `UiConfigProvider` when English is required; these documented paths activate the protected English built-in before component rendering.
+- `style-manifest.json` advances to schema 2 and adds `root.bytes`, `root.rules` and `root.source: "component-union"`. Consumers parsing the manifest should ignore unknown fields and read entries by name.
+- Generated files under `dist-lib/` remain private build details. Do not depend on chunk file names, locale chunk placement or unminified whitespace/comments.
+
 ## 1.28 production upload queues
 
 This release is additive. Existing `v-model`, `accept`, size/count validation, `change`, `error` and removal behavior remains compatible when `request` is omitted.

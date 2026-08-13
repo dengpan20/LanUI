@@ -3,7 +3,7 @@ import { nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'
 import { isClient } from '../env.js'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 import { captureFocusOrigin, focusWithRetry, registerFocusOriginTracking } from './focusUtils.js'
 
 const props = defineProps({

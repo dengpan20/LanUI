@@ -2,7 +2,7 @@
 import { computed, reactive, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
 import UiCheckbox from './UiCheckbox.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 const props=defineProps({modelValue:{type:Array,default:()=>[]},options:{type:Array,default:()=>[]},titles:{type:Array,default:()=>[]},searchable:Boolean})
 const emit=defineEmits(['update:modelValue','change']);const selected=reactive({left:[],right:[]});const leftQuery=ref('');const rightQuery=ref('')
 const left=computed(()=>props.options.filter(item=>!props.modelValue.includes(item.value)&&(!leftQuery.value||item.label.includes(leftQuery.value))))

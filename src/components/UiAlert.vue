@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 const props=defineProps({type:{type:String,default:'info'},title:{type:String,default:''},description:{type:String,default:''},closable:Boolean,showIcon:{type:Boolean,default:true},banner:Boolean})
 const emit=defineEmits(['close']);const visible=ref(true)
 const {t}=useLocale()

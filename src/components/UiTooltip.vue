@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, toRef, useId } from 'vue'
 import { useFloatingPosition } from './floatingPosition.js'
-import { useLanUiConfig } from '../config.js'
+import { useLanUiConfig } from '../config-runtime.js'
 const props=defineProps({content:{type:String,default:''},placement:{type:String,default:'top'},disabled:Boolean,offset:{type:Number,default:8}})
 const open=ref(false)
 const root=ref(null)

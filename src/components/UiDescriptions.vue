@@ -1,5 +1,5 @@
 <script setup>
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 defineProps({items:{type:Array,default:()=>[]},title:{type:String,default:''},columns:{type:Number,default:3},bordered:Boolean,size:{type:String,default:'md'}})
 const {t}=useLocale()
 </script>

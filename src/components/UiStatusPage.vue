@@ -2,7 +2,7 @@
 import { computed, useId } from 'vue'
 import AppIcon from './AppIcon.vue'
 import UiButton from './UiButton.vue'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 
 const props = defineProps({
   status: {

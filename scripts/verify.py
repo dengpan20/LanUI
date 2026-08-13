@@ -29,9 +29,9 @@ required = [
     "src/components/UiMenu.vue", "src/components/UiCollapse.vue", "src/components/UiDescriptions.vue",
     "src/components/UiResult.vue", "src/components/UiSpin.vue", "src/components/UiSegmented.vue",
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
-    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
-    "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".github/workflows/ci.yml",
+    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/config-runtime.js", "src/locales/zh-CN.js", "src/locales/en-US.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
+    "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/minify-library-js.mjs", "scripts/css-boundary-contracts.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -53,7 +53,7 @@ if package.get("types") != "./dist-lib/lan-ui.d.ts" or package.get("style") != "
     failures.append("package:distribution-entrypoints")
 if "./dist-lib/lan-ui.css" not in package.get("sideEffects", []):
     failures.append("package:css-side-effect")
-for dependency in ["vitest", "@vue/test-utils", "happy-dom", "postcss", "playwright", "pixelmatch", "pngjs", "axe-core", "typescript", "vue-tsc"]:
+for dependency in ["vitest", "@vue/test-utils", "happy-dom", "postcss", "lightningcss", "playwright", "pixelmatch", "pngjs", "axe-core", "typescript", "vue-tsc"]:
     if not package.get("devDependencies", {}).get(dependency):
         failures.append(f"package:test-dependency:{dependency}")
 if "vitest run" not in package.get("scripts", {}).get("test", ""):
@@ -64,6 +64,11 @@ for subpath in ["./components/*", "./color", "./config", "./date", "./feedback",
         failures.append(f"package:export:{subpath}")
 if "test:package" not in package.get("scripts", {}) or "test:package" not in package.get("scripts", {}).get("check", ""):
     failures.append("package:subpath-test-script")
+for marker in ["minify-library-js.mjs", "split-component-css.mjs"]:
+    if marker not in package.get("scripts", {}).get("build:lib", "") + package.get("scripts", {}).get("build:lib:base", ""):
+        failures.append(f"package:p33-build:{marker}")
+if "css-boundary-contracts.mjs" not in package.get("scripts", {}).get("test:package", ""):
+    failures.append("package:p33-css-boundary-gate")
 if package.get("packageManager") != "pnpm@11.16.0" or package.get("license") != "UNLICENSED":
     failures.append("package:release-metadata")
 if not all(name in package.get("files", []) for name in ["api-manifest.json","style-manifest.json","CHANGELOG.md","MIGRATION.md"]) or "api:check" not in package.get("scripts", {}).get("check", ""):
@@ -91,6 +96,8 @@ if len(style_components) != 69 or any(not item.get("bytes") or not item.get("rul
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
+if style_manifest.get("schemaVersion") != 2 or style_manifest.get("root", {}).get("subpath") != "./style.css" or style_manifest.get("root", {}).get("source") != "component-union" or not style_manifest.get("root", {}).get("bytes") or not style_manifest.get("root", {}).get("rules"):
+    failures.append("style-manifest:root-boundary")
 if [item.get("name") for item in style_components] != sorted(item.get("name") for item in style_components):
     failures.append("style-manifest:order")
 for script_name in ["test:visual", "test:a11y", "visual:update", "styles:generate", "styles:check"]:
@@ -152,7 +159,7 @@ for marker in ["updates visible copy and accessible names", "generated form erro
         failures.append(f"locale:test:{marker}")
 intl_script = (ROOT / "scripts/intl-contracts.mjs").read_text(encoding="utf-8")
 intl_test = (ROOT / "tests/intl-p12.spec.js").read_text(encoding="utf-8")
-config_source = (ROOT / "src/config.js").read_text(encoding="utf-8")
+config_source = (ROOT / "src/config.js").read_text(encoding="utf-8") + (ROOT / "src/config-runtime.js").read_text(encoding="utf-8")
 for marker in ["createLocaleTools", "fallbackLocale", "Intl.NumberFormat", "Intl.DateTimeFormat", "Intl.RelativeTimeFormat", "Intl.ListFormat", "Intl.PluralRules"]:
     if marker not in config_source:
         failures.append(f"intl:runtime:{marker}")
@@ -532,6 +539,26 @@ if "@layer lan-ui" not in styles:
 if any(f"font-size: {size}px" in styles or f"font-size:{size}px" in styles for size in [8, 9, 10, 11]):
     failures.append("styles:font-below-12px")
 
+config_runtime = (ROOT / "src/config-runtime.js").read_text(encoding="utf-8")
+config_facade = (ROOT / "src/config.js").read_text(encoding="utf-8")
+if "installBuiltInLocale(enUS,['en'])" not in config_facade or "from './locales/en-US.js'" not in config_facade or "enUS" in config_runtime:
+    failures.append("p33:lean-locale-runtime")
+component_config_sources = {path.name:path.read_text(encoding="utf-8") for path in (ROOT / "src/components").glob("Ui*.vue")}
+full_config_components = sorted(name for name,source in component_config_sources.items() if "from '../config.js'" in source)
+runtime_config_components = sorted(name for name,source in component_config_sources.items() if "from '../config-runtime.js'" in source)
+if full_config_components != ["UiConfigProvider.vue"] or len(runtime_config_components) < 50:
+    failures.append(f"p33:component-config-boundary:{len(runtime_config_components)}:{','.join(full_config_components)}")
+css_boundary = (ROOT / "scripts/css-boundary-contracts.mjs").read_text(encoding="utf-8")
+style_split = (ROOT / "scripts/split-component-css.mjs").read_text(encoding="utf-8")
+js_minifier = (ROOT / "scripts/minify-library-js.mjs").read_text(encoding="utf-8")
+for marker,source in [("component-union",style_split),("splitSelectors",style_split),("startsAtComponentBoundary",style_split),("lightningcss",style_split),("Showcase selector leaked",css_boundary),("minifySync",js_minifier),("LIBRARY_JS_MINIFY PASS",js_minifier)]:
+    if marker not in source:
+        failures.append(f"p33:build-boundary:{marker}")
+if "Package boundary and delivery optimization (P33)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P33: package and style boundaries" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p33:documentation")
+if "V1.29.0" not in preview or "Package Boundaries P33" not in components_page:
+    failures.append("p33:showcase-version")
+
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
 if (ROOT / "UI-SPEC.md").read_bytes() != (ROOT / "public/UI-SPEC.md").read_bytes():
@@ -595,11 +622,13 @@ if "lastPointerTimestamp" not in focus_source or "PointerEvent" not in p8_test:
     failures.append("interaction:p8-focus:pointer-origin-window")
 performance_script = (ROOT / "scripts/performance-regression.mjs").read_text(encoding="utf-8")
 performance_budgets = json.loads((ROOT / "performance-budgets.json").read_text(encoding="utf-8"))
-for marker in ["gzipSync", "packageJsRaw", "largestChunkRaw", "subpathConsumerJsRaw", "standaloneExampleJsRaw", "PERFORMANCE_REGRESSION PASS"]:
+for marker in ["gzipSync", "packageJsRaw", "largestChunkRaw", "subpathConsumerJsRaw", "standaloneExampleJsRaw", "releaseBaseline", "PERFORMANCE_DELTA PASS", "PERFORMANCE_REGRESSION PASS"]:
     if marker not in performance_script:
         failures.append(f"performance:script:{marker}")
 if len(performance_budgets.get("budgets", {})) != 14 or performance_budgets.get("version") != package.get("version"):
     failures.append("performance:budget-version-or-count")
+if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or len(performance_budgets.get("releaseBaseline", {}).get("metrics", {})) != 14:
+    failures.append("performance:p33-release-baseline")
 for export_name in ["./performance-budgets", "./performance-budgets.json"]:
     if export_name not in package.get("exports", {}):
         failures.append(f"performance:package-export:{export_name}")
@@ -681,4 +710,5 @@ print("- maturity-p29=dynamic-form-list,68-public-components,216-locale-keys,sta
 print("- maturity-p30=schema-form,69-public-components,216-locale-keys,conditional-fields,resolvers,custom-registry,28-interactions-per-browser")
 print("- maturity-p31=schema-form-list,69-public-components,223-locale-keys,repeatable-nodes,item-context,structured-previous,29-interactions-per-browser")
 print("- maturity-p32=upload-queue,69-public-components,235-locale-keys,async-request,progress,cancel,retry,concurrency,30-interactions-per-browser")
+print("- maturity-p33=component-style-union,css-boundary,esm-minify,lean-locale-runtime,14-release-deltas")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

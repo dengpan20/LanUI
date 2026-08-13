@@ -1,6 +1,6 @@
 <script setup>
 import { computed, inject, ref, toRef, useAttrs, useId, watch } from 'vue'
-import { useComponentSize, useDirection, useLocale } from '../config.js'
+import { useComponentSize, useDirection, useLocale } from '../config-runtime.js'
 
 defineOptions({ inheritAttrs:false })
 

@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, useId, useSlots, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 import { isClient } from '../env.js'
 import { captureFocusOrigin, focusWithRetry } from './focusUtils.js'
 import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'

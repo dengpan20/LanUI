@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, ref, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 const props=defineProps({items:{type:Array,default:()=>[]},modelValue:{type:[String,Number],default:''},collapsed:Boolean,accordion:{type:Boolean,default:true},defaultOpenKeys:{type:Array,default:()=>[]}})
 const emit=defineEmits(['update:modelValue','select','open-change'])
 const root=ref(null)

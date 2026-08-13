@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, ref, toRef, useAttrs, useId } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useComponentSize, useLocale } from '../config.js'
+import { useComponentSize, useLocale } from '../config-runtime.js'
 import { compareDateValues, fromDateValue, inferDateValueType, toDateValue } from '../date.js'
 defineOptions({inheritAttrs:false})
 const props=defineProps({modelValue:{type:Array,default:()=>[]},mode:{type:String,default:'date'},valueType:{type:String,default:'auto'},timeZone:{type:String,default:'local'},disambiguation:{type:String,default:'compatible'},precision:{type:String,default:'minute'},step:{type:[String,Number],default:undefined},referenceDate:{type:[String,Date,Number],default:undefined},startPlaceholder:{type:String,default:''},endPlaceholder:{type:String,default:''},separator:{type:String,default:''},min:{type:[String,Date,Number],default:''},max:{type:[String,Date,Number],default:''},size:{type:String,default:''},clearable:{type:Boolean,default:true},constrain:{type:Boolean,default:true},invalid:Boolean,disabled:Boolean})

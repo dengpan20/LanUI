@@ -743,3 +743,16 @@ Axe 4.11.4 now runs 25 scenarios. The additional case audits the repeatable Sche
 - Component center, business import, standalone/static preview, deterministic SSR, ten focused unit cases, eight visual baselines, 26 zero-violation Axe scenarios and 30 interactions per browser are release gates for 69 components and 235 locale keys.
 
 Axe 4.11.4 now runs 26 scenarios. The additional case audits a mixed-state upload queue, progress semantics, status labelling and all file-level operations; detected `violations` must remain zero.
+
+## 46. Maturity P33: package and style boundaries
+
+- The published root stylesheet is derived from the union of classes declared by the 69 public Vue components and their component dependencies. Admin shell, page, documentation, preview, showcase and demo selectors are not package API.
+- Top-level comma-separated selectors are parsed with quote, escape, attribute and functional-pseudo awareness. A component stylesheet retains only branches whose first selector class belongs to the component boundary.
+- Tokens and the minimal shared baseline remain in `styles/core.css`; every component stylesheet imports that file and wraps its own rules in `@layer lan-ui`.
+- Form List and Schema Form source rules participate in the same cascade layer. Package generation rejects missing root/component rules, manifest byte drift, empty styles or any of 16 known application-selector families.
+- `style-manifest.json` schema 2 records the minified root component union, shared core and each component's exact bytes/rules. The built and public manifests must be byte-for-byte equivalent.
+- Every generated ESM entry and shared chunk is minified after Vite output. Package tests reopen all root, component and utility subpaths and render a real SSR component before the artifact is accepted.
+- Component subpaths use a lean locale/config runtime. The full public config facade installs English into the same registry as an immutable built-in, so plugin/provider usage remains compatible without forcing English messages into a component-only consumer.
+- Performance release evidence compares all 14 raw/gzip metrics to 1.28.0 and requires every metric to improve. Absolute ceilings are independently enforced to preserve capacity for future components.
+
+P33 keeps 69 public components, 235 locale keys, eight visual baselines, 26 zero-violation Axe scenarios and 30 interaction cases per Chromium/Firefox/WebKit engine.

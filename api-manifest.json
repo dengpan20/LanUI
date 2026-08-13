@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.28.0",
+  "version": "1.29.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [

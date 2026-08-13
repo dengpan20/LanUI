@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, toRef, watch } from 'vue'
-import { useComponentSize, useLocale } from '../config.js'
+import { useComponentSize, useLocale } from '../config-runtime.js'
 const props=defineProps({spinning:{type:Boolean,default:true},text:{type:String,default:''},fullscreen:Boolean,delay:{type:Number,default:0},size:{type:String,default:''}})
 const {t}=useLocale();const resolvedSize=useComponentSize(toRef(props,'size'));const resolvedText=computed(()=>props.text||t('spin.loading'))
 const visible=ref(props.spinning&&!props.delay);let timer

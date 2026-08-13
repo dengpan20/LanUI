@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, toRef, useAttrs } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useComponentSize, useLocale } from '../config.js'
+import { useComponentSize, useLocale } from '../config-runtime.js'
 defineOptions({ inheritAttrs: false })
 const props=defineProps({modelValue:Boolean,disabled:Boolean,loading:Boolean,size:{type:String,default:''},checkedText:{type:String,default:''},uncheckedText:{type:String,default:''},ariaLabel:{type:String,default:''}})
 const emit=defineEmits(['update:modelValue','change'])

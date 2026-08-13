@@ -4,7 +4,7 @@ import UiInput from './UiInput.vue'
 import UiListToolbar from './UiListToolbar.vue'
 import UiPagination from './UiPagination.vue'
 import UiTable from './UiTable.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 
 const props=defineProps({
   columns:{type:Array,default:()=>[]},

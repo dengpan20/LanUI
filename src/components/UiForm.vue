@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, provide, reactive, ref, shallowReactive, watch } from 'vue'
 import { cloneValue, deletePath, getPath, hasPath, pathKey, setPath } from './formUtils.js'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 
 const props = defineProps({
   model: { type: Object, required: true },

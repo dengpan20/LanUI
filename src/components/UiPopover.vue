@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef, useId, watch } from 'vue'
 import { useFloatingPosition } from './floatingPosition.js'
-import { useLanUiConfig, useLocale } from '../config.js'
+import { useLanUiConfig, useLocale } from '../config-runtime.js'
 const props=defineProps({modelValue:Boolean,placement:{type:String,default:'bottom'},width:{type:[String,Number],default:240},closeOnOutside:{type:Boolean,default:true},title:{type:String,default:''},offset:{type:Number,default:8}})
 const emit=defineEmits(['update:modelValue','open','close'])
 const root=ref(null)

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFeedback } from '../feedback.js'
-import { useDirection, useLanUiConfig, useLocale } from '../config.js'
+import { useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 import { topOverlayZIndex } from './overlayManager.js'
 const props=defineProps({items:{type:Array,default:null},feedback:{type:Object,default:null}})
 defineEmits(['remove','pause','resume'])

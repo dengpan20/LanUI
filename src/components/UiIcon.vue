@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useDirection } from '../config.js'
+import { useDirection } from '../config-runtime.js'
 import { useIconRegistry } from '../icons.js'
 
 const props=defineProps({

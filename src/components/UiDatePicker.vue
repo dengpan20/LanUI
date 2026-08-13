@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, ref, toRef, useAttrs } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useComponentSize, useLocale } from '../config.js'
+import { useComponentSize, useLocale } from '../config-runtime.js'
 import { fromDateValue, inferDateValueType, toDateValue } from '../date.js'
 defineOptions({ inheritAttrs: false })
 

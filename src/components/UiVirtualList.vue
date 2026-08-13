@@ -1,7 +1,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 
 defineOptions({inheritAttrs:false})
 

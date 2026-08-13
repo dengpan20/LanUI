@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, toRef } from 'vue'
-import { useComponentSize, useDirection } from '../config.js'
+import { useComponentSize, useDirection } from '../config-runtime.js'
 const props=defineProps({modelValue:{type:[String,Number,Boolean],default:''},options:{type:Array,default:()=>[]},size:{type:String,default:''},block:Boolean,disabled:Boolean,name:{type:String,default:''}})
 const emit=defineEmits(['update:modelValue','change'])
 const root=ref(null)

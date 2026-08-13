@@ -19,6 +19,7 @@ const styleManifest=JSON.parse(readFileSync(resolve(root,'style-manifest.json'),
 const builtStyleManifest=JSON.parse(readFileSync(resolve(root,'dist-lib/styles/manifest.json'),'utf8'))
 if(styleManifest.components?.length!==components.length||JSON.stringify(styleManifest)!==JSON.stringify(builtStyleManifest))throw new Error('Style manifest parity failed')
 if(!styleManifest.components.every(item=>item.bytes>0&&item.rules>0))throw new Error('Style manifest contains empty entries')
+if(styleManifest.schemaVersion!==2||styleManifest.root?.subpath!=='./style.css'||styleManifest.root?.source!=='component-union')throw new Error('Style manifest root boundary failed')
 
 const main = await import('lan-ui-design-system')
 for (const name of components) {

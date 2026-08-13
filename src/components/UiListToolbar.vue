@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, useId } from 'vue'
 import AppIcon from './AppIcon.vue'
 import UiSelect from './UiSelect.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 
 const props = defineProps({
   total: { type: Number, default: 0 },

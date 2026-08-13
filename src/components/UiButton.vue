@@ -1,7 +1,7 @@
 <script setup>
 import { toRef } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useComponentSize } from '../config.js'
+import { useComponentSize } from '../config-runtime.js'
 const props=defineProps({
   variant: { type: String, default: 'primary' },
   size: { type: String, default: '' },

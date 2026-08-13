@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useDirection, useLanUiConfig, useLocale } from '../config.js'
+import { useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 
 const props = defineProps({
   columns: { type: Array, default: () => [] },

@@ -23,9 +23,10 @@ for (const forbidden of ['ui-table-wrap','ui-modal-overlay','UiDateRangePicker',
   if (js.includes(forbidden)) throw new Error(`Unused component leaked into subpath bundle: ${forbidden}`)
 }
 if (!js.includes('btn-loading')) throw new Error('UiButton implementation is missing from consumer bundle')
+for(const forbiddenLocale of ['Quick commands','Access denied','File upload','en-US'])if(js.includes(forbiddenLocale))throw new Error(`Unused English locale leaked into component subpath: ${forbiddenLocale}`)
 if (!css.includes('.btn-primary')) throw new Error('UiButton component stylesheet is missing')
 if (css.includes('.ui-table-wrap')) throw new Error('Unused table styles leaked into component stylesheet')
 const jsBytes = statSync(resolve(assets, jsFile)).size
 const cssBytes = statSync(resolve(assets, cssFile)).size
 if(cssBytes>20000)throw new Error(`Component stylesheet budget exceeded: ${cssBytes}B`)
-console.log(`SUBPATH_CONSUMER PASS entry=UiButton js=${jsBytes}B css=${cssBytes}B unused-components=absent unused-styles=absent`)
+console.log(`SUBPATH_CONSUMER PASS entry=UiButton js=${jsBytes}B css=${cssBytes}B unused-components=absent unused-styles=absent unused-en-locale=absent`)

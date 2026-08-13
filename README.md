@@ -713,3 +713,15 @@ const schema = [{
 - `change` keeps its compatible first list argument and adds structured reason/previous/file metadata. Dedicated select/reject/exceed/start/progress/success/upload-error/abort/retry/remove events avoid payload guessing.
 - Default rendering exposes native progress semantics, localized ready/uploading/success/error/canceled states and file-specific accessible controls. Trigger, tip and file slots receive the equivalent queue methods and state.
 - P32 remains at 69 public components and advances to 235 locale keys. CI requires 8 visual baselines, 26 zero-violation Axe scenarios and 30 interaction cases per Chromium/Firefox/WebKit engine.
+
+## Package boundary and delivery optimization (P33)
+
+The generated package now separates reusable component contracts from the admin showcase:
+
+- `style.css` contains Tokens, the shared baseline and the union of selectors rooted at the 69 public components. Page shell, documentation, preview and demo selectors are excluded automatically.
+- `styles/UiXxx.css` files split safe selector lists, retain only component-rooted branches, import `styles/core.css` and are minified deterministically. `style-manifest.json` schema 2 records the root/component rule counts and exact bytes.
+- Direct component subpaths use the lean configuration runtime. The public `config` facade, plugin and `UiConfigProvider` retain compatible Chinese/English built-ins and locale-registry identity.
+- The build minifies every emitted ESM entry/chunk after Vite output and reopens all root/subpath exports in package tests, including SSR and named/default identity.
+- Performance reports compare all 14 metrics with the frozen 1.28.0 release. A metric that no longer improves fails even when it remains below its absolute budget.
+
+Measured P33 outputs reduce aggregate package JS by roughly 104KB raw, aggregate package CSS by roughly 96KB raw, root CSS by roughly 55KB raw and the minimal UiButton consumer by roughly 8.6KB JS. Visual, Axe and three-browser behavior gates remain unchanged.

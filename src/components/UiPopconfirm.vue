@@ -3,7 +3,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef, useId, watc
 import AppIcon from './AppIcon.vue'
 import UiButton from './UiButton.vue'
 import { useFloatingPosition } from './floatingPosition.js'
-import { useLanUiConfig, useLocale } from '../config.js'
+import { useLanUiConfig, useLocale } from '../config-runtime.js'
 import { focusWithRetry } from './focusUtils.js'
 const props=defineProps({title:{type:String,default:''},message:{type:String,default:''},confirmText:{type:String,default:''},cancelText:{type:String,default:''},danger:Boolean,beforeConfirm:{type:Function,default:null},placement:{type:String,default:'top'},offset:{type:Number,default:8}})
 const emit=defineEmits(['confirm','cancel','error'])

@@ -1,167 +1,173 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.28.0",
+  "version": "1.29.0",
+  "root": {
+    "subpath": "./style.css",
+    "bytes": 127236,
+    "rules": 1043,
+    "source": "component-union"
+  },
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 6739
+    "bytes": 5473
   },
   "components": [
     {
       "name": "UiAlert",
       "subpath": "./styles/UiAlert.css",
-      "bytes": 1900,
+      "bytes": 1682,
       "rules": 17
     },
     {
       "name": "UiAutoComplete",
       "subpath": "./styles/UiAutoComplete.css",
-      "bytes": 6289,
-      "rules": 44
+      "bytes": 5012,
+      "rules": 36
     },
     {
       "name": "UiAvatar",
       "subpath": "./styles/UiAvatar.css",
-      "bytes": 686,
+      "bytes": 610,
       "rules": 9
     },
     {
       "name": "UiBadge",
       "subpath": "./styles/UiBadge.css",
-      "bytes": 711,
+      "bytes": 646,
       "rules": 6
     },
     {
       "name": "UiBreadcrumb",
       "subpath": "./styles/UiBreadcrumb.css",
-      "bytes": 982,
-      "rules": 9
+      "bytes": 606,
+      "rules": 6
     },
     {
       "name": "UiButton",
       "subpath": "./styles/UiButton.css",
-      "bytes": 3239,
-      "rules": 32
+      "bytes": 2222,
+      "rules": 23
     },
     {
       "name": "UiCalendar",
       "subpath": "./styles/UiCalendar.css",
-      "bytes": 7174,
-      "rules": 57
+      "bytes": 7024,
+      "rules": 56
     },
     {
       "name": "UiCard",
       "subpath": "./styles/UiCard.css",
-      "bytes": 837,
+      "bytes": 725,
       "rules": 7
     },
     {
       "name": "UiCascader",
       "subpath": "./styles/UiCascader.css",
-      "bytes": 3295,
-      "rules": 22
+      "bytes": 2107,
+      "rules": 16
     },
     {
       "name": "UiCheckbox",
       "subpath": "./styles/UiCheckbox.css",
-      "bytes": 484,
-      "rules": 5
+      "bytes": 350,
+      "rules": 4
     },
     {
       "name": "UiCol",
       "subpath": "./styles/UiCol.css",
-      "bytes": 189,
+      "bytes": 176,
       "rules": 1
     },
     {
       "name": "UiCollapse",
       "subpath": "./styles/UiCollapse.css",
-      "bytes": 1378,
-      "rules": 16
+      "bytes": 1159,
+      "rules": 14
     },
     {
       "name": "UiColorPicker",
       "subpath": "./styles/UiColorPicker.css",
-      "bytes": 8577,
+      "bytes": 8061,
       "rules": 65
     },
     {
       "name": "UiCommandPalette",
       "subpath": "./styles/UiCommandPalette.css",
-      "bytes": 9136,
-      "rules": 70
+      "bytes": 6830,
+      "rules": 54
     },
     {
       "name": "UiConfigProvider",
       "subpath": "./styles/UiConfigProvider.css",
-      "bytes": 76,
+      "bytes": 74,
       "rules": 1
     },
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 23052,
-      "rules": 187
+      "bytes": 19008,
+      "rules": 164
     },
     {
       "name": "UiDatePicker",
       "subpath": "./styles/UiDatePicker.css",
-      "bytes": 2410,
-      "rules": 18
+      "bytes": 2034,
+      "rules": 16
     },
     {
       "name": "UiDateRangePicker",
       "subpath": "./styles/UiDateRangePicker.css",
-      "bytes": 2589,
-      "rules": 19
+      "bytes": 2348,
+      "rules": 17
     },
     {
       "name": "UiDescriptions",
       "subpath": "./styles/UiDescriptions.css",
-      "bytes": 1240,
+      "bytes": 1209,
       "rules": 12
     },
     {
       "name": "UiDivider",
       "subpath": "./styles/UiDivider.css",
-      "bytes": 547,
+      "bytes": 488,
       "rules": 4
     },
     {
       "name": "UiDrawer",
       "subpath": "./styles/UiDrawer.css",
-      "bytes": 2237,
+      "bytes": 1885,
       "rules": 17
     },
     {
       "name": "UiDropdown",
       "subpath": "./styles/UiDropdown.css",
-      "bytes": 1346,
+      "bytes": 1328,
       "rules": 12
     },
     {
       "name": "UiEmpty",
       "subpath": "./styles/UiEmpty.css",
-      "bytes": 568,
+      "bytes": 547,
       "rules": 6
     },
     {
       "name": "UiFloatButton",
       "subpath": "./styles/UiFloatButton.css",
-      "bytes": 1997,
-      "rules": 10
+      "bytes": 1706,
+      "rules": 9
     },
     {
       "name": "UiForm",
       "subpath": "./styles/UiForm.css",
-      "bytes": 1519,
+      "bytes": 1475,
       "rules": 15
     },
     {
       "name": "UiFormItem",
       "subpath": "./styles/UiFormItem.css",
-      "bytes": 1160,
-      "rules": 13
+      "bytes": 927,
+      "rules": 10
     },
     {
       "name": "UiFormList",
@@ -172,254 +178,254 @@
     {
       "name": "UiGrid",
       "subpath": "./styles/UiGrid.css",
-      "bytes": 273,
+      "bytes": 254,
       "rules": 2
     },
     {
       "name": "UiIcon",
       "subpath": "./styles/UiIcon.css",
-      "bytes": 283,
+      "bytes": 255,
       "rules": 2
     },
     {
       "name": "UiImage",
       "subpath": "./styles/UiImage.css",
-      "bytes": 11104,
-      "rules": 90
+      "bytes": 7572,
+      "rules": 53
     },
     {
       "name": "UiInput",
       "subpath": "./styles/UiInput.css",
-      "bytes": 2306,
+      "bytes": 2031,
       "rules": 20
     },
     {
       "name": "UiLayout",
       "subpath": "./styles/UiLayout.css",
-      "bytes": 261,
+      "bytes": 232,
       "rules": 3
     },
     {
       "name": "UiListToolbar",
       "subpath": "./styles/UiListToolbar.css",
-      "bytes": 6754,
-      "rules": 49
+      "bytes": 5576,
+      "rules": 44
     },
     {
       "name": "UiMenu",
       "subpath": "./styles/UiMenu.css",
-      "bytes": 1632,
+      "bytes": 1604,
       "rules": 17
     },
     {
       "name": "UiModal",
       "subpath": "./styles/UiModal.css",
-      "bytes": 2830,
+      "bytes": 2450,
       "rules": 18
     },
     {
       "name": "UiMultiSelect",
       "subpath": "./styles/UiMultiSelect.css",
-      "bytes": 4147,
-      "rules": 27
+      "bytes": 3024,
+      "rules": 23
     },
     {
       "name": "UiNotification",
       "subpath": "./styles/UiNotification.css",
-      "bytes": 4746,
-      "rules": 44
+      "bytes": 3651,
+      "rules": 36
     },
     {
       "name": "UiNumberInput",
       "subpath": "./styles/UiNumberInput.css",
-      "bytes": 2918,
+      "bytes": 2699,
       "rules": 25
     },
     {
       "name": "UiPagination",
       "subpath": "./styles/UiPagination.css",
-      "bytes": 6652,
-      "rules": 49
+      "bytes": 5337,
+      "rules": 43
     },
     {
       "name": "UiPopconfirm",
       "subpath": "./styles/UiPopconfirm.css",
-      "bytes": 4532,
-      "rules": 43
+      "bytes": 3297,
+      "rules": 34
     },
     {
       "name": "UiPopover",
       "subpath": "./styles/UiPopover.css",
-      "bytes": 962,
+      "bytes": 811,
       "rules": 7
     },
     {
       "name": "UiProgress",
       "subpath": "./styles/UiProgress.css",
-      "bytes": 783,
-      "rules": 9
+      "bytes": 706,
+      "rules": 8
     },
     {
       "name": "UiRadio",
       "subpath": "./styles/UiRadio.css",
-      "bytes": 367,
+      "bytes": 277,
       "rules": 3
     },
     {
       "name": "UiRate",
       "subpath": "./styles/UiRate.css",
-      "bytes": 2467,
+      "bytes": 2305,
       "rules": 22
     },
     {
       "name": "UiResult",
       "subpath": "./styles/UiResult.css",
-      "bytes": 927,
+      "bytes": 923,
       "rules": 9
     },
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 32500,
-      "rules": 270
+      "bytes": 30783,
+      "rules": 267
     },
     {
       "name": "UiSegmented",
       "subpath": "./styles/UiSegmented.css",
-      "bytes": 1131,
-      "rules": 11
+      "bytes": 943,
+      "rules": 9
     },
     {
       "name": "UiSelect",
       "subpath": "./styles/UiSelect.css",
-      "bytes": 4396,
-      "rules": 30
+      "bytes": 3782,
+      "rules": 27
     },
     {
       "name": "UiSkeleton",
       "subpath": "./styles/UiSkeleton.css",
-      "bytes": 596,
+      "bytes": 571,
       "rules": 6
     },
     {
       "name": "UiSlider",
       "subpath": "./styles/UiSlider.css",
-      "bytes": 3802,
+      "bytes": 3530,
       "rules": 30
     },
     {
       "name": "UiSpace",
       "subpath": "./styles/UiSpace.css",
-      "bytes": 126,
+      "bytes": 111,
       "rules": 2
     },
     {
       "name": "UiSpin",
       "subpath": "./styles/UiSpin.css",
-      "bytes": 708,
+      "bytes": 704,
       "rules": 6
     },
     {
       "name": "UiStatistic",
       "subpath": "./styles/UiStatistic.css",
-      "bytes": 3208,
+      "bytes": 3090,
       "rules": 27
     },
     {
       "name": "UiStatusPage",
       "subpath": "./styles/UiStatusPage.css",
-      "bytes": 8345,
-      "rules": 62
+      "bytes": 6444,
+      "rules": 49
     },
     {
       "name": "UiSteps",
       "subpath": "./styles/UiSteps.css",
-      "bytes": 2486,
+      "bytes": 2236,
       "rules": 19
     },
     {
       "name": "UiSwitch",
       "subpath": "./styles/UiSwitch.css",
-      "bytes": 1651,
+      "bytes": 1456,
       "rules": 16
     },
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 11619,
-      "rules": 98
+      "bytes": 8942,
+      "rules": 77
     },
     {
       "name": "UiTabs",
       "subpath": "./styles/UiTabs.css",
-      "bytes": 1800,
+      "bytes": 1586,
       "rules": 15
     },
     {
       "name": "UiTag",
       "subpath": "./styles/UiTag.css",
-      "bytes": 917,
-      "rules": 8
+      "bytes": 737,
+      "rules": 7
     },
     {
       "name": "UiTextarea",
       "subpath": "./styles/UiTextarea.css",
-      "bytes": 1050,
+      "bytes": 936,
       "rules": 8
     },
     {
       "name": "UiTimePicker",
       "subpath": "./styles/UiTimePicker.css",
-      "bytes": 2410,
-      "rules": 18
+      "bytes": 2034,
+      "rules": 16
     },
     {
       "name": "UiTimeline",
       "subpath": "./styles/UiTimeline.css",
-      "bytes": 812,
+      "bytes": 809,
       "rules": 9
     },
     {
       "name": "UiToastHost",
       "subpath": "./styles/UiToastHost.css",
-      "bytes": 2817,
+      "bytes": 2350,
       "rules": 27
     },
     {
       "name": "UiTooltip",
       "subpath": "./styles/UiTooltip.css",
-      "bytes": 967,
+      "bytes": 816,
       "rules": 6
     },
     {
       "name": "UiTransfer",
       "subpath": "./styles/UiTransfer.css",
-      "bytes": 5003,
-      "rules": 49
+      "bytes": 3857,
+      "rules": 42
     },
     {
       "name": "UiTree",
       "subpath": "./styles/UiTree.css",
-      "bytes": 6616,
-      "rules": 50
+      "bytes": 5565,
+      "rules": 47
     },
     {
       "name": "UiTreeSelect",
       "subpath": "./styles/UiTreeSelect.css",
-      "bytes": 3603,
-      "rules": 25
+      "bytes": 2326,
+      "rules": 19
     },
     {
       "name": "UiUpload",
       "subpath": "./styles/UiUpload.css",
-      "bytes": 4510,
-      "rules": 37
+      "bytes": 3799,
+      "rules": 35
     },
     {
       "name": "UiVirtualList",
       "subpath": "./styles/UiVirtualList.css",
-      "bytes": 6003,
-      "rules": 56
+      "bytes": 4346,
+      "rules": 41
     }
   ]
 }

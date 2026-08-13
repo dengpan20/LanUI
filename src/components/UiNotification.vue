@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFeedback } from '../feedback.js'
-import { useDirection, useLocale } from '../config.js'
+import { useDirection, useLocale } from '../config-runtime.js'
 const props=defineProps({notification:{type:Object,default:null},actionText:{type:String,default:''},secondaryText:{type:String,default:''},feedback:{type:Object,default:null}})
 defineEmits(['close','action'])
 const injectedFeedback=useFeedback()

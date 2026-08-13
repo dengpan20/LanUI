@@ -1,6 +1,6 @@
 <script setup>
 import AppIcon from './AppIcon.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 
 defineProps({
   items: { type: Array, default: () => [] },

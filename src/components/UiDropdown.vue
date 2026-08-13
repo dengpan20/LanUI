@@ -2,7 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
-import { useLanUiConfig } from '../config.js'
+import { useLanUiConfig } from '../config-runtime.js'
 const props=defineProps({modelValue:Boolean,items:{type:Array,default:()=>[]},placement:{type:String,default:'bottom-right'},disabled:Boolean,offset:{type:Number,default:7}})
 const emit=defineEmits(['update:modelValue','select','open-change'])
 const root=ref(null)

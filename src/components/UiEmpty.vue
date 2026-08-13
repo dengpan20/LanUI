@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useLocale } from '../config.js'
+import { useLocale } from '../config-runtime.js'
 const props=defineProps({title:{type:String,default:''},description:{type:String,default:''},icon:{type:String,default:'search'},compact:Boolean})
 const {t}=useLocale();const resolvedTitle=computed(()=>props.title||t('empty.title'));const resolvedDescription=computed(()=>props.description||t('empty.description'))
 </script>

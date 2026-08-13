@@ -1,7 +1,7 @@
 <script setup>
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, useAttrs, useId, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
-import { useComponentSize, useLocale } from '../config.js'
+import { useComponentSize, useLocale } from '../config-runtime.js'
 defineOptions({ inheritAttrs: false })
 
 const props = defineProps({
