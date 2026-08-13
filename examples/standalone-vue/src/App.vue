@@ -34,6 +34,7 @@ import {
   UiUpload,
   UiStatusPage,
   UiVirtualList,
+  defineTheme,
   toast,
 } from 'lan-ui-design-system'
 
@@ -51,6 +52,8 @@ const created = ref(false)
 const period = ref('week')
 const locale = ref('en-US')
 const direction = ref('ltr')
+const appearance = ref('system')
+const standaloneTheme=defineTheme({name:'standalone-tenant',appearance:'dark',tokens:{'brand-600':'#7C3AED','brand-text':'#A78BFA'}})
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
 const reminderAt = ref(new Date('2026-08-12T01:30:00.000Z'))
 const monthlyQuota = ref(12500)
@@ -213,11 +216,13 @@ const rows = computed(() => [
     <UiCard title="全局安装与局部配置">
       <UiSegmented v-model="locale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]" />
       <UiSegmented v-model="direction" :options="[{label:'LTR',value:'ltr'},{label:'RTL',value:'rtl'}]" />
-      <UiConfigProvider :locale="locale" :direction="direction" size="sm" density="compact">
+      <UiSegmented v-model="appearance" :options="[{label:'Light',value:'light'},{label:'Dark',value:'dark'},{label:'System',value:'system'}]" />
+      <UiConfigProvider :locale="locale" :direction="direction" :appearance="appearance" :theme="appearance==='dark'?standaloneTheme:{'brand-600':'#2563EB'}" size="sm" density="compact">
         <div style="margin-top:16px;display:grid;gap:12px">
           <UiDateRangePicker v-model="deliveryRange" />
           <UiTimePicker v-model="reminderAt" value-type="date" time-zone="Asia/Shanghai" precision="second" :step="1" aria-label="Reminder time" />
           <UiButton>{{ locale==='en-US'?'Create delivery':'创建交付计划' }}</UiButton>
+          <UiTag color="purple">{{ appearance }} / scoped theme</UiTag>
         </div>
       </UiConfigProvider>
     </UiCard>

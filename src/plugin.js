@@ -18,6 +18,13 @@ export function createLanUi(options={}){
     localeRegistry,
     iconRegistry,
     setLocale(locale){config.locale=normalizeLanUiConfig({locale},config,localeRegistry).locale},
+    setAppearance(appearance){config.appearance=normalizeLanUiConfig({appearance},config,localeRegistry).appearance},
+    setTheme(theme){
+      const next=normalizeLanUiConfig({theme},config,localeRegistry)
+      config.theme=next.theme
+      config.themeName=next.themeName
+      config.appearance=next.appearance
+    },
     setFallbackLocale(fallbackLocale){
       const next=normalizeLanUiConfig({fallbackLocale},config,localeRegistry)
       config.fallbackLocale=next.fallbackLocale

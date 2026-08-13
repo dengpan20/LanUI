@@ -756,3 +756,18 @@ Axe 4.11.4 now runs 26 scenarios. The additional case audits a mixed-state uploa
 - Performance release evidence compares all 14 raw/gzip metrics to 1.28.0 and requires every metric to improve. Absolute ceilings are independently enforced to preserve capacity for future components.
 
 P33 keeps 69 public components, 235 locale keys, eight visual baselines, 26 zero-violation Axe scenarios and 30 interaction cases per Chromium/Firefox/WebKit engine.
+
+## 47. Maturity P34: theme runtime and scoped appearance
+
+- `design-tokens.json` is the canonical theme source. Generation emits an immutable module with the full 102-Token light preset and an explicit dark override set; check mode rejects source/generated drift.
+- Public appearance values are `light`, `dark` and `system`. Normalization rejects unsupported values unless an explicit fallback is supplied; resolving `system` is deterministic in SSR and follows `prefers-color-scheme` after mount.
+- Theme definitions have a stable name, resolved light/dark base and validated Token map. Token normalization accepts kebab, camel or CSS custom-property spelling, rejects unknown names and unsafe empty/control-character values, and never mutates consumer input.
+- `defineTheme`, `mergeThemes` and `themeToStyle` return new immutable values. Built-in presets remain frozen and cannot acquire application-owned overrides across requests or nested providers.
+- `UiConfigProvider` records requested and effective appearances using `data-ui-appearance` and `data-ui-resolved-appearance`, exposes `data-theme` for CSS selectors, sets `color-scheme`, and applies custom properties only to its rendered subtree.
+- Nested providers inherit locale, sizing, density, direction and parent Tokens before applying their own overrides. A scoped provider never changes document attributes, storage or a sibling subtree.
+- The host controller owns one target, appearance persistence, system media-query subscription and state listeners. Every transition has a reason; throwing adapters/listeners are contained through `onError` without leaving a partially applied target.
+- `dispose` removes media-query listeners and subscriptions and restores the target attributes and inline `color-scheme` captured at mount. A deliberate `restore: false` keeps the last requested appearance on a long-lived host.
+- The plugin exposes controlled `setAppearance` and `setTheme` updates. The showcase application uses the same public controller as consumers, avoiding a second private theme state machine.
+- Root and `theme` subpath runtime/type exports, API manifest, package reopen tests, component center, standalone consumer and SSR fixtures must remain in parity.
+
+P34 keeps 69 public components and 235 locale keys. Release gates require 9 visual baselines, 27 zero-violation Axe scenarios, 31 interactions per Chromium/Firefox/WebKit engine, 23 negative type assertions and 16 performance ceilings including the complete theme-subpath JS dependency closure.

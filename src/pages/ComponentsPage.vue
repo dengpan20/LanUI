@@ -71,6 +71,7 @@ import { formatDateValue } from '../date.js'
 import { getContrastRatio } from '../color.js'
 import { createIconRegistry } from '../icons.js'
 import { notification, toast } from '../feedback.js'
+import { darkTheme, defineTheme } from '../theme.js'
 const emit=defineEmits(['notify','open-modal','open-drawer','open-notification'])
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
@@ -146,7 +147,11 @@ const commandPaletteCommands=[
 function runPaletteCommand(command){commandPaletteSelection.value=command.label;emit('notify',`已执行：${command.label}`)}
 const iconDemoNames=['home','search','calendar','clock','bell','upload','download','filter','checkCircle','alert','info','settings']
 const iconDemoRegistry=createIconRegistry({tenantMark:'<path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="m7 9 5 3 5-3M12 12v6"/>'})
-const configLocale=ref('en-US');const configSize=ref('sm');const configDensity=ref('compact');const rangeDemo=ref(['2026-08-01','2026-08-11']);const rangeError=ref('')
+const configLocale=ref('en-US');const configSize=ref('sm');const configDensity=ref('compact');const configAppearance=ref('system');const rangeDemo=ref(['2026-08-01','2026-08-11']);const rangeError=ref('')
+const tenantTheme=defineTheme({name:'tenant-violet',appearance:'dark',tokens:{'brand-600':'#7c3aed','brand-text':'#c4b5fd'}})
+const tenantLightTheme=defineTheme({name:'tenant-light',appearance:'light',tokens:{'brand-600':'#2563eb'}})
+const configTheme=computed(()=>configAppearance.value==='dark'?tenantTheme:configAppearance.value==='light'?tenantLightTheme:{name:'tenant-system',appearance:'light',tokens:{'brand-600':'#2563eb'}})
+const themePresetSummary=computed(()=>configAppearance.value==='dark'?`${darkTheme.name} + tenant-violet`:`${configAppearance.value} + scoped tokens`)
 const intlLocale=ref('en-US');const intlCount=ref(1200)
 const intlMessages={
   'zh-CN':{one:'{count} 项',other:'{count} 项'},
@@ -177,7 +182,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'当前成熟度',value:'Package Boundaries P33'},{key:'version',label:'当前版本',value:'1.29.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'69 组件、受控队列、双语配置、子路径、CSS 边界、SSR、RTL、ARIA、三浏览器与性能预算'}]
+const descriptionItems=[{key:'name',label:'当前成熟度',value:'Theme Runtime P34'},{key:'version',label:'当前版本',value:'1.30.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'69 组件、作用域主题、系统偏好、受控队列、双语配置、子路径、SSR、RTL、ARIA、三浏览器与性能预算'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -503,14 +508,15 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         </section>
 
         <section id="configuration" class="card doc-section">
-          <header class="doc-section-header"><h2>全局配置与本地化</h2><p>应用可通过 createLanUi 全局安装，也可使用 UiConfigProvider 在局部覆盖语言、尺寸、密度、层级和主题 Token。</p></header>
+          <header class="doc-section-header"><h2>全局配置、本地化与主题</h2><p>应用可通过 createLanUi 全局安装，也可使用 UiConfigProvider 在局部覆盖语言、尺寸、密度、层级、light / dark / system 外观和经过规范化的主题 Token。</p></header>
           <div class="demo-block">
-            <div class="config-demo-toolbar"><UiSegmented v-model="configLocale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]"/><UiSegmented v-model="configSize" :options="['sm','md','lg']"/><UiSegmented v-model="configDensity" :options="[{label:'紧凑',value:'compact'},{label:'默认',value:'default'},{label:'宽松',value:'comfortable'}]"/></div>
-            <UiConfigProvider :locale="configLocale" :size="configSize" :density="configDensity" :theme="{'brand-600':configLocale==='en-US'?'#7c3aed':'#2563eb'}">
+            <div class="config-demo-toolbar"><UiSegmented v-model="configLocale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]"/><UiSegmented v-model="configSize" :options="['sm','md','lg']"/><UiSegmented v-model="configDensity" :options="[{label:'紧凑',value:'compact'},{label:'默认',value:'default'},{label:'宽松',value:'comfortable'}]"/><UiSegmented v-model="configAppearance" :options="[{label:'浅色',value:'light'},{label:'深色',value:'dark'},{label:'跟随系统',value:'system'}]"/></div>
+            <UiConfigProvider :locale="configLocale" :size="configSize" :density="configDensity" :appearance="configAppearance" :theme="configTheme">
               <div class="config-demo-surface">
                 <div class="config-demo-row"><UiButton>Primary action</UiButton><UiButton variant="outline">Secondary</UiButton><UiSelect :options="[{label:'Design review',value:'review'},{label:'Ready to ship',value:'ready'}]" clearable searchable/></div>
                 <UiFormItem :label="configLocale==='en-US'?'Delivery window':'交付周期'" :error="rangeError" composite><UiDateRangePicker v-model="rangeDemo" @invalid="rangeError=$event.message" @change="$event.valid&&(rangeError='')"/></UiFormItem>
                 <UiPagination :page="2" :page-size="10" :total="86"/>
+                <div class="preview-note"><strong>主题边界：</strong>{{ themePresetSummary }}；Provider 输出请求与解析后的外观属性，Token 仅影响当前子树。</div>
               </div>
             </UiConfigProvider>
             <div class="intl-runtime-demo">
@@ -523,9 +529,13 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div><strong>按需语言包注册表</strong><p>{{ registryStatus }}</p><code>{{ registryPreview }}</code></div>
               <div class="button-row"><UiTag :color="registryLocale==='en-US'?'gray':'green'">{{ registryLocale }}</UiTag><UiButton variant="outline" :loading="registryLoading" @click="loadFrenchLocale">{{ localeRegistryDemo.has('fr')?'重新使用 fr-FR':'按需加载 fr-FR' }}</UiButton></div>
             </div>
-            <pre class="code-block" style="margin-top:14px"><code>import LanUi, { UiConfigProvider, createLanUi, enUS } from 'lan-ui-design-system'
+            <pre class="code-block" style="margin-top:14px"><code>import LanUi, { UiConfigProvider, createLanUi, createThemeController, defineTheme, enUS } from 'lan-ui-design-system'
 app.use(LanUi)
-&lt;UiConfigProvider :locale="enUS" size="sm" density="compact"&gt;...&lt;/UiConfigProvider&gt;
+&lt;UiConfigProvider :locale="enUS" appearance="system" :theme="tenantTheme"&gt;...&lt;/UiConfigProvider&gt;
+
+const tenantTheme = defineTheme({ name:'tenant', appearance:'dark', tokens:{ 'brand-600':'#7c3aed' } })
+const appearance = createThemeController({ appearance:'system', storageKey:'app-theme' })
+appearance.mount(document.documentElement)
 
 const lanUi = createLanUi({ fallbackLocale: ['fr-FR', 'en-US'] })
 await lanUi.loadLocale('fr-FR', () =&gt; import('./locales/fr-FR'), { activate: true })

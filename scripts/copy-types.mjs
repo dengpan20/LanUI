@@ -21,7 +21,7 @@ for (const name of components) {
 
 writeFileSync(resolve(root, 'dist-lib/config.d.ts'), [
   "export { createLocaleRegistry, createLocaleTools, defaultLocaleRegistry, defineLocale, enUS, hasLocale, lanUiConfigKey, listLocales, loadLocale, normalizeLanUiConfig, registerLocale, unregisterLocale, useComponentSize, useDirection, useLanUiConfig, useLocale, zhCN } from './lan-ui.js'",
-  "export type { ComponentSize, Direction, LanUiConfig, LanUiConfigOptions, LanUiLocale, LanUiLocaleContext, LanUiLocaleTools, LanUiOptions, LocaleFallback, LocaleInput, LocaleLoader, LocaleLoadOptions, LocaleMessage, LocaleModule, LocaleName, LocaleParams, LocaleRegistry } from './lan-ui.js'",
+  "export type { ComponentSize, Direction, LanUiConfig, LanUiConfigOptions, LanUiLocale, LanUiLocaleContext, LanUiLocaleTools, LanUiOptions, LocaleFallback, LocaleInput, LocaleLoader, LocaleLoadOptions, LocaleMessage, LocaleModule, LocaleName, LocaleParams, LocaleRegistry, ThemeAppearance, ThemeDefinition, ThemeInput, ThemeTokens } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
 writeFileSync(resolve(root, 'dist-lib/color.d.ts'), [
@@ -44,10 +44,15 @@ writeFileSync(resolve(root, 'dist-lib/icons.d.ts'), [
   "export type { IconDefinition, IconDefinitionInput, IconNode, IconRegistry, IconRegistryOptions, IconRegisterOptions, IconUnregisterOptions } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
+writeFileSync(resolve(root, 'dist-lib/theme.d.ts'), [
+  "export { THEME_APPEARANCES, THEME_TOKEN_NAMES, createThemeController, darkTheme, defineTheme, lightTheme, mergeThemes, normalizeThemeAppearance, normalizeThemeTokens, resolveThemeAppearance, themeToStyle } from './lan-ui.js'",
+  "export type { ThemeAppearance, ThemeAppearanceOptions, ThemeController, ThemeControllerOptions, ThemeControllerState, ThemeDefinition, ThemeInput, ThemeMediaQuery, ThemeStorage, ThemeTarget, ThemeTokenOptions, ThemeTokens, ThemeTokenValue } from './lan-ui.js'",
+  '',
+].join('\n'), 'utf8')
 writeFileSync(resolve(root, 'dist-lib/plugin.d.ts'), [
   "export { LanUi as default, LanUi, createLanUi } from './lan-ui.js'",
   "export type { LanUiOptions, LanUiPlugin } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
 
-console.log(`TYPES_COPY dist-lib/lan-ui.d.ts components=${components.length} subpaths=color,config,date,feedback,icons,plugin`)
+console.log(`TYPES_COPY dist-lib/lan-ui.d.ts components=${components.length} subpaths=color,config,date,feedback,icons,plugin,theme`)

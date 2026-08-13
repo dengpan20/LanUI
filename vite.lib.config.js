@@ -21,6 +21,7 @@ const entries = {
   plugin: resolve(root, 'src/plugin.js'),
   date: resolve(root, 'src/date.js'),
   icons: resolve(root, 'src/icons.js'),
+  theme: resolve(root, 'src/theme.js'),
   ...componentEntries,
 }
 

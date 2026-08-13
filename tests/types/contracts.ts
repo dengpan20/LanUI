@@ -32,6 +32,9 @@ import {
   createLocaleRegistry,
   createLocaleTools,
   createIconRegistry,
+  createThemeController,
+  defineTheme,
+  darkTheme,
   parseColor,
   formatColor,
   getContrastRatio,
@@ -41,6 +44,7 @@ import { dateValueToDate as subpathDateValueToDate } from 'lan-ui-design-system/
 import { createIconRegistry as createSubpathIconRegistry } from 'lan-ui-design-system/icons'
 import { parseColor as parseSubpathColor } from 'lan-ui-design-system/color'
 import { createLanUiFeedback as createSubpathFeedback } from 'lan-ui-design-system/feedback'
+import { createThemeController as createSubpathThemeController, defineTheme as defineSubpathTheme } from 'lan-ui-design-system/theme'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
@@ -109,11 +113,16 @@ import type {
   UiUploadSuccessEvent,
   RgbaColor,
   ColorFormat,
+  ThemeAppearance,
+  ThemeController,
+  ThemeDefinition,
 } from 'lan-ui-design-system'
 import type { DateDisambiguation } from 'lan-ui-design-system/date'
 
 const plugin = createLanUi({ locale: 'en-US', direction: 'rtl', density: 'compact' })
 plugin.setLocale('zh-CN')
+plugin.setAppearance('system')
+plugin.setTheme(darkTheme)
 plugin.setFallbackLocale(['fr-FR','en-US'])
 const localeRegistry:LocaleRegistry = createLocaleRegistry([{ name:'fr-FR', messages:{ fallback:'Repli' } }])
 const localeTools = createLocaleTools({ name:'fr-CA', messages:{ items:{ one:'{count} item', other:'{count} items' } } }, ['fr-FR','en-US'], localeRegistry)
@@ -128,6 +137,13 @@ const isolatedPlugin = createLanUi({ isolated: true, feedback: isolatedFeedback 
 isolatedPlugin.feedback.toast.success('Typed feedback', { placement: 'top-end' })
 const feedbackParity: typeof createLanUiFeedback = createSubpathFeedback
 const injectedFeedback = useFeedback
+const tenantTheme:ThemeDefinition=defineTheme({name:'typed-tenant',appearance:'dark',tokens:{'brand-600':'#6EA8FF'}})
+const themeController:ThemeController=createThemeController({appearance:'system',storageKey:'typed-theme'})
+themeController.mount(document.documentElement)
+themeController.setAppearance('dark')
+const themeSubpathParity:typeof createThemeController=createSubpathThemeController
+const themeDefinitionParity:typeof defineTheme=defineSubpathTheme
+const typedAppearance:ThemeAppearance=tenantTheme.appearance
 
 const inputProps: InstanceType<typeof UiInput>['$props'] = {
   modelValue: 'Lan UI',
@@ -336,5 +352,9 @@ const invalidCommandHotkeys:UiCommandPaletteProps={hotkeys:[true]}
 const invalidColorFormat:UiColorPickerProps={format:'cmyk'}
 // @ts-expect-error Upload concurrency is a positive numeric worker limit.
 const invalidUploadConcurrency:UiUploadProps={concurrency:'many'}
+// @ts-expect-error Theme appearance is constrained to light, dark or system.
+const invalidThemeAppearance:ThemeAppearance='sepia'
+// @ts-expect-error Persisted theme definitions resolve to light or dark, never system.
+const invalidThemeDefinition=defineTheme({name:'invalid',appearance:'system',tokens:{}})
 
-console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency)
+console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency)

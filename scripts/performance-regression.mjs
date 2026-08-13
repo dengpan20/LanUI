@@ -24,6 +24,16 @@ function rows(directory, predicate) {
 function sum(items, field) { return items.reduce((total, item) => total + item[field], 0) }
 function largest(items, field) { return items.reduce((best, item) => !best || item[field] > best[field] ? item : best, null) }
 
+function moduleClosure(entry, seen = new Set()) {
+  const file = resolve(entry)
+  if (seen.has(file)) return seen
+  seen.add(file)
+  const source = readFileSync(file, 'utf8')
+  const imports = source.matchAll(/(?:from|import)\s*["'](\.\.?\/[^"']+\.js)["']/g)
+  for (const match of imports) moduleClosure(resolve(file, '..', match[1]), seen)
+  return seen
+}
+
 const dist = resolve(root, 'dist-lib')
 const packageJs = rows(dist, file => extname(file) === '.js')
 const packageCss = rows(dist, file => extname(file) === '.css')
@@ -32,6 +42,10 @@ const componentCss = packageCss.filter(item => /\/styles\/Ui[^/]+\.css$/.test(it
 const subpathAssets = rows(resolve(root, '.verify/subpath-consumer-dist/assets'), file => ['.js', '.css'].includes(extname(file)))
 const exampleAssets = rows(resolve(root, 'examples/standalone-vue/dist/assets'), file => ['.js', '.css'].includes(extname(file)))
 const rootCssData = readFileSync(resolve(dist, 'lan-ui.css'))
+const themeSubpath = [...moduleClosure(resolve(dist, 'theme.js'))].map(file => {
+  const data = readFileSync(file)
+  return { file: relative(root, file).replaceAll('\\', '/'), raw: data.length, gzip: gzipSync(data, { level: 9 }).length }
+})
 
 const largestChunkRaw = largest(chunks, 'raw')
 const largestChunkGzip = largest(chunks, 'gzip')
@@ -52,6 +66,8 @@ const metrics = {
   subpathConsumerCssRaw: sum(subpathAssets.filter(item => item.file.endsWith('.css')), 'raw'),
   standaloneExampleJsRaw: sum(exampleAssets.filter(item => item.file.endsWith('.js')), 'raw'),
   standaloneExampleCssRaw: sum(exampleAssets.filter(item => item.file.endsWith('.css')), 'raw'),
+  themeSubpathJsRaw: sum(themeSubpath, 'raw'),
+  themeSubpathJsGzip: sum(themeSubpath, 'gzip'),
 }
 
 const details = {
@@ -59,6 +75,8 @@ const details = {
   largestChunkGzip: largestChunkGzip.file,
   largestComponentCssRaw: largestComponentCssRaw.file,
   largestComponentCssGzip: largestComponentCssGzip.file,
+  themeSubpathJsRaw: themeSubpath.map(item => item.file).join(','),
+  themeSubpathJsGzip: themeSubpath.map(item => item.file).join(','),
 }
 const failures = []
 for (const [name, budget] of Object.entries(config.budgets)) {

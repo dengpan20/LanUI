@@ -539,6 +539,27 @@ const allCases = [
       await expectText(page, 'status-output', 'home')
     },
   },
+  {
+    name:'scoped-theme-system',
+    run:async page=>{
+      const provider=page.locator('#scoped-theme-provider')
+      assert.equal(await provider.getAttribute('data-ui-appearance'),'light')
+      assert.equal(await provider.getAttribute('data-theme'),'light')
+      await page.locator('#theme-dark').click()
+      assert.equal(await provider.getAttribute('data-ui-appearance'),'dark')
+      assert.equal(await provider.getAttribute('data-theme'),'dark')
+      assert.equal((await provider.evaluate(node=>getComputedStyle(node).getPropertyValue('--brand-600'))).trim(),'#7C3AED')
+      await page.locator('#theme-system').click()
+      assert.equal(await provider.getAttribute('data-ui-appearance'),'system')
+      assert.equal(await provider.getAttribute('data-theme'),'light')
+      await page.emulateMedia({colorScheme:'dark'})
+      await page.waitForFunction(()=>document.querySelector('#scoped-theme-provider')?.getAttribute('data-theme')==='dark')
+      assert.equal(await provider.getAttribute('data-ui-resolved-appearance'),'dark')
+      await page.locator('#theme-light').click()
+      assert.equal(await provider.getAttribute('data-theme'),'light')
+      await expectText(page,'theme-output','light')
+    },
+  },
 ]
 const requestedCases=caseArgument?[...new Set(caseArgument.split(',').map(value=>value.trim()).filter(Boolean))]:[]
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

@@ -34,6 +34,7 @@ const cases=[
   {name:'schema-form',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=schema-form',ready:'.visual-schema-form'},
   {name:'schema-form-list',viewport:{width:1280,height:1200},query:'theme=light&direction=ltr&density=default&state=schema-form-list',ready:'.visual-schema-form-list'},
   {name:'upload-queue',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=upload-queue',ready:'.visual-upload-queue'},
+  {name:'scoped-theme-dark',viewport:{width:1280,height:2000},query:'theme=light&direction=ltr&density=default&state=theme',ready:'#visual-scoped-dark'},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

@@ -137,6 +137,7 @@ const manifest={
     feedback:await moduleExports('dist-lib/feedback.js'),
     icons:await moduleExports('dist-lib/icons.js'),
     plugin:await moduleExports('dist-lib/plugin.js'),
+    theme:await moduleExports('dist-lib/theme.js'),
   },
   components:componentEntries,
 }

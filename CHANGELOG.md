@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.30.0] - 2026-08-13
+
+### Added
+
+- A public `theme` subpath with generated immutable light/dark presets, 102 validated Token names, theme definition/merge/style helpers and complete root/subpath TypeScript declarations.
+- A host `createThemeController` for light, dark and system appearance, storage persistence, media-query updates, subscriptions, deterministic SSR, teardown and optional DOM restoration.
+- Scoped theme examples and release gates across the component center, standalone consumer, unit tests, three browser engines, visual regression and Axe.
+
+### Changed
+
+- `UiConfigProvider` now exposes requested and resolved appearance attributes, follows live system preference changes and applies custom Tokens only to its own subtree without mutating the document root.
+- `createLanUi` adds `setAppearance` and `setTheme`; the showcase shell now uses the public controller instead of directly coordinating document attributes and storage.
+- Package/API parity advances to 20 public subpaths. CI now requires 9 visual baselines, 27 zero-violation Axe scenarios, 31 interactions per browser and a dependency-closure budget for the theme subpath.
+
 ## [1.29.0] - 2026-08-13
 
 ### Added

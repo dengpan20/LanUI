@@ -106,6 +106,8 @@ const gridRows=Array.from({length:18},(_,index)=>({id:`grid-${index+1}`,name:`Gr
 const virtualSelection = ref('virtual-0')
 const virtualActive = ref(0)
 const statusAction = ref('idle')
+const scopedAppearance=ref('light')
+const scopedTheme={'brand-600':'#7C3AED'}
 const virtualItems = Array.from({ length: 120 }, (_, index) => ({
   id: `virtual-${index}`,
   label: `Record ${String(index + 1).padStart(3, '0')}`,
@@ -402,6 +404,17 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Status page action contract</h2>
         <UiStatusPage status="403" embedded @back="statusAction='back'" @home="statusAction='home'" />
         <output class="interaction-output" data-testid="status-output">{{ statusAction }}</output>
+      </section>
+      <section class="interaction-case interaction-wide">
+        <h2>Scoped theme appearance contract</h2>
+        <UiConfigProvider id="scoped-theme-provider" :appearance="scopedAppearance" :theme="scopedTheme">
+          <div class="interaction-row">
+            <UiButton id="theme-light" @click="scopedAppearance='light'">Light theme</UiButton>
+            <UiButton id="theme-dark" @click="scopedAppearance='dark'">Dark theme</UiButton>
+            <UiButton id="theme-system" @click="scopedAppearance='system'">System theme</UiButton>
+          </div>
+          <output class="interaction-output" data-testid="theme-output">{{ scopedAppearance }}</output>
+        </UiConfigProvider>
       </section>
     </div>
   </UiConfigProvider>

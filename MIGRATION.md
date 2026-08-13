@@ -24,6 +24,28 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.30 theme runtime
+
+This release is additive. Existing `theme` Token objects on `UiConfigProvider` and existing light/dark CSS selectors remain compatible. Applications can incrementally adopt the typed runtime:
+
+```ts
+import { createThemeController, defineTheme } from 'lan-ui-design-system/theme'
+
+const tenantTheme = defineTheme({
+  name: 'tenant',
+  appearance: 'light',
+  tokens: { 'brand-600': '#7c3aed' },
+})
+const appearance = createThemeController({ appearance: 'system', storageKey: 'app-theme' })
+appearance.mount(document.documentElement)
+```
+
+- Use `UiConfigProvider appearance="system"` for a subtree that follows the operating-system preference. Its `data-ui-appearance` records the request and `data-ui-resolved-appearance` records the effective light/dark value.
+- Use `defineTheme` for validated, immutable definitions. Token names accept CSS spelling with or without `--`; unknown names and unsafe values are rejected by default.
+- Call `dispose()` when a host controller is no longer owned; it restores the previous target attributes and `color-scheme` by default. Pass `{ restore: false }` only when the last appearance should remain on a long-lived host.
+- The controller accepts injected storage, `matchMedia` and target adapters for SSR and tests. Without browser globals it remains deterministic and resolves `system` to light until mounted.
+- Prefer the `theme` package subpath when only theme utilities are needed. Root exports remain available for application-wide installation.
+
 ## 1.29 package and style boundaries
 
 This release keeps every documented import path and component API compatible. The changes affect generated package internals and remove undocumented application/showcase selectors from `style.css`.

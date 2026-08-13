@@ -725,3 +725,27 @@ The generated package now separates reusable component contracts from the admin 
 - Performance reports compare all 14 metrics with the frozen 1.28.0 release. A metric that no longer improves fails even when it remains below its absolute budget.
 
 Measured P33 outputs reduce aggregate package JS by roughly 104KB raw, aggregate package CSS by roughly 96KB raw, root CSS by roughly 55KB raw and the minimal UiButton consumer by roughly 8.6KB JS. Visual, Axe and three-browser behavior gates remain unchanged.
+
+## Theme runtime and scoped appearance (P34)
+
+Lan UI now exposes a reusable theme boundary rather than requiring every host application to manipulate document attributes itself:
+
+```ts
+import { createThemeController, defineTheme } from 'lan-ui-design-system/theme'
+
+const tenantTheme = defineTheme({
+  name: 'tenant-violet',
+  appearance: 'dark',
+  tokens: { 'brand-600': '#7c3aed', 'brand-text': '#c4b5fd' },
+})
+
+const controller = createThemeController({ appearance: 'system', storageKey: 'lan-theme' })
+controller.mount(document.documentElement)
+const unsubscribe = controller.subscribe(state => console.log(state.resolvedAppearance))
+```
+
+- `lightTheme` and `darkTheme` are immutable generated presets covering all 102 public CSS Tokens; `defineTheme`, `mergeThemes`, `normalizeThemeTokens` and `themeToStyle` validate and compose tenant overrides.
+- `UiConfigProvider` accepts `appearance="light | dark | system"` and a named or raw Token theme. Nested providers inherit configuration, resolve system changes live and scope all custom properties to the provider subtree.
+- `createThemeController` owns persistence, `prefers-color-scheme` listeners, target attributes, subscriptions, teardown and optional restoration. Injected adapters keep the same contract in SSR and unit tests.
+- `createLanUi` exposes `setAppearance` and `setTheme`, and `lan-ui-design-system/theme` is a typed, independently importable public subpath.
+- P34 keeps 69 public components and 235 locale keys. CI requires 9 visual baselines, 27 zero-violation Axe scenarios, 31 interactions per Chromium/Firefox/WebKit engine and 16 performance ceilings including the full theme-subpath dependency closure.

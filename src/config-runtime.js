@@ -111,7 +111,8 @@ export const hasLocale=name=>defaultLocaleRegistry.has(name)
 export const listLocales=()=>defaultLocaleRegistry.list()
 export const loadLocale=(name,loader,options={})=>defaultLocaleRegistry.load(name,loader,options)
 
-const fallback={locale:zhCN,fallbackLocale:zhCN,fallbackLocales:[zhCN],localeRegistry:defaultLocaleRegistry,size:'md',density:'default',direction:'ltr',zIndex:300,theme:{}}
+const themeAppearances=new Set(['light','dark','system'])
+const fallback={locale:zhCN,fallbackLocale:zhCN,fallbackLocales:[zhCN],localeRegistry:defaultLocaleRegistry,size:'md',density:'default',direction:'ltr',zIndex:300,appearance:'light',themeName:'default',theme:{}}
 
 export function defineLocale(locale){return mergeLocale(locale,zhCN,defaultLocaleRegistry)}
 function normalizeFallbackLocales(input,registry){
@@ -133,7 +134,13 @@ export function normalizeLanUiConfig(options={},parent=fallback,registryInput=nu
   const fallbackInput=hasFallbackLocales?options.fallbackLocales:hasFallback?options.fallbackLocale:parent.fallbackLocales||parent.fallbackLocale
   const fallbackLocales=normalizeFallbackLocales(fallbackInput,localeRegistry)
   const fallbackLocale=fallbackLocales[0]||null
-  return {locale:mergeLocale(options.locale||parent.locale,parent.locale||zhCN,localeRegistry),fallbackLocale,fallbackLocales,localeRegistry,size:options.size||parent.size||'md',density:options.density||parent.density||'default',direction,zIndex:Number(options.zIndex||parent.zIndex||300),theme:{...(parent.theme||{}),...(options.theme||{})}}
+  const themeDefinition=options.theme&&typeof options.theme==='object'&&!Array.isArray(options.theme)&&options.theme.tokens&&typeof options.theme.tokens==='object'?options.theme:null
+  const themeTokens=themeDefinition?.tokens||options.theme||{}
+  const hasTheme=Boolean(themeDefinition)||(themeTokens&&typeof themeTokens==='object'&&Object.keys(themeTokens).length>0)
+  const requestedAppearance=String(options.appearance||themeDefinition?.appearance||'').toLowerCase()
+  const appearance=themeAppearances.has(requestedAppearance)?requestedAppearance:parent.appearance||'light'
+  const themeName=themeDefinition?.name?String(themeDefinition.name):hasTheme?'custom':parent.themeName||'default'
+  return {locale:mergeLocale(options.locale||parent.locale,parent.locale||zhCN,localeRegistry),fallbackLocale,fallbackLocales,localeRegistry,size:options.size||parent.size||'md',density:options.density||parent.density||'default',direction,zIndex:Number(options.zIndex||parent.zIndex||300),appearance,themeName,theme:{...(parent.theme||{}),...(themeTokens||{})}}
 }
 
 function canonicalLocale(locale,fallbackLocales){

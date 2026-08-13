@@ -18,6 +18,7 @@ import UiAvatar from './components/UiAvatar.vue'
 import UiBadge from './components/UiBadge.vue'
 import UiEmpty from './components/UiEmpty.vue'
 import { notification, toast } from './feedback.js'
+import { createThemeController } from './theme.js'
 import LoginPage from './pages/LoginPage.vue'
 import LogoutPage from './pages/LogoutPage.vue'
 import NotFoundPage from './pages/NotFoundPage.vue'
@@ -53,7 +54,9 @@ const path = ref(initialHash)
 const authenticated = ref(localStorage.getItem('lan-auth') === '1')
 const collapsed = ref(localStorage.getItem('lan-sidebar') === '1')
 const mobileExpanded = ref(false)
-const theme = ref(localStorage.getItem('lan-theme') || 'light')
+const themeController=createThemeController({appearance:'system',storageKey:'lan-theme'})
+const theme = ref('light')
+let stopThemeSubscription=null
 const tabs = ref([{path:'/home',title:'综合看板',icon:'chart'}])
 const notificationsOpen = ref(false)
 const userMenuOpen = ref(false)
@@ -90,7 +93,7 @@ function reloadPage(){location.reload()}
 function login(){authenticated.value=true;localStorage.setItem('lan-auth','1');notify('登录成功，欢迎回来');go('/home')}
 function logout(){authenticated.value=false;localStorage.removeItem('lan-auth');tabs.value=[{path:'/home',title:'综合看板',icon:'chart'}];go('/login')}
 function toggleSidebar(){ if(innerWidth<=1024) mobileExpanded.value=!mobileExpanded.value; else {collapsed.value=!collapsed.value;localStorage.setItem('lan-sidebar',collapsed.value?'1':'0')} }
-function toggleTheme(){theme.value=theme.value==='light'?'dark':'light';localStorage.setItem('lan-theme',theme.value);document.documentElement.dataset.theme=theme.value;notify(theme.value==='dark'?'已切换至深色模式':'已切换至浅色模式')}
+function toggleTheme(){const state=themeController.toggle();theme.value=state.resolvedAppearance;notify(theme.value==='dark'?'已切换至深色模式':'已切换至浅色模式')}
 function closeTab(tab,index){
   if(tabs.value.length===1)return
   tabs.value.splice(index,1)
@@ -113,8 +116,8 @@ function handleKey(e){if(e.key==='Escape'){modal.value=null;drawer.value=null;no
 function globalClick(e){if(!e.target.closest?.('.header-actions')&&!e.target.closest?.('.dropdown')){notificationsOpen.value=false;userMenuOpen.value=false}if(!e.target.closest?.('.header-search')&&!e.target.closest?.('.search-dropdown')) searchOpen.value=false}
 function selectSearch(result){search.value='';go(result)}
 
-onMounted(()=>{document.documentElement.dataset.theme=theme.value;document.documentElement.dataset.font=localStorage.getItem('lan-font')||'inter-noto';window.addEventListener('hashchange',applyRoute);window.addEventListener('keydown',handleKey);document.addEventListener('click',globalClick);if(!location.hash) location.hash=authenticated.value?'/home':'/login';else applyRoute()})
-onBeforeUnmount(()=>{window.removeEventListener('hashchange',applyRoute);window.removeEventListener('keydown',handleKey);document.removeEventListener('click',globalClick)})
+onMounted(()=>{stopThemeSubscription=themeController.subscribe(state=>{theme.value=state.resolvedAppearance},{immediate:true});themeController.mount(document.documentElement);document.documentElement.dataset.font=localStorage.getItem('lan-font')||'inter-noto';window.addEventListener('hashchange',applyRoute);window.addEventListener('keydown',handleKey);document.addEventListener('click',globalClick);if(!location.hash) location.hash=authenticated.value?'/home':'/login';else applyRoute()})
+onBeforeUnmount(()=>{stopThemeSubscription?.();themeController.dispose({restore:false});window.removeEventListener('hashchange',applyRoute);window.removeEventListener('keydown',handleKey);document.removeEventListener('click',globalClick)})
 </script>
 
 <template>
