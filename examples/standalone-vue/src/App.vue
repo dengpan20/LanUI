@@ -32,6 +32,7 @@ import {
   UiTour,
   UiTree,
   UiUpload,
+  UiWatermark,
   toast,
 } from 'lan-ui-design-system'
 
@@ -131,6 +132,11 @@ const rows = computed(() => [
         :offset-top="16"
         aria-label="Standalone example sections"
       />
+    </UiCard>
+    <UiCard title="Protected release evidence">
+      <UiWatermark :content="['Lan UI','CONSUMER']" :gap="[76,64]" :font="{fontSize:14,color:'rgba(124,58,237,.16)',fontWeight:650}" aria-label="Consumer release watermark">
+        <div style="min-height:150px;padding:22px;display:grid;align-content:start;gap:7px;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-subtle)"><strong>Standalone package verification</strong><span style="color:var(--text-secondary);font-size:12px">Root and subpath imports · CSS · types · SSR · rollback</span></div>
+      </UiWatermark>
     </UiCard>
 
     <UiCard id="standalone-overview" title="业务指标">

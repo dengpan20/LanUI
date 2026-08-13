@@ -10,7 +10,7 @@ const jsEntries = readdirSync(resolve(root, 'dist-lib/components')).filter(name 
 const typeEntries = readdirSync(resolve(root, 'dist-lib/components')).filter(name => name.endsWith('.d.ts'))
 const styleEntries = readdirSync(resolve(root, 'dist-lib/styles')).filter(name => name.endsWith('.css'))
 
-if (components.length !== 71) throw new Error(`Expected 71 public components, found ${components.length}`)
+if (components.length !== 72) throw new Error(`Expected 72 public components, found ${components.length}`)
 if (jsEntries.length !== components.length) throw new Error(`Component JS entry mismatch: ${jsEntries.length}/${components.length}`)
 if (typeEntries.length !== components.length) throw new Error(`Component type entry mismatch: ${typeEntries.length}/${components.length}`)
 if (styleEntries.length !== components.length+1) throw new Error(`Component style entry mismatch: ${styleEntries.length}/${components.length+1}`)

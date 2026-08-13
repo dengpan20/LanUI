@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.38.0] - 2026-08-13
+
+### Added
+
+- `UiWatermark`, a typed text/image watermark component with device-pixel-aware Canvas rendering, multi-line text, configurable geometry, CORS handling, image fallback and an explicit accessible-label mode.
+- Mutation recovery that restores a removed or modified visual layer without interfering with normal slot mutations or the protected content's pointer and keyboard interaction.
+- Watermark examples in the component center, standalone package consumer and interactive static preview, plus unit, SSR, visual, Axe, type and Chromium/Firefox/WebKit regression coverage.
+
+### Changed
+
+- Release gates advance to 72 public components, 242 locale keys, 15 visual baselines, 33 Axe scenarios, 37 interactions per browser and 27 negative type assertions.
+- The packed external consumer now installs, renders, types and bundles `UiWatermark` from its stable subpath with component-specific CSS.
+- The application shell, login surface, component-menu badge and interaction matrix now expose the same 1.38.0 / 72-component release state instead of stale showcase metadata.
+
 ## [1.37.0] - 2026-08-13
 
 ### Added

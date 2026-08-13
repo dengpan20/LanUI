@@ -659,6 +659,30 @@ const allCases = [
     },
   },
   {
+    name:'watermark-mutation-recovery',
+    run:async page=>{
+      const root=page.locator('#interaction-watermark')
+      let layer=root.locator('[data-ui-watermark-layer]')
+      await layer.waitFor()
+      assert.equal(await layer.getAttribute('role'),'img')
+      assert.equal(await layer.getAttribute('aria-label'),'Protected release record watermark')
+      assert.equal(await layer.evaluate(node=>getComputedStyle(node).pointerEvents),'none')
+      await page.locator('#watermark-content-action').click()
+      await expectText(page,'watermark-output','action')
+      await page.locator('#remove-watermark').click()
+      await expectText(page,'watermark-output','restored:removed')
+      layer=root.locator('[data-ui-watermark-layer]')
+      assert.equal(await layer.count(),1)
+      assert.match(await layer.evaluate(node=>node.style.backgroundImage),/data:image\/png/)
+      await layer.evaluate(node=>{node.style.backgroundImage='none'})
+      await expectText(page,'watermark-output','restored:modified')
+      assert.match(await layer.evaluate(node=>node.style.backgroundImage),/data:image\/png/)
+      await page.locator('#rotate-watermark').click()
+      await expectText(page,'watermark-output','rotation:-35')
+      assert.equal(await layer.getAttribute('data-ui-watermark-mode'),'text')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -673,7 +697,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),71)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),72)
     },
   },
 ]

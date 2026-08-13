@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiStatusPage, UiTour, UiVirtualList,
+  UiDataGrid, UiStatusPage, UiTour, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -63,6 +63,9 @@ const tourSteps=[
   {target:'#tour-target-preview',title:'Preview the release',description:'Review the final component states.',placement:'bottom'},
   {target:'#tour-target-publish',title:'Publish with evidence',description:'Attach verification and rollback records.',placement:'bottom-end'},
 ]
+const watermarkRotate=ref(-22)
+const watermarkOutput=ref('protected')
+function removeWatermarkLayer(){document.querySelector('#interaction-watermark [data-ui-watermark-layer]')?.remove()}
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -426,6 +429,14 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <div class="interaction-row"><UiButton id="tour-target-create">Create release</UiButton><UiButton id="tour-target-preview" variant="secondary">Preview release</UiButton><UiButton id="tour-target-publish" variant="outline">Publish release</UiButton><UiButton id="open-product-tour" @click="tourCurrent=0;tourOutput='opening';tourOpen=true">Open product tour</UiButton></div>
         <UiTour v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps" aria-label="Release product tour" @open="tourOutput=`open:${$event.current}`" @change="(current,_previous,meta)=>tourOutput=`change:${current}:${meta.source}`" @close="tourOutput=`close:${$event.source}:${$event.current}`" />
         <output class="interaction-output" data-testid="tour-output">{{ tourOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-watermark">
+        <h2>Watermark rendering and mutation recovery</h2>
+        <div class="interaction-row"><UiButton id="rotate-watermark" variant="secondary" @click="watermarkRotate=watermarkRotate===-22?-35:-22;watermarkOutput=`rotation:${watermarkRotate}`">Rotate watermark</UiButton><UiButton id="remove-watermark" variant="outline" @click="removeWatermarkLayer">Remove watermark layer</UiButton></div>
+        <UiWatermark id="interaction-watermark" :content="['Lan UI','PROTECTED']" :rotate="watermarkRotate" :gap="[72,64]" aria-label="Protected release record watermark" @remove="watermarkOutput=`restored:${$event.reason}`">
+          <div class="interaction-watermark-document"><strong>Protected release record</strong><UiButton id="watermark-content-action" size="sm" @click="watermarkOutput='action'">Open record</UiButton></div>
+        </UiWatermark>
+        <output class="interaction-output" data-testid="watermark-output">{{ watermarkOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide">
         <h2>Anchor scroll and keyboard contract</h2>

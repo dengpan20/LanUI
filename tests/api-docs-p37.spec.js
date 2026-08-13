@@ -16,7 +16,7 @@ afterEach(()=>{while(mounted.length)mounted.pop().unmount();history.replaceState
 describe('P37 generated component API documentation',()=>{
   it('publishes schema 3 signature and runtime default details for every component',()=>{
     expect(manifest.schemaVersion).toBe(3)
-    expect(manifest.components).toHaveLength(71)
+    expect(manifest.components).toHaveLength(72)
     for(const component of manifest.components){
       expect(component.propDetails.map(item=>item.name)).toEqual(component.props)
       expect(component.emitDetails.map(item=>item.name)).toEqual(component.emits)
@@ -29,14 +29,18 @@ describe('P37 generated component API documentation',()=>{
     expect(tour.props).toContain('targetClickable')
     expect(tour.emits).toContain('target-missing')
     expect(tour.slots).toEqual(['actions','description','indicator','title'])
+    const watermark=manifest.components.find(component=>component.name==='UiWatermark')
+    expect(watermark.props).toEqual(expect.arrayContaining(['content','font','gap','image','observe']))
+    expect(watermark.emits).toEqual(['image-error','image-load','remove','render'])
+    expect(watermark.slots).toEqual(['default'])
   })
 
   it('covers every component exactly once across stable documentation categories',()=>{
     expect(docs).toEqual(publicDocs)
     expect(docs.schemaVersion).toBe(1)
     expect(docs.categories).toHaveLength(6)
-    expect(docs.categories.reduce((sum,category)=>sum+category.count,0)).toBe(71)
-    expect(new Set(docs.components.map(component=>component.name)).size).toBe(71)
+    expect(docs.categories.reduce((sum,category)=>sum+category.count,0)).toBe(72)
+    expect(new Set(docs.components.map(component=>component.name)).size).toBe(72)
     expect(docs.components.every(component=>docs.categories.some(category=>category.id===component.category))).toBe(true)
   })
 
@@ -46,6 +50,7 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain('#### Events · `UiUploadEmits`')
     expect(markdown).toContain('#### Slots · `UiUploadSlots`')
     expect(markdown).toContain("import { UiTour } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiWatermark } from 'lan-ui-design-system'")
   })
 
   it('filters the browser index and opens a deep-linkable API contract',async()=>{

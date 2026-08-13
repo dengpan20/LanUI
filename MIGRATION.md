@@ -1,5 +1,25 @@
 # Lan UI migration and compatibility policy
 
+## 1.38 watermark compatibility
+
+There are no breaking changes. Protected content regions can use the new public component:
+
+```vue
+<UiWatermark
+  :content="['Lan UI', 'INTERNAL']"
+  :gap="[80, 64]"
+  :font="{ fontSize:14, color:'rgba(37,99,235,.16)' }"
+>
+  <article>Release evidence</article>
+</UiWatermark>
+```
+
+- `image` has priority; when loading or Canvas export fails, supplied `content` remains as the fallback mark.
+- The overlay always uses `pointer-events:none`. Existing links, controls, focus order and selection inside the default Slot remain available.
+- `observe=true` restores a removed or modified overlay and emits `remove` with `removed` or `modified`; set it to `false` only when the host owns DOM integrity.
+- SSR produces the stable container and protected content. Canvas and MutationObserver work begins after client mount.
+- Component refs may use `UiWatermarkInstance` for `update`, `patternUrl` and the resolved render `mode`.
+
 ## 1.37 product tour compatibility
 
 There are no breaking changes. Applications can add target-aware onboarding with the new public component:

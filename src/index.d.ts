@@ -230,6 +230,12 @@ export interface UiTourCloseMeta { source:'api'|'finish'|'mask'|'escape'|'close'
 export interface UiTourChangeMeta { source:'previous'|'next'|'keyboard'|'api'|string; step:UiTourStep }
 export interface UiTourProps { modelValue?:boolean; current?:number; steps?:UiTourStep[]; placement?:UiTourPlacement; mask?:boolean; showArrow?:boolean; showClose?:boolean; closeOnEsc?:boolean; closeOnMask?:boolean; scrollIntoView?:boolean; targetClickable?:boolean; targetPadding?:number; offset?:number; width?:string|number; zIndex?:number; ariaLabel?:string }
 export interface UiTourInstance { next:()=>void; previous:()=>void; close:(source?:string)=>void; finish:()=>void; goTo:(index:number)=>boolean; update:()=>void }
+export interface UiWatermarkFont { color?:string; fontSize?:number; fontWeight?:string|number; fontFamily?:string; fontStyle?:'normal'|'italic'|'oblique'; textAlign?:'left'|'center'|'right'; textBaseline?:CanvasTextBaseline; lineHeight?:number }
+export type UiWatermarkMode = 'empty'|'text'|'image'
+export interface UiWatermarkProps { content?:string|string[]; image?:string; width?:number; height?:number; rotate?:number; zIndex?:number; gap?:[number,number]; offset?:[number,number]; font?:UiWatermarkFont; imageCrossOrigin?:''|'anonymous'|'use-credentials'; observe?:boolean; ariaLabel?:string }
+export interface UiWatermarkRenderMeta { mode:UiWatermarkMode; source:string; width:number; height:number }
+export interface UiWatermarkImageEvent { src:string; event?:Event; error?:unknown; stage?:'load'|'render' }
+export interface UiWatermarkInstance { update:(source?:string)=>void; patternUrl:Ref<string>; mode:Ref<UiWatermarkMode> }
 export interface UiTransferProps { modelValue?:Key[]; options?:SelectOptionInput[]; titles?:[string,string]; searchable?:boolean }
 export interface UiTreeLoadContext { signal?:AbortSignal }
 export interface UiTreeProps { data?:UiTreeDataNode[]; modelValue?:Key|Key[]; expandedKeys?:Key[]; checkedKeys?:Key[]; defaultValue?:Key|Key[]; defaultExpandedKeys?:Key[]; defaultCheckedKeys?:Key[]; multiple?:boolean; selectable?:boolean; checkable?:boolean; checkStrictly?:boolean; defaultExpandAll?:boolean; accordion?:boolean; disabled?:boolean; invalid?:boolean; filter?:string; filterMethod?:(query:string,node:UiTreeDataNode)=>boolean; loadData?:(node:UiTreeDataNode,context:UiTreeLoadContext)=>UiTreeDataNode[]|Promise<UiTreeDataNode[]>; showIcon?:boolean; showLine?:boolean; bordered?:boolean; expandOnClickNode?:boolean; checkOnClickNode?:boolean; virtual?:boolean; height?:number|string; itemHeight?:number; overscan?:number; indent?:number; nodeKey?:string; labelKey?:string; childrenKey?:string; emptyText?:string; size?:ComponentSize }
@@ -354,6 +360,7 @@ export type UiTimelineEmits = {}
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
 export type UiTooltipEmits = {}
 export type UiTourEmits = { 'update:modelValue':(value:boolean)=>void; 'update:current':(value:number)=>void; open:(meta:{current:number;step:UiTourStep})=>void; close:(meta:UiTourCloseMeta)=>void; change:(current:number,previous:number,meta:UiTourChangeMeta)=>void; finish:(meta:{current:number;step:UiTourStep})=>void; 'target-missing':(meta:{index:number;step:UiTourStep})=>void }
+export type UiWatermarkEmits = { render:(meta:UiWatermarkRenderMeta)=>void; remove:(meta:{reason:'removed'|'modified'})=>void; 'image-load':(meta:UiWatermarkImageEvent)=>void; 'image-error':(meta:UiWatermarkImageEvent)=>void }
 export type UiTransferEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void }
 export type UiTreeEmits = { 'update:modelValue':(value:Key|Key[])=>void; 'select-change':(value:Key|Key[],node:UiTreeDataNode,meta:UiTreeSelectMeta)=>void; 'node-click':(node:UiTreeDataNode,event:MouseEvent)=>void; 'update:expandedKeys':(value:Key[])=>void; 'expand-change':(value:Key[],node:UiTreeDataNode,meta:UiTreeExpandMeta)=>void; 'update:checkedKeys':(value:Key[])=>void; 'check-change':(value:Key[],meta:UiTreeCheckMeta)=>void; load:(payload:UiTreeLoadPayload)=>void; 'load-error':(payload:UiTreeLoadError)=>void; 'data-error':(payload:UiTreeDataError)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiTreeSelectEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key,node:UiTreeNode)=>void; 'open-change':(open:boolean)=>void }
@@ -432,6 +439,7 @@ export type UiTimePickerSlots = {}
 export type UiToastHostSlots = {}
 export type UiTooltipSlots = { default?:(props:{describedby:string})=>VNodeChild }
 export type UiTourSlots = { title?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; indicator?:(scope:{current:number;total:number})=>VNodeChild; description?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; actions?:(scope:{step:UiTourStep;current:number;total:number;previous:()=>void;next:()=>void;close:(source?:string)=>void;finish:()=>void})=>VNodeChild }
+export type UiWatermarkSlots = { default?:()=>VNodeChild }
 export type UiTransferSlots = {}
 export type UiTreeSlots = { node?:(scope:{node:UiTreeDataNode;level:number;selected:boolean;checked:boolean;indeterminate:boolean;expanded:boolean;loading:boolean})=>VNodeChild; icon?:(scope:{node:UiTreeDataNode;expanded:boolean})=>VNodeChild; suffix?:(scope:{node:UiTreeDataNode})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiTreeSelectSlots = {}
@@ -465,6 +473,7 @@ export const UiStatusPage:LanComponent<UiStatusPageProps,UiStatusPageEmits,UiSta
 export const UiVirtualList:LanComponent<UiVirtualListProps,UiVirtualListEmits,UiVirtualListSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
 export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>; export const UiTour:LanComponent<UiTourProps,UiTourEmits,UiTourSlots>
+export const UiWatermark:LanComponent<UiWatermarkProps,UiWatermarkEmits,UiWatermarkSlots>
 export const UiTimePicker:LanComponent<UiTimePickerProps,UiTimePickerEmits,UiTimePickerSlots>
 export const UiToastHost:LanComponent<UiToastHostProps,UiToastHostEmits,UiToastHostSlots>; export const UiTransfer:LanComponent<UiTransferProps,UiTransferEmits,UiTransferSlots>; export const UiTree:LanComponent<UiTreeProps,UiTreeEmits,UiTreeSlots>; export const UiTreeSelect:LanComponent<UiTreeSelectProps,UiTreeSelectEmits,UiTreeSelectSlots>; export const UiUpload:LanComponent<UiUploadProps,UiUploadEmits,UiUploadSlots>
 export const feedback:LanUiFeedback; export const lanUiFeedbackKey:symbol; export function createLanUiFeedback():LanUiFeedback; export function useFeedback():LanUiFeedback

@@ -4,7 +4,7 @@ import {
   UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiTour, UiUpload, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiTour, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -166,6 +166,11 @@ const tableRows=[
       <div class="visual-stack"><UiAlert type="info" title="Target-aware onboarding" description="The active step stays visible, labelled and keyboard reachable."/><div class="visual-row"><UiButton id="visual-tour-upload" icon="upload">Add assets</UiButton><UiButton id="visual-tour-save" variant="secondary">Save draft</UiButton><UiButton id="visual-tour-more" variant="outline">More actions</UiButton></div></div>
     </UiCard>
     <UiTour v-if="state==='tour'" v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps" aria-label="Release onboarding tour" />
+    <UiCard v-if="state==='watermark'" title="Protected release document" title-tag="h2" class="visual-table-card visual-watermark-showcase">
+      <UiWatermark :content="['Lan UI','INTERNAL']" :gap="[76,64]" :font="{fontSize:14,color:'rgba(37,99,235,.18)',fontWeight:650}" aria-label="Internal release watermark">
+        <article class="visual-watermark-document"><div><strong>Release 1.38.0 evidence</strong><span>Package integrity, browser coverage and rollback verification</span></div><UiTag color="green">Verified</UiTag><dl><div><dt>Components</dt><dd>72</dd></div><div><dt>Runtime</dt><dd>Node 20 / 22 / 24</dd></div><div><dt>Browsers</dt><dd>Chromium / Firefox / WebKit</dd></div></dl></article>
+      </UiWatermark>
+    </UiCard>
     <UiConfigProvider v-if="state==='theme'" id="visual-scoped-dark" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD'}" class="visual-table-card">
       <UiCard title="Scoped dark tenant theme" title-tag="h2">
         <div class="visual-stack"><UiAlert type="info" title="System-aware provider" description="Dark mode and tenant tokens are isolated to this subtree."/><div class="visual-row"><UiButton>Tenant action</UiButton><UiButton variant="secondary">Secondary</UiButton><UiTag color="blue">dark / scoped</UiTag></div></div>

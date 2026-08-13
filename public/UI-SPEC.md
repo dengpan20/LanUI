@@ -866,3 +866,16 @@ P40 keeps 70 public components, 236 locale keys, 13 visual baselines, 31 zero-vi
 - The component center, static HTML preview and standalone consumer each render a working onboarding example. Unit, visual, Axe and three-browser interaction fixtures verify geometry, focus, semantics, RTL, reduced motion, SSR and consumer delivery.
 
 P41 advances to 71 public components, 242 locale keys and 13 theme-scoped Teleport families. Release gates require 14 visual baselines, 32 zero-violation Axe scenarios, 36 interactions per Chromium/Firefox/WebKit engine, 26 negative type assertions, schema/documentation drift checks, an isolated tarball consumer and 18 performance ceilings.
+
+## 55. Maturity P42: resilient document watermark
+
+- `UiWatermark` protects a bounded content region with text or image marks while the default Slot remains the semantic and interactive content source.
+- Text accepts one or multiple lines. `font`, `width`, `height`, `gap`, `offset`, `rotate` and `zIndex` form a typed layout contract; invalid numeric geometry is normalized before rendering.
+- Canvas dimensions include the current device-pixel ratio, capped at 4, while CSS background dimensions remain in logical pixels. Text retains an SVG fallback when a 2D context is unavailable.
+- `image` is loaded with a constrained native CORS mode and has priority over text. Load, CORS or Canvas-export failure emits `image-error` with a stage and falls back to `content`.
+- The visual layer is non-interactive and decorative by default. Supplying `ariaLabel` exposes one named image without repeating the watermark text to assistive technology.
+- With `observe=true`, MutationObserver distinguishes removed and modified layers, emits a diagnostic, reattaches the retained node and restores protected class, data, style and ARIA fields without desynchronizing Vue's virtual DOM.
+- Ordinary mutations inside the content Slot do not trigger repair. Unmount cancels image callbacks and observers; SSR never resolves browser globals during render.
+- Root/subpath runtime exports, declarations, component CSS, generated API records, component center, static preview, standalone consumer and packed installation remain in parity.
+
+P42 advances to 72 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. Release gates require 15 visual baselines, 33 zero-violation Axe scenarios, 37 interactions per Chromium/Firefox/WebKit engine, 27 negative type assertions, an isolated tarball consumer and 18 performance ceilings.

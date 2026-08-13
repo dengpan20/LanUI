@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.37.0",
+  "version": "1.38.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 136543,
-    "rules": 1085,
+    "bytes": 136669,
+    "rules": 1087,
     "source": "component-union"
   },
   "core": {
@@ -438,6 +438,12 @@
       "subpath": "./styles/UiVirtualList.css",
       "bytes": 4392,
       "rules": 40
+    },
+    {
+      "name": "UiWatermark",
+      "subpath": "./styles/UiWatermark.css",
+      "bytes": 163,
+      "rules": 2
     }
   ]
 }

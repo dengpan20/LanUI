@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.37.0",
+  "version": "1.38.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -84,6 +84,7 @@
       "UiTreeSelect",
       "UiUpload",
       "UiVirtualList",
+      "UiWatermark",
       "compareDateValues",
       "createIconRegistry",
       "createLanUi",
@@ -656,6 +657,15 @@
       "UiVirtualListScrollMeta",
       "UiVirtualListSelectionMeta",
       "UiVirtualListSlots",
+      "UiWatermark",
+      "UiWatermarkEmits",
+      "UiWatermarkFont",
+      "UiWatermarkImageEvent",
+      "UiWatermarkInstance",
+      "UiWatermarkMode",
+      "UiWatermarkProps",
+      "UiWatermarkRenderMeta",
+      "UiWatermarkSlots",
       "VirtualListSelectionMode",
       "compareDateValues",
       "createIconRegistry",
@@ -14256,6 +14266,220 @@
       },
       "runtimeExports": [
         "UiVirtualList",
+        "default"
+      ]
+    },
+    {
+      "name": "UiWatermark",
+      "subpath": "./components/UiWatermark",
+      "propsType": "UiWatermarkProps",
+      "props": [
+        "ariaLabel",
+        "content",
+        "font",
+        "gap",
+        "height",
+        "image",
+        "imageCrossOrigin",
+        "observe",
+        "offset",
+        "rotate",
+        "width",
+        "zIndex"
+      ],
+      "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "content",
+          "required": false,
+          "type": "string|string[]",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "font",
+          "required": false,
+          "type": "UiWatermarkFont",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "gap",
+          "required": false,
+          "type": "[number,number]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "64"
+          }
+        },
+        {
+          "name": "image",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "imageCrossOrigin",
+          "required": false,
+          "type": "''|'anonymous'|'use-credentials'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"anonymous\""
+          }
+        },
+        {
+          "name": "observe",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "offset",
+          "required": false,
+          "type": "[number,number]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "rotate",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "-22"
+          }
+        },
+        {
+          "name": "width",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "120"
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "9"
+          }
+        }
+      ],
+      "emitsType": "UiWatermarkEmits",
+      "emits": [
+        "image-error",
+        "image-load",
+        "remove",
+        "render"
+      ],
+      "emitDetails": [
+        {
+          "name": "image-error",
+          "required": true,
+          "type": "(meta:UiWatermarkImageEvent)=>void"
+        },
+        {
+          "name": "image-load",
+          "required": true,
+          "type": "(meta:UiWatermarkImageEvent)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(meta:{reason:'removed'|'modified'})=>void"
+        },
+        {
+          "name": "render",
+          "required": true,
+          "type": "(meta:UiWatermarkRenderMeta)=>void"
+        }
+      ],
+      "slotsType": "UiWatermarkSlots",
+      "slots": [
+        "default"
+      ],
+      "slotDetails": [
+        {
+          "name": "default",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiWatermark } from 'lan-ui-design-system'",
+        "subpath": "import UiWatermark from 'lan-ui-design-system/components/UiWatermark'"
+      },
+      "runtimeExports": [
+        "UiWatermark",
         "default"
       ]
     }

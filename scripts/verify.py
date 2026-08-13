@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 required = [
     "COMPONENT-API.md", "public/component-api.json", "src/generated/component-api.json", "src/pages/ApiReferencePage.vue", "scripts/api-docs.mjs", "tests/api-docs-p37.spec.js", "tests/visual/baselines/win32/api-reference.png", "scripts/build_p37_artifacts.py",
     "src/components/UiAnchor.vue", "tests/anchor-p38.spec.js", "tests/visual/baselines/win32/anchor-navigation.png", "scripts/build_p38_artifacts.py",
-    "LICENSE", "scripts/packed-consumer-regression.mjs", "scripts/build_p39_artifacts.py", "scripts/build_p41_artifacts.py",
+    "LICENSE", "scripts/packed-consumer-regression.mjs", "scripts/build_p39_artifacts.py", "scripts/build_p41_artifacts.py", "scripts/build_p42_artifacts.py",
     "index.html", "component-preview.html", "interaction-regression.html", "styles.css", "tokens.css", "font-preview.css",
     "UI-SPEC.md", "README.md", "CHANGELOG.md", "MIGRATION.md", "api-manifest.json", "style-manifest.json", "visual-regression.html", "package.json", "pnpm-workspace.yaml", "vite.config.js", "src/main.js", "src/App.vue",
     "src/pages/LoginPage.vue", "src/pages/LogoutPage.vue", "src/pages/NotFoundPage.vue", "src/pages/ForbiddenPage.vue", "src/pages/ServerErrorPage.vue",
@@ -19,7 +19,7 @@ required = [
     "src/components/UiModal.vue", "src/components/UiDrawer.vue",
     "src/components/UiTooltip.vue", "src/components/UiPopover.vue",
     "src/components/UiPopconfirm.vue", "src/components/UiToastHost.vue",
-    "src/components/UiNotification.vue", "src/components/UiTour.vue", "src/components/UiFormItem.vue", "src/components/UiFormList.vue", "src/components/UiSchemaForm.vue",
+    "src/components/UiNotification.vue", "src/components/UiTour.vue", "src/components/UiWatermark.vue", "src/components/UiFormItem.vue", "src/components/UiFormList.vue", "src/components/UiSchemaForm.vue",
     "src/components/UiCheckbox.vue", "src/components/UiRadio.vue",
     "src/components/UiSwitch.vue",
     "src/components/UiLayout.vue", "src/components/UiGrid.vue", "src/components/UiCol.vue",
@@ -34,7 +34,7 @@ required = [
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
     "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/config-runtime.js", "src/locales/zh-CN.js", "src/locales/en-US.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/theme-tokens.js", "src/theme.js", "src/motion.js", "src/theme-scope.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/generate-theme-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/minify-library-js.mjs", "scripts/css-boundary-contracts.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/watermark-p42.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/visual/baselines/win32/watermark-document.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -85,7 +85,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 480 or len(manifest_components) != 71:
+if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 480 or len(manifest_components) != 72:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -98,14 +98,14 @@ if component_api != generated_component_api or component_api.get("version") != p
     failures.append("p37:generated-api-parity")
 api_categories = component_api.get("categories", [])
 api_components = component_api.get("components", [])
-if len(api_categories) != 6 or len(api_components) != 71 or sum(item.get("count", 0) for item in api_categories) != 71 or len({item.get("name") for item in api_components}) != 71:
+if len(api_categories) != 6 or len(api_components) != 72 or sum(item.get("count", 0) for item in api_categories) != 72 or len({item.get("name") for item in api_components}) != 72:
     failures.append("p37:generated-api-coverage")
 
 style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="utf-8"))
 style_components = style_manifest.get("components", [])
 if style_manifest.get("package") != package.get("name") or style_manifest.get("version") != package.get("version"):
     failures.append("style-manifest:package-version")
-if len(style_components) != 71 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
+if len(style_components) != 72 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
@@ -631,7 +631,7 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.37.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.38.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -666,7 +666,7 @@ if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "R
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.37.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.38.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -674,14 +674,14 @@ if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens
     failures.append("p39:token-style-export")
 if not {"README.md", "LICENSE"}.issubset(set(package.get("files", []))) or "Permission is hereby granted" not in license_text:
     failures.append("p39:license-packlist")
-for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===71", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
+for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===72", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
     if marker not in packed_consumer:
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
 if distribution_budgets != {"packedFiles": 340, "packedTarballRaw": 320000, "packedUnpackedRaw": 1800000}:
     failures.append("p39:distribution-budgets")
-if "Product Tour P41" not in components_page or "1.37.0" not in components_page or "V1.37.0" not in preview:
+if "Watermark P42" not in components_page or "1.38.0" not in components_page or "V1.38.0" not in preview:
     failures.append("p39:showcase-version")
 if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p39:documentation")
@@ -693,7 +693,7 @@ release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="
 for marker in ["20.19.0", "22.12.0", "LAN_UI_EXPECTED_NODE", "RUNTIME_COMPATIBILITY PASS"]:
     if marker not in runtime_contract and marker not in ci_workflow:
         failures.append(f"p40:runtime-matrix:{marker}")
-for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===71", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
+for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===72", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
     if marker not in release_contract and marker not in release_workflow:
         failures.append(f"p40:release-contract:{marker}")
 if package.get("scripts", {}).get("test:runtime") != "node scripts/runtime-compatibility.mjs" or "test:release" not in package.get("scripts", {}).get("test:package", ""):
@@ -713,6 +713,18 @@ if "UiTour" not in components_page or 'id="product-tour"' not in preview or "pre
 if "Target-aware product onboarding (P41)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P41: target-aware product onboarding" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p41:documentation")
 
+watermark_source = (ROOT / "src/components/UiWatermark.vue").read_text(encoding="utf-8")
+for marker in ["MutationObserver", "devicePixelRatio", "imageCrossOrigin", "buildSvgFallback", "data-ui-watermark-signature", "pointerEvents: 'none'", "defineExpose"]:
+    if marker not in watermark_source:
+        failures.append(f"p42:watermark-runtime:{marker}")
+if "UiWatermark" not in components_page or 'id="watermark"' not in preview or "previewWatermarkObserver" not in preview or "UiWatermark" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
+    failures.append("p42:showcase-consumers")
+login_page = (ROOT / "src/pages/LoginPage.vue").read_text(encoding="utf-8")
+if "V1.38.0" not in app or "V1.38.0" not in login_page or "badge:72" not in components_page or "<td>Watermark</td>" not in components_page:
+    failures.append("p42:showcase-version-and-state-matrix")
+if "Resilient document watermark (P42)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p42:documentation")
+
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
 if (ROOT / "UI-SPEC.md").read_bytes() != (ROOT / "public/UI-SPEC.md").read_bytes():
@@ -722,7 +734,7 @@ for path in [ROOT / "README.md", ROOT / "UI-SPEC.md"]:
         failures.append(f"docs:corrupted-section:{path.name}")
 
 standalone = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
-for component in ["UiAlert", "UiAnchor", "UiAutoComplete", "UiButton", "UiCalendar", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiRate", "UiStatistic", "UiSelect", "UiSchemaForm", "UiTour", "UiUpload", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
+for component in ["UiAlert", "UiAnchor", "UiAutoComplete", "UiButton", "UiCalendar", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiNumberInput", "UiSlider", "UiRate", "UiStatistic", "UiSelect", "UiSchemaForm", "UiTour", "UiWatermark", "UiUpload", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
     if component not in standalone:
         failures.append(f"standalone:component:{component}")
 for marker in ["direction", ":direction=", "RTL", "LTR"]:
@@ -751,24 +763,24 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 12 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 15 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "LAN_UI_BROWSER_PATH"]:
+for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "LAN_UI_BROWSER_PATH"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "watermark-document", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 31:
+if accessibility_script.count("{name:") < 33:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") + interaction_script.count("name:'") < 35:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 37:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -805,13 +817,13 @@ for rel in ["lan-ui.js","lan-ui.css","lan-ui.d.ts"]:
 if dist_lib.exists():
     component_js=list((dist_lib / "components").glob("Ui*.js"))
     component_types=list((dist_lib / "components").glob("Ui*.d.ts"))
-    if len(component_js) != 71 or len(component_types) != 71:
+    if len(component_js) != 72 or len(component_types) != 72:
         failures.append(f"dist-lib:component-subpaths:{len(component_js)}:{len(component_types)}")
     for rel in ["color.js","color.d.ts","config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts","theme.js","theme.d.ts","motion.js","motion.d.ts"]:
         if not (dist_lib / rel).is_file():
             failures.append(f"dist-lib:subpath:{rel}")
     style_files = list((dist_lib / "styles").glob("Ui*.css"))
-    if len(style_files) != 71 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
+    if len(style_files) != 72 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
         failures.append(f"dist-lib:component-styles:{len(style_files)}")
 
 if failures:
@@ -875,4 +887,5 @@ print("- maturity-p38=ui-anchor,scroll-spy,rtl-keyboard,reduced-motion,lazy-show
 print("- maturity-p39=mit-license,publish-metadata,packed-install,offline-consumer,ssr+types+vite,distribution-budgets")
 print("- maturity-p40=node-20+22+24,compatibility-ci,version-bound-release,sha256,artifact-attestation,github-release")
 print("- maturity-p41=ui-tour,target-aware-positioning,modal+nonmodal,focus+rtl+ssr,14-visual,32-axe,36-interactions-per-browser,26-negative-types")
+print("- maturity-p42=ui-watermark,text+image-fallback,dpr-canvas,mutation-recovery,ssr+a11y,15-visual,33-axe,37-interactions-per-browser,27-negative-types")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")
