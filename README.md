@@ -749,3 +749,26 @@ const unsubscribe = controller.subscribe(state => console.log(state.resolvedAppe
 - `createThemeController` owns persistence, `prefers-color-scheme` listeners, target attributes, subscriptions, teardown and optional restoration. Injected adapters keep the same contract in SSR and unit tests.
 - `createLanUi` exposes `setAppearance` and `setTheme`, and `lan-ui-design-system/theme` is a typed, independently importable public subpath.
 - P34 keeps 69 public components and 235 locale keys. CI requires 9 visual baselines, 27 zero-violation Axe scenarios, 31 interactions per Chromium/Firefox/WebKit engine and 16 performance ceilings including the full theme-subpath dependency closure.
+
+## Scoped Teleport theme bridge (P35)
+
+Floating components can remain logically inside a tenant provider while Vue renders their panel below `body`:
+
+~~~vue
+<UiConfigProvider appearance="dark" :theme="tenantTheme" size="sm" density="compact">
+  <UiPopover v-model="open" title="Tenant settings">
+    <template #trigger><UiButton>Open settings</UiButton></template>
+    The teleported panel keeps the nearest provider contract.
+  </UiPopover>
+</UiConfigProvider>
+~~~
+
+- A private provider context serializes the effective appearance, normalized Tokens, locale, size, density, direction, color scheme and overlay base onto the actual Teleport root.
+- Modal, Drawer, Toast, Notification, Tooltip, Dropdown, Popover, Popconfirm, AutoComplete, ColorPicker, CommandPalette and Image preview share the same bridge instead of maintaining component-specific theme copies.
+- The bridge updates an open portal when a provider changes appearance or Tokens and when `appearance="system"` receives a new media-query result.
+- Roots expose `data-ui-teleport-scope` plus requested/resolved appearance metadata for diagnostics and browser assertions. Without a local provider, no bridge metadata is emitted and document theme inheritance remains authoritative.
+- A source-discovery contract rejects any future Teleport component that omits the shared bridge. P35 keeps 69 public components and 235 locale keys; CI requires 10 visual baselines, 28 zero-violation Axe scenarios and 32 interactions per Chromium/Firefox/WebKit engine.
+
+### Compact table selection controls
+
+`UiCheckbox` accepts `size="sm | md | lg"` and `aria-label`. `UiTable` uses the `sm` variant for select-all and row selection, keeping the visible checkmark at 14px while preserving a minimum 24px interaction target. Icon-only usage omits the empty label span, so alignment is stable in compact table columns.

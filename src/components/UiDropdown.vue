@@ -3,6 +3,8 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, toRef, useId, watc
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
 import { useLanUiConfig } from '../config-runtime.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props=defineProps({modelValue:Boolean,items:{type:Array,default:()=>[]},placement:{type:String,default:'bottom-right'},disabled:Boolean,offset:{type:Number,default:7}})
 const emit=defineEmits(['update:modelValue','select','open-change'])
 const root=ref(null)
@@ -32,4 +34,4 @@ watch(()=>props.modelValue,async value=>{await nextTick();syncTrigger();if(value
 onMounted(()=>{document.addEventListener('pointerdown',outside);syncTrigger()})
 onBeforeUnmount(()=>document.removeEventListener('pointerdown',outside))
 </script>
-<template><span ref="root" class="ui-dropdown" :class="`placement-${placement}`" @keydown="keydown"><span ref="trigger" class="ui-dropdown-trigger" @click="openByKeyboard=false;setOpen(!modelValue)"><slot name="trigger"/></span><Teleport to="body"><Transition name="select-menu"><div v-if="modelValue" :id="menuId" ref="panel" class="ui-dropdown-menu ui-floating-panel" :dir="config.direction" role="menu" :data-placement="resolvedPlacement" :style="floatingStyle" @keydown="keydown"><template v-for="(item,index) in items" :key="item.key||item.label||index"><div v-if="item.divider" class="ui-dropdown-divider" role="separator"/><button v-else :ref="el=>buttons[index]=el" type="button" role="menuitem" :class="{danger:item.danger}" :disabled="item.disabled" @click="select(item)"><AppIcon v-if="item.icon" :name="item.icon" :size="14"/><span>{{ item.label }}</span><kbd v-if="item.shortcut">{{ item.shortcut }}</kbd></button></template><slot/></div></Transition></Teleport></span></template>
+<template><span ref="root" class="ui-dropdown" :class="`placement-${placement}`" @keydown="keydown"><span ref="trigger" class="ui-dropdown-trigger" @click="openByKeyboard=false;setOpen(!modelValue)"><slot name="trigger"/></span><Teleport to="body"><Transition name="select-menu"><div v-if="modelValue" v-bind="portalThemeAttrs" :id="menuId" ref="panel" class="ui-dropdown-menu ui-floating-panel" :dir="config.direction" role="menu" :data-placement="resolvedPlacement" :style="[portalThemeStyle,floatingStyle]" @keydown="keydown"><template v-for="(item,index) in items" :key="item.key||item.label||index"><div v-if="item.divider" class="ui-dropdown-divider" role="separator"/><button v-else :ref="el=>buttons[index]=el" type="button" role="menuitem" :class="{danger:item.danger}" :disabled="item.disabled" @click="select(item)"><AppIcon v-if="item.icon" :name="item.icon" :size="14"/><span>{{ item.label }}</span><kbd v-if="item.shortcut">{{ item.shortcut }}</kbd></button></template><slot/></div></Transition></Teleport></span></template>

@@ -29,9 +29,9 @@ required = [
     "src/components/UiMenu.vue", "src/components/UiCollapse.vue", "src/components/UiDescriptions.vue",
     "src/components/UiResult.vue", "src/components/UiSpin.vue", "src/components/UiSegmented.vue",
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
-    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/config-runtime.js", "src/locales/zh-CN.js", "src/locales/en-US.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/theme-tokens.js", "src/theme.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
+    "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/config-runtime.js", "src/locales/zh-CN.js", "src/locales/en-US.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/theme-tokens.js", "src/theme.js", "src/theme-scope.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/generate-theme-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/minify-library-js.mjs", "scripts/css-boundary-contracts.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/table-checkbox-p36.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -569,10 +569,36 @@ for marker, source in [
         failures.append(f"p34:theme-runtime:{marker}")
 if "Theme runtime and scoped appearance (P34)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P34: theme runtime and scoped appearance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p34:documentation")
-if any(marker not in preview for marker in ["V1.30.0", "previewAppearanceSwitch", "previewThemeState", "data-ui-resolved-appearance"]) or "Theme Runtime P34" not in components_page:
+if any(marker not in preview for marker in ["previewAppearanceSwitch", "previewThemeState", "data-ui-resolved-appearance"]):
     failures.append("p34:showcase-version")
 if "test:theme" not in package.get("scripts", {}).get("prepack", "") or "./theme" not in package.get("exports", {}):
     failures.append("p34:package-gate")
+portal_scope = (ROOT / "src/theme-scope.js").read_text(encoding="utf-8")
+portal_contract = (ROOT / "scripts/theme-portal-contracts.mjs").read_text(encoding="utf-8")
+teleport_sources = {path.name:path.read_text(encoding="utf-8") for path in (ROOT / "src/components").glob("*.vue") if "<Teleport" in path.read_text(encoding="utf-8")}
+for marker, source in [
+    ("lan-ui-teleport-theme-scope", portal_scope), ("data-ui-teleport-scope", portal_scope),
+    ("THEME_PORTAL_CONTRACT PASS", portal_contract), ("provide(lanUiTeleportScopeKey,teleportScope)", theme_provider),
+]:
+    if marker not in source:
+        failures.append(f"p35:portal-runtime:{marker}")
+if len(teleport_sources) != 12 or any("useTeleportThemeScope" not in source or 'v-bind="portalThemeAttrs"' not in source for source in teleport_sources.values()):
+    failures.append(f"p35:teleport-coverage:{len(teleport_sources)}")
+if "Scoped Teleport theme bridge (P35)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P35: scoped Teleport theme inheritance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p35:documentation")
+if any(marker not in preview for marker in ["V1.31.0", "data-ui-teleport-scope"]) or "Theme Portal P35" not in components_page or "打开主题浮层" not in components_page:
+    failures.append("p35:showcase-version")
+if "theme-portal-contracts.mjs" not in package.get("scripts", {}).get("test:theme", ""):
+    failures.append("p35:package-gate")
+checkbox_source = component_config_sources["UiCheckbox.vue"]
+table_source = component_config_sources["UiTable.vue"]
+styles_source = (ROOT / "styles.css").read_text(encoding="utf-8")
+if any(marker not in checkbox_source for marker in ["size:{type:String", "ariaLabel", "$slots.default"]):
+    failures.append("p35:checkbox-size-contract")
+if any(marker not in table_source for marker in ["import UiCheckbox", 'size="sm"', "ui-table-checkbox"]):
+    failures.append("p35:table-checkbox-composition")
+if ".ui-checkbox.size-sm input { width: 14px; height: 14px;" not in styles_source or ".ui-table-select-column input { width:24px; height:24px;" in styles_source:
+    failures.append("p35:table-checkbox-style")
 
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
@@ -609,24 +635,24 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 9 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 10 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "LAN_UI_BROWSER_PATH"]:
+for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "LAN_UI_BROWSER_PATH"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 27:
+if accessibility_script.count("{name:") < 28:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") < 31:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 32:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -727,4 +753,5 @@ print("- maturity-p31=schema-form-list,69-public-components,223-locale-keys,repe
 print("- maturity-p32=upload-queue,69-public-components,235-locale-keys,async-request,progress,cancel,retry,concurrency,30-interactions-per-browser")
 print("- maturity-p33=component-style-union,css-boundary,esm-minify,lean-locale-runtime,14-release-deltas")
 print("- maturity-p34=theme-runtime,102-token-presets,scoped-provider,system-preference,host-controller,31-interactions-per-browser")
+print("- maturity-p35=12-teleport-theme-bridges,live-provider-scope,no-provider-fallback,10-visual,28-axe,32-interactions-per-browser")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.31.0] - 2026-08-13
+
+### Added
+
+- A provider-owned Teleport theme scope that carries requested/resolved appearance, named Tokens, locale, size, density, direction, color scheme and overlay base to floating roots rendered under `body`.
+- A build contract that discovers every Vue component containing Teleport and rejects missing bridge imports, setup calls, root attributes or styles; all 12 current Teleport components are covered.
+- Focused unit, visual, Axe and Chromium/Firefox/WebKit interaction evidence for live scoped portal updates, including system-preference changes while an overlay remains open.
+
+### Changed
+
+- Modal, Drawer, Toast, Notification, Tooltip, Dropdown, Popover, Popconfirm, AutoComplete, ColorPicker, CommandPalette and Image preview now retain their nearest `UiConfigProvider` theme after Teleport.
+- Global document themes remain the fallback when no local provider exists; the bridge adds no attributes or inline variables in that path.
+- `UiCheckbox` now exposes `sm / md / lg` sizing and an explicit `ariaLabel`; `UiTable` reuses its compact `sm` variant for select-all and row selection instead of maintaining a visually oversized native-only checkbox.
+- Release gates advance to 10 visual baselines, 28 zero-violation Axe scenarios and 32 interactions per browser while preserving 69 public components and all public APIs.
+
 ## [1.30.0] - 2026-08-13
 
 ### Added

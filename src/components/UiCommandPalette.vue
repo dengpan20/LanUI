@@ -5,9 +5,11 @@ import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'
 import { captureFocusOrigin, focusWithRetry, registerFocusOriginTracking } from './focusUtils.js'
 import { isClient } from '../env.js'
 import { useDirection, useLocale } from '../config-runtime.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
 
 defineOptions({ inheritAttrs:false })
 
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props=defineProps({
   modelValue:{type:Boolean,default:undefined},
   defaultOpen:Boolean,
@@ -288,7 +290,7 @@ onBeforeUnmount(()=>{stopFocusTracking();document.removeEventListener('keydown',
   <span class="ui-command-palette-trigger" :class="attrs.class" :style="attrs.style"><slot name="trigger" :open="()=>setOpen(true,'trigger')" :close="()=>setOpen(false,'trigger')" :toggle="toggle"/></span>
   <Teleport to="body">
     <Transition name="command-palette-fade">
-      <div v-if="open" class="ui-command-palette-overlay" :style="{zIndex:overlayZ}" @mousedown.self="closeOnMask&&isTopOverlay(overlayId)&&setOpen(false,'mask')">
+      <div v-if="open" v-bind="portalThemeAttrs" class="ui-command-palette-overlay" :style="[portalThemeStyle,{zIndex:overlayZ}]" @mousedown.self="closeOnMask&&isTopOverlay(overlayId)&&setOpen(false,'mask')">
         <section v-bind="dialogAttrs" ref="rootRef" class="ui-command-palette" :dir="direction" role="dialog" aria-modal="true" :aria-label="dialogLabel" :style="{width:widthStyle}" tabindex="-1" @keydown="onDialogKeydown">
           <header class="ui-command-header"><slot name="header"><h2 :id="titleId">{{ resolvedTitle }}</h2><kbd v-if="hotkeyLabel">{{ hotkeyLabel }}</kbd></slot><button type="button" class="ui-command-close" :aria-label="t('command.close')" @click="setOpen(false,'close-button')"><AppIcon name="close" :size="15"/></button></header>
           <div class="ui-command-search"><AppIcon name="search" :size="18"/><input :id="inputId" ref="inputRef" role="combobox" aria-autocomplete="list" aria-haspopup="listbox" autocomplete="off" :aria-label="t('command.label')" :aria-keyshortcuts="hotkeyAria||undefined" :aria-expanded="true" :aria-controls="listboxId" :aria-activedescendant="activeDescendant" :aria-busy="loading||undefined" :placeholder="resolvedPlaceholder" :value="currentQuery" @input="onInput" @keydown="onInputKeydown" @compositionstart="composing=true" @compositionend="onCompositionEnd"/><span v-if="loading" class="ui-command-spinner" aria-hidden="true"/><button v-else-if="currentQuery" type="button" class="ui-command-clear" :aria-label="t('common.clear')" @click="commitQuery('');scheduleLoad('',{immediate:true})"><AppIcon name="close" :size="13"/></button></div>

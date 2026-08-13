@@ -5,7 +5,9 @@ import { useDirection, useLocale } from '../config-runtime.js'
 import { isClient } from '../env.js'
 import { captureFocusOrigin, focusWithRetry } from './focusUtils.js'
 import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
 
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props = defineProps({
   src: { type: String, default: '' },
   alt: { type: String, default: '' },
@@ -368,8 +370,9 @@ onBeforeUnmount(() => {
     <Transition name="overlay-fade">
       <div
         v-if="previewVisible"
+        v-bind="portalThemeAttrs"
         class="overlay ui-image-preview-overlay"
-        :style="{ zIndex: overlayZ }"
+        :style="[portalThemeStyle,{ zIndex: overlayZ }]"
         @mousedown.self="closeOnMask && isTopOverlay(overlayId) && closePreview('mask')"
       >
         <section

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -1141,10 +1141,12 @@
       "subpath": "./components/UiCheckbox",
       "propsType": "UiCheckboxProps",
       "props": [
+        "ariaLabel",
         "disabled",
         "indeterminate",
         "label",
         "modelValue",
+        "size",
         "value"
       ],
       "emitsType": "UiCheckboxEmits",

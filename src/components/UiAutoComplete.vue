@@ -3,9 +3,11 @@ import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, use
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
 import { useComponentSize, useDirection, useLocale } from '../config-runtime.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
 
 defineOptions({ inheritAttrs:false })
 
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props=defineProps({
   modelValue:{type:[String,Number],default:''},
   options:{type:Array,default:()=>[]},
@@ -316,7 +318,7 @@ onBeforeUnmount(()=>{document.removeEventListener('pointerdown',outside);clearDe
     </span>
     <Teleport to="body" :disabled="!appendToBody">
       <Transition name="autocomplete-menu">
-        <div v-if="open" class="ui-autocomplete-portal" :class="{teleported:appendToBody}" :role="appendToBody?'region':undefined" :aria-label="appendToBody?t('autocomplete.suggestions'):undefined">
+        <div v-if="open" v-bind="portalThemeAttrs" class="ui-autocomplete-portal" :class="{teleported:appendToBody}" :style="portalThemeStyle" :role="appendToBody?'region':undefined" :aria-label="appendToBody?t('autocomplete.suggestions'):undefined">
           <div :id="listboxId" ref="panelRef" class="ui-autocomplete-menu" :class="{'ui-floating-panel':appendToBody}" :style="panelStyle" :data-placement="actualPlacement" role="listbox" :aria-labelledby="labelledby" :aria-label="labelledby?undefined:t('autocomplete.suggestions')">
           <div v-if="loading" class="ui-autocomplete-status" role="status"><slot name="loading"><span class="ui-autocomplete-spinner" aria-hidden="true"/><span>{{ resolvedLoadingText }}</span></slot></div>
           <div v-else-if="remoteError" class="ui-autocomplete-status error" role="alert"><slot name="error" :error="remoteError"><AppIcon name="alert" :size="16"/><span>{{ t('autocomplete.error') }}</span></slot></div>

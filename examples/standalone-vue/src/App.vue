@@ -49,11 +49,10 @@ const workspaceSchema=[{key:'account',title:'Schema-driven account',description:
   {key:'reviewers',name:'reviewers',type:'list',label:'Release reviewers',min:1,max:3,columns:2,defaultValue:({index})=>({name:`Reviewer ${index+1}`,email:''}),itemLabel:(_model,{index,item})=>`${index+1}. ${item.name||'Reviewer'}`,fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}],props:(_model,{index})=>({placeholder:`reviewer-${index+1}@example.com`})}]},
 ]}]
 const created = ref(false)
-const period = ref('week')
 const locale = ref('en-US')
 const direction = ref('ltr')
 const appearance = ref('system')
-const standaloneTheme=defineTheme({name:'standalone-tenant',appearance:'dark',tokens:{'brand-600':'#7C3AED','brand-text':'#A78BFA'}})
+const standaloneTheme=defineTheme({name:'tenant',appearance:'dark',tokens:{'brand-600':'#7C3AED','brand-text':'#A78BFA'}})
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
 const reminderAt = ref(new Date('2026-08-12T01:30:00.000Z'))
 const monthlyQuota = ref(12500)
@@ -74,7 +73,7 @@ const gridColumns = [
 ]
 const gridRows = Array.from({length:24},(_,index)=>({id:index+1,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection = ref('consumer-2')
-const virtualItems = Array.from({length:500},(_,index)=>({id:`consumer-${index}`,label:`Standalone record ${index+1}`,meta:index%4===0?'Measured detail row':'Ready'}))
+const virtualItems = Array.from({length:500},(_,index)=>({id:`consumer-${index}`,label:`Record ${index+1}`,meta:index%4===0?'Measured detail row':'Ready'}))
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="505" cy="80" r="110" fill="white" opacity=".12"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="white" opacity=".18"/><text x="38" y="66" fill="white" font-family="Arial" font-size="28" font-weight="700">${label}</text></svg>`)}`
 const releaseImages=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const officeCity = ref('hangzhou')
@@ -121,8 +120,8 @@ const rows = computed(() => [
 
     <UiAlert
       :type="created ? 'success' : 'info'"
-      :title="created ? '独立项目已完成初始化' : '组件包、样式和 Token 已从父项目加载'"
-      description="该页面拥有独立 package.json、Vite 配置和应用入口。"
+      :title="created ? '独立项目初始化完成' : '组件、样式和 Token 已加载'"
+      description="独立 package.json、Vite 配置和应用入口。"
     />
 
     <UiCard title="业务指标">
@@ -141,7 +140,6 @@ const rows = computed(() => [
       <label><span>Monthly quota</span><UiNumberInput v-model="monthlyQuota" :min="0" :max="100000" :step="500" :precision="0"><template #suffix>CNY</template></UiNumberInput></label>
       <label><span>Rollout range</span><UiSlider v-model="rollout" range :step="5" :min-distance="10" :aria-label="['Rollout start','Rollout end']" /></label>
       <label><span>Service rating</span><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`" /></label>
-      <label><span>Brand color</span><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981','#F59E0B']" /></label>
       <UiFormItem name="members" label="Project members" group :rules="[{ type:'array', min:1, message:'Keep at least one project member' }]">
         <UiFormList v-slot="{ fields, add, remove, move, canAdd, canRemove }" name="members" :min="1" :max="5" :default-value="()=>({name:'',email:''})" aria-label="Project members">
           <div v-for="(field,index) in fields" :key="field.key" style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px">
@@ -174,7 +172,7 @@ const rows = computed(() => [
 
     <UiCard title="Release gallery">
       <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
-        <UiImage v-for="(source,index) in releaseImages" :key="source" :src="source" :alt="`Release asset ${index+1}`" preview :preview-list="releaseImages" :preview-index="index" style="width:100%;aspect-ratio:4/3"><template #caption>Standalone package preview</template></UiImage>
+        <UiImage v-for="(source,index) in releaseImages" :key="source" :src="source" :alt="`Release asset ${index+1}`" preview :preview-list="releaseImages" :preview-index="index" style="width:100%;aspect-ratio:4/3"><template #caption>Package preview</template></UiImage>
       </div>
     </UiCard>
 
@@ -193,21 +191,17 @@ const rows = computed(() => [
       </UiTable>
     </UiCard>
     <UiCard title="Managed data grid">
-      <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:selected-rows="gridSelected" :columns="gridColumns" :rows="gridRows" :page-size-options="[5,10,20]" selectable :query-fields="['name','team','status']" aria-label="Standalone release grid">
+      <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:selected-rows="gridSelected" :columns="gridColumns" :rows="gridRows" :page-size-options="[5,10,20]" selectable :query-fields="['name','team','status']" aria-label="Release grid">
         <template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':'orange'">{{ value }}</UiTag></template>
       </UiDataGrid>
     </UiCard>
     <UiCard title="Virtualized collection">
-      <UiVirtualList v-model="virtualSelection" :items="virtualItems" :item-size="item=>item.meta.startsWith('Measured')?58:44" :estimated-item-size="48" height="220" selection-mode="single" measure bordered striped aria-label="Standalone records">
+      <UiVirtualList v-model="virtualSelection" :items="virtualItems" :item-size="item=>item.meta.startsWith('Measured')?58:44" :estimated-item-size="48" height="220" selection-mode="single" measure bordered striped aria-label="Records">
         <template #item="{item,index,selected}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%"><span>{{ index+1 }} · {{ item.label }}<small style="display:block;color:var(--text-secondary)">{{ item.meta }}</small></span><UiTag :color="selected?'blue':'gray'">{{ selected?'Selected':'Ready' }}</UiTag></div></template>
       </UiVirtualList>
     </UiCard>
     <UiCard title="Reusable status page">
       <UiStatusPage status="404" embedded @home="toast.info('Home action')" @back="toast.info('Back action')"><template #extra>Rendered from the published component subpath.</template></UiStatusPage>
-    </UiCard>
-    <UiCard title="通用能力验证">
-      <UiSegmented v-model="period" :options="[{label:'日',value:'day'},{label:'周',value:'week'},{label:'月',value:'month'}]" />
-      <UiDescriptions style="margin-top:16px" bordered :columns="3" :items="[{label:'当前周期',value:period},{label:'组件来源',value:'lan-ui-design-system'},{label:'构建方式',value:'独立 Vite 应用'}]" />
     </UiCard>
     <UiCard title="资源权限树">
       <UiTree v-model="selectedResource" v-model:checked-keys="checkedResources" :data="resourceTree" :default-expanded-keys="['operations','settings']" checkable show-line bordered aria-label="独立项目资源权限" />
@@ -222,6 +216,7 @@ const rows = computed(() => [
           <UiDateRangePicker v-model="deliveryRange" />
           <UiTimePicker v-model="reminderAt" value-type="date" time-zone="Asia/Shanghai" precision="second" :step="1" aria-label="Reminder time" />
           <UiButton>{{ locale==='en-US'?'Create delivery':'创建交付计划' }}</UiButton>
+          <UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981']" aria-label="Scoped tenant color" />
           <UiTag color="purple">{{ appearance }} / scoped theme</UiTag>
         </div>
       </UiConfigProvider>

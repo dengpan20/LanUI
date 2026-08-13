@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
+import UiCheckbox from './UiCheckbox.vue'
 import { useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 
 const props = defineProps({
@@ -89,7 +90,7 @@ function sort(column) {
         <tr>
           <th v-if="expandable" class="ui-table-control-column" :aria-label="t('table.expandColumn')"/>
           <th v-if="selectable" class="ui-table-control-column ui-table-select-column">
-            <input type="checkbox" :checked="allSelected" :indeterminate="partlySelected" :aria-label="t('table.selectAll')" @change="toggleAll"/>
+            <UiCheckbox class="ui-table-checkbox" size="sm" :model-value="allSelected" :indeterminate="partlySelected" :aria-label="t('table.selectAll')" @click.stop @change="toggleAll"/>
           </th>
           <th v-for="column in visibleColumns" :key="column.key" :class="[{sortable:column.sortable,...fixedClasses(column)},column.headerClass]" :style="columnStyle(column)" :aria-sort="sortKey===column.key?(sortOrder==='asc'?'ascending':sortOrder==='desc'?'descending':'none'):undefined">
             <div class="ui-table-header-content"><button v-if="column.sortable" type="button" class="ui-table-sort" @click="sort(column)"><span>{{ column.label }}</span><span class="ui-table-sort-icon" :class="{active:sortKey===column.key}"><AppIcon :name="sortKey===column.key&&sortOrder==='desc'?'arrowDown':'arrowUp'" :size="12"/></span></button><span v-else>{{ column.label }}</span><span v-if="column.filterable" class="ui-table-filter-wrap"><button type="button" class="ui-table-filter" :class="{active:filters[column.key]!==undefined}" :aria-label="t('table.filter',{label:column.label})" :aria-expanded="filterOpen===column.key" @click.stop="filterOpen=filterOpen===column.key?'':column.key"><AppIcon name="filter" :size="12"/></button><span v-if="filterOpen===column.key" class="ui-table-filter-menu"><button type="button" :class="{active:filters[column.key]===undefined}" @click="setFilter(column,'')">{{ t('common.all') }}</button><button v-for="option in column.filterOptions||[]" :key="typeof option==='object'?option.value:option" type="button" :class="{active:filters[column.key]===(typeof option==='object'?option.value:option)}" @click="setFilter(column,typeof option==='object'?option.value:option)">{{ typeof option==='object'?option.label:option }}</button></span></span></div><span v-if="resizable&&column.resizable!==false" class="ui-table-resize" role="separator" aria-orientation="vertical" :aria-label="t('table.resize',{label:column.label})" @pointerdown="beginResize($event,column)"/>
@@ -114,7 +115,7 @@ function sort(column) {
         <template v-for="entry in renderedRows" :key="rowId(entry.row)">
           <tr class="ui-table-row" :class="{selected:selectedRows.includes(rowId(entry.row)),expanded:expandedRows.includes(rowId(entry.row))}" @click="emit('row-click',entry.row)">
             <td v-if="expandable" class="ui-table-control-column"><button type="button" class="ui-table-expand" :class="{open:expandedRows.includes(rowId(entry.row))}" :aria-label="t(expandedRows.includes(rowId(entry.row))?'table.collapse':'table.expand',{id:rowId(entry.row)})" @click.stop="toggleExpanded(entry.row)"><AppIcon class="ui-directional-icon" name="chevronRight" :size="14"/></button></td>
-            <td v-if="selectable" class="ui-table-control-column ui-table-select-column"><input type="checkbox" :checked="selectedRows.includes(rowId(entry.row))" :aria-label="t('table.select',{id:rowId(entry.row)})" @click.stop @change="toggleRow(entry.row)"/></td>
+            <td v-if="selectable" class="ui-table-control-column ui-table-select-column"><UiCheckbox class="ui-table-checkbox" size="sm" :model-value="selectedRows.includes(rowId(entry.row))" :aria-label="t('table.select',{id:rowId(entry.row)})" @click.stop @change="toggleRow(entry.row)"/></td>
             <td v-for="column in visibleColumns" :key="column.key" :class="[column.class,fixedClasses(column)]" :style="columnStyle(column)" :data-label="column.label"><slot :name="`cell-${column.key}`" :row="entry.row" :value="entry.row[column.key]" :column="column" :row-index="entry.rowIndex">{{ entry.row[column.key] }}</slot></td>
           </tr>
           <tr v-if="expandable && expandedRows.includes(rowId(entry.row))" class="ui-table-expanded-row"><td :colspan="columnCount"><slot name="expanded" :row="entry.row"><pre>{{ entry.row }}</pre></slot></td></tr>

@@ -5,7 +5,9 @@ import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'
 import { isClient } from '../env.js'
 import { useDirection, useLocale } from '../config-runtime.js'
 import { captureFocusOrigin, focusWithRetry, registerFocusOriginTracking } from './focusUtils.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
 
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props = defineProps({
   modelValue: Boolean,
   title: { type: String, default: '' },
@@ -61,7 +63,7 @@ onBeforeUnmount(() => { if (!isClient) return; stopFocusOriginTracking(); docume
 <template>
   <Teleport to="body">
     <Transition name="overlay-fade">
-      <div v-if="modelValue || !destroyOnClose" v-show="modelValue" class="overlay ui-modal-overlay" :style="{zIndex:overlayZ}" @mousedown.self="closeOnMask&&isTopOverlay(overlayId)&&close()">
+      <div v-if="modelValue || !destroyOnClose" v-show="modelValue" v-bind="portalThemeAttrs" class="overlay ui-modal-overlay" :style="[portalThemeStyle,{zIndex:overlayZ}]" @mousedown.self="closeOnMask&&isTopOverlay(overlayId)&&close()">
         <section ref="root" class="modal ui-modal" :dir="direction" role="dialog" aria-modal="true" :aria-labelledby="titleId" :style="{width:typeof width==='number'?`${width}px`:width}" tabindex="-1">
           <header class="modal-header"><slot name="header"><h3 :id="titleId">{{ title }}</h3></slot><button class="icon-btn" :aria-label="t('modal.close')" @click="close"><AppIcon name="close"/></button></header>
           <div class="modal-body"><slot/></div>

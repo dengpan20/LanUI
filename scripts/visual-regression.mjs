@@ -24,6 +24,7 @@ const cases=[
   {name:'schema-form-list',viewport:{width:1280,height:1050},query:'theme=light&direction=ltr&density=default&state=schema-form-list',ready:'.visual-schema-form-list'},
   {name:'upload-queue',viewport:{width:1280,height:850},query:'theme=light&direction=ltr&density=default&state=upload-queue',ready:'.visual-upload-queue'},
   {name:'scoped-theme',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=theme',ready:'#visual-scoped-dark'},
+  {name:'scoped-theme-portal',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=theme-portal',ready:'.ui-popover-panel[data-ui-teleport-scope]',capture:'viewport',prepare:async page=>{await page.locator('#visual-theme-portal-trigger').scrollIntoViewIfNeeded();await page.waitForTimeout(100)}},
 ]
 
 const {server,origin}=await startFixtureServer(root)
@@ -37,7 +38,8 @@ try{
     await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
     await page.waitForSelector('body[data-visual-ready="true"]')
     if(item.ready)await page.waitForSelector(item.ready)
-    const image=await page.locator('#visual-fixture').screenshot({animations:'disabled'})
+    await item.prepare?.(page)
+    const image=item.capture==='viewport'?await page.screenshot({animations:'disabled'}):await page.locator(item.selector||'#visual-fixture').screenshot({animations:'disabled'})
     const current=resolve(currentDir,`${item.name}.png`)
     const baseline=resolve(baselineDir,`${item.name}.png`)
     writeFileSync(current,image)

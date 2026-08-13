@@ -2,6 +2,8 @@
 import { computed, nextTick, onBeforeUnmount, ref, toRef, useId } from 'vue'
 import { useFloatingPosition } from './floatingPosition.js'
 import { useLanUiConfig } from '../config-runtime.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props=defineProps({content:{type:String,default:''},placement:{type:String,default:'top'},disabled:Boolean,offset:{type:Number,default:8}})
 const open=ref(false)
 const root=ref(null)
@@ -21,4 +23,4 @@ function clearDescription(){if(!describedElement)return;if(previousDescribedby)d
 function hide(){open.value=false;clearDescription()}
 onBeforeUnmount(clearDescription)
 </script>
-<template><span ref="root" class="ui-tooltip" @mouseenter="show" @mouseleave="hide" @focusin="show" @focusout="hide"><slot :describedby="id"/><Teleport to="body"><Transition name="tooltip"><span v-if="open&&content" :id="id" ref="panel" class="ui-tooltip-content ui-floating-panel" :dir="config.direction" role="tooltip" :data-placement="resolvedPlacement" :style="floatingStyle">{{ content }}</span></Transition></Teleport></span></template>
+<template><span ref="root" class="ui-tooltip" @mouseenter="show" @mouseleave="hide" @focusin="show" @focusout="hide"><slot :describedby="id"/><Teleport to="body"><Transition name="tooltip"><span v-if="open&&content" v-bind="portalThemeAttrs" :id="id" ref="panel" class="ui-tooltip-content ui-floating-panel" :dir="config.direction" role="tooltip" :data-placement="resolvedPlacement" :style="[portalThemeStyle,floatingStyle]">{{ content }}</span></Transition></Teleport></span></template>

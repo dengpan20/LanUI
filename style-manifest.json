@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 127236,
-    "rules": 1043,
+    "bytes": 127576,
+    "rules": 1049,
     "source": "component-union"
   },
   "core": {
@@ -70,8 +70,8 @@
     {
       "name": "UiCheckbox",
       "subpath": "./styles/UiCheckbox.css",
-      "bytes": 350,
-      "rules": 4
+      "bytes": 631,
+      "rules": 9
     },
     {
       "name": "UiCol",
@@ -106,8 +106,8 @@
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 19008,
-      "rules": 164
+      "bytes": 19661,
+      "rules": 174
     },
     {
       "name": "UiDatePicker",
@@ -286,8 +286,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 30783,
-      "rules": 267
+      "bytes": 31064,
+      "rules": 272
     },
     {
       "name": "UiSegmented",
@@ -352,8 +352,8 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 8942,
-      "rules": 77
+      "bytes": 9595,
+      "rules": 87
     },
     {
       "name": "UiTabs",
@@ -400,8 +400,8 @@
     {
       "name": "UiTransfer",
       "subpath": "./styles/UiTransfer.css",
-      "bytes": 3857,
-      "rules": 42
+      "bytes": 4138,
+      "rules": 47
     },
     {
       "name": "UiTree",

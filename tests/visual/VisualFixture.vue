@@ -4,7 +4,7 @@ import {
   UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiStatusPage, UiUpload, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiUpload, UiVirtualList,
 } from '../../src/index.js'
 
 const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
@@ -155,6 +155,9 @@ const tableRows=[
       <UiCard title="Scoped dark tenant theme" title-tag="h2">
         <div class="visual-stack"><UiAlert type="info" title="System-aware provider" description="Dark mode and tenant tokens are isolated to this subtree."/><div class="visual-row"><UiButton>Tenant action</UiButton><UiButton variant="secondary">Secondary</UiButton><UiTag color="blue">dark / scoped</UiTag></div></div>
       </UiCard>
+    </UiConfigProvider>
+    <UiConfigProvider v-if="state==='theme-portal'" id="visual-scoped-portal" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD','bg-surface':'#131E2F'}" class="visual-table-card">
+      <UiCard title="Scoped portal theme bridge" title-tag="h2"><div class="visual-stack"><UiAlert type="info" title="Provider subtree" description="The teleported panel keeps this tenant theme after moving under body."/><UiPopover :model-value="true" title="Tenant settings" placement="bottom-start"><template #trigger><UiButton id="visual-theme-portal-trigger">Open tenant panel</UiButton></template><div class="visual-stack"><strong>Dark scoped overlay</strong><span>Brand, surface, density and direction follow the provider.</span><UiButton size="sm">Apply tenant theme</UiButton></div></UiPopover></div></UiCard>
     </UiConfigProvider>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">

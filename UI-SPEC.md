@@ -771,3 +771,18 @@ P33 keeps 69 public components, 235 locale keys, eight visual baselines, 26 zero
 - Root and `theme` subpath runtime/type exports, API manifest, package reopen tests, component center, standalone consumer and SSR fixtures must remain in parity.
 
 P34 keeps 69 public components and 235 locale keys. Release gates require 9 visual baselines, 27 zero-violation Axe scenarios, 31 interactions per Chromium/Firefox/WebKit engine, 23 negative type assertions and 16 performance ceilings including the complete theme-subpath JS dependency closure.
+
+## 48. Maturity P35: scoped Teleport theme inheritance
+
+- `UiConfigProvider` provides a reactive internal portal scope containing requested/resolved appearance, theme identity, normalized Token styles, locale, size, density, direction, `color-scheme` and overlay base.
+- The bridge is attached to the first rendered root inside each Teleport, so CSS variables and `[data-theme]` selectors work even though Vue moved that root outside the provider DOM subtree.
+- Modal, Drawer, Toast, Notification, Tooltip, Dropdown, Popover, Popconfirm, AutoComplete, ColorPicker, CommandPalette and Image preview use one shared composable. Future Teleport components must pass the source-discovery contract before release.
+- Portal metadata uses `data-ui-teleport-scope`, `data-ui-appearance`, `data-ui-resolved-appearance`, `data-ui-theme`, `data-ui-locale`, `data-ui-size`, `data-ui-density` and `data-ui-direction`; explicit component direction and positioning styles retain precedence.
+- Provider changes update an already-rendered portal. System appearance changes update resolved appearance and `color-scheme` without closing or remounting the overlay.
+- Repeated roots such as Toast placements each receive the same scope. Custom Teleport targets and disabled Teleports remain deterministic because the bridge is applied at the component root rather than to a global container.
+- Components without a nearest `UiConfigProvider` receive an empty bridge object, preserving document-level theme inheritance and avoiding an implicit light override.
+- Unit tests cover named Tokens, live updates, system media changes, repeated portal roots and the no-provider branch. Browser interaction repeats the live contract in Chromium, Firefox and WebKit.
+- `UiCheckbox` exposes `sm / md / lg` visual sizes plus an explicit accessible label API. Icon-only controls do not reserve an empty text gap.
+- Table select-all and row-selection cells must compose the public compact checkbox rather than restyling a native checkbox; the visible control is 14px and its interaction box remains at least 24px.
+
+P35 keeps 69 public components and 235 locale keys. Release gates require 10 visual baselines, 28 zero-violation Axe scenarios, 32 interactions per Chromium/Firefox/WebKit engine, 23 negative type assertions and 16 performance ceilings.

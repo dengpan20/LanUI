@@ -24,6 +24,25 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.31 scoped Teleport themes
+
+This release is behavior-compatible and removes the need to copy theme variables onto `body` for overlays owned by a local `UiConfigProvider`:
+
+```vue
+<UiConfigProvider appearance="dark" :theme="tenantTheme" size="sm" density="compact">
+  <UiPopover v-model="open" title="Tenant settings">
+    <template #trigger><UiButton>Open</UiButton></template>
+    The panel is rendered under body and keeps this provider scope.
+  </UiPopover>
+</UiConfigProvider>
+```
+
+- Teleported roots receive `data-ui-teleport-scope`, requested/resolved appearance, theme name, locale, size, density and direction attributes plus the provider's normalized custom properties and overlay base.
+- The bridge is reactive. Changing provider Tokens, switching light/dark, or changing the resolved system preference updates an already-open overlay.
+- Modal, Drawer, Toast, Notification, Tooltip, Dropdown, Popover, Popconfirm, AutoComplete, ColorPicker, CommandPalette and Image preview use the same internal contract.
+- Applications should remove page-local Token-copy watchers previously added only for these components. Custom application portals still need their own scope boundary.
+- A component outside `UiConfigProvider` keeps document-level CSS inheritance and receives no bridge attributes, preserving existing global-theme behavior.
+
 ## 1.30 theme runtime
 
 This release is additive. Existing `theme` Token objects on `UiConfigProvider` and existing light/dark CSS selectors remain compatible. Applications can incrementally adopt the typed runtime:

@@ -139,7 +139,7 @@ export interface UiCollapseItem { key:Key; label:string; content?:string; extra?
 export interface UiCollapseProps { items?:UiCollapseItem[]; modelValue?:Key|Key[]; accordion?:boolean; bordered?:boolean; disabled?:boolean }
 export interface UiColorPickerPreset { label?:string; value:string; disabled?:boolean }
 export interface UiColorPickerProps { modelValue?:string; open?:boolean; defaultOpen?:boolean; format?:ColorFormat; alpha?:boolean; presets?:Array<string|UiColorPickerPreset>; fallbackColor?:string; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; clearable?:boolean; showInput?:boolean; showContrast?:boolean; contrastColor?:string; closeOnSelect?:boolean; placement?:'top-start'|'top-end'|'bottom-start'|'bottom-end'; appendToBody?:boolean }
-export interface UiCheckboxProps { modelValue?:boolean|Key[]; value?:Key|boolean; label?:string; disabled?:boolean; indeterminate?:boolean }
+export interface UiCheckboxProps { modelValue?:boolean|Key[]; value?:Key|boolean; label?:string; size?:ComponentSize; ariaLabel?:string; disabled?:boolean; indeterminate?:boolean }
 export interface UiColProps { span?:number; offset?:number; order?:number }
 export interface UiConfigProviderProps extends LanUiConfigOptions { iconRegistry?:IconRegistry; tag?:string }
 export interface UiDatePickerProps { modelValue?:DateValue; mode?:DateValueMode; valueType?:DateValueType; timeZone?:'local'|'UTC'|string; disambiguation?:DateDisambiguation; precision?:DatePrecision; step?:string|number; referenceDate?:DateInput; icon?:string; placeholder?:string; min?:DateInput; max?:DateInput; size?:ComponentSize; clearable?:boolean; invalid?:boolean; disabled?:boolean }

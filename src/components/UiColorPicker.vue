@@ -4,9 +4,11 @@ import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
 import { formatColor, getContrastRatio, hsvToRgb, parseColor, rgbToHsv } from '../color.js'
 import { useComponentSize, useDirection, useLocale } from '../config-runtime.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
 
 defineOptions({inheritAttrs:false})
 
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props=defineProps({
   modelValue:{type:String,default:''},
   open:{type:Boolean,default:undefined},
@@ -186,7 +188,7 @@ onBeforeUnmount(()=>{document.removeEventListener('pointerdown',outside);documen
     </slot>
     <Teleport to="body" :disabled="!appendToBody">
       <Transition name="color-picker-menu">
-        <section v-if="opened" :id="panelId" ref="panelRef" class="ui-color-panel" :class="{'ui-floating-panel':appendToBody}" :style="panelStyle" :data-placement="actualPlacement" :dir="direction" role="dialog" :aria-label="t('color.panel')">
+        <section v-if="opened" v-bind="portalThemeAttrs" :id="panelId" ref="panelRef" class="ui-color-panel" :class="{'ui-floating-panel':appendToBody}" :style="[portalThemeStyle,panelStyle]" :data-placement="actualPlacement" :dir="direction" role="dialog" :aria-label="t('color.panel')">
           <div ref="planeRef" class="ui-color-plane" :style="planeStyle" role="slider" tabindex="0" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="Math.round(hsv.s)" :aria-valuetext="t('color.planeValue',{saturation:Math.round(hsv.s),brightness:Math.round(hsv.v)})" :aria-label="t('color.plane')" @pointerdown="onPlanePointerDown" @pointermove="onPlanePointerMove" @pointerup="onPlanePointerUp" @pointercancel="dragging=false" @keydown="onPlaneKeydown">
             <span class="ui-color-plane-white"/><span class="ui-color-plane-black"/><span class="ui-color-plane-pointer" :style="planePointerStyle"/>
           </div>

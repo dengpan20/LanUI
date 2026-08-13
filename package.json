@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.30.0",
+  "version": "1.31.0",
   "private": true,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -136,7 +136,7 @@
     "test:color": "node scripts/color-contracts.mjs",
     "test:date": "node scripts/date-contracts.mjs",
     "test:icons": "node scripts/icon-contracts.mjs",
-    "test:theme": "node scripts/generate-theme-tokens.mjs && node scripts/theme-contracts.mjs",
+    "test:theme": "node scripts/generate-theme-tokens.mjs && node scripts/theme-contracts.mjs && node scripts/theme-portal-contracts.mjs",
     "test:visual": "node scripts/visual-regression.mjs",
     "test:a11y": "node scripts/accessibility-regression.mjs",
     "test:interaction": "node scripts/interaction-regression.mjs",

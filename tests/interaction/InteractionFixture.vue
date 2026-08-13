@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
-  UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -108,6 +108,7 @@ const virtualActive = ref(0)
 const statusAction = ref('idle')
 const scopedAppearance=ref('light')
 const scopedTheme={'brand-600':'#7C3AED'}
+const scopedPortalOpen=ref(false)
 const virtualItems = Array.from({ length: 120 }, (_, index) => ({
   id: `virtual-${index}`,
   label: `Record ${String(index + 1).padStart(3, '0')}`,
@@ -412,6 +413,7 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
             <UiButton id="theme-light" @click="scopedAppearance='light'">Light theme</UiButton>
             <UiButton id="theme-dark" @click="scopedAppearance='dark'">Dark theme</UiButton>
             <UiButton id="theme-system" @click="scopedAppearance='system'">System theme</UiButton>
+            <UiPopover v-model="scopedPortalOpen" title="Scoped tenant panel"><template #trigger><UiButton id="theme-portal-trigger">Open themed portal</UiButton></template><span>Portal theme content</span></UiPopover>
           </div>
           <output class="interaction-output" data-testid="theme-output">{{ scopedAppearance }}</output>
         </UiConfigProvider>

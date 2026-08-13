@@ -325,6 +325,11 @@ svg { display: block; }
 .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
 .checkbox, .radio { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); cursor: pointer; user-select: none; }
 .checkbox input, .radio input { accent-color: var(--brand-text); width: 16px; height: 16px; margin: 0; }
+.ui-checkbox.size-sm { gap: 6px; font-size: 12px; }
+.ui-checkbox.size-sm input { width: 14px; height: 14px; flex: 0 0 14px; }
+.ui-checkbox.size-md input { width: 16px; height: 16px; flex: 0 0 16px; }
+.ui-checkbox.size-lg { gap: 10px; font-size: 15px; }
+.ui-checkbox.size-lg input { width: 18px; height: 18px; flex: 0 0 18px; }
 .switch { width: 42px; height: 28px; padding: 3px; border: 0; border-radius: var(--radius-pill); background: var(--slate-300); cursor: pointer; transition: background var(--motion-base); }
 .switch::after { content: ''; display: block; width: 22px; height: 22px; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(15,23,42,.25); transition: transform var(--motion-base) var(--ease-standard); }
 .switch.on { background: var(--brand-600); }
@@ -856,7 +861,8 @@ svg { display: block; }
 .ui-table-row.selected > td { background: var(--brand-50); }
 .ui-table-row.expanded > td { border-bottom-color: transparent; }
 .ui-table-control-column { width: 38px; min-width: 38px; padding-inline-end: 4px !important; padding-inline-start: 10px !important; text-align: center !important; }
-.ui-table-select-column input { width:24px; height:24px; margin:0; accent-color: var(--brand-text); cursor:pointer; }
+.ui-table-select-column .ui-table-checkbox { min-width: 24px; min-height: 28px; justify-content: center; gap: 0; }
+.ui-table-select-column .ui-table-checkbox input { cursor: pointer; }
 .ui-table-sort { width: 100%; min-height: 28px; padding: 0; border: 0; display: inline-flex; align-items: center; justify-content: inherit; gap: 4px; color: inherit; background: transparent; font: inherit; font-weight: inherit; cursor: pointer; }
 .ui-table-sort:hover { color: var(--brand-text); }
 .ui-table-sort-icon { display: grid; place-items: center; opacity: .34; transition: opacity var(--motion-fast), color var(--motion-fast), transform var(--motion-fast); }

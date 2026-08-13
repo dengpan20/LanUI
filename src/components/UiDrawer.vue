@@ -5,7 +5,9 @@ import { closeOverlay, isTopOverlay, openOverlay } from './overlayManager.js'
 import { isClient } from '../env.js'
 import { useDirection, useLocale } from '../config-runtime.js'
 import { captureFocusOrigin, focusWithRetry, registerFocusOriginTracking } from './focusUtils.js'
+import { useTeleportThemeScope } from '../theme-scope.js'
 
+const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
 const props = defineProps({ modelValue:Boolean, title:{type:String,default:''}, width:{type:[String,Number],default:420}, placement:{type:String,default:'right'}, closeOnMask:{type:Boolean,default:true}, closeOnEsc:{type:Boolean,default:true} })
 const emit = defineEmits(['update:modelValue','open','close'])
 const root = ref(null)
@@ -26,4 +28,4 @@ onMounted(()=>{stopFocusOriginTracking=registerFocusOriginTracking()})
 onBeforeUnmount(()=>{if(!isClient)return;stopFocusOriginTracking();document.removeEventListener('keydown',keydown);closeOverlay(overlayId)})
 </script>
 
-<template><Teleport to="body"><Transition :name="resolvedPlacement==='left'?'drawer-left':'drawer'"><div v-if="modelValue" class="drawer-overlay ui-drawer-overlay" :style="{zIndex:overlayZ}" @mousedown.self="closeOnMask&&isTopOverlay(overlayId)&&close()"><section ref="root" class="drawer ui-drawer" :class="`placement-${resolvedPlacement}`" :data-logical-placement="placement" :dir="direction" role="dialog" aria-modal="true" :aria-labelledby="titleId" :style="{width:typeof width==='number'?`${width}px`:width}" tabindex="-1"><header class="drawer-header"><slot name="header"><h3 :id="titleId">{{ title }}</h3></slot><button class="icon-btn" :aria-label="t('drawer.close')" @click="close"><AppIcon name="close"/></button></header><div class="drawer-body"><slot/></div><footer v-if="$slots.footer" class="drawer-footer"><slot name="footer" :close="close"/></footer></section></div></Transition></Teleport></template>
+<template><Teleport to="body"><Transition :name="resolvedPlacement==='left'?'drawer-left':'drawer'"><div v-if="modelValue" v-bind="portalThemeAttrs" class="drawer-overlay ui-drawer-overlay" :style="[portalThemeStyle,{zIndex:overlayZ}]" @mousedown.self="closeOnMask&&isTopOverlay(overlayId)&&close()"><section ref="root" class="drawer ui-drawer" :class="`placement-${resolvedPlacement}`" :data-logical-placement="placement" :dir="direction" role="dialog" aria-modal="true" :aria-labelledby="titleId" :style="{width:typeof width==='number'?`${width}px`:width}" tabindex="-1"><header class="drawer-header"><slot name="header"><h3 :id="titleId">{{ title }}</h3></slot><button class="icon-btn" :aria-label="t('drawer.close')" @click="close"><AppIcon name="close"/></button></header><div class="drawer-body"><slot/></div><footer v-if="$slots.footer" class="drawer-footer"><slot name="footer" :close="close"/></footer></section></div></Transition></Teleport></template>
