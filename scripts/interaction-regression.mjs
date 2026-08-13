@@ -619,6 +619,24 @@ const allCases = [
       await expectText(page,'motion-output','system')
     },
   },
+  {
+    name:'api-reference-discovery',
+    query:'direction=ltr&state=api-docs',
+    run:async page=>{
+      const search=page.getByRole('textbox',{name:'搜索组件 API'})
+      await search.fill('Upload')
+      await page.waitForFunction(()=>document.querySelector('.api-reference-result')?.textContent?.includes('1 个组件'))
+      const upload=page.getByRole('button',{name:/UiUpload/})
+      await upload.click()
+      assert.equal((await page.locator('.api-reference-detail h2').innerText()).trim(),'UiUpload')
+      assert.match(page.url(),/#\/api\?component=UiUpload$/)
+      const propRow=page.getByRole('row',{name:/autoUpload/})
+      await propRow.waitFor()
+      assert.match(await propRow.innerText(),/boolean.*true/is)
+      await search.fill('')
+      assert.equal(await page.locator('.api-reference-index nav button').count(),69)
+    },
+  },
 ]
 const requestedCases=caseArgument?[...new Set(caseArgument.split(',').map(value=>value.trim()).filter(Boolean))]:[]
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

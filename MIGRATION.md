@@ -1,5 +1,14 @@
 # Lan UI migration and compatibility policy
 
+## 1.33 generated API documentation
+
+There are no component runtime breaking changes in this release.
+
+- API manifest consumers should accept schema 3. Existing `props`, `emits` and `slots` name arrays remain available; use `propDetails`, `emitDetails`, `slotDetails` and `imports` for documentation tooling.
+- Run `pnpm run api:generate` after changing a public declaration, runtime prop/default, event, slot, component registry entry or documentation category. Commit `api-manifest.json`, `COMPONENT-API.md`, `src/generated/component-api.json` and `public/component-api.json` together.
+- Run `pnpm run api:check` in downstream validation when generated documentation is mirrored. The command is deterministic and exits non-zero on byte drift.
+- The showcase route `#/api?component=UiButton` is a stable documentation deep link. Custom hash routers should resolve the path before the query, matching the updated host shell.
+
 ## Stable import boundary
 
 Applications should import only documented Package Exports:

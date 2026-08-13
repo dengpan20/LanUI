@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import AppIcon from './components/AppIcon.vue'
 import UiButton from './components/UiButton.vue'
 import UiInput from './components/UiInput.vue'
@@ -31,6 +31,7 @@ import DataPage from './pages/DataPage.vue'
 import AiPage from './pages/AiPage.vue'
 import GanttPage from './pages/GanttPage.vue'
 import ComponentsPage from './pages/ComponentsPage.vue'
+const ApiReferencePage=defineAsyncComponent(()=>import('./pages/ApiReferencePage.vue'))
 
 const routeMeta = {
   '/home': { title:'综合看板', icon:'chart', component:DashboardPage },
@@ -39,6 +40,7 @@ const routeMeta = {
   '/ai': { title:'智能问答', icon:'bot', component:AiPage },
   '/gantt': { title:'甘特计划', icon:'calendar', component:GanttPage },
   '/components': { title:'组件用例', icon:'palette', component:ComponentsPage },
+  '/api': { title:'API 参考', icon:'file', component:ApiReferencePage },
   '/403': { title:'403 无权限', icon:'lock', component:ForbiddenPage, statusPage:true },
   '/404': { title:'404 页面不存在', icon:'file', component:NotFoundPage, statusPage:true },
   '/500': { title:'500 服务器错误', icon:'alert', component:ServerErrorPage, statusPage:true },
@@ -46,11 +48,12 @@ const routeMeta = {
 const navGroups = [
   { label:'工作空间', items:[{path:'/workbench',title:'我的工作台',icon:'home'},{path:'/home',title:'综合看板',icon:'chart'}] },
   { label:'业务示例', items:[{path:'/data',title:'客户数据',icon:'table'},{path:'/ai',title:'智能问答',icon:'bot'},{path:'/gantt',title:'甘特计划',icon:'calendar'}] },
-  { label:'设计系统', items:[{path:'/components',title:'组件用例中心',icon:'palette'}] },
+  { label:'设计系统', items:[{path:'/components',title:'组件用例中心',icon:'palette'},{path:'/api',title:'组件 API 参考',icon:'file'}] },
   { label:'通用页面', items:[{path:'/403',title:'403 无权限',icon:'lock'},{path:'/404',title:'404 页面不存在',icon:'file'},{path:'/500',title:'500 服务器错误',icon:'alert'}] },
 ]
 
-const initialHash = location.hash.replace(/^#/, '') || '/login'
+function routePath(value){return (value||'/login').split('?')[0]||'/login'}
+const initialHash = routePath(location.hash.replace(/^#/, '') || '/login')
 const path = ref(initialHash)
 const authenticated = ref(localStorage.getItem('lan-auth') === '1')
 const collapsed = ref(localStorage.getItem('lan-sidebar') === '1')
@@ -81,7 +84,7 @@ const shellClass = computed(()=>({collapsed:collapsed.value,expanded:mobileExpan
 
 function setHash(next){ if(location.hash!==`#${next}`) location.hash=next; else applyRoute() }
 function applyRoute(){
-  let next=location.hash.replace(/^#/,'')||'/login'
+  let next=routePath(location.hash.replace(/^#/,'')||'/login')
   if(!next.startsWith('/')) next=`/${next}`
   if(!authenticated.value && next!=='/login'){ location.hash='/login'; return }
   if(authenticated.value && next==='/login'){ location.hash='/home'; return }

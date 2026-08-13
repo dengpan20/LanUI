@@ -8,8 +8,9 @@ import {
   UiCommandPalette,
   UiDataGrid, UiStatusPage, UiVirtualList,
 } from '../../src/index.js'
+import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
-defineProps({ direction: { type: String, default: 'ltr' } })
+defineProps({ direction: { type: String, default: 'ltr' }, state: { type: String, default: 'base' } })
 
 const region = ref('')
 const officeCity = ref('')
@@ -139,6 +140,8 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
 
 <template>
   <UiConfigProvider id="interaction-fixture" class="interaction-fixture" tag="main" locale="en-US" :direction="direction">
+    <ApiReferencePage v-if="state==='api-docs'" />
+    <template v-else>
     <h1>Lan UI interaction regression fixture</h1>
     <div class="interaction-grid">
       <section class="interaction-case">
@@ -433,5 +436,6 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         </UiConfigProvider>
       </section>
     </div>
+    </template>
   </UiConfigProvider>
 </template>

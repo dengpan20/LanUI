@@ -799,3 +799,16 @@ P35 keeps 69 public components and 235 locale keys. Release gates require 10 vis
 - Browser interaction verifies system reduction, explicit full override, Teleport inheritance and a live switch back to no-preference in Chromium, Firefox and WebKit.
 
 P36 keeps 69 public components and 235 locale keys. Release gates require 11 visual baselines, 29 zero-violation Axe scenarios, 33 interactions per Chromium/Firefox/WebKit engine, 24 negative type assertions and 18 performance ceilings.
+
+## 50. Maturity P37: generated API reference and drift governance
+
+- `api-manifest.json` schema 3 is the canonical machine contract for documentation. Every component exposes sorted compact names plus detailed Props, Events and Slots entries containing public TypeScript signatures and required state.
+- Prop details join declarations to the built Vue runtime. Constructor names and literal, implicit, undefined or factory defaults are documented without executing consumer callbacks or mutable default factories.
+- Six stable categories cover every one of the 69 public components exactly once. Generation rejects missing, duplicate and unknown assignments before writing any output.
+- `COMPONENT-API.md`, `src/generated/component-api.json` and `public/component-api.json` are deterministic projections of the manifest. Check mode compares normalized bytes and is part of `check` and `prepack` through `api:check`.
+- The admin shell exposes a lazy-loaded `/api` route. Component, prop, event and slot search; category filters; empty results; import copying and `?component=` deep links are keyboard-accessible and responsive.
+- Hash route resolution separates the route path from its query. Selecting a contract updates history without remounting the shell, while opening a direct link restores the selected component.
+- The page uses semantic headings, labelled navigation, live result counts, native tables with captions and visible focus treatment. Narrow viewports collapse the index and contract columns without hiding API information.
+- Unit tests prove schema/detail/category parity and browser discovery. Visual and Axe fixtures render the real page; the interaction matrix repeats search, selection and deep-link behavior in Chromium, Firefox and WebKit.
+
+P37 keeps 69 public components and 235 locale keys. Release gates require 12 visual baselines, 30 zero-violation Axe scenarios, 34 interactions per Chromium/Firefox/WebKit engine, 24 negative type assertions, generated documentation drift checks and 18 performance ceilings.

@@ -1,945 +1,58 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 1,
   "package": "lan-ui-design-system",
   "version": "1.33.0",
-  "moduleFormat": "esm",
-  "root": {
-    "runtimeExports": [
-      "BUILTIN_ICONS",
-      "BUILTIN_ICON_NAMES",
-      "DATE_VALUE_MODES",
-      "DATE_VALUE_TYPES",
-      "LanUi",
-      "MOTION_PREFERENCES",
-      "THEME_APPEARANCES",
-      "THEME_TOKEN_NAMES",
-      "UiAlert",
-      "UiAutoComplete",
-      "UiAvatar",
-      "UiBadge",
-      "UiBreadcrumb",
-      "UiButton",
-      "UiCalendar",
-      "UiCard",
-      "UiCascader",
-      "UiCheckbox",
-      "UiCol",
-      "UiCollapse",
-      "UiColorPicker",
-      "UiCommandPalette",
-      "UiConfigProvider",
-      "UiDataGrid",
-      "UiDatePicker",
-      "UiDateRangePicker",
-      "UiDescriptions",
-      "UiDivider",
-      "UiDrawer",
-      "UiDropdown",
-      "UiEmpty",
-      "UiFloatButton",
-      "UiForm",
-      "UiFormItem",
-      "UiFormList",
-      "UiGrid",
-      "UiIcon",
-      "UiImage",
-      "UiInput",
-      "UiLayout",
-      "UiListToolbar",
-      "UiMenu",
-      "UiModal",
-      "UiMultiSelect",
-      "UiNotification",
-      "UiNumberInput",
-      "UiPagination",
-      "UiPopconfirm",
-      "UiPopover",
-      "UiProgress",
-      "UiRadio",
-      "UiRate",
-      "UiResult",
-      "UiSchemaForm",
-      "UiSegmented",
-      "UiSelect",
-      "UiSkeleton",
-      "UiSlider",
-      "UiSpace",
-      "UiSpin",
-      "UiStatistic",
-      "UiStatusPage",
-      "UiSteps",
-      "UiSwitch",
-      "UiTable",
-      "UiTabs",
-      "UiTag",
-      "UiTextarea",
-      "UiTimePicker",
-      "UiTimeline",
-      "UiToastHost",
-      "UiTooltip",
-      "UiTransfer",
-      "UiTree",
-      "UiTreeSelect",
-      "UiUpload",
-      "UiVirtualList",
-      "compareDateValues",
-      "createIconRegistry",
-      "createLanUi",
-      "createLanUiFeedback",
-      "createLocaleRegistry",
-      "createLocaleTools",
-      "createMotionController",
-      "createThemeController",
-      "darkTheme",
-      "dateValueToDate",
-      "default",
-      "defaultIconRegistry",
-      "defaultLocaleRegistry",
-      "defineIcon",
-      "defineLocale",
-      "defineTheme",
-      "enUS",
-      "feedback",
-      "formatColor",
-      "formatDateValue",
-      "fromDateValue",
-      "getContrastRatio",
-      "getReadableTextColor",
-      "hasIcon",
-      "hasLocale",
-      "hslToRgb",
-      "hsvToRgb",
-      "iconRegistryKey",
-      "inferDateValueType",
-      "isValidColor",
-      "lanUiConfigKey",
-      "lanUiFeedbackKey",
-      "lanUiMotionKey",
-      "lightTheme",
-      "listIcons",
-      "listLocales",
-      "loadLocale",
-      "mergeThemes",
-      "motionPreferenceToStyle",
-      "normalizeColorState",
-      "normalizeLanUiConfig",
-      "normalizeMotionPreference",
-      "normalizeThemeAppearance",
-      "normalizeThemeTokens",
-      "notification",
-      "notificationState",
-      "parseColor",
-      "parseDateValue",
-      "registerIcon",
-      "registerLocale",
-      "resolveMotionPreference",
-      "resolveThemeAppearance",
-      "resolveTimeZone",
-      "rgbToHsl",
-      "rgbToHsv",
-      "themeToStyle",
-      "toDateValue",
-      "toast",
-      "toastState",
-      "unregisterIcon",
-      "unregisterLocale",
-      "useComponentSize",
-      "useDirection",
-      "useFeedback",
-      "useIconRegistry",
-      "useLanUiConfig",
-      "useLocale",
-      "useNotification",
-      "useReducedMotion",
-      "useToast",
-      "zhCN"
-    ],
-    "typeExports": [
-      "BUILTIN_ICONS",
-      "BUILTIN_ICON_NAMES",
-      "CalendarPanel",
-      "CalendarSelectionMode",
-      "ColorFormat",
-      "ColorInput",
-      "ComponentSize",
-      "DATE_VALUE_MODES",
-      "DATE_VALUE_TYPES",
-      "DataGridMode",
-      "DateDisambiguation",
-      "DateInput",
-      "DatePrecision",
-      "DateValue",
-      "DateValueMode",
-      "DateValueOptions",
-      "DateValueType",
-      "Direction",
-      "HslaColor",
-      "HsvaColor",
-      "IconDefinition",
-      "IconDefinitionInput",
-      "IconNode",
-      "IconRegisterOptions",
-      "IconRegistry",
-      "IconRegistryOptions",
-      "IconUnregisterOptions",
-      "ImageFit",
-      "Key",
-      "LanComponent",
-      "LanUi",
-      "LanUiConfig",
-      "LanUiConfigOptions",
-      "LanUiFeedback",
-      "LanUiLocale",
-      "LanUiLocaleContext",
-      "LanUiLocaleTools",
-      "LanUiOptions",
-      "LanUiPlugin",
-      "LocaleFallback",
-      "LocaleInput",
-      "LocaleLoadOptions",
-      "LocaleLoader",
-      "LocaleMessage",
-      "LocaleModule",
-      "LocaleName",
-      "LocaleParams",
-      "LocaleRegistry",
-      "MOTION_PREFERENCES",
-      "MotionController",
-      "MotionControllerOptions",
-      "MotionControllerState",
-      "MotionMediaQuery",
-      "MotionPreference",
-      "MotionPreferenceOptions",
-      "MotionResolvedPreference",
-      "MotionStorage",
-      "MotionTarget",
-      "NotificationOptions",
-      "NotificationService",
-      "NotificationState",
-      "ParsedDateValue",
-      "Placement",
-      "RgbaColor",
-      "SelectOption",
-      "SelectOptionInput",
-      "THEME_APPEARANCES",
-      "THEME_TOKEN_NAMES",
-      "ThemeAppearance",
-      "ThemeAppearanceOptions",
-      "ThemeController",
-      "ThemeControllerOptions",
-      "ThemeControllerState",
-      "ThemeDefinition",
-      "ThemeInput",
-      "ThemeMediaQuery",
-      "ThemeStorage",
-      "ThemeTarget",
-      "ThemeTokenOptions",
-      "ThemeTokenValue",
-      "ThemeTokens",
-      "ToastOptions",
-      "ToastPlacement",
-      "ToastService",
-      "ToastState",
-      "UiAlert",
-      "UiAlertEmits",
-      "UiAlertProps",
-      "UiAlertSlots",
-      "UiAutoComplete",
-      "UiAutoCompleteChangeMeta",
-      "UiAutoCompleteEmits",
-      "UiAutoCompleteFetchContext",
-      "UiAutoCompleteLoadError",
-      "UiAutoCompleteOption",
-      "UiAutoCompleteProps",
-      "UiAutoCompleteSlots",
-      "UiAvatar",
-      "UiAvatarEmits",
-      "UiAvatarProps",
-      "UiAvatarSlots",
-      "UiBadge",
-      "UiBadgeEmits",
-      "UiBadgeProps",
-      "UiBadgeSlots",
-      "UiBreadcrumb",
-      "UiBreadcrumbEmits",
-      "UiBreadcrumbItem",
-      "UiBreadcrumbProps",
-      "UiBreadcrumbSlots",
-      "UiButton",
-      "UiButtonEmits",
-      "UiButtonProps",
-      "UiButtonSlots",
-      "UiCalendar",
-      "UiCalendarCell",
-      "UiCalendarChangeMeta",
-      "UiCalendarDisabledContext",
-      "UiCalendarEmits",
-      "UiCalendarProps",
-      "UiCalendarRangeState",
-      "UiCalendarSlots",
-      "UiCalendarViewChange",
-      "UiCard",
-      "UiCardEmits",
-      "UiCardProps",
-      "UiCardSlots",
-      "UiCascader",
-      "UiCascaderEmits",
-      "UiCascaderProps",
-      "UiCascaderSlots",
-      "UiCheckbox",
-      "UiCheckboxEmits",
-      "UiCheckboxProps",
-      "UiCheckboxSlots",
-      "UiCol",
-      "UiColEmits",
-      "UiColProps",
-      "UiColSlots",
-      "UiCollapse",
-      "UiCollapseEmits",
-      "UiCollapseItem",
-      "UiCollapseProps",
-      "UiCollapseSlots",
-      "UiColorPicker",
-      "UiColorPickerChangeMeta",
-      "UiColorPickerEmits",
-      "UiColorPickerInvalid",
-      "UiColorPickerPreset",
-      "UiColorPickerProps",
-      "UiColorPickerSlots",
-      "UiCommandPalette",
-      "UiCommandPaletteCommand",
-      "UiCommandPaletteDataError",
-      "UiCommandPaletteEmits",
-      "UiCommandPaletteFetchContext",
-      "UiCommandPaletteLoadError",
-      "UiCommandPaletteOpenMeta",
-      "UiCommandPaletteProps",
-      "UiCommandPaletteSelectMeta",
-      "UiCommandPaletteSlots",
-      "UiConfigProvider",
-      "UiConfigProviderEmits",
-      "UiConfigProviderProps",
-      "UiConfigProviderSlots",
-      "UiDataGrid",
-      "UiDataGridChange",
-      "UiDataGridEmits",
-      "UiDataGridProps",
-      "UiDataGridReason",
-      "UiDataGridSlots",
-      "UiDataGridState",
-      "UiDateInvalid",
-      "UiDatePicker",
-      "UiDatePickerEmits",
-      "UiDatePickerProps",
-      "UiDatePickerSlots",
-      "UiDateRangeChange",
-      "UiDateRangeFocusPayload",
-      "UiDateRangeInvalid",
-      "UiDateRangePicker",
-      "UiDateRangePickerEmits",
-      "UiDateRangePickerProps",
-      "UiDateRangePickerSlots",
-      "UiDescriptionItem",
-      "UiDescriptions",
-      "UiDescriptionsEmits",
-      "UiDescriptionsProps",
-      "UiDescriptionsSlots",
-      "UiDivider",
-      "UiDividerEmits",
-      "UiDividerProps",
-      "UiDividerSlots",
-      "UiDrawer",
-      "UiDrawerEmits",
-      "UiDrawerProps",
-      "UiDrawerSlots",
-      "UiDropdown",
-      "UiDropdownEmits",
-      "UiDropdownItem",
-      "UiDropdownProps",
-      "UiDropdownSlots",
-      "UiEmpty",
-      "UiEmptyEmits",
-      "UiEmptyProps",
-      "UiEmptySlots",
-      "UiFloatButton",
-      "UiFloatButtonEmits",
-      "UiFloatButtonProps",
-      "UiFloatButtonSlots",
-      "UiForm",
-      "UiFormEmits",
-      "UiFormFieldState",
-      "UiFormInstance",
-      "UiFormItem",
-      "UiFormItemEmits",
-      "UiFormItemProps",
-      "UiFormItemSlots",
-      "UiFormList",
-      "UiFormListChange",
-      "UiFormListEmits",
-      "UiFormListField",
-      "UiFormListInstance",
-      "UiFormListLimit",
-      "UiFormListProps",
-      "UiFormListSlots",
-      "UiFormPath",
-      "UiFormProps",
-      "UiFormResetPayload",
-      "UiFormRule",
-      "UiFormRuleType",
-      "UiFormRules",
-      "UiFormSetField",
-      "UiFormSetValueOptions",
-      "UiFormSlots",
-      "UiFormValidateOptions",
-      "UiFormValidateStatus",
-      "UiFormValidateTrigger",
-      "UiFormValidationResult",
-      "UiFormValidatorContext",
-      "UiGrid",
-      "UiGridEmits",
-      "UiGridProps",
-      "UiGridSlots",
-      "UiIcon",
-      "UiIconEmits",
-      "UiIconProps",
-      "UiIconSlots",
-      "UiImage",
-      "UiImageEmits",
-      "UiImageFallbackMeta",
-      "UiImageLoadMeta",
-      "UiImagePreviewEventMeta",
-      "UiImagePreviewMeta",
-      "UiImageProps",
-      "UiImageSlots",
-      "UiImageTransform",
-      "UiInput",
-      "UiInputEmits",
-      "UiInputProps",
-      "UiInputSlots",
-      "UiLayout",
-      "UiLayoutEmits",
-      "UiLayoutProps",
-      "UiLayoutSlots",
-      "UiListToolbar",
-      "UiListToolbarEmits",
-      "UiListToolbarProps",
-      "UiListToolbarSlots",
-      "UiMenu",
-      "UiMenuEmits",
-      "UiMenuItem",
-      "UiMenuProps",
-      "UiMenuSlots",
-      "UiModal",
-      "UiModalEmits",
-      "UiModalProps",
-      "UiModalSlots",
-      "UiMultiSelect",
-      "UiMultiSelectEmits",
-      "UiMultiSelectProps",
-      "UiMultiSelectSlots",
-      "UiNotice",
-      "UiNotification",
-      "UiNotificationEmits",
-      "UiNotificationProps",
-      "UiNotificationSlots",
-      "UiNumberInput",
-      "UiNumberInputChangeMeta",
-      "UiNumberInputEmits",
-      "UiNumberInputInvalid",
-      "UiNumberInputProps",
-      "UiNumberInputSlots",
-      "UiNumberInputStepMeta",
-      "UiPagination",
-      "UiPaginationChange",
-      "UiPaginationEmits",
-      "UiPaginationProps",
-      "UiPaginationSlots",
-      "UiPopconfirm",
-      "UiPopconfirmEmits",
-      "UiPopconfirmProps",
-      "UiPopconfirmSlots",
-      "UiPopover",
-      "UiPopoverEmits",
-      "UiPopoverProps",
-      "UiPopoverSlots",
-      "UiProgress",
-      "UiProgressEmits",
-      "UiProgressProps",
-      "UiProgressSlots",
-      "UiRadio",
-      "UiRadioEmits",
-      "UiRadioProps",
-      "UiRadioSlots",
-      "UiRate",
-      "UiRateChangeMeta",
-      "UiRateEmits",
-      "UiRateProps",
-      "UiRateSlots",
-      "UiResult",
-      "UiResultEmits",
-      "UiResultProps",
-      "UiResultSlots",
-      "UiSchemaForm",
-      "UiSchemaFormBuiltinType",
-      "UiSchemaFormCallback",
-      "UiSchemaFormComponent",
-      "UiSchemaFormContext",
-      "UiSchemaFormDefinition",
-      "UiSchemaFormEmitFn",
-      "UiSchemaFormEmits",
-      "UiSchemaFormError",
-      "UiSchemaFormField",
-      "UiSchemaFormFieldChange",
-      "UiSchemaFormFieldSlotScope",
-      "UiSchemaFormInstance",
-      "UiSchemaFormListChange",
-      "UiSchemaFormListDefaultContext",
-      "UiSchemaFormListEmptySlotScope",
-      "UiSchemaFormListField",
-      "UiSchemaFormListItemSlotScope",
-      "UiSchemaFormListLimit",
-      "UiSchemaFormNode",
-      "UiSchemaFormProps",
-      "UiSchemaFormResolver",
-      "UiSchemaFormSection",
-      "UiSchemaFormSlotScope",
-      "UiSchemaFormSlots",
-      "UiSegmented",
-      "UiSegmentedEmits",
-      "UiSegmentedOption",
-      "UiSegmentedProps",
-      "UiSegmentedSlots",
-      "UiSelect",
-      "UiSelectEmits",
-      "UiSelectProps",
-      "UiSelectSlots",
-      "UiSkeleton",
-      "UiSkeletonEmits",
-      "UiSkeletonProps",
-      "UiSkeletonSlots",
-      "UiSlider",
-      "UiSliderChangeMeta",
-      "UiSliderEmits",
-      "UiSliderFocusMeta",
-      "UiSliderMark",
-      "UiSliderProps",
-      "UiSliderSlots",
-      "UiSpace",
-      "UiSpaceEmits",
-      "UiSpaceProps",
-      "UiSpaceSlots",
-      "UiSpin",
-      "UiSpinEmits",
-      "UiSpinProps",
-      "UiSpinSlots",
-      "UiStatistic",
-      "UiStatisticEmits",
-      "UiStatisticFormatterContext",
-      "UiStatisticProps",
-      "UiStatisticSlots",
-      "UiStatisticTrendContext",
-      "UiStatusPage",
-      "UiStatusPageEmits",
-      "UiStatusPageProps",
-      "UiStatusPageSlots",
-      "UiStepItem",
-      "UiSteps",
-      "UiStepsEmits",
-      "UiStepsProps",
-      "UiStepsSlots",
-      "UiSwitch",
-      "UiSwitchEmits",
-      "UiSwitchProps",
-      "UiSwitchSlots",
-      "UiTable",
-      "UiTableColumn",
-      "UiTableColumnResize",
-      "UiTableEmits",
-      "UiTableProps",
-      "UiTableSlots",
-      "UiTableSortChange",
-      "UiTabs",
-      "UiTabsEmits",
-      "UiTabsItem",
-      "UiTabsProps",
-      "UiTabsSlots",
-      "UiTag",
-      "UiTagEmits",
-      "UiTagProps",
-      "UiTagSlots",
-      "UiTextarea",
-      "UiTextareaEmits",
-      "UiTextareaProps",
-      "UiTextareaSlots",
-      "UiTimePicker",
-      "UiTimePickerEmits",
-      "UiTimePickerProps",
-      "UiTimePickerSlots",
-      "UiTimeline",
-      "UiTimelineEmits",
-      "UiTimelineItem",
-      "UiTimelineProps",
-      "UiTimelineSlots",
-      "UiToastHost",
-      "UiToastHostEmits",
-      "UiToastHostProps",
-      "UiToastHostSlots",
-      "UiToastItem",
-      "UiTooltip",
-      "UiTooltipEmits",
-      "UiTooltipProps",
-      "UiTooltipSlots",
-      "UiTransfer",
-      "UiTransferEmits",
-      "UiTransferProps",
-      "UiTransferSlots",
-      "UiTree",
-      "UiTreeCheckMeta",
-      "UiTreeDataError",
-      "UiTreeDataNode",
-      "UiTreeEmits",
-      "UiTreeExpandMeta",
-      "UiTreeLoadContext",
-      "UiTreeLoadError",
-      "UiTreeLoadPayload",
-      "UiTreeNode",
-      "UiTreeProps",
-      "UiTreeSelect",
-      "UiTreeSelectEmits",
-      "UiTreeSelectMeta",
-      "UiTreeSelectProps",
-      "UiTreeSelectSlots",
-      "UiTreeSlots",
-      "UiUpload",
-      "UiUploadAbortEvent",
-      "UiUploadBefore",
-      "UiUploadBeforeContext",
-      "UiUploadBeforeRemove",
-      "UiUploadChangeMeta",
-      "UiUploadEmits",
-      "UiUploadErrorEvent",
-      "UiUploadEvent",
-      "UiUploadExceed",
-      "UiUploadFile",
-      "UiUploadInstance",
-      "UiUploadProgressEvent",
-      "UiUploadProps",
-      "UiUploadReject",
-      "UiUploadRemoveEvent",
-      "UiUploadRequest",
-      "UiUploadRequestContext",
-      "UiUploadSlots",
-      "UiUploadStatus",
-      "UiUploadSuccessEvent",
-      "UiVirtualList",
-      "UiVirtualListEmits",
-      "UiVirtualListItemScope",
-      "UiVirtualListProps",
-      "UiVirtualListRange",
-      "UiVirtualListScrollMeta",
-      "UiVirtualListSelectionMeta",
-      "UiVirtualListSlots",
-      "VirtualListSelectionMode",
-      "compareDateValues",
-      "createIconRegistry",
-      "createLanUi",
-      "createLanUiFeedback",
-      "createLocaleRegistry",
-      "createLocaleTools",
-      "createMotionController",
-      "createThemeController",
-      "darkTheme",
-      "dateValueToDate",
-      "defaultIconRegistry",
-      "defaultLocaleRegistry",
-      "defineIcon",
-      "defineLocale",
-      "defineTheme",
-      "enUS",
-      "feedback",
-      "formatColor",
-      "formatDateValue",
-      "fromDateValue",
-      "getContrastRatio",
-      "getReadableTextColor",
-      "hasIcon",
-      "hasLocale",
-      "hslToRgb",
-      "hsvToRgb",
-      "iconRegistryKey",
-      "inferDateValueType",
-      "isValidColor",
-      "lanUiConfigKey",
-      "lanUiFeedbackKey",
-      "lanUiMotionKey",
-      "lightTheme",
-      "listIcons",
-      "listLocales",
-      "loadLocale",
-      "mergeThemes",
-      "motionPreferenceToStyle",
-      "normalizeColorState",
-      "normalizeLanUiConfig",
-      "normalizeMotionPreference",
-      "normalizeThemeAppearance",
-      "normalizeThemeTokens",
-      "notification",
-      "notificationState",
-      "parseColor",
-      "parseDateValue",
-      "registerIcon",
-      "registerLocale",
-      "resolveMotionPreference",
-      "resolveThemeAppearance",
-      "resolveTimeZone",
-      "rgbToHsl",
-      "rgbToHsv",
-      "themeToStyle",
-      "toDateValue",
-      "toast",
-      "toastState",
-      "unregisterIcon",
-      "unregisterLocale",
-      "useComponentSize",
-      "useDirection",
-      "useFeedback",
-      "useIconRegistry",
-      "useLanUiConfig",
-      "useLocale",
-      "useNotification",
-      "useReducedMotion",
-      "useToast",
-      "zhCN"
-    ]
-  },
-  "publicSubpaths": [
-    ".",
-    "./api-manifest",
-    "./api-manifest.json",
-    "./color",
-    "./components/*",
-    "./config",
-    "./date",
-    "./feedback",
-    "./icons",
-    "./motion",
-    "./package.json",
-    "./performance-budgets",
-    "./performance-budgets.json",
-    "./plugin",
-    "./style-manifest",
-    "./style-manifest.json",
-    "./style.css",
-    "./styles/*.css",
-    "./styles/core.css",
-    "./theme",
-    "./tokens"
-  ],
-  "packageExports": {
-    ".": {
-      "types": "./dist-lib/lan-ui.d.ts",
-      "import": "./dist-lib/lan-ui.js",
-      "default": "./dist-lib/lan-ui.js"
+  "generatedFrom": "api-manifest.json",
+  "categories": [
+    {
+      "id": "foundations",
+      "label": "基础与布局",
+      "description": "全局配置、图标、栅格、布局、间距与分隔。",
+      "count": 7
     },
-    "./components/*": {
-      "types": "./dist-lib/components/*.d.ts",
-      "import": "./dist-lib/components/*.js",
-      "default": "./dist-lib/components/*.js"
+    {
+      "id": "actions",
+      "label": "操作",
+      "description": "触发主要任务和悬浮快捷操作。",
+      "count": 2
     },
-    "./color": {
-      "types": "./dist-lib/color.d.ts",
-      "import": "./dist-lib/color.js",
-      "default": "./dist-lib/color.js"
+    {
+      "id": "forms",
+      "label": "数据录入",
+      "description": "输入、选择、日期时间、表单编排和文件上传。",
+      "count": 24
     },
-    "./config": {
-      "types": "./dist-lib/config.d.ts",
-      "import": "./dist-lib/config.js",
-      "default": "./dist-lib/config.js"
+    {
+      "id": "data",
+      "label": "数据展示",
+      "description": "结构化内容、媒体、状态、列表、表格和虚拟数据。",
+      "count": 15
     },
-    "./date": {
-      "types": "./dist-lib/date.d.ts",
-      "import": "./dist-lib/date.js",
-      "default": "./dist-lib/date.js"
+    {
+      "id": "navigation",
+      "label": "导航",
+      "description": "层级、菜单、分页、步骤、页签和快捷检索。",
+      "count": 7
     },
-    "./feedback": {
-      "types": "./dist-lib/feedback.d.ts",
-      "import": "./dist-lib/feedback.js",
-      "default": "./dist-lib/feedback.js"
-    },
-    "./icons": {
-      "types": "./dist-lib/icons.d.ts",
-      "import": "./dist-lib/icons.js",
-      "default": "./dist-lib/icons.js"
-    },
-    "./plugin": {
-      "types": "./dist-lib/plugin.d.ts",
-      "import": "./dist-lib/plugin.js",
-      "default": "./dist-lib/plugin.js"
-    },
-    "./theme": {
-      "types": "./dist-lib/theme.d.ts",
-      "import": "./dist-lib/theme.js",
-      "default": "./dist-lib/theme.js"
-    },
-    "./motion": {
-      "types": "./dist-lib/motion.d.ts",
-      "import": "./dist-lib/motion.js",
-      "default": "./dist-lib/motion.js"
-    },
-    "./style.css": "./dist-lib/lan-ui.css",
-    "./styles/core.css": "./dist-lib/styles/core.css",
-    "./styles/*.css": "./dist-lib/styles/*.css",
-    "./tokens": "./design-tokens.json",
-    "./api-manifest": "./api-manifest.json",
-    "./api-manifest.json": "./api-manifest.json",
-    "./style-manifest": "./style-manifest.json",
-    "./style-manifest.json": "./style-manifest.json",
-    "./performance-budgets": "./performance-budgets.json",
-    "./performance-budgets.json": "./performance-budgets.json",
-    "./package.json": "./package.json"
-  },
-  "typeFallbacks": {
-    "*": {
-      "components/*": [
-        "dist-lib/components/*"
-      ],
-      "color": [
-        "dist-lib/color.d.ts"
-      ],
-      "config": [
-        "dist-lib/config.d.ts"
-      ],
-      "date": [
-        "dist-lib/date.d.ts"
-      ],
-      "feedback": [
-        "dist-lib/feedback.d.ts"
-      ],
-      "icons": [
-        "dist-lib/icons.d.ts"
-      ],
-      "plugin": [
-        "dist-lib/plugin.d.ts"
-      ],
-      "theme": [
-        "dist-lib/theme.d.ts"
-      ],
-      "motion": [
-        "dist-lib/motion.d.ts"
-      ]
+    {
+      "id": "feedback",
+      "label": "反馈与浮层",
+      "description": "提示、加载、空状态、结果和模态浮层。",
+      "count": 14
     }
-  },
-  "utilitySubpaths": {
-    "color": [
-      "formatColor",
-      "getContrastRatio",
-      "getReadableTextColor",
-      "hslToRgb",
-      "hsvToRgb",
-      "isValidColor",
-      "normalizeColorState",
-      "parseColor",
-      "rgbToHsl",
-      "rgbToHsv"
-    ],
-    "config": [
-      "createLocaleRegistry",
-      "createLocaleTools",
-      "defaultLocaleRegistry",
-      "defineLocale",
-      "enUS",
-      "hasLocale",
-      "lanUiConfigKey",
-      "listLocales",
-      "loadLocale",
-      "normalizeLanUiConfig",
-      "registerLocale",
-      "unregisterLocale",
-      "useComponentSize",
-      "useDirection",
-      "useLanUiConfig",
-      "useLocale",
-      "zhCN"
-    ],
-    "date": [
-      "DATE_VALUE_MODES",
-      "DATE_VALUE_TYPES",
-      "compareDateValues",
-      "dateValueToDate",
-      "formatDateValue",
-      "fromDateValue",
-      "inferDateValueType",
-      "parseDateValue",
-      "resolveTimeZone",
-      "toDateValue"
-    ],
-    "feedback": [
-      "createLanUiFeedback",
-      "feedback",
-      "lanUiFeedbackKey",
-      "notification",
-      "notificationState",
-      "toast",
-      "toastState",
-      "useFeedback",
-      "useNotification",
-      "useToast"
-    ],
-    "icons": [
-      "BUILTIN_ICONS",
-      "BUILTIN_ICON_NAMES",
-      "createIconRegistry",
-      "defaultIconRegistry",
-      "defineIcon",
-      "hasIcon",
-      "iconRegistryKey",
-      "listIcons",
-      "registerIcon",
-      "unregisterIcon",
-      "useIconRegistry"
-    ],
-    "motion": [
-      "MOTION_PREFERENCES",
-      "createMotionController",
-      "lanUiMotionKey",
-      "motionPreferenceToStyle",
-      "normalizeMotionPreference",
-      "resolveMotionPreference",
-      "useReducedMotion"
-    ],
-    "plugin": [
-      "LanUi",
-      "createLanUi",
-      "default"
-    ],
-    "theme": [
-      "THEME_APPEARANCES",
-      "THEME_TOKEN_NAMES",
-      "createThemeController",
-      "darkTheme",
-      "defineTheme",
-      "lightTheme",
-      "mergeThemes",
-      "normalizeThemeAppearance",
-      "normalizeThemeTokens",
-      "resolveThemeAppearance",
-      "themeToStyle"
-    ]
-  },
+  ],
   "components": [
     {
       "name": "UiAlert",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiAlert",
+      "imports": {
+        "root": "import { UiAlert } from 'lan-ui-design-system'",
+        "subpath": "import UiAlert from 'lan-ui-design-system/components/UiAlert'"
+      },
       "propsType": "UiAlertProps",
       "props": [
-        "banner",
-        "closable",
-        "description",
-        "showIcon",
-        "title",
-        "type"
-      ],
-      "propDetails": [
         {
           "name": "banner",
           "required": false,
@@ -1015,9 +128,6 @@
       ],
       "emitsType": "UiAlertEmits",
       "emits": [
-        "close"
-      ],
-      "emitDetails": [
         {
           "name": "close",
           "required": true,
@@ -1026,51 +136,24 @@
       ],
       "slotsType": "UiAlertSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiAlert } from 'lan-ui-design-system'",
-        "subpath": "import UiAlert from 'lan-ui-design-system/components/UiAlert'"
-      },
-      "runtimeExports": [
-        "UiAlert",
-        "default"
       ]
     },
     {
       "name": "UiAutoComplete",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiAutoComplete",
+      "imports": {
+        "root": "import { UiAutoComplete } from 'lan-ui-design-system'",
+        "subpath": "import UiAutoComplete from 'lan-ui-design-system/components/UiAutoComplete'"
+      },
       "propsType": "UiAutoCompleteProps",
       "props": [
-        "allowCustom",
-        "appendToBody",
-        "cache",
-        "clearable",
-        "debounce",
-        "disabled",
-        "emptyText",
-        "fetchSuggestions",
-        "highlightFirst",
-        "invalid",
-        "loadingText",
-        "matchMode",
-        "minChars",
-        "modelValue",
-        "openOnFocus",
-        "options",
-        "placeholder",
-        "placement",
-        "readonly",
-        "size"
-      ],
-      "propDetails": [
         {
           "name": "allowCustom",
           "required": false,
@@ -1312,18 +395,6 @@
       ],
       "emitsType": "UiAutoCompleteEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "input",
-        "load-error",
-        "open-change",
-        "search",
-        "select",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -1377,12 +448,6 @@
       ],
       "slotsType": "UiAutoCompleteSlots",
       "slots": [
-        "empty",
-        "error",
-        "loading",
-        "option"
-      ],
-      "slotDetails": [
         {
           "name": "empty",
           "required": false,
@@ -1403,29 +468,19 @@
           "required": false,
           "type": "(scope:{option:UiAutoCompleteOption;index:number;active:boolean;selected:boolean;segments:Array<{text:string;match:boolean}>})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiAutoComplete } from 'lan-ui-design-system'",
-        "subpath": "import UiAutoComplete from 'lan-ui-design-system/components/UiAutoComplete'"
-      },
-      "runtimeExports": [
-        "UiAutoComplete",
-        "default"
       ]
     },
     {
       "name": "UiAvatar",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiAvatar",
+      "imports": {
+        "root": "import { UiAvatar } from 'lan-ui-design-system'",
+        "subpath": "import UiAvatar from 'lan-ui-design-system/components/UiAvatar'"
+      },
       "propsType": "UiAvatarProps",
       "props": [
-        "alt",
-        "color",
-        "name",
-        "size",
-        "square",
-        "src"
-      ],
-      "propDetails": [
         {
           "name": "alt",
           "required": false,
@@ -1502,39 +557,26 @@
       ],
       "emitsType": "UiAvatarEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiAvatarSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiAvatar } from 'lan-ui-design-system'",
-        "subpath": "import UiAvatar from 'lan-ui-design-system/components/UiAvatar'"
-      },
-      "runtimeExports": [
-        "UiAvatar",
-        "default"
       ]
     },
     {
       "name": "UiBadge",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiBadge",
+      "imports": {
+        "root": "import { UiBadge } from 'lan-ui-design-system'",
+        "subpath": "import UiBadge from 'lan-ui-design-system/components/UiBadge'"
+      },
       "propsType": "UiBadgeProps",
       "props": [
-        "dot",
-        "max",
-        "show",
-        "status",
-        "value"
-      ],
-      "propDetails": [
         {
           "name": "dot",
           "required": false,
@@ -1599,36 +641,26 @@
       ],
       "emitsType": "UiBadgeEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiBadgeSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiBadge } from 'lan-ui-design-system'",
-        "subpath": "import UiBadge from 'lan-ui-design-system/components/UiBadge'"
-      },
-      "runtimeExports": [
-        "UiBadge",
-        "default"
       ]
     },
     {
       "name": "UiBreadcrumb",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiBreadcrumb",
+      "imports": {
+        "root": "import { UiBreadcrumb } from 'lan-ui-design-system'",
+        "subpath": "import UiBreadcrumb from 'lan-ui-design-system/components/UiBreadcrumb'"
+      },
       "propsType": "UiBreadcrumbProps",
       "props": [
-        "items",
-        "separator"
-      ],
-      "propDetails": [
         {
           "name": "items",
           "required": false,
@@ -1656,9 +688,6 @@
       ],
       "emitsType": "UiBreadcrumbEmits",
       "emits": [
-        "navigate"
-      ],
-      "emitDetails": [
         {
           "name": "navigate",
           "required": true,
@@ -1666,30 +695,19 @@
         }
       ],
       "slotsType": "UiBreadcrumbSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiBreadcrumb } from 'lan-ui-design-system'",
-        "subpath": "import UiBreadcrumb from 'lan-ui-design-system/components/UiBreadcrumb'"
-      },
-      "runtimeExports": [
-        "UiBreadcrumb",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiButton",
+      "category": "actions",
+      "categoryLabel": "操作",
       "subpath": "./components/UiButton",
+      "imports": {
+        "root": "import { UiButton } from 'lan-ui-design-system'",
+        "subpath": "import UiButton from 'lan-ui-design-system/components/UiButton'"
+      },
       "propsType": "UiButtonProps",
       "props": [
-        "disabled",
-        "icon",
-        "loading",
-        "size",
-        "type",
-        "variant"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -1762,57 +780,26 @@
       ],
       "emitsType": "UiButtonEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiButtonSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiButton } from 'lan-ui-design-system'",
-        "subpath": "import UiButton from 'lan-ui-design-system/components/UiButton'"
-      },
-      "runtimeExports": [
-        "UiButton",
-        "default"
       ]
     },
     {
       "name": "UiCalendar",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiCalendar",
+      "imports": {
+        "root": "import { UiCalendar } from 'lan-ui-design-system'",
+        "subpath": "import UiCalendar from 'lan-ui-design-system/components/UiCalendar'"
+      },
       "propsType": "UiCalendarProps",
       "props": [
-        "allowClear",
-        "ariaLabel",
-        "bordered",
-        "defaultViewDate",
-        "disabled",
-        "disabledDate",
-        "disambiguation",
-        "firstDayOfWeek",
-        "fixedWeeks",
-        "max",
-        "maxSelections",
-        "min",
-        "modelValue",
-        "readonly",
-        "selectionMode",
-        "showOutsideDays",
-        "showWeekNumbers",
-        "size",
-        "timeZone",
-        "today",
-        "valueType",
-        "viewDate",
-        "weekdayFormat"
-      ],
-      "propDetails": [
         {
           "name": "allowClear",
           "required": false,
@@ -2106,16 +1093,6 @@
       ],
       "emitsType": "UiCalendarEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "panel-change",
-        "update:modelValue",
-        "update:viewDate",
-        "view-change"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -2159,12 +1136,6 @@
       ],
       "slotsType": "UiCalendarSlots",
       "slots": [
-        "cell",
-        "footer",
-        "header",
-        "year"
-      ],
-      "slotDetails": [
         {
           "name": "cell",
           "required": false,
@@ -2185,27 +1156,19 @@
           "required": false,
           "type": "(scope:{year:number;selected:boolean})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiCalendar } from 'lan-ui-design-system'",
-        "subpath": "import UiCalendar from 'lan-ui-design-system/components/UiCalendar'"
-      },
-      "runtimeExports": [
-        "UiCalendar",
-        "default"
       ]
     },
     {
       "name": "UiCard",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiCard",
+      "imports": {
+        "root": "import { UiCard } from 'lan-ui-design-system'",
+        "subpath": "import UiCard from 'lan-ui-design-system/components/UiCard'"
+      },
       "propsType": "UiCardProps",
       "props": [
-        "bodyClass",
-        "mark",
-        "title",
-        "titleTag"
-      ],
-      "propDetails": [
         {
           "name": "bodyClass",
           "required": false,
@@ -2251,14 +1214,8 @@
       ],
       "emitsType": "UiCardEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiCardSlots",
       "slots": [
-        "action",
-        "default",
-        "header"
-      ],
-      "slotDetails": [
         {
           "name": "action",
           "required": false,
@@ -2274,28 +1231,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiCard } from 'lan-ui-design-system'",
-        "subpath": "import UiCard from 'lan-ui-design-system/components/UiCard'"
-      },
-      "runtimeExports": [
-        "UiCard",
-        "default"
       ]
     },
     {
       "name": "UiCascader",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiCascader",
+      "imports": {
+        "root": "import { UiCascader } from 'lan-ui-design-system'",
+        "subpath": "import UiCascader from 'lan-ui-design-system/components/UiCascader'"
+      },
       "propsType": "UiCascaderProps",
       "props": [
-        "disabled",
-        "invalid",
-        "modelValue",
-        "options",
-        "placeholder"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -2359,11 +1307,6 @@
       ],
       "emitsType": "UiCascaderEmits",
       "emits": [
-        "change",
-        "open-change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -2381,31 +1324,19 @@
         }
       ],
       "slotsType": "UiCascaderSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiCascader } from 'lan-ui-design-system'",
-        "subpath": "import UiCascader from 'lan-ui-design-system/components/UiCascader'"
-      },
-      "runtimeExports": [
-        "UiCascader",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiCheckbox",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiCheckbox",
+      "imports": {
+        "root": "import { UiCheckbox } from 'lan-ui-design-system'",
+        "subpath": "import UiCheckbox from 'lan-ui-design-system/components/UiCheckbox'"
+      },
       "propsType": "UiCheckboxProps",
       "props": [
-        "ariaLabel",
-        "disabled",
-        "indeterminate",
-        "label",
-        "modelValue",
-        "size",
-        "value"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -2490,10 +1421,6 @@
       ],
       "emitsType": "UiCheckboxEmits",
       "emits": [
-        "change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -2507,34 +1434,24 @@
       ],
       "slotsType": "UiCheckboxSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiCheckbox } from 'lan-ui-design-system'",
-        "subpath": "import UiCheckbox from 'lan-ui-design-system/components/UiCheckbox'"
-      },
-      "runtimeExports": [
-        "UiCheckbox",
-        "default"
       ]
     },
     {
       "name": "UiCol",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiCol",
+      "imports": {
+        "root": "import { UiCol } from 'lan-ui-design-system'",
+        "subpath": "import UiCol from 'lan-ui-design-system/components/UiCol'"
+      },
       "propsType": "UiColProps",
       "props": [
-        "offset",
-        "order",
-        "span"
-      ],
-      "propDetails": [
         {
           "name": "offset",
           "required": false,
@@ -2574,39 +1491,26 @@
       ],
       "emitsType": "UiColEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiColSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiCol } from 'lan-ui-design-system'",
-        "subpath": "import UiCol from 'lan-ui-design-system/components/UiCol'"
-      },
-      "runtimeExports": [
-        "UiCol",
-        "default"
       ]
     },
     {
       "name": "UiCollapse",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiCollapse",
+      "imports": {
+        "root": "import { UiCollapse } from 'lan-ui-design-system'",
+        "subpath": "import UiCollapse from 'lan-ui-design-system/components/UiCollapse'"
+      },
       "propsType": "UiCollapseProps",
       "props": [
-        "accordion",
-        "bordered",
-        "disabled",
-        "items",
-        "modelValue"
-      ],
-      "propDetails": [
         {
           "name": "accordion",
           "required": false,
@@ -2672,10 +1576,6 @@
       ],
       "emitsType": "UiCollapseEmits",
       "emits": [
-        "change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -2689,49 +1589,24 @@
       ],
       "slotsType": "UiCollapseSlots",
       "slots": [
-        "item-*"
-      ],
-      "slotDetails": [
         {
           "name": "item-*",
           "required": true,
           "type": "((props:{item:UiCollapseItem})=>VNodeChild)|undefined"
         }
-      ],
-      "imports": {
-        "root": "import { UiCollapse } from 'lan-ui-design-system'",
-        "subpath": "import UiCollapse from 'lan-ui-design-system/components/UiCollapse'"
-      },
-      "runtimeExports": [
-        "UiCollapse",
-        "default"
       ]
     },
     {
       "name": "UiColorPicker",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiColorPicker",
+      "imports": {
+        "root": "import { UiColorPicker } from 'lan-ui-design-system'",
+        "subpath": "import UiColorPicker from 'lan-ui-design-system/components/UiColorPicker'"
+      },
       "propsType": "UiColorPickerProps",
       "props": [
-        "alpha",
-        "appendToBody",
-        "clearable",
-        "closeOnSelect",
-        "contrastColor",
-        "defaultOpen",
-        "disabled",
-        "fallbackColor",
-        "format",
-        "invalid",
-        "modelValue",
-        "open",
-        "placement",
-        "presets",
-        "readonly",
-        "showContrast",
-        "showInput",
-        "size"
-      ],
-      "propDetails": [
         {
           "name": "alpha",
           "required": false,
@@ -2951,17 +1826,6 @@
       ],
       "emitsType": "UiColorPickerEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "input",
-        "invalid",
-        "open-change",
-        "update:modelValue",
-        "update:open"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -3010,55 +1874,24 @@
       ],
       "slotsType": "UiColorPickerSlots",
       "slots": [
-        "trigger"
-      ],
-      "slotDetails": [
         {
           "name": "trigger",
           "required": false,
           "type": "(scope:{value:string;open:()=>void;close:()=>void;toggle:()=>void})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiColorPicker } from 'lan-ui-design-system'",
-        "subpath": "import UiColorPicker from 'lan-ui-design-system/components/UiColorPicker'"
-      },
-      "runtimeExports": [
-        "UiColorPicker",
-        "default"
       ]
     },
     {
       "name": "UiCommandPalette",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiCommandPalette",
+      "imports": {
+        "root": "import { UiCommandPalette } from 'lan-ui-design-system'",
+        "subpath": "import UiCommandPalette from 'lan-ui-design-system/components/UiCommandPalette'"
+      },
       "propsType": "UiCommandPaletteProps",
       "props": [
-        "cache",
-        "clearOnClose",
-        "closeOnEsc",
-        "closeOnMask",
-        "closeOnSelect",
-        "commands",
-        "debounce",
-        "defaultOpen",
-        "defaultQuery",
-        "disabled",
-        "emptyText",
-        "errorText",
-        "fetchCommands",
-        "globalShortcut",
-        "hotkeys",
-        "loadingText",
-        "loop",
-        "maxResults",
-        "minChars",
-        "modelValue",
-        "placeholder",
-        "query",
-        "title",
-        "width"
-      ],
-      "propDetails": [
         {
           "name": "cache",
           "required": false,
@@ -3348,16 +2181,6 @@
       ],
       "emitsType": "UiCommandPaletteEmits",
       "emits": [
-        "close",
-        "data-error",
-        "load-error",
-        "open",
-        "search",
-        "select",
-        "update:modelValue",
-        "update:query"
-      ],
-      "emitDetails": [
         {
           "name": "close",
           "required": true,
@@ -3401,16 +2224,6 @@
       ],
       "slotsType": "UiCommandPaletteSlots",
       "slots": [
-        "command",
-        "empty",
-        "error",
-        "footer",
-        "group",
-        "header",
-        "loading",
-        "trigger"
-      ],
-      "slotDetails": [
         {
           "name": "command",
           "required": false,
@@ -3451,36 +2264,19 @@
           "required": false,
           "type": "(scope:{open:()=>void;close:()=>void;toggle:()=>void})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiCommandPalette } from 'lan-ui-design-system'",
-        "subpath": "import UiCommandPalette from 'lan-ui-design-system/components/UiCommandPalette'"
-      },
-      "runtimeExports": [
-        "UiCommandPalette",
-        "default"
       ]
     },
     {
       "name": "UiConfigProvider",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiConfigProvider",
+      "imports": {
+        "root": "import { UiConfigProvider } from 'lan-ui-design-system'",
+        "subpath": "import UiConfigProvider from 'lan-ui-design-system/components/UiConfigProvider'"
+      },
       "propsType": "UiConfigProviderProps",
       "props": [
-        "appearance",
-        "density",
-        "direction",
-        "fallbackLocale",
-        "fallbackLocales",
-        "iconRegistry",
-        "locale",
-        "localeRegistry",
-        "motion",
-        "size",
-        "tag",
-        "theme",
-        "zIndex"
-      ],
-      "propDetails": [
         {
           "name": "appearance",
           "required": false,
@@ -3644,50 +2440,26 @@
       ],
       "emitsType": "UiConfigProviderEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiConfigProviderSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiConfigProvider } from 'lan-ui-design-system'",
-        "subpath": "import UiConfigProvider from 'lan-ui-design-system/components/UiConfigProvider'"
-      },
-      "runtimeExports": [
-        "UiConfigProvider",
-        "default"
       ]
     },
     {
       "name": "UiDatePicker",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiDatePicker",
+      "imports": {
+        "root": "import { UiDatePicker } from 'lan-ui-design-system'",
+        "subpath": "import UiDatePicker from 'lan-ui-design-system/components/UiDatePicker'"
+      },
       "propsType": "UiDatePickerProps",
       "props": [
-        "clearable",
-        "disabled",
-        "disambiguation",
-        "icon",
-        "invalid",
-        "max",
-        "min",
-        "mode",
-        "modelValue",
-        "placeholder",
-        "precision",
-        "referenceDate",
-        "size",
-        "step",
-        "timeZone",
-        "valueType"
-      ],
-      "propDetails": [
         {
           "name": "clearable",
           "required": false,
@@ -3892,14 +2664,6 @@
       ],
       "emitsType": "UiDatePickerEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "invalid",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -3932,42 +2696,19 @@
         }
       ],
       "slotsType": "UiDatePickerSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiDatePicker } from 'lan-ui-design-system'",
-        "subpath": "import UiDatePicker from 'lan-ui-design-system/components/UiDatePicker'"
-      },
-      "runtimeExports": [
-        "UiDatePicker",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiDateRangePicker",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiDateRangePicker",
+      "imports": {
+        "root": "import { UiDateRangePicker } from 'lan-ui-design-system'",
+        "subpath": "import UiDateRangePicker from 'lan-ui-design-system/components/UiDateRangePicker'"
+      },
       "propsType": "UiDateRangePickerProps",
       "props": [
-        "clearable",
-        "constrain",
-        "disabled",
-        "disambiguation",
-        "endPlaceholder",
-        "invalid",
-        "max",
-        "min",
-        "mode",
-        "modelValue",
-        "precision",
-        "referenceDate",
-        "separator",
-        "size",
-        "startPlaceholder",
-        "step",
-        "timeZone",
-        "valueType"
-      ],
-      "propDetails": [
         {
           "name": "clearable",
           "required": false,
@@ -4194,14 +2935,6 @@
       ],
       "emitsType": "UiDateRangePickerEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "invalid",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -4234,72 +2967,19 @@
         }
       ],
       "slotsType": "UiDateRangePickerSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiDateRangePicker } from 'lan-ui-design-system'",
-        "subpath": "import UiDateRangePicker from 'lan-ui-design-system/components/UiDateRangePicker'"
-      },
-      "runtimeExports": [
-        "UiDateRangePicker",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiDataGrid",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiDataGrid",
+      "imports": {
+        "root": "import { UiDataGrid } from 'lan-ui-design-system'",
+        "subpath": "import UiDataGrid from 'lan-ui-design-system/components/UiDataGrid'"
+      },
       "propsType": "UiDataGridProps",
       "props": [
-        "ariaLabel",
-        "autoRequest",
-        "caption",
-        "columns",
-        "compactPagination",
-        "density",
-        "emptyText",
-        "emptyTitle",
-        "error",
-        "expandable",
-        "expandedRows",
-        "filterMethod",
-        "filters",
-        "loading",
-        "loadingRows",
-        "maxHeight",
-        "mode",
-        "overscan",
-        "page",
-        "pageSize",
-        "pageSizeOptions",
-        "query",
-        "queryFields",
-        "resizable",
-        "rowHeight",
-        "rowKey",
-        "rows",
-        "searchDebounce",
-        "searchMethod",
-        "searchPlaceholder",
-        "selectable",
-        "selectedRows",
-        "showColumns",
-        "showDensity",
-        "showPagination",
-        "showRefresh",
-        "showSearch",
-        "showSizeChanger",
-        "showToolbar",
-        "showTotal",
-        "sortKey",
-        "sortMethod",
-        "sortOrder",
-        "stickyHeader",
-        "total",
-        "viewportHeight",
-        "virtual",
-        "visibleColumns"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -4880,26 +3560,6 @@
       ],
       "emitsType": "UiDataGridEmits",
       "emits": [
-        "column-resize",
-        "refresh",
-        "request",
-        "reset",
-        "retry",
-        "row-click",
-        "search",
-        "state-change",
-        "update:density",
-        "update:expandedRows",
-        "update:filters",
-        "update:page",
-        "update:pageSize",
-        "update:query",
-        "update:selectedRows",
-        "update:sortKey",
-        "update:sortOrder",
-        "update:visibleColumns"
-      ],
-      "emitDetails": [
         {
           "name": "column-resize",
           "required": true,
@@ -4993,17 +3653,6 @@
       ],
       "slotsType": "UiDataGridSlots",
       "slots": [
-        "caption",
-        "cell-*",
-        "empty-action",
-        "expanded",
-        "filters",
-        "footer",
-        "pagination",
-        "toolbar-actions",
-        "toolbar-primary"
-      ],
-      "slotDetails": [
         {
           "name": "caption",
           "required": false,
@@ -5049,28 +3698,19 @@
           "required": false,
           "type": "(scope:{state:UiDataGridState;reset:()=>void})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiDataGrid } from 'lan-ui-design-system'",
-        "subpath": "import UiDataGrid from 'lan-ui-design-system/components/UiDataGrid'"
-      },
-      "runtimeExports": [
-        "UiDataGrid",
-        "default"
       ]
     },
     {
       "name": "UiDescriptions",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiDescriptions",
+      "imports": {
+        "root": "import { UiDescriptions } from 'lan-ui-design-system'",
+        "subpath": "import UiDescriptions from 'lan-ui-design-system/components/UiDescriptions'"
+      },
       "propsType": "UiDescriptionsProps",
       "props": [
-        "bordered",
-        "columns",
-        "items",
-        "size",
-        "title"
-      ],
-      "propDetails": [
         {
           "name": "bordered",
           "required": false,
@@ -5134,13 +3774,8 @@
       ],
       "emitsType": "UiDescriptionsEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiDescriptionsSlots",
       "slots": [
-        "extra",
-        "item-*"
-      ],
-      "slotDetails": [
         {
           "name": "extra",
           "required": false,
@@ -5151,26 +3786,19 @@
           "required": true,
           "type": "((props:{item:UiDescriptionItem})=>VNodeChild)|undefined"
         }
-      ],
-      "imports": {
-        "root": "import { UiDescriptions } from 'lan-ui-design-system'",
-        "subpath": "import UiDescriptions from 'lan-ui-design-system/components/UiDescriptions'"
-      },
-      "runtimeExports": [
-        "UiDescriptions",
-        "default"
       ]
     },
     {
       "name": "UiDivider",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiDivider",
+      "imports": {
+        "root": "import { UiDivider } from 'lan-ui-design-system'",
+        "subpath": "import UiDivider from 'lan-ui-design-system/components/UiDivider'"
+      },
       "propsType": "UiDividerProps",
       "props": [
-        "dashed",
-        "label",
-        "vertical"
-      ],
-      "propDetails": [
         {
           "name": "dashed",
           "required": false,
@@ -5210,32 +3838,20 @@
       ],
       "emitsType": "UiDividerEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiDividerSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiDivider } from 'lan-ui-design-system'",
-        "subpath": "import UiDivider from 'lan-ui-design-system/components/UiDivider'"
-      },
-      "runtimeExports": [
-        "UiDivider",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiDrawer",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiDrawer",
+      "imports": {
+        "root": "import { UiDrawer } from 'lan-ui-design-system'",
+        "subpath": "import UiDrawer from 'lan-ui-design-system/components/UiDrawer'"
+      },
       "propsType": "UiDrawerProps",
       "props": [
-        "closeOnEsc",
-        "closeOnMask",
-        "modelValue",
-        "placement",
-        "title",
-        "width"
-      ],
-      "propDetails": [
         {
           "name": "closeOnEsc",
           "required": false,
@@ -5312,11 +3928,6 @@
       ],
       "emitsType": "UiDrawerEmits",
       "emits": [
-        "close",
-        "open",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "close",
           "required": true,
@@ -5335,11 +3946,6 @@
       ],
       "slotsType": "UiDrawerSlots",
       "slots": [
-        "default",
-        "footer",
-        "header"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -5355,28 +3961,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiDrawer } from 'lan-ui-design-system'",
-        "subpath": "import UiDrawer from 'lan-ui-design-system/components/UiDrawer'"
-      },
-      "runtimeExports": [
-        "UiDrawer",
-        "default"
       ]
     },
     {
       "name": "UiDropdown",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiDropdown",
+      "imports": {
+        "root": "import { UiDropdown } from 'lan-ui-design-system'",
+        "subpath": "import UiDropdown from 'lan-ui-design-system/components/UiDropdown'"
+      },
       "propsType": "UiDropdownProps",
       "props": [
-        "disabled",
-        "items",
-        "modelValue",
-        "offset",
-        "placement"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -5440,11 +4037,6 @@
       ],
       "emitsType": "UiDropdownEmits",
       "emits": [
-        "open-change",
-        "select",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "open-change",
           "required": true,
@@ -5463,10 +4055,6 @@
       ],
       "slotsType": "UiDropdownSlots",
       "slots": [
-        "default",
-        "trigger"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -5477,27 +4065,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiDropdown } from 'lan-ui-design-system'",
-        "subpath": "import UiDropdown from 'lan-ui-design-system/components/UiDropdown'"
-      },
-      "runtimeExports": [
-        "UiDropdown",
-        "default"
       ]
     },
     {
       "name": "UiEmpty",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiEmpty",
+      "imports": {
+        "root": "import { UiEmpty } from 'lan-ui-design-system'",
+        "subpath": "import UiEmpty from 'lan-ui-design-system/components/UiEmpty'"
+      },
       "propsType": "UiEmptyProps",
       "props": [
-        "compact",
-        "description",
-        "icon",
-        "title"
-      ],
-      "propDetails": [
         {
           "name": "compact",
           "required": false,
@@ -5549,40 +4129,26 @@
       ],
       "emitsType": "UiEmptyEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiEmptySlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiEmpty } from 'lan-ui-design-system'",
-        "subpath": "import UiEmpty from 'lan-ui-design-system/components/UiEmpty'"
-      },
-      "runtimeExports": [
-        "UiEmpty",
-        "default"
       ]
     },
     {
       "name": "UiFloatButton",
+      "category": "actions",
+      "categoryLabel": "操作",
       "subpath": "./components/UiFloatButton",
+      "imports": {
+        "root": "import { UiFloatButton } from 'lan-ui-design-system'",
+        "subpath": "import UiFloatButton from 'lan-ui-design-system/components/UiFloatButton'"
+      },
       "propsType": "UiFloatButtonProps",
       "props": [
-        "active",
-        "badge",
-        "disabled",
-        "icon",
-        "label",
-        "variant"
-      ],
-      "propDetails": [
         {
           "name": "active",
           "required": false,
@@ -5659,36 +4225,20 @@
       ],
       "emitsType": "UiFloatButtonEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiFloatButtonSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiFloatButton } from 'lan-ui-design-system'",
-        "subpath": "import UiFloatButton from 'lan-ui-design-system/components/UiFloatButton'"
-      },
-      "runtimeExports": [
-        "UiFloatButton",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiForm",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiForm",
+      "imports": {
+        "root": "import { UiForm } from 'lan-ui-design-system'",
+        "subpath": "import UiForm from 'lan-ui-design-system/components/UiForm'"
+      },
       "propsType": "UiFormProps",
       "props": [
-        "errorSummaryTitle",
-        "focusOnError",
-        "initialValues",
-        "model",
-        "rules",
-        "scrollIntoViewOptions",
-        "scrollToError",
-        "showErrorSummary",
-        "validateOnRuleChange",
-        "validateOnSubmit"
-      ],
-      "propDetails": [
         {
           "name": "errorSummaryTitle",
           "required": false,
@@ -5809,12 +4359,6 @@
       ],
       "emitsType": "UiFormEmits",
       "emits": [
-        "invalid",
-        "reset",
-        "submit",
-        "validate"
-      ],
-      "emitDetails": [
         {
           "name": "invalid",
           "required": true,
@@ -5838,45 +4382,24 @@
       ],
       "slotsType": "UiFormSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "(props:{validate:(names?:string|string[],options?:UiFormValidateOptions)=>Promise<boolean>;validateField:(names:string|string[],options?:UiFormValidateOptions)=>Promise<boolean>;submit:(event?:SubmitEvent)=>Promise<void>;reset:(event?:Event)=>void;resetFields:(names?:string|string[])=>void;errors:UiFormFieldState[];validating:boolean;dirty:boolean;touched:boolean})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiForm } from 'lan-ui-design-system'",
-        "subpath": "import UiForm from 'lan-ui-design-system/components/UiForm'"
-      },
-      "runtimeExports": [
-        "UiForm",
-        "default"
       ]
     },
     {
       "name": "UiFormItem",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiFormItem",
+      "imports": {
+        "root": "import { UiFormItem } from 'lan-ui-design-system'",
+        "subpath": "import UiFormItem from 'lan-ui-design-system/components/UiFormItem'"
+      },
       "propsType": "UiFormItemProps",
       "props": [
-        "composite",
-        "dependencies",
-        "error",
-        "forId",
-        "group",
-        "help",
-        "label",
-        "name",
-        "required",
-        "reserveMessageSpace",
-        "rules",
-        "showSuccess",
-        "validateOnDependencyChange",
-        "validateStatus"
-      ],
-      "propDetails": [
         {
           "name": "composite",
           "required": false,
@@ -6051,9 +4574,6 @@
       ],
       "emitsType": "UiFormItemEmits",
       "emits": [
-        "validate"
-      ],
-      "emitDetails": [
         {
           "name": "validate",
           "required": true,
@@ -6062,39 +4582,24 @@
       ],
       "slotsType": "UiFormItemSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "(props:{controlId:string;labelledby?:string;describedby?:string;invalid:boolean;validating:boolean;status:UiFormValidateStatus;dirty:boolean;touched:boolean;validate:(trigger?:UiFormValidateTrigger)=>Promise<boolean>})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiFormItem } from 'lan-ui-design-system'",
-        "subpath": "import UiFormItem from 'lan-ui-design-system/components/UiFormItem'"
-      },
-      "runtimeExports": [
-        "UiFormItem",
-        "default"
       ]
     },
     {
       "name": "UiFormList",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiFormList",
+      "imports": {
+        "root": "import { UiFormList } from 'lan-ui-design-system'",
+        "subpath": "import UiFormList from 'lan-ui-design-system/components/UiFormList'"
+      },
       "propsType": "UiFormListProps",
       "props": [
-        "ariaLabel",
-        "defaultValue",
-        "disabled",
-        "max",
-        "min",
-        "modelValue",
-        "name",
-        "validateOnChange"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -6193,14 +4698,6 @@
       ],
       "emitsType": "UiFormListEmits",
       "emits": [
-        "add",
-        "change",
-        "limit",
-        "move",
-        "remove",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "add",
           "required": true,
@@ -6234,10 +4731,6 @@
       ],
       "slotsType": "UiFormListSlots",
       "slots": [
-        "default",
-        "empty"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -6248,39 +4741,19 @@
           "required": false,
           "type": "(scope:{add:UiFormListInstance<Item>['add'];canAdd:boolean})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiFormList } from 'lan-ui-design-system'",
-        "subpath": "import UiFormList from 'lan-ui-design-system/components/UiFormList'"
-      },
-      "runtimeExports": [
-        "UiFormList",
-        "default"
       ]
     },
     {
       "name": "UiSchemaForm",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiSchemaForm",
+      "imports": {
+        "root": "import { UiSchemaForm } from 'lan-ui-design-system'",
+        "subpath": "import UiSchemaForm from 'lan-ui-design-system/components/UiSchemaForm'"
+      },
       "propsType": "UiSchemaFormProps",
       "props": [
-        "columns",
-        "components",
-        "disabled",
-        "errorSummaryTitle",
-        "focusOnError",
-        "gap",
-        "initialValues",
-        "model",
-        "readonly",
-        "rules",
-        "schema",
-        "scrollIntoViewOptions",
-        "scrollToError",
-        "showErrorSummary",
-        "validateOnRuleChange",
-        "validateOnSubmit"
-      ],
-      "propDetails": [
         {
           "name": "columns",
           "required": false,
@@ -6474,16 +4947,6 @@
       ],
       "emitsType": "UiSchemaFormEmits",
       "emits": [
-        "field-change",
-        "invalid",
-        "list-change",
-        "list-limit",
-        "reset",
-        "schema-error",
-        "submit",
-        "validate"
-      ],
-      "emitDetails": [
         {
           "name": "field-change",
           "required": true,
@@ -6527,15 +4990,6 @@
       ],
       "slotsType": "UiSchemaFormSlots",
       "slots": [
-        "actions",
-        "default",
-        "empty",
-        "field-*",
-        "list-*-empty",
-        "list-*-item",
-        "section-*-header"
-      ],
-      "slotDetails": [
         {
           "name": "actions",
           "required": false,
@@ -6571,27 +5025,19 @@
           "required": true,
           "type": "(scope:{section:UiSchemaFormSection<Model>;model:Model;headingId:string})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiSchemaForm } from 'lan-ui-design-system'",
-        "subpath": "import UiSchemaForm from 'lan-ui-design-system/components/UiSchemaForm'"
-      },
-      "runtimeExports": [
-        "UiSchemaForm",
-        "default"
       ]
     },
     {
       "name": "UiGrid",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiGrid",
+      "imports": {
+        "root": "import { UiGrid } from 'lan-ui-design-system'",
+        "subpath": "import UiGrid from 'lan-ui-design-system/components/UiGrid'"
+      },
       "propsType": "UiGridProps",
       "props": [
-        "align",
-        "columns",
-        "gap",
-        "min"
-      ],
-      "propDetails": [
         {
           "name": "align",
           "required": false,
@@ -6646,45 +5092,26 @@
       ],
       "emitsType": "UiGridEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiGridSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiGrid } from 'lan-ui-design-system'",
-        "subpath": "import UiGrid from 'lan-ui-design-system/components/UiGrid'"
-      },
-      "runtimeExports": [
-        "UiGrid",
-        "default"
       ]
     },
     {
       "name": "UiIcon",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiIcon",
+      "imports": {
+        "root": "import { UiIcon } from 'lan-ui-design-system'",
+        "subpath": "import UiIcon from 'lan-ui-design-system/components/UiIcon'"
+      },
       "propsType": "UiIconProps",
       "props": [
-        "ariaLabel",
-        "color",
-        "directional",
-        "fallback",
-        "fill",
-        "flip",
-        "name",
-        "rotate",
-        "size",
-        "spin",
-        "strokeWidth"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -6822,63 +5249,26 @@
       ],
       "emitsType": "UiIconEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiIconSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiIcon } from 'lan-ui-design-system'",
-        "subpath": "import UiIcon from 'lan-ui-design-system/components/UiIcon'"
-      },
-      "runtimeExports": [
-        "UiIcon",
-        "default"
       ]
     },
     {
       "name": "UiImage",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiImage",
+      "imports": {
+        "root": "import { UiImage } from 'lan-ui-design-system'",
+        "subpath": "import UiImage from 'lan-ui-design-system/components/UiImage'"
+      },
       "propsType": "UiImageProps",
       "props": [
-        "alt",
-        "aspectRatio",
-        "closeOnEsc",
-        "closeOnMask",
-        "crossorigin",
-        "decoding",
-        "disabled",
-        "fallback",
-        "fit",
-        "height",
-        "loading",
-        "loop",
-        "maxScale",
-        "minScale",
-        "position",
-        "preview",
-        "previewIndex",
-        "previewList",
-        "previewOpen",
-        "previewSrc",
-        "previewZIndex",
-        "radius",
-        "referrerpolicy",
-        "scaleStep",
-        "src",
-        "teleportTo",
-        "toolbar",
-        "width",
-        "zoomOnWheel"
-      ],
-      "propDetails": [
         {
           "name": "alt",
           "required": false,
@@ -7235,20 +5625,6 @@
       ],
       "emitsType": "UiImageEmits",
       "emits": [
-        "error",
-        "fallback",
-        "load",
-        "preview-change",
-        "preview-close",
-        "preview-error",
-        "preview-load",
-        "preview-open",
-        "retry",
-        "transform",
-        "update:previewIndex",
-        "update:previewOpen"
-      ],
-      "emitDetails": [
         {
           "name": "error",
           "required": true,
@@ -7312,14 +5688,6 @@
       ],
       "slotsType": "UiImageSlots",
       "slots": [
-        "caption",
-        "error",
-        "overlay",
-        "placeholder",
-        "preview",
-        "toolbar"
-      ],
-      "slotDetails": [
         {
           "name": "caption",
           "required": false,
@@ -7350,35 +5718,19 @@
           "required": false,
           "type": "(scope:{zoomIn:(source?:string)=>void;zoomOut:(source?:string)=>void;rotate:(delta:number,source?:string)=>void;reset:(source?:string)=>void;scale:number;rotation:number})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiImage } from 'lan-ui-design-system'",
-        "subpath": "import UiImage from 'lan-ui-design-system/components/UiImage'"
-      },
-      "runtimeExports": [
-        "UiImage",
-        "default"
       ]
     },
     {
       "name": "UiInput",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiInput",
+      "imports": {
+        "root": "import { UiInput } from 'lan-ui-design-system'",
+        "subpath": "import UiInput from 'lan-ui-design-system/components/UiInput'"
+      },
       "propsType": "UiInputProps",
       "props": [
-        "clearable",
-        "disabled",
-        "icon",
-        "invalid",
-        "loading",
-        "maxlength",
-        "modelValue",
-        "passwordToggle",
-        "placeholder",
-        "readonly",
-        "size",
-        "type"
-      ],
-      "propDetails": [
         {
           "name": "clearable",
           "required": false,
@@ -7510,13 +5862,6 @@
       ],
       "emitsType": "UiInputEmits",
       "emits": [
-        "blur",
-        "clear",
-        "focus",
-        "input",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -7544,28 +5889,19 @@
         }
       ],
       "slotsType": "UiInputSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiInput } from 'lan-ui-design-system'",
-        "subpath": "import UiInput from 'lan-ui-design-system/components/UiInput'"
-      },
-      "runtimeExports": [
-        "UiInput",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiLayout",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiLayout",
+      "imports": {
+        "root": "import { UiLayout } from 'lan-ui-design-system'",
+        "subpath": "import UiLayout from 'lan-ui-design-system/components/UiLayout'"
+      },
       "propsType": "UiLayoutProps",
       "props": [
-        "contained",
-        "direction",
-        "gap",
-        "tag"
-      ],
-      "propDetails": [
         {
           "name": "contained",
           "required": false,
@@ -7618,45 +5954,26 @@
       ],
       "emitsType": "UiLayoutEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiLayoutSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiLayout } from 'lan-ui-design-system'",
-        "subpath": "import UiLayout from 'lan-ui-design-system/components/UiLayout'"
-      },
-      "runtimeExports": [
-        "UiLayout",
-        "default"
       ]
     },
     {
       "name": "UiListToolbar",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiListToolbar",
+      "imports": {
+        "root": "import { UiListToolbar } from 'lan-ui-design-system'",
+        "subpath": "import UiListToolbar from 'lan-ui-design-system/components/UiListToolbar'"
+      },
       "propsType": "UiListToolbarProps",
       "props": [
-        "ariaLabel",
-        "columns",
-        "density",
-        "loading",
-        "selectedCount",
-        "showColumns",
-        "showDensity",
-        "showRefresh",
-        "showTotal",
-        "total",
-        "visibleColumns"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -7792,11 +6109,6 @@
       ],
       "emitsType": "UiListToolbarEmits",
       "emits": [
-        "refresh",
-        "update:density",
-        "update:visibleColumns"
-      ],
-      "emitDetails": [
         {
           "name": "refresh",
           "required": true,
@@ -7815,10 +6127,6 @@
       ],
       "slotsType": "UiListToolbarSlots",
       "slots": [
-        "default",
-        "primary"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -7829,28 +6137,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiListToolbar } from 'lan-ui-design-system'",
-        "subpath": "import UiListToolbar from 'lan-ui-design-system/components/UiListToolbar'"
-      },
-      "runtimeExports": [
-        "UiListToolbar",
-        "default"
       ]
     },
     {
       "name": "UiMenu",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiMenu",
+      "imports": {
+        "root": "import { UiMenu } from 'lan-ui-design-system'",
+        "subpath": "import UiMenu from 'lan-ui-design-system/components/UiMenu'"
+      },
       "propsType": "UiMenuProps",
       "props": [
-        "accordion",
-        "collapsed",
-        "defaultOpenKeys",
-        "items",
-        "modelValue"
-      ],
-      "propDetails": [
         {
           "name": "accordion",
           "required": false,
@@ -7915,11 +6214,6 @@
       ],
       "emitsType": "UiMenuEmits",
       "emits": [
-        "open-change",
-        "select",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "open-change",
           "required": true,
@@ -7938,37 +6232,24 @@
       ],
       "slotsType": "UiMenuSlots",
       "slots": [
-        "icon"
-      ],
-      "slotDetails": [
         {
           "name": "icon",
           "required": false,
           "type": "(props:{item:UiMenuItem})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiMenu } from 'lan-ui-design-system'",
-        "subpath": "import UiMenu from 'lan-ui-design-system/components/UiMenu'"
-      },
-      "runtimeExports": [
-        "UiMenu",
-        "default"
       ]
     },
     {
       "name": "UiModal",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiModal",
+      "imports": {
+        "root": "import { UiModal } from 'lan-ui-design-system'",
+        "subpath": "import UiModal from 'lan-ui-design-system/components/UiModal'"
+      },
       "propsType": "UiModalProps",
       "props": [
-        "closeOnEsc",
-        "closeOnMask",
-        "destroyOnClose",
-        "modelValue",
-        "title",
-        "width"
-      ],
-      "propDetails": [
         {
           "name": "closeOnEsc",
           "required": false,
@@ -8045,11 +6326,6 @@
       ],
       "emitsType": "UiModalEmits",
       "emits": [
-        "close",
-        "open",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "close",
           "required": true,
@@ -8068,11 +6344,6 @@
       ],
       "slotsType": "UiModalSlots",
       "slots": [
-        "default",
-        "footer",
-        "header"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -8088,30 +6359,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiModal } from 'lan-ui-design-system'",
-        "subpath": "import UiModal from 'lan-ui-design-system/components/UiModal'"
-      },
-      "runtimeExports": [
-        "UiModal",
-        "default"
       ]
     },
     {
       "name": "UiMultiSelect",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiMultiSelect",
+      "imports": {
+        "root": "import { UiMultiSelect } from 'lan-ui-design-system'",
+        "subpath": "import UiMultiSelect from 'lan-ui-design-system/components/UiMultiSelect'"
+      },
       "propsType": "UiMultiSelectProps",
       "props": [
-        "disabled",
-        "invalid",
-        "maxTagCount",
-        "modelValue",
-        "options",
-        "placeholder",
-        "searchable"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -8199,11 +6459,6 @@
       ],
       "emitsType": "UiMultiSelectEmits",
       "emits": [
-        "change",
-        "open-change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -8221,40 +6476,19 @@
         }
       ],
       "slotsType": "UiMultiSelectSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiMultiSelect } from 'lan-ui-design-system'",
-        "subpath": "import UiMultiSelect from 'lan-ui-design-system/components/UiMultiSelect'"
-      },
-      "runtimeExports": [
-        "UiMultiSelect",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiNumberInput",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiNumberInput",
+      "imports": {
+        "root": "import { UiNumberInput } from 'lan-ui-design-system'",
+        "subpath": "import UiNumberInput from 'lan-ui-design-system/components/UiNumberInput'"
+      },
       "propsType": "UiNumberInputProps",
       "props": [
-        "clampOnBlur",
-        "controls",
-        "controlsPosition",
-        "disabled",
-        "formatter",
-        "invalid",
-        "max",
-        "min",
-        "modelValue",
-        "parser",
-        "placeholder",
-        "precision",
-        "readonly",
-        "size",
-        "step",
-        "wheel"
-      ],
-      "propDetails": [
         {
           "name": "clampOnBlur",
           "required": false,
@@ -8438,15 +6672,6 @@
       ],
       "emitsType": "UiNumberInputEmits",
       "emits": [
-        "blur",
-        "change",
-        "focus",
-        "input",
-        "invalid",
-        "step",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -8485,10 +6710,6 @@
       ],
       "slotsType": "UiNumberInputSlots",
       "slots": [
-        "prefix",
-        "suffix"
-      ],
-      "slotDetails": [
         {
           "name": "prefix",
           "required": false,
@@ -8499,27 +6720,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiNumberInput } from 'lan-ui-design-system'",
-        "subpath": "import UiNumberInput from 'lan-ui-design-system/components/UiNumberInput'"
-      },
-      "runtimeExports": [
-        "UiNumberInput",
-        "default"
       ]
     },
     {
       "name": "UiNotification",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiNotification",
+      "imports": {
+        "root": "import { UiNotification } from 'lan-ui-design-system'",
+        "subpath": "import UiNotification from 'lan-ui-design-system/components/UiNotification'"
+      },
       "propsType": "UiNotificationProps",
       "props": [
-        "actionText",
-        "feedback",
-        "notification",
-        "secondaryText"
-      ],
-      "propDetails": [
         {
           "name": "actionText",
           "required": false,
@@ -8571,10 +6784,6 @@
       ],
       "emitsType": "UiNotificationEmits",
       "emits": [
-        "action",
-        "close"
-      ],
-      "emitDetails": [
         {
           "name": "action",
           "required": true,
@@ -8587,31 +6796,19 @@
         }
       ],
       "slotsType": "UiNotificationSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiNotification } from 'lan-ui-design-system'",
-        "subpath": "import UiNotification from 'lan-ui-design-system/components/UiNotification'"
-      },
-      "runtimeExports": [
-        "UiNotification",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiPagination",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiPagination",
+      "imports": {
+        "root": "import { UiPagination } from 'lan-ui-design-system'",
+        "subpath": "import UiPagination from 'lan-ui-design-system/components/UiPagination'"
+      },
       "propsType": "UiPaginationProps",
       "props": [
-        "ariaLabel",
-        "compact",
-        "page",
-        "pageSize",
-        "pageSizeOptions",
-        "showSizeChanger",
-        "total"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -8699,11 +6896,6 @@
       ],
       "emitsType": "UiPaginationEmits",
       "emits": [
-        "change",
-        "update:page",
-        "update:pageSize"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -8721,32 +6913,19 @@
         }
       ],
       "slotsType": "UiPaginationSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiPagination } from 'lan-ui-design-system'",
-        "subpath": "import UiPagination from 'lan-ui-design-system/components/UiPagination'"
-      },
-      "runtimeExports": [
-        "UiPagination",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiPopconfirm",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiPopconfirm",
+      "imports": {
+        "root": "import { UiPopconfirm } from 'lan-ui-design-system'",
+        "subpath": "import UiPopconfirm from 'lan-ui-design-system/components/UiPopconfirm'"
+      },
       "propsType": "UiPopconfirmProps",
       "props": [
-        "beforeConfirm",
-        "cancelText",
-        "confirmText",
-        "danger",
-        "message",
-        "offset",
-        "placement",
-        "title"
-      ],
-      "propDetails": [
         {
           "name": "beforeConfirm",
           "required": false,
@@ -8846,11 +7025,6 @@
       ],
       "emitsType": "UiPopconfirmEmits",
       "emits": [
-        "cancel",
-        "confirm",
-        "error"
-      ],
-      "emitDetails": [
         {
           "name": "cancel",
           "required": true,
@@ -8869,37 +7043,24 @@
       ],
       "slotsType": "UiPopconfirmSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "(props:{open:boolean})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiPopconfirm } from 'lan-ui-design-system'",
-        "subpath": "import UiPopconfirm from 'lan-ui-design-system/components/UiPopconfirm'"
-      },
-      "runtimeExports": [
-        "UiPopconfirm",
-        "default"
       ]
     },
     {
       "name": "UiPopover",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiPopover",
+      "imports": {
+        "root": "import { UiPopover } from 'lan-ui-design-system'",
+        "subpath": "import UiPopover from 'lan-ui-design-system/components/UiPopover'"
+      },
       "propsType": "UiPopoverProps",
       "props": [
-        "closeOnOutside",
-        "modelValue",
-        "offset",
-        "placement",
-        "title",
-        "width"
-      ],
-      "propDetails": [
         {
           "name": "closeOnOutside",
           "required": false,
@@ -8976,11 +7137,6 @@
       ],
       "emitsType": "UiPopoverEmits",
       "emits": [
-        "close",
-        "open",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "close",
           "required": true,
@@ -8999,10 +7155,6 @@
       ],
       "slotsType": "UiPopoverSlots",
       "slots": [
-        "default",
-        "trigger"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -9013,29 +7165,19 @@
           "required": false,
           "type": "(props:{open:boolean})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiPopover } from 'lan-ui-design-system'",
-        "subpath": "import UiPopover from 'lan-ui-design-system/components/UiPopover'"
-      },
-      "runtimeExports": [
-        "UiPopover",
-        "default"
       ]
     },
     {
       "name": "UiProgress",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiProgress",
+      "imports": {
+        "root": "import { UiProgress } from 'lan-ui-design-system'",
+        "subpath": "import UiProgress from 'lan-ui-design-system/components/UiProgress'"
+      },
       "propsType": "UiProgressProps",
       "props": [
-        "label",
-        "max",
-        "showText",
-        "size",
-        "status",
-        "value"
-      ],
-      "propDetails": [
         {
           "name": "label",
           "required": false,
@@ -9111,31 +7253,20 @@
       ],
       "emitsType": "UiProgressEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiProgressSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiProgress } from 'lan-ui-design-system'",
-        "subpath": "import UiProgress from 'lan-ui-design-system/components/UiProgress'"
-      },
-      "runtimeExports": [
-        "UiProgress",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiRadio",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiRadio",
+      "imports": {
+        "root": "import { UiRadio } from 'lan-ui-design-system'",
+        "subpath": "import UiRadio from 'lan-ui-design-system/components/UiRadio'"
+      },
       "propsType": "UiRadioProps",
       "props": [
-        "disabled",
-        "label",
-        "modelValue",
-        "name",
-        "value"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -9189,10 +7320,6 @@
       ],
       "emitsType": "UiRadioEmits",
       "emits": [
-        "change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -9206,47 +7333,24 @@
       ],
       "slotsType": "UiRadioSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiRadio } from 'lan-ui-design-system'",
-        "subpath": "import UiRadio from 'lan-ui-design-system/components/UiRadio'"
-      },
-      "runtimeExports": [
-        "UiRadio",
-        "default"
       ]
     },
     {
       "name": "UiRate",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiRate",
+      "imports": {
+        "root": "import { UiRate } from 'lan-ui-design-system'",
+        "subpath": "import UiRate from 'lan-ui-design-system/components/UiRate'"
+      },
       "propsType": "UiRateProps",
       "props": [
-        "allowClear",
-        "ariaLabel",
-        "clearValue",
-        "color",
-        "disabled",
-        "disabledColor",
-        "formatter",
-        "invalid",
-        "max",
-        "modelValue",
-        "readonly",
-        "showText",
-        "size",
-        "step",
-        "texts",
-        "voidColor"
-      ],
-      "propDetails": [
         {
           "name": "allowClear",
           "required": false,
@@ -9439,15 +7543,6 @@
       ],
       "emitsType": "UiRateEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "hover-change",
-        "input",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -9486,10 +7581,6 @@
       ],
       "slotsType": "UiRateSlots",
       "slots": [
-        "item",
-        "text"
-      ],
-      "slotDetails": [
         {
           "name": "item",
           "required": false,
@@ -9500,27 +7591,19 @@
           "required": false,
           "type": "(scope:{value:number;max:number;text:string})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiRate } from 'lan-ui-design-system'",
-        "subpath": "import UiRate from 'lan-ui-design-system/components/UiRate'"
-      },
-      "runtimeExports": [
-        "UiRate",
-        "default"
       ]
     },
     {
       "name": "UiResult",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiResult",
+      "imports": {
+        "root": "import { UiResult } from 'lan-ui-design-system'",
+        "subpath": "import UiResult from 'lan-ui-design-system/components/UiResult'"
+      },
       "propsType": "UiResultProps",
       "props": [
-        "description",
-        "icon",
-        "status",
-        "title"
-      ],
-      "propDetails": [
         {
           "name": "description",
           "required": false,
@@ -9572,14 +7655,8 @@
       ],
       "emitsType": "UiResultEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiResultSlots",
       "slots": [
-        "default",
-        "extra",
-        "icon"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -9595,28 +7672,19 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiResult } from 'lan-ui-design-system'",
-        "subpath": "import UiResult from 'lan-ui-design-system/components/UiResult'"
-      },
-      "runtimeExports": [
-        "UiResult",
-        "default"
       ]
     },
     {
       "name": "UiStatusPage",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiStatusPage",
+      "imports": {
+        "root": "import { UiStatusPage } from 'lan-ui-design-system'",
+        "subpath": "import UiStatusPage from 'lan-ui-design-system/components/UiStatusPage'"
+      },
       "propsType": "UiStatusPageProps",
       "props": [
-        "description",
-        "embedded",
-        "icon",
-        "status",
-        "title"
-      ],
-      "propDetails": [
         {
           "name": "description",
           "required": false,
@@ -9680,11 +7748,6 @@
       ],
       "emitsType": "UiStatusPageEmits",
       "emits": [
-        "back",
-        "home",
-        "retry"
-      ],
-      "emitDetails": [
         {
           "name": "back",
           "required": true,
@@ -9703,12 +7766,6 @@
       ],
       "slotsType": "UiStatusPageSlots",
       "slots": [
-        "actions",
-        "default",
-        "extra",
-        "illustration"
-      ],
-      "slotDetails": [
         {
           "name": "actions",
           "required": false,
@@ -9729,29 +7786,19 @@
           "required": false,
           "type": "(scope:{status:'403'|'404'|'500';icon:string})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiStatusPage } from 'lan-ui-design-system'",
-        "subpath": "import UiStatusPage from 'lan-ui-design-system/components/UiStatusPage'"
-      },
-      "runtimeExports": [
-        "UiStatusPage",
-        "default"
       ]
     },
     {
       "name": "UiSegmented",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiSegmented",
+      "imports": {
+        "root": "import { UiSegmented } from 'lan-ui-design-system'",
+        "subpath": "import UiSegmented from 'lan-ui-design-system/components/UiSegmented'"
+      },
       "propsType": "UiSegmentedProps",
       "props": [
-        "block",
-        "disabled",
-        "modelValue",
-        "name",
-        "options",
-        "size"
-      ],
-      "propDetails": [
         {
           "name": "block",
           "required": false,
@@ -9829,10 +7876,6 @@
       ],
       "emitsType": "UiSegmentedEmits",
       "emits": [
-        "change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -9846,40 +7889,24 @@
       ],
       "slotsType": "UiSegmentedSlots",
       "slots": [
-        "option"
-      ],
-      "slotDetails": [
         {
           "name": "option",
           "required": false,
           "type": "(props:{option:UiSegmentedOption})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiSegmented } from 'lan-ui-design-system'",
-        "subpath": "import UiSegmented from 'lan-ui-design-system/components/UiSegmented'"
-      },
-      "runtimeExports": [
-        "UiSegmented",
-        "default"
       ]
     },
     {
       "name": "UiSelect",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiSelect",
+      "imports": {
+        "root": "import { UiSelect } from 'lan-ui-design-system'",
+        "subpath": "import UiSelect from 'lan-ui-design-system/components/UiSelect'"
+      },
       "propsType": "UiSelectProps",
       "props": [
-        "clearable",
-        "disabled",
-        "emptyText",
-        "invalid",
-        "modelValue",
-        "options",
-        "placeholder",
-        "searchable",
-        "size"
-      ],
-      "propDetails": [
         {
           "name": "clearable",
           "required": false,
@@ -9986,12 +8013,6 @@
       ],
       "emitsType": "UiSelectEmits",
       "emits": [
-        "change",
-        "clear",
-        "open-change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -10014,28 +8035,19 @@
         }
       ],
       "slotsType": "UiSelectSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiSelect } from 'lan-ui-design-system'",
-        "subpath": "import UiSelect from 'lan-ui-design-system/components/UiSelect'"
-      },
-      "runtimeExports": [
-        "UiSelect",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiSkeleton",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiSkeleton",
+      "imports": {
+        "root": "import { UiSkeleton } from 'lan-ui-design-system'",
+        "subpath": "import UiSkeleton from 'lan-ui-design-system/components/UiSkeleton'"
+      },
       "propsType": "UiSkeletonProps",
       "props": [
-        "animated",
-        "avatar",
-        "rows",
-        "width"
-      ],
-      "propDetails": [
         {
           "name": "animated",
           "required": false,
@@ -10088,41 +8100,20 @@
       ],
       "emitsType": "UiSkeletonEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiSkeletonSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiSkeleton } from 'lan-ui-design-system'",
-        "subpath": "import UiSkeleton from 'lan-ui-design-system/components/UiSkeleton'"
-      },
-      "runtimeExports": [
-        "UiSkeleton",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiSlider",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiSlider",
+      "imports": {
+        "root": "import { UiSlider } from 'lan-ui-design-system'",
+        "subpath": "import UiSlider from 'lan-ui-design-system/components/UiSlider'"
+      },
       "propsType": "UiSliderProps",
       "props": [
-        "ariaLabel",
-        "disabled",
-        "formatter",
-        "invalid",
-        "marks",
-        "max",
-        "min",
-        "minDistance",
-        "modelValue",
-        "range",
-        "readonly",
-        "reverse",
-        "step",
-        "tooltip",
-        "vertical"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -10306,13 +8297,6 @@
       ],
       "emitsType": "UiSliderEmits",
       "emits": [
-        "blur",
-        "change",
-        "focus",
-        "input",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -10340,28 +8324,19 @@
         }
       ],
       "slotsType": "UiSliderSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiSlider } from 'lan-ui-design-system'",
-        "subpath": "import UiSlider from 'lan-ui-design-system/components/UiSlider'"
-      },
-      "runtimeExports": [
-        "UiSlider",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiSpace",
+      "category": "foundations",
+      "categoryLabel": "基础与布局",
       "subpath": "./components/UiSpace",
+      "imports": {
+        "root": "import { UiSpace } from 'lan-ui-design-system'",
+        "subpath": "import UiSpace from 'lan-ui-design-system/components/UiSpace'"
+      },
       "propsType": "UiSpaceProps",
       "props": [
-        "align",
-        "direction",
-        "size",
-        "wrap"
-      ],
-      "propDetails": [
         {
           "name": "align",
           "required": false,
@@ -10414,39 +8389,26 @@
       ],
       "emitsType": "UiSpaceEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiSpaceSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiSpace } from 'lan-ui-design-system'",
-        "subpath": "import UiSpace from 'lan-ui-design-system/components/UiSpace'"
-      },
-      "runtimeExports": [
-        "UiSpace",
-        "default"
       ]
     },
     {
       "name": "UiSpin",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiSpin",
+      "imports": {
+        "root": "import { UiSpin } from 'lan-ui-design-system'",
+        "subpath": "import UiSpin from 'lan-ui-design-system/components/UiSpin'"
+      },
       "propsType": "UiSpinProps",
       "props": [
-        "delay",
-        "fullscreen",
-        "size",
-        "spinning",
-        "text"
-      ],
-      "propDetails": [
         {
           "name": "delay",
           "required": false,
@@ -10510,54 +8472,26 @@
       ],
       "emitsType": "UiSpinEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiSpinSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiSpin } from 'lan-ui-design-system'",
-        "subpath": "import UiSpin from 'lan-ui-design-system/components/UiSpin'"
-      },
-      "runtimeExports": [
-        "UiSpin",
-        "default"
       ]
     },
     {
       "name": "UiStatistic",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiStatistic",
+      "imports": {
+        "root": "import { UiStatistic } from 'lan-ui-design-system'",
+        "subpath": "import UiStatistic from 'lan-ui-design-system/components/UiStatistic'"
+      },
       "propsType": "UiStatisticProps",
       "props": [
-        "ariaLabel",
-        "ariaValueText",
-        "formatOptions",
-        "formatter",
-        "live",
-        "loading",
-        "loadingText",
-        "placeholder",
-        "positiveDirection",
-        "precision",
-        "prefix",
-        "size",
-        "status",
-        "suffix",
-        "title",
-        "trend",
-        "trendFormatOptions",
-        "trendFormatter",
-        "trendSuffix",
-        "value"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -10796,17 +8730,8 @@
       ],
       "emitsType": "UiStatisticEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiStatisticSlots",
       "slots": [
-        "extra",
-        "prefix",
-        "suffix",
-        "title",
-        "trend",
-        "value"
-      ],
-      "slotDetails": [
         {
           "name": "extra",
           "required": false,
@@ -10837,27 +8762,19 @@
           "required": false,
           "type": "(scope:{value:number|string|null;formattedValue:string})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiStatistic } from 'lan-ui-design-system'",
-        "subpath": "import UiStatistic from 'lan-ui-design-system/components/UiStatistic'"
-      },
-      "runtimeExports": [
-        "UiStatistic",
-        "default"
       ]
     },
     {
       "name": "UiSteps",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiSteps",
+      "imports": {
+        "root": "import { UiSteps } from 'lan-ui-design-system'",
+        "subpath": "import UiSteps from 'lan-ui-design-system/components/UiSteps'"
+      },
       "propsType": "UiStepsProps",
       "props": [
-        "ariaLabel",
-        "current",
-        "direction",
-        "items"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -10909,33 +8826,20 @@
       ],
       "emitsType": "UiStepsEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiStepsSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiSteps } from 'lan-ui-design-system'",
-        "subpath": "import UiSteps from 'lan-ui-design-system/components/UiSteps'"
-      },
-      "runtimeExports": [
-        "UiSteps",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiSwitch",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiSwitch",
+      "imports": {
+        "root": "import { UiSwitch } from 'lan-ui-design-system'",
+        "subpath": "import UiSwitch from 'lan-ui-design-system/components/UiSwitch'"
+      },
       "propsType": "UiSwitchProps",
       "props": [
-        "ariaLabel",
-        "checkedText",
-        "disabled",
-        "loading",
-        "modelValue",
-        "size",
-        "uncheckedText"
-      ],
-      "propDetails": [
         {
           "name": "ariaLabel",
           "required": false,
@@ -11023,10 +8927,6 @@
       ],
       "emitsType": "UiSwitchEmits",
       "emits": [
-        "change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -11039,47 +8939,19 @@
         }
       ],
       "slotsType": "UiSwitchSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiSwitch } from 'lan-ui-design-system'",
-        "subpath": "import UiSwitch from 'lan-ui-design-system/components/UiSwitch'"
-      },
-      "runtimeExports": [
-        "UiSwitch",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiTable",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiTable",
+      "imports": {
+        "root": "import { UiTable } from 'lan-ui-design-system'",
+        "subpath": "import UiTable from 'lan-ui-design-system/components/UiTable'"
+      },
       "propsType": "UiTableProps",
       "props": [
-        "columns",
-        "density",
-        "emptyText",
-        "emptyTitle",
-        "error",
-        "expandable",
-        "expandedRows",
-        "filters",
-        "loading",
-        "loadingRows",
-        "maxHeight",
-        "overscan",
-        "resizable",
-        "rowHeight",
-        "rowKey",
-        "rows",
-        "selectable",
-        "selectedRows",
-        "sortKey",
-        "sortOrder",
-        "stickyHeader",
-        "viewportHeight",
-        "virtual"
-      ],
-      "propDetails": [
         {
           "name": "columns",
           "required": false,
@@ -11360,18 +9232,6 @@
       ],
       "emitsType": "UiTableEmits",
       "emits": [
-        "column-resize",
-        "filter-change",
-        "retry",
-        "row-click",
-        "sort-change",
-        "update:expandedRows",
-        "update:filters",
-        "update:selectedRows",
-        "update:sortKey",
-        "update:sortOrder"
-      ],
-      "emitDetails": [
         {
           "name": "column-resize",
           "required": true,
@@ -11425,12 +9285,6 @@
       ],
       "slotsType": "UiTableSlots",
       "slots": [
-        "caption",
-        "cell-*",
-        "empty-action",
-        "expanded"
-      ],
-      "slotDetails": [
         {
           "name": "caption",
           "required": false,
@@ -11451,28 +9305,19 @@
           "required": false,
           "type": "(props:{row:Record<string,unknown>})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiTable } from 'lan-ui-design-system'",
-        "subpath": "import UiTable from 'lan-ui-design-system/components/UiTable'"
-      },
-      "runtimeExports": [
-        "UiTable",
-        "default"
       ]
     },
     {
       "name": "UiTabs",
+      "category": "navigation",
+      "categoryLabel": "导航",
       "subpath": "./components/UiTabs",
+      "imports": {
+        "root": "import { UiTabs } from 'lan-ui-design-system'",
+        "subpath": "import UiTabs from 'lan-ui-design-system/components/UiTabs'"
+      },
       "propsType": "UiTabsProps",
       "props": [
-        "items",
-        "modelValue",
-        "orientation",
-        "panels",
-        "size"
-      ],
-      "propDetails": [
         {
           "name": "items",
           "required": false,
@@ -11531,11 +9376,6 @@
       ],
       "emitsType": "UiTabsEmits",
       "emits": [
-        "change",
-        "close",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -11554,10 +9394,6 @@
       ],
       "slotsType": "UiTabsSlots",
       "slots": [
-        "default",
-        "panel-*"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -11568,25 +9404,19 @@
           "required": true,
           "type": "((props:{item:UiTabsItem|Key})=>VNodeChild)|undefined"
         }
-      ],
-      "imports": {
-        "root": "import { UiTabs } from 'lan-ui-design-system'",
-        "subpath": "import UiTabs from 'lan-ui-design-system/components/UiTabs'"
-      },
-      "runtimeExports": [
-        "UiTabs",
-        "default"
       ]
     },
     {
       "name": "UiTag",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiTag",
+      "imports": {
+        "root": "import { UiTag } from 'lan-ui-design-system'",
+        "subpath": "import UiTag from 'lan-ui-design-system/components/UiTag'"
+      },
       "propsType": "UiTagProps",
       "props": [
-        "color",
-        "dot"
-      ],
-      "propDetails": [
         {
           "name": "color",
           "required": false,
@@ -11614,42 +9444,26 @@
       ],
       "emitsType": "UiTagEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiTagSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiTag } from 'lan-ui-design-system'",
-        "subpath": "import UiTag from 'lan-ui-design-system/components/UiTag'"
-      },
-      "runtimeExports": [
-        "UiTag",
-        "default"
       ]
     },
     {
       "name": "UiTextarea",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiTextarea",
+      "imports": {
+        "root": "import { UiTextarea } from 'lan-ui-design-system'",
+        "subpath": "import UiTextarea from 'lan-ui-design-system/components/UiTextarea'"
+      },
       "propsType": "UiTextareaProps",
       "props": [
-        "disabled",
-        "invalid",
-        "maxlength",
-        "modelValue",
-        "placeholder",
-        "readonly",
-        "rows",
-        "showCount"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -11738,12 +9552,6 @@
       ],
       "emitsType": "UiTextareaEmits",
       "emits": [
-        "blur",
-        "focus",
-        "input",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -11766,25 +9574,19 @@
         }
       ],
       "slotsType": "UiTextareaSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiTextarea } from 'lan-ui-design-system'",
-        "subpath": "import UiTextarea from 'lan-ui-design-system/components/UiTextarea'"
-      },
-      "runtimeExports": [
-        "UiTextarea",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiTimeline",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiTimeline",
+      "imports": {
+        "root": "import { UiTimeline } from 'lan-ui-design-system'",
+        "subpath": "import UiTimeline from 'lan-ui-design-system/components/UiTimeline'"
+      },
       "propsType": "UiTimelineProps",
       "props": [
-        "items"
-      ],
-      "propDetails": [
         {
           "name": "items",
           "required": false,
@@ -11800,40 +9602,20 @@
       ],
       "emitsType": "UiTimelineEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiTimelineSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiTimeline } from 'lan-ui-design-system'",
-        "subpath": "import UiTimeline from 'lan-ui-design-system/components/UiTimeline'"
-      },
-      "runtimeExports": [
-        "UiTimeline",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiTimePicker",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiTimePicker",
+      "imports": {
+        "root": "import { UiTimePicker } from 'lan-ui-design-system'",
+        "subpath": "import UiTimePicker from 'lan-ui-design-system/components/UiTimePicker'"
+      },
       "propsType": "UiTimePickerProps",
       "props": [
-        "clearable",
-        "disabled",
-        "disambiguation",
-        "invalid",
-        "max",
-        "min",
-        "modelValue",
-        "placeholder",
-        "precision",
-        "referenceDate",
-        "size",
-        "step",
-        "timeZone",
-        "valueType"
-      ],
-      "propDetails": [
         {
           "name": "clearable",
           "required": false,
@@ -12014,14 +9796,6 @@
       ],
       "emitsType": "UiTimePickerEmits",
       "emits": [
-        "blur",
-        "change",
-        "clear",
-        "focus",
-        "invalid",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -12054,26 +9828,19 @@
         }
       ],
       "slotsType": "UiTimePickerSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiTimePicker } from 'lan-ui-design-system'",
-        "subpath": "import UiTimePicker from 'lan-ui-design-system/components/UiTimePicker'"
-      },
-      "runtimeExports": [
-        "UiTimePicker",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiToastHost",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiToastHost",
+      "imports": {
+        "root": "import { UiToastHost } from 'lan-ui-design-system'",
+        "subpath": "import UiToastHost from 'lan-ui-design-system/components/UiToastHost'"
+      },
       "propsType": "UiToastHostProps",
       "props": [
-        "feedback",
-        "items"
-      ],
-      "propDetails": [
         {
           "name": "feedback",
           "required": false,
@@ -12101,11 +9868,6 @@
       ],
       "emitsType": "UiToastHostEmits",
       "emits": [
-        "pause",
-        "remove",
-        "resume"
-      ],
-      "emitDetails": [
         {
           "name": "pause",
           "required": true,
@@ -12123,28 +9885,19 @@
         }
       ],
       "slotsType": "UiToastHostSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiToastHost } from 'lan-ui-design-system'",
-        "subpath": "import UiToastHost from 'lan-ui-design-system/components/UiToastHost'"
-      },
-      "runtimeExports": [
-        "UiToastHost",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiTooltip",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
       "subpath": "./components/UiTooltip",
+      "imports": {
+        "root": "import { UiTooltip } from 'lan-ui-design-system'",
+        "subpath": "import UiTooltip from 'lan-ui-design-system/components/UiTooltip'"
+      },
       "propsType": "UiTooltipProps",
       "props": [
-        "content",
-        "disabled",
-        "offset",
-        "placement"
-      ],
-      "propDetails": [
         {
           "name": "content",
           "required": false,
@@ -12196,38 +9949,26 @@
       ],
       "emitsType": "UiTooltipEmits",
       "emits": [],
-      "emitDetails": [],
       "slotsType": "UiTooltipSlots",
       "slots": [
-        "default"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "(props:{describedby:string})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiTooltip } from 'lan-ui-design-system'",
-        "subpath": "import UiTooltip from 'lan-ui-design-system/components/UiTooltip'"
-      },
-      "runtimeExports": [
-        "UiTooltip",
-        "default"
       ]
     },
     {
       "name": "UiTransfer",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiTransfer",
+      "imports": {
+        "root": "import { UiTransfer } from 'lan-ui-design-system'",
+        "subpath": "import UiTransfer from 'lan-ui-design-system/components/UiTransfer'"
+      },
       "propsType": "UiTransferProps",
       "props": [
-        "modelValue",
-        "options",
-        "searchable",
-        "titles"
-      ],
-      "propDetails": [
         {
           "name": "modelValue",
           "required": false,
@@ -12279,10 +10020,6 @@
       ],
       "emitsType": "UiTransferEmits",
       "emits": [
-        "change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -12295,57 +10032,19 @@
         }
       ],
       "slotsType": "UiTransferSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiTransfer } from 'lan-ui-design-system'",
-        "subpath": "import UiTransfer from 'lan-ui-design-system/components/UiTransfer'"
-      },
-      "runtimeExports": [
-        "UiTransfer",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiTree",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiTree",
+      "imports": {
+        "root": "import { UiTree } from 'lan-ui-design-system'",
+        "subpath": "import UiTree from 'lan-ui-design-system/components/UiTree'"
+      },
       "propsType": "UiTreeProps",
       "props": [
-        "accordion",
-        "bordered",
-        "checkOnClickNode",
-        "checkStrictly",
-        "checkable",
-        "checkedKeys",
-        "childrenKey",
-        "data",
-        "defaultCheckedKeys",
-        "defaultExpandAll",
-        "defaultExpandedKeys",
-        "defaultValue",
-        "disabled",
-        "emptyText",
-        "expandOnClickNode",
-        "expandedKeys",
-        "filter",
-        "filterMethod",
-        "height",
-        "indent",
-        "invalid",
-        "itemHeight",
-        "labelKey",
-        "loadData",
-        "modelValue",
-        "multiple",
-        "nodeKey",
-        "overscan",
-        "selectable",
-        "showIcon",
-        "showLine",
-        "size",
-        "virtual"
-      ],
-      "propDetails": [
         {
           "name": "accordion",
           "required": false,
@@ -12744,20 +10443,6 @@
       ],
       "emitsType": "UiTreeEmits",
       "emits": [
-        "blur",
-        "check-change",
-        "data-error",
-        "expand-change",
-        "focus",
-        "load",
-        "load-error",
-        "node-click",
-        "select-change",
-        "update:checkedKeys",
-        "update:expandedKeys",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "blur",
           "required": true,
@@ -12821,12 +10506,6 @@
       ],
       "slotsType": "UiTreeSlots",
       "slots": [
-        "empty",
-        "icon",
-        "node",
-        "suffix"
-      ],
-      "slotDetails": [
         {
           "name": "empty",
           "required": false,
@@ -12847,28 +10526,19 @@
           "required": false,
           "type": "(scope:{node:UiTreeDataNode})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiTree } from 'lan-ui-design-system'",
-        "subpath": "import UiTree from 'lan-ui-design-system/components/UiTree'"
-      },
-      "runtimeExports": [
-        "UiTree",
-        "default"
       ]
     },
     {
       "name": "UiTreeSelect",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiTreeSelect",
+      "imports": {
+        "root": "import { UiTreeSelect } from 'lan-ui-design-system'",
+        "subpath": "import UiTreeSelect from 'lan-ui-design-system/components/UiTreeSelect'"
+      },
       "propsType": "UiTreeSelectProps",
       "props": [
-        "disabled",
-        "invalid",
-        "modelValue",
-        "options",
-        "placeholder"
-      ],
-      "propDetails": [
         {
           "name": "disabled",
           "required": false,
@@ -12927,11 +10597,6 @@
       ],
       "emitsType": "UiTreeSelectEmits",
       "emits": [
-        "change",
-        "open-change",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "change",
           "required": true,
@@ -12949,40 +10614,19 @@
         }
       ],
       "slotsType": "UiTreeSelectSlots",
-      "slots": [],
-      "slotDetails": [],
-      "imports": {
-        "root": "import { UiTreeSelect } from 'lan-ui-design-system'",
-        "subpath": "import UiTreeSelect from 'lan-ui-design-system/components/UiTreeSelect'"
-      },
-      "runtimeExports": [
-        "UiTreeSelect",
-        "default"
-      ]
+      "slots": []
     },
     {
       "name": "UiUpload",
+      "category": "forms",
+      "categoryLabel": "数据录入",
       "subpath": "./components/UiUpload",
+      "imports": {
+        "root": "import { UiUpload } from 'lan-ui-design-system'",
+        "subpath": "import UiUpload from 'lan-ui-design-system/components/UiUpload'"
+      },
       "propsType": "UiUploadProps",
       "props": [
-        "accept",
-        "ariaLabel",
-        "autoUpload",
-        "beforeRemove",
-        "beforeUpload",
-        "capture",
-        "concurrency",
-        "directory",
-        "disabled",
-        "hint",
-        "maxCount",
-        "maxSize",
-        "modelValue",
-        "multiple",
-        "request",
-        "showFileList"
-      ],
-      "propDetails": [
         {
           "name": "accept",
           "required": false,
@@ -13179,21 +10823,6 @@
       ],
       "emitsType": "UiUploadEmits",
       "emits": [
-        "abort",
-        "change",
-        "error",
-        "exceed",
-        "progress",
-        "reject",
-        "remove",
-        "retry",
-        "select",
-        "start",
-        "success",
-        "update:modelValue",
-        "upload-error"
-      ],
-      "emitDetails": [
         {
           "name": "abort",
           "required": true,
@@ -13262,11 +10891,6 @@
       ],
       "slotsType": "UiUploadSlots",
       "slots": [
-        "file",
-        "tip",
-        "trigger"
-      ],
-      "slotDetails": [
         {
           "name": "file",
           "required": false,
@@ -13282,48 +10906,19 @@
           "required": false,
           "type": "(scope:{open:()=>void;dragging:boolean;busy:boolean;remaining:number})=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiUpload } from 'lan-ui-design-system'",
-        "subpath": "import UiUpload from 'lan-ui-design-system/components/UiUpload'"
-      },
-      "runtimeExports": [
-        "UiUpload",
-        "default"
       ]
     },
     {
       "name": "UiVirtualList",
+      "category": "data",
+      "categoryLabel": "数据展示",
       "subpath": "./components/UiVirtualList",
+      "imports": {
+        "root": "import { UiVirtualList } from 'lan-ui-design-system'",
+        "subpath": "import UiVirtualList from 'lan-ui-design-system/components/UiVirtualList'"
+      },
       "propsType": "UiVirtualListProps",
       "props": [
-        "activeIndex",
-        "ariaLabel",
-        "bordered",
-        "defaultActiveIndex",
-        "deselectable",
-        "disabledKeys",
-        "emptyText",
-        "error",
-        "errorText",
-        "estimatedItemSize",
-        "height",
-        "itemKey",
-        "itemSize",
-        "items",
-        "loading",
-        "loadingText",
-        "loop",
-        "measure",
-        "modelValue",
-        "overscan",
-        "selectionMode",
-        "striped",
-        "tabindex",
-        "textField",
-        "width"
-      ],
-      "propDetails": [
         {
           "name": "activeIndex",
           "required": false,
@@ -13635,18 +11230,6 @@
       ],
       "emitsType": "UiVirtualListEmits",
       "emits": [
-        "active-change",
-        "change",
-        "item-click",
-        "range-change",
-        "reach-end",
-        "reach-start",
-        "retry",
-        "scroll",
-        "update:activeIndex",
-        "update:modelValue"
-      ],
-      "emitDetails": [
         {
           "name": "active-change",
           "required": true,
@@ -13700,13 +11283,6 @@
       ],
       "slotsType": "UiVirtualListSlots",
       "slots": [
-        "default",
-        "empty",
-        "error",
-        "item",
-        "loading"
-      ],
-      "slotDetails": [
         {
           "name": "default",
           "required": false,
@@ -13732,14 +11308,6 @@
           "required": false,
           "type": "()=>VNodeChild"
         }
-      ],
-      "imports": {
-        "root": "import { UiVirtualList } from 'lan-ui-design-system'",
-        "subpath": "import UiVirtualList from 'lan-ui-design-system/components/UiVirtualList'"
-      },
-      "runtimeExports": [
-        "UiVirtualList",
-        "default"
       ]
     }
   ]

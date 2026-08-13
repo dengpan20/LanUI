@@ -6,6 +6,7 @@ import {
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiUpload, UiVirtualList,
 } from '../../src/index.js'
+import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
 const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
 const tab=ref('overview')
@@ -63,6 +64,8 @@ const tableRows=[
 
 <template>
   <UiConfigProvider id="visual-fixture" class="visual-fixture" tag="main" locale="en-US" :appearance="theme" :direction="direction" :density="density" :data-theme-case="theme">
+    <ApiReferencePage v-if="state==='api-docs'" />
+    <template v-else>
     <header class="visual-header">
       <div><small>LAN UI · REGRESSION FIXTURE</small><h1>Enterprise component baseline</h1></div>
       <div class="visual-meta"><UiTag color="blue">{{ theme }}</UiTag><UiTag color="green">{{ direction }}</UiTag><UiTag color="orange">{{ density }}</UiTag></div>
@@ -173,5 +176,6 @@ const tableRows=[
         <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commandItems"><template #trigger="{open}"><UiButton id="visual-command-trigger" @click="open">Open command palette</UiButton></template></UiCommandPalette>
       </div>
     </UiCard>
+    </template>
   </UiConfigProvider>
 </template>

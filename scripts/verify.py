@@ -4,6 +4,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 required = [
+    "COMPONENT-API.md", "public/component-api.json", "src/generated/component-api.json", "src/pages/ApiReferencePage.vue", "scripts/api-docs.mjs", "tests/api-docs-p37.spec.js", "tests/visual/baselines/win32/api-reference.png", "scripts/build_p37_artifacts.py",
     "index.html", "component-preview.html", "interaction-regression.html", "styles.css", "tokens.css", "font-preview.css",
     "UI-SPEC.md", "README.md", "CHANGELOG.md", "MIGRATION.md", "api-manifest.json", "style-manifest.json", "visual-regression.html", "package.json", "pnpm-workspace.yaml", "vite.config.js", "src/main.js", "src/App.vue",
     "src/pages/LoginPage.vue", "src/pages/LogoutPage.vue", "src/pages/NotFoundPage.vue", "src/pages/ForbiddenPage.vue", "src/pages/ServerErrorPage.vue",
@@ -71,7 +72,7 @@ if "css-boundary-contracts.mjs" not in package.get("scripts", {}).get("test:pack
     failures.append("package:p33-css-boundary-gate")
 if package.get("packageManager") != "pnpm@11.16.0" or package.get("license") != "UNLICENSED":
     failures.append("package:release-metadata")
-if not all(name in package.get("files", []) for name in ["api-manifest.json","style-manifest.json","CHANGELOG.md","MIGRATION.md"]) or "api:check" not in package.get("scripts", {}).get("check", ""):
+if not all(name in package.get("files", []) for name in ["api-manifest.json","COMPONENT-API.md","public/component-api.json","style-manifest.json","CHANGELOG.md","MIGRATION.md"]) or "api:check" not in package.get("scripts", {}).get("check", ""):
     failures.append("package:api-manifest-delivery")
 if not package.get("typesVersions", {}).get("*", {}).get("components/*"):
     failures.append("package:legacy-types-subpaths")
@@ -81,12 +82,21 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 2 or len(api_manifest.get("root", {}).get("typeExports", [])) < 480 or len(manifest_components) != 69:
+if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 480 or len(manifest_components) != 69:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
-    if sorted(component.get("runtimeExports", [])) != sorted(["default", name]) or not component.get("props") or not isinstance(component.get("emits"), list) or not isinstance(component.get("slots"), list) or component.get("emitsType") != f"{name}Emits" or component.get("slotsType") != f"{name}Slots":
+    if sorted(component.get("runtimeExports", [])) != sorted(["default", name]) or not component.get("props") or not isinstance(component.get("emits"), list) or not isinstance(component.get("slots"), list) or component.get("emitsType") != f"{name}Emits" or component.get("slotsType") != f"{name}Slots" or [item.get("name") for item in component.get("propDetails", [])] != component.get("props") or [item.get("name") for item in component.get("emitDetails", [])] != component.get("emits") or [item.get("name") for item in component.get("slotDetails", [])] != component.get("slots") or not component.get("imports", {}).get("root"):
         failures.append(f"api-manifest:parity:{component.get('name')}")
+
+component_api = json.loads((ROOT / "public/component-api.json").read_text(encoding="utf-8"))
+generated_component_api = json.loads((ROOT / "src/generated/component-api.json").read_text(encoding="utf-8"))
+if component_api != generated_component_api or component_api.get("version") != package.get("version") or component_api.get("schemaVersion") != 1:
+    failures.append("p37:generated-api-parity")
+api_categories = component_api.get("categories", [])
+api_components = component_api.get("components", [])
+if len(api_categories) != 6 or len(api_components) != 69 or sum(item.get("count", 0) for item in api_categories) != 69 or len({item.get("name") for item in api_components}) != 69:
+    failures.append("p37:generated-api-coverage")
 
 style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="utf-8"))
 style_components = style_manifest.get("components", [])
@@ -618,12 +628,25 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.32.0", "previewMotionSwitch", "data-ui-motion-preference"]) or "Motion Runtime P36" not in components_page or "完整动效" not in components_page:
+if any(marker not in preview for marker in ["V1.33.0", "previewMotionSwitch", "data-ui-motion-preference"]) or "API Reference P37" not in components_page or "1.33.0" not in components_page:
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
 if styles_source.count("prefers-reduced-motion") != 1 or any(marker not in styles_source for marker in ['[data-ui-motion="full"]','[data-ui-motion="reduced"]','--motion-count','--motion-scroll']):
     failures.append("p36:motion-style-contract")
+
+api_page = (ROOT / "src/pages/ApiReferencePage.vue").read_text(encoding="utf-8")
+api_docs_script = (ROOT / "scripts/api-docs.mjs").read_text(encoding="utf-8")
+if any(marker not in api_page for marker in ["搜索组件 API", "filteredComponents", "copyDeepLink", "componentFromHash", "api-reference-table-wrap", "aria-live"]):
+    failures.append("p37:api-reference-page")
+if any(marker not in app for marker in ["defineAsyncComponent", "'/api'", "split('?')[0]", "组件 API 参考"]):
+    failures.append("p37:api-route")
+if any(marker not in api_docs_script for marker in ["categoryDefinitions", "Duplicate API documentation category", "category coverage failed", "API_DOCS PASS", "COMPONENT-API.md"]):
+    failures.append("p37:api-doc-generator")
+if "Generated Component API reference (P37)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P37: generated API reference and drift governance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p37:documentation")
+if "api-docs.mjs" not in package.get("scripts", {}).get("api:check", "") or "api:check" not in package.get("scripts", {}).get("prepack", ""):
+    failures.append("p37:package-gate")
 
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
@@ -660,24 +683,24 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 11 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 12 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "LAN_UI_BROWSER_PATH"]:
+for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "LAN_UI_BROWSER_PATH"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 29:
+if accessibility_script.count("{name:") < 30:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "api-reference-discovery", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") + interaction_script.count("name:'") < 33:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 34:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -733,7 +756,7 @@ if failures:
 print("VERIFY PASS")
 print(f"- required_files={len(required)}")
 print(f"- vue_pages={len(list((ROOT / 'src/pages').glob('*.vue')))}")
-print("- routes=8")
+print("- routes=9")
 print("- preview_sections=" + str(preview.count('class="preview-section"')))
 print("- forms=ui-input,ui-number-input,ui-slider,ui-autocomplete,ui-color-picker,ui-select,ui-textarea,no-native-select")
 print("- extensions=date-picker,date-range-picker,time-picker,calendar,image,pagination,upload,layout,float-button")
@@ -780,4 +803,5 @@ print("- maturity-p33=component-style-union,css-boundary,esm-minify,lean-locale-
 print("- maturity-p34=theme-runtime,102-token-presets,scoped-provider,system-preference,host-controller,31-interactions-per-browser")
 print("- maturity-p35=12-teleport-theme-bridges,live-provider-scope,no-provider-fallback,10-visual,28-axe,32-interactions-per-browser")
 print("- maturity-p36=adaptive-motion-runtime,provider-teleport-scope,11-visual,29-axe,33-interactions-per-browser,18-performance-budgets")
+print("- maturity-p37=api-schema-3,generated-docs,6-categories,lazy-api-route,12-visual,30-axe,34-interactions-per-browser")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

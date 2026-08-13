@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.33.0] - 2026-08-13
+
+### Added
+
+- A generated Component API corpus for all 69 public components, with six stable categories, searchable Props/Events/Slots signatures, runtime constructor names, defaults, root imports and component-subpath imports.
+- A lazy-loaded `/api` admin route with category filtering, contract search, copyable imports, direct component links, responsive tables and empty-result feedback.
+- Deterministic Markdown, application JSON and public JSON outputs plus focused unit, visual, Axe and Chromium/Firefox/WebKit discovery regressions.
+
+### Changed
+
+- Upgraded `api-manifest.json` to schema 3 with detailed declarations and runtime default metadata while preserving the existing compact member lists.
+- `api:generate`, `api:check`, `check` and `prepack` now reject generated API documentation drift. Admin hash routing ignores query parameters when resolving a page so component deep links remain routable.
+
 ## [1.32.0] - 2026-08-13
 
 ### Added

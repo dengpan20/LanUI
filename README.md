@@ -797,3 +797,18 @@ controller.subscribe(({ resolvedPreference }) => console.log(resolvedPreference)
 ### Compact table selection controls
 
 `UiCheckbox` accepts `size="sm | md | lg"` and `aria-label`. `UiTable` uses the `sm` variant for select-all and row selection, keeping the visible checkmark at 14px while preserving a minimum 24px interaction target. Icon-only usage omits the empty label span, so alignment is stable in compact table columns.
+
+## Generated Component API reference (P37)
+
+Lan UI turns its public TypeScript and Vue runtime contracts into deterministic documentation rather than maintaining a second handwritten API source:
+
+```bash
+pnpm run api:generate # write schema 3 manifest and documentation outputs
+pnpm run api:check    # reject declaration/runtime/category/documentation drift
+```
+
+- `api-manifest.json` schema 3 retains compact member lists and adds full prop/event/slot signatures, required flags, runtime constructor names, defaults and both import forms.
+- `COMPONENT-API.md` is a portable reference; `public/component-api.json` is the machine-readable web output; `src/generated/component-api.json` powers the showcase without runtime parsing.
+- The lazy-loaded `#/api` admin route searches component names and every public contract, filters six stable categories, copies imports and exposes direct links such as `#/api?component=UiUpload`.
+- Category generation requires exact one-to-one coverage of all 69 public components. A missing, duplicate or unknown component fails generation before documentation can ship.
+- P37 keeps runtime component behavior unchanged. Release gates now require 12 visual baselines, 30 zero-violation Axe scenarios and 34 interactions per Chromium/Firefox/WebKit engine in addition to generated-output drift checks.

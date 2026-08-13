@@ -61,6 +61,39 @@ function declarationMembers(name,seen=new Set()){
   }).filter(Boolean)
   return [...new Set([...(base?declarationMembers(base,seen):[]),...own])].sort()
 }
+function memberDetail(segment){
+  const dynamic=segment.match(/^\[\w+\s*:\s*`([^`]+)`\]\s*:\s*([\s\S]+)$/)
+  if(dynamic)return {name:dynamic[1].replace(/\$\{[^}]+\}/g,'*'),required:true,type:dynamic[2].trim().replace(/\s+/g,' ')}
+  const match=segment.match(/^(?:'([^']+)'|"([^"]+)"|([A-Za-z_$][\w$]*))(\?)?\s*:\s*([\s\S]+)$/)
+  if(!match)return null
+  return {name:match.slice(1,4).find(Boolean),required:!match[4],type:match[5].trim().replace(/\s+/g,' ')}
+}
+function declarationMemberDetails(name,seen=new Set()){
+  if(seen.has(name))return []
+  seen.add(name)
+  const declaration=declarationBody(name)
+  if(!declaration)return []
+  const base=[...declaration.header.matchAll(/\bextends\s+([A-Za-z_$][\w$]*)/g)].at(-1)?.[1]
+  const inherited=base?declarationMemberDetails(base,seen):[]
+  const own=topLevelMembers(declaration.body).map(memberDetail).filter(Boolean)
+  return [...new Map([...inherited,...own].map(detail=>[detail.name,detail])).values()].sort((left,right)=>left.name<right.name?-1:left.name>right.name?1:0)
+}
+function runtimeTypeNames(option){
+  const definition=typeof option==='function'?{type:option}:option||{}
+  const types=Array.isArray(definition.type)?definition.type:[definition.type]
+  return types.filter(Boolean).map(type=>type.name||'unknown').filter((name,index,list)=>list.indexOf(name)===index)
+}
+function runtimeDefault(option,typed){
+  const definition=typeof option==='function'?{type:option}:option||{}
+  if(Object.prototype.hasOwnProperty.call(definition,'default')){
+    const value=definition.default
+    if(typeof value==='function')return {kind:'factory',value:'factory()'}
+    if(value===undefined)return {kind:'undefined',value:'undefined'}
+    return {kind:'literal',value:JSON.stringify(value)}
+  }
+  if(runtimeTypeNames(option).includes('Boolean')||typed==='boolean')return {kind:'implicit',value:'false'}
+  return null
+}
 async function loadModule(file){
   const url=`${pathToFileURL(resolve(root,file)).href}?api-manifest=${Date.now()}-${Math.random()}`
   return import(url)
@@ -103,6 +136,13 @@ for(const name of components){
   const props=declarationMembers(`${name}Props`)
   const emits=declarationMembers(`${name}Emits`)
   const slots=declarationMembers(`${name}Slots`)
+  const propDetails=declarationMemberDetails(`${name}Props`).map(detail=>({
+    ...detail,
+    runtimeTypes:runtimeTypeNames(module.default.props?.[detail.name]),
+    default:runtimeDefault(module.default.props?.[detail.name],detail.type),
+  }))
+  const emitDetails=declarationMemberDetails(`${name}Emits`)
+  const slotDetails=declarationMemberDetails(`${name}Slots`)
   if(!declarations.includes(`${name}:LanComponent<${name}Props`)&&!declarations.includes(`${name}:${name}Component`))throw new Error(`Missing typed component contract: ${name}`)
   assertEqualMembers(name,'Props',Object.keys(module.default.props||{}),props)
   assertEqualMembers(name,'Emits',Array.isArray(module.default.emits)?module.default.emits:Object.keys(module.default.emits||{}),emits)
@@ -112,10 +152,17 @@ for(const name of components){
     subpath:`./components/${name}`,
     propsType:`${name}Props`,
     props,
+    propDetails,
     emitsType:`${name}Emits`,
     emits,
+    emitDetails,
     slotsType:`${name}Slots`,
     slots,
+    slotDetails,
+    imports:{
+      root:`import { ${name} } from '${packageJson.name}'`,
+      subpath:`import ${name} from '${packageJson.name}/components/${name}'`,
+    },
     runtimeExports,
   })
 }
@@ -123,7 +170,7 @@ for(const name of components){
 const typeExports=[...declarations.matchAll(/export (?:interface|type|const|function)\s+([A-Za-z_$][\w$]*)/g)]
   .map(([,name])=>name).filter((name,index,list)=>list.indexOf(name)===index).sort()
 const manifest={
-  schemaVersion:2,
+  schemaVersion:3,
   package:packageJson.name,
   version:packageJson.version,
   moduleFormat:'esm',
@@ -148,7 +195,7 @@ const target=resolve(root,'api-manifest.json')
 
 if(process.argv.includes('--write')){
   writeFileSync(target,output,'utf8')
-  console.log(`API_MANIFEST WRITE components=${components.length} root=${manifest.root.runtimeExports.length} subpaths=${manifest.publicSubpaths.length} contracts=props+emits+slots`)
+  console.log(`API_MANIFEST WRITE schema=3 components=${components.length} root=${manifest.root.runtimeExports.length} subpaths=${manifest.publicSubpaths.length} contracts=props+emits+slots+signatures+defaults`)
 }else{
   const current=readFileSync(target,'utf8').replace(/\r\n?/g,'\n')
   if(current!==output){
@@ -159,5 +206,5 @@ if(process.argv.includes('--write')){
     if(component.runtimeExports.length!==2||!component.runtimeExports.includes('default')||!component.runtimeExports.includes(component.name))throw new Error(`Runtime export parity failed: ${component.name}`)
     if(!typeExports.includes(component.propsType))throw new Error(`Missing public Props type: ${component.propsType}`)
   }
-  console.log(`API_MANIFEST PASS components=${components.length} root=${manifest.root.runtimeExports.length} subpaths=${manifest.publicSubpaths.length} parity=runtime+types+props+emits+slots`)
+  console.log(`API_MANIFEST PASS schema=3 components=${components.length} root=${manifest.root.runtimeExports.length} subpaths=${manifest.publicSubpaths.length} parity=runtime+types+props+emits+slots+signatures+defaults`)
 }
