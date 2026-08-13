@@ -218,6 +218,15 @@ export interface UiSegmentedOption { label:string; value:Key|boolean; icon?:stri
 export interface UiSegmentedProps { modelValue?:Key|boolean; options?:Array<UiSegmentedOption|Key>; size?:ComponentSize; block?:boolean; disabled?:boolean; name?:string }
 export interface UiSpaceProps { size?:string|number; direction?:'horizontal'|'vertical'; align?:'start'|'center'|'end'|'stretch'; wrap?:boolean }
 export interface UiSpinProps { spinning?:boolean; text?:string; fullscreen?:boolean; delay?:number; size?:ComponentSize }
+export type UiSplitterDirection = 'horizontal'|'vertical'
+export type UiSplitterSize = number|`${number}%`|`${number}px`
+export interface UiSplitterPanel { key:Key; label?:string; size?:UiSplitterSize; defaultSize?:UiSplitterSize; min?:UiSplitterSize; max?:UiSplitterSize; resizable?:boolean; collapsible?:boolean; collapsedSize?:UiSplitterSize }
+export type UiSplitterResizeSource = 'pointer'|'keyboard'|'api'|'reset'|string
+export interface UiSplitterResizeMeta { index:number; source:UiSplitterResizeSource; direction:UiSplitterDirection; sizes:number[] }
+export interface UiSplitterCollapseMeta { index:number; collapsed:boolean; source:UiSplitterResizeSource; sizes:number[] }
+export interface UiSplitterInvalid { reason:'panels'|'constraints'|'size'; value:unknown }
+export interface UiSplitterProps { panels?:UiSplitterPanel[]; modelValue?:number[]; direction?:UiSplitterDirection; lazy?:boolean; disabled?:boolean; keyboardStep?:number; separatorSize?:number; ariaLabel?:string }
+export interface UiSplitterInstance { reset:()=>number[]; setSizes:(sizes:number[],source?:UiSplitterResizeSource)=>number[]; collapse:(index:number,source?:UiSplitterResizeSource)=>number[]; expand:(index:number,source?:UiSplitterResizeSource)=>number[]; toggleCollapse:(index:number,source?:UiSplitterResizeSource)=>number[]; sizes:Ref<number[]> }
 export interface UiStepItem { title:string; description?:string; status?:'wait'|'process'|'finish'|'error' }
 export interface UiStepsProps { items?:UiStepItem[]; current?:number; direction?:'horizontal'|'vertical'; ariaLabel?:string }
 export interface UiSwitchProps { modelValue?:boolean; disabled?:boolean; loading?:boolean; size?:ComponentSize; checkedText?:string; uncheckedText?:string; ariaLabel?:string }
@@ -357,6 +366,7 @@ export type UiSliderEmits = { 'update:modelValue':(value:number|number[])=>void;
 export type UiSegmentedEmits = { 'update:modelValue':(value:Key|boolean)=>void; change:(value:Key|boolean)=>void }
 export type UiSpaceEmits = {}
 export type UiSpinEmits = {}
+export type UiSplitterEmits = { 'update:modelValue':(sizes:number[])=>void; 'resize-start':(meta:UiSplitterResizeMeta)=>void; resize:(meta:UiSplitterResizeMeta)=>void; 'resize-end':(meta:UiSplitterResizeMeta)=>void; collapse:(meta:UiSplitterCollapseMeta)=>void; invalid:(payload:UiSplitterInvalid)=>void }
 export type UiStatisticEmits = {}
 export type UiStepsEmits = {}
 export type UiSwitchEmits = { 'update:modelValue':(value:boolean)=>void; change:(value:boolean)=>void }
@@ -436,6 +446,7 @@ export type UiSliderSlots = {}
 export type UiSegmentedSlots = { option?:(props:{option:UiSegmentedOption})=>VNodeChild }
 export type UiSpaceSlots = { default?:()=>VNodeChild }
 export type UiSpinSlots = { default?:()=>VNodeChild }
+export type UiSplitterSlots = { panel?:(scope:{panel:UiSplitterPanel;index:number;size:number;collapsed:boolean})=>VNodeChild; separator?:(scope:{index:number;active:boolean})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiStatisticSlots = { title?:(scope:{title:string})=>VNodeChild; prefix?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; value?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; suffix?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; trend?:(scope:{value:number;direction:'up'|'down'|'flat';tone:'positive'|'negative'|'neutral';text:string})=>VNodeChild; extra?:()=>VNodeChild }
 export type UiStepsSlots = {}
 export type UiSwitchSlots = {}
@@ -478,6 +489,7 @@ export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
 export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>; export const UiStatistic:LanComponent<UiStatisticProps,UiStatisticEmits,UiStatisticSlots>
+export const UiSplitter:LanComponent<UiSplitterProps,UiSplitterEmits,UiSplitterSlots>
 export const UiStatusPage:LanComponent<UiStatusPageProps,UiStatusPageEmits,UiStatusPageSlots>
 export const UiVirtualList:LanComponent<UiVirtualListProps,UiVirtualListEmits,UiVirtualListSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>

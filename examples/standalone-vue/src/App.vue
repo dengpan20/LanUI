@@ -25,6 +25,7 @@ import {
   UiSelect,
   UiSegmented,
   UiSlider,
+  UiSplitter,
   UiStatistic,
   UiSteps,
   UiTable,
@@ -56,6 +57,8 @@ const standaloneTourOpen=ref(false)
 const standaloneTourCurrent=ref(0)
 const standaloneAffixTarget=ref(null)
 const standaloneAffixed=ref(false)
+const standaloneSplitterSizes=ref([24,48,28])
+const standaloneSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
 const standaloneTourSteps=[
   {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
   {target:'#standalone-schema',title:'Configure the workspace',description:'The schema keeps fields, validation and repeatable reviewers synchronized.',placement:'top'},
@@ -149,6 +152,12 @@ const rows = computed(() => [
         </UiAffix>
         <div class="standalone-affix-records"><span v-for="index in 6" :key="index">Verification record {{ index }}</span></div>
       </div>
+    </UiCard>
+
+    <UiCard title="Responsive resizable workspace">
+      <UiSplitter v-model="standaloneSplitterSizes" :panels="standaloneSplitterPanels" lazy aria-label="Standalone resizable workspace" style="height:260px">
+        <template #panel="{panel,size}"><div style="height:100%;padding:16px;display:grid;align-content:start;gap:8px;background:var(--bg-subtle)"><strong>{{ panel.label }}</strong><span style="color:var(--text-secondary);font-size:12px">{{ size.toFixed(1) }}% · Arrow keys / Home / End / Enter</span></div></template>
+      </UiSplitter>
     </UiCard>
 
     <UiCard id="standalone-overview" title="业务指标">

@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiStatusPage, UiTour, UiVirtualList, UiWatermark,
+  UiDataGrid, UiSplitter, UiStatusPage, UiTour, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -69,6 +69,10 @@ function removeWatermarkLayer(){document.querySelector('#interaction-watermark [
 const affixTarget=ref(null)
 const affixDisabled=ref(false)
 const affixOutput=ref('natural')
+const splitterRef=ref(null)
+const splitterSizes=ref([24,48,28])
+const splitterOutput=ref('ready:24/48/28')
+const splitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -451,6 +455,13 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           </UiAffix>
           <div class="interaction-affix-records"><span v-for="index in 7" :key="index">Verification record {{ index }}</span></div>
         </div>
+      </section>
+      <section class="interaction-case interaction-wide interaction-splitter-case">
+        <h2>Splitter pointer, keyboard, RTL and collapse contract</h2>
+        <div class="interaction-row"><UiButton id="splitter-collapse" variant="secondary" @click="splitterRef?.toggleCollapse(2)">Toggle inspector</UiButton><UiButton id="splitter-reset" variant="outline" @click="splitterRef?.reset()">Reset splitter</UiButton><output class="interaction-output" data-testid="splitter-output">{{ splitterOutput }}</output></div>
+        <UiSplitter id="interaction-splitter" ref="splitterRef" v-model="splitterSizes" :panels="splitterPanels" lazy aria-label="Interaction workspace splitter" @resize-start="splitterOutput=`start:${$event.source}:${Math.round($event.sizes[0])}`" @resize="splitterOutput=`resize:${$event.source}:${Math.round($event.sizes[0])}`" @resize-end="splitterOutput=`end:${$event.source}:${Math.round($event.sizes[0])}`" @collapse="splitterOutput=`collapse:${$event.collapsed}:${$event.source}`">
+          <template #panel="{panel,size,collapsed}"><div class="interaction-splitter-panel"><strong>{{ panel.label }}</strong><span v-if="!collapsed">{{ size.toFixed(1) }}%</span></div></template>
+        </UiSplitter>
       </section>
       <section class="interaction-case interaction-wide">
         <h2>Anchor scroll and keyboard contract</h2>

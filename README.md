@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、73 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、74 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -314,7 +314,7 @@ pnpm pack
 python scripts/verify.py
 ```
 
-`pnpm ci` 会执行 Token 导出、源码检查、73 个组件契约测试、后台构建、组件库构建及独立项目构建。
+`pnpm ci` 会执行 Token 导出、源码检查、74 个组件契约测试、后台构建、组件库构建及独立项目构建。
 
 组件包公开内容：
 
@@ -487,7 +487,7 @@ const notification = useNotification()
 
 - `pnpm test` 执行 Vitest 行为测试与源码契约测试，覆盖表单语义、组合框键盘操作、浮层碰撞定位、全局配置、本地化、服务式反馈及无 DOM 的 SSR 渲染。
 - Vitest 只收集根目录 `tests/`，排除 `.verify / .baseline / dist`，避免验证副本污染结果。
-- 所有 73 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
+- 所有 74 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
 - CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、72 个子路径导出、最小消费者 Bundle 和独立消费项目。
 
 ## SSR 与 Hydration
@@ -499,7 +499,7 @@ const notification = useNotification()
 
 ## API 稳定性与升级
 
-- `api-manifest.json` 使用 Schema 3 记录根入口、稳定子路径，以及 73 个组件的 Props、Emits、Slots、签名、默认值与实际运行时导出。
+- `api-manifest.json` 使用 Schema 3 记录根入口、稳定子路径，以及 74 个组件的 Props、Emits、Slots、签名、默认值与实际运行时导出。
 - 每个组件子路径同时导出 `UiXxxProps`、`UiXxxEmits` 和 `UiXxxSlots`；模板事件负载、`$emit` 与作用域插槽均参与 vue-tsc 检查。
 - 构建工具可通过 `lan-ui-design-system/api-manifest` 或 `lan-ui-design-system/api-manifest.json` 读取该清单。
 - `pnpm run api:check` 对比已构建包与提交的 Manifest；公开 API 变化必须先运行 `pnpm run api:generate` 并审查 SemVer 影响。
@@ -537,7 +537,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'
 import 'lan-ui-design-system/styles/UiButton.css'
 ```
 
-每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 73 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
+每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 74 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
 
 ## Global command palette
 
@@ -924,3 +924,22 @@ P42 advances to 72 public components and keeps 242 locale keys and 13 theme-scop
 - The frozen P33 comparison still requires improvement for 13 of 14 historical metrics. Aggregate package JS gzip receives a narrowly bounded 0.25% additive tolerance for the new public component while remaining below its independent 172KB ceiling.
 
 P43 advances to 73 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. CI requires 16 visual baselines, 34 zero-violation Axe scenarios, 38 interactions per Chromium/Firefox/WebKit engine, 28 negative type assertions and 18 performance ceilings.
+
+## Responsive resizable workspace layout (P44)
+
+`UiSplitter` provides a data-driven, multi-panel layout primitive for admin shells, editors and workbenches:
+
+```vue
+<UiSplitter v-model="sizes" :panels="panels" lazy>
+  <template #panel="{ panel, size }">{{ panel.label }} · {{ size }}%</template>
+</UiSplitter>
+```
+
+- Horizontal and vertical layouts accept any number of keyed panels. `size`, `defaultSize`, `min`, `max` and `collapsedSize` accept pixels or percentages, while emitted model values are normalized responsive percentages.
+- Pointer movement changes only the adjacent pair and clamps both panel constraints. `lazy` displays a live guide and commits the model only at pointer release.
+- Each separator implements the ARIA Separator pattern with orientation, controlled panel IDs and live value bounds. Arrow keys resize, Home/End move to constraints, and Enter or double click toggles a collapsible neighbor.
+- Horizontal deltas mirror in RTL. Disabled or non-resizable pairs leave the tab sequence, collapsed panels become inert, print restores ordinary document flow, and SSR renders deterministic ratios without browser geometry.
+- `reset`, `setSizes`, `collapse`, `expand` and `toggleCollapse` are exposed for workspace commands. Root/subpath imports, isolated CSS, declarations, generated API, static and standalone consumers, SSR and packed installation are release-gated together.
+- The frozen 1.28 performance guard keeps 13 metrics strictly improving. Package JS gzip receives a transparent 1KB allowance per public component added after the 69-component baseline, while the independent 175KB absolute ceiling remains mandatory.
+
+P44 advances to 74 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. CI requires 17 visual baselines, 35 zero-violation Axe scenarios, 39 interactions per Chromium/Firefox/WebKit engine, 29 negative type assertions and 18 performance ceilings.

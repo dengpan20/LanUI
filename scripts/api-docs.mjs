@@ -6,7 +6,7 @@ const manifest=JSON.parse(readFileSync(resolve(root,'api-manifest.json'),'utf8')
 const write=process.argv.includes('--write')
 
 const categoryDefinitions=[
-  {id:'foundations',label:'基础与布局',description:'全局配置、图标、栅格、布局、间距与分隔。',components:['UiConfigProvider','UiIcon','UiLayout','UiGrid','UiCol','UiSpace','UiDivider']},
+  {id:'foundations',label:'基础与布局',description:'全局配置、图标、栅格、布局、间距、分隔与可调整分栏。',components:['UiConfigProvider','UiIcon','UiLayout','UiGrid','UiCol','UiSpace','UiDivider','UiSplitter']},
   {id:'actions',label:'操作',description:'触发主要任务和悬浮快捷操作。',components:['UiButton','UiFloatButton']},
   {id:'forms',label:'数据录入',description:'输入、选择、日期时间、表单编排和文件上传。',components:['UiAutoComplete','UiCascader','UiCheckbox','UiColorPicker','UiDatePicker','UiDateRangePicker','UiForm','UiFormItem','UiFormList','UiSchemaForm','UiInput','UiMultiSelect','UiNumberInput','UiRadio','UiRate','UiSegmented','UiSelect','UiSlider','UiSwitch','UiTextarea','UiTimePicker','UiTransfer','UiTreeSelect','UiUpload']},
   {id:'data',label:'数据展示',description:'结构化内容、媒体、状态、列表、表格和虚拟数据。',components:['UiAvatar','UiBadge','UiCalendar','UiCard','UiCollapse','UiDataGrid','UiDescriptions','UiImage','UiListToolbar','UiStatistic','UiTable','UiTag','UiTimeline','UiTree','UiVirtualList','UiWatermark']},

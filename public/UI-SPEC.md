@@ -893,3 +893,16 @@ P42 advances to 72 public components and keeps 242 locale keys and 13 theme-scop
 - Performance keeps 13 historical comparison metrics strictly below the 1.28 baseline. Only aggregate package-JS gzip receives a 0.25% additive tolerance, and it must also remain within the absolute 172KB release budget.
 
 P43 advances to 73 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. Release gates require 16 visual baselines, 34 zero-violation Axe scenarios, 38 interactions per Chromium/Firefox/WebKit engine, 28 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+## 57. Maturity P44: constrained multi-panel splitter
+
+- `UiSplitter` accepts a keyed `panels` array and normalized percentage `modelValue`. It supports horizontal or vertical direction, eager or lazy resize, global disabling, keyboard step, separator size and an accessible group label.
+- Panel `size`, `defaultSize`, `min`, `max` and `collapsedSize` accept numeric pixels, pixel strings or percentages. Initial pixel constraints are fitted to the available content dimension and emitted as a responsive ratio whose sum remains 100.
+- Pointer gestures resize only the adjacent pair and clamp both sides. Eager mode publishes during movement; lazy mode publishes preview sizes and a guide, then commits the model on release. Unmount removes document listeners and observation.
+- Separators use `role="separator"`, inverse orientation, two `aria-controls` IDs and cumulative `aria-valuemin`, `aria-valuenow` and `aria-valuemax`. Arrow keys resize, Home/End clamp to bounds, and Enter or double click toggles an eligible collapsible neighbor.
+- Horizontal pointer and keyboard deltas mirror in RTL. A disabled or immutable pair is removed from the tab order, collapsed panels are hidden and inert, forced-colors keeps visible boundaries, print removes controls, and SSR uses deterministic model/default ratios.
+- The public instance exposes `reset`, `setSizes`, `collapse`, `expand`, `toggleCollapse` and a reactive `sizes` reference. Resize start/move/end, collapse and invalid diagnostics use typed payloads.
+- Component center, one-page preview, standalone project, API docs, root/subpath package exports, component CSS, declarations, SSR and installed-tarball smoke tests remain synchronized.
+- The frozen 1.28 performance comparison retains strict improvement for 13 metrics. Aggregate package JS gzip receives a deterministic 1KB allowance for each public component above the 69-component baseline and must independently stay below 175KB.
+
+P44 advances to 74 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. Release gates require 17 visual baselines, 35 zero-violation Axe scenarios, 39 interactions per Chromium/Firefox/WebKit engine, 29 negative type assertions, an isolated tarball consumer and 18 performance ceilings.

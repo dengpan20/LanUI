@@ -24,6 +24,7 @@ import UiStatusPage from '../src/components/UiStatusPage.vue'
 import UiVirtualList from '../src/components/UiVirtualList.vue'
 import UiWatermark from '../src/components/UiWatermark.vue'
 import UiAffix from '../src/components/UiAffix.vue'
+import UiSplitter from '../src/components/UiSplitter.vue'
 import { openOverlay, overlayCount } from '../src/components/overlayManager.js'
 import { createLanUi } from '../src/plugin.js'
 import { useToast } from '../src/feedback.js'
@@ -51,6 +52,7 @@ async function renderFixture() {
         h(UiStatusPage, { status:'403', embedded:true }),
         h(UiWatermark, { content:['Lan UI','SSR'], ariaLabel:'SSR protected document' }, { default:() => h('article', 'SSR watermark content') }),
         h(UiAffix, { position:'top', offset:12 }, { default:() => h('button', 'SSR sticky action') }),
+        h(UiSplitter, { panels:[{key:'nav',label:'Navigation',defaultSize:'25%'},{key:'main',label:'Workspace',defaultSize:'50%'},{key:'tools',label:'Inspector',defaultSize:'25%'}], modelValue:[25,50,25], ariaLabel:'SSR splitter' }, { panel:({panel}) => h('section', panel.label) }),
         h(UiPopover, { modelValue:true, title:'Details' }, { trigger:() => h('button', 'Open'), default:() => 'Popover content' }),
         h(UiModal, { modelValue:true, title:'Review' }, { default:() => 'Modal content' }),
         h(UiDrawer, { modelValue:true, title:'Filters' }, { default:() => 'Drawer content' }),
@@ -80,6 +82,8 @@ describe('server rendering', () => {
     expect(result.html).toContain('role="spinbutton"')
     expect(result.html).toContain('role="slider"')
     expect(result.html).toContain('SSR range Range start')
+    expect(result.html).toContain('aria-label="SSR splitter"')
+    expect(result.html).toContain('data-ui-splitter="horizontal"')
     expect(result.html).toContain('role="tree"')
     expect(result.html).toContain('Dashboard')
     expect(result.html).toMatch(/id="ui-number-input-v-\d/)

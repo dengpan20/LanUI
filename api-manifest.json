@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.39.0",
+  "version": "1.40.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -67,6 +67,7 @@
       "UiSlider",
       "UiSpace",
       "UiSpin",
+      "UiSplitter",
       "UiStatistic",
       "UiStatusPage",
       "UiSteps",
@@ -552,6 +553,18 @@
       "UiSpinEmits",
       "UiSpinProps",
       "UiSpinSlots",
+      "UiSplitter",
+      "UiSplitterCollapseMeta",
+      "UiSplitterDirection",
+      "UiSplitterEmits",
+      "UiSplitterInstance",
+      "UiSplitterInvalid",
+      "UiSplitterPanel",
+      "UiSplitterProps",
+      "UiSplitterResizeMeta",
+      "UiSplitterResizeSource",
+      "UiSplitterSize",
+      "UiSplitterSlots",
       "UiStatistic",
       "UiStatisticEmits",
       "UiStatisticFormatterContext",
@@ -10910,6 +10923,191 @@
       },
       "runtimeExports": [
         "UiSpin",
+        "default"
+      ]
+    },
+    {
+      "name": "UiSplitter",
+      "subpath": "./components/UiSplitter",
+      "propsType": "UiSplitterProps",
+      "props": [
+        "ariaLabel",
+        "direction",
+        "disabled",
+        "keyboardStep",
+        "lazy",
+        "modelValue",
+        "panels",
+        "separatorSize"
+      ],
+      "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"Resizable panels\""
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "UiSplitterDirection",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "keyboardStep",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "10"
+          }
+        },
+        {
+          "name": "lazy",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "number[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "panels",
+          "required": false,
+          "type": "UiSplitterPanel[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "separatorSize",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "6"
+          }
+        }
+      ],
+      "emitsType": "UiSplitterEmits",
+      "emits": [
+        "collapse",
+        "invalid",
+        "resize",
+        "resize-end",
+        "resize-start",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "collapse",
+          "required": true,
+          "type": "(meta:UiSplitterCollapseMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSplitterInvalid)=>void"
+        },
+        {
+          "name": "resize",
+          "required": true,
+          "type": "(meta:UiSplitterResizeMeta)=>void"
+        },
+        {
+          "name": "resize-end",
+          "required": true,
+          "type": "(meta:UiSplitterResizeMeta)=>void"
+        },
+        {
+          "name": "resize-start",
+          "required": true,
+          "type": "(meta:UiSplitterResizeMeta)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(sizes:number[])=>void"
+        }
+      ],
+      "slotsType": "UiSplitterSlots",
+      "slots": [
+        "empty",
+        "panel",
+        "separator"
+      ],
+      "slotDetails": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "panel",
+          "required": false,
+          "type": "(scope:{panel:UiSplitterPanel;index:number;size:number;collapsed:boolean})=>VNodeChild"
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "(scope:{index:number;active:boolean})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiSplitter } from 'lan-ui-design-system'",
+        "subpath": "import UiSplitter from 'lan-ui-design-system/components/UiSplitter'"
+      },
+      "runtimeExports": [
+        "UiSplitter",
         "default"
       ]
     },

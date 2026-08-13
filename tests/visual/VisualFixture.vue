@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiTour, UiUpload, UiVirtualList, UiWatermark,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -18,6 +18,8 @@ const tourOpen=ref(props.state==='tour')
 const tourCurrent=ref(0)
 const visualAffixTarget=ref(null)
 const visualAffixActive=ref(false)
+const visualSplitterSizes=ref([24,48,28])
+const visualSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
 const tourSteps=[
   {target:'#visual-tour-upload',title:'Add release assets',description:'Attach the approved package and verification record.',placement:'top-start'},
   {target:'#visual-tour-save',title:'Save the release',description:'Persist the release draft before requesting approval.',placement:'top'},
@@ -181,6 +183,11 @@ const tableRows=[
         </UiAffix>
         <div class="visual-affix-records"><span v-for="index in 5" :key="index">Verification record {{ index }}</span></div>
       </div>
+    </UiCard>
+    <UiCard v-if="state==='splitter'" title="Resizable workspace layout" title-tag="h2" class="visual-table-card visual-splitter-showcase">
+      <UiSplitter v-model="visualSplitterSizes" class="visual-splitter" :panels="visualSplitterPanels" aria-label="Visual workspace splitter">
+        <template #panel="{panel,size}"><div class="visual-splitter-panel" :class="{accent:panel.key==='workspace'}"><strong>{{ panel.label }}</strong><span>{{ size.toFixed(1) }}% of the responsive workspace</span><small v-if="panel.key==='navigation'">Projects<br>Components<br>Release evidence</small><small v-else-if="panel.key==='workspace'">Canvas · responsive ratios<br>Adjacent resize only</small><small v-else>Properties<br>Constraints<br>Audit trail</small></div></template>
+      </UiSplitter>
     </UiCard>
     <UiConfigProvider v-if="state==='theme'" id="visual-scoped-dark" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD'}" class="visual-table-card">
       <UiCard title="Scoped dark tenant theme" title-tag="h2">

@@ -1,5 +1,21 @@
 # Lan UI migration and compatibility policy
 
+## 1.40 splitter compatibility
+
+There are no breaking changes. Resizable editor and workbench layouts can add the new public component:
+
+```vue
+<UiSplitter v-model="sizes" :panels="panels" lazy>
+  <template #panel="{ panel }">{{ panel.label }}</template>
+</UiSplitter>
+```
+
+- `modelValue` and update events use normalized percentages. Panel default and constraint fields accept numeric pixels, pixel strings or percentage strings.
+- Use stable panel keys. Resizing changes only adjacent panels; `resizable:false` locks a pair and `disabled` locks the entire component.
+- Keyboard users can resize on separators with Arrow keys and Home/End. Enter and double click toggle the nearest `collapsible` panel.
+- `lazy=true` changes only commit state on pointer release. The `resize` event still reports preview sizes for overlays or status text.
+- Horizontal behavior mirrors under RTL. SSR emits deterministic markup, and print output hides the resize controls while retaining content.
+
 ## 1.39 affix compatibility
 
 There are no breaking changes. Long pages and bounded work areas can add sticky actions with the new public component:

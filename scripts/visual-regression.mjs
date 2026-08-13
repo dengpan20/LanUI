@@ -31,6 +31,7 @@ const cases=[
   {name:'product-tour',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=tour',ready:'.ui-tour-panel',capture:'viewport',prepare:async page=>{await page.locator('#visual-tour-showcase').scrollIntoViewIfNeeded();await page.waitForTimeout(150)}},
   {name:'watermark-document',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=watermark',ready:'.visual-watermark-showcase [data-ui-watermark-mode="text"]',selector:'.visual-watermark-showcase'},
   {name:'affix-container',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=affix',ready:'.visual-affix-showcase',selector:'.visual-affix-showcase',prepare:async page=>{await page.locator('.visual-affix-target').evaluate(element=>{element.scrollTop=120;element.dispatchEvent(new Event('scroll'))});await page.waitForSelector('.visual-affix-showcase [data-affixed="true"]');await page.waitForTimeout(100)}},
+  {name:'splitter-workspace',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=splitter',ready:'.visual-splitter-showcase [role="separator"]',selector:'.visual-splitter-showcase'},
 ]
 
 const {server,origin}=await startFixtureServer(root)

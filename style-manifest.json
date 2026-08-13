@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.39.0",
+  "version": "1.40.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 136935,
-    "rules": 1091,
+    "bytes": 140741,
+    "rules": 1121,
     "source": "component-union"
   },
   "core": {
@@ -336,6 +336,12 @@
       "subpath": "./styles/UiSpin.css",
       "bytes": 733,
       "rules": 6
+    },
+    {
+      "name": "UiSplitter",
+      "subpath": "./styles/UiSplitter.css",
+      "bytes": 3843,
+      "rules": 30
     },
     {
       "name": "UiStatistic",

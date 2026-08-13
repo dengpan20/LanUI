@@ -710,6 +710,40 @@ const allCases = [
     },
   },
   {
+    name:'splitter-keyboard-pointer-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.locator('#interaction-splitter')
+      await root.scrollIntoViewIfNeeded()
+      const bars=root.getByRole('separator')
+      assert.equal(await bars.count(),2)
+      assert.equal(await bars.first().getAttribute('aria-orientation'),'vertical')
+      assert.match(await bars.first().getAttribute('aria-controls'),/panel-0.*panel-1/)
+      const initial=Number(await bars.first().getAttribute('aria-valuenow'))
+      await bars.first().focus()
+      await page.keyboard.press('ArrowRight')
+      await expectTextContains(page,'splitter-output','end:keyboard:')
+      const keyboardValue=Number(await bars.first().getAttribute('aria-valuenow'))
+      assert.ok(keyboardValue<initial,'RTL ArrowRight should reduce the leading panel')
+      const box=await bars.first().boundingBox()
+      assert.ok(box)
+      await page.mouse.move(box.x+box.width/2,box.y+box.height/2)
+      await page.mouse.down()
+      await page.mouse.move(box.x+box.width/2+46,box.y+box.height/2,{steps:4})
+      assert.ok(await root.locator('.ui-splitter-ghost').isVisible())
+      await page.mouse.up()
+      await expectTextContains(page,'splitter-output','end:pointer:')
+      await bars.nth(1).focus()
+      await page.keyboard.press('Enter')
+      await expectText(page,'splitter-output','collapse:true:keyboard')
+      assert.ok(await root.locator('.ui-splitter-panel').nth(2).evaluate(node=>node.classList.contains('collapsed')))
+      await page.keyboard.press('Enter')
+      await expectText(page,'splitter-output','collapse:false:keyboard')
+      await page.locator('#splitter-reset').click()
+      await expectText(page,'splitter-output','end:reset:24')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -724,7 +758,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),73)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),74)
     },
   },
 ]
@@ -737,6 +771,13 @@ async function expectText(page, testId, expected) {
   await target.waitFor()
   await page.waitForFunction(([selector, value]) => document.querySelector(selector)?.textContent?.trim() === value, [`[data-testid="${testId}"]`, expected])
   assert.equal((await target.innerText()).trim(), expected)
+}
+
+async function expectTextContains(page, testId, expected) {
+  const target = page.getByTestId(testId)
+  await target.waitFor()
+  await page.waitForFunction(([selector, value]) => document.querySelector(selector)?.textContent?.includes(value), [`[data-testid="${testId}"]`, expected])
+  assert.match((await target.innerText()).trim(), new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
 }
 
 async function expectFocused(page, locator) {

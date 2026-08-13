@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.40.0] - 2026-08-14
+
+### Added
+
+- `UiSplitter`, a typed, data-driven multi-panel layout component with horizontal and vertical directions, pixel/percentage defaults and constraints, adjacent-pair pointer resizing, lazy preview mode and controlled responsive ratios.
+- ARIA Separator semantics, Arrow/Home/End keyboard resizing, RTL mirroring, Enter/double-click collapse, forced-colors and print behavior, deterministic SSR and public reset/set/collapse/expand methods.
+- Splitter examples across the component center, standalone consumer and one-page preview, with unit, SSR, visual, Axe, type and Chromium/Firefox/WebKit regression coverage.
+
+### Changed
+
+- Release gates advance to 74 public components, 242 locale keys, 17 visual baselines, 35 Axe scenarios, 39 interactions per browser and 29 negative type assertions.
+- Generated API coverage advances to 741 Props, 262 Events and 125 Slots; application, static preview, declarations, component CSS and installed-tarball consumers share the 1.40.0 contract.
+- The frozen 1.28 aggregate-JS guard now uses its recorded 69-component baseline and a deterministic 1KB gzip allowance per additive public component; all other historical metrics remain strict and the independent 175KB ceiling remains mandatory.
+
 ## [1.39.0] - 2026-08-13
 
 ### Added
