@@ -73,7 +73,7 @@ for marker in ["minify-library-js.mjs", "split-component-css.mjs"]:
         failures.append(f"package:p33-build:{marker}")
 if "css-boundary-contracts.mjs" not in package.get("scripts", {}).get("test:package", ""):
     failures.append("package:p33-css-boundary-gate")
-if package.get("packageManager") != "pnpm@11.16.0" or package.get("license") != "MIT":
+if package.get("packageManager") != "pnpm@10.34.0" or package.get("license") != "MIT":
     failures.append("package:release-metadata")
 if not all(name in package.get("files", []) for name in ["api-manifest.json","COMPONENT-API.md","public/component-api.json","style-manifest.json","CHANGELOG.md","MIGRATION.md"]) or "api:check" not in package.get("scripts", {}).get("check", ""):
     failures.append("package:api-manifest-delivery")
@@ -777,7 +777,7 @@ for export_name in ["./performance-budgets", "./performance-budgets.json"]:
     if export_name not in package.get("exports", {}):
         failures.append(f"performance:package-export:{export_name}")
 ci_workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
-for marker in ["runs-on: windows-latest", "runs-on: ubuntu-latest", "version: 11.16.0", "LAN_UI_BROWSER_PATH", "Microsoft\\Edge", "interaction-cross-browser", "playwright install --with-deps firefox webkit", "test:interaction:non-chromium"]:
+for marker in ["runs-on: windows-latest", "runs-on: ubuntu-latest", "version: 10.34.0", "LAN_UI_BROWSER_PATH", "Microsoft\\Edge", "interaction-cross-browser", "playwright install --with-deps firefox webkit", "test:interaction:non-chromium"]:
     if marker not in ci_workflow:
         failures.append(f"visual:ci:{marker}")
 

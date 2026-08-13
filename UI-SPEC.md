@@ -842,8 +842,9 @@ P39 keeps 70 public components and 236 locale keys. Release gates add one instal
 
 ## 53. Maturity P40: runtime matrix and auditable release contract
 
-- The supported Node boundary is executable: 20.19.0, 22.12.0 and the current 24 line each install the frozen lockfile, run unit tests, build the package and install the real archive into an isolated consumer.
+- The supported Node boundary is executable: pnpm 10.34.0 runs on 20.19.0, 22.12.0 and the current 24 line; each runtime installs the frozen lockfile, runs unit tests, builds the package and installs the real archive into an isolated consumer.
 - Runtime validation keeps `package.json.engines`, the CI matrix, the actual process version and Vue 3.5 peer/runtime assumptions synchronized.
+- The isolated consumer first resolves a standalone lockfile and prefetches its exact content, then performs the asserted installation with frozen-lockfile and offline flags. This avoids relying on package-manager-specific metadata left by the workspace install.
 - The release reference is version-bound. A tag build proceeds only when the ref is exactly `v` plus the semantic `package.json.version`, and that version must already have a changelog entry.
 - Release artifacts use the deterministic `lan-ui-design-system-<version>.tgz` name. Validation reopens the archive, checks identity and licensing, requires all 70 runtime/type/style triplets, applies distribution budgets and writes a SHA-256 sidecar.
 - GitHub Release automation uploads the archive/checksum, produces an artifact attestation with OIDC and creates a Release only for tag-triggered runs. Manual dispatch exercises the same build and upload path without inventing a release tag.

@@ -88,7 +88,9 @@ writeFileSync(join(consumerRoot,'package.json'),JSON.stringify({
   name:'lan-ui-packed-consumer',version:'1.0.0',private:true,type:'module',
   dependencies:{'lan-ui-design-system':`file:${tarball.replaceAll('\\','/')}`,vue:'3.5.41'},
 },null,2)+'\n')
-runPnpm(['install','--ignore-workspace','--offline','--ignore-scripts','--no-frozen-lockfile'],{cwd:consumerRoot})
+runPnpm(['install','--ignore-workspace','--lockfile-only','--ignore-scripts','--no-frozen-lockfile'],{cwd:consumerRoot})
+runPnpm(['fetch','--ignore-workspace','--prod'],{cwd:consumerRoot})
+runPnpm(['install','--ignore-workspace','--offline','--ignore-scripts','--frozen-lockfile'],{cwd:consumerRoot})
 
 writeFileSync(join(consumerRoot,'ssr.mjs'),`import { createSSRApp, h } from 'vue'\nimport { renderToString } from 'vue/server-renderer'\nimport { UiAnchor } from 'lan-ui-design-system'\nimport UiButton from 'lan-ui-design-system/components/UiButton'\nconst app=createSSRApp({render:()=>h('main',[h(UiAnchor,{items:[{title:'Overview',href:'#overview'}],affix:false}),h(UiButton,null,{default:()=> 'Packed action'})])})\nconst html=await renderToString(app)\nif(!html.includes('ui-anchor')||!html.includes('Packed action'))throw new Error('SSR output mismatch')\nconsole.log('PACKED_SSR PASS anchor=true button=true')\n`)
 const ssrOutput=run(process.execPath,['ssr.mjs'],{cwd:consumerRoot})
@@ -121,6 +123,6 @@ assert(packedFiles.size<=distributionBudgets.packedFiles,`Packed files ${packedF
 assert(tarballBytes<=distributionBudgets.packedTarballRaw,`Packed tarball ${tarballBytes}B exceeds ${distributionBudgets.packedTarballRaw}B`)
 assert(unpackedBytes<=distributionBudgets.packedUnpackedRaw,`Unpacked package ${unpackedBytes}B exceeds ${distributionBudgets.packedUnpackedRaw}B`)
 const release=validateRelease({ref:`v${packedManifest.version}`,tag:true,artifact:tarball})
-writeFileSync(join(workspace,'report.json'),JSON.stringify({schemaVersion:1,version:packedManifest.version,sha256:digest,metrics:{components:componentNames.length,packedFiles:packedFiles.size,packedTarballRaw:tarballBytes,packedUnpackedRaw:unpackedBytes},budgets:distributionBudgets,checks:{reproducible:true,allowList:true,install:'offline',root:true,subpath:true,css:true,types:true,ssr:true,internals:'absent',release:true},release},null,2)+'\n')
+writeFileSync(join(workspace,'report.json'),JSON.stringify({schemaVersion:1,version:packedManifest.version,sha256:digest,metrics:{components:componentNames.length,packedFiles:packedFiles.size,packedTarballRaw:tarballBytes,packedUnpackedRaw:unpackedBytes},budgets:distributionBudgets,checks:{reproducible:true,allowList:true,resolution:'lockfile+fetch',install:'offline',root:true,subpath:true,css:true,types:true,ssr:true,internals:'absent',release:true},release},null,2)+'\n')
 console.log(formatReleaseReport(release))
-console.log(`PACKED_CONSUMER PASS version=${packedManifest.version} components=${componentNames.length} files=${packedFiles.size}/${distributionBudgets.packedFiles} tarball=${tarballBytes}B/${distributionBudgets.packedTarballRaw}B unpacked=${unpackedBytes}B/${distributionBudgets.packedUnpackedRaw}B sha256=${digest.slice(0,12)} reproducible=pass allowList=pass install=offline root=pass subpath=pass css=pass types=pass ssr=pass internals=absent release=pass`)
+console.log(`PACKED_CONSUMER PASS version=${packedManifest.version} components=${componentNames.length} files=${packedFiles.size}/${distributionBudgets.packedFiles} tarball=${tarballBytes}B/${distributionBudgets.packedTarballRaw}B unpacked=${unpackedBytes}B/${distributionBudgets.packedUnpackedRaw}B sha256=${digest.slice(0,12)} reproducible=pass allowList=pass resolution=lockfile+fetch install=offline root=pass subpath=pass css=pass types=pass ssr=pass internals=absent release=pass`)

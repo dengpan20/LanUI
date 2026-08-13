@@ -8,7 +8,7 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ### Added
 
-- A supported Node runtime matrix for 20.19.0, 22.12.0 and the current 24 line, with the full isolated packed-consumer contract repeated on every runtime.
+- A supported Node runtime matrix for 20.19.0, 22.12.0 and the current 24 line, using the Node 20-compatible pnpm 10 line and repeating the full isolated packed-consumer contract on every runtime.
 - A release contract that binds the package version, changelog, Git tag, exact tarball name, SHA-256 checksum, 70 component entries and distribution budgets before an artifact can be released.
 - A tag/manual GitHub Release workflow that uploads the verified archive and checksum, creates an artifact attestation and creates a GitHub Release only for an exact version tag.
 
@@ -16,6 +16,7 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 - CI now runs three independent Linux compatibility jobs in addition to Windows verification and Firefox/WebKit interaction coverage.
 - Packed-consumer regression now validates the same release artifact contract used by the release workflow.
+- Isolated consumer setup now resolves an explicit lockfile and prefetches its content before the tested offline frozen install, avoiding package-manager metadata-cache coupling.
 
 ## [1.35.0] - 2026-08-13
 

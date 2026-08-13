@@ -6,6 +6,7 @@ const manifest=JSON.parse(readFileSync(resolve(root,'package.json'),'utf8'))
 const vueManifest=JSON.parse(readFileSync(resolve(root,'node_modules/vue/package.json'),'utf8'))
 const workflow=readFileSync(resolve(root,'.github/workflows/ci.yml'),'utf8')
 const engine='^20.19.0 || >=22.12.0'
+const packageManager='pnpm@10.34.0'
 const matrix=['20.19.0','22.12.0','24']
 
 function assert(condition,message){if(!condition)throw new Error(message)}
@@ -19,6 +20,7 @@ const [major,minor]=parse(process.versions.node)
 const supported=(major===20&&minor>=19)||(major===22&&minor>=12)||major>22
 assert(supported,`Node ${process.versions.node} is outside the supported runtime range ${engine}`)
 assert(manifest.engines?.node===engine,`package.json engines.node must remain ${engine}`)
+assert(manifest.packageManager===packageManager,`package.json packageManager must remain ${packageManager}`)
 
 const [vueMajor,vueMinor]=parse(vueManifest.version)
 assert(vueMajor===3&&vueMinor>=5,`Vue ${vueManifest.version} is below the supported 3.5 line`)
@@ -36,6 +38,7 @@ for(const marker of [
   ...matrix,
   'pnpm run test:compatibility',
   'LAN_UI_EXPECTED_NODE',
+  '10.34.0',
 ])assert(workflow.includes(marker),`CI compatibility matrix is missing ${marker}`)
 
-console.log(`RUNTIME_COMPATIBILITY PASS node=${process.versions.node} expected=${expected||'local'} engine="${engine}" vue=${vueManifest.version} matrix=${matrix.join(',')}`)
+console.log(`RUNTIME_COMPATIBILITY PASS node=${process.versions.node} expected=${expected||'local'} engine="${engine}" packageManager=${packageManager} vue=${vueManifest.version} matrix=${matrix.join(',')}`)

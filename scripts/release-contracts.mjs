@@ -44,6 +44,7 @@ export function validateRelease({ref,tag=false,artifact,writeChecksum=true}={}){
     'artifact-metadata: write',
     'gh release create',
     'pnpm run prepack',
+    'version: 10.34.0',
   ])assert(workflow.includes(marker),`Release workflow is missing ${marker}`)
   assert(typeof ref==='string'&&ref.length>0,'Release ref is required')
   assert(!/[\s\\]/.test(ref),'Release ref contains unsafe characters')

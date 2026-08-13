@@ -5,6 +5,7 @@
 There are no component API or runtime breaking changes. Independent projects gain an explicit runtime and release boundary:
 
 - Use Node `^20.19.0 || >=22.12.0`; CI validates 20.19.0, 22.12.0 and the current 24 line.
+- The repository pins pnpm `10.34.0`, whose supported Node range includes all three tested lines; avoid selecting pnpm 11 when running this compatibility floor.
 - Run `pnpm run test:compatibility` to repeat unit, library-build and isolated packed-consumer checks on a supported runtime.
 - Run `pnpm run test:release` before tagging. A release tag must exactly equal `v` plus `package.json.version`.
 - `v1.36.0` builds `lan-ui-design-system-1.36.0.tgz`, a SHA-256 sidecar and an artifact attestation before creating the GitHub Release.

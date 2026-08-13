@@ -871,8 +871,8 @@ pnpm run test:compatibility
 pnpm run test:release
 ```
 
-- Supported Node runtimes are `^20.19.0 || >=22.12.0`. CI repeats the unit suite, library build and isolated packed-consumer install on Node 20.19.0, 22.12.0 and 24.
-- `test:release` binds `package.json.version`, `CHANGELOG.md`, the exact `v<version>` tag and workflow permissions/actions. The packed-consumer gate additionally validates the exact tarball name, SHA-256, 70 public runtime/type/style triplets and distribution budgets.
+- Supported Node runtimes are `^20.19.0 || >=22.12.0`. The repository pins pnpm 10.34.0 (the pnpm line supporting Node 20), and CI repeats the unit suite, library build and isolated packed-consumer install on Node 20.19.0, 22.12.0 and 24.
+- `test:release` binds `package.json.version`, `CHANGELOG.md`, the exact `v<version>` tag and workflow permissions/actions. The packed-consumer gate additionally validates the exact tarball name, SHA-256, 70 public runtime/type/style triplets and distribution budgets; it resolves and prefetches an isolated lockfile before proving the actual frozen install with `--offline`.
 - Pushing an exact version tag such as `v1.36.0` runs all prepack gates, uploads `lan-ui-design-system-1.36.0.tgz` plus its `.sha256`, records an artifact attestation and creates a GitHub Release. Manual dispatch performs the same validation and artifact upload without creating a tag release.
 - Verify a downloaded artifact with `sha256sum -c lan-ui-design-system-1.36.0.tgz.sha256`; repository owners can additionally use `gh attestation verify lan-ui-design-system-1.36.0.tgz --repo dengpan20/LanUI`.
 - npm publication remains an explicit follow-up action. The workflow never writes to a package registry.
