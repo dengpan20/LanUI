@@ -860,3 +860,21 @@ import 'lan-ui-design-system/styles/UiButton.css'
 - `pnpm run test:packed-consumer` creates the archive twice and requires an identical SHA-256, then installs the `.tgz` into an isolated non-workspace consumer in offline mode and verifies runtime root/subpath imports, TypeScript declarations, SSR rendering and a Vite browser build.
 - The allow-list requires README, license, changelog, API documentation, manifests, Tokens, root builds and every component runtime/type/style entry. Source, tests, scripts, examples, CI files and dependency trees are rejected from the archive.
 - Distribution budgets cap the package at 340 files, 320,000 compressed bytes and 1,800,000 unpacked bytes. P39 keeps 70 public components, 236 locale keys, 13 visual baselines, 31 zero-violation Axe scenarios and 35 interactions per browser.
+
+## Runtime matrix and auditable GitHub releases (P40)
+
+Independent projects now have an executable compatibility and release contract rather than only a documented engine range:
+
+```bash
+pnpm run test:runtime
+pnpm run test:compatibility
+pnpm run test:release
+```
+
+- Supported Node runtimes are `^20.19.0 || >=22.12.0`. CI repeats the unit suite, library build and isolated packed-consumer install on Node 20.19.0, 22.12.0 and 24.
+- `test:release` binds `package.json.version`, `CHANGELOG.md`, the exact `v<version>` tag and workflow permissions/actions. The packed-consumer gate additionally validates the exact tarball name, SHA-256, 70 public runtime/type/style triplets and distribution budgets.
+- Pushing an exact version tag such as `v1.36.0` runs all prepack gates, uploads `lan-ui-design-system-1.36.0.tgz` plus its `.sha256`, records an artifact attestation and creates a GitHub Release. Manual dispatch performs the same validation and artifact upload without creating a tag release.
+- Verify a downloaded artifact with `sha256sum -c lan-ui-design-system-1.36.0.tgz.sha256`; repository owners can additionally use `gh attestation verify lan-ui-design-system-1.36.0.tgz --repo dengpan20/LanUI`.
+- npm publication remains an explicit follow-up action. The workflow never writes to a package registry.
+
+P40 retains the 70-component public API and all P39 consumer guarantees while adding three runtime compatibility jobs and one version-bound release contract.

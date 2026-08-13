@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join, resolve, sep } from 'node:path'
 import { build } from 'vite'
+import { formatReleaseReport, validateRelease } from './release-contracts.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const sourceManifest=JSON.parse(readFileSync(join(root,'package.json'),'utf8'))
@@ -119,5 +120,7 @@ assert(componentNames.length===70,'Public component count mismatch')
 assert(packedFiles.size<=distributionBudgets.packedFiles,`Packed files ${packedFiles.size} exceed ${distributionBudgets.packedFiles}`)
 assert(tarballBytes<=distributionBudgets.packedTarballRaw,`Packed tarball ${tarballBytes}B exceeds ${distributionBudgets.packedTarballRaw}B`)
 assert(unpackedBytes<=distributionBudgets.packedUnpackedRaw,`Unpacked package ${unpackedBytes}B exceeds ${distributionBudgets.packedUnpackedRaw}B`)
-writeFileSync(join(workspace,'report.json'),JSON.stringify({schemaVersion:1,version:packedManifest.version,sha256:digest,metrics:{components:componentNames.length,packedFiles:packedFiles.size,packedTarballRaw:tarballBytes,packedUnpackedRaw:unpackedBytes},budgets:distributionBudgets,checks:{reproducible:true,allowList:true,install:'offline',root:true,subpath:true,css:true,types:true,ssr:true,internals:'absent'}},null,2)+'\n')
-console.log(`PACKED_CONSUMER PASS version=${packedManifest.version} components=${componentNames.length} files=${packedFiles.size}/${distributionBudgets.packedFiles} tarball=${tarballBytes}B/${distributionBudgets.packedTarballRaw}B unpacked=${unpackedBytes}B/${distributionBudgets.packedUnpackedRaw}B sha256=${digest.slice(0,12)} reproducible=pass allowList=pass install=offline root=pass subpath=pass css=pass types=pass ssr=pass internals=absent`)
+const release=validateRelease({ref:`v${packedManifest.version}`,tag:true,artifact:tarball})
+writeFileSync(join(workspace,'report.json'),JSON.stringify({schemaVersion:1,version:packedManifest.version,sha256:digest,metrics:{components:componentNames.length,packedFiles:packedFiles.size,packedTarballRaw:tarballBytes,packedUnpackedRaw:unpackedBytes},budgets:distributionBudgets,checks:{reproducible:true,allowList:true,install:'offline',root:true,subpath:true,css:true,types:true,ssr:true,internals:'absent',release:true},release},null,2)+'\n')
+console.log(formatReleaseReport(release))
+console.log(`PACKED_CONSUMER PASS version=${packedManifest.version} components=${componentNames.length} files=${packedFiles.size}/${distributionBudgets.packedFiles} tarball=${tarballBytes}B/${distributionBudgets.packedTarballRaw}B unpacked=${unpackedBytes}B/${distributionBudgets.packedUnpackedRaw}B sha256=${digest.slice(0,12)} reproducible=pass allowList=pass install=offline root=pass subpath=pass css=pass types=pass ssr=pass internals=absent release=pass`)

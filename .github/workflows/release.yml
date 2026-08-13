@@ -1,0 +1,68 @@
+name: Lan UI Release
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+concurrency:
+  group: lan-ui-release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with: { version: 11.16.0 }
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Prepare release context
+        shell: bash
+        run: |
+          echo "LAN_UI_VERSION=$(node -p \"require('./package.json').version\")" >> "$GITHUB_ENV"
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            echo "LAN_UI_RELEASE_TAG=true" >> "$GITHUB_ENV"
+          else
+            echo "LAN_UI_RELEASE_TAG=false" >> "$GITHUB_ENV"
+          fi
+      - name: Validate release reference
+        shell: bash
+        run: node scripts/release-contracts.mjs --ref "$GITHUB_REF_NAME" --tag "$LAN_UI_RELEASE_TAG"
+      - name: Verify release package
+        run: pnpm run prepack
+      - name: Pack release artifact
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          pnpm --config.ignore-scripts=true pack --out "artifacts/lan-ui-design-system-${LAN_UI_VERSION}.tgz"
+      - name: Validate release artifact
+        shell: bash
+        run: node scripts/release-contracts.mjs --ref "$GITHUB_REF_NAME" --tag "$LAN_UI_RELEASE_TAG" --artifact "artifacts/lan-ui-design-system-${LAN_UI_VERSION}.tgz"
+      - name: Upload verified artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: lan-ui-design-system-${{ env.LAN_UI_VERSION }}
+          path: |
+            artifacts/lan-ui-design-system-${{ env.LAN_UI_VERSION }}.tgz
+            artifacts/lan-ui-design-system-${{ env.LAN_UI_VERSION }}.tgz.sha256
+          if-no-files-found: error
+          retention-days: 30
+      - name: Attest release artifact
+        uses: actions/attest@v4
+        with:
+          subject-path: artifacts/lan-ui-design-system-${{ env.LAN_UI_VERSION }}.tgz
+      - name: Create GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" "artifacts/lan-ui-design-system-${LAN_UI_VERSION}.tgz" "artifacts/lan-ui-design-system-${LAN_UI_VERSION}.tgz.sha256" --verify-tag --generate-notes --title "Lan UI ${GITHUB_REF_NAME}"

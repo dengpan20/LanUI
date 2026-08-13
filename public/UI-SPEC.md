@@ -839,3 +839,14 @@ P38 advances to 70 public components and 236 locale keys. Release gates require 
 - `prepack` retains all runtime, locale, type, documentation, package, example and performance gates. The nested tarball check disables lifecycle scripts only for its internal fixture to avoid recursively invoking `prepack`.
 
 P39 keeps 70 public components and 236 locale keys. Release gates add one installed-artifact consumer while retaining 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions and 18 runtime performance ceilings.
+
+## 53. Maturity P40: runtime matrix and auditable release contract
+
+- The supported Node boundary is executable: 20.19.0, 22.12.0 and the current 24 line each install the frozen lockfile, run unit tests, build the package and install the real archive into an isolated consumer.
+- Runtime validation keeps `package.json.engines`, the CI matrix, the actual process version and Vue 3.5 peer/runtime assumptions synchronized.
+- The release reference is version-bound. A tag build proceeds only when the ref is exactly `v` plus the semantic `package.json.version`, and that version must already have a changelog entry.
+- Release artifacts use the deterministic `lan-ui-design-system-<version>.tgz` name. Validation reopens the archive, checks identity and licensing, requires all 70 runtime/type/style triplets, applies distribution budgets and writes a SHA-256 sidecar.
+- GitHub Release automation uploads the archive/checksum, produces an artifact attestation with OIDC and creates a Release only for tag-triggered runs. Manual dispatch exercises the same build and upload path without inventing a release tag.
+- Registry publication is intentionally separate from GitHub artifact production. A release workflow cannot publish to npm by implication.
+
+P40 keeps 70 public components, 236 locale keys, 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions and 18 runtime performance ceilings. It adds three Node compatibility jobs and a version-bound, checksummed, attested GitHub Release gate.

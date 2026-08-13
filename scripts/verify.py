@@ -631,7 +631,7 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.35.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.36.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -666,7 +666,7 @@ if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "R
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.35.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.36.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -681,10 +681,25 @@ if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packe
     failures.append("p39:package-gate")
 if distribution_budgets != {"packedFiles": 340, "packedTarballRaw": 320000, "packedUnpackedRaw": 1800000}:
     failures.append("p39:distribution-budgets")
-if "Packed Distribution P39" not in components_page or "1.35.0" not in components_page or "V1.35.0" not in preview:
+if "Runtime & Release P40" not in components_page or "1.36.0" not in components_page or "V1.36.0" not in preview:
     failures.append("p39:showcase-version")
 if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p39:documentation")
+
+runtime_contract = (ROOT / "scripts/runtime-compatibility.mjs").read_text(encoding="utf-8")
+release_contract = (ROOT / "scripts/release-contracts.mjs").read_text(encoding="utf-8")
+ci_workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+for marker in ["20.19.0", "22.12.0", "LAN_UI_EXPECTED_NODE", "RUNTIME_COMPATIBILITY PASS"]:
+    if marker not in runtime_contract and marker not in ci_workflow:
+        failures.append(f"p40:runtime-matrix:{marker}")
+for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===70", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
+    if marker not in release_contract and marker not in release_workflow:
+        failures.append(f"p40:release-contract:{marker}")
+if package.get("scripts", {}).get("test:runtime") != "node scripts/runtime-compatibility.mjs" or "test:release" not in package.get("scripts", {}).get("test:package", ""):
+    failures.append("p40:package-gates")
+if "Runtime matrix and auditable GitHub releases (P40)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P40: runtime matrix and auditable release contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p40:documentation")
 
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
@@ -846,4 +861,5 @@ print("- maturity-p36=adaptive-motion-runtime,provider-teleport-scope,11-visual,
 print("- maturity-p37=api-schema-3,generated-docs,6-categories,lazy-api-route,12-visual,30-axe,34-interactions-per-browser")
 print("- maturity-p38=ui-anchor,scroll-spy,rtl-keyboard,reduced-motion,lazy-showcase-routes,13-visual,31-axe,35-interactions-per-browser")
 print("- maturity-p39=mit-license,publish-metadata,packed-install,offline-consumer,ssr+types+vite,distribution-budgets")
+print("- maturity-p40=node-20+22+24,compatibility-ci,version-bound-release,sha256,artifact-attestation,github-release")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")
