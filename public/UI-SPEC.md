@@ -812,3 +812,17 @@ P36 keeps 69 public components and 235 locale keys. Release gates require 11 vis
 - Unit tests prove schema/detail/category parity and browser discovery. Visual and Axe fixtures render the real page; the interaction matrix repeats search, selection and deep-link behavior in Chromium, Firefox and WebKit.
 
 P37 keeps 69 public components and 235 locale keys. Release gates require 12 visual baselines, 30 zero-violation Axe scenarios, 34 interactions per Chromium/Firefox/WebKit engine, 24 negative type assertions, generated documentation drift checks and 18 performance ceilings.
+
+## 51. Maturity P38: anchor navigation and lazy showcase routes
+
+- `UiAnchor` accepts a recursive item model and flattens it into a stable document outline while retaining level metadata for indentation and item-slot rendering.
+- Controlled and uncontrolled active state use one change boundary. Pointer, scroll-spy and public API updates identify their source, suppress duplicate writes and expose complete scroll start/end events.
+- Window, selector, element and factory containers resolve only after mount. Target geometry accounts for container bounds, current scroll position, fixed header offset and activation tolerance.
+- Vertical and horizontal layouts expose native links inside labelled navigation. Disabled links leave the focus order; Home, End and directional arrows rove across enabled links and horizontal arrows mirror under RTL.
+- Sticky placement uses logical properties and Token z-index. Focus, hover, active, forced-colors and reduced-motion behaviors remain visible without application selectors in package CSS.
+- The component use-case center composes the same public component rather than duplicating scroll and active-state logic. Generated schema 3 documentation includes all 10 Props, five Events and the scoped item Slot.
+- Every admin page is loaded with a route-level async boundary. The shell entry stays below 331KB raw and no Vite chunk-size warning is emitted; the component center and API corpus remain separately cached chunks.
+- The standalone consumer uses local component imports plus the public icon registry instead of also installing the full plugin, preserving an independent-project example without pulling unused global components into its entry bundle.
+- Focused tests cover nested semantics, element scrolling, scroll-spy, controlled deduplication, disabled focus skipping, RTL arrows, reduced motion and SSR. Visual, Axe and three-engine interaction fixtures exercise the real component.
+
+P38 advances to 70 public components and 236 locale keys. Release gates require 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions, schema/documentation drift checks and 18 performance ceilings.

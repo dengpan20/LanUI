@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.33.0",
+  "version": "1.34.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 130330,
-    "rules": 1042,
+    "bytes": 133151,
+    "rules": 1061,
     "source": "component-union"
   },
   "core": {
@@ -18,6 +18,12 @@
       "subpath": "./styles/UiAlert.css",
       "bytes": 2007,
       "rules": 18
+    },
+    {
+      "name": "UiAnchor",
+      "subpath": "./styles/UiAnchor.css",
+      "bytes": 2858,
+      "rules": 19
     },
     {
       "name": "UiAutoComplete",

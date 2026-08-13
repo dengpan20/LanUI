@@ -20,17 +20,17 @@ import UiEmpty from './components/UiEmpty.vue'
 import { notification, toast } from './feedback.js'
 import { createThemeController } from './theme.js'
 import { createMotionController, lanUiMotionKey } from './motion.js'
-import LoginPage from './pages/LoginPage.vue'
-import LogoutPage from './pages/LogoutPage.vue'
-import NotFoundPage from './pages/NotFoundPage.vue'
-import ForbiddenPage from './pages/ForbiddenPage.vue'
-import ServerErrorPage from './pages/ServerErrorPage.vue'
-import DashboardPage from './pages/DashboardPage.vue'
-import WorkbenchPage from './pages/WorkbenchPage.vue'
-import DataPage from './pages/DataPage.vue'
-import AiPage from './pages/AiPage.vue'
-import GanttPage from './pages/GanttPage.vue'
-import ComponentsPage from './pages/ComponentsPage.vue'
+const LoginPage=defineAsyncComponent(()=>import('./pages/LoginPage.vue'))
+const LogoutPage=defineAsyncComponent(()=>import('./pages/LogoutPage.vue'))
+const NotFoundPage=defineAsyncComponent(()=>import('./pages/NotFoundPage.vue'))
+const ForbiddenPage=defineAsyncComponent(()=>import('./pages/ForbiddenPage.vue'))
+const ServerErrorPage=defineAsyncComponent(()=>import('./pages/ServerErrorPage.vue'))
+const DashboardPage=defineAsyncComponent(()=>import('./pages/DashboardPage.vue'))
+const WorkbenchPage=defineAsyncComponent(()=>import('./pages/WorkbenchPage.vue'))
+const DataPage=defineAsyncComponent(()=>import('./pages/DataPage.vue'))
+const AiPage=defineAsyncComponent(()=>import('./pages/AiPage.vue'))
+const GanttPage=defineAsyncComponent(()=>import('./pages/GanttPage.vue'))
+const ComponentsPage=defineAsyncComponent(()=>import('./pages/ComponentsPage.vue'))
 const ApiReferencePage=defineAsyncComponent(()=>import('./pages/ApiReferencePage.vue'))
 
 const routeMeta = {

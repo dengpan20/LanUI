@@ -1,4 +1,5 @@
 import {
+  UiAnchor,
   UiButton,
   UiCalendar,
   UiAutoComplete,
@@ -47,6 +48,7 @@ import { parseColor as parseSubpathColor } from 'lan-ui-design-system/color'
 import { createLanUiFeedback as createSubpathFeedback } from 'lan-ui-design-system/feedback'
 import { createThemeController as createSubpathThemeController, defineTheme as defineSubpathTheme } from 'lan-ui-design-system/theme'
 import { createMotionController as createSubpathMotionController } from 'lan-ui-design-system/motion'
+import SubpathAnchor, { UiAnchor as NamedSubpathAnchor } from 'lan-ui-design-system/components/UiAnchor'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
@@ -64,6 +66,11 @@ import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'la
 import SubpathFormList, { UiFormList as NamedSubpathFormList } from 'lan-ui-design-system/components/UiFormList'
 import SubpathSchemaForm, { UiSchemaForm as NamedSubpathSchemaForm } from 'lan-ui-design-system/components/UiSchemaForm'
 import SubpathUpload, { UiUpload as NamedSubpathUpload } from 'lan-ui-design-system/components/UiUpload'
+import type {
+  UiAnchorEmits,
+  UiAnchorProps,
+  UiAnchorSlots,
+} from 'lan-ui-design-system/components/UiAnchor'
 import type {
   UiInputEmits,
   UiInputProps,
@@ -225,6 +232,12 @@ const subpathProps: UiInputProps = inputProps
 const subpathEmits: keyof UiInputEmits = 'update:modelValue'
 const subpathSlots: keyof UiInputSlots | 'none' = 'none'
 const inputParity: typeof SubpathInput = NamedSubpathInput
+const anchorProps:InstanceType<typeof UiAnchor>['$props']&UiAnchorProps={items:[{key:'overview',href:'#overview',title:'Overview',children:[{href:'#api',title:'API'}]}],modelValue:'overview',container:()=>document.body,offsetTop:72,bounds:8,affix:true,smooth:true,direction:'vertical',ariaLabel:'On this page'}
+const anchorEmit:InstanceType<typeof UiAnchor>['$emit']=null as never
+anchorEmit('change','api',{href:'#api',title:'API'},{source:'pointer'})
+const anchorSubpathParity:typeof SubpathAnchor=NamedSubpathAnchor
+const anchorEvent:keyof UiAnchorEmits='scroll-end'
+const anchorSlot:keyof UiAnchorSlots='item'
 const calendarProps:InstanceType<typeof UiCalendar>['$props']&UiCalendarProps={modelValue:['2026-08-10','2026-08-16'],selectionMode:'range',valueType:'string',viewDate:'2026-08-01',today:'2026-08-12',firstDayOfWeek:1,weekdayFormat:'short',showWeekNumbers:true,disabledDate:(_date,{date,currentMonth})=>!currentMonth&&date.endsWith('-01')}
 const calendarEmit:InstanceType<typeof UiCalendar>['$emit']=null as never
 calendarEmit('change',['2026-08-10','2026-08-16'],{source:'keyboard',selectionMode:'range',date:'2026-08-16'})
@@ -367,5 +380,7 @@ const invalidThemeAppearance:ThemeAppearance='sepia'
 const invalidThemeDefinition=defineTheme({name:'invalid',appearance:'system',tokens:{}})
 // @ts-expect-error Motion preference is constrained to full, reduced or system.
 const invalidMotionPreference:MotionPreference='instant'
+// @ts-expect-error Anchor direction is constrained to vertical or horizontal navigation.
+const invalidAnchorDirection:UiAnchorProps={direction:'diagonal'}
 
-console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency)
+console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency)

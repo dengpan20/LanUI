@@ -620,6 +620,22 @@ const allCases = [
     },
   },
   {
+    name:'anchor-scroll-keyboard',
+    run:async page=>{
+      const navigation=page.getByRole('navigation',{name:'Anchor fixture'})
+      const overview=navigation.getByRole('link',{name:'Overview'})
+      const api=navigation.getByRole('link',{name:'API contract'})
+      await overview.focus()
+      await page.keyboard.press('ArrowDown')
+      assert.equal(await api.evaluate(node=>node===document.activeElement),true)
+      await page.keyboard.press('Enter')
+      await expectText(page,'anchor-output','fixture-anchor-api')
+      assert.equal(await api.getAttribute('aria-current'),'location')
+      assert.ok(await page.locator('#fixture-anchor-scroller').evaluate(node=>node.scrollTop>0))
+      assert.equal(await navigation.getByRole('link',{name:'Disabled'}).getAttribute('aria-disabled'),'true')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -634,7 +650,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),69)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),70)
     },
   },
 ]

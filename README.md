@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、69 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、70 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -314,7 +314,7 @@ pnpm pack
 python scripts/verify.py
 ```
 
-`pnpm ci` 会执行 Token 导出、源码检查、69 个组件契约测试、后台构建、组件库构建及独立项目构建。
+`pnpm ci` 会执行 Token 导出、源码检查、70 个组件契约测试、后台构建、组件库构建及独立项目构建。
 
 组件包公开内容：
 
@@ -385,7 +385,7 @@ app.use(lanUi)
 lanUi.setLocale('en-US') // 已显示的默认文案和生成式表单错误同步更新
 ```
 
-`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 69 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
+`pnpm run test:locale` 会校验中英文键集合、插值参数、组件引用以及 70 个公开组件中的硬编码中文，防止新组件重新出现中英混排。
 
 ### Intl、复数与语言回退
 
@@ -487,8 +487,8 @@ const notification = useNotification()
 
 - `pnpm test` 执行 Vitest 行为测试与源码契约测试，覆盖表单语义、组合框键盘操作、浮层碰撞定位、全局配置、本地化、服务式反馈及无 DOM 的 SSR 渲染。
 - Vitest 只收集根目录 `tests/`，排除 `.verify / .baseline / dist`，避免验证副本污染结果。
-- 所有 69 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
-- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、69 个子路径导出、最小消费者 Bundle 和独立消费项目。
+- 所有 70 个组件均从统一入口导出，并在 `src/index.d.ts` 提供 Props、Emits 与 Slots 类型。
+- CI 连续验证 Token、Lint、单元测试、组件契约、后台构建、组件库构建、70 个子路径导出、最小消费者 Bundle 和独立消费项目。
 
 ## SSR 与 Hydration
 
@@ -499,7 +499,7 @@ const notification = useNotification()
 
 ## API 稳定性与升级
 
-- `api-manifest.json` 使用 Schema 2 记录根入口、稳定子路径，以及 69 个组件的 Props、Emits、Slots 与实际运行时导出。
+- `api-manifest.json` 使用 Schema 3 记录根入口、稳定子路径，以及 70 个组件的 Props、Emits、Slots、签名、默认值与实际运行时导出。
 - 每个组件子路径同时导出 `UiXxxProps`、`UiXxxEmits` 和 `UiXxxSlots`；模板事件负载、`$emit` 与作用域插槽均参与 vue-tsc 检查。
 - 构建工具可通过 `lan-ui-design-system/api-manifest` 或 `lan-ui-design-system/api-manifest.json` 读取该清单。
 - `pnpm run api:check` 对比已构建包与提交的 Manifest；公开 API 变化必须先运行 `pnpm run api:generate` 并审查 SemVer 影响。
@@ -537,7 +537,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'
 import 'lan-ui-design-system/styles/UiButton.css'
 ```
 
-每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 69 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
+每份组件样式自动导入 `styles/core.css`。`style-manifest.json` 记录 70 个组件样式入口、规则数和体积；完整主题仍可使用 `style.css`。最小 UiButton 消费 CSS 约 8KB，且不包含 Table、Modal、Calendar、ColorPicker、Statistic、StatusPage 或 Transfer 样式。
 
 ## Global command palette
 
@@ -812,3 +812,24 @@ pnpm run api:check    # reject declaration/runtime/category/documentation drift
 - The lazy-loaded `#/api` admin route searches component names and every public contract, filters six stable categories, copies imports and exposes direct links such as `#/api?component=UiUpload`.
 - Category generation requires exact one-to-one coverage of all 69 public components. A missing, duplicate or unknown component fails generation before documentation can ship.
 - P37 keeps runtime component behavior unchanged. Release gates now require 12 visual baselines, 30 zero-violation Axe scenarios and 34 interactions per Chromium/Firefox/WebKit engine in addition to generated-output drift checks.
+
+## Scroll-aware anchor navigation and route boundaries (P38)
+
+`UiAnchor` turns the component center's former private outline into a reusable navigation contract:
+
+~~~vue
+<UiAnchor
+  v-model="activeSection"
+  :items="[{ key: 'start', href: '#start', title: 'Start' }]"
+  :container="scrollContainer"
+  :offset-top="72"
+  @change="handleSectionChange"
+/>
+~~~
+
+- Window and element scroll containers share offset/bounds calculations, scroll-spy updates, pointer lifecycle events and exposed `scrollTo` / `update` methods.
+- Vertical, horizontal, sticky and inline layouts support nested levels, disabled items, item slots, visible focus, roving Home/End/arrow keys and RTL arrow mirroring.
+- Smooth navigation consumes scoped motion preferences and settles immediately under reduced motion; server rendering remains deterministic and DOM-free.
+- All showcase pages now load through route-level async boundaries. The production app entry falls from roughly 548KB to 331KB raw while the 89KB component catalog and business pages load only when requested.
+- The standalone consumer no longer combines local component imports with a redundant full-plugin installation; it demonstrates the public icon subpath and preserves tree-shaking while package tests continue to validate full plugin installation.
+- P38 advances to 70 public components and 236 locale keys. Release gates require 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions and 18 performance ceilings.

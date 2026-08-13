@@ -21,7 +21,7 @@ for(const locale of locales){
 const registry=readFileSync(resolve(root,'src/components.js'),'utf8')
 const components=[...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].map(([,name])=>name)
 const localized=new Set([
-  'UiAlert','UiAutoComplete','UiBadge','UiBreadcrumb','UiCalendar','UiCascader','UiColorPicker','UiCommandPalette','UiDatePicker','UiDateRangePicker','UiDescriptions','UiDrawer','UiEmpty','UiFormItem','UiImage','UiInput','UiListToolbar','UiMenu','UiModal','UiMultiSelect','UiNotification','UiNumberInput','UiPagination','UiPopconfirm','UiPopover','UiProgress','UiRate','UiSelect','UiSlider','UiSpin','UiStatistic','UiSteps','UiSwitch','UiTable','UiTabs','UiToastHost','UiTransfer','UiTree','UiTreeSelect','UiUpload',
+  'UiAlert','UiAnchor','UiAutoComplete','UiBadge','UiBreadcrumb','UiCalendar','UiCascader','UiColorPicker','UiCommandPalette','UiDatePicker','UiDateRangePicker','UiDescriptions','UiDrawer','UiEmpty','UiFormItem','UiImage','UiInput','UiListToolbar','UiMenu','UiModal','UiMultiSelect','UiNotification','UiNumberInput','UiPagination','UiPopconfirm','UiPopover','UiProgress','UiRate','UiSelect','UiSlider','UiSpin','UiStatistic','UiSteps','UiSwitch','UiTable','UiTabs','UiToastHost','UiTransfer','UiTree','UiTreeSelect','UiUpload',
 ])
 const usedKeys=new Set()
 for(const name of components){

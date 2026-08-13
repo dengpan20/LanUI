@@ -19,4 +19,5 @@ body { margin: 0; background: var(--bg-page); color: var(--text-primary); }
 .interaction-status-page .ui-status-page-copy { align-self: center; }
 .interaction-status-page .ui-status-page-copy h1 { font-size: 20px; }
 .interaction-status-page .ui-status-page-actions { align-self: center; }
+.interaction-anchor-scroller{height:240px;display:grid;grid-template-columns:190px minmax(0,1fr);gap:18px;overflow:auto;scroll-behavior:auto}.interaction-anchor-scroller>.ui-anchor{position:sticky;top:0;align-self:start;background:var(--bg-elevated)}.interaction-anchor-section{grid-column:2;min-height:190px;padding:18px;border:1px solid var(--border-subtle);border-radius:8px;background:var(--bg-subtle)}.interaction-anchor-section strong,.interaction-anchor-section span{display:block}.interaction-anchor-section span{margin-top:6px;color:var(--text-secondary)}
 @media (max-width: 720px) { .interaction-grid { grid-template-columns: 1fr; } .interaction-wide { grid-column: auto; } }

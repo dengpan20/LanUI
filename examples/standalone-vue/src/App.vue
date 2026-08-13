@@ -2,6 +2,7 @@
 import { computed, reactive, ref } from 'vue'
 import {
   UiAlert,
+  UiAnchor,
   UiAutoComplete,
   UiButton,
   UiCalendar,
@@ -50,6 +51,12 @@ const appearance = ref('system')
 const motion = ref('system')
 const standaloneTheme={'brand-600':'#7C3AED','brand-text':'#A78BFA'}
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
+const standaloneAnchor = ref('#standalone-overview')
+const standaloneAnchorItems = [
+  { title: 'Overview', href: '#standalone-overview' },
+  { title: 'Schema form', href: '#standalone-schema' },
+  { title: 'Upload queue', href: '#standalone-upload' },
+]
 const monthlyQuota = ref(12500)
 const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
@@ -107,7 +114,18 @@ const rows = computed(() => [
       description="独立 package.json、Vite 配置和应用入口。"
     />
 
-    <UiCard title="业务指标">
+    <UiCard title="On-page navigation">
+      <UiAnchor
+        v-model="standaloneAnchor"
+        :items="standaloneAnchorItems"
+        direction="horizontal"
+        :affix="false"
+        :offset-top="16"
+        aria-label="Standalone example sections"
+      />
+    </UiCard>
+
+    <UiCard id="standalone-overview" title="业务指标">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px">
         <UiStatistic title="Monthly revenue" :value="2864000" prefix="¥" :precision="0" :trend="12.6"><template #extra>Compared with last month</template></UiStatistic>
         <UiStatistic title="Active customers" :value="12580" suffix=" users" :trend="-3.2" status="warning" />
@@ -137,13 +155,13 @@ const rows = computed(() => [
       </UiForm>
     </UiCard>
 
-    <UiCard title="Schema-driven workspace settings and reviewers">
+    <UiCard id="standalone-schema" title="Schema-driven workspace settings and reviewers">
       <UiSchemaForm :model="workspaceModel" :schema="workspaceSchema" show-error-summary @submit="toast.success('Schema form submitted')">
         <template #actions="{validating,errors}"><span style="color:var(--text-secondary);font-size:12px">{{ errors.length }} validation errors</span><UiButton type="submit" :loading="validating">Save workspace</UiButton></template>
       </UiSchemaForm>
     </UiCard>
 
-    <UiCard title="Release asset queue">
+    <UiCard id="standalone-upload" title="Release asset queue">
       <UiUpload v-model="releaseFiles" multiple accept=".json,.zip,.pdf" :max-count="4" :concurrency="2" :request="releaseUploadRequest" @success="payload=>toast.success(`${payload.file.name} uploaded`)" @upload-error="payload=>toast.error(String(payload.file.error||'Upload failed'))" />
     </UiCard>
 

@@ -125,6 +125,9 @@ export interface UiSchemaFormError { kind:'visible'|'props'|'disabled'|'readonly
 export interface UiSchemaFormInstance<Model extends Record<string,unknown>=Record<string,unknown>> extends UiFormInstance<Model> { getFieldDefinition:(name:UiFormPath)=>UiSchemaFormDefinition<Model>|null; getVisibleFields:()=>UiSchemaFormDefinition<Model>[]; addListItem:<Item=unknown>(name:UiFormPath,item?:Item,index?:number)=>UiFormListChange<Item>|false; removeListItem:<Item=unknown>(name:UiFormPath,indices:number|number[])=>UiFormListChange<Item>|false; moveListItem:<Item=unknown>(name:UiFormPath,from:number,to:number)=>UiFormListChange<Item>|false; replaceListItems:<Item=unknown>(name:UiFormPath,items:Item[])=>UiFormListChange<Item>|false; getListValue:<Item=unknown>(name:UiFormPath)=>Item[]|null }
 
 export interface UiAlertProps { type?:'info'|'success'|'warning'|'error'; title?:string; description?:string; closable?:boolean; showIcon?:boolean; banner?:boolean }
+export interface UiAnchorItem { key?:Key; href:string; title:string; disabled?:boolean; children?:UiAnchorItem[] }
+export interface UiAnchorChangeMeta { source:'pointer'|'scroll'|'api' }
+export interface UiAnchorProps { items?:UiAnchorItem[]; modelValue?:Key; container?:string|HTMLElement|Window|(()=>HTMLElement|Window|null); offsetTop?:number; bounds?:number; affix?:boolean; smooth?:boolean; direction?:'vertical'|'horizontal'; disabled?:boolean; ariaLabel?:string }
 export interface UiAutoCompleteOption { label:string; value:Key; disabled?:boolean; keywords?:string[]; description?:string }
 export interface UiAutoCompleteFetchContext { signal?:AbortSignal }
 export interface UiAutoCompleteProps { modelValue?:Key; options?:Array<UiAutoCompleteOption|Key>; fetchSuggestions?:(query:string,context:UiAutoCompleteFetchContext)=>Array<UiAutoCompleteOption|Key>|Promise<Array<UiAutoCompleteOption|Key>>; debounce?:number; minChars?:number; placeholder?:string; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; clearable?:boolean; allowCustom?:boolean; openOnFocus?:boolean; highlightFirst?:boolean; matchMode?:'contains'|'startsWith'; emptyText?:string; loadingText?:string; placement?:'top-start'|'top-end'|'bottom-start'|'bottom-end'; appendToBody?:boolean; cache?:boolean }
@@ -272,6 +275,7 @@ export interface UiImagePreviewEventMeta { index:number; src:string }
 export interface UiImageTransform { scale:number; rotation:number; offsetX:number; offsetY:number; source:string }
 
 export type UiAlertEmits = { close:()=>void }
+export type UiAnchorEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key,item:UiAnchorItem,meta:UiAnchorChangeMeta)=>void; click:(item:UiAnchorItem,event:MouseEvent)=>void; 'scroll-start':(item:UiAnchorItem)=>void; 'scroll-end':(item:UiAnchorItem)=>void }
 export type UiAutoCompleteEmits = { 'update:modelValue':(value:Key)=>void; input:(value:string)=>void; change:(value:Key,meta:UiAutoCompleteChangeMeta)=>void; select:(option:UiAutoCompleteOption)=>void; search:(query:string)=>void; 'open-change':(open:boolean)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void; 'load-error':(payload:UiAutoCompleteLoadError)=>void }
 export type UiAvatarEmits = {}
 export type UiBadgeEmits = {}
@@ -349,6 +353,7 @@ export type UiTreeSelectEmits = { 'update:modelValue':(value:Key)=>void; change:
 export type UiUploadEmits = { 'update:modelValue':(value:UiUploadFile[])=>void; change:(value:UiUploadFile[],meta:UiUploadChangeMeta)=>void; error:(message:string)=>void; select:(payload:{files:UiUploadFile[];source:string})=>void; reject:(payload:UiUploadReject)=>void; exceed:(payload:UiUploadExceed)=>void; start:(payload:UiUploadEvent)=>void; progress:(payload:UiUploadProgressEvent)=>void; success:(payload:UiUploadSuccessEvent)=>void; 'upload-error':(payload:UiUploadErrorEvent)=>void; abort:(payload:UiUploadAbortEvent)=>void; retry:(payload:UiUploadEvent)=>void; remove:(payload:UiUploadRemoveEvent)=>void }
 
 export type UiAlertSlots = { default?:()=>VNodeChild }
+export type UiAnchorSlots = { item?:(scope:{item:UiAnchorItem;active:boolean;level:number})=>VNodeChild }
 export type UiAutoCompleteSlots = { option?:(scope:{option:UiAutoCompleteOption;index:number;active:boolean;selected:boolean;segments:Array<{text:string;match:boolean}>})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiAvatarSlots = { default?:()=>VNodeChild }
 export type UiBadgeSlots = { default?:()=>VNodeChild }
@@ -433,7 +438,7 @@ export interface ToastState { items:UiToastItem[] }
 export interface NotificationState { current:NotificationOptions|null }
 export interface LanUiFeedback { toast:ToastService; toastState:ToastState; notification:NotificationService; notificationState:NotificationState; readonly disposed:boolean; dispose:()=>void }
 
-export const UiAlert:LanComponent<UiAlertProps,UiAlertEmits,UiAlertSlots>; export const UiAutoComplete:LanComponent<UiAutoCompleteProps,UiAutoCompleteEmits,UiAutoCompleteSlots>; export const UiAvatar:LanComponent<UiAvatarProps,UiAvatarEmits,UiAvatarSlots>; export const UiBadge:LanComponent<UiBadgeProps,UiBadgeEmits,UiBadgeSlots>; export const UiBreadcrumb:LanComponent<UiBreadcrumbProps,UiBreadcrumbEmits,UiBreadcrumbSlots>
+export const UiAlert:LanComponent<UiAlertProps,UiAlertEmits,UiAlertSlots>; export const UiAnchor:LanComponent<UiAnchorProps,UiAnchorEmits,UiAnchorSlots>; export const UiAutoComplete:LanComponent<UiAutoCompleteProps,UiAutoCompleteEmits,UiAutoCompleteSlots>; export const UiAvatar:LanComponent<UiAvatarProps,UiAvatarEmits,UiAvatarSlots>; export const UiBadge:LanComponent<UiBadgeProps,UiBadgeEmits,UiBadgeSlots>; export const UiBreadcrumb:LanComponent<UiBreadcrumbProps,UiBreadcrumbEmits,UiBreadcrumbSlots>
 export const UiButton:LanComponent<UiButtonProps,UiButtonEmits,UiButtonSlots>; export const UiCalendar:LanComponent<UiCalendarProps,UiCalendarEmits,UiCalendarSlots>; export const UiCard:LanComponent<UiCardProps,UiCardEmits,UiCardSlots>; export const UiCascader:LanComponent<UiCascaderProps,UiCascaderEmits,UiCascaderSlots>; export const UiCheckbox:LanComponent<UiCheckboxProps,UiCheckboxEmits,UiCheckboxSlots>
 export const UiCollapse:LanComponent<UiCollapseProps,UiCollapseEmits,UiCollapseSlots>; export const UiColorPicker:LanComponent<UiColorPickerProps,UiColorPickerEmits,UiColorPickerSlots>; export const UiCommandPalette:LanComponent<UiCommandPaletteProps,UiCommandPaletteEmits,UiCommandPaletteSlots>; export const UiDescriptions:LanComponent<UiDescriptionsProps,UiDescriptionsEmits,UiDescriptionsSlots>
 export const UiCol:LanComponent<UiColProps,UiColEmits,UiColSlots>; export const UiDatePicker:LanComponent<UiDatePickerProps,UiDatePickerEmits,UiDatePickerSlots>; export const UiDivider:LanComponent<UiDividerProps,UiDividerEmits,UiDividerSlots>; export const UiDrawer:LanComponent<UiDrawerProps,UiDrawerEmits,UiDrawerSlots>

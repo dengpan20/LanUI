@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAlert, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
+  UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiUpload, UiVirtualList,
@@ -10,6 +10,7 @@ import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
 const props=defineProps({theme:String,direction:String,density:String,state:{type:String,default:'base'}})
 const tab=ref('overview')
+const anchorValue=ref('anchor-overview')
 const segment=ref('month')
 const commandOpen=ref(false)
 const commandQuery=ref('')
@@ -165,6 +166,12 @@ const tableRows=[
     <UiConfigProvider v-if="state==='motion'" id="visual-motion-reduced" motion="reduced" class="visual-table-card">
       <UiCard title="Scoped motion preferences" title-tag="h2"><div class="visual-stack"><UiAlert type="info" title="Reduced motion scope" description="Transitions, spinners, skeletons and smooth scrolling settle immediately in this subtree."/><div class="visual-row"><UiButton>Reduced action</UiButton><UiTag color="blue">reduced / scoped</UiTag></div><UiConfigProvider id="visual-motion-full" motion="full"><div class="visual-row"><UiButton variant="secondary">Nested full motion</UiButton><UiTag color="green">full override</UiTag></div></UiConfigProvider></div></UiCard>
     </UiConfigProvider>
+    <UiCard v-if="state==='anchor'" title="Page anchor navigation" title-tag="h2" class="visual-table-card visual-anchor-showcase">
+      <div class="visual-anchor-grid">
+        <UiAnchor v-model="anchorValue" :affix="false" aria-label="Release document outline" :items="[{key:'anchor-overview',href:'#visual-anchor-overview',title:'Overview'},{key:'anchor-contracts',href:'#visual-anchor-contracts',title:'Contracts',children:[{key:'anchor-events',href:'#visual-anchor-events',title:'Events and slots'}]},{key:'anchor-disabled',href:'#visual-anchor-disabled',title:'Archived section',disabled:true}]" />
+        <div class="visual-anchor-copy"><UiAnchor model-value="usage" direction="horizontal" :affix="false" aria-label="Package guide tabs" :items="[{key:'install',href:'#visual-anchor-install',title:'Install'},{key:'usage',href:'#visual-anchor-usage',title:'Usage'},{key:'release',href:'#visual-anchor-release',title:'Release'}]" /><div id="visual-anchor-overview"><strong>Scroll-aware documentation outline</strong><p>Active sections, nested levels, disabled links and horizontal navigation share the same typed contract.</p></div><div id="visual-anchor-contracts"><span>Element container · offset 72px · bounds 8px</span></div><i id="visual-anchor-events" /></div>
+      </div>
+    </UiCard>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">
         <UiMultiSelect aria-label="Team members" :model-value="['lin']" :options="[{label:'Lin',value:'lin'},{label:'Chen',value:'chen'}]"/>

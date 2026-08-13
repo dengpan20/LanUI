@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.33.0",
+  "version": "1.34.0",
   "private": true,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -156,7 +156,7 @@
     "test:performance": "node scripts/performance-regression.mjs",
     "visual:update": "node scripts/visual-regression.mjs --update",
     "test:package": "node scripts/test-package-exports.mjs && node scripts/css-boundary-contracts.mjs && node scripts/build-subpath-consumer.mjs",
-    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=24')\"",
+    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=25')\"",
     "api:generate": "pnpm run build:lib && node scripts/api-manifest.mjs --write && node scripts/api-docs.mjs --write",
     "api:check": "node scripts/api-manifest.mjs && node scripts/api-docs.mjs",
     "docs:generate": "node scripts/api-docs.mjs --write",

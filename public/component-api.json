@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.33.0",
+  "version": "1.34.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -31,8 +31,8 @@
     {
       "id": "navigation",
       "label": "导航",
-      "description": "层级、菜单、分页、步骤、页签和快捷检索。",
-      "count": 7
+      "description": "锚点、层级、菜单、分页、步骤、页签和快捷检索。",
+      "count": 8
     },
     {
       "id": "feedback",
@@ -140,6 +140,178 @@
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiAnchor",
+      "category": "navigation",
+      "categoryLabel": "导航",
+      "subpath": "./components/UiAnchor",
+      "imports": {
+        "root": "import { UiAnchor } from 'lan-ui-design-system'",
+        "subpath": "import UiAnchor from 'lan-ui-design-system/components/UiAnchor'"
+      },
+      "propsType": "UiAnchorProps",
+      "props": [
+        {
+          "name": "affix",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "bounds",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "8"
+          }
+        },
+        {
+          "name": "container",
+          "required": false,
+          "type": "string|HTMLElement|Window|(()=>HTMLElement|Window|null)",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "'vertical'|'horizontal'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"vertical\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "items",
+          "required": false,
+          "type": "UiAnchorItem[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "offsetTop",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "smooth",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        }
+      ],
+      "emitsType": "UiAnchorEmits",
+      "emits": [
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:Key,item:UiAnchorItem,meta:UiAnchorChangeMeta)=>void"
+        },
+        {
+          "name": "click",
+          "required": true,
+          "type": "(item:UiAnchorItem,event:MouseEvent)=>void"
+        },
+        {
+          "name": "scroll-end",
+          "required": true,
+          "type": "(item:UiAnchorItem)=>void"
+        },
+        {
+          "name": "scroll-start",
+          "required": true,
+          "type": "(item:UiAnchorItem)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:Key)=>void"
+        }
+      ],
+      "slotsType": "UiAnchorSlots",
+      "slots": [
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:{item:UiAnchorItem;active:boolean;level:number})=>VNodeChild"
         }
       ]
     },

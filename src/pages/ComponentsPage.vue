@@ -43,6 +43,7 @@ import UiBadge from '../components/UiBadge.vue'
 import UiSkeleton from '../components/UiSkeleton.vue'
 import UiEmpty from '../components/UiEmpty.vue'
 import UiAlert from '../components/UiAlert.vue'
+import UiAnchor from '../components/UiAnchor.vue'
 import UiDropdown from '../components/UiDropdown.vue'
 import UiProgress from '../components/UiProgress.vue'
 import UiSteps from '../components/UiSteps.vue'
@@ -76,6 +77,7 @@ import { darkTheme, defineTheme } from '../theme.js'
 const emit=defineEmits(['notify','open-modal','open-drawer','open-notification'])
 const reducedMotion=useReducedMotion()
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
+const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
 const configPortalOpen=ref(false)
 const statusPageDemo=ref('403')
@@ -185,7 +187,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'当前成熟度',value:'API Reference P37'},{key:'version',label:'当前版本',value:'1.33.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'69 组件、688 Props、237 Events、115 Slots、自动 API 文档、主题与动效、SSR、RTL、ARIA、三浏览器与性能预算'}]
+const descriptionItems=[{key:'name',label:'当前成熟度',value:'Anchor Navigation P38'},{key:'version',label:'当前版本',value:'1.34.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'70 组件、698 Props、242 Events、116 Slots、自动 API 文档、主题与动效、SSR、RTL、ARIA、三浏览器与性能预算'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -220,7 +222,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
 <template>
   <div class="page-container">
     <div class="page-heading"><div><UiBreadcrumb :items="[{label:'Design System',href:'#/components'},{label:'组件用例'}]"/><h1>组件用例中心</h1><p>可交互的组件 Variant、State 与使用规范 · Vue 3 实现</p></div><div class="page-actions"><a class="btn btn-outline" href="/component-preview.html" target="_blank"><AppIcon name="external" :size="15"/>打开一页预览</a><UiButton icon="download" @click="emit('notify','Token JSON 已准备')">导出 Token</UiButton></div></div>
-    <div class="docs-layout"><nav class="card docs-toc" aria-label="组件目录"><button v-for="item in toc" :key="item[0]" class="toc-link" :class="{active:current===item[0]}" @click="scrollTo(item[0])">{{ item[1] }}</button></nav>
+    <div class="docs-layout"><div class="card docs-toc"><UiAnchor v-model="current" :items="anchorItems" :offset-top="120" :affix="false" aria-label="组件目录"/></div>
       <main class="docs-content">
         <section id="tokens" class="card doc-section"><header class="doc-section-header"><h2>Design Tokens</h2><p>语义 Token 是设计与代码的共同语言，避免页面中出现无语义的魔法数字。</p></header><div class="demo-block"><div class="token-grid"><div v-for="c in colors" :key="c[0]" class="color-token"><div class="color-swatch" :style="{'--swatch':c[1]}"/><div class="token-copy"><strong>{{ c[0] }}</strong><code>{{ c[1] }}</code></div></div></div><div class="preview-note"><strong>使用原则：</strong> 组件优先引用 `--brand-600`、`--text-secondary` 等语义变量；只有色阶展示才直接引用基础色阶。</div></div></section>
 

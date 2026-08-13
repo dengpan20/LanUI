@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
+  UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
   UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -13,6 +13,8 @@ import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 defineProps({ direction: { type: String, default: 'ltr' }, state: { type: String, default: 'base' } })
 
 const region = ref('')
+const anchorValue=ref('fixture-anchor-overview')
+const anchorItems=[{key:'fixture-anchor-overview',href:'#fixture-anchor-overview',title:'Overview'},{key:'fixture-anchor-disabled',href:'#fixture-anchor-disabled',title:'Disabled',disabled:true},{key:'fixture-anchor-api',href:'#fixture-anchor-api',title:'API contract'},{key:'fixture-anchor-release',href:'#fixture-anchor-release',title:'Release'}]
 const officeCity = ref('')
 const tab = ref('overview')
 const modalOpen = ref(false)
@@ -410,6 +412,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Status page action contract</h2>
         <UiStatusPage status="403" embedded @back="statusAction='back'" @home="statusAction='home'" />
         <output class="interaction-output" data-testid="status-output">{{ statusAction }}</output>
+      </section>
+      <section class="interaction-case interaction-wide">
+        <h2>Anchor scroll and keyboard contract</h2>
+        <div id="fixture-anchor-scroller" class="interaction-anchor-scroller">
+          <UiAnchor v-model="anchorValue" :items="anchorItems" container="#fixture-anchor-scroller" :offset-top="8" :affix="false" aria-label="Anchor fixture" />
+          <div id="fixture-anchor-overview" class="interaction-anchor-section"><strong>Overview</strong><span>Component foundations and usage.</span></div>
+          <div id="fixture-anchor-api" class="interaction-anchor-section"><strong>API contract</strong><span>Props, events and item slots.</span></div>
+          <div id="fixture-anchor-release" class="interaction-anchor-section"><strong>Release</strong><span>Package and verification evidence.</span></div>
+        </div>
+        <output class="interaction-output" data-testid="anchor-output">{{ anchorValue }}</output>
       </section>
       <section class="interaction-case interaction-wide">
         <h2>Scoped theme appearance contract</h2>

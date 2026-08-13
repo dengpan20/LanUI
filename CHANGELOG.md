@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.34.0] - 2026-08-13
+
+### Added
+
+- `UiAnchor`, a typed page-outline component with nested items, controlled and uncontrolled active state, window or element scroll containers, configurable offsets and bounds, sticky or inline layouts, vertical and horizontal variants, and item slots.
+- Scroll-spy updates, programmatic navigation, pointer lifecycle events, roving keyboard focus, RTL arrow mirroring, reduced-motion behavior, deterministic SSR output, locale labels, per-component CSS and generated API coverage.
+
+### Changed
+
+- The component use-case center now consumes the public `UiAnchor` rather than maintaining a private table-of-contents implementation.
+- Every showcase page is route-level lazy loaded, keeping the large component catalog and business examples out of the initial admin shell chunk.
+- The standalone consumer registers its custom icon through the public icon subpath and keeps locally imported components on demand instead of redundantly installing the full global component plugin.
+- Package JS ceilings add bounded headroom for the new public component while the frozen 1.28 release comparison remains enforced across all comparable metrics.
+- Release gates advance to 70 public components with focused unit, type, visual, Axe and Chromium/Firefox/WebKit interaction coverage.
+
 ## [1.33.0] - 2026-08-13
 
 ### Added
