@@ -4,7 +4,7 @@
   "version": "1.32.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 130191,
+    "bytes": 130330,
     "rules": 1042,
     "source": "component-union"
   },
@@ -106,7 +106,7 @@
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 20502,
+      "bytes": 20641,
       "rules": 175
     },
     {
@@ -352,7 +352,7 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 9853,
+      "bytes": 9992,
       "rules": 87
     },
     {

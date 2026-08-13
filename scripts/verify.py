@@ -593,12 +593,18 @@ if "theme-portal-contracts.mjs" not in package.get("scripts", {}).get("test:them
 checkbox_source = component_config_sources["UiCheckbox.vue"]
 table_source = component_config_sources["UiTable.vue"]
 styles_source = (ROOT / "styles.css").read_text(encoding="utf-8")
+preview_source = (ROOT / "component-preview.html").read_text(encoding="utf-8")
 if any(marker not in checkbox_source for marker in ["size:{type:String", "ariaLabel", "$slots.default"]):
     failures.append("p35:checkbox-size-contract")
 if any(marker not in table_source for marker in ["import UiCheckbox", 'size="sm"', "ui-table-checkbox"]):
     failures.append("p35:table-checkbox-composition")
-if ".ui-checkbox.size-sm input { width: 14px; height: 14px;" not in styles_source or ".ui-table-select-column input { width:24px; height:24px;" in styles_source:
+if any(marker not in styles_source for marker in [
+    ".ui-checkbox.size-sm input { width: 14px; height: 14px;",
+    '.ui-table-select-column > input[type="checkbox"] { width: 14px; min-width: 14px; max-width: 14px; height: 14px; min-height: 14px; max-height: 14px;',
+]) or ".ui-table-select-column input { width:24px; height:24px;" in styles_source:
     failures.append("p35:table-checkbox-style")
+if preview_source.count("checkbox ui-checkbox size-sm ui-table-checkbox") < 3 or preview_source.count("ui-table-control-column ui-table-select-column") < 3:
+    failures.append("p35:table-checkbox-preview")
 
 motion_source = (ROOT / "src/motion.js").read_text(encoding="utf-8")
 motion_contract = (ROOT / "scripts/motion-contracts.mjs").read_text(encoding="utf-8")
