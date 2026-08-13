@@ -1,5 +1,21 @@
 # Lan UI migration and compatibility policy
 
+## 1.39 affix compatibility
+
+There are no breaking changes. Long pages and bounded work areas can add sticky actions with the new public component:
+
+```vue
+<UiAffix :target="() => scrollArea" position="top" :offset="12">
+  <UiButton variant="primary">Save changes</UiButton>
+</UiAffix>
+```
+
+- Omitting `target` binds to the window. A selector, Element or factory binds to a custom scroll container; an invalid target emits `error` and falls back to the window.
+- A custom scroll target is also the default `boundary`. Set a distinct `boundary` to stop the fixed content at another container edge.
+- `position="top"` and `position="bottom"` use viewport-relative offsets. The placeholder preserves layout while the child is fixed, and `disabled` immediately restores normal document flow.
+- Width, left position, height and boundary geometry refresh on resize and observed size changes. Call `update()` after programmatic layout changes or `updateRoot()` after replacing target nodes.
+- SSR emits the stable wrapper and slot content without resolving selectors, installing listeners or touching browser globals.
+
 ## 1.38 watermark compatibility
 
 There are no breaking changes. Protected content regions can use the new public component:

@@ -683,6 +683,33 @@ const allCases = [
     },
   },
   {
+    name:'affix-container-lifecycle',
+    run:async page=>{
+      const target=page.locator('#interaction-affix-target')
+      const root=page.locator('#interaction-affix')
+      const content=root.locator('.ui-affix-content')
+      await target.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-affixed'),'false')
+      await target.evaluate(element=>{element.scrollTop=120;element.dispatchEvent(new Event('scroll'))})
+      await page.waitForFunction(()=>document.querySelector('#interaction-affix')?.dataset.affixed==='true')
+      assert.equal(await content.evaluate(node=>getComputedStyle(node).position),'fixed')
+      const geometry=await page.evaluate(()=>{const target=document.querySelector('#interaction-affix-target').getBoundingClientRect(),root=document.querySelector('#interaction-affix').getBoundingClientRect(),content=document.querySelector('#interaction-affix .ui-affix-content').getBoundingClientRect();return {targetTop:target.top,rootLeft:root.left,contentTop:content.top,contentLeft:content.left,contentWidth:content.width,rootWidth:root.width}})
+      assert.ok(Math.abs(geometry.contentTop-(geometry.targetTop+10))<=1)
+      assert.ok(Math.abs(geometry.contentLeft-geometry.rootLeft)<=1)
+      assert.ok(Math.abs(geometry.contentWidth-geometry.rootWidth)<=1)
+      await page.locator('#affix-content-action').click()
+      await expectText(page,'affix-output','action')
+      await page.locator('#disable-affix').click()
+      await page.waitForFunction(()=>document.querySelector('#interaction-affix')?.dataset.affixed==='false')
+      assert.notEqual(await content.evaluate(node=>getComputedStyle(node).position),'fixed')
+      await page.locator('#disable-affix').click()
+      await target.evaluate(element=>element.dispatchEvent(new Event('scroll')))
+      await page.waitForFunction(()=>document.querySelector('#interaction-affix')?.dataset.affixed==='true')
+      await target.evaluate(element=>{element.scrollTop=0;element.dispatchEvent(new Event('scroll'))})
+      await page.waitForFunction(()=>document.querySelector('#interaction-affix')?.dataset.affixed==='false')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -697,7 +724,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),72)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),73)
     },
   },
 ]

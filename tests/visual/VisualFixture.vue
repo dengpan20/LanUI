@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
+  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiTour, UiUpload, UiVirtualList, UiWatermark,
@@ -16,6 +16,8 @@ const commandOpen=ref(false)
 const commandQuery=ref('')
 const tourOpen=ref(props.state==='tour')
 const tourCurrent=ref(0)
+const visualAffixTarget=ref(null)
+const visualAffixActive=ref(false)
 const tourSteps=[
   {target:'#visual-tour-upload',title:'Add release assets',description:'Attach the approved package and verification record.',placement:'top-start'},
   {target:'#visual-tour-save',title:'Save the release',description:'Persist the release draft before requesting approval.',placement:'top'},
@@ -168,8 +170,17 @@ const tableRows=[
     <UiTour v-if="state==='tour'" v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps" aria-label="Release onboarding tour" />
     <UiCard v-if="state==='watermark'" title="Protected release document" title-tag="h2" class="visual-table-card visual-watermark-showcase">
       <UiWatermark :content="['Lan UI','INTERNAL']" :gap="[76,64]" :font="{fontSize:14,color:'rgba(37,99,235,.18)',fontWeight:650}" aria-label="Internal release watermark">
-        <article class="visual-watermark-document"><div><strong>Release 1.38.0 evidence</strong><span>Package integrity, browser coverage and rollback verification</span></div><UiTag color="green">Verified</UiTag><dl><div><dt>Components</dt><dd>72</dd></div><div><dt>Runtime</dt><dd>Node 20 / 22 / 24</dd></div><div><dt>Browsers</dt><dd>Chromium / Firefox / WebKit</dd></div></dl></article>
+        <article class="visual-watermark-document"><div><strong>Release 1.39.0 evidence</strong><span>Package integrity, browser coverage and rollback verification</span></div><UiTag color="green">Verified</UiTag><dl><div><dt>Components</dt><dd>73</dd></div><div><dt>Runtime</dt><dd>Node 20 / 22 / 24</dd></div><div><dt>Browsers</dt><dd>Chromium / Firefox / WebKit</dd></div></dl></article>
       </UiWatermark>
+    </UiCard>
+    <UiCard v-if="state==='affix'" title="Container-aware sticky actions" title-tag="h2" class="visual-table-card visual-affix-showcase">
+      <div ref="visualAffixTarget" class="visual-affix-target" tabindex="0" aria-label="Affix visual scroll container">
+        <div class="visual-affix-intro">Scroll container boundary</div>
+        <UiAffix :target="visualAffixTarget" :offset="12" @change="visualAffixActive=$event">
+          <div class="visual-affix-bar"><strong>Release approval</strong><span>Width and boundary synchronized</span><UiTag :color="visualAffixActive?'green':'gray'">{{ visualAffixActive?'Pinned':'In flow' }}</UiTag><UiButton size="sm">Approve</UiButton></div>
+        </UiAffix>
+        <div class="visual-affix-records"><span v-for="index in 5" :key="index">Verification record {{ index }}</span></div>
+      </div>
     </UiCard>
     <UiConfigProvider v-if="state==='theme'" id="visual-scoped-dark" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD'}" class="visual-table-card">
       <UiCard title="Scoped dark tenant theme" title-tag="h2">

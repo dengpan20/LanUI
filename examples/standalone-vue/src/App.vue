@@ -2,6 +2,7 @@
 import { computed, reactive, ref } from 'vue'
 import {
   UiAlert,
+  UiAffix,
   UiAnchor,
   UiAutoComplete,
   UiButton,
@@ -53,6 +54,8 @@ const appearance = ref('system')
 const motion = ref('system')
 const standaloneTourOpen=ref(false)
 const standaloneTourCurrent=ref(0)
+const standaloneAffixTarget=ref(null)
+const standaloneAffixed=ref(false)
 const standaloneTourSteps=[
   {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
   {target:'#standalone-schema',title:'Configure the workspace',description:'The schema keeps fields, validation and repeatable reviewers synchronized.',placement:'top'},
@@ -137,6 +140,15 @@ const rows = computed(() => [
       <UiWatermark :content="['Lan UI','CONSUMER']" :gap="[76,64]" :font="{fontSize:14,color:'rgba(124,58,237,.16)',fontWeight:650}" aria-label="Consumer release watermark">
         <div style="min-height:150px;padding:22px;display:grid;align-content:start;gap:7px;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-subtle)"><strong>Standalone package verification</strong><span style="color:var(--text-secondary);font-size:12px">Root and subpath imports · CSS · types · SSR · rollback</span></div>
       </UiWatermark>
+    </UiCard>
+    <UiCard title="Container-aware sticky actions">
+      <div ref="standaloneAffixTarget" class="standalone-affix-target" tabindex="0" aria-label="Scroll the release approval example">
+        <div class="standalone-affix-intro">Scroll this container to pin the approval bar.</div>
+        <UiAffix :target="standaloneAffixTarget" :offset="10" @change="standaloneAffixed=$event">
+          <div class="standalone-affix-bar"><strong>Release approval</strong><UiTag :color="standaloneAffixed?'green':'gray'">{{ standaloneAffixed?'Pinned':'In flow' }}</UiTag><UiButton size="sm">Approve</UiButton></div>
+        </UiAffix>
+        <div class="standalone-affix-records"><span v-for="index in 6" :key="index">Verification record {{ index }}</span></div>
+      </div>
     </UiCard>
 
     <UiCard id="standalone-overview" title="业务指标">

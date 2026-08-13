@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
   UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -66,6 +66,9 @@ const tourSteps=[
 const watermarkRotate=ref(-22)
 const watermarkOutput=ref('protected')
 function removeWatermarkLayer(){document.querySelector('#interaction-watermark [data-ui-watermark-layer]')?.remove()}
+const affixTarget=ref(null)
+const affixDisabled=ref(false)
+const affixOutput=ref('natural')
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -437,6 +440,17 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-watermark-document"><strong>Protected release record</strong><UiButton id="watermark-content-action" size="sm" @click="watermarkOutput='action'">Open record</UiButton></div>
         </UiWatermark>
         <output class="interaction-output" data-testid="watermark-output">{{ watermarkOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-affix">
+        <h2>Affix container geometry and lifecycle</h2>
+        <div class="interaction-row"><UiButton id="disable-affix" variant="secondary" @click="affixDisabled=!affixDisabled">{{ affixDisabled?'Enable affix':'Disable affix' }}</UiButton><output class="interaction-output" data-testid="affix-output">{{ affixOutput }}</output></div>
+        <div id="interaction-affix-target" ref="affixTarget" class="interaction-affix-target" tabindex="0" aria-label="Affix interaction scroll container">
+          <div class="interaction-affix-intro">Scroll to activate the approval bar</div>
+          <UiAffix id="interaction-affix" :target="affixTarget" :offset="10" :disabled="affixDisabled" @change="(value,meta)=>affixOutput=`affixed:${value}:top:${meta.top}`" @scroll="meta=>affixOutput=`scroll:${meta.affixed}:${meta.scrollTop}`">
+            <div class="interaction-affix-bar"><strong>Release approval</strong><span>Container boundary</span><UiButton id="affix-content-action" size="sm" @click="affixOutput='action'">Approve</UiButton></div>
+          </UiAffix>
+          <div class="interaction-affix-records"><span v-for="index in 7" :key="index">Verification record {{ index }}</span></div>
+        </div>
       </section>
       <section class="interaction-case interaction-wide">
         <h2>Anchor scroll and keyboard contract</h2>

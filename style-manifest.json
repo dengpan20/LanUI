@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.38.0",
+  "version": "1.39.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 136669,
-    "rules": 1087,
+    "bytes": 136935,
+    "rules": 1091,
     "source": "component-union"
   },
   "core": {
@@ -13,6 +13,12 @@
     "bytes": 5840
   },
   "components": [
+    {
+      "name": "UiAffix",
+      "subpath": "./styles/UiAffix.css",
+      "bytes": 303,
+      "rules": 4
+    },
     {
       "name": "UiAlert",
       "subpath": "./styles/UiAlert.css",

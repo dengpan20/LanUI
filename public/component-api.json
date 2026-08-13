@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.38.0",
+  "version": "1.39.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -31,8 +31,8 @@
     {
       "id": "navigation",
       "label": "导航",
-      "description": "锚点、层级、菜单、分页、步骤、页签和快捷检索。",
-      "count": 8
+      "description": "吸顶操作、锚点、层级、菜单、分页、步骤、页签和快捷检索。",
+      "count": 9
     },
     {
       "id": "feedback",
@@ -135,6 +135,133 @@
         }
       ],
       "slotsType": "UiAlertSlots",
+      "slots": [
+        {
+          "name": "default",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiAffix",
+      "category": "navigation",
+      "categoryLabel": "导航",
+      "subpath": "./components/UiAffix",
+      "imports": {
+        "root": "import { UiAffix } from 'lan-ui-design-system'",
+        "subpath": "import UiAffix from 'lan-ui-design-system/components/UiAffix'"
+      },
+      "propsType": "UiAffixProps",
+      "props": [
+        {
+          "name": "boundary",
+          "required": false,
+          "type": "UiAffixBoundary",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "observe",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "offset",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "position",
+          "required": false,
+          "type": "UiAffixPosition",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"top\""
+          }
+        },
+        {
+          "name": "target",
+          "required": false,
+          "type": "UiAffixTarget",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "100"
+          }
+        }
+      ],
+      "emitsType": "UiAffixEmits",
+      "emits": [
+        {
+          "name": "change",
+          "required": true,
+          "type": "(affixed:boolean,meta:UiAffixMeta)=>void"
+        },
+        {
+          "name": "error",
+          "required": true,
+          "type": "(meta:UiAffixError)=>void"
+        },
+        {
+          "name": "scroll",
+          "required": true,
+          "type": "(meta:UiAffixMeta)=>void"
+        }
+      ],
+      "slotsType": "UiAffixSlots",
       "slots": [
         {
           "name": "default",

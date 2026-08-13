@@ -23,6 +23,7 @@ import UiImage from '../src/components/UiImage.vue'
 import UiStatusPage from '../src/components/UiStatusPage.vue'
 import UiVirtualList from '../src/components/UiVirtualList.vue'
 import UiWatermark from '../src/components/UiWatermark.vue'
+import UiAffix from '../src/components/UiAffix.vue'
 import { openOverlay, overlayCount } from '../src/components/overlayManager.js'
 import { createLanUi } from '../src/plugin.js'
 import { useToast } from '../src/feedback.js'
@@ -49,6 +50,7 @@ async function renderFixture() {
         h(UiVirtualList, { items:Array.from({length:6},(_,index)=>({id:`ssr-${index}`,label:`SSR row ${index+1}`})), modelValue:'ssr-1', selectionMode:'single', height:120, itemSize:40, ariaLabel:'SSR virtual records' }),
         h(UiStatusPage, { status:'403', embedded:true }),
         h(UiWatermark, { content:['Lan UI','SSR'], ariaLabel:'SSR protected document' }, { default:() => h('article', 'SSR watermark content') }),
+        h(UiAffix, { position:'top', offset:12 }, { default:() => h('button', 'SSR sticky action') }),
         h(UiPopover, { modelValue:true, title:'Details' }, { trigger:() => h('button', 'Open'), default:() => 'Popover content' }),
         h(UiModal, { modelValue:true, title:'Review' }, { default:() => 'Modal content' }),
         h(UiDrawer, { modelValue:true, title:'Filters' }, { default:() => 'Drawer content' }),
@@ -102,6 +104,8 @@ describe('server rendering', () => {
     expect(result.html).toContain('aria-setsize="6"')
     expect(result.html).toContain('SSR protected document')
     expect(result.html).toContain('SSR watermark content')
+    expect(result.html).toContain('data-ui-affix="top"')
+    expect(result.html).toContain('SSR sticky action')
     expect(result.html).toContain('SSR row 2')
     expect(result.html).toContain('data-status="403"')
     expect(result.html).toContain('Access denied')

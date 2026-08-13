@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {
+  UiAffix,
   UiButton,
   UiCalendar,
   UiAutoComplete,
@@ -49,6 +50,7 @@ const tourOpen=ref(false)
 const tourCurrent=ref(0)
 const tourSteps:UiTourStep[]=[{target:'#typed-tour-target',title:'Typed target',description:'Typed tour step.'}]
 const watermarkFont:UiWatermarkFont={color:'rgba(37,99,235,.16)',fontSize:14,fontWeight:650,textAlign:'center',lineHeight:20}
+const affixTarget=ref<HTMLElement|null>(null)
 const virtualSelection = ref<Key>('typed-1')
 const virtualItems = Array.from({length:100},(_,index)=>({id:`typed-${index}`,label:`Typed row ${index+1}`}))
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
@@ -149,6 +151,7 @@ function sort(payload:UiTableSortChange) {
   </UiUpload>
   <UiButton id="typed-tour-target" @click="tourOpen=true">Open typed tour</UiButton>
   <UiTour v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps"><template #actions="{finish}"><UiButton @click="finish">Done</UiButton></template></UiTour>
+  <div ref="affixTarget"><UiAffix :target="()=>affixTarget" position="top" :offset="8" :z-index="120" @change="(value,meta)=>[value,meta.scrollTop]"><UiButton>Typed sticky action</UiButton></UiAffix></div>
   <UiWatermark :content="['Lan UI','TYPED']" :gap="[80,64]" :font="watermarkFont" image-cross-origin="anonymous" aria-label="Typed watermark" @remove="payload=>payload.reason"><article>Typed protected document</article></UiWatermark>
   <UiStatusPage status="403" embedded @home="open=false"><template #extra>Typed status page</template></UiStatusPage>
 </template>

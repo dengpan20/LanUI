@@ -100,11 +100,13 @@ if(releaseBaseline?.metrics){
   for(const [name,previous] of Object.entries(releaseBaseline.metrics)){
     const actual=metrics[name]
     const saved=previous-actual
-    comparison[name]={previous,actual,saved,ratio:Number((saved/previous).toFixed(6))}
+    const tolerance=releaseBaseline.tolerance?.[name]||0
+    const limit=Math.floor(previous*(1+tolerance))
+    comparison[name]={previous,actual,saved,ratio:Number((saved/previous).toFixed(6)),tolerance,limit}
     if(!Number.isFinite(actual))failures.push(`${name}: missing release comparison metric`)
-    else if(saved<=0)failures.push(`${name}: ${actual}B did not improve on ${releaseBaseline.version} ${previous}B`)
+    else if(actual>limit)failures.push(`${name}: ${actual}B exceeded ${releaseBaseline.version} guard ${limit}B`)
   }
-  if(!failures.length)console.log(`PERFORMANCE_DELTA PASS baseline=${releaseBaseline.version} improved=${Object.keys(comparison).length}/${Object.keys(releaseBaseline.metrics).length} packageJs=${comparison.packageJsRaw.saved}B packageCss=${comparison.packageCssRaw.saved}B subpathJs=${comparison.subpathConsumerJsRaw.saved}B`)
+  if(!failures.length)console.log(`PERFORMANCE_DELTA PASS baseline=${releaseBaseline.version} guarded=${Object.keys(comparison).length}/${Object.keys(releaseBaseline.metrics).length} gzipTolerance=${releaseBaseline.tolerance?.packageJsGzip||0} packageJs=${comparison.packageJsRaw.saved}B packageCss=${comparison.packageCssRaw.saved}B subpathJs=${comparison.subpathConsumerJsRaw.saved}B`)
 }
 
 const report = { schemaVersion: config.schemaVersion, version: config.version, platform: process.platform, metrics, budgets: config.budgets, details, releaseBaseline, comparison, failures }

@@ -1,4 +1,5 @@
 export { default as UiAlert } from './components/UiAlert.vue'
+export { default as UiAffix } from './components/UiAffix.vue'
 export { default as UiAnchor } from './components/UiAnchor.vue'
 export { default as UiAutoComplete } from './components/UiAutoComplete.vue'
 export { default as UiAvatar } from './components/UiAvatar.vue'

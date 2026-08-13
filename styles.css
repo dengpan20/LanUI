@@ -1757,3 +1757,19 @@ svg { display: block; }
 .preview-watermark-controls{margin-block-end:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.preview-watermark-controls [role="status"]{color:var(--text-secondary);font-size:12px}
 .preview-watermark-document{min-height:190px;padding:24px;display:grid;align-content:start;gap:8px;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--bg-elevated),var(--bg-subtle))}.preview-watermark-document strong{color:var(--text-primary);font-size:16px}.preview-watermark-document span{color:var(--text-secondary);font-size:12px}.preview-watermark-document code{width:max-content;margin-top:32px}
 }
+
+@layer lan-ui {
+/* Maturity P43: viewport and container-aware affix positioning. */
+.ui-affix{position:relative;min-width:0}
+.ui-affix-content{min-width:0}
+.ui-affix[data-affixed="true"]>.ui-affix-content{box-sizing:border-box;will-change:top}
+@media print{.ui-affix{height:auto!important}.ui-affix-content{position:static!important;width:auto!important}}
+.affix-showcase-card{min-width:0;display:grid;gap:12px}
+.affix-showcase-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.affix-demo-scroll{position:relative;height:260px;padding-inline:16px;overflow:auto;border:1px solid var(--border-default);border-radius:var(--radius-lg);background:var(--bg-subtle);scrollbar-gutter:stable}
+.affix-demo-scroll:focus-visible{outline:3px solid var(--focus-ring);outline-offset:2px}
+.affix-demo-spacer{height:92px;display:grid;place-items:center;color:var(--text-secondary);font-size:12px}
+.affix-demo-actions{min-height:56px;padding:10px 12px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;border:1px solid var(--brand-200);border-radius:var(--radius-md);background:var(--bg-elevated);box-shadow:var(--shadow-sm)}
+.affix-demo-actions span{color:var(--text-secondary);font-size:12px;line-height:1.5}.affix-demo-content{padding-block:16px 120px;display:grid;gap:10px}.affix-demo-content p{min-height:54px;margin:0;padding:14px;border:1px solid var(--border-default);border-radius:var(--radius-md);background:var(--bg-elevated);color:var(--text-secondary)}
+@media(max-width:640px){.affix-demo-actions{grid-template-columns:1fr}.affix-demo-actions .btn{width:100%}}
+}

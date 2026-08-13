@@ -43,6 +43,7 @@ import UiBadge from '../components/UiBadge.vue'
 import UiSkeleton from '../components/UiSkeleton.vue'
 import UiEmpty from '../components/UiEmpty.vue'
 import UiAlert from '../components/UiAlert.vue'
+import UiAffix from '../components/UiAffix.vue'
 import UiAnchor from '../components/UiAnchor.vue'
 import UiDropdown from '../components/UiDropdown.vue'
 import UiProgress from '../components/UiProgress.vue'
@@ -84,6 +85,7 @@ const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览')
 const configPortalOpen=ref(false)
 const statusPageDemo=ref('403')
 const tourOpen=ref(false);const tourCurrent=ref(0)
+const affixContainerRef=ref(null);const affixPosition=ref('top');const affixActive=ref(false)
 const tourSteps=[
   {target:'#component-tour-search',title:'搜索组件',description:'可以从组件名称或交互关键词开始定位。',placement:'bottom-start'},
   {target:'#component-tour-preview',title:'预览真实状态',description:'用例覆盖默认、键盘、加载、空状态与错误状态。',placement:'bottom'},
@@ -193,9 +195,9 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:72},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:73},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'当前成熟度',value:'Watermark P42'},{key:'version',label:'当前版本',value:'1.38.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'72 组件、726 Props、253 Events、121 Slots、自动 API 文档、主题与动效、SSR、RTL、ARIA、三浏览器、Node 20/22/24、性能预算、真实 tarball 安装与可审计发布'}]
+const descriptionItems=[{key:'name',label:'当前成熟度',value:'Affix P43'},{key:'version',label:'当前版本',value:'1.39.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'73 组件、733 Props、256 Events、122 Slots、自动 API 文档、主题与动效、SSR、RTL、ARIA、三浏览器、Node 20/22/24、性能预算、真实 tarball 安装与可审计发布'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -498,9 +500,21 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div class="watermark-showcase-card" style="grid-column:1/-1">
                 <span class="demo-label">UiWatermark · 文本 / 图片水印与防篡改恢复</span>
                 <UiWatermark :content="['Lan UI','内部审阅']" :gap="[72,64]" :font="{fontSize:14,color:'rgba(37,99,235,.16)',fontWeight:650}" aria-label="内部审阅文档水印">
-                  <div class="watermark-demo-document"><div><strong>组件发布检查单</strong><span>Release 1.38.0 · 视觉、键盘、类型、SSR 与产物验证</span></div><UiTag color="green">Ready</UiTag></div>
+                  <div class="watermark-demo-document"><div><strong>组件发布检查单</strong><span>Release 1.39.0 · 视觉、键盘、类型、SSR 与产物验证</span></div><UiTag color="green">Ready</UiTag></div>
                 </UiWatermark>
                 <div class="preview-note"><strong>运行时契约：</strong>图片加载失败自动回退文字；高 DPI Canvas 保持清晰；MutationObserver 在图层被删除或修改后恢复，且不阻断下层点击。</div>
+              </div>
+              <div class="affix-showcase-card" style="grid-column:1/-1">
+                <div class="form-demo-title"><strong>UiAffix · 滚动吸附操作区</strong><span>Window / 容器 · Top / Bottom · Boundary</span></div>
+                <div class="affix-showcase-toolbar"><UiSegmented v-model="affixPosition" :options="[{label:'顶部吸附',value:'top'},{label:'底部吸附',value:'bottom'}]"/><UiTag :color="affixActive?'green':'gray'">{{ affixActive?'已吸附':'自然位置' }}</UiTag></div>
+                <div ref="affixContainerRef" class="affix-demo-scroll" tabindex="0" aria-label="滚动查看吸附效果">
+                  <div class="affix-demo-spacer"><span>向下滚动此容器</span></div>
+                  <UiAffix :target="affixContainerRef" :position="affixPosition" :offset="12" @change="affixActive=$event">
+                    <div class="affix-demo-actions"><strong>发布审批操作</strong><span>宽度随占位区同步，并限制在滚动容器边界内。</span><UiButton size="sm">提交审批</UiButton></div>
+                  </UiAffix>
+                  <div class="affix-demo-content"><p v-for="index in 5" :key="index">审计记录 {{ index }} · Props、Events、SSR 与浏览器回归均已登记。</p></div>
+                </div>
+                <div class="preview-note"><strong>定位契约：</strong>监听窗口或指定滚动容器，ResizeObserver 同步宽高；目标解析失败会回退到 Window 并发出 error，打印时恢复普通文档流。</div>
               </div>
               <div class="tree-showcase-card" style="grid-column:1/-1">
                 <div class="form-demo-title"><strong>Tree · 企业资源导航</strong><span>选择 / 复选级联 / 筛选 / 懒加载 / RTL / 虚拟化</span></div>
@@ -620,7 +634,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
           </div>
         </section>
 
-        <section id="states" class="card doc-section"><header class="doc-section-header"><h2>交互状态矩阵</h2><p>每个组件在交付前都需覆盖以下状态和键盘行为。</p></header><div class="demo-block" style="overflow:auto"><table class="state-matrix"><thead><tr><th>组件</th><th>Default</th><th>Hover</th><th>Pressed</th><th>Focus</th><th>Disabled</th><th>Loading / Error</th></tr></thead><tbody><tr><td>Button</td><td>基础视觉</td><td>加深 + 上移</td><td>复位</td><td>3px Ring</td><td>48% 透明</td><td>Spinner</td></tr><tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr><tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr><tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr><tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr><tr><td>Rate</td><td>integer / fractional</td><td>live preview</td><td>select / clear</td><td>ARIA slider + Ring</td><td>readonly / disabled</td><td>form error</td></tr><tr><td>Calendar</td><td>single / multiple / range</td><td>range preview</td><td>select / clear / today</td><td>ARIA grid + roving tabindex</td><td>readonly / disabled date</td><td>min / max / empty</td></tr><tr><td>Image</td><td>lazy / eager</td><td>preview affordance</td><td>zoom / rotate / pan</td><td>Dialog focus trap</td><td>Preview disabled</td><td>fallback / retry</td></tr><tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr><tr><td>Tree</td><td>Hierarchy</td><td>Active node</td><td>Select / Check</td><td>Active descendant + Ring</td><td>Node / Tree disabled</td><td>Lazy / Retry / Empty</td></tr><tr><td>Navigation</td><td>次级文字</td><td>弱白背景</td><td>加深</td><td>可见 Ring</td><td>不可点击</td><td>展开/收起</td></tr><tr><td>Table row</td><td>白色表面</td><td>品牌浅背景</td><td>—</td><td>选择框焦点</td><td>—</td><td>Skeleton / Empty</td></tr></tbody></table><div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；图片预览支持方向键、加减号、R、0 与 Esc；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div></div></section>
+        <section id="states" class="card doc-section"><header class="doc-section-header"><h2>交互状态矩阵</h2><p>每个组件在交付前都需覆盖以下状态和键盘行为。</p></header><div class="demo-block" style="overflow:auto"><table class="state-matrix"><thead><tr><th>组件</th><th>Default</th><th>Hover</th><th>Pressed</th><th>Focus</th><th>Disabled</th><th>Loading / Error</th></tr></thead><tbody><tr><td>Button</td><td>基础视觉</td><td>加深 + 上移</td><td>复位</td><td>3px Ring</td><td>48% 透明</td><td>Spinner</td></tr><tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr><tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr><tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr><tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr><tr><td>Rate</td><td>integer / fractional</td><td>live preview</td><td>select / clear</td><td>ARIA slider + Ring</td><td>readonly / disabled</td><td>form error</td></tr><tr><td>Calendar</td><td>single / multiple / range</td><td>range preview</td><td>select / clear / today</td><td>ARIA grid + roving tabindex</td><td>readonly / disabled date</td><td>min / max / empty</td></tr><tr><td>Image</td><td>lazy / eager</td><td>preview affordance</td><td>zoom / rotate / pan</td><td>Dialog focus trap</td><td>Preview disabled</td><td>fallback / retry</td></tr><tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr><tr><td>Affix</td><td>页面流内</td><td>保留子操作</td><td>固定至边缘</td><td>内容焦点可见</td><td>立即回归文档流</td><td>目标回退 / 边界停止</td></tr><tr><td>Tree</td><td>Hierarchy</td><td>Active node</td><td>Select / Check</td><td>Active descendant + Ring</td><td>Node / Tree disabled</td><td>Lazy / Retry / Empty</td></tr><tr><td>Navigation</td><td>次级文字</td><td>弱白背景</td><td>加深</td><td>可见 Ring</td><td>不可点击</td><td>展开/收起</td></tr><tr><td>Table row</td><td>白色表面</td><td>品牌浅背景</td><td>—</td><td>选择框焦点</td><td>—</td><td>Skeleton / Empty</td></tr></tbody></table><div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；图片预览支持方向键、加减号、R、0 与 Esc；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div></div></section>
       </main>
     </div>
   </div>

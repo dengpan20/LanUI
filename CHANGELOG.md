@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.39.0] - 2026-08-13
+
+### Added
+
+- `UiAffix`, a typed top/bottom sticky-action component for the window or a custom scroll container, with explicit offsets, z-index, boundary constraints and reactive geometry updates.
+- Public `update` and `updateRoot` methods, typed change/scroll/error diagnostics, invalid-target fallback, ResizeObserver integration and deterministic SSR output.
+- Affix examples across the component center, standalone consumer and static preview, plus focused unit, SSR, visual, Axe, type and Chromium/Firefox/WebKit interaction regression.
+
+### Changed
+
+- Release gates advance to 73 public components, 242 locale keys, 16 visual baselines, 34 Axe scenarios, 38 interactions per browser and 28 negative type assertions.
+- The application shell, login surface, component-menu badge, interaction matrix, API documentation, packed consumer and version metadata now expose the same 1.39.0 / 73-component release state.
+- The isolated package consumer now verifies root and stable subpath Affix imports, component CSS, TypeScript declarations, SSR output and the browser bundle.
+- The frozen 1.28 performance comparison retains strict improvement for 13 metrics and applies a 0.25% aggregate gzip tolerance only to additive package JavaScript; the absolute 172KB gzip ceiling remains mandatory.
+
 ## [1.38.0] - 2026-08-13
 
 ### Added

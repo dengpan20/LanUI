@@ -879,3 +879,17 @@ P41 advances to 71 public components, 242 locale keys and 13 theme-scoped Telepo
 - Root/subpath runtime exports, declarations, component CSS, generated API records, component center, static preview, standalone consumer and packed installation remain in parity.
 
 P42 advances to 72 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. Release gates require 15 visual baselines, 33 zero-violation Axe scenarios, 37 interactions per Chromium/Firefox/WebKit engine, 27 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+## 56. Maturity P43: viewport and container-aware affix
+
+- `UiAffix` accepts top/bottom position, numeric offset and z-index, optional window/Element/selector/factory scroll targets, an optional boundary, a disabled state and observation control.
+- The root placeholder retains the measured content height while fixed. The fixed layer preserves the source column's left edge and width, so enabling Affix does not reflow adjacent content.
+- A custom scroll target becomes the implicit boundary. Top mode stops before the boundary bottom; bottom mode stops after the boundary top. An explicit boundary may decouple scrolling from containment.
+- Invalid targets and boundaries emit typed diagnostics. An invalid scroll target degrades to the window; an invalid boundary is ignored. Resolution failures remain observable through typed diagnostics.
+- Scroll events publish scroll position and geometry; change events occur only when fixed state changes. `ResizeObserver`, captured nested-scroll listeners and window resize keep geometry synchronized.
+- `disabled` restores normal flow, print media removes fixed positioning, unmount removes every listener and observer, and SSR resolves no selectors or browser globals.
+- The exposed `update` and `updateRoot` methods support layout systems that mutate content or replace scroll roots outside observable DOM geometry.
+- Root and stable subpath exports, Props/Events/Slots declarations, component CSS, generated API documentation, component center, static preview, standalone consumer and installed tarball stay in parity.
+- Performance keeps 13 historical comparison metrics strictly below the 1.28 baseline. Only aggregate package-JS gzip receives a 0.25% additive tolerance, and it must also remain within the absolute 172KB release budget.
+
+P43 advances to 73 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. Release gates require 16 visual baselines, 34 zero-violation Axe scenarios, 38 interactions per Chromium/Firefox/WebKit engine, 28 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
