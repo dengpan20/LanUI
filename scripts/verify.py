@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 required = [
     "COMPONENT-API.md", "public/component-api.json", "src/generated/component-api.json", "src/pages/ApiReferencePage.vue", "scripts/api-docs.mjs", "tests/api-docs-p37.spec.js", "tests/visual/baselines/win32/api-reference.png", "scripts/build_p37_artifacts.py",
     "src/components/UiAnchor.vue", "tests/anchor-p38.spec.js", "tests/visual/baselines/win32/anchor-navigation.png", "scripts/build_p38_artifacts.py",
+    "LICENSE", "scripts/packed-consumer-regression.mjs", "scripts/build_p39_artifacts.py",
     "index.html", "component-preview.html", "interaction-regression.html", "styles.css", "tokens.css", "font-preview.css",
     "UI-SPEC.md", "README.md", "CHANGELOG.md", "MIGRATION.md", "api-manifest.json", "style-manifest.json", "visual-regression.html", "package.json", "pnpm-workspace.yaml", "vite.config.js", "src/main.js", "src/App.vue",
     "src/pages/LoginPage.vue", "src/pages/LogoutPage.vue", "src/pages/NotFoundPage.vue", "src/pages/ForbiddenPage.vue", "src/pages/ServerErrorPage.vue",
@@ -45,6 +46,7 @@ for rel in required:
         failures.append(f"missing-or-empty:{rel}")
 
 package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
+performance_budgets = json.loads((ROOT / "performance-budgets.json").read_text(encoding="utf-8"))
 if not str(package.get("peerDependencies", {}).get("vue", "")).strip():
     failures.append("package:vue-peer-dependency")
 if not str(package.get("devDependencies", {}).get("vue", "")).strip():
@@ -71,7 +73,7 @@ for marker in ["minify-library-js.mjs", "split-component-css.mjs"]:
         failures.append(f"package:p33-build:{marker}")
 if "css-boundary-contracts.mjs" not in package.get("scripts", {}).get("test:package", ""):
     failures.append("package:p33-css-boundary-gate")
-if package.get("packageManager") != "pnpm@11.16.0" or package.get("license") != "UNLICENSED":
+if package.get("packageManager") != "pnpm@11.16.0" or package.get("license") != "MIT":
     failures.append("package:release-metadata")
 if not all(name in package.get("files", []) for name in ["api-manifest.json","COMPONENT-API.md","public/component-api.json","style-manifest.json","CHANGELOG.md","MIGRATION.md"]) or "api:check" not in package.get("scripts", {}).get("check", ""):
     failures.append("package:api-manifest-delivery")
@@ -629,7 +631,7 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.34.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.35.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -653,7 +655,7 @@ anchor_source = (ROOT / "src/components/UiAnchor.vue").read_text(encoding="utf-8
 for marker in ["scrollToItem", "updateFromScroll", "scroll-start", "scroll-end", "useReducedMotion", "direction-${props.direction}", "aria-current"]:
     if marker not in anchor_source:
         failures.append(f"p38:anchor-runtime:{marker}")
-if "UiAnchor" not in components_page or "Anchor Navigation P38" not in components_page or "1.34.0" not in components_page:
+if "UiAnchor" not in components_page:
     failures.append("p38:showcase-consumer")
 if preview.count('id="anchor" class="preview-section"') != 1 or "ui-anchor direction-horizontal" not in preview:
     failures.append("p38:static-preview")
@@ -661,8 +663,28 @@ if app.count("defineAsyncComponent") < 12:
     failures.append("p38:lazy-showcase-routes")
 if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p38:documentation")
-if package.get("version") != "1.34.0":
-    failures.append("p38:package-version")
+packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
+license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+distribution_budgets = performance_budgets.get("distributionBudgets", {})
+if package.get("version") != "1.35.0" or package.get("private") is not False or package.get("license") != "MIT":
+    failures.append("p39:publishable-metadata")
+if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
+    failures.append("p39:repository-provenance")
+if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens.css" not in package.get("sideEffects", []):
+    failures.append("p39:token-style-export")
+if not {"README.md", "LICENSE"}.issubset(set(package.get("files", []))) or "Permission is hereby granted" not in license_text:
+    failures.append("p39:license-packlist")
+for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===70", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
+    if marker not in packed_consumer:
+        failures.append(f"p39:packed-consumer:{marker}")
+if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
+    failures.append("p39:package-gate")
+if distribution_budgets != {"packedFiles": 340, "packedTarballRaw": 320000, "packedUnpackedRaw": 1800000}:
+    failures.append("p39:distribution-budgets")
+if "Packed Distribution P39" not in components_page or "1.35.0" not in components_page or "V1.35.0" not in preview:
+    failures.append("p39:showcase-version")
+if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p39:documentation")
 
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
@@ -729,7 +751,6 @@ for marker in ["registerFocusOriginTracking", "captureFocusOrigin", "focusWithRe
 if "lastPointerTimestamp" not in focus_source or "PointerEvent" not in p8_test:
     failures.append("interaction:p8-focus:pointer-origin-window")
 performance_script = (ROOT / "scripts/performance-regression.mjs").read_text(encoding="utf-8")
-performance_budgets = json.loads((ROOT / "performance-budgets.json").read_text(encoding="utf-8"))
 for marker in ["gzipSync", "packageJsRaw", "largestChunkRaw", "subpathConsumerJsRaw", "standaloneExampleJsRaw", "themeSubpathJsRaw", "motionSubpathJsRaw", "moduleClosure", "releaseBaseline", "PERFORMANCE_DELTA PASS", "PERFORMANCE_REGRESSION PASS"]:
     if marker not in performance_script:
         failures.append(f"performance:script:{marker}")
@@ -824,4 +845,5 @@ print("- maturity-p35=12-teleport-theme-bridges,live-provider-scope,no-provider-
 print("- maturity-p36=adaptive-motion-runtime,provider-teleport-scope,11-visual,29-axe,33-interactions-per-browser,18-performance-budgets")
 print("- maturity-p37=api-schema-3,generated-docs,6-categories,lazy-api-route,12-visual,30-axe,34-interactions-per-browser")
 print("- maturity-p38=ui-anchor,scroll-spy,rtl-keyboard,reduced-motion,lazy-showcase-routes,13-visual,31-axe,35-interactions-per-browser")
+print("- maturity-p39=mit-license,publish-metadata,packed-install,offline-consumer,ssr+types+vite,distribution-budgets")
 print("- interactions=modal,drawer,toast,notification,tooltip,popover,popconfirm,switch,tabs,select,upload,pagination,float-button,table-filter,theme,auth")

@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.35.0] - 2026-08-13
+
+### Added
+
+- MIT licensing plus repository, issue tracker, homepage and public provenance metadata for a redistributable package boundary.
+- A real packed-consumer regression that requires reproducible archives, rejects internal-file leakage, installs the release tarball offline outside the workspace, checks root and component subpaths, resolves public types, renders SSR and builds browser CSS/JavaScript.
+- Explicit distribution ceilings for packed file count, compressed bytes and unpacked bytes, plus a reproducible `pack:artifact` command.
+
+### Changed
+
+- `tokens.css` is now an explicit Package Export and declared CSS side effect, so package consumers can load only the canonical Token layer through a supported subpath.
+- Package gates now prove the artifact that consumers install rather than only inspecting the in-workspace `dist-lib` tree.
+
 ## [1.34.0] - 2026-08-13
 
 ### Added

@@ -833,3 +833,30 @@ pnpm run api:check    # reject declaration/runtime/category/documentation drift
 - All showcase pages now load through route-level async boundaries. The production app entry falls from roughly 548KB to 331KB raw while the 89KB component catalog and business pages load only when requested.
 - The standalone consumer no longer combines local component imports with a redundant full-plugin installation; it demonstrates the public icon subpath and preserves tree-shaking while package tests continue to validate full plugin installation.
 - P38 advances to 70 public components and 236 locale keys. Release gates require 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions and 18 performance ceilings.
+
+
+## Publishable package and external installation (P39)
+
+A release candidate can be materialized without relying on `workspace:*`:
+
+```bash
+pnpm run build:lib
+pnpm run pack:artifact
+pnpm add ./artifacts/lan-ui-design-system-1.35.0.tgz
+```
+
+Consumers can choose the complete stylesheet, the Token layer, or explicit component CSS through documented Package Exports:
+
+```ts
+import { UiAnchor } from 'lan-ui-design-system'
+import UiButton from 'lan-ui-design-system/components/UiButton'
+import 'lan-ui-design-system/tokens.css'
+import 'lan-ui-design-system/styles/core.css'
+import 'lan-ui-design-system/styles/UiAnchor.css'
+import 'lan-ui-design-system/styles/UiButton.css'
+```
+
+- The package carries MIT licensing, repository/issue/homepage links, public npm access and provenance metadata. Publishing remains a deliberate release action; CI never publishes.
+- `pnpm run test:packed-consumer` creates the archive twice and requires an identical SHA-256, then installs the `.tgz` into an isolated non-workspace consumer in offline mode and verifies runtime root/subpath imports, TypeScript declarations, SSR rendering and a Vite browser build.
+- The allow-list requires README, license, changelog, API documentation, manifests, Tokens, root builds and every component runtime/type/style entry. Source, tests, scripts, examples, CI files and dependency trees are rejected from the archive.
+- Distribution budgets cap the package at 340 files, 320,000 compressed bytes and 1,800,000 unpacked bytes. P39 keeps 70 public components, 236 locale keys, 13 visual baselines, 31 zero-violation Axe scenarios and 35 interactions per browser.

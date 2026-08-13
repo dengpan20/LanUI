@@ -826,3 +826,16 @@ P37 keeps 69 public components and 235 locale keys. Release gates require 12 vis
 - Focused tests cover nested semantics, element scrolling, scroll-spy, controlled deduplication, disabled focus skipping, RTL arrows, reduced motion and SSR. Visual, Axe and three-engine interaction fixtures exercise the real component.
 
 P38 advances to 70 public components and 236 locale keys. Release gates require 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions, schema/documentation drift checks and 18 performance ceilings.
+
+
+## 52. Maturity P39: publishable tarball and external consumer contract
+
+- The distributable boundary is the `.tgz` produced from `package.json.files` and Package Exports, not the repository or its existing `node_modules` tree.
+- Release metadata identifies the MIT license, source repository, issue tracker, homepage, public registry access and provenance intent. CI validates metadata and never performs publication.
+- `tokens.css`, the complete stylesheet, core stylesheet and every component stylesheet are explicit exports and CSS side effects. Consumers never need an internal `dist-lib` path.
+- Packed-file allow-list checks require root/component JavaScript, declarations, styles, Tokens, manifests, README, license, changelog and API documentation. Repository source, tests, scripts, examples, CI configuration, verification state and dependencies are forbidden.
+- Two lifecycle-disabled pack passes must produce byte-identical SHA-256 archives. The regression installs the actual tarball into an isolated non-workspace application with offline dependency resolution and validates root and subpath ESM imports, public TypeScript declarations, Vue SSR output and a Vite browser build containing both Token and component CSS.
+- Distribution budgets are independent of runtime bundle budgets: no more than 340 files, 320,000 compressed bytes or 1,800,000 unpacked bytes.
+- `prepack` retains all runtime, locale, type, documentation, package, example and performance gates. The nested tarball check disables lifecycle scripts only for its internal fixture to avoid recursively invoking `prepack`.
+
+P39 keeps 70 public components and 236 locale keys. Release gates add one installed-artifact consumer while retaining 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions and 18 runtime performance ceilings.

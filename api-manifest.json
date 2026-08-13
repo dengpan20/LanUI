@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.34.0",
+  "version": "1.35.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -740,7 +740,8 @@
     "./styles/*.css",
     "./styles/core.css",
     "./theme",
-    "./tokens"
+    "./tokens",
+    "./tokens.css"
   ],
   "packageExports": {
     ".": {
@@ -794,6 +795,7 @@
       "default": "./dist-lib/motion.js"
     },
     "./style.css": "./dist-lib/lan-ui.css",
+    "./tokens.css": "./tokens.css",
     "./styles/core.css": "./dist-lib/styles/core.css",
     "./styles/*.css": "./dist-lib/styles/*.css",
     "./tokens": "./design-tokens.json",

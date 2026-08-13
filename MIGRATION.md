@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.35 packed distribution boundary
+
+There are no component runtime breaking changes. Source/workspace consumers can move to the exact artifact used by release validation:
+
+```bash
+pnpm run pack:artifact
+pnpm add ./artifacts/lan-ui-design-system-1.35.0.tgz
+```
+
+- Replace internal `dist-lib/*` imports with root or documented component/utility/style Package Exports.
+- `lan-ui-design-system/tokens.css` is now a supported Token-only stylesheet export.
+- The package is MIT licensed and carries public registry/provenance metadata. Publication is still an explicit maintainer action.
+
 ## 1.33 generated API documentation
 
 There are no component runtime breaking changes in this release.
