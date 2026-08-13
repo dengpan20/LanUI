@@ -1,6 +1,7 @@
 export const enUS={
   name:'en-US',
   messages:{
+    'tour.label':'Feature tour','tour.close':'Close tour','tour.previous':'Previous','tour.next':'Next','tour.finish':'Finish','tour.step':'Step {current} of {total}',
     'common.confirm':'Confirm','common.cancel':'Cancel','common.clear':'Clear','common.loading':'Loading','common.later':'Later','common.reload':'Reload','common.all':'All',
     'command.label':'Command palette','command.title':'Quick commands','command.placeholder':'Search commands','command.empty':'No matching commands','command.loading':'Loading commands','command.error':'Commands failed to load','command.retry':'Reload commands','command.close':'Close command palette','command.hint':'Type to quickly find a command','command.results':'Command results','command.navigate':'Navigate','command.select':'Run',
     'color.panel':'Color picker','color.empty':'No color selected','color.plane':'Saturation and brightness','color.planeValue':'Saturation {saturation}%, brightness {brightness}%','color.hue':'Hue','color.alpha':'Opacity','color.input':'Color value','color.presets':'Preset colors','color.select':'Select','color.contrast':'Contrast','color.contrastFail':'Below AA','color.keyboardHint':'Arrow keys adjust; Shift speeds up','color.clear':'Clear color',

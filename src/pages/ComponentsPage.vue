@@ -68,6 +68,7 @@ import UiVirtualList from '../components/UiVirtualList.vue'
 import UiSegmented from '../components/UiSegmented.vue'
 import UiSpin from '../components/UiSpin.vue'
 import UiStatistic from '../components/UiStatistic.vue'
+import UiTour from '../components/UiTour.vue'
 import { createLocaleRegistry, createLocaleTools } from '../config.js'
 import { formatDateValue } from '../date.js'
 import { getContrastRatio } from '../color.js'
@@ -81,6 +82,12 @@ const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
 const configPortalOpen=ref(false)
 const statusPageDemo=ref('403')
+const tourOpen=ref(false);const tourCurrent=ref(0)
+const tourSteps=[
+  {target:'#component-tour-search',title:'搜索组件',description:'可以从组件名称或交互关键词开始定位。',placement:'bottom-start'},
+  {target:'#component-tour-preview',title:'预览真实状态',description:'用例覆盖默认、键盘、加载、空状态与错误状态。',placement:'bottom'},
+  {target:'#component-tour-api',title:'检查组件契约',description:'继续查看自动生成的 Props、Events 与 Slots 文档。',placement:'bottom-end'},
+]
 const customerName=ref('');const customerType=ref('');const searchableType=ref('');const passwordDemo=ref('LanUI2026');const notes=ref('');const toastPlacement=ref('top-center')
 const cityDemo=ref('');const strictCityDemo=ref('shanghai');const remoteProjectDemo=ref('')
 const cityOptions=[
@@ -187,7 +194,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'当前成熟度',value:'Runtime & Release P40'},{key:'version',label:'当前版本',value:'1.36.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'70 组件、698 Props、242 Events、116 Slots、自动 API 文档、主题与动效、SSR、RTL、ARIA、三浏览器、Node 20/22/24、性能预算、真实 tarball 安装与可审计发布'}]
+const descriptionItems=[{key:'name',label:'当前成熟度',value:'Product Tour P41'},{key:'version',label:'当前版本',value:'1.37.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'71 组件、714 Props、249 Events、120 Slots、自动 API 文档、主题与动效、SSR、RTL、ARIA、三浏览器、Node 20/22/24、性能预算、真实 tarball 安装与可审计发布'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -589,6 +596,10 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
             <div class="feedback-demo-row">
               <div class="feedback-demo-heading"><strong>Popover 与确认</strong><span>上下文内容 · 二次确认</span></div>
               <div class="feedback-demo-content"><UiPopover v-model="popoverDemoOpen" :width="260"><template #trigger><UiButton variant="outline">打开 Popover</UiButton></template><div><strong style="display:block;font-size:12px">客户快捷信息</strong><p style="margin:5px 0 10px;font-size:10px;color:var(--text-tertiary)">Popover 适合展示轻量信息或少量操作。</p><UiButton size="sm" @click="popoverDemoOpen=false">知道了</UiButton></div></UiPopover><UiPopconfirm title="确认删除这条记录？" message="删除后数据将进入回收站。" :before-confirm="asyncConfirm" danger @confirm="emit('notify','记录已移入回收站')" @error="emit('notify','删除操作失败','error')"><UiButton variant="danger-outline">删除记录</UiButton></UiPopconfirm></div>
+            </div>
+            <div class="feedback-demo-row">
+              <div class="feedback-demo-heading"><strong>产品引导</strong><span>UiTour · Guided onboarding</span></div>
+              <div class="feedback-demo-content"><div class="tour-demo-targets"><UiButton id="component-tour-search" variant="outline" icon="search">搜索</UiButton><UiButton id="component-tour-preview" variant="outline" icon="view">预览</UiButton><UiButton id="component-tour-api" variant="outline" icon="file">API</UiButton></div><UiButton @click="tourCurrent=0;tourOpen=true">开始引导</UiButton><span class="feedback-hint">目标高亮、视口碰撞处理、RTL 键位、焦点返回、可选遮罩和目标缺失诊断。</span><UiTour v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps" aria-label="组件中心使用引导"/></div>
             </div>
             <div class="feedback-demo-row">
               <div class="feedback-demo-heading"><strong>加载反馈</strong><span>Skeleton</span></div>

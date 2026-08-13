@@ -1,6 +1,7 @@
 export const zhCN={
   name:'zh-CN',
   messages:{
+    'tour.label':'\u529f\u80fd\u5f15\u5bfc','tour.close':'\u5173\u95ed\u5f15\u5bfc','tour.previous':'\u4e0a\u4e00\u6b65','tour.next':'\u4e0b\u4e00\u6b65','tour.finish':'\u5b8c\u6210','tour.step':'\u7b2c {current} \u6b65\uff0c\u5171 {total} \u6b65',
     'common.confirm':'确认','common.cancel':'取消','common.clear':'清除','common.loading':'加载中','common.later':'稍后处理','common.reload':'重新加载','common.all':'全部',
     'command.label':'命令面板','command.title':'快捷命令','command.placeholder':'搜索命令','command.empty':'没有匹配命令','command.loading':'正在加载命令','command.error':'命令加载失败','command.retry':'重新加载命令','command.close':'关闭命令面板','command.hint':'输入关键词快速查找命令','command.results':'命令结果','command.navigate':'导航','command.select':'执行',
     'color.panel':'颜色选择器','color.empty':'未选择颜色','color.plane':'饱和度与亮度','color.planeValue':'饱和度 {saturation}%，亮度 {brightness}%','color.hue':'色相','color.alpha':'透明度','color.input':'颜色值','color.presets':'预设颜色','color.select':'选择','color.contrast':'对比度','color.contrastFail':'未达到 AA','color.keyboardHint':'方向键调整，Shift 加速','color.clear':'清除颜色',

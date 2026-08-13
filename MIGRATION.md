@@ -1,5 +1,25 @@
 # Lan UI migration and compatibility policy
 
+## 1.37 product tour compatibility
+
+There are no breaking changes. Applications can add target-aware onboarding with the new public component:
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { UiTour } from 'lan-ui-design-system'
+const open = ref(false)
+const current = ref(0)
+const steps = [{ target:'#create', title:'Create', description:'Start a draft.' }]
+</script>
+<template><UiTour v-model="open" v-model:current="current" :steps="steps" /></template>
+```
+
+- A masked step is modal and locks document scrolling; `mask=false` leaves the page non-modal and scrollable.
+- Targets accept selectors, Elements, Vue public instances or factories. A missing target emits `target-missing` and centers the panel.
+- If an application previously called the internal overlay manager, its third argument is now an optional `{ lockScroll }` object; existing two-argument calls retain modal locking.
+- Component refs may use `UiTourInstance` for `next`, `previous`, `goTo`, `finish`, `close` and `update`.
+
 ## 1.36 runtime and release compatibility
 
 There are no component API or runtime breaking changes. Independent projects gain an explicit runtime and release boundary:

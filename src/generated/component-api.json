@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.36.0",
+  "version": "1.37.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -38,7 +38,7 @@
       "id": "feedback",
       "label": "反馈与浮层",
       "description": "提示、加载、空状态、结果和模态浮层。",
-      "count": 14
+      "count": 15
     }
   ],
   "components": [
@@ -10127,6 +10127,273 @@
           "name": "default",
           "required": false,
           "type": "(props:{describedby:string})=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiTour",
+      "category": "feedback",
+      "categoryLabel": "反馈与浮层",
+      "subpath": "./components/UiTour",
+      "imports": {
+        "root": "import { UiTour } from 'lan-ui-design-system'",
+        "subpath": "import UiTour from 'lan-ui-design-system/components/UiTour'"
+      },
+      "propsType": "UiTourProps",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "closeOnEsc",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnMask",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "current",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "mask",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "offset",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "12"
+          }
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "type": "UiTourPlacement",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom\""
+          }
+        },
+        {
+          "name": "scrollIntoView",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showArrow",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showClose",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "steps",
+          "required": false,
+          "type": "UiTourStep[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "targetClickable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "targetPadding",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "8"
+          }
+        },
+        {
+          "name": "width",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "320"
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        }
+      ],
+      "emitsType": "UiTourEmits",
+      "emits": [
+        {
+          "name": "change",
+          "required": true,
+          "type": "(current:number,previous:number,meta:UiTourChangeMeta)=>void"
+        },
+        {
+          "name": "close",
+          "required": true,
+          "type": "(meta:UiTourCloseMeta)=>void"
+        },
+        {
+          "name": "finish",
+          "required": true,
+          "type": "(meta:{current:number;step:UiTourStep})=>void"
+        },
+        {
+          "name": "open",
+          "required": true,
+          "type": "(meta:{current:number;step:UiTourStep})=>void"
+        },
+        {
+          "name": "target-missing",
+          "required": true,
+          "type": "(meta:{index:number;step:UiTourStep})=>void"
+        },
+        {
+          "name": "update:current",
+          "required": true,
+          "type": "(value:number)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:boolean)=>void"
+        }
+      ],
+      "slotsType": "UiTourSlots",
+      "slots": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{step:UiTourStep;current:number;total:number;previous:()=>void;next:()=>void;close:(source?:string)=>void;finish:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild"
+        },
+        {
+          "name": "indicator",
+          "required": false,
+          "type": "(scope:{current:number;total:number})=>VNodeChild"
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild"
         }
       ]
     },

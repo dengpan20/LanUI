@@ -28,6 +28,7 @@ const cases=[
   {name:'scoped-motion',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=motion',ready:'#visual-motion-reduced[data-ui-motion="reduced"]'},
   {name:'api-reference',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=api-docs',ready:'.api-reference-page',capture:'viewport'},
   {name:'anchor-navigation',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=anchor',ready:'.visual-anchor-showcase',selector:'.visual-anchor-showcase'},
+  {name:'product-tour',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=tour',ready:'.ui-tour-panel',capture:'viewport',prepare:async page=>{await page.locator('#visual-tour-showcase').scrollIntoViewIfNeeded();await page.waitForTimeout(150)}},
 ]
 
 const {server,origin}=await startFixtureServer(root)

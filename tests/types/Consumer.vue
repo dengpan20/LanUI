@@ -20,10 +20,11 @@ import {
   UiTable,
   UiTabs,
   UiTree,
+  UiTour,
   UiUpload,
   UiVirtualList,
 } from 'lan-ui-design-system'
-import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem, UiUploadFile, UiUploadInstance, UiUploadRequestContext } from 'lan-ui-design-system'
+import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -43,6 +44,9 @@ const serviceRating = ref(3.5)
 const releaseRange = ref(['2026-08-10','2026-08-16'])
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
+const tourOpen=ref(false)
+const tourCurrent=ref(0)
+const tourSteps:UiTourStep[]=[{target:'#typed-tour-target',title:'Typed target',description:'Typed tour step.'}]
 const virtualSelection = ref<Key>('typed-1')
 const virtualItems = Array.from({length:100},(_,index)=>({id:`typed-${index}`,label:`Typed row ${index+1}`}))
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
@@ -141,5 +145,7 @@ function sort(payload:UiTableSortChange) {
     <template #trigger="{open,busy,remaining}"><UiButton :loading="busy" @click="open">Select {{ remaining }}</UiButton></template>
     <template #file="{file,retry,abort,remove}"><span>{{ file.name }} / {{ file.status }}</span><UiButton @click="retry(file.id)">Retry</UiButton><UiButton @click="abort(file.id)">Cancel</UiButton><UiButton @click="remove(file.id)">Remove</UiButton></template>
   </UiUpload>
+  <UiButton id="typed-tour-target" @click="tourOpen=true">Open typed tour</UiButton>
+  <UiTour v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps"><template #actions="{finish}"><UiButton @click="finish">Done</UiButton></template></UiTour>
   <UiStatusPage status="403" embedded @home="open=false"><template #extra>Typed status page</template></UiStatusPage>
 </template>

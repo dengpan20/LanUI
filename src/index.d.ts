@@ -1,4 +1,4 @@
-import type { App, Component, ComponentOptionsMixin, ComputedRef, DefineComponent, EmitsOptions, EmitsToProps, InjectionKey, PublicProps, Ref, SlotsType, VNodeChild } from 'vue'
+import type { App, Component, ComponentOptionsMixin, ComponentPublicInstance, ComputedRef, DefineComponent, EmitsOptions, EmitsToProps, InjectionKey, PublicProps, Ref, SlotsType, VNodeChild } from 'vue'
 
 export type Key = string | number
 export type ComponentSize = 'sm' | 'md' | 'lg'
@@ -224,6 +224,12 @@ export interface UiTimelineProps { items?:UiTimelineItem[] }
 export interface UiToastItem extends UiNotice { id:Key; placement?:ToastPlacement; out?:boolean; duration?:number }
 export interface UiToastHostProps { items?:UiToastItem[]; feedback?:LanUiFeedback }
 export interface UiTooltipProps { content?:string; placement?:Placement; disabled?:boolean; offset?:number }
+export type UiTourPlacement = 'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'left'|'left-start'|'left-end'|'right'|'right-start'|'right-end'
+export interface UiTourStep { target?:string|Element|ComponentPublicInstance|null|(()=>Element|ComponentPublicInstance|null); title?:string; description?:string; placement?:UiTourPlacement; mask?:boolean; maskColor?:string; prevText?:string; nextText?:string; finishText?:string; [key:string]:unknown }
+export interface UiTourCloseMeta { source:'api'|'finish'|'mask'|'escape'|'close'|string; current:number; step:UiTourStep }
+export interface UiTourChangeMeta { source:'previous'|'next'|'keyboard'|'api'|string; step:UiTourStep }
+export interface UiTourProps { modelValue?:boolean; current?:number; steps?:UiTourStep[]; placement?:UiTourPlacement; mask?:boolean; showArrow?:boolean; showClose?:boolean; closeOnEsc?:boolean; closeOnMask?:boolean; scrollIntoView?:boolean; targetClickable?:boolean; targetPadding?:number; offset?:number; width?:string|number; zIndex?:number; ariaLabel?:string }
+export interface UiTourInstance { next:()=>void; previous:()=>void; close:(source?:string)=>void; finish:()=>void; goTo:(index:number)=>boolean; update:()=>void }
 export interface UiTransferProps { modelValue?:Key[]; options?:SelectOptionInput[]; titles?:[string,string]; searchable?:boolean }
 export interface UiTreeLoadContext { signal?:AbortSignal }
 export interface UiTreeProps { data?:UiTreeDataNode[]; modelValue?:Key|Key[]; expandedKeys?:Key[]; checkedKeys?:Key[]; defaultValue?:Key|Key[]; defaultExpandedKeys?:Key[]; defaultCheckedKeys?:Key[]; multiple?:boolean; selectable?:boolean; checkable?:boolean; checkStrictly?:boolean; defaultExpandAll?:boolean; accordion?:boolean; disabled?:boolean; invalid?:boolean; filter?:string; filterMethod?:(query:string,node:UiTreeDataNode)=>boolean; loadData?:(node:UiTreeDataNode,context:UiTreeLoadContext)=>UiTreeDataNode[]|Promise<UiTreeDataNode[]>; showIcon?:boolean; showLine?:boolean; bordered?:boolean; expandOnClickNode?:boolean; checkOnClickNode?:boolean; virtual?:boolean; height?:number|string; itemHeight?:number; overscan?:number; indent?:number; nodeKey?:string; labelKey?:string; childrenKey?:string; emptyText?:string; size?:ComponentSize }
@@ -347,6 +353,7 @@ export type UiTextareaEmits = { 'update:modelValue':(value:string)=>void; input:
 export type UiTimelineEmits = {}
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
 export type UiTooltipEmits = {}
+export type UiTourEmits = { 'update:modelValue':(value:boolean)=>void; 'update:current':(value:number)=>void; open:(meta:{current:number;step:UiTourStep})=>void; close:(meta:UiTourCloseMeta)=>void; change:(current:number,previous:number,meta:UiTourChangeMeta)=>void; finish:(meta:{current:number;step:UiTourStep})=>void; 'target-missing':(meta:{index:number;step:UiTourStep})=>void }
 export type UiTransferEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void }
 export type UiTreeEmits = { 'update:modelValue':(value:Key|Key[])=>void; 'select-change':(value:Key|Key[],node:UiTreeDataNode,meta:UiTreeSelectMeta)=>void; 'node-click':(node:UiTreeDataNode,event:MouseEvent)=>void; 'update:expandedKeys':(value:Key[])=>void; 'expand-change':(value:Key[],node:UiTreeDataNode,meta:UiTreeExpandMeta)=>void; 'update:checkedKeys':(value:Key[])=>void; 'check-change':(value:Key[],meta:UiTreeCheckMeta)=>void; load:(payload:UiTreeLoadPayload)=>void; 'load-error':(payload:UiTreeLoadError)=>void; 'data-error':(payload:UiTreeDataError)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiTreeSelectEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key,node:UiTreeNode)=>void; 'open-change':(open:boolean)=>void }
@@ -424,6 +431,7 @@ export type UiTimelineSlots = {}
 export type UiTimePickerSlots = {}
 export type UiToastHostSlots = {}
 export type UiTooltipSlots = { default?:(props:{describedby:string})=>VNodeChild }
+export type UiTourSlots = { title?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; indicator?:(scope:{current:number;total:number})=>VNodeChild; description?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; actions?:(scope:{step:UiTourStep;current:number;total:number;previous:()=>void;next:()=>void;close:(source?:string)=>void;finish:()=>void})=>VNodeChild }
 export type UiTransferSlots = {}
 export type UiTreeSlots = { node?:(scope:{node:UiTreeDataNode;level:number;selected:boolean;checked:boolean;indeterminate:boolean;expanded:boolean;loading:boolean})=>VNodeChild; icon?:(scope:{node:UiTreeDataNode;expanded:boolean})=>VNodeChild; suffix?:(scope:{node:UiTreeDataNode})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiTreeSelectSlots = {}
@@ -456,7 +464,7 @@ export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; e
 export const UiStatusPage:LanComponent<UiStatusPageProps,UiStatusPageEmits,UiStatusPageSlots>
 export const UiVirtualList:LanComponent<UiVirtualListProps,UiVirtualListEmits,UiVirtualListSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
-export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>
+export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>; export const UiTour:LanComponent<UiTourProps,UiTourEmits,UiTourSlots>
 export const UiTimePicker:LanComponent<UiTimePickerProps,UiTimePickerEmits,UiTimePickerSlots>
 export const UiToastHost:LanComponent<UiToastHostProps,UiToastHostEmits,UiToastHostSlots>; export const UiTransfer:LanComponent<UiTransferProps,UiTransferEmits,UiTransferSlots>; export const UiTree:LanComponent<UiTreeProps,UiTreeEmits,UiTreeSlots>; export const UiTreeSelect:LanComponent<UiTreeSelectProps,UiTreeSelectEmits,UiTreeSelectSlots>; export const UiUpload:LanComponent<UiUploadProps,UiUploadEmits,UiUploadSlots>
 export const feedback:LanUiFeedback; export const lanUiFeedbackKey:symbol; export function createLanUiFeedback():LanUiFeedback; export function useFeedback():LanUiFeedback

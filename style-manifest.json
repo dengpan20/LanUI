@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.36.0",
+  "version": "1.37.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 133151,
-    "rules": 1061,
+    "bytes": 136543,
+    "rules": 1085,
     "source": "component-union"
   },
   "core": {
@@ -402,6 +402,12 @@
       "subpath": "./styles/UiTooltip.css",
       "bytes": 816,
       "rules": 6
+    },
+    {
+      "name": "UiTour",
+      "subpath": "./styles/UiTour.css",
+      "bytes": 5582,
+      "rules": 46
     },
     {
       "name": "UiTransfer",

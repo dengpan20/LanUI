@@ -29,6 +29,7 @@ import {
   UiTable,
   UiTag,
   UiToastHost,
+  UiTour,
   UiTree,
   UiUpload,
   toast,
@@ -49,6 +50,13 @@ const locale = ref('en-US')
 const direction = ref('ltr')
 const appearance = ref('system')
 const motion = ref('system')
+const standaloneTourOpen=ref(false)
+const standaloneTourCurrent=ref(0)
+const standaloneTourSteps=[
+  {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
+  {target:'#standalone-schema',title:'Configure the workspace',description:'The schema keeps fields, validation and repeatable reviewers synchronized.',placement:'top'},
+  {target:'#standalone-upload',title:'Attach release evidence',description:'Upload the manifest, package and verification records before publishing.',placement:'top-end'},
+]
 const standaloneTheme={'brand-600':'#7C3AED','brand-text':'#A78BFA'}
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
 const standaloneAnchor = ref('#standalone-overview')
@@ -105,7 +113,7 @@ const rows = computed(() => [
   <main class="standalone-shell">
     <header class="standalone-header">
       <div><UiIcon name="projectMark" :size="22" color="var(--brand-600)" aria-label="项目标识"/><span class="standalone-kicker">独立消费示例</span><h1>{{ projectModel.project.name }}</h1></div>
-      <UiTag color="blue">Vue 3 + Vite</UiTag>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><UiTag color="blue">Vue 3 + Vite</UiTag><UiButton id="standalone-tour-trigger" size="sm" variant="outline" @click="standaloneTourCurrent=0;standaloneTourOpen=true">Product tour</UiButton></div>
     </header>
 
     <UiAlert
@@ -209,6 +217,7 @@ const rows = computed(() => [
         </div>
       </UiConfigProvider>
     </UiCard>
+    <UiTour v-model="standaloneTourOpen" v-model:current="standaloneTourCurrent" :steps="standaloneTourSteps" aria-label="Standalone application tour" />
     <UiToastHost />
   </main>
 </template>

@@ -4,7 +4,7 @@ import {
   UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiUpload, UiVirtualList,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiStatusPage, UiTour, UiUpload, UiVirtualList,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -14,6 +14,13 @@ const anchorValue=ref('anchor-overview')
 const segment=ref('month')
 const commandOpen=ref(false)
 const commandQuery=ref('')
+const tourOpen=ref(props.state==='tour')
+const tourCurrent=ref(0)
+const tourSteps=[
+  {target:'#visual-tour-upload',title:'Add release assets',description:'Attach the approved package and verification record.',placement:'top-start'},
+  {target:'#visual-tour-save',title:'Save the release',description:'Persist the release draft before requesting approval.',placement:'top'},
+  {target:'#visual-tour-more',title:'Review more actions',description:'Open audit, rollback and publishing controls.',placement:'top-end'},
+]
 const brandColor=ref('#1677FFCC')
 const visualImage=`data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><defs><linearGradient id="g"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs><rect width="640" height="360" rx="24" fill="url(#g)"/><circle cx="520" cy="70" r="95" fill="white" opacity=".12"/><path d="M0 310 170 160l105 92 100-72 265 180H0Z" fill="white" opacity=".18"/><text x="34" y="58" fill="white" font-family="Arial" font-size="28" font-weight="700">Release media</text></svg>')}`
 const commandItems=[{key:'dashboard',label:'Open dashboard',group:'Navigate'},{key:'settings',label:'Open settings',description:'Manage workspace',group:'Navigate'},{key:'disabled',label:'Disabled command',group:'Actions',disabled:true}]
@@ -155,6 +162,10 @@ const tableRows=[
     <UiCard v-if="state==='upload-queue'" title="Production upload queue" title-tag="h2" class="visual-table-card visual-upload-queue">
       <UiUpload v-model="visualUploadFiles" multiple accept=".pdf,.zip,.json,.txt" :max-count="6" :concurrency="2" :auto-upload="false" :request="async()=>({ok:true})" aria-label="Release asset upload queue" />
     </UiCard>
+    <UiCard v-if="state==='tour'" id="visual-tour-showcase" title="Product onboarding tour" title-tag="h2" class="visual-table-card">
+      <div class="visual-stack"><UiAlert type="info" title="Target-aware onboarding" description="The active step stays visible, labelled and keyboard reachable."/><div class="visual-row"><UiButton id="visual-tour-upload" icon="upload">Add assets</UiButton><UiButton id="visual-tour-save" variant="secondary">Save draft</UiButton><UiButton id="visual-tour-more" variant="outline">More actions</UiButton></div></div>
+    </UiCard>
+    <UiTour v-if="state==='tour'" v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps" aria-label="Release onboarding tour" />
     <UiConfigProvider v-if="state==='theme'" id="visual-scoped-dark" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD'}" class="visual-table-card">
       <UiCard title="Scoped dark tenant theme" title-tag="h2">
         <div class="visual-stack"><UiAlert type="info" title="System-aware provider" description="Dark mode and tenant tokens are isolated to this subtree."/><div class="visual-row"><UiButton>Tenant action</UiButton><UiButton variant="secondary">Secondary</UiButton><UiTag color="blue">dark / scoped</UiTag></div></div>

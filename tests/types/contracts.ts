@@ -24,6 +24,7 @@ import {
   UiTabs,
   UiTimePicker,
   UiTree,
+  UiTour,
   UiUpload,
   UiVirtualList,
   dateValueToDate,
@@ -66,6 +67,7 @@ import SubpathColorPicker, { UiColorPicker as NamedSubpathColorPicker } from 'la
 import SubpathFormList, { UiFormList as NamedSubpathFormList } from 'lan-ui-design-system/components/UiFormList'
 import SubpathSchemaForm, { UiSchemaForm as NamedSubpathSchemaForm } from 'lan-ui-design-system/components/UiSchemaForm'
 import SubpathUpload, { UiUpload as NamedSubpathUpload } from 'lan-ui-design-system/components/UiUpload'
+import SubpathTour, { UiTour as NamedSubpathTour } from 'lan-ui-design-system/components/UiTour'
 import type {
   UiAnchorEmits,
   UiAnchorProps,
@@ -92,6 +94,7 @@ import type { UiColorPickerEmits, UiColorPickerProps, UiColorPickerSlots } from 
 import type { UiFormListEmits, UiFormListProps, UiFormListSlots } from 'lan-ui-design-system/components/UiFormList'
 import type { UiSchemaFormEmits, UiSchemaFormProps, UiSchemaFormSlots } from 'lan-ui-design-system/components/UiSchemaForm'
 import type { UiUploadEmits, UiUploadProps, UiUploadSlots } from 'lan-ui-design-system/components/UiUpload'
+import type { UiTourEmits, UiTourProps, UiTourSlots } from 'lan-ui-design-system/components/UiTour'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -120,6 +123,8 @@ import type {
   UiUploadProgressEvent,
   UiUploadRequestContext,
   UiUploadSuccessEvent,
+  UiTourInstance,
+  UiTourStep,
   RgbaColor,
   ColorFormat,
   ThemeAppearance,
@@ -225,6 +230,14 @@ const uploadInstance:UiUploadInstance={open:()=>{},select:async()=>[],upload:()=
 const uploadSubpathParity:typeof SubpathUpload=NamedSubpathUpload
 const uploadEvent:keyof UiUploadEmits='upload-error'
 const uploadSlot:keyof UiUploadSlots='file'
+const tourSteps:UiTourStep[]=[{target:'#release',title:'Release',description:'Review release evidence.',placement:'bottom-start',mask:true}]
+const tourProps:InstanceType<typeof UiTour>['$props']&UiTourProps={modelValue:true,current:0,steps:tourSteps,placement:'right',mask:true,showArrow:true,showClose:true,closeOnEsc:true,closeOnMask:false,scrollIntoView:true,targetClickable:false,targetPadding:8,offset:12,width:320,zIndex:400,ariaLabel:'Typed product tour'}
+const tourEmit:InstanceType<typeof UiTour>['$emit']=null as never
+tourEmit('change',0,1,{source:'previous',step:tourSteps[0]})
+const tourInstance:UiTourInstance={next:()=>{},previous:()=>{},close:()=>{},finish:()=>{},goTo:()=>true,update:()=>{}}
+const tourSubpathParity:typeof SubpathTour=NamedSubpathTour
+const tourEvent:keyof UiTourEmits='target-missing'
+const tourSlot:keyof UiTourSlots='actions'
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
@@ -382,5 +395,7 @@ const invalidThemeDefinition=defineTheme({name:'invalid',appearance:'system',tok
 const invalidMotionPreference:MotionPreference='instant'
 // @ts-expect-error Anchor direction is constrained to vertical or horizontal navigation.
 const invalidAnchorDirection:UiAnchorProps={direction:'diagonal'}
+// @ts-expect-error Tour placement is constrained to supported target sides and alignments.
+const invalidTourPlacement:UiTourProps={placement:'center-start'}
 
-console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency)
+console.log(dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot)

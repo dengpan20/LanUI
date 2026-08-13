@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import UiDrawer from '../src/components/UiDrawer.vue'
 import UiModal from '../src/components/UiModal.vue'
 import UiToastHost from '../src/components/UiToastHost.vue'
-import { overlayCount } from '../src/components/overlayManager.js'
+import { closeOverlay, openOverlay, overlayCount } from '../src/components/overlayManager.js'
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -14,6 +14,17 @@ afterEach(() => {
 })
 
 describe('client overlay lifecycle', () => {
+  it('tracks scroll locks independently from non-modal overlay entries',()=>{
+    document.body.style.overflow='auto'
+    openOverlay('non-modal',380,{lockScroll:false})
+    expect(document.body.style.overflow).toBe('auto')
+    openOverlay('modal',400)
+    expect(document.body.style.overflow).toBe('hidden')
+    closeOverlay('modal')
+    expect(document.body.style.overflow).toBe('auto')
+    closeOverlay('non-modal')
+    expect(overlayCount()).toBe(0)
+  })
   it('retains the body lock until the last overlay closes', async () => {
     const modal = mount(UiModal, { attachTo:document.body, props:{ modelValue:true, title:'Modal' } })
     const drawer = mount(UiDrawer, { attachTo:document.body, props:{ modelValue:true, title:'Drawer' } })

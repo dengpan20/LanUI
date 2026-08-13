@@ -14,6 +14,29 @@ const caseArgument=process.argv.find(argument=>argument.startsWith('--case='))?.
 
 const allCases = [
   {
+    name:'product-tour-rtl-keyboard',
+    query:'direction=rtl',
+    run:async page=>{
+      const trigger=page.locator('#open-product-tour')
+      await trigger.click()
+      const dialog=page.getByRole('dialog',{name:'Release product tour'})
+      await dialog.waitFor()
+      assert.equal(await dialog.getAttribute('aria-modal'),'true')
+      assert.match(await page.locator('#tour-target-create').getAttribute('aria-describedby'),/ui-tour-/)
+      await dialog.focus()
+      await page.keyboard.press('ArrowLeft')
+      await expectText(page,'tour-output','change:1:next')
+      assert.match(await dialog.innerText(),/Preview the release/)
+      await dialog.focus()
+      await page.keyboard.press('End')
+      await expectText(page,'tour-output','change:2:keyboard')
+      await dialog.getByRole('button',{name:'Finish'}).click()
+      await expectText(page,'tour-output','close:finish:2')
+      await dialog.waitFor({state:'hidden'})
+      await expectFocused(page,trigger)
+    },
+  },
+  {
     name: 'color-picker-keyboard',
     run: async page => {
       const trigger = page.getByRole('button', { name: 'Brand color' })
@@ -650,7 +673,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),70)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),71)
     },
   },
 ]

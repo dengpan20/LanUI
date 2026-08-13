@@ -64,7 +64,7 @@ const packedFiles=new Set((pack.files||[]).map(file=>file.path.replaceAll('\\','
 const required=[
   'package.json','README.md','LICENSE','CHANGELOG.md','COMPONENT-API.md','api-manifest.json',
   'design-tokens.json','tokens.css','dist-lib/lan-ui.js','dist-lib/lan-ui.d.ts',
-  'dist-lib/styles/core.css','dist-lib/styles/UiAnchor.css','dist-lib/components/UiAnchor.js','dist-lib/components/UiAnchor.d.ts',
+  'dist-lib/styles/core.css','dist-lib/styles/UiAnchor.css','dist-lib/styles/UiTour.css','dist-lib/components/UiAnchor.js','dist-lib/components/UiAnchor.d.ts','dist-lib/components/UiTour.js','dist-lib/components/UiTour.d.ts',
 ]
 for(const path of required)assert(packedFiles.has(path),`Packed file missing: ${path}`)
 for(const name of componentNames){
@@ -92,11 +92,11 @@ runPnpm(['install','--ignore-workspace','--lockfile-only','--ignore-scripts','--
 runPnpm(['fetch','--ignore-workspace','--prod'],{cwd:consumerRoot})
 runPnpm(['install','--ignore-workspace','--offline','--ignore-scripts','--frozen-lockfile'],{cwd:consumerRoot})
 
-writeFileSync(join(consumerRoot,'ssr.mjs'),`import { createSSRApp, h } from 'vue'\nimport { renderToString } from 'vue/server-renderer'\nimport { UiAnchor } from 'lan-ui-design-system'\nimport UiButton from 'lan-ui-design-system/components/UiButton'\nconst app=createSSRApp({render:()=>h('main',[h(UiAnchor,{items:[{title:'Overview',href:'#overview'}],affix:false}),h(UiButton,null,{default:()=> 'Packed action'})])})\nconst html=await renderToString(app)\nif(!html.includes('ui-anchor')||!html.includes('Packed action'))throw new Error('SSR output mismatch')\nconsole.log('PACKED_SSR PASS anchor=true button=true')\n`)
+  writeFileSync(join(consumerRoot,'ssr.mjs'),`import { createSSRApp, h } from 'vue'\nimport { renderToString } from 'vue/server-renderer'\nimport { UiAnchor } from 'lan-ui-design-system'\nimport UiButton from 'lan-ui-design-system/components/UiButton'\nimport UiTour from 'lan-ui-design-system/components/UiTour'\nconst app=createSSRApp({render:()=>h('main',[h(UiAnchor,{items:[{title:'Overview',href:'#overview'}],affix:false}),h(UiButton,null,{default:()=> 'Packed action'}),h(UiTour,{modelValue:true,ariaLabel:'Packed tour',steps:[{title:'Packed onboarding',description:'SSR tour'}]})])})\nconst context={}\nconst html=await renderToString(app,context)\nif(!html.includes('ui-anchor')||!html.includes('Packed action')||!context.teleports?.body?.includes('Packed onboarding'))throw new Error('SSR output mismatch')\nconsole.log('PACKED_SSR PASS anchor=true button=true tour=true')\n`)
 const ssrOutput=run(process.execPath,['ssr.mjs'],{cwd:consumerRoot})
 assert(ssrOutput.includes('PACKED_SSR PASS'),'Packed SSR smoke test failed')
 
-writeFileSync(join(consumerRoot,'contracts.ts'),`import { UiAnchor, type UiAnchorItem, type UiAnchorProps } from 'lan-ui-design-system'\nimport UiButton, { type UiButtonProps } from 'lan-ui-design-system/components/UiButton'\nconst items:UiAnchorItem[]=[{title:'Overview',href:'#overview'}]\nconst anchorProps:UiAnchorProps={items,direction:'horizontal',affix:false}\nconst buttonProps:UiButtonProps={variant:'primary',size:'md'}\nvoid [UiAnchor,UiButton,anchorProps,buttonProps]\n`)
+  writeFileSync(join(consumerRoot,'contracts.ts'),`import { UiAnchor, type UiAnchorItem, type UiAnchorProps, type UiTourStep } from 'lan-ui-design-system'\nimport UiButton, { type UiButtonProps } from 'lan-ui-design-system/components/UiButton'\nimport UiTour, { type UiTourProps } from 'lan-ui-design-system/components/UiTour'\nconst items:UiAnchorItem[]=[{title:'Overview',href:'#overview'}]\nconst anchorProps:UiAnchorProps={items,direction:'horizontal',affix:false}\nconst buttonProps:UiButtonProps={variant:'primary',size:'md'}\nconst tourSteps:UiTourStep[]=[{target:'#overview',title:'Overview'}]\nconst tourProps:UiTourProps={steps:tourSteps,placement:'bottom-start'}\nvoid [UiAnchor,UiButton,UiTour,anchorProps,buttonProps,tourProps]\n`)
 writeFileSync(join(consumerRoot,'tsconfig.json'),JSON.stringify({compilerOptions:{
   target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',lib:['ES2022','DOM'],strict:true,
   skipLibCheck:false,noEmit:true,types:[],
@@ -104,13 +104,15 @@ writeFileSync(join(consumerRoot,'tsconfig.json'),JSON.stringify({compilerOptions
 run(process.execPath,[resolve(root,'node_modules/typescript/bin/tsc'),'--project','tsconfig.json','--pretty','false'],{cwd:consumerRoot})
 
 writeFileSync(join(consumerRoot,'index.html'),'<div id="app"></div><script type="module" src="/main.js"></script>\n')
-writeFileSync(join(consumerRoot,'main.js'),`import { createApp, h } from 'vue'\nimport { UiAnchor } from 'lan-ui-design-system'\nimport UiButton from 'lan-ui-design-system/components/UiButton'\nimport 'lan-ui-design-system/tokens.css'\nimport 'lan-ui-design-system/styles/core.css'\nimport 'lan-ui-design-system/styles/UiAnchor.css'\nimport 'lan-ui-design-system/styles/UiButton.css'\ncreateApp({render:()=>h('main',[h(UiAnchor,{items:[{title:'Overview',href:'#overview'}],affix:false}),h(UiButton,null,{default:()=> 'Packed action'})])}).mount('#app')\n`)
+  writeFileSync(join(consumerRoot,'main.js'),`import { createApp, h } from 'vue'\nimport { UiAnchor } from 'lan-ui-design-system'\nimport UiButton from 'lan-ui-design-system/components/UiButton'\nimport UiTour from 'lan-ui-design-system/components/UiTour'\nimport 'lan-ui-design-system/tokens.css'\nimport 'lan-ui-design-system/styles/core.css'\nimport 'lan-ui-design-system/styles/UiAnchor.css'\nimport 'lan-ui-design-system/styles/UiButton.css'\nimport 'lan-ui-design-system/styles/UiTour.css'\ncreateApp({render:()=>h('main',[h(UiAnchor,{items:[{title:'Overview',href:'#overview'}],affix:false}),h(UiButton,{id:'overview'},()=> 'Packed action'),h(UiTour,{modelValue:false,steps:[{target:'#overview',title:'Packed tour'}]})])}).mount('#app')\n`)
 await build({root:consumerRoot,configFile:false,logLevel:'silent',build:{outDir:'dist',emptyOutDir:true,minify:'oxc'}})
 const builtFiles=collectFiles(join(consumerRoot,'dist'))
 const builtJs=builtFiles.filter(path=>path.endsWith('.js')).map(path=>readFileSync(path,'utf8')).join('\n')
 const builtCss=builtFiles.filter(path=>path.endsWith('.css')).map(path=>readFileSync(path,'utf8')).join('\n')
-assert(builtJs.includes('ui-anchor'),'Packed browser build omitted anchor runtime')
-assert(builtCss.includes('.ui-anchor'),'Packed browser build omitted anchor CSS')
+  assert(builtJs.includes('ui-anchor'),'Packed browser build omitted anchor runtime')
+  assert(builtJs.includes('ui-tour'),'Packed browser build omitted tour runtime')
+  assert(builtCss.includes('.ui-anchor'),'Packed browser build omitted anchor CSS')
+  assert(builtCss.includes('.ui-tour-panel'),'Packed browser build omitted tour CSS')
 assert(builtCss.includes('--brand-600'),'Packed browser build omitted token CSS')
 
 const unpackedBytes=collectFiles(join(extractedRoot,'package')).reduce((sum,path)=>sum+statSync(path).size,0)
@@ -118,7 +120,7 @@ const tarballBytes=statSync(tarball).size
 runPnpm(['--config.ignore-scripts=true','pack','--out',reproductionTarball,'--json'])
 const digest=sha256(tarball)
 assert(sha256(reproductionTarball)===digest,'Repeated package archives are not byte-for-byte reproducible')
-assert(componentNames.length===70,'Public component count mismatch')
+assert(componentNames.length===71,'Public component count mismatch')
 assert(packedFiles.size<=distributionBudgets.packedFiles,`Packed files ${packedFiles.size} exceed ${distributionBudgets.packedFiles}`)
 assert(tarballBytes<=distributionBudgets.packedTarballRaw,`Packed tarball ${tarballBytes}B exceeds ${distributionBudgets.packedTarballRaw}B`)
 assert(unpackedBytes<=distributionBudgets.packedUnpackedRaw,`Unpacked package ${unpackedBytes}B exceeds ${distributionBudgets.packedUnpackedRaw}B`)

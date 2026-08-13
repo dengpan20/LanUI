@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.37.0] - 2026-08-13
+
+### Added
+
+- `UiTour`, a typed product-onboarding component with controlled step state, target resolution, 12 placements, viewport flip/shift, target highlighting, per-step masks, missing-target diagnostics and public navigation methods.
+- Keyboard, focus-trap/restore, RTL, reduced-motion, SSR, forced-colors and non-modal scroll behavior, covered by focused unit, visual, Axe and Chromium/Firefox/WebKit interaction regression.
+- Product-tour examples in the component center, static HTML preview and standalone package consumer, plus generated Props/Events/Slots documentation and component-specific CSS.
+
+### Changed
+
+- Overlay scroll locking is now per-entry, so non-modal tours preserve document scrolling while nested modal overlays still own the lock.
+- Release gates advance to 71 public components, 242 locale keys, 14 visual baselines, 32 Axe scenarios, 36 interactions per browser and 26 negative type assertions. Performance ceilings add bounded headroom for the new runtime and styles while retaining the frozen 1.28 improvement comparison.
+
 ## [1.36.0] - 2026-08-13
 
 ### Added

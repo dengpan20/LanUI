@@ -851,3 +851,18 @@ P39 keeps 70 public components and 236 locale keys. Release gates add one instal
 - Registry publication is intentionally separate from GitHub artifact production. A release workflow cannot publish to npm by implication.
 
 P40 keeps 70 public components, 236 locale keys, 13 visual baselines, 31 zero-violation Axe scenarios, 35 interactions per Chromium/Firefox/WebKit engine, 25 negative type assertions and 18 runtime performance ceilings. It adds three Node compatibility jobs and a version-bound, checksummed, attested GitHub Release gate.
+
+
+## 54. Maturity P41: target-aware product onboarding
+
+- `UiTour` accepts controlled `modelValue` and `current`, an ordered step array and selector, Element, Vue public-instance or factory targets. Target lookup occurs only on the client and missing targets emit a typed diagnostic before using a centered fallback.
+- Twelve logical placements support start/end alignment. Positioning scores the preferred, opposite and perpendicular candidates, then shifts the chosen panel inside a 10px viewport boundary. Resize, nested scroll and ResizeObserver changes recompute geometry.
+- The spotlight is formed by four mask regions around the padded target. `targetClickable=false` adds a blocker inside the hole; step-level `mask` and `maskColor` override the component defaults.
+- Masked tours expose a modal dialog, lock document scrolling, trap focus and participate in the shared top-overlay Escape stack. Mask-free tours omit `aria-modal`, preserve document scrolling, leave Tab traversal untrapped and still retain z-order and keyboard ownership.
+- Opening captures the invocation origin. Step changes replace, rather than accumulate, the target's `aria-describedby`; close and unmount restore prior descriptions, scroll state, observers, listeners and invocation focus.
+- Escape closes. Home/End select boundaries, and directional keys navigate when the panel owns focus; horizontal keys mirror in RTL. Target scrolling consumes the nearest motion scope and becomes immediate under reduced motion.
+- Title, indicator, description and actions Slots receive the current step and navigation functions. The exposed instance offers `next`, `previous`, `goTo`, `finish`, `close` and `update`.
+- Runtime Props/Events/Slots, root and component-subpath declarations, locale strings, generated API records, component CSS and SSR output remain one release contract.
+- The component center, static HTML preview and standalone consumer each render a working onboarding example. Unit, visual, Axe and three-browser interaction fixtures verify geometry, focus, semantics, RTL, reduced motion, SSR and consumer delivery.
+
+P41 advances to 71 public components, 242 locale keys and 13 theme-scoped Teleport families. Release gates require 14 visual baselines, 32 zero-violation Axe scenarios, 36 interactions per Chromium/Firefox/WebKit engine, 26 negative type assertions, schema/documentation drift checks, an isolated tarball consumer and 18 performance ceilings.

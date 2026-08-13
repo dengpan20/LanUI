@@ -11,7 +11,7 @@ const categoryDefinitions=[
   {id:'forms',label:'数据录入',description:'输入、选择、日期时间、表单编排和文件上传。',components:['UiAutoComplete','UiCascader','UiCheckbox','UiColorPicker','UiDatePicker','UiDateRangePicker','UiForm','UiFormItem','UiFormList','UiSchemaForm','UiInput','UiMultiSelect','UiNumberInput','UiRadio','UiRate','UiSegmented','UiSelect','UiSlider','UiSwitch','UiTextarea','UiTimePicker','UiTransfer','UiTreeSelect','UiUpload']},
   {id:'data',label:'数据展示',description:'结构化内容、媒体、状态、列表、表格和虚拟数据。',components:['UiAvatar','UiBadge','UiCalendar','UiCard','UiCollapse','UiDataGrid','UiDescriptions','UiImage','UiListToolbar','UiStatistic','UiTable','UiTag','UiTimeline','UiTree','UiVirtualList']},
   {id:'navigation',label:'导航',description:'锚点、层级、菜单、分页、步骤、页签和快捷检索。',components:['UiAnchor','UiBreadcrumb','UiCommandPalette','UiDropdown','UiMenu','UiPagination','UiSteps','UiTabs']},
-  {id:'feedback',label:'反馈与浮层',description:'提示、加载、空状态、结果和模态浮层。',components:['UiAlert','UiDrawer','UiEmpty','UiModal','UiNotification','UiPopconfirm','UiPopover','UiProgress','UiResult','UiSkeleton','UiSpin','UiStatusPage','UiToastHost','UiTooltip']},
+  {id:'feedback',label:'反馈与浮层',description:'提示、加载、空状态、结果和模态浮层。',components:['UiAlert','UiDrawer','UiEmpty','UiModal','UiNotification','UiPopconfirm','UiPopover','UiProgress','UiResult','UiSkeleton','UiSpin','UiStatusPage','UiToastHost','UiTooltip','UiTour']},
 ]
 
 const assigned=new Map()

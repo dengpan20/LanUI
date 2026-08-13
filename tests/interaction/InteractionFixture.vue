@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiStatusPage, UiVirtualList,
+  UiDataGrid, UiStatusPage, UiTour, UiVirtualList,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -55,6 +55,14 @@ const treeLoadCount = ref(0)
 const commandResult = ref('idle')
 const commandOpen = ref(false)
 const commandQuery = ref('')
+const tourOpen=ref(false)
+const tourCurrent=ref(0)
+const tourOutput=ref('idle')
+const tourSteps=[
+  {target:'#tour-target-create',title:'Create a release',description:'Start from a versioned draft.',placement:'bottom-start'},
+  {target:'#tour-target-preview',title:'Preview the release',description:'Review the final component states.',placement:'bottom'},
+  {target:'#tour-target-publish',title:'Publish with evidence',description:'Attach verification and rollback records.',placement:'bottom-end'},
+]
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -412,6 +420,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Status page action contract</h2>
         <UiStatusPage status="403" embedded @back="statusAction='back'" @home="statusAction='home'" />
         <output class="interaction-output" data-testid="status-output">{{ statusAction }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-tour">
+        <h2>Product tour focus and direction contract</h2>
+        <div class="interaction-row"><UiButton id="tour-target-create">Create release</UiButton><UiButton id="tour-target-preview" variant="secondary">Preview release</UiButton><UiButton id="tour-target-publish" variant="outline">Publish release</UiButton><UiButton id="open-product-tour" @click="tourCurrent=0;tourOutput='opening';tourOpen=true">Open product tour</UiButton></div>
+        <UiTour v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps" aria-label="Release product tour" @open="tourOutput=`open:${$event.current}`" @change="(current,_previous,meta)=>tourOutput=`change:${current}:${meta.source}`" @close="tourOutput=`close:${$event.source}:${$event.current}`" />
+        <output class="interaction-output" data-testid="tour-output">{{ tourOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide">
         <h2>Anchor scroll and keyboard contract</h2>
