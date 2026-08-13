@@ -37,6 +37,15 @@ describe('compact table checkbox',()=>{
     const styles=fs.readFileSync('styles.css','utf8')
     expect(table).toContain('<UiCheckbox class="ui-table-checkbox" size="sm"')
     expect(styles).toContain('.ui-checkbox.size-sm input { width: 14px; height: 14px;')
+    expect(styles).toContain('.ui-table-select-column > input[type="checkbox"] { width: 14px; min-width: 14px; max-width: 14px; height: 14px; min-height: 14px; max-height: 14px;')
     expect(styles).not.toContain('.ui-table-select-column input { width:24px; height:24px;')
+  })
+
+  it('keeps the standalone table example on the same compact checkbox structure',()=>{
+    const preview=fs.readFileSync('component-preview.html','utf8')
+    expect(preview).toContain('ui-table-control-column ui-table-select-column')
+    expect(preview).toContain('checkbox ui-checkbox size-sm ui-table-checkbox')
+    expect(preview).not.toContain('<th class="ui-table-control-column"><input id="previewSelectAll"')
+    expect(preview).not.toContain('<td class="ui-table-control-column"><input class="preview-row-check"')
   })
 })

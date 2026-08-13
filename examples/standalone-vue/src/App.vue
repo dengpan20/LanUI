@@ -10,7 +10,6 @@ import {
   UiCommandPalette,
   UiConfigProvider,
   UiDateRangePicker,
-  UiDataGrid,
   UiDescriptions,
   UiForm,
   UiFormItem,
@@ -28,13 +27,9 @@ import {
   UiSteps,
   UiTable,
   UiTag,
-  UiTimePicker,
   UiToastHost,
   UiTree,
   UiUpload,
-  UiStatusPage,
-  UiVirtualList,
-  defineTheme,
   toast,
 } from 'lan-ui-design-system'
 
@@ -52,9 +47,9 @@ const created = ref(false)
 const locale = ref('en-US')
 const direction = ref('ltr')
 const appearance = ref('system')
-const standaloneTheme=defineTheme({name:'tenant',appearance:'dark',tokens:{'brand-600':'#7C3AED','brand-text':'#A78BFA'}})
+const motion = ref('system')
+const standaloneTheme={'brand-600':'#7C3AED','brand-text':'#A78BFA'}
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
-const reminderAt = ref(new Date('2026-08-12T01:30:00.000Z'))
 const monthlyQuota = ref(12500)
 const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
@@ -62,19 +57,7 @@ const serviceRating = ref(4.5)
 const releaseWindow = ref(['2026-08-10','2026-08-16'])
 const releaseFiles=ref([{id:'release-manifest',name:'release-manifest.json',size:2048,status:'success',percent:100}])
 function releaseUploadRequest({file,signal,onProgress}){return new Promise((resolve,reject)=>{let percent=0;const timer=setInterval(()=>{percent+=25;onProgress(percent);if(percent>=100){clearInterval(timer);resolve({path:`/releases/${file?.name}`})}},100);signal.addEventListener('abort',()=>{clearInterval(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})}
-const gridQuery = ref('')
-const gridPage = ref(1)
-const gridPageSize = ref(5)
-const gridSelected = ref([])
-const gridColumns = [
-  { key:'name', label:'Work item', sortable:true },
-  { key:'team', label:'Team', sortable:true },
-  { key:'status', label:'Status', filterable:true, filterOptions:['Ready','Review'] },
-]
-const gridRows = Array.from({length:24},(_,index)=>({id:index+1,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
-const virtualSelection = ref('consumer-2')
-const virtualItems = Array.from({length:500},(_,index)=>({id:`consumer-${index}`,label:`Record ${index+1}`,meta:index%4===0?'Measured detail row':'Ready'}))
-const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="505" cy="80" r="110" fill="white" opacity=".12"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="white" opacity=".18"/><text x="38" y="66" fill="white" font-family="Arial" font-size="28" font-weight="700">${label}</text></svg>`)}`
+const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><rect width="640" height="420" rx="28" fill="${from}"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="${to}" opacity=".55"/><text x="38" y="66" fill="white" font-size="28">${label}</text></svg>`)}`
 const releaseImages=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const officeCity = ref('hangzhou')
 const selectedResource = ref('dashboard')
@@ -190,19 +173,6 @@ const rows = computed(() => [
         <template #cell-status="{ value }"><UiTag :type="value === '待生成' ? 'orange' : 'green'">{{ value }}</UiTag></template>
       </UiTable>
     </UiCard>
-    <UiCard title="Managed data grid">
-      <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:selected-rows="gridSelected" :columns="gridColumns" :rows="gridRows" :page-size-options="[5,10,20]" selectable :query-fields="['name','team','status']" aria-label="Release grid">
-        <template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':'orange'">{{ value }}</UiTag></template>
-      </UiDataGrid>
-    </UiCard>
-    <UiCard title="Virtualized collection">
-      <UiVirtualList v-model="virtualSelection" :items="virtualItems" :item-size="item=>item.meta.startsWith('Measured')?58:44" :estimated-item-size="48" height="220" selection-mode="single" measure bordered striped aria-label="Records">
-        <template #item="{item,index,selected}"><div style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%"><span>{{ index+1 }} · {{ item.label }}<small style="display:block;color:var(--text-secondary)">{{ item.meta }}</small></span><UiTag :color="selected?'blue':'gray'">{{ selected?'Selected':'Ready' }}</UiTag></div></template>
-      </UiVirtualList>
-    </UiCard>
-    <UiCard title="Reusable status page">
-      <UiStatusPage status="404" embedded @home="toast.info('Home action')" @back="toast.info('Back action')"><template #extra>Rendered from the published component subpath.</template></UiStatusPage>
-    </UiCard>
     <UiCard title="资源权限树">
       <UiTree v-model="selectedResource" v-model:checked-keys="checkedResources" :data="resourceTree" :default-expanded-keys="['operations','settings']" checkable show-line bordered aria-label="独立项目资源权限" />
       <UiDescriptions style="margin-top:16px" bordered :columns="2" :items="[{label:'当前资源',value:selectedResource},{label:'已授权',value:checkedResources.join(', ')}]" />
@@ -211,13 +181,13 @@ const rows = computed(() => [
       <UiSegmented v-model="locale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]" />
       <UiSegmented v-model="direction" :options="[{label:'LTR',value:'ltr'},{label:'RTL',value:'rtl'}]" />
       <UiSegmented v-model="appearance" :options="[{label:'Light',value:'light'},{label:'Dark',value:'dark'},{label:'System',value:'system'}]" />
-      <UiConfigProvider :locale="locale" :direction="direction" :appearance="appearance" :theme="appearance==='dark'?standaloneTheme:{'brand-600':'#2563EB'}" size="sm" density="compact">
+      <UiSegmented v-model="motion" :options="[{label:'Full motion',value:'full'},{label:'Reduced',value:'reduced'},{label:'System motion',value:'system'}]" />
+      <UiConfigProvider :locale="locale" :direction="direction" :appearance="appearance" :motion="motion" :theme="appearance==='dark'?standaloneTheme:{'brand-600':'#2563EB'}" size="sm" density="compact">
         <div style="margin-top:16px;display:grid;gap:12px">
           <UiDateRangePicker v-model="deliveryRange" />
-          <UiTimePicker v-model="reminderAt" value-type="date" time-zone="Asia/Shanghai" precision="second" :step="1" aria-label="Reminder time" />
           <UiButton>{{ locale==='en-US'?'Create delivery':'创建交付计划' }}</UiButton>
           <UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981']" aria-label="Scoped tenant color" />
-          <UiTag color="purple">{{ appearance }} / scoped theme</UiTag>
+          <UiTag color="purple">{{ appearance }} / {{ motion }}</UiTag>
         </div>
       </UiConfigProvider>
     </UiCard>

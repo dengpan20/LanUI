@@ -1,5 +1,6 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
+import { useReducedMotion } from '../motion.js'
 import AppIcon from '../components/AppIcon.vue'
 import UiIcon from '../components/UiIcon.vue'
 import UiImage from '../components/UiImage.vue'
@@ -73,6 +74,7 @@ import { createIconRegistry } from '../icons.js'
 import { notification, toast } from '../feedback.js'
 import { darkTheme, defineTheme } from '../theme.js'
 const emit=defineEmits(['notify','open-modal','open-drawer','open-notification'])
+const reducedMotion=useReducedMotion()
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
 const configPortalOpen=ref(false)
@@ -148,7 +150,7 @@ const commandPaletteCommands=[
 function runPaletteCommand(command){commandPaletteSelection.value=command.label;emit('notify',`已执行：${command.label}`)}
 const iconDemoNames=['home','search','calendar','clock','bell','upload','download','filter','checkCircle','alert','info','settings']
 const iconDemoRegistry=createIconRegistry({tenantMark:'<path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z"/><path d="m7 9 5 3 5-3M12 12v6"/>'})
-const configLocale=ref('en-US');const configSize=ref('sm');const configDensity=ref('compact');const configAppearance=ref('system');const rangeDemo=ref(['2026-08-01','2026-08-11']);const rangeError=ref('')
+const configLocale=ref('en-US');const configSize=ref('sm');const configDensity=ref('compact');const configAppearance=ref('system');const configMotion=ref('system');const rangeDemo=ref(['2026-08-01','2026-08-11']);const rangeError=ref('')
 const tenantTheme=defineTheme({name:'tenant-violet',appearance:'dark',tokens:{'brand-600':'#7c3aed','brand-text':'#c4b5fd'}})
 const tenantLightTheme=defineTheme({name:'tenant-light',appearance:'light',tokens:{'brand-600':'#2563eb'}})
 const configTheme=computed(()=>configAppearance.value==='dark'?tenantTheme:configAppearance.value==='light'?tenantLightTheme:{name:'tenant-system',appearance:'light',tokens:{'brand-600':'#2563eb'}})
@@ -183,7 +185,7 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:50},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'当前成熟度',value:'Theme Portal P35'},{key:'version',label:'当前版本',value:'1.31.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'69 组件、12 个 Teleport 主题桥接、系统偏好、受控队列、双语配置、子路径、SSR、RTL、ARIA、三浏览器与性能预算'}]
+const descriptionItems=[{key:'name',label:'当前成熟度',value:'Motion Runtime P36'},{key:'version',label:'当前版本',value:'1.32.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'维护团队',value:'基础组件组'},{key:'updated',label:'最近更新',value:'2026-08-13'},{key:'coverage',label:'用例覆盖',value:'69 组件、12 个 Teleport 作用域桥接、主题与动效系统偏好、受控队列、双语配置、子路径、SSR、RTL、ARIA、三浏览器与性能预算'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -199,7 +201,7 @@ const tableColumns=[{key:'component',label:'组件',minWidth:'160px',sortable:tr
 const tableRows=[{id:'CMP-001',component:'Button',version:'1.2.0',status:'稳定',coverage:18,owner:'交互组件组',updated:'2026-08-11'},{id:'CMP-002',component:'Table',version:'1.0.0',status:'稳定',coverage:12,owner:'数据组件组',updated:'2026-08-11'},{id:'CMP-003',component:'DatePicker',version:'1.0.0',status:'测试中',coverage:8,owner:'表单组件组',updated:'2026-08-10'},{id:'CMP-004',component:'Upload',version:'1.28.0',status:'稳定',coverage:16,owner:'表单组件组',updated:'2026-08-13'}]
 const renderedTableColumns=computed(()=>tableColumns.map(column=>({...column,hidden:!tableVisibleColumns.value.includes(column.key)})))
 const renderedTableRows=computed(()=>{if(tableEmpty.value)return [];let rows=tableRows.filter(row=>Object.entries(tableFilters.value).every(([key,value])=>!value||row[key]===value));if(!tableSortKey.value||!tableSortOrder.value)return rows;return [...rows].sort((a,b)=>{const left=a[tableSortKey.value],right=b[tableSortKey.value];const value=typeof left==='number'?left-right:String(left).localeCompare(String(right));return value*(tableSortOrder.value==='asc'?1:-1)})})
-function scrollTo(id){current.value=id;document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+function scrollTo(id){current.value=id;document.getElementById(id)?.scrollIntoView({behavior:reducedMotion.value?'auto':'smooth',block:'start'})}
 function loadingDemo(){loading.value=true;setTimeout(()=>{loading.value=false;emit('notify','异步操作已完成')},1200)}
 function asyncConfirm(){return new Promise(resolve=>setTimeout(resolve,450))}
 function tableLoadingDemo(){tableError.value='';tableEmpty.value=false;tableLoading.value=true;setTimeout(()=>{tableLoading.value=false;emit('notify','列表数据加载完成')},900)}
@@ -509,15 +511,15 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         </section>
 
         <section id="configuration" class="card doc-section">
-          <header class="doc-section-header"><h2>全局配置、本地化与主题</h2><p>应用可通过 createLanUi 全局安装，也可使用 UiConfigProvider 在局部覆盖语言、尺寸、密度、层级、light / dark / system 外观和经过规范化的主题 Token。</p></header>
+          <header class="doc-section-header"><h2>全局配置、本地化、主题与动效</h2><p>应用可通过 createLanUi 全局安装，也可使用 UiConfigProvider 在局部覆盖语言、尺寸、密度、层级、light / dark / system 外观、full / reduced / system 动效偏好和主题 Token。</p></header>
           <div class="demo-block">
-            <div class="config-demo-toolbar"><UiSegmented v-model="configLocale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]"/><UiSegmented v-model="configSize" :options="['sm','md','lg']"/><UiSegmented v-model="configDensity" :options="[{label:'紧凑',value:'compact'},{label:'默认',value:'default'},{label:'宽松',value:'comfortable'}]"/><UiSegmented v-model="configAppearance" :options="[{label:'浅色',value:'light'},{label:'深色',value:'dark'},{label:'跟随系统',value:'system'}]"/></div>
-            <UiConfigProvider :locale="configLocale" :size="configSize" :density="configDensity" :appearance="configAppearance" :theme="configTheme">
+            <div class="config-demo-toolbar"><UiSegmented v-model="configLocale" :options="[{label:'中文',value:'zh-CN'},{label:'English',value:'en-US'}]"/><UiSegmented v-model="configSize" :options="['sm','md','lg']"/><UiSegmented v-model="configDensity" :options="[{label:'紧凑',value:'compact'},{label:'默认',value:'default'},{label:'宽松',value:'comfortable'}]"/><UiSegmented v-model="configAppearance" :options="[{label:'浅色',value:'light'},{label:'深色',value:'dark'},{label:'跟随系统',value:'system'}]"/><UiSegmented v-model="configMotion" :options="[{label:'完整动效',value:'full'},{label:'减少动效',value:'reduced'},{label:'跟随系统',value:'system'}]"/></div>
+            <UiConfigProvider :locale="configLocale" :size="configSize" :density="configDensity" :appearance="configAppearance" :motion="configMotion" :theme="configTheme">
               <div class="config-demo-surface">
-                <div class="config-demo-row"><UiButton>Primary action</UiButton><UiButton variant="outline">Secondary</UiButton><UiSelect :options="[{label:'Design review',value:'review'},{label:'Ready to ship',value:'ready'}]" clearable searchable/><UiPopover v-model="configPortalOpen" title="Tenant scoped overlay"><template #trigger><UiButton variant="secondary">打开主题浮层</UiButton></template><div class="preview-note"><strong>Teleport 主题桥接：</strong>面板移动到 body 后继续继承当前 Provider 的外观、Token、语言、尺寸、密度和方向。</div></UiPopover></div>
+                <div class="config-demo-row"><UiButton>Primary action</UiButton><UiButton variant="outline">Secondary</UiButton><UiSelect :options="[{label:'Design review',value:'review'},{label:'Ready to ship',value:'ready'}]" clearable searchable/><UiPopover v-model="configPortalOpen" title="Tenant scoped overlay"><template #trigger><UiButton variant="secondary">打开作用域浮层</UiButton></template><div class="preview-note"><strong>Teleport 作用域桥接：</strong>面板移动到 body 后继续继承当前 Provider 的外观、Token、语言、尺寸、密度、方向与动效偏好。</div></UiPopover></div>
                 <UiFormItem :label="configLocale==='en-US'?'Delivery window':'交付周期'" :error="rangeError" composite><UiDateRangePicker v-model="rangeDemo" @invalid="rangeError=$event.message" @change="$event.valid&&(rangeError='')"/></UiFormItem>
                 <UiPagination :page="2" :page-size="10" :total="86"/>
-                <div class="preview-note"><strong>主题边界：</strong>{{ themePresetSummary }}；Provider 输出请求与解析后的外观属性，Token 影响当前子树以及从该子树 Teleport 到 body 的悬浮层。</div>
+                <div class="preview-note"><strong>作用域边界：</strong>{{ themePresetSummary }}；当前动效为 <code>{{ configMotion }}</code>。Provider 输出请求与解析后的主题和动效属性，并同步到 Teleport 悬浮层。</div>
               </div>
             </UiConfigProvider>
             <div class="intl-runtime-demo">
@@ -530,13 +532,15 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div><strong>按需语言包注册表</strong><p>{{ registryStatus }}</p><code>{{ registryPreview }}</code></div>
               <div class="button-row"><UiTag :color="registryLocale==='en-US'?'gray':'green'">{{ registryLocale }}</UiTag><UiButton variant="outline" :loading="registryLoading" @click="loadFrenchLocale">{{ localeRegistryDemo.has('fr')?'重新使用 fr-FR':'按需加载 fr-FR' }}</UiButton></div>
             </div>
-            <pre class="code-block" style="margin-top:14px"><code>import LanUi, { UiConfigProvider, createLanUi, createThemeController, defineTheme, enUS } from 'lan-ui-design-system'
+            <pre class="code-block" style="margin-top:14px"><code>import LanUi, { UiConfigProvider, createLanUi, createThemeController, createMotionController, defineTheme, enUS } from 'lan-ui-design-system'
 app.use(LanUi)
-&lt;UiConfigProvider :locale="enUS" appearance="system" :theme="tenantTheme"&gt;...&lt;/UiConfigProvider&gt;
+&lt;UiConfigProvider :locale="enUS" appearance="system" motion="system" :theme="tenantTheme"&gt;...&lt;/UiConfigProvider&gt;
 
 const tenantTheme = defineTheme({ name:'tenant', appearance:'dark', tokens:{ 'brand-600':'#7c3aed' } })
 const appearance = createThemeController({ appearance:'system', storageKey:'app-theme' })
 appearance.mount(document.documentElement)
+const motion = createMotionController({ preference:'system', storageKey:'app-motion' })
+motion.mount(document.documentElement)
 
 const lanUi = createLanUi({ fallbackLocale: ['fr-FR', 'en-US'] })
 await lanUi.loadLocale('fr-FR', () =&gt; import('./locales/fr-FR'), { activate: true })

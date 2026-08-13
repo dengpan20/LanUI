@@ -134,8 +134,10 @@ const manifest={
   utilitySubpaths:{
     color:await moduleExports('dist-lib/color.js'),
     config:await moduleExports('dist-lib/config.js'),
+    date:await moduleExports('dist-lib/date.js'),
     feedback:await moduleExports('dist-lib/feedback.js'),
     icons:await moduleExports('dist-lib/icons.js'),
+    motion:await moduleExports('dist-lib/motion.js'),
     plugin:await moduleExports('dist-lib/plugin.js'),
     theme:await moduleExports('dist-lib/theme.js'),
   },

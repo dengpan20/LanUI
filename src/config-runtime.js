@@ -112,7 +112,8 @@ export const listLocales=()=>defaultLocaleRegistry.list()
 export const loadLocale=(name,loader,options={})=>defaultLocaleRegistry.load(name,loader,options)
 
 const themeAppearances=new Set(['light','dark','system'])
-const fallback={locale:zhCN,fallbackLocale:zhCN,fallbackLocales:[zhCN],localeRegistry:defaultLocaleRegistry,size:'md',density:'default',direction:'ltr',zIndex:300,appearance:'light',themeName:'default',theme:{}}
+const motionPreferences=new Set(['full','reduced','system'])
+const fallback={locale:zhCN,fallbackLocale:zhCN,fallbackLocales:[zhCN],localeRegistry:defaultLocaleRegistry,size:'md',density:'default',direction:'ltr',zIndex:300,appearance:'light',motion:'system',themeName:'default',theme:{}}
 
 export function defineLocale(locale){return mergeLocale(locale,zhCN,defaultLocaleRegistry)}
 function normalizeFallbackLocales(input,registry){
@@ -139,8 +140,10 @@ export function normalizeLanUiConfig(options={},parent=fallback,registryInput=nu
   const hasTheme=Boolean(themeDefinition)||(themeTokens&&typeof themeTokens==='object'&&Object.keys(themeTokens).length>0)
   const requestedAppearance=String(options.appearance||themeDefinition?.appearance||'').toLowerCase()
   const appearance=themeAppearances.has(requestedAppearance)?requestedAppearance:parent.appearance||'light'
+  const requestedMotion=String(options.motion||'').toLowerCase()
+  const motion=motionPreferences.has(requestedMotion)?requestedMotion:parent.motion||'system'
   const themeName=themeDefinition?.name?String(themeDefinition.name):hasTheme?'custom':parent.themeName||'default'
-  return {locale:mergeLocale(options.locale||parent.locale,parent.locale||zhCN,localeRegistry),fallbackLocale,fallbackLocales,localeRegistry,size:options.size||parent.size||'md',density:options.density||parent.density||'default',direction,zIndex:Number(options.zIndex||parent.zIndex||300),appearance,themeName,theme:{...(parent.theme||{}),...(themeTokens||{})}}
+  return {locale:mergeLocale(options.locale||parent.locale,parent.locale||zhCN,localeRegistry),fallbackLocale,fallbackLocales,localeRegistry,size:options.size||parent.size||'md',density:options.density||parent.density||'default',direction,zIndex:Number(options.zIndex||parent.zIndex||300),appearance,motion,themeName,theme:{...(parent.theme||{}),...(themeTokens||{})}}
 }
 
 function canonicalLocale(locale,fallbackLocales){

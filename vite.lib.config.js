@@ -22,6 +22,7 @@ const entries = {
   date: resolve(root, 'src/date.js'),
   icons: resolve(root, 'src/icons.js'),
   theme: resolve(root, 'src/theme.js'),
+  motion: resolve(root, 'src/motion.js'),
   ...componentEntries,
 }
 

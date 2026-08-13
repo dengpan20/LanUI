@@ -51,7 +51,8 @@ describe('P34 theme runtime',()=>{
     let listener=null
     let removed=null
     const media={matches:true,addEventListener:(_type,value)=>{listener=value},removeEventListener:(_type,value)=>{removed=value}}
-    Object.defineProperty(window,'matchMedia',{configurable:true,writable:true,value:()=>media})
+    const reducedMedia={matches:false,addEventListener:()=>{},removeEventListener:()=>{}}
+    Object.defineProperty(window,'matchMedia',{configurable:true,writable:true,value:query=>query.includes('color-scheme')?media:reducedMedia})
     const wrapper=mount(UiConfigProvider,{props:{appearance:'system'},slots:{default:()=>h('span','System')}})
     await nextTick()
     expect(wrapper.attributes('data-ui-appearance')).toBe('system')

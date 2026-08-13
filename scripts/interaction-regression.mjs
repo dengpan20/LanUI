@@ -588,6 +588,37 @@ const allCases = [
       assert.equal(await provider.getAttribute('data-theme'),'light')
     },
   },
+  {
+    name:'scoped-motion-system',
+    run:async page=>{
+      const provider=page.locator('#scoped-motion-provider')
+      assert.equal(await provider.getAttribute('data-ui-motion-preference'),'system')
+      assert.equal(await provider.getAttribute('data-ui-motion'),'reduced')
+      assert.equal((await provider.evaluate(node=>getComputedStyle(node).getPropertyValue('--motion-time'))).trim(),'.01ms')
+      await page.locator('#motion-portal-trigger').click()
+      const panel=page.getByRole('dialog',{name:'Scoped motion panel'})
+      await panel.waitFor()
+      assert.equal(await panel.getAttribute('data-ui-motion-preference'),'system')
+      assert.equal(await panel.getAttribute('data-ui-motion'),'reduced')
+      assert.equal((await panel.evaluate(node=>getComputedStyle(node).getPropertyValue('--motion-count'))).trim(),'1')
+      await page.locator('#motion-full').click()
+      assert.equal(await provider.getAttribute('data-ui-motion'),'full')
+      await panel.waitFor({state:'hidden'})
+      await page.locator('#motion-portal-trigger').click()
+      await panel.waitFor()
+      assert.equal(await panel.getAttribute('data-ui-motion'),'full')
+      assert.equal((await panel.evaluate(node=>getComputedStyle(node).getPropertyValue('--motion-time'))).trim(),'' )
+      await page.locator('#motion-system').click()
+      assert.equal(await provider.getAttribute('data-ui-motion'),'reduced')
+      await panel.waitFor({state:'hidden'})
+      await page.locator('#motion-portal-trigger').click()
+      await panel.waitFor()
+      await page.emulateMedia({reducedMotion:'no-preference'})
+      await page.waitForFunction(()=>document.querySelector('#scoped-motion-provider')?.getAttribute('data-ui-motion')==='full')
+      assert.equal(await panel.getAttribute('data-ui-motion'),'full')
+      await expectText(page,'motion-output','system')
+    },
+  },
 ]
 const requestedCases=caseArgument?[...new Set(caseArgument.split(',').map(value=>value.trim()).filter(Boolean))]:[]
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

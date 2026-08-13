@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, provide, ref } from 'vue'
 import AppIcon from './components/AppIcon.vue'
 import UiButton from './components/UiButton.vue'
 import UiInput from './components/UiInput.vue'
@@ -19,6 +19,7 @@ import UiBadge from './components/UiBadge.vue'
 import UiEmpty from './components/UiEmpty.vue'
 import { notification, toast } from './feedback.js'
 import { createThemeController } from './theme.js'
+import { createMotionController, lanUiMotionKey } from './motion.js'
 import LoginPage from './pages/LoginPage.vue'
 import LogoutPage from './pages/LogoutPage.vue'
 import NotFoundPage from './pages/NotFoundPage.vue'
@@ -57,6 +58,11 @@ const mobileExpanded = ref(false)
 const themeController=createThemeController({appearance:'system',storageKey:'lan-theme'})
 const theme = ref('light')
 let stopThemeSubscription=null
+const motionController=createMotionController({preference:'system',storageKey:'lan-motion'})
+const motion=ref('full')
+const motionPreference=ref('system')
+let stopMotionSubscription=null
+provide(lanUiMotionKey,computed(()=>({preference:motionPreference.value,resolvedPreference:motion.value})))
 const tabs = ref([{path:'/home',title:'综合看板',icon:'chart'}])
 const notificationsOpen = ref(false)
 const userMenuOpen = ref(false)
@@ -94,6 +100,7 @@ function login(){authenticated.value=true;localStorage.setItem('lan-auth','1');n
 function logout(){authenticated.value=false;localStorage.removeItem('lan-auth');tabs.value=[{path:'/home',title:'综合看板',icon:'chart'}];go('/login')}
 function toggleSidebar(){ if(innerWidth<=1024) mobileExpanded.value=!mobileExpanded.value; else {collapsed.value=!collapsed.value;localStorage.setItem('lan-sidebar',collapsed.value?'1':'0')} }
 function toggleTheme(){const state=themeController.toggle();theme.value=state.resolvedAppearance;notify(theme.value==='dark'?'已切换至深色模式':'已切换至浅色模式')}
+function toggleMotion(){const state=motionController.toggle();motion.value=state.resolvedPreference;notify(motion.value==='reduced'?'已减少界面动效':'已恢复完整界面动效')}
 function closeTab(tab,index){
   if(tabs.value.length===1)return
   tabs.value.splice(index,1)
@@ -111,13 +118,13 @@ function openNotification(type='error'){
     : {type:'info',title:'系统维护提醒',message:'系统将在今晚 23:30 进行例行维护，预计持续 20 分钟，请提前保存正在编辑的内容。'})
 }
 function retryNotification(){notify('重试任务已加入队列','success','top-center')}
-function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'});floatActionsOpen.value=false}
+function scrollToTop(){window.scrollTo({top:0,behavior:motion.value==='reduced'?'auto':'smooth'});floatActionsOpen.value=false}
 function handleKey(e){if(e.key==='Escape'){modal.value=null;drawer.value=null;notification.close();notificationsOpen.value=false;userMenuOpen.value=false;searchOpen.value=false;floatActionsOpen.value=false}if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();searchOpen.value=true;setTimeout(()=>document.querySelector('.header-search input')?.focus())}}
 function globalClick(e){if(!e.target.closest?.('.header-actions')&&!e.target.closest?.('.dropdown')){notificationsOpen.value=false;userMenuOpen.value=false}if(!e.target.closest?.('.header-search')&&!e.target.closest?.('.search-dropdown')) searchOpen.value=false}
 function selectSearch(result){search.value='';go(result)}
 
-onMounted(()=>{stopThemeSubscription=themeController.subscribe(state=>{theme.value=state.resolvedAppearance},{immediate:true});themeController.mount(document.documentElement);document.documentElement.dataset.font=localStorage.getItem('lan-font')||'inter-noto';window.addEventListener('hashchange',applyRoute);window.addEventListener('keydown',handleKey);document.addEventListener('click',globalClick);if(!location.hash) location.hash=authenticated.value?'/home':'/login';else applyRoute()})
-onBeforeUnmount(()=>{stopThemeSubscription?.();themeController.dispose({restore:false});window.removeEventListener('hashchange',applyRoute);window.removeEventListener('keydown',handleKey);document.removeEventListener('click',globalClick)})
+onMounted(()=>{stopThemeSubscription=themeController.subscribe(state=>{theme.value=state.resolvedAppearance},{immediate:true});themeController.mount(document.documentElement);stopMotionSubscription=motionController.subscribe(state=>{motion.value=state.resolvedPreference;motionPreference.value=state.preference},{immediate:true});motionController.mount(document.documentElement);document.documentElement.dataset.font=localStorage.getItem('lan-font')||'inter-noto';window.addEventListener('hashchange',applyRoute);window.addEventListener('keydown',handleKey);document.addEventListener('click',globalClick);if(!location.hash) location.hash=authenticated.value?'/home':'/login';else applyRoute()})
+onBeforeUnmount(()=>{stopThemeSubscription?.();themeController.dispose({restore:false});stopMotionSubscription?.();motionController.dispose({restore:false});window.removeEventListener('hashchange',applyRoute);window.removeEventListener('keydown',handleKey);document.removeEventListener('click',globalClick)})
 </script>
 
 <template>
@@ -131,7 +138,7 @@ onBeforeUnmount(()=>{stopThemeSubscription?.();themeController.dispose({restore:
       <div class="sidebar-footer"><UiAvatar name="Deng Pan" size="sm"/><div class="sidebar-user"><strong>Deng Pan</strong><span>Design System Owner</span></div></div>
     </aside>
     <main class="app-main">
-      <header class="app-header"><button class="icon-btn" title="展开/收起导航" aria-label="展开或收起导航" @click="toggleSidebar"><AppIcon name="menu"/></button><div class="header-search"><AppIcon name="search"/><input v-model="search" class="control" placeholder="搜索页面或功能" aria-label="搜索页面或功能" @focus="searchOpen=true"/><kbd>⌘ K</kbd><div v-if="searchOpen" class="dropdown search-dropdown" style="position:absolute;top:40px;left:0;width:100%;min-width:280px"><button v-for="r in searchResults" :key="r[0]" class="dropdown-item" @click="selectSearch(r[0])"><AppIcon :name="r[1].icon" :size="15"/>{{ r[1].title }}<span style="margin-left:auto" class="subtle">跳转</span></button><UiEmpty v-if="!searchResults.length" compact title="没有匹配页面" description="请尝试其他关键词"/></div></div><div class="header-spacer"/><div class="header-actions"><button class="icon-btn" :title="theme==='light'?'切换深色模式':'切换浅色模式'" :aria-label="theme==='light'?'切换深色模式':'切换浅色模式'" @click.stop="toggleTheme"><AppIcon :name="theme==='light'?'moon':'sun'"/></button><UiBadge :value="3"><button class="icon-btn" title="通知" aria-label="通知" @click.stop="notificationsOpen=!notificationsOpen;userMenuOpen=false"><AppIcon name="bell"/></button></UiBadge><button class="header-user" @click.stop="userMenuOpen=!userMenuOpen;notificationsOpen=false"><UiAvatar name="Deng Pan" size="sm"/><span class="header-user-text"><strong>Deng Pan</strong><span>管理员</span></span><AppIcon name="chevronDown" :size="13"/></button></div>
+      <header class="app-header"><button class="icon-btn" title="展开/收起导航" aria-label="展开或收起导航" @click="toggleSidebar"><AppIcon name="menu"/></button><div class="header-search"><AppIcon name="search"/><input v-model="search" class="control" placeholder="搜索页面或功能" aria-label="搜索页面或功能" @focus="searchOpen=true"/><kbd>⌘ K</kbd><div v-if="searchOpen" class="dropdown search-dropdown" style="position:absolute;top:40px;left:0;width:100%;min-width:280px"><button v-for="r in searchResults" :key="r[0]" class="dropdown-item" @click="selectSearch(r[0])"><AppIcon :name="r[1].icon" :size="15"/>{{ r[1].title }}<span style="margin-left:auto" class="subtle">跳转</span></button><UiEmpty v-if="!searchResults.length" compact title="没有匹配页面" description="请尝试其他关键词"/></div></div><div class="header-spacer"/><div class="header-actions"><button class="icon-btn" :title="motion==='reduced'?'恢复完整动效':'减少界面动效'" :aria-label="motion==='reduced'?'恢复完整动效':'减少界面动效'" :aria-pressed="motion==='reduced'" @click.stop="toggleMotion"><AppIcon name="clock"/></button><button class="icon-btn" :title="theme==='light'?'切换深色模式':'切换浅色模式'" :aria-label="theme==='light'?'切换深色模式':'切换浅色模式'" @click.stop="toggleTheme"><AppIcon :name="theme==='light'?'moon':'sun'"/></button><UiBadge :value="3"><button class="icon-btn" title="通知" aria-label="通知" @click.stop="notificationsOpen=!notificationsOpen;userMenuOpen=false"><AppIcon name="bell"/></button></UiBadge><button class="header-user" @click.stop="userMenuOpen=!userMenuOpen;notificationsOpen=false"><UiAvatar name="Deng Pan" size="sm"/><span class="header-user-text"><strong>Deng Pan</strong><span>管理员</span></span><AppIcon name="chevronDown" :size="13"/></button></div>
         <div v-if="notificationsOpen" class="dropdown" style="top:50px;right:80px;width:300px"><div class="dropdown-header"><strong>通知中心</strong><span>你有 3 条未读消息</span></div><button class="dropdown-item"><span class="notice-dot"/>采购审批即将在 14:00 截止</button><button class="dropdown-item"><span class="notice-dot" style="background:#10b981"/>昨日销售日报已生成</button><button class="dropdown-item"><span class="notice-dot" style="background:#f59e0b"/>系统将在今晚进行维护</button><div class="dropdown-divider"/><button class="dropdown-item" style="justify-content:center;color:var(--brand-600)" @click="notify('已标记全部为已读');notificationsOpen=false">查看全部通知</button></div>
         <div v-if="userMenuOpen" class="dropdown" style="top:50px;right:16px"><div class="dropdown-header"><strong>Deng Pan</strong><span>demo@lanui.cn</span></div><button class="dropdown-item" @click="notify('个人中心已打开')"><AppIcon name="user" :size="15"/>个人中心</button><button class="dropdown-item" @click="go('/components')"><AppIcon name="settings" :size="15"/>系统设置</button><button class="dropdown-item" @click="go('/missing-demo')"><AppIcon name="file" :size="15"/>查看 404 示例</button><div class="dropdown-divider"/><button class="dropdown-item danger" @click="go('/logout')"><AppIcon name="logout" :size="15"/>退出登录</button></div>
       </header>

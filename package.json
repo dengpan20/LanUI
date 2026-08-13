@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "private": true,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -70,6 +70,11 @@
       "import": "./dist-lib/theme.js",
       "default": "./dist-lib/theme.js"
     },
+    "./motion": {
+      "types": "./dist-lib/motion.d.ts",
+      "import": "./dist-lib/motion.js",
+      "default": "./dist-lib/motion.js"
+    },
     "./style.css": "./dist-lib/lan-ui.css",
     "./styles/core.css": "./dist-lib/styles/core.css",
     "./styles/*.css": "./dist-lib/styles/*.css",
@@ -107,6 +112,9 @@
       ],
       "theme": [
         "dist-lib/theme.d.ts"
+      ],
+      "motion": [
+        "dist-lib/motion.d.ts"
       ]
     }
   },
@@ -130,13 +138,14 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "tokens": "node scripts/export-tokens.mjs",
     "lint": "node scripts/lint.mjs",
-    "test": "vitest run && node scripts/component-contracts.mjs && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme",
+    "test": "vitest run && node scripts/component-contracts.mjs && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme && pnpm run test:motion",
     "test:unit": "vitest run",
     "test:locale": "node scripts/locale-contracts.mjs && node scripts/intl-contracts.mjs && node scripts/locale-registry-contracts.mjs",
     "test:color": "node scripts/color-contracts.mjs",
     "test:date": "node scripts/date-contracts.mjs",
     "test:icons": "node scripts/icon-contracts.mjs",
     "test:theme": "node scripts/generate-theme-tokens.mjs && node scripts/theme-contracts.mjs && node scripts/theme-portal-contracts.mjs",
+    "test:motion": "node scripts/motion-contracts.mjs",
     "test:visual": "node scripts/visual-regression.mjs",
     "test:a11y": "node scripts/accessibility-regression.mjs",
     "test:interaction": "node scripts/interaction-regression.mjs",
@@ -145,7 +154,7 @@
     "test:performance": "node scripts/performance-regression.mjs",
     "visual:update": "node scripts/visual-regression.mjs --update",
     "test:package": "node scripts/test-package-exports.mjs && node scripts/css-boundary-contracts.mjs && node scripts/build-subpath-consumer.mjs",
-    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=23')\"",
+    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=24')\"",
     "api:generate": "pnpm run build:lib && node scripts/api-manifest.mjs --write",
     "api:check": "node scripts/api-manifest.mjs",
     "styles:generate": "pnpm run build:lib:base && node scripts/split-component-css.mjs --write",
@@ -153,7 +162,7 @@
     "styles:check": "node scripts/split-component-css.mjs",
     "check": "pnpm run lint && pnpm run test && pnpm run test:visual && pnpm run test:a11y && pnpm run test:interaction && pnpm run build && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance",
     "ci": "pnpm run tokens && pnpm run check",
-    "prepack": "pnpm run tokens && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance"
+    "prepack": "pnpm run tokens && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme && pnpm run test:motion && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance"
   },
   "peerDependencies": {
     "vue": "^3.5.0"

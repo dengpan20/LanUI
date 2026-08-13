@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.32.0] - 2026-08-13
+
+### Added
+
+- A typed `motion` package subpath with `full / reduced / system` preference helpers, `useReducedMotion` and a persistence-aware `createMotionController` for application roots.
+- Scoped motion metadata and variables on `UiConfigProvider`, including nested overrides and all 12 Teleport roots.
+- Motion contracts, unit/SSR coverage, a visual baseline, a zero-violation Axe scenario, a three-browser interaction and dedicated raw/gzip subpath budgets.
+
+### Changed
+
+- All component transitions, spinners, skeletons and long-running decorative animations now consume cascading motion variables instead of independent duration literals.
+- Reduced motion changes smooth scrolling to immediate scrolling, including managed-form error focus and the showcase floating action.
+- The admin shell, component center, static preview and standalone consumer now demonstrate and persist motion preferences.
+- Release gates advance to 11 visual baselines, 29 zero-violation Axe scenarios, 33 interactions per browser and 18 performance ceilings while preserving 69 public components.
+
 ## [1.31.0] - 2026-08-13
 
 ### Added

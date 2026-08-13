@@ -159,6 +159,9 @@ const tableRows=[
     <UiConfigProvider v-if="state==='theme-portal'" id="visual-scoped-portal" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD','bg-surface':'#131E2F'}" class="visual-table-card">
       <UiCard title="Scoped portal theme bridge" title-tag="h2"><div class="visual-stack"><UiAlert type="info" title="Provider subtree" description="The teleported panel keeps this tenant theme after moving under body."/><UiPopover :model-value="true" title="Tenant settings" placement="bottom-start"><template #trigger><UiButton id="visual-theme-portal-trigger">Open tenant panel</UiButton></template><div class="visual-stack"><strong>Dark scoped overlay</strong><span>Brand, surface, density and direction follow the provider.</span><UiButton size="sm">Apply tenant theme</UiButton></div></UiPopover></div></UiCard>
     </UiConfigProvider>
+    <UiConfigProvider v-if="state==='motion'" id="visual-motion-reduced" motion="reduced" class="visual-table-card">
+      <UiCard title="Scoped motion preferences" title-tag="h2"><div class="visual-stack"><UiAlert type="info" title="Reduced motion scope" description="Transitions, spinners, skeletons and smooth scrolling settle immediately in this subtree."/><div class="visual-row"><UiButton>Reduced action</UiButton><UiTag color="blue">reduced / scoped</UiTag></div><UiConfigProvider id="visual-motion-full" motion="full"><div class="visual-row"><UiButton variant="secondary">Nested full motion</UiButton><UiTag color="green">full override</UiTag></div></UiConfigProvider></div></UiCard>
+    </UiConfigProvider>
     <UiCard v-if="state==='advanced'" title="Advanced form controls" title-tag="h2" class="visual-table-card">
       <div class="visual-form">
         <UiMultiSelect aria-label="Team members" :model-value="['lin']" :options="[{label:'Lin',value:'lin'},{label:'Chen',value:'chen'}]"/>

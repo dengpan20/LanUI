@@ -769,6 +769,31 @@ Floating components can remain logically inside a tenant provider while Vue rend
 - Roots expose `data-ui-teleport-scope` plus requested/resolved appearance metadata for diagnostics and browser assertions. Without a local provider, no bridge metadata is emitted and document theme inheritance remains authoritative.
 - A source-discovery contract rejects any future Teleport component that omits the shared bridge. P35 keeps 69 public components and 235 locale keys; CI requires 10 visual baselines, 28 zero-violation Axe scenarios and 32 interactions per Chromium/Firefox/WebKit engine.
 
+## Adaptive motion preferences (P36)
+
+Lan UI now treats motion as a first-class runtime preference rather than a single global media-query override:
+
+```ts
+import { createMotionController } from 'lan-ui-design-system/motion'
+
+const controller = createMotionController({ preference: 'system', storageKey: 'app-motion' })
+controller.mount(document.documentElement)
+controller.subscribe(({ resolvedPreference }) => console.log(resolvedPreference))
+```
+
+~~~vue
+<UiConfigProvider motion="reduced">
+  <UiPopover title="Settings">The Teleport panel also settles immediately.</UiPopover>
+  <UiConfigProvider motion="full">Nested full-motion scope</UiConfigProvider>
+</UiConfigProvider>
+~~~
+
+- Public preferences are `full`, `reduced` and `system`; `system` follows `prefers-reduced-motion` live and resolves to `full` during SSR.
+- `createMotionController` owns persistence, media listeners, target metadata, subscriptions, disposal and optional restoration. `useReducedMotion` exposes the nearest resolved provider state to components.
+- Component transitions, loading indicators, skeletons, decorative orbits and smooth scrolling consume cascading motion variables. Nested providers can therefore override a reduced root without `!important` conflicts.
+- The existing Teleport bridge now carries requested/resolved motion and reduced-motion variables to Modal, Drawer, Toast, Notification, Tooltip, Dropdown, Popover, Popconfirm, AutoComplete, ColorPicker, CommandPalette and Image preview.
+- P36 keeps 69 public components and 235 locale keys. CI requires 11 visual baselines, 29 zero-violation Axe scenarios, 33 interactions per Chromium/Firefox/WebKit engine and 18 performance ceilings including full theme and motion subpath closures.
+
 ### Compact table selection controls
 
 `UiCheckbox` accepts `size="sm | md | lg"` and `aria-label`. `UiTable` uses the `sm` variant for select-all and row selection, keeping the visible checkmark at 14px while preserving a minimum 24px interaction target. Icon-only usage omits the empty label span, so alignment is stable in compact table columns.

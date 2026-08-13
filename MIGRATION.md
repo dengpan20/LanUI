@@ -24,6 +24,29 @@ Paths below `dist-lib/` are build details and may change without a major version
 
 The root named export and the default/named component subpath exports reference the same runtime component.
 
+## 1.32 motion preferences
+
+The release is additive and keeps existing transition Token names. Applications can opt into a persistent document-level preference and still override individual subtrees:
+
+```ts
+import { createMotionController } from 'lan-ui-design-system/motion'
+
+const motion = createMotionController({ preference: 'system', storageKey: 'app-motion' })
+motion.mount(document.documentElement)
+```
+
+```vue
+<UiConfigProvider motion="reduced">
+  <UiPopover title="Settings">This portal inherits reduced motion.</UiPopover>
+  <UiConfigProvider motion="full">A deliberate nested override</UiConfigProvider>
+</UiConfigProvider>
+```
+
+- `system` follows `prefers-reduced-motion`; SSR resolves deterministically to `full` until mounted.
+- The controller writes `data-ui-motion-preference` and `data-ui-motion`, persists changes, subscribes to system updates and restores previous attributes on disposal.
+- Avoid application-wide `transition: none !important` rules. Lan UI uses cascading duration, iteration and scroll-behavior variables so a nested `motion="full"` scope can intentionally restore motion.
+- Custom application Teleports should forward the nearest provider scope; all Lan UI Teleport components already do so.
+
 ## 1.31 scoped Teleport themes
 
 This release is behavior-compatible and removes the need to copy theme variables onto `body` for overlays owned by a local `UiConfigProvider`:

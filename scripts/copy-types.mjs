@@ -21,7 +21,7 @@ for (const name of components) {
 
 writeFileSync(resolve(root, 'dist-lib/config.d.ts'), [
   "export { createLocaleRegistry, createLocaleTools, defaultLocaleRegistry, defineLocale, enUS, hasLocale, lanUiConfigKey, listLocales, loadLocale, normalizeLanUiConfig, registerLocale, unregisterLocale, useComponentSize, useDirection, useLanUiConfig, useLocale, zhCN } from './lan-ui.js'",
-  "export type { ComponentSize, Direction, LanUiConfig, LanUiConfigOptions, LanUiLocale, LanUiLocaleContext, LanUiLocaleTools, LanUiOptions, LocaleFallback, LocaleInput, LocaleLoader, LocaleLoadOptions, LocaleMessage, LocaleModule, LocaleName, LocaleParams, LocaleRegistry, ThemeAppearance, ThemeDefinition, ThemeInput, ThemeTokens } from './lan-ui.js'",
+  "export type { ComponentSize, Direction, LanUiConfig, LanUiConfigOptions, LanUiLocale, LanUiLocaleContext, LanUiLocaleTools, LanUiOptions, LocaleFallback, LocaleInput, LocaleLoader, LocaleLoadOptions, LocaleMessage, LocaleModule, LocaleName, LocaleParams, LocaleRegistry, MotionPreference, ThemeAppearance, ThemeDefinition, ThemeInput, ThemeTokens } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
 writeFileSync(resolve(root, 'dist-lib/color.d.ts'), [
@@ -49,10 +49,15 @@ writeFileSync(resolve(root, 'dist-lib/theme.d.ts'), [
   "export type { ThemeAppearance, ThemeAppearanceOptions, ThemeController, ThemeControllerOptions, ThemeControllerState, ThemeDefinition, ThemeInput, ThemeMediaQuery, ThemeStorage, ThemeTarget, ThemeTokenOptions, ThemeTokens, ThemeTokenValue } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
+writeFileSync(resolve(root, 'dist-lib/motion.d.ts'), [
+  "export { MOTION_PREFERENCES, createMotionController, lanUiMotionKey, motionPreferenceToStyle, normalizeMotionPreference, resolveMotionPreference, useReducedMotion } from './lan-ui.js'",
+  "export type { MotionController, MotionControllerOptions, MotionControllerState, MotionMediaQuery, MotionPreference, MotionPreferenceOptions, MotionResolvedPreference, MotionStorage, MotionTarget } from './lan-ui.js'",
+  '',
+].join('\n'), 'utf8')
 writeFileSync(resolve(root, 'dist-lib/plugin.d.ts'), [
   "export { LanUi as default, LanUi, createLanUi } from './lan-ui.js'",
   "export type { LanUiOptions, LanUiPlugin } from './lan-ui.js'",
   '',
 ].join('\n'), 'utf8')
 
-console.log(`TYPES_COPY dist-lib/lan-ui.d.ts components=${components.length} subpaths=color,config,date,feedback,icons,plugin,theme`)
+console.log(`TYPES_COPY dist-lib/lan-ui.d.ts components=${components.length} subpaths=color,config,date,feedback,icons,motion,plugin,theme`)

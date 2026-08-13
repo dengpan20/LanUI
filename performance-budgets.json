@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.31.0",
-  "description": "Deterministic raw and gzip package budgets, previous-release improvement gates, and a dedicated theme-runtime ceiling for Lan UI.",
+  "version": "1.32.0",
+  "description": "Deterministic raw and gzip package budgets, previous-release improvement gates, and dedicated theme and motion runtime ceilings for Lan UI.",
   "baseline": {
     "version": "1.4.0",
     "metrics": {
@@ -32,7 +32,9 @@
     "standaloneExampleJsRaw": 425000,
     "standaloneExampleCssRaw": 135000,
     "themeSubpathJsRaw": 12000,
-    "themeSubpathJsGzip": 4200
+    "themeSubpathJsGzip": 4200,
+    "motionSubpathJsRaw": 14000,
+    "motionSubpathJsGzip": 5000
   },
   "releaseBaseline": {
     "version": "1.28.0",

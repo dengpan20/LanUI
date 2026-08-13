@@ -786,3 +786,16 @@ P34 keeps 69 public components and 235 locale keys. Release gates require 9 visu
 - Table select-all and row-selection cells must compose the public compact checkbox rather than restyling a native checkbox; the visible control is 14px and its interaction box remains at least 24px.
 
 P35 keeps 69 public components and 235 locale keys. Release gates require 10 visual baselines, 28 zero-violation Axe scenarios, 32 interactions per Chromium/Firefox/WebKit engine, 23 negative type assertions and 16 performance ceilings.
+
+## 49. Maturity P36: adaptive motion preference runtime
+
+- Public motion preferences are `full`, `reduced` and `system`. Normalization is strict by default; resolution maps system preference to a deterministic full-motion SSR fallback and follows `prefers-reduced-motion` after mount.
+- The host controller owns persistence, one media-query subscription, requested/resolved target attributes, state subscriptions, teardown and optional restoration. Storage, media and target adapters remain injectable for SSR and deterministic tests.
+- `UiConfigProvider` exposes `motion`, inherits it through nested configuration and provides the resolved value to descendants. A nested explicit `full` scope can override an ancestor or operating-system reduction.
+- Motion CSS uses cascading duration aliases, spinner/skeleton/orbit durations, iteration count and scroll behavior. Component declarations contain no private duration literals or infinite iteration keywords.
+- `useReducedMotion` gives behavior-oriented components the resolved scope. Managed-form error navigation and showcase scrolling switch from smooth to immediate behavior when reduction is active.
+- The Teleport bridge forwards `data-ui-motion-preference`, `data-ui-motion` and effective motion variables to all 12 floating component families, including live system changes.
+- The package root and `motion` subpath expose matching runtime and TypeScript contracts. Package reopen tests, API manifest, standalone consumer, static preview and the admin shell exercise the same public path.
+- Browser interaction verifies system reduction, explicit full override, Teleport inheritance and a live switch back to no-preference in Chromium, Firefox and WebKit.
+
+P36 keeps 69 public components and 235 locale keys. Release gates require 11 visual baselines, 29 zero-violation Axe scenarios, 33 interactions per Chromium/Firefox/WebKit engine, 24 negative type assertions and 18 performance ceilings.

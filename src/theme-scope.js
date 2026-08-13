@@ -21,6 +21,8 @@ export function useTeleportThemeScope(){
       'data-ui-size':value.size,
       'data-ui-density':value.density,
       'data-ui-direction':value.direction,
+      'data-ui-motion-preference':value.motion,
+      'data-ui-motion':value.resolvedMotion,
       'data-ui-teleport-scope':'',
     }
   })

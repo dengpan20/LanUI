@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -10,6 +10,7 @@
       "DATE_VALUE_MODES",
       "DATE_VALUE_TYPES",
       "LanUi",
+      "MOTION_PREFERENCES",
       "THEME_APPEARANCES",
       "THEME_TOKEN_NAMES",
       "UiAlert",
@@ -87,6 +88,7 @@
       "createLanUiFeedback",
       "createLocaleRegistry",
       "createLocaleTools",
+      "createMotionController",
       "createThemeController",
       "darkTheme",
       "dateValueToDate",
@@ -112,13 +114,16 @@
       "isValidColor",
       "lanUiConfigKey",
       "lanUiFeedbackKey",
+      "lanUiMotionKey",
       "lightTheme",
       "listIcons",
       "listLocales",
       "loadLocale",
       "mergeThemes",
+      "motionPreferenceToStyle",
       "normalizeColorState",
       "normalizeLanUiConfig",
+      "normalizeMotionPreference",
       "normalizeThemeAppearance",
       "normalizeThemeTokens",
       "notification",
@@ -127,6 +132,7 @@
       "parseDateValue",
       "registerIcon",
       "registerLocale",
+      "resolveMotionPreference",
       "resolveThemeAppearance",
       "resolveTimeZone",
       "rgbToHsl",
@@ -144,6 +150,7 @@
       "useLanUiConfig",
       "useLocale",
       "useNotification",
+      "useReducedMotion",
       "useToast",
       "zhCN"
     ],
@@ -196,6 +203,16 @@
       "LocaleName",
       "LocaleParams",
       "LocaleRegistry",
+      "MOTION_PREFERENCES",
+      "MotionController",
+      "MotionControllerOptions",
+      "MotionControllerState",
+      "MotionMediaQuery",
+      "MotionPreference",
+      "MotionPreferenceOptions",
+      "MotionResolvedPreference",
+      "MotionStorage",
+      "MotionTarget",
       "NotificationOptions",
       "NotificationService",
       "NotificationState",
@@ -629,6 +646,7 @@
       "createLanUiFeedback",
       "createLocaleRegistry",
       "createLocaleTools",
+      "createMotionController",
       "createThemeController",
       "darkTheme",
       "dateValueToDate",
@@ -653,13 +671,16 @@
       "isValidColor",
       "lanUiConfigKey",
       "lanUiFeedbackKey",
+      "lanUiMotionKey",
       "lightTheme",
       "listIcons",
       "listLocales",
       "loadLocale",
       "mergeThemes",
+      "motionPreferenceToStyle",
       "normalizeColorState",
       "normalizeLanUiConfig",
+      "normalizeMotionPreference",
       "normalizeThemeAppearance",
       "normalizeThemeTokens",
       "notification",
@@ -668,6 +689,7 @@
       "parseDateValue",
       "registerIcon",
       "registerLocale",
+      "resolveMotionPreference",
       "resolveThemeAppearance",
       "resolveTimeZone",
       "rgbToHsl",
@@ -685,6 +707,7 @@
       "useLanUiConfig",
       "useLocale",
       "useNotification",
+      "useReducedMotion",
       "useToast",
       "zhCN"
     ]
@@ -699,6 +722,7 @@
     "./date",
     "./feedback",
     "./icons",
+    "./motion",
     "./package.json",
     "./performance-budgets",
     "./performance-budgets.json",
@@ -757,6 +781,11 @@
       "import": "./dist-lib/theme.js",
       "default": "./dist-lib/theme.js"
     },
+    "./motion": {
+      "types": "./dist-lib/motion.d.ts",
+      "import": "./dist-lib/motion.js",
+      "default": "./dist-lib/motion.js"
+    },
     "./style.css": "./dist-lib/lan-ui.css",
     "./styles/core.css": "./dist-lib/styles/core.css",
     "./styles/*.css": "./dist-lib/styles/*.css",
@@ -794,6 +823,9 @@
       ],
       "theme": [
         "dist-lib/theme.d.ts"
+      ],
+      "motion": [
+        "dist-lib/motion.d.ts"
       ]
     }
   },
@@ -829,6 +861,18 @@
       "useLocale",
       "zhCN"
     ],
+    "date": [
+      "DATE_VALUE_MODES",
+      "DATE_VALUE_TYPES",
+      "compareDateValues",
+      "dateValueToDate",
+      "formatDateValue",
+      "fromDateValue",
+      "inferDateValueType",
+      "parseDateValue",
+      "resolveTimeZone",
+      "toDateValue"
+    ],
     "feedback": [
       "createLanUiFeedback",
       "feedback",
@@ -853,6 +897,15 @@
       "registerIcon",
       "unregisterIcon",
       "useIconRegistry"
+    ],
+    "motion": [
+      "MOTION_PREFERENCES",
+      "createMotionController",
+      "lanUiMotionKey",
+      "motionPreferenceToStyle",
+      "normalizeMotionPreference",
+      "resolveMotionPreference",
+      "useReducedMotion"
     ],
     "plugin": [
       "LanUi",
@@ -1323,6 +1376,7 @@
         "iconRegistry",
         "locale",
         "localeRegistry",
+        "motion",
         "size",
         "tag",
         "theme",

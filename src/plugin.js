@@ -19,6 +19,7 @@ export function createLanUi(options={}){
     iconRegistry,
     setLocale(locale){config.locale=normalizeLanUiConfig({locale},config,localeRegistry).locale},
     setAppearance(appearance){config.appearance=normalizeLanUiConfig({appearance},config,localeRegistry).appearance},
+    setMotion(motion){config.motion=normalizeLanUiConfig({motion},config,localeRegistry).motion},
     setTheme(theme){
       const next=normalizeLanUiConfig({theme},config,localeRegistry)
       config.theme=next.theme

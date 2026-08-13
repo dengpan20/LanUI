@@ -109,6 +109,8 @@ const statusAction = ref('idle')
 const scopedAppearance=ref('light')
 const scopedTheme={'brand-600':'#7C3AED'}
 const scopedPortalOpen=ref(false)
+const scopedMotion=ref('system')
+const scopedMotionPortalOpen=ref(false)
 const virtualItems = Array.from({ length: 120 }, (_, index) => ({
   id: `virtual-${index}`,
   label: `Record ${String(index + 1).padStart(3, '0')}`,
@@ -416,6 +418,18 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
             <UiPopover v-model="scopedPortalOpen" title="Scoped tenant panel"><template #trigger><UiButton id="theme-portal-trigger">Open themed portal</UiButton></template><span>Portal theme content</span></UiPopover>
           </div>
           <output class="interaction-output" data-testid="theme-output">{{ scopedAppearance }}</output>
+        </UiConfigProvider>
+      </section>
+      <section class="interaction-case interaction-wide">
+        <h2>Scoped motion preference contract</h2>
+        <UiConfigProvider id="scoped-motion-provider" :motion="scopedMotion">
+          <div class="interaction-row">
+            <UiButton id="motion-full" @click="scopedMotion='full'">Full motion</UiButton>
+            <UiButton id="motion-reduced" @click="scopedMotion='reduced'">Reduced motion</UiButton>
+            <UiButton id="motion-system" @click="scopedMotion='system'">System motion</UiButton>
+            <UiPopover v-model="scopedMotionPortalOpen" title="Scoped motion panel"><template #trigger><UiButton id="motion-portal-trigger">Open motion portal</UiButton></template><span>Portal motion content</span></UiPopover>
+          </div>
+          <output class="interaction-output" data-testid="motion-output">{{ scopedMotion }}</output>
         </UiConfigProvider>
       </section>
     </div>

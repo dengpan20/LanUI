@@ -55,7 +55,8 @@ describe('P35 Teleport theme scope',()=>{
   it('updates a modal portal when the provider follows system appearance',async()=>{
     let listener=null
     const media={matches:true,addEventListener:(_type,value)=>{listener=value},removeEventListener:()=>{}}
-    Object.defineProperty(window,'matchMedia',{configurable:true,writable:true,value:()=>media})
+    const reducedMedia={matches:false,addEventListener:()=>{},removeEventListener:()=>{}}
+    Object.defineProperty(window,'matchMedia',{configurable:true,writable:true,value:query=>query.includes('color-scheme')?media:reducedMedia})
     mountProvider({appearance:'system',theme:{'brand-600':'#8AB4FF'}},()=>h(UiModal,{modelValue:true,title:'System dialog'}))
     await nextTick();await nextTick()
     const overlay=document.body.querySelector('.ui-modal-overlay')

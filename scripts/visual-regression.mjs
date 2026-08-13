@@ -25,6 +25,7 @@ const cases=[
   {name:'upload-queue',viewport:{width:1280,height:850},query:'theme=light&direction=ltr&density=default&state=upload-queue',ready:'.visual-upload-queue'},
   {name:'scoped-theme',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=theme',ready:'#visual-scoped-dark'},
   {name:'scoped-theme-portal',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=theme-portal',ready:'.ui-popover-panel[data-ui-teleport-scope]',capture:'viewport',prepare:async page=>{await page.locator('#visual-theme-portal-trigger').scrollIntoViewIfNeeded();await page.waitForTimeout(100)}},
+  {name:'scoped-motion',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=motion',ready:'#visual-motion-reduced[data-ui-motion="reduced"]'},
 ]
 
 const {server,origin}=await startFixtureServer(root)

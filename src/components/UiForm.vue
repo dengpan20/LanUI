@@ -2,6 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, provide, reactive, ref, shallowReactive, watch } from 'vue'
 import { cloneValue, deletePath, getPath, hasPath, pathKey, setPath } from './formUtils.js'
 import { useLocale } from '../config-runtime.js'
+import { useReducedMotion } from '../motion.js'
 
 const props = defineProps({
   model: { type: Object, required: true },
@@ -17,6 +18,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['submit', 'invalid', 'reset', 'validate'])
 const { t } = useLocale()
+const reducedMotion = useReducedMotion()
 const formElement = ref(null)
 const fields = shallowReactive(new Map())
 const fieldStates = reactive(new Map())
@@ -73,7 +75,10 @@ function getFieldsState(names) { return normalizeNames(names).map(getFieldState)
 function getFieldError(name) { return getFieldState(name)?.errors || [] }
 function getFieldsError(names) { return getFieldsState(names).filter(state => state.errors.length) }
 function focusField(name) { return fields.get(pathKey(name))?.focus?.() ?? false }
-function scrollToField(name, options = props.scrollIntoViewOptions) { return fields.get(pathKey(name))?.scrollIntoView?.(options) ?? false }
+function scrollToField(name, options = props.scrollIntoViewOptions) {
+  const resolved=reducedMotion.value&&options?.behavior==='smooth'?{...options,behavior:'auto'}:options
+  return fields.get(pathKey(name))?.scrollIntoView?.(resolved) ?? false
+}
 
 async function validate(names, options = {}) {
   const targets = normalizeNames(names)

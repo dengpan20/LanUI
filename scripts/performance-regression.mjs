@@ -46,6 +46,10 @@ const themeSubpath = [...moduleClosure(resolve(dist, 'theme.js'))].map(file => {
   const data = readFileSync(file)
   return { file: relative(root, file).replaceAll('\\', '/'), raw: data.length, gzip: gzipSync(data, { level: 9 }).length }
 })
+const motionSubpath = [...moduleClosure(resolve(dist, 'motion.js'))].map(file => {
+  const data = readFileSync(file)
+  return { file: relative(root, file).replaceAll('\\', '/'), raw: data.length, gzip: gzipSync(data, { level: 9 }).length }
+})
 
 const largestChunkRaw = largest(chunks, 'raw')
 const largestChunkGzip = largest(chunks, 'gzip')
@@ -68,6 +72,8 @@ const metrics = {
   standaloneExampleCssRaw: sum(exampleAssets.filter(item => item.file.endsWith('.css')), 'raw'),
   themeSubpathJsRaw: sum(themeSubpath, 'raw'),
   themeSubpathJsGzip: sum(themeSubpath, 'gzip'),
+  motionSubpathJsRaw: sum(motionSubpath, 'raw'),
+  motionSubpathJsGzip: sum(motionSubpath, 'gzip'),
 }
 
 const details = {
@@ -77,6 +83,8 @@ const details = {
   largestComponentCssGzip: largestComponentCssGzip.file,
   themeSubpathJsRaw: themeSubpath.map(item => item.file).join(','),
   themeSubpathJsGzip: themeSubpath.map(item => item.file).join(','),
+  motionSubpathJsRaw: motionSubpath.map(item => item.file).join(','),
+  motionSubpathJsGzip: motionSubpath.map(item => item.file).join(','),
 }
 const failures = []
 for (const [name, budget] of Object.entries(config.budgets)) {
