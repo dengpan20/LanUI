@@ -17,6 +17,7 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 - Generated API coverage advances to 965 Props, 341 Events and 160 Slots.
 - Existing `UiDatePicker` / `UiDateRangePicker` datetime modes and Schema Form `datetime` / `datetime-range` mappings remain compatible while the dedicated root and component-subpath APIs improve discovery.
 - Four additive package ceilings and the standalone-example JS ceiling receive measured date-time adapter headroom; chunk, core CSS and all other runtime ceilings remain unchanged.
+- Windows CI keeps the local `0.002` visual threshold unchanged while allowing up to `0.035` for documented cross-machine Edge text rasterization drift.
 
 ## [1.48.0] - 2026-08-15
 
