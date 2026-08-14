@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.46.0",
+  "version": "1.47.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 169530,
-    "rules": 1349,
+    "bytes": 177185,
+    "rules": 1404,
     "source": "component-union"
   },
   "core": {
@@ -72,6 +72,12 @@
       "subpath": "./styles/UiCard.css",
       "bytes": 725,
       "rules": 7
+    },
+    {
+      "name": "UiCarousel",
+      "subpath": "./styles/UiCarousel.css",
+      "bytes": 7692,
+      "rules": 55
     },
     {
       "name": "UiCascader",

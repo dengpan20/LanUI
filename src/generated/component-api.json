@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.46.0",
+  "version": "1.47.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -25,8 +25,8 @@
     {
       "id": "data",
       "label": "数据展示",
-      "description": "结构化内容、媒体、状态、文本、列表、表格和虚拟数据。",
-      "count": 18
+      "description": "结构化内容、媒体、轮播、状态、文本、列表、表格和虚拟数据。",
+      "count": 19
     },
     {
       "id": "navigation",
@@ -1527,6 +1527,368 @@
         },
         {
           "name": "header",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiCarousel",
+      "category": "data",
+      "categoryLabel": "数据展示",
+      "subpath": "./components/UiCarousel",
+      "imports": {
+        "root": "import { UiCarousel } from 'lan-ui-design-system'",
+        "subpath": "import UiCarousel from 'lan-ui-design-system/components/UiCarousel'"
+      },
+      "propsType": "UiCarouselProps",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "arrows",
+          "required": false,
+          "type": "'hover'|'always'|'never'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"hover\""
+          }
+        },
+        {
+          "name": "autoplay",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "'horizontal'|'vertical'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "effect",
+          "required": false,
+          "type": "'slide'|'fade'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"slide\""
+          }
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "280"
+          }
+        },
+        {
+          "name": "indicatorPosition",
+          "required": false,
+          "type": "'inside'|'outside'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"inside\""
+          }
+        },
+        {
+          "name": "indicators",
+          "required": false,
+          "type": "'dots'|'lines'|'numbers'|'none'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"dots\""
+          }
+        },
+        {
+          "name": "interval",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "5000"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>Key)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
+          "name": "items",
+          "required": false,
+          "type": "Item[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "lazy",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "pauseOnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "pauseOnHover",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "pauseOnVisibility",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showPlayControl",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "swipe",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "swipeThreshold",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "48"
+          }
+        },
+        {
+          "name": "transitionDuration",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "360"
+          }
+        }
+      ],
+      "emitsType": "UiCarouselEmits",
+      "emits": [
+        {
+          "name": "change",
+          "required": true,
+          "type": "(meta:UiCarouselChangeMeta<Item>)=>void"
+        },
+        {
+          "name": "drag-end",
+          "required": true,
+          "type": "(meta:{index:number;delta:number;elapsed:number;changed:boolean;canceled:boolean})=>void"
+        },
+        {
+          "name": "drag-start",
+          "required": true,
+          "type": "(meta:{index:number;coordinate:number})=>void"
+        },
+        {
+          "name": "pause",
+          "required": true,
+          "type": "(state:UiCarouselState)=>void"
+        },
+        {
+          "name": "play",
+          "required": true,
+          "type": "(state:UiCarouselState)=>void"
+        },
+        {
+          "name": "reach-end",
+          "required": true,
+          "type": "(meta:UiCarouselChangeMeta<Item>)=>void"
+        },
+        {
+          "name": "reach-start",
+          "required": true,
+          "type": "(meta:UiCarouselChangeMeta<Item>)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:number)=>void"
+        }
+      ],
+      "slotsType": "UiCarouselSlots",
+      "slots": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "indicator",
+          "required": false,
+          "type": "(scope:{item:Item;index:number;active:boolean})=>VNodeChild"
+        },
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:{item:Item;index:number;active:boolean;previous:(source?:string)=>UiCarouselChangeMeta|false;next:(source?:string)=>UiCarouselChangeMeta|false;to:(index:number,source?:string)=>UiCarouselChangeMeta|false})=>VNodeChild"
+        },
+        {
+          "name": "next-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "previous-icon",
           "required": false,
           "type": "()=>VNodeChild"
         }

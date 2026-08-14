@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、80 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、81 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -1090,3 +1090,29 @@ P49 advances to 79 public components, 285 locale keys and 14 theme-scoped Telepo
 - Component center, static preview, standalone consumer, SSR, isolated CSS and packed installation remain synchronized. Visual and Axe fixtures cover recursive layout and target sizing, while all three browser engines verify the keyboard and evaluation contract.
 
 P50 advances to 80 public components, 349 locale keys and 14 theme-scoped Teleport families. CI requires 23 visual baselines, 41 zero-violation Axe scenarios, 45 interactions per Chromium/Firefox/WebKit engine, 35 negative type assertions and 18 performance ceilings. The frozen 1.28 comparison uses explicit additive byte allowances for the recursive typed-editor dependency closure; absolute package and consumer ceilings remain mandatory.
+
+## Accessible content rotation (P51)
+
+`UiCarousel` provides one reusable presentation primitive for release highlights, onboarding summaries, product announcements and media-led cards:
+
+```vue
+<UiCarousel
+  v-model="activeSlide"
+  :items="slides"
+  effect="slide"
+  indicators="lines"
+  autoplay
+  aria-label="Product highlights"
+>
+  <template #item="{ item }"><ReleaseHighlight :item="item" /></template>
+</UiCarousel>
+```
+
+- Slide and fade effects support horizontal or vertical orientation, finite or looping navigation, inside/outside dot, line or numbered indicators, customizable arrow/indicator Slots and lazy slide rendering.
+- Arrow keys follow the configured text direction; vertical mode uses Up/Down, while Home and End select boundaries. Previous/next controls, indicators and pointer swipe share the same structured change contract.
+- Automatic rotation uses a restartable timer and stops for hover, focus-within, hidden documents, pointer drag and the library's Reduced Motion setting. An explicit play/pause control always lets users stop motion.
+- The root exposes a named carousel region; slides expose group and slide semantics, inactive content becomes inert, picker controls identify their target, and a polite live region announces manual changes.
+- `change`, reach-boundary, play/pause and drag lifecycle events include source metadata. The public instance exposes `previous`, `next`, `to`, `play`, `pause`, `getState`, active index and effective playback state.
+- Root and component subpaths expose matching runtime, Props/Emits/Slots and related carousel types. Component center, static preview, standalone consumer, SSR, isolated CSS and packed installation remain synchronized.
+
+P51 advances to 81 public components, 359 locale keys and generated coverage of 917 Props, 323 Events and 160 Slots. CI requires 24 visual baselines, 42 zero-violation Axe scenarios, 46 interactions per Chromium/Firefox/WebKit engine, 36 negative type assertions and 18 absolute performance ceilings.

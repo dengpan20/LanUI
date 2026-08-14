@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.47.0] - 2026-08-15
+
+### Added
+
+- `UiCarousel`, an accessible controlled/uncontrolled content carousel with slide/fade effects, horizontal/vertical orientation, loop/finite navigation, lazy rendering, arrow/indicator variants and item/indicator/icon Slots.
+- Logical keyboard navigation, pointer swipe, structured change and drag events, boundary events, imperative navigation/playback methods and explicit play/pause control.
+- Automatic-rotation pause reasons for hover, focus, page visibility, drag, finite endpoints and Reduced Motion, plus named carousel/slide semantics, inert inactive content and live status.
+- Carousel examples in the component center, one-page static preview and standalone consumer, with unit, SSR, visual, Axe, type, packed-consumer and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Release gates advance to 81 public components, 359 locale keys, 24 visual baselines, 42 Axe scenarios, 46 interactions per browser and 36 negative type assertions.
+- Generated API coverage advances to 917 Props, 323 Events and 160 Slots.
+- Root and component-subpath runtime, declarations, related carousel types, isolated CSS and generated API documentation share the 1.47.0 contract.
+- Absolute package and distribution ceilings plus frozen 1.28 per-component allowances receive bounded Carousel headroom; file-count, consumer, chunk and non-additive improvement gates remain unchanged.
+
 ## [1.46.0] - 2026-08-15
 
 ### Added

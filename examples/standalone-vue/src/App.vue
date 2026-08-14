@@ -8,6 +8,7 @@ import {
   UiButton,
   UiCalendar,
   UiCard,
+  UiCarousel,
   UiColorPicker,
   UiCommandPalette,
   UiConfigProvider,
@@ -75,6 +76,12 @@ const standaloneListPage=ref(1)
 const standaloneOtp=ref('204')
 const standaloneMentions=ref('Please ask @de')
 const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
+const standaloneCarouselIndex=ref(0)
+const standaloneCarouselItems=[
+  {key:'contract',title:'Package contract',description:'Runtime, type and style subpaths stay aligned.',start:'#1d4ed8',end:'#0891b2'},
+  {key:'interaction',title:'Interaction quality',description:'Keyboard, swipe and pause reasons use one state model.',start:'#6d28d9',end:'#db2777'},
+  {key:'release',title:'Release evidence',description:'Cross-browser, package and rollback gates are reproducible.',start:'#047857',end:'#ca8a04'},
+]
 const standaloneMentionOptions=[
   {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
   {label:'Frontend owner',value:'frontend',description:'Consumer integration',trigger:'@'},
@@ -215,6 +222,13 @@ const rows = computed(() => [
     <UiCard title="Composable release filters">
       <UiQueryBuilder v-model="standaloneQuery" :fields="standaloneQueryFields" show-not :max-depth="3" name="release-filters" aria-label="Standalone release filters" />
       <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Serializable model: {{ standaloneQuery.combinator.toUpperCase() }} · {{ standaloneQuery.rules.length }} entries</div>
+    </UiCard>
+
+    <UiCard title="Accessible release carousel">
+      <UiCarousel v-model="standaloneCarouselIndex" :items="standaloneCarouselItems" height="240" indicators="lines" aria-label="Standalone release highlights">
+        <template #item="{item,index}"><div class="carousel-demo-slide" :style="{'--carousel-start':item.start,'--carousel-end':item.end}"><small>Release assurance · {{ index+1 }}/{{ standaloneCarouselItems.length }}</small><strong>{{ item.title }}</strong><p>{{ item.description }}</p></div></template>
+      </UiCarousel>
+      <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Arrow keys, Home / End, controls and swipe update index {{ standaloneCarouselIndex+1 }}.</div>
     </UiCard>
 
     <UiCard title="Semantic release text">

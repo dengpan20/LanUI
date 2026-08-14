@@ -7,6 +7,7 @@ import UiImage from '../components/UiImage.vue'
 import UiButton from '../components/UiButton.vue'
 import UiCalendar from '../components/UiCalendar.vue'
 import UiCard from '../components/UiCard.vue'
+import UiCarousel from '../components/UiCarousel.vue'
 import UiInput from '../components/UiInput.vue'
 import UiInputTag from '../components/UiInputTag.vue'
 import UiQueryBuilder from '../components/UiQueryBuilder.vue'
@@ -213,11 +214,17 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:80},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:81},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'QueryBuilder P50'},{key:'version',label:'版本',value:'1.46.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'80 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、递归条件树、类型化编辑器、客户端匹配、Schema 表单与隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Carousel P51'},{key:'version',label:'版本',value:'1.47.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'81 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、键盘与触控轮播、自动播放暂停、Reduced Motion、懒渲染与隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
+const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
+const carouselItems=[
+  {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
+  {key:'interaction',eyebrow:'Interaction quality',title:'键盘、触控与自动播放',description:'逻辑方向键、滑动手势、悬停与焦点暂停遵循同一状态机。',start:'#6d28d9',end:'#db2777'},
+  {key:'release',eyebrow:'Release confidence',title:'真实浏览器回归后交付',description:'视觉、Axe、三浏览器交互、独立安装和回滚均作为发布门禁。',start:'#047857',end:'#ca8a04'},
+]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
 const gridColumns=[{key:'name',label:'Component',sortable:true,minWidth:'180px'},{key:'team',label:'Owner',sortable:true,minWidth:'130px'},{key:'status',label:'Status',filterable:true,filterOptions:['Stable','Review'],minWidth:'110px'},{key:'score',label:'Coverage',sortable:true,width:'110px',align:'right'}]
 const gridRows=Array.from({length:86},(_,index)=>({id:`GRID-${String(index+1).padStart(3,'0')}`,name:['Button','DataGrid','Calendar','Tree','Upload','VirtualList'][index%6]+` ${index+1}`,team:['Forms','Data','Navigation'][index%3],status:index%5===0?'Review':'Stable',score:72+(index*7)%29,updated:`2026-08-${String(1+index%12).padStart(2,'0')}`}))
@@ -493,6 +500,12 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div><span class="demo-label">UiImage · 懒加载画廊与全屏预览</span><div class="image-gallery-demo"><UiImage v-for="(source,index) in imageGallery" :key="source" :src="source" :alt="`发布画廊 ${index+1}`" preview :preview-list="imageGallery" :preview-index="index"><template #caption>发布画廊 · 支持方向键、缩放、旋转与拖拽</template></UiImage></div></div>
               <div><span class="demo-label">Fit / Disabled / Fallback</span><div class="image-state-demo"><UiImage :src="imageGallery[0]" alt="Contain 模式" fit="contain"/><UiImage :src="imageGallery[1]" alt="停用预览" preview disabled/></div><p class="feedback-hint">加载失败时可使用 fallback 或 error 插槽；预览支持焦点闭环、Esc、滚轮缩放、双击与 RTL。</p></div>
             </div>
+            <div class="carousel-showcase" data-carousel-state-contract="slide fade horizontal vertical loop finite autoplay hover focus visibility reduced-motion keyboard rtl swipe lazy empty">
+              <UiCarousel ref="carouselRef" v-model="carouselIndex" :items="carouselItems" :effect="carouselEffect" :autoplay="carouselAutoplay" :interval="5000" indicators="lines" aria-label="组件成熟度发布轮播" @change="carouselStatus=`${$event.source} · ${$event.previousIndex+1} → ${$event.index+1}`">
+                <template #item="{item,index}"><div class="carousel-demo-slide" :style="{'--carousel-start':item.start,'--carousel-end':item.end}"><small>{{ item.eyebrow }} · {{ index+1 }}/{{ carouselItems.length }}</small><strong>{{ item.title }}</strong><p>{{ item.description }}</p></div></template>
+              </UiCarousel>
+              <aside class="carousel-showcase-panel"><strong>UiCarousel · 可访问内容轮播</strong><p>支持 Slide / Fade、水平 / 垂直、有限 / 循环、懒渲染、指示器、自定义插槽和结构化 change 事件。自动播放会在悬停、焦点、页面隐藏或 Reduced Motion 时停止。</p><UiSegmented v-model="carouselEffect" :options="[{label:'Slide',value:'slide'},{label:'Fade',value:'fade'}]"/><UiSwitch v-model="carouselAutoplay" label="自动播放"/><div class="button-row"><UiButton size="sm" variant="outline" @click="carouselRef.previous('demo')">上一项</UiButton><UiButton size="sm" variant="outline" @click="carouselRef.next('demo')">下一项</UiButton></div><code>{{ carouselIndex+1 }} / {{ carouselItems.length }} · {{ carouselStatus }}</code></aside>
+            </div>
             <div class="data-grid-showcase">
               <div class="virtual-list-showcase-header"><div><span class="demo-label">UiDataGrid · client orchestration</span><strong>Search, filter, sort, selection, expansion, columns and pagination</strong></div><UiTag color="blue">Selected: {{ gridSelected.length }}</UiTag></div>
               <UiDataGrid v-model:query="gridQuery" v-model:page="gridPage" v-model:page-size="gridPageSize" v-model:filters="gridFilters" v-model:sort-key="gridSortKey" v-model:sort-order="gridSortOrder" v-model:selected-rows="gridSelected" v-model:expanded-rows="gridExpanded" v-model:density="gridDensity" v-model:visible-columns="gridVisibleColumns" :columns="gridColumns" :rows="gridRows" :page-size-options="[10,20,50]" :query-fields="['name','team','status']" selectable expandable sticky-header resizable max-height="420px" aria-label="Component release data grid">
@@ -727,6 +740,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Rate</td><td>integer / fractional</td><td>live preview</td><td>select / clear</td><td>ARIA slider + Ring</td><td>readonly / disabled</td><td>form error</td></tr>
               <tr><td>Calendar</td><td>single / multiple / range</td><td>range preview</td><td>select / clear / today</td><td>ARIA grid + roving tabindex</td><td>readonly / disabled date</td><td>min / max / empty</td></tr>
               <tr><td>Image</td><td>lazy / eager</td><td>preview affordance</td><td>zoom / rotate / pan</td><td>Dialog focus trap</td><td>Preview disabled</td><td>fallback / retry</td></tr>
+              <tr><td>Carousel</td><td>slide / fade</td><td>暂停自动播放</td><td>箭头 / 指示器 / 滑动</td><td>逻辑方向键 + Ring</td><td>有限端点锁定</td><td>Visibility / Reduced Motion / Empty</td></tr>
               <tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr>
               <tr><td>Affix</td><td>页面流内</td><td>保留子操作</td><td>固定至边缘</td><td>内容焦点可见</td><td>立即回归文档流</td><td>目标回退 / 边界停止</td></tr>
               <tr><td>Splitter</td><td>响应式占比分栏</td><td>分隔条高亮</td><td>相邻面板调整 / 折叠</td><td>ARIA Separator + Ring</td><td>锁定分隔条</td><td>约束钳制 / Lazy 预览</td></tr>
@@ -736,7 +750,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Typography</td><td>语义文本</td><td>动作强调</td><td>复制 / 编辑 / 展开</td><td>命名操作 + 状态</td><td>动作保持可见</td><td>复制错误 / 溢出回退</td></tr>
               <tr><td>List</td><td>语义记录</td><td>行高亮</td><td>选择 / 操作</td><td>Listbox + Active descendant</td><td>跳过停用项</td><td>Skeleton / Error / Empty</td></tr>
             </tbody></table>
-            <div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；标签输入支持回车、分隔符、整段粘贴、方向键选择及 Backspace 移除；验证码支持方向键、Home / End、Backspace、Delete 与整段粘贴；图片预览支持方向键、加减号、R、0 与 Esc；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div>
+            <div class="preview-note"><strong>键盘：</strong> Tab 遍历控件；Enter/Space 激活；AutoComplete、数值框和滑块支持方向键；标签输入支持回车、分隔符、整段粘贴、方向键选择及 Backspace 移除；验证码支持方向键、Home / End、Backspace、Delete 与整段粘贴；轮播支持逻辑方向键、Home / End，聚焦即暂停；图片预览支持方向键、加减号、R、0 与 Esc；Modal 打开后焦点进入弹层，关闭后返回触发元素。</div>
           </div>
         </section>
       </main>

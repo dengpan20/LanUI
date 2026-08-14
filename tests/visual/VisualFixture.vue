@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
+  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
@@ -57,6 +57,12 @@ const visualQuery=ref({id:'visual-root',combinator:'and',not:false,rules:[
   ]},
   {id:'visual-rule-date',field:'dueAt',operator:'between',value:'2026-08-15',value2:'2026-08-31'},
 ]})
+const visualCarouselIndex=ref(1)
+const visualCarouselItems=[
+  {key:'foundations',eyebrow:'FOUNDATIONS',title:'Shared visual language',description:'Semantic color, typography, spacing and motion tokens keep every product surface coherent.',metric:'359 locale keys'},
+  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'81 public components'},
+  {key:'delivery',eyebrow:'DELIVERY',title:'Verified before release',description:'Unit, visual, Axe, interaction, package and performance gates protect downstream consumers.',metric:'5 CI jobs'},
+]
 const visualMentionOptions=[
   {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
   {label:'Frontend owner',value:'frontend',description:'Implementation review',trigger:'@'},
@@ -251,6 +257,11 @@ const tableRows=[
     <UiCard v-if="state==='query-builder'" title="Recursive query builder" title-tag="h2" class="visual-table-card visual-query-builder-showcase">
       <div class="visual-query-builder-intro"><div><strong>Release work-item filter</strong><span>Typed fields, nested logic, NOT, reordering and keyboard actions share one controlled tree.</span></div><UiTag color="blue">AND · 4 rules · 1 group</UiTag></div>
       <UiQueryBuilder v-model="visualQuery" :fields="visualQueryFields" show-not name="releaseFilter" aria-label="Release work-item filter"/>
+    </UiCard>
+    <UiCard v-if="state==='carousel'" title="Accessible content rotation" title-tag="h2" class="visual-table-card visual-carousel-showcase">
+      <UiCarousel v-model="visualCarouselIndex" :items="visualCarouselItems" :height="320" arrows="always" indicators="lines" indicator-position="outside" aria-label="Release capability highlights">
+        <template #item="{item,index}"><div class="visual-carousel-slide" :data-tone="index"><small>{{ item.eyebrow }}</small><strong>{{ item.title }}</strong><p>{{ item.description }}</p><UiTag color="blue">{{ item.metric }}</UiTag></div></template>
+      </UiCarousel>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

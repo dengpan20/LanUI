@@ -3,6 +3,7 @@ import {
   UiAnchor,
   UiButton,
   UiCalendar,
+  UiCarousel,
   UiAutoComplete,
   UiCommandPalette,
   UiColorPicker,
@@ -65,6 +66,7 @@ import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
+import SubpathCarousel, { UiCarousel as NamedSubpathCarousel } from 'lan-ui-design-system/components/UiCarousel'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathList, { UiList as NamedSubpathList } from 'lan-ui-design-system/components/UiList'
 import SubpathVirtualList, { UiVirtualList as NamedSubpathVirtualList } from 'lan-ui-design-system/components/UiVirtualList'
@@ -102,6 +104,7 @@ import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-d
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
 import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
+import type { UiCarouselEmits, UiCarouselProps, UiCarouselSlots } from 'lan-ui-design-system/components/UiCarousel'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiListEmits, UiListProps, UiListSlots } from 'lan-ui-design-system/components/UiList'
 import type { UiVirtualListEmits, UiVirtualListProps, UiVirtualListSlots } from 'lan-ui-design-system/components/UiVirtualList'
@@ -161,6 +164,7 @@ import type {
   UiWatermarkInstance,
   UiListInstance,
   UiOtpInputInstance,
+  UiCarouselInstance,
   UiMentionsInstance,
   UiInputTagInstance,
   UiTypographyInstance,
@@ -391,6 +395,14 @@ queryBuilderInstance.addRule();queryBuilderInstance.addGroup();queryBuilderInsta
 const queryBuilderSubpathParity:typeof SubpathQueryBuilder=NamedSubpathQueryBuilder
 const queryBuilderEvent:keyof UiQueryBuilderEmits='action'
 const queryBuilderSlot:keyof UiQueryBuilderSlots='value'
+const carouselProps:InstanceType<typeof UiCarousel>['$props']&UiCarouselProps={items:[{key:'overview',title:'Overview',content:'Release overview'}],defaultIndex:0,direction:'horizontal',effect:'slide',loop:true,autoplay:true,interval:5000,arrows:'always',indicators:'lines',indicatorPosition:'outside',keyboard:true,swipe:true,lazy:true}
+const carouselEmit:InstanceType<typeof UiCarousel>['$emit']=null as never
+carouselEmit('change',{index:1,previousIndex:0,item:{key:'quality'},previousItem:{key:'overview'},source:'keyboard',direction:'next'})
+const carouselInstance:UiCarouselInstance=null as never
+carouselInstance.previous();carouselInstance.next();carouselInstance.to(2,'api');carouselInstance.play();carouselInstance.pause();carouselInstance.getState()
+const carouselSubpathParity:typeof SubpathCarousel=NamedSubpathCarousel
+const carouselEvent:keyof UiCarouselEmits='drag-end'
+const carouselSlot:keyof UiCarouselSlots='indicator'
 const sliderProps:InstanceType<typeof UiSlider>['$props']&UiSliderProps={modelValue:[20,80],range:true,min:0,max:100,step:5,minDistance:10,tooltip:'always',marks:[{value:50,label:'Half'}],ariaLabel:['Start','End']}
 const sliderEmit:InstanceType<typeof UiSlider>['$emit']=null as never
 sliderEmit('change',[25,80],{source:'keyboard',thumb:0})
@@ -476,6 +488,9 @@ const invalidInputTagSize:UiInputTagProps={size:'xl'}
 // @ts-expect-error Query operators accept zero, one or two values.
 const invalidQueryOperatorArity:UiQueryOperator={key:'invalid',label:'Invalid',arity:3}
 
+// @ts-expect-error Carousel effects are constrained to slide or fade.
+const invalidCarouselEffect:UiCarouselProps={effect:'flip'}
+
 // @ts-expect-error Typography variants are constrained to text, paragraph or title.
 const invalidTypographyVariant:UiTypographyProps={variant:'quote'}
 
@@ -539,6 +554,6 @@ const invalidAffixPosition:UiAffixProps={position:'left'}
 // @ts-expect-error Splitter direction is constrained to horizontal or vertical.
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
-void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity]
+void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

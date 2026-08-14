@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -96,6 +96,13 @@ const queryValue=ref({id:'interaction-query-root',combinator:'and',not:false,rul
   {id:'interaction-query-title',field:'title',operator:'contains',value:'release'},
   {id:'interaction-query-priority',field:'priority',operator:'greaterOrEqual',value:3},
 ]})
+const carouselIndex=ref(0)
+const carouselOutput=ref('ready:0')
+const carouselItems=[
+  {key:'overview',title:'Release overview',description:'Versioned component contract'},
+  {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
+  {key:'delivery',title:'Consumer delivery',description:'Typed subpaths and isolated styles'},
+]
 function evaluateQuery(){queryOutput.value=`match:${queryBuilderRef.value?.matches?.({title:'Release train',status:'ready',priority:4})}`}
 const mentionsOptions=[
   {label:'Alice',value:'alice',description:'Design owner',trigger:'@'},
@@ -519,6 +526,13 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Recursive query, typed values and keyboard editing contract</h2>
         <div class="interaction-row"><UiButton id="evaluate-query" variant="secondary" @click="evaluateQuery">Evaluate sample</UiButton><output class="interaction-output" data-testid="query-builder-output">{{ queryOutput }}</output></div>
         <UiQueryBuilder ref="queryBuilderRef" v-model="queryValue" :fields="queryFields" show-not name="interactionQuery" aria-label="Interaction release query" @change="meta=>queryOutput=`change:${meta.source}`" @action="meta=>queryOutput=`${meta.type}:${meta.kind}:${meta.index??meta.from??''}:${meta.to??''}`"/>
+      </section>
+      <section class="interaction-case interaction-wide interaction-carousel-case">
+        <h2>Carousel keyboard, swipe and playback contract</h2>
+        <UiCarousel id="interaction-carousel" v-model="carouselIndex" :items="carouselItems" :height="220" autoplay :interval="10000" arrows="always" indicators="numbers" aria-label="Interaction release highlights" @change="meta=>carouselOutput=`change:${meta.source}:${meta.index}:${meta.direction}`" @drag-end="meta=>carouselOutput=`drag:${meta.changed}:${meta.index}`">
+          <template #item="{item,index}"><div class="interaction-carousel-slide" :data-index="index"><strong>{{ item.title }}</strong><span>{{ item.description }}</span></div></template>
+        </UiCarousel>
+        <output class="interaction-output" data-testid="carousel-output">{{ carouselOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

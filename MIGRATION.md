@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.47 carousel compatibility
+
+There are no breaking changes. Announcement, onboarding, media and release-summary screens can add the new carousel incrementally:
+
+```vue
+<UiCarousel v-model="active" :items="slides" indicators="lines" autoplay />
+```
+
+- The model is a zero-based numeric index. Use `defaultIndex` for uncontrolled usage; controlled consumers update `modelValue` from `update:modelValue` as with the rest of the library.
+- Existing item records are retained in `change` metadata. Provide `itemKey` when records do not expose `key`, `value` or `id`, and use the `item` Slot for application rendering.
+- Autoplay pauses on hover, focus, document visibility and Reduced Motion by default. Keep `showPlayControl` enabled whenever automatic rotation is requested so users can stop it explicitly.
+- RTL mirrors logical horizontal Arrow and swipe direction. Vertical mode uses Up/Down; Home/End select the first/last slide in either orientation.
+- Root and `components/UiCarousel` imports expose matching Props, Emits, Slots, instance, item, change and state types; isolated styling is available at `styles/UiCarousel.css`.
+
 ## 1.46 query builder compatibility
 
 There are no breaking changes. Search, reporting and policy screens can add the recursive builder directly or through Schema Form:

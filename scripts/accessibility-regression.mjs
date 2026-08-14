@@ -50,6 +50,7 @@ const cases=[
   {name:'mentions-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=mentions',ready:'.visual-mentions-showcase .ui-mentions',prepare:async page=>{const input=page.getByRole('textbox',{name:'Release comment'});await input.fill('Review @de');await page.getByRole('listbox',{name:'Release comment'}).waitFor()}},
   {name:'input-tag-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=input-tag',ready:'.visual-input-tag-showcase .ui-input-tag',prepare:async page=>{await page.getByRole('textbox',{name:'Release capabilities'}).focus()}},
   {name:'query-builder-contract',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=query-builder',ready:'.visual-query-builder-showcase .ui-query-builder'},
+  {name:'carousel-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=carousel',ready:'.visual-carousel-showcase .ui-carousel'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases
 if(requestedCases.length&&selectedCases.length!==requestedCases.length)throw new Error(`Unknown accessibility case: ${requestedCases.filter(name=>!selectedCases.some(item=>item.name===name)).join(', ')}`)

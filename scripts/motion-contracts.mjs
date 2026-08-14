@@ -66,7 +66,8 @@ const [css,provider,form,scope,plugin]=await Promise.all([
   readFile(new URL('../src/theme-scope.js',import.meta.url),'utf8'),
   readFile(new URL('../src/plugin.js',import.meta.url),'utf8'),
 ])
-assert.equal((css.match(/prefers-reduced-motion/g)||[]).length,1)
+assert.equal((css.match(/prefers-reduced-motion/g)||[]).length,2)
+assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-carousel-track'))
 for(const marker of [':root:not([data-ui-motion])','[data-ui-motion="full"]','[data-ui-motion="reduced"]','--motion-time','--motion-count','--motion-scroll'])assert.ok(css.includes(marker),`missing ${marker}`)
 assert.equal((css.match(/animation\s*:[^;{}]*\binfinite\b/g)||[]).length,0)
 for(const declaration of css.matchAll(/(?:animation|transition)\s*:\s*([^;{}]+)/g))assert.ok(declaration[1].includes('var(--motion-time'),`unscoped duration: ${declaration[0]}`)

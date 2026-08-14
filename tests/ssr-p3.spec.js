@@ -3,6 +3,7 @@ import { renderToString } from 'vue/server-renderer'
 import { describe, expect, it } from 'vitest'
 import UiButton from '../src/components/UiButton.vue'
 import UiCalendar from '../src/components/UiCalendar.vue'
+import UiCarousel from '../src/components/UiCarousel.vue'
 import UiAutoComplete from '../src/components/UiAutoComplete.vue'
 import UiConfigProvider from '../src/components/UiConfigProvider.vue'
 import UiDataGrid from '../src/components/UiDataGrid.vue'
@@ -42,6 +43,7 @@ async function renderFixture() {
       default: () => [
         h(UiButton, null, () => 'Save'),
         h(UiCalendar, { modelValue:['2026-08-10','2026-08-16'], selectionMode:'range', viewDate:'2026-08-01', today:'2026-08-12', showWeekNumbers:true, ariaLabel:'SSR release calendar' }),
+        h(UiCarousel, { items:[{key:'overview',title:'SSR overview',content:'SSR carousel content'},{key:'quality',title:'SSR quality',content:'SSR quality content'}], defaultIndex:1, ariaLabel:'SSR release carousel', arrows:'always', indicators:'numbers' }),
         h(UiAutoComplete, { modelValue:'hangzhou', options:[{label:'Hangzhou',value:'hangzhou'}], 'aria-label':'SSR city' }),
         h(UiDataGrid, { columns:[{key:'name',label:'Name',sortable:true},{key:'status',label:'Status'}], rows:[{id:1,name:'SSR DataGrid row',status:'Ready'}], queryFields:['name'], pageSize:10, ariaLabel:'SSR release data grid' }),
         h(UiDateRangePicker, { modelValue:['2026-08-01','2026-08-11'] }),
@@ -84,6 +86,9 @@ describe('server rendering', () => {
     expect(result.html).toContain('SSR release calendar')
     expect(result.html).toContain('aria-multiselectable="true"')
     expect(result.html).toContain('data-date="2026-08-12"')
+    expect(result.html).toContain('aria-roledescription="carousel"')
+    expect(result.html).toContain('aria-label="SSR release carousel"')
+    expect(result.html).toContain('SSR quality content')
     expect(result.html).toContain('role="combobox"')
     expect(result.html).toContain('SSR city')
     expect(result.html).toContain('aria-label="SSR release data grid"')

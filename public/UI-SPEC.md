@@ -995,3 +995,16 @@ P49 advances to 79 public components, 285 locale keys and 14 theme-scoped Telepo
 - Component center, one-page preview and standalone consumer demonstrate direct and schema-driven usage. Unit, visual, zero-violation Axe, negative type, packed-consumer and three-browser interaction gates verify recursion, keyboard editing, evaluation, accessibility and distribution.
 
 P50 advances to 80 public components, 349 locale keys and 14 theme-scoped Teleport families. Release gates require 23 visual baselines, 41 zero-violation Axe scenarios, 45 interactions per Chromium/Firefox/WebKit engine, 35 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings. The frozen 1.28 comparison uses explicit per-additive-component byte allowances for the typed-editor dependency closure and no percentage tolerance.
+
+## 64. Maturity P51: accessible content carousel
+
+- `UiCarousel` owns one numeric active index and accepts stable application items. Controlled `modelValue` and uncontrolled `defaultIndex` modes share navigation, lazy visitation and event payloads without mutating item identity.
+- Horizontal/vertical and slide/fade presentation modes are independent of navigation state. Looping wraps while finite mode disables endpoint controls and emits typed `reach-start` / `reach-end` metadata.
+- Previous/next controls, dot/line/number indicators, logical Arrow keys, Home/End and pointer swipe converge on `previous`, `next` and `to`. Change payloads include current/previous index, item identity, source and movement direction.
+- Autoplay uses one restartable timeout. Hover, focus-within, page visibility, drag and endpoint pauses are tracked independently; leaving one pause reason must not erase another. Reduced Motion prevents automatic rotation even when requested.
+- A named `region` with carousel role description owns named slide groups. Inactive slides are `aria-hidden` and inert, controls identify their track/slide, live updates are polite when manual and off while rotating, and an explicit playback button remains available whenever autoplay is requested.
+- Lazy rendering visits the active slide deterministically during SSR and retains visited content after navigation. Empty, custom item, indicator and arrow Slots preserve the same accessible shell.
+- CSS covers touch-action, focus-visible, RTL arrow direction, responsive demos, print, forced-colors and reduced-motion. Component-subpath CSS must contain Carousel selectors without unrelated component families.
+- Component center, one-page HTML, standalone consumer, root/subpath types, generated API, SSR and package exports stay in parity. Unit, visual, Axe, negative type, packed-consumer and three-engine interaction gates cover the public contract.
+
+P51 advances to 81 public components, 359 locale keys and generated coverage of 917 Props, 323 Events and 160 Slots. Release gates require 24 visual baselines, 42 zero-violation Axe scenarios, 46 interactions per Chromium/Firefox/WebKit engine, 36 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

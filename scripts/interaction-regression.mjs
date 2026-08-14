@@ -880,6 +880,41 @@ const allCases = [
     },
   },
   {
+    name:'carousel-keyboard-swipe-playback',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.getByRole('region',{name:'Interaction release highlights'})
+      await root.scrollIntoViewIfNeeded()
+      await root.focus()
+      await root.press('ArrowRight')
+      await expectText(page,'carousel-output','change:keyboard:1:next')
+      assert.equal(await root.getAttribute('data-active-index'),'1')
+      await root.press('End')
+      await expectText(page,'carousel-output','change:keyboard-end:2:next')
+      await root.press('Home')
+      await expectText(page,'carousel-output','change:keyboard-home:0:previous')
+      const viewport=root.locator('.ui-carousel-viewport')
+      const box=await viewport.boundingBox()
+      assert.ok(box)
+      await page.mouse.move(box.x+box.width*.75,box.y+box.height*.5)
+      await page.mouse.down()
+      await page.mouse.move(box.x+box.width*.25,box.y+box.height*.5,{steps:4})
+      await page.mouse.up()
+      await page.waitForTimeout(100)
+      const gestureOutput=(await page.getByTestId('carousel-output').innerText()).trim()
+      assert.equal(await root.getAttribute('data-active-index'),'1',`Swipe did not advance: ${gestureOutput}`)
+      assert.equal(gestureOutput,'drag:true:1')
+      const pause=root.getByRole('button',{name:'Pause automatic rotation'})
+      assert.equal(await pause.getAttribute('aria-pressed'),'true')
+      await pause.click()
+      const play=root.getByRole('button',{name:'Start automatic rotation'})
+      assert.equal(await play.getAttribute('aria-pressed'),'false')
+      await play.click()
+      await root.getByRole('button',{name:/Show item 3 of 3/}).click()
+      await expectText(page,'carousel-output','change:indicator:2:next')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -923,7 +958,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),80)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),81)
     },
   },
 ]

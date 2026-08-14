@@ -12,6 +12,7 @@ const components = [...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].ma
 const componentTypes = resolve(root, 'dist-lib/components')
 mkdirSync(componentTypes, { recursive: true })
 const relatedComponentTypes={
+  UiCarousel:['UiCarouselChangeMeta','UiCarouselInstance','UiCarouselItem','UiCarouselNavigationSource','UiCarouselState'],
   UiQueryBuilder:['UiQueryAction','UiQueryBuilderInstance','UiQueryChange','UiQueryCounts','UiQueryEditor','UiQueryError','UiQueryField','UiQueryFieldType','UiQueryGroup','UiQueryOperator','UiQueryRule','UiQueryValidationContext','UiQueryValidationResult'],
 }
 for (const name of components) {
