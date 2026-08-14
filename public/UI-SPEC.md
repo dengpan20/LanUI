@@ -906,3 +906,18 @@ P43 advances to 73 public components and keeps 242 locale keys and 13 theme-scop
 - The frozen 1.28 performance comparison retains strict improvement for 13 metrics. Aggregate package JS gzip receives a deterministic 1KB allowance for each public component above the 69-component baseline and must independently stay below 175KB.
 
 P44 advances to 74 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. Release gates require 17 visual baselines, 35 zero-violation Axe scenarios, 39 interactions per Chromium/Firefox/WebKit engine, 29 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+
+## 58. Maturity P45: semantic typography primitive
+
+- `UiTypography` provides `text`, `paragraph` and title-level semantic output without forcing product code to recreate action affordances or truncation logic.
+- Tone, shared size/weight scale, alignment and marked/code/keyboard/deleted/underlined/strong/italic treatments compose from one stable class contract.
+- Copy accepts an optional canonical source, uses Clipboard with a document fallback, exposes localized status and emits typed success or error payloads.
+- Editable text supports icon, text or both triggers; Escape cancels, Enter confirms single-line fields, Ctrl/Cmd+Enter confirms paragraphs, max length is enforced and blur may be explicitly enabled.
+- Ellipsis uses one or multi-line measurement, `ResizeObserver` and font-ready remeasurement. The expandable action appears only for overflow, preserves `aria-expanded` and supports controlled or uncontrolled state.
+- Disabled actions remain visible but immutable. Prefix, suffix and action-icon slots retain semantics; component refs expose copy, edit, expand, measurement and focus methods.
+- Root and component-subpath exports, component CSS, generated API documentation, static preview, standalone consumer, SSR, installed-tarball checks and cross-browser fixtures remain synchronized.
+
+P45 keeps the frozen 1.28 comparison strict for every historic metric and uses a deterministic 1.5KB gzip allowance per public component only for aggregate package JavaScript.
+
+P45 advances to 75 public components and 251 locale keys. Release gates require 18 visual baselines, 36 zero-violation Axe scenarios, 40 interactions per Chromium/Firefox/WebKit engine, 30 negative type assertions, an isolated tarball consumer and 18 performance ceilings.

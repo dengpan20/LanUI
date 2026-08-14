@@ -744,6 +744,32 @@ const allCases = [
     },
   },
   {
+    name:'typography-copy-edit-expand',
+    run:async page=>{
+      const root=page.locator('#interaction-typography')
+      await root.scrollIntoViewIfNeeded()
+      await root.locator('.ui-typography-content').dblclick()
+      await expectText(page,'typography-output','start:text')
+      const updated='Approved release handoff keeps copy, long-form documentation, expansion and keyboard-confirmed inline editing consistent for every independent consumer workspace.'
+      const editor=root.locator('.ui-typography-editor-control')
+      await editor.fill(updated)
+      await editor.press('Control+Enter')
+      await expectText(page,'typography-output',`save:${updated}`)
+      await page.locator('#interaction-typography[data-overflowing="true"]').waitFor()
+      const expand=root.locator('.ui-typography-action.is-expand')
+      await expand.waitFor()
+      assert.equal(await expand.getAttribute('aria-label'),'Expand text')
+      await expand.click()
+      await expectText(page,'typography-output','expand:true:2')
+      assert.equal(await expand.getAttribute('aria-expanded'),'true')
+      await root.getByRole('button',{name:'Collapse text'}).click()
+      await expectText(page,'typography-output','expand:false:2')
+      await root.locator('.ui-typography-content').dblclick()
+      await root.locator('.ui-typography-editor-control').press('Escape')
+      await expectText(page,'typography-output','cancel:keyboard')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -758,7 +784,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),74)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),75)
     },
   },
 ]

@@ -943,3 +943,27 @@ P43 advances to 73 public components and keeps 242 locale keys and 13 theme-scop
 - The frozen 1.28 performance guard keeps 13 metrics strictly improving. Package JS gzip receives a transparent 1KB allowance per public component added after the 69-component baseline, while the independent 175KB absolute ceiling remains mandatory.
 
 P44 advances to 74 public components and keeps 242 locale keys and 13 theme-scoped Teleport families. CI requires 17 visual baselines, 35 zero-violation Axe scenarios, 39 interactions per Chromium/Firefox/WebKit engine, 29 negative type assertions and 18 performance ceilings.
+
+
+## Semantic typography (P45)
+
+`UiTypography` keeps title, text and paragraph semantics together with copy, inline editing and controlled ellipsis behavior:
+
+```vue
+<UiTypography
+  v-model:content="releaseNote"
+  variant="paragraph"
+  :ellipsis="{ rows:2, expandable:true }"
+  :editable="{ trigger:'both', submitOnBlur:true }"
+  copyable
+/>
+```
+
+- `title`, `text` and `paragraph` choose semantic tags; `level`, `tone`, alignment, size, emphasis and inline code/key treatments remain composable.
+- Copy uses the Async Clipboard API with a scoped fallback and emits `copy` or `copy-error`; action labels and status announcements are localized.
+- Editable text supports icon/text triggers, max length, Escape cancellation, Enter or Ctrl/Cmd+Enter submission and optional blur submission.
+- Ellipsis observes resizing and loaded fonts; expandable text has a labelled `aria-expanded` action and a stable SSR fallback.
+
+P45 keeps the frozen 1.28 comparison strict for every historic metric and uses a 1.5KB gzip allowance per public component only for aggregate package JavaScript.
+
+P45 advances to 75 public components and 251 locale keys. CI requires 18 visual baselines, 36 zero-violation Axe scenarios, 40 interactions per Chromium/Firefox/WebKit engine, 30 negative type assertions and 18 performance ceilings.

@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.41.0] - 2026-08-14
+
+### Added
+
+- `UiTypography`, a semantic title/text/paragraph primitive with typed tone, size, weight, alignment and inline emphasis treatments.
+- Localized copy actions with Async Clipboard/fallback delivery, inline editing, controlled overflow expansion, ResizeObserver/font remeasurement, slot hooks and public instance methods.
+- Typography examples in the component center, static preview and standalone consumer, with unit, SSR, visual, Axe, type and three-browser interaction regression coverage.
+
+### Changed
+
+- Release gates advance to 75 public components, 251 locale keys, 18 visual baselines, 36 Axe scenarios, 40 interactions per browser and 30 negative type assertions.
+- Generated API coverage advances to 764 Props, 271 Events and 131 Slots; package runtime, subpath styles/types and consumer verification now share the 1.41.0 contract.
+- The frozen 1.28 baseline remains strict for all historical metrics. Only aggregate package JavaScript gzip receives a deterministic 1.5KB allowance for each additive public component, alongside an absolute 180KB ceiling.
+
 ## [1.40.0] - 2026-08-14
 
 ### Added

@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.41 typography compatibility
+
+There are no breaking changes. Applications can consolidate semantic release notes, configuration values and instructional text:
+
+```vue
+<UiTypography v-model:content="summary" variant="paragraph" :ellipsis="{ rows:2, expandable:true }" :editable="{ trigger:'both' }" copyable />
+```
+
+- `content` works with the default Slot; use `copyable:{ text }` when the copied canonical value differs from rendered text.
+- `ellipsis` defaults to one line for text and two for paragraphs; expansion is rendered only when measurement finds overflow. Controlled `expanded` and `editing` continue to emit their update events.
+- Single-line editing saves with Enter, paragraph editing with Ctrl/Cmd+Enter; Escape restores the original value. Optional `submitOnBlur` is disabled by default.
+- Root and `components/UiTypography` imports expose matching Props, Emits and Slots declarations and the component-specific stylesheet is available at `styles/UiTypography.css`.
+
 ## 1.40 splitter compatibility
 
 There are no breaking changes. Resizable editor and workbench layouts can add the new public component:

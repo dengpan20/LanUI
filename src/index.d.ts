@@ -246,6 +246,14 @@ export interface UiTourCloseMeta { source:'api'|'finish'|'mask'|'escape'|'close'
 export interface UiTourChangeMeta { source:'previous'|'next'|'keyboard'|'api'|string; step:UiTourStep }
 export interface UiTourProps { modelValue?:boolean; current?:number; steps?:UiTourStep[]; placement?:UiTourPlacement; mask?:boolean; showArrow?:boolean; showClose?:boolean; closeOnEsc?:boolean; closeOnMask?:boolean; scrollIntoView?:boolean; targetClickable?:boolean; targetPadding?:number; offset?:number; width?:string|number; zIndex?:number; ariaLabel?:string }
 export interface UiTourInstance { next:()=>void; previous:()=>void; close:(source?:string)=>void; finish:()=>void; goTo:(index:number)=>boolean; update:()=>void }
+export type UiTypographyVariant = 'text'|'paragraph'|'title'
+export type UiTypographyTone = 'default'|'primary'|'secondary'|'success'|'warning'|'danger'
+export interface UiTypographyCopyConfig { text?:string }
+export interface UiTypographyEditConfig { trigger?:'icon'|'text'|'both'; maxLength?:number; submitOnBlur?:boolean }
+export interface UiTypographyEllipsisConfig { rows?:number; expandable?:boolean }
+export interface UiTypographyEditMeta { value:string; previous?:string; source:string }
+export interface UiTypographyProps { content?:string; variant?:UiTypographyVariant; level?:1|2|3|4|5|6; as?:'span'|'p'|'div'|'label'|'small'|'h1'|'h2'|'h3'|'h4'|'h5'|'h6'; tone?:UiTypographyTone; size?:'inherit'|ComponentSize; weight?:'inherit'|'regular'|'medium'|'semibold'|'bold'; align?:'start'|'center'|'end'; copyable?:boolean|UiTypographyCopyConfig; editable?:boolean|UiTypographyEditConfig; ellipsis?:boolean|UiTypographyEllipsisConfig; expanded?:boolean; editing?:boolean; disabled?:boolean; code?:boolean; keyboard?:boolean; mark?:boolean; delete?:boolean; underline?:boolean; strong?:boolean; italic?:boolean; copyDuration?:number; ariaLabel?:string }
+export interface UiTypographyInstance { copy:(source?:string)=>Promise<boolean>; startEdit:(source?:string)=>boolean; confirmEdit:(source?:string)=>string; cancelEdit:(source?:string)=>boolean; toggleExpanded:(source?:string)=>boolean; measureOverflow:()=>boolean; focus:()=>void; overflowing:Ref<boolean> }
 export interface UiWatermarkFont { color?:string; fontSize?:number; fontWeight?:string|number; fontFamily?:string; fontStyle?:'normal'|'italic'|'oblique'; textAlign?:'left'|'center'|'right'; textBaseline?:CanvasTextBaseline; lineHeight?:number }
 export type UiWatermarkMode = 'empty'|'text'|'image'
 export interface UiWatermarkProps { content?:string|string[]; image?:string; width?:number; height?:number; rotate?:number; zIndex?:number; gap?:[number,number]; offset?:[number,number]; font?:UiWatermarkFont; imageCrossOrigin?:''|'anonymous'|'use-credentials'; observe?:boolean; ariaLabel?:string }
@@ -378,6 +386,7 @@ export type UiTimelineEmits = {}
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
 export type UiTooltipEmits = {}
 export type UiTourEmits = { 'update:modelValue':(value:boolean)=>void; 'update:current':(value:number)=>void; open:(meta:{current:number;step:UiTourStep})=>void; close:(meta:UiTourCloseMeta)=>void; change:(current:number,previous:number,meta:UiTourChangeMeta)=>void; finish:(meta:{current:number;step:UiTourStep})=>void; 'target-missing':(meta:{index:number;step:UiTourStep})=>void }
+export type UiTypographyEmits = { 'update:content':(value:string)=>void; 'update:expanded':(value:boolean)=>void; 'update:editing':(value:boolean)=>void; copy:(payload:{text:string;source:string})=>void; 'copy-error':(payload:{text:string;source:string;error:unknown})=>void; 'edit-start':(meta:UiTypographyEditMeta)=>void; 'edit-end':(meta:UiTypographyEditMeta)=>void; 'edit-cancel':(meta:UiTypographyEditMeta)=>void; expand:(payload:{expanded:boolean;source:string;rows:number})=>void }
 export type UiWatermarkEmits = { render:(meta:UiWatermarkRenderMeta)=>void; remove:(meta:{reason:'removed'|'modified'})=>void; 'image-load':(meta:UiWatermarkImageEvent)=>void; 'image-error':(meta:UiWatermarkImageEvent)=>void }
 export type UiTransferEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void }
 export type UiTreeEmits = { 'update:modelValue':(value:Key|Key[])=>void; 'select-change':(value:Key|Key[],node:UiTreeDataNode,meta:UiTreeSelectMeta)=>void; 'node-click':(node:UiTreeDataNode,event:MouseEvent)=>void; 'update:expandedKeys':(value:Key[])=>void; 'expand-change':(value:Key[],node:UiTreeDataNode,meta:UiTreeExpandMeta)=>void; 'update:checkedKeys':(value:Key[])=>void; 'check-change':(value:Key[],meta:UiTreeCheckMeta)=>void; load:(payload:UiTreeLoadPayload)=>void; 'load-error':(payload:UiTreeLoadError)=>void; 'data-error':(payload:UiTreeDataError)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
@@ -459,6 +468,7 @@ export type UiTimePickerSlots = {}
 export type UiToastHostSlots = {}
 export type UiTooltipSlots = { default?:(props:{describedby:string})=>VNodeChild }
 export type UiTourSlots = { title?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; indicator?:(scope:{current:number;total:number})=>VNodeChild; description?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; actions?:(scope:{step:UiTourStep;current:number;total:number;previous:()=>void;next:()=>void;close:(source?:string)=>void;finish:()=>void})=>VNodeChild }
+export type UiTypographySlots = { default?:(scope:{content:string})=>VNodeChild; prefix?:()=>VNodeChild; suffix?:()=>VNodeChild; 'copy-icon'?:(scope:{copied:boolean})=>VNodeChild; 'edit-icon'?:()=>VNodeChild; 'expand-icon'?:(scope:{expanded:boolean})=>VNodeChild }
 export type UiWatermarkSlots = { default?:()=>VNodeChild }
 export type UiTransferSlots = {}
 export type UiTreeSlots = { node?:(scope:{node:UiTreeDataNode;level:number;selected:boolean;checked:boolean;indeterminate:boolean;expanded:boolean;loading:boolean})=>VNodeChild; icon?:(scope:{node:UiTreeDataNode;expanded:boolean})=>VNodeChild; suffix?:(scope:{node:UiTreeDataNode})=>VNodeChild; empty?:()=>VNodeChild }
@@ -494,6 +504,7 @@ export const UiStatusPage:LanComponent<UiStatusPageProps,UiStatusPageEmits,UiSta
 export const UiVirtualList:LanComponent<UiVirtualListProps,UiVirtualListEmits,UiVirtualListSlots>
 export const UiSteps:LanComponent<UiStepsProps,UiStepsEmits,UiStepsSlots>; export const UiSwitch:LanComponent<UiSwitchProps,UiSwitchEmits,UiSwitchSlots>; export const UiTable:LanComponent<UiTableProps,UiTableEmits,UiTableSlots>; export const UiTabs:LanComponent<UiTabsProps,UiTabsEmits,UiTabsSlots>
 export const UiTag:LanComponent<UiTagProps,UiTagEmits,UiTagSlots>; export const UiTextarea:LanComponent<UiTextareaProps,UiTextareaEmits,UiTextareaSlots>; export const UiTimeline:LanComponent<UiTimelineProps,UiTimelineEmits,UiTimelineSlots>; export const UiTooltip:LanComponent<UiTooltipProps,UiTooltipEmits,UiTooltipSlots>; export const UiTour:LanComponent<UiTourProps,UiTourEmits,UiTourSlots>
+export const UiTypography:LanComponent<UiTypographyProps,UiTypographyEmits,UiTypographySlots>
 export const UiWatermark:LanComponent<UiWatermarkProps,UiWatermarkEmits,UiWatermarkSlots>
 export const UiTimePicker:LanComponent<UiTimePickerProps,UiTimePickerEmits,UiTimePickerSlots>
 export const UiToastHost:LanComponent<UiToastHostProps,UiToastHostEmits,UiToastHostSlots>; export const UiTransfer:LanComponent<UiTransferProps,UiTransferEmits,UiTransferSlots>; export const UiTree:LanComponent<UiTreeProps,UiTreeEmits,UiTreeSlots>; export const UiTreeSelect:LanComponent<UiTreeSelectProps,UiTreeSelectEmits,UiTreeSelectSlots>; export const UiUpload:LanComponent<UiUploadProps,UiUploadEmits,UiUploadSlots>

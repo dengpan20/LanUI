@@ -43,6 +43,7 @@ const cases=[
   {name:'watermark-document',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=watermark',ready:'.visual-watermark-showcase [data-ui-watermark-mode="text"]'},
   {name:'affix-container',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=affix',ready:'.visual-affix-showcase',prepare:async page=>{await page.locator('.visual-affix-target').evaluate(element=>{element.scrollTop=120;element.dispatchEvent(new Event('scroll'))});await page.waitForSelector('.visual-affix-showcase [data-affixed="true"]')}},
   {name:'splitter-workspace',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=splitter',ready:'.visual-splitter-showcase [role="separator"]'},
+  {name:'typography-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=typography',ready:'.visual-typography-showcase .ui-typography-action'},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

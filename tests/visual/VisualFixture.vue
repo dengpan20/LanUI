@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiUpload, UiVirtualList, UiWatermark,
+  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -188,6 +188,9 @@ const tableRows=[
       <UiSplitter v-model="visualSplitterSizes" class="visual-splitter" :panels="visualSplitterPanels" aria-label="Visual workspace splitter">
         <template #panel="{panel,size}"><div class="visual-splitter-panel" :class="{accent:panel.key==='workspace'}"><strong>{{ panel.label }}</strong><span>{{ size.toFixed(1) }}% of the responsive workspace</span><small v-if="panel.key==='navigation'">Projects<br>Components<br>Release evidence</small><small v-else-if="panel.key==='workspace'">Canvas · responsive ratios<br>Adjacent resize only</small><small v-else>Properties<br>Constraints<br>Audit trail</small></div></template>
       </UiSplitter>
+    </UiCard>
+    <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
+      <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>
     </UiCard>
     <UiConfigProvider v-if="state==='theme'" id="visual-scoped-dark" appearance="dark" :theme="{'brand-600':'#7C3AED','brand-text':'#C4B5FD'}" class="visual-table-card">
       <UiCard title="Scoped dark tenant theme" title-tag="h2">

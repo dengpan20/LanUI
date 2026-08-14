@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.40.0",
+  "version": "1.41.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 140741,
-    "rules": 1121,
+    "bytes": 144986,
+    "rules": 1171,
     "source": "component-union"
   },
   "core": {
@@ -438,6 +438,12 @@
       "subpath": "./styles/UiTreeSelect.css",
       "bytes": 2383,
       "rules": 19
+    },
+    {
+      "name": "UiTypography",
+      "subpath": "./styles/UiTypography.css",
+      "bytes": 4282,
+      "rules": 50
     },
     {
       "name": "UiUpload",

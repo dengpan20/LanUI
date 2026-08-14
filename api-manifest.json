@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.40.0",
+  "version": "1.41.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -84,6 +84,7 @@
       "UiTransfer",
       "UiTree",
       "UiTreeSelect",
+      "UiTypography",
       "UiUpload",
       "UiVirtualList",
       "UiWatermark",
@@ -652,6 +653,17 @@
       "UiTreeSelectProps",
       "UiTreeSelectSlots",
       "UiTreeSlots",
+      "UiTypography",
+      "UiTypographyCopyConfig",
+      "UiTypographyEditConfig",
+      "UiTypographyEditMeta",
+      "UiTypographyEllipsisConfig",
+      "UiTypographyEmits",
+      "UiTypographyInstance",
+      "UiTypographyProps",
+      "UiTypographySlots",
+      "UiTypographyTone",
+      "UiTypographyVariant",
       "UiUpload",
       "UiUploadAbortEvent",
       "UiUploadBefore",
@@ -13096,6 +13108,425 @@
       },
       "runtimeExports": [
         "UiTour",
+        "default"
+      ]
+    },
+    {
+      "name": "UiTypography",
+      "subpath": "./components/UiTypography",
+      "propsType": "UiTypographyProps",
+      "props": [
+        "align",
+        "ariaLabel",
+        "as",
+        "code",
+        "content",
+        "copyDuration",
+        "copyable",
+        "delete",
+        "disabled",
+        "editable",
+        "editing",
+        "ellipsis",
+        "expanded",
+        "italic",
+        "keyboard",
+        "level",
+        "mark",
+        "size",
+        "strong",
+        "tone",
+        "underline",
+        "variant",
+        "weight"
+      ],
+      "propDetails": [
+        {
+          "name": "align",
+          "required": false,
+          "type": "'start'|'center'|'end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"start\""
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "as",
+          "required": false,
+          "type": "'span'|'p'|'div'|'label'|'small'|'h1'|'h2'|'h3'|'h4'|'h5'|'h6'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "code",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "content",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "copyDuration",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1500"
+          }
+        },
+        {
+          "name": "copyable",
+          "required": false,
+          "type": "boolean|UiTypographyCopyConfig",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "delete",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "editable",
+          "required": false,
+          "type": "boolean|UiTypographyEditConfig",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "editing",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "ellipsis",
+          "required": false,
+          "type": "boolean|UiTypographyEllipsisConfig",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "expanded",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "italic",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "level",
+          "required": false,
+          "type": "1|2|3|4|5|6",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1"
+          }
+        },
+        {
+          "name": "mark",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "'inherit'|ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"inherit\""
+          }
+        },
+        {
+          "name": "strong",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "tone",
+          "required": false,
+          "type": "UiTypographyTone",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
+          }
+        },
+        {
+          "name": "underline",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "variant",
+          "required": false,
+          "type": "UiTypographyVariant",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"text\""
+          }
+        },
+        {
+          "name": "weight",
+          "required": false,
+          "type": "'inherit'|'regular'|'medium'|'semibold'|'bold'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"inherit\""
+          }
+        }
+      ],
+      "emitsType": "UiTypographyEmits",
+      "emits": [
+        "copy",
+        "copy-error",
+        "edit-cancel",
+        "edit-end",
+        "edit-start",
+        "expand",
+        "update:content",
+        "update:editing",
+        "update:expanded"
+      ],
+      "emitDetails": [
+        {
+          "name": "copy",
+          "required": true,
+          "type": "(payload:{text:string;source:string})=>void"
+        },
+        {
+          "name": "copy-error",
+          "required": true,
+          "type": "(payload:{text:string;source:string;error:unknown})=>void"
+        },
+        {
+          "name": "edit-cancel",
+          "required": true,
+          "type": "(meta:UiTypographyEditMeta)=>void"
+        },
+        {
+          "name": "edit-end",
+          "required": true,
+          "type": "(meta:UiTypographyEditMeta)=>void"
+        },
+        {
+          "name": "edit-start",
+          "required": true,
+          "type": "(meta:UiTypographyEditMeta)=>void"
+        },
+        {
+          "name": "expand",
+          "required": true,
+          "type": "(payload:{expanded:boolean;source:string;rows:number})=>void"
+        },
+        {
+          "name": "update:content",
+          "required": true,
+          "type": "(value:string)=>void"
+        },
+        {
+          "name": "update:editing",
+          "required": true,
+          "type": "(value:boolean)=>void"
+        },
+        {
+          "name": "update:expanded",
+          "required": true,
+          "type": "(value:boolean)=>void"
+        }
+      ],
+      "slotsType": "UiTypographySlots",
+      "slots": [
+        "copy-icon",
+        "default",
+        "edit-icon",
+        "expand-icon",
+        "prefix",
+        "suffix"
+      ],
+      "slotDetails": [
+        {
+          "name": "copy-icon",
+          "required": false,
+          "type": "(scope:{copied:boolean})=>VNodeChild"
+        },
+        {
+          "name": "default",
+          "required": false,
+          "type": "(scope:{content:string})=>VNodeChild"
+        },
+        {
+          "name": "edit-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "expand-icon",
+          "required": false,
+          "type": "(scope:{expanded:boolean})=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiTypography } from 'lan-ui-design-system'",
+        "subpath": "import UiTypography from 'lan-ui-design-system/components/UiTypography'"
+      },
+      "runtimeExports": [
+        "UiTypography",
         "default"
       ]
     },

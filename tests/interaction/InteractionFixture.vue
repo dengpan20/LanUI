@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiSplitter, UiStatusPage, UiTour, UiVirtualList, UiWatermark,
+  UiDataGrid, UiSplitter, UiStatusPage, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -73,6 +73,8 @@ const splitterRef=ref(null)
 const splitterSizes=ref([24,48,28])
 const splitterOutput=ref('ready:24/48/28')
 const splitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
+const typographyValue=ref('Lan UI uses one accessible text primitive for operational notes, release evidence, copied identifiers and keyboard-confirmed inline edits. It keeps multi-line truncation, expansion and action semantics consistent across every consumer workspace.')
+const typographyOutput=ref('ready')
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -462,6 +464,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <UiSplitter id="interaction-splitter" ref="splitterRef" v-model="splitterSizes" :panels="splitterPanels" lazy aria-label="Interaction workspace splitter" @resize-start="splitterOutput=`start:${$event.source}:${Math.round($event.sizes[0])}`" @resize="splitterOutput=`resize:${$event.source}:${Math.round($event.sizes[0])}`" @resize-end="splitterOutput=`end:${$event.source}:${Math.round($event.sizes[0])}`" @collapse="splitterOutput=`collapse:${$event.collapsed}:${$event.source}`">
           <template #panel="{panel,size,collapsed}"><div class="interaction-splitter-panel"><strong>{{ panel.label }}</strong><span v-if="!collapsed">{{ size.toFixed(1) }}%</span></div></template>
         </UiSplitter>
+      </section>
+      <section class="interaction-case interaction-wide interaction-typography-case">
+        <h2>Typography copy, edit, ellipsis and expansion contract</h2>
+        <UiTypography id="interaction-typography" v-model:content="typographyValue" variant="paragraph" :ellipsis="{rows:2,expandable:true}" :editable="{trigger:'both',maxLength:180}" copyable style="display:block;max-width:360px" @edit-start="typographyOutput=`start:${$event.source}`" @edit-end="typographyOutput=`save:${$event.value}`" @edit-cancel="typographyOutput=`cancel:${$event.source}`" @expand="typographyOutput=`expand:${$event.expanded}:${$event.rows}`" />
+        <output class="interaction-output" data-testid="typography-output">{{ typographyOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide">
         <h2>Anchor scroll and keyboard contract</h2>

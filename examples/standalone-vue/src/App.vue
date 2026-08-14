@@ -32,6 +32,7 @@ import {
   UiTag,
   UiToastHost,
   UiTour,
+  UiTypography,
   UiTree,
   UiUpload,
   UiWatermark,
@@ -59,6 +60,7 @@ const standaloneAffixTarget=ref(null)
 const standaloneAffixed=ref(false)
 const standaloneSplitterSizes=ref([24,48,28])
 const standaloneSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
+const standaloneReleaseNote=ref('Standalone consumers can use UiTypography for release notes, copyable configuration values and keyboard-confirmed inline editing without adding separate behavior wrappers.')
 const standaloneTourSteps=[
   {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
   {target:'#standalone-schema',title:'Configure the workspace',description:'The schema keeps fields, validation and repeatable reviewers synchronized.',placement:'top'},
@@ -158,6 +160,12 @@ const rows = computed(() => [
       <UiSplitter v-model="standaloneSplitterSizes" :panels="standaloneSplitterPanels" lazy aria-label="Standalone resizable workspace" style="height:260px">
         <template #panel="{panel,size}"><div style="height:100%;padding:16px;display:grid;align-content:start;gap:8px;background:var(--bg-subtle)"><strong>{{ panel.label }}</strong><span style="color:var(--text-secondary);font-size:12px">{{ size.toFixed(1) }}% · Arrow keys / Home / End / Enter</span></div></template>
       </UiSplitter>
+    </UiCard>
+
+    <UiCard title="Semantic release text">
+      <UiTypography variant="title" :level="4" content="Release handoff" tone="primary" />
+      <UiTypography v-model:content="standaloneReleaseNote" variant="paragraph" :ellipsis="{rows:2,expandable:true}" :editable="{trigger:'both',submitOnBlur:true}" copyable @copy="toast.success('Release note copied')" @edit-end="toast.success('Release note saved')" />
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><UiTypography content="RELEASE_TOKEN_2026" code copyable @copy="toast.success('Token copied')"/><UiTypography content="Ctrl + Enter" keyboard/></div>
     </UiCard>
 
     <UiCard id="standalone-overview" title="业务指标">

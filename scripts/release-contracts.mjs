@@ -64,7 +64,7 @@ export function validateRelease({ref,tag=false,artifact,writeChecksum=true}={}){
     const packedManifest=JSON.parse(run('tar',['-xOf',absolute,'package/package.json']))
     assert(packedManifest.name===manifest.name&&packedManifest.version===version,'Packed release identity mismatch')
     assert(packedManifest.private===false&&packedManifest.license==='MIT','Packed release metadata mismatch')
-    assert(componentNames.length===74,'Public release component count mismatch')
+    assert(componentNames.length===75,'Public release component count mismatch')
     for(const name of componentNames){
       for(const entry of [`package/dist-lib/components/${name}.js`,`package/dist-lib/components/${name}.d.ts`,`package/dist-lib/styles/${name}.css`]){
         assert(entries.includes(entry),`Release artifact is missing ${entry}`)
