@@ -921,3 +921,20 @@ P44 advances to 74 public components and keeps 242 locale keys and 13 theme-scop
 P45 keeps the frozen 1.28 comparison strict for every historic metric and uses a deterministic 1.5KB gzip allowance per public component only for aggregate package JavaScript.
 
 P45 advances to 75 public components and 251 locale keys. Release gates require 18 visual baselines, 36 zero-violation Axe scenarios, 40 interactions per Chromium/Firefox/WebKit engine, 30 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+
+## 59. Maturity P46: semantic finite-data list
+
+- `UiList` represents finite operational records as a semantic list or selectable listbox. Item keys and built-in text, title, description, avatar and disabled fields accept property names or resolvers.
+- Default rich markup is replaceable through item/default, avatar, title, description, actions and extra Slots; header, footer, loading, error, empty and pagination Slots keep surrounding product structure caller-owned.
+- Selection is disabled, single or multiple. Controlled model and active index coexist with defaults, disabled keys and records, optional deselection, looped navigation and nested-interaction isolation.
+- Arrow keys navigate one row or one responsive grid column; Home/End move to boundaries, Enter/Space commits selection, Ctrl/Cmd+A selects all enabled records and typeahead resolves the next matching title. Inline movement mirrors in RTL.
+- Container width selects the declared columns for base, sm, md and lg ranges. Native container-query styles and a ResizeObserver-backed keyboard column step stay synchronized.
+- Client pagination slices finite input; server pagination preserves caller-supplied records while using page, page size and total to publish global `aria-posinset` and `aria-setsize` values.
+- Loading uses inert skeleton rows and localized status text. Error uses an alert and retry action. Empty output is localized and all states remain overridable.
+- The instance exposes focus, active-index movement, selection, clearing and scroll-to-key. Runtime exports, root/subpath declarations, component CSS, generated API, SSR, component center, static preview, standalone and packed consumers remain synchronized.
+- Locale release gates reject Unicode replacement characters and three-or-more question-mark runs before packaging.
+
+P46 keeps the frozen 1.28 comparison strict for every historic metric and retains a deterministic 2KB aggregate JavaScript gzip allowance per public component beyond the 69-component baseline.
+
+P46 advances to 76 public components and 257 locale keys. Release gates require 19 visual baselines, 37 zero-violation Axe scenarios, 41 interactions per Chromium/Firefox/WebKit engine, 31 negative type assertions, an isolated tarball consumer and 18 performance ceilings.

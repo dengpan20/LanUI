@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.42.0] - 2026-08-14
+
+### Added
+
+- `UiList`, a semantic finite-data list with rich item fields and Slots, horizontal or vertical layouts, responsive container-aware grids, disabled records and none/single/multiple selection.
+- Roving active-option behavior with Arrow/Home/End, typeahead, Enter/Space, Ctrl/Cmd+A, RTL movement, client/server pagination, localized loading/error/empty states and public focus/selection/scroll methods.
+- List examples in the component center, static preview and standalone consumer, with unit, SSR, visual, Axe, type and Chromium/Firefox/WebKit regression coverage.
+
+### Changed
+
+- Release gates advance to 76 public components, 257 locale keys, 19 visual baselines, 37 Axe scenarios, 41 interactions per browser and 31 negative type assertions.
+- Generated API coverage advances to 802 Props, 281 Events and 144 Slots; package runtime, subpath styles/types and consumer verification share the 1.42.0 contract.
+- Locale drift checks now reject replacement characters and runs of question marks so corrupted translated labels fail before release.
+- The frozen 1.28 comparison remains strict for historical metrics; aggregate package JavaScript gzip uses a 2KB allowance per additive public component and an independent 185KB ceiling.
+
 ## [1.41.0] - 2026-08-14
 
 ### Added

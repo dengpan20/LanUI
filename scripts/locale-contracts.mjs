@@ -12,6 +12,7 @@ for(const locale of locales){
   if(JSON.stringify(actual)!==JSON.stringify(keys))throw new Error(`Locale key parity failed: ${locale.name} ${actual.length}/${keys.length}`)
   for(const key of keys){
     if(typeof locale.messages[key]!=='string'||!locale.messages[key])throw new Error(`Empty locale message: ${locale.name}:${key}`)
+    if(/\?{3,}|\uFFFD/u.test(locale.messages[key]))throw new Error(`Corrupted locale message: ${locale.name}:${key}`)
     const expected=placeholders(zhCN.messages[key])
     const received=placeholders(locale.messages[key])
     if(JSON.stringify(received)!==JSON.stringify(expected))throw new Error(`Locale placeholder parity failed: ${locale.name}:${key}`)
@@ -21,7 +22,7 @@ for(const locale of locales){
 const registry=readFileSync(resolve(root,'src/components.js'),'utf8')
 const components=[...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].map(([,name])=>name)
 const localized=new Set([
-  'UiAlert','UiAnchor','UiAutoComplete','UiBadge','UiBreadcrumb','UiCalendar','UiCascader','UiColorPicker','UiCommandPalette','UiDatePicker','UiDateRangePicker','UiDescriptions','UiDrawer','UiEmpty','UiFormItem','UiImage','UiInput','UiListToolbar','UiMenu','UiModal','UiMultiSelect','UiNotification','UiNumberInput','UiPagination','UiPopconfirm','UiPopover','UiProgress','UiRate','UiSelect','UiSlider','UiSpin','UiStatistic','UiSteps','UiSwitch','UiTable','UiTabs','UiToastHost','UiTour','UiTransfer','UiTree','UiTreeSelect','UiTypography','UiUpload',
+  'UiAlert','UiAnchor','UiAutoComplete','UiBadge','UiBreadcrumb','UiCalendar','UiCascader','UiColorPicker','UiCommandPalette','UiDatePicker','UiDateRangePicker','UiDescriptions','UiDrawer','UiEmpty','UiFormItem','UiImage','UiInput','UiList','UiListToolbar','UiMenu','UiModal','UiMultiSelect','UiNotification','UiNumberInput','UiPagination','UiPopconfirm','UiPopover','UiProgress','UiRate','UiSelect','UiSlider','UiSpin','UiStatistic','UiSteps','UiSwitch','UiTable','UiTabs','UiToastHost','UiTour','UiTransfer','UiTree','UiTreeSelect','UiTypography','UiUpload',
 ])
 const usedKeys=new Set()
 for(const name of components){

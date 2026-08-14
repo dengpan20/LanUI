@@ -15,6 +15,7 @@ import {
   UiInput,
   UiIcon,
   UiImage,
+  UiList,
   UiModal,
   UiNumberInput,
   UiRate,
@@ -60,6 +61,7 @@ import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
+import SubpathList, { UiList as NamedSubpathList } from 'lan-ui-design-system/components/UiList'
 import SubpathVirtualList, { UiVirtualList as NamedSubpathVirtualList } from 'lan-ui-design-system/components/UiVirtualList'
 import SubpathStatusPage, { UiStatusPage as NamedSubpathStatusPage } from 'lan-ui-design-system/components/UiStatusPage'
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
@@ -91,6 +93,7 @@ import type {
 import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
+import type { UiListEmits, UiListProps, UiListSlots } from 'lan-ui-design-system/components/UiList'
 import type { UiVirtualListEmits, UiVirtualListProps, UiVirtualListSlots } from 'lan-ui-design-system/components/UiVirtualList'
 import type { UiStatusPageEmits, UiStatusPageProps, UiStatusPageSlots } from 'lan-ui-design-system/components/UiStatusPage'
 import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } from 'lan-ui-design-system/components/UiAutoComplete'
@@ -144,6 +147,7 @@ import type {
   UiTourStep,
   UiWatermarkFont,
   UiWatermarkInstance,
+  UiListInstance,
   UiTypographyInstance,
   RgbaColor,
   ColorFormat,
@@ -350,6 +354,14 @@ rateEmit('change',4,{source:'keyboard',previous:3.5})
 const rateSubpathParity:typeof SubpathRate=NamedSubpathRate
 const rateEvent:keyof UiRateEmits='hover-change'
 const rateSlot:keyof UiRateSlots='item'
+const listProps:InstanceType<typeof UiList>['$props']&UiListProps={items:[{id:'audit',title:'Audit report',description:'Ready'}],itemKey:'id',selectionMode:'multiple',modelValue:['audit'],grid:{columns:1,md:2},pagination:{position:'end'}}
+const listEmit:InstanceType<typeof UiList>['$emit']=null as never
+listEmit('change',['audit'],{key:'audit',index:0,sourceIndex:0,item:{id:'audit',title:'Audit report',description:'Ready'},selected:true,source:'keyboard'})
+const listInstance:UiListInstance=null as never
+listInstance.focus(); listInstance.setActiveIndex(0); listInstance.selectKey('audit'); listInstance.clearSelection(); listInstance.scrollToKey('audit')
+const listSubpathParity:typeof SubpathList=NamedSubpathList
+const listEvent:keyof UiListEmits='page-change'
+const listSlot:keyof UiListSlots='actions'
 const typographyProps:InstanceType<typeof UiTypography>['$props']&UiTypographyProps={content:'Release note',variant:'paragraph',tone:'secondary',ellipsis:{rows:2,expandable:true},copyable:{text:'Canonical note'},editable:{trigger:'both',maxLength:160},code:false}
 const typographyEmit:InstanceType<typeof UiTypography>['$emit']=null as never
 typographyEmit('edit-end',{value:'Approved',previous:'Draft',source:'keyboard'})
@@ -399,6 +411,9 @@ const iconRegistryParity:typeof createIconRegistry=createSubpathIconRegistry
 const iconProps:InstanceType<typeof UiIcon>['$props']&UiIconProps={name:'tenantMark',size:20,directional:true,flip:'horizontal',ariaLabel:'Tenant mark'}
 plugin.registerIcon('pluginMark',iconDefinition)
 const iconNames:string[]=plugin.listIcons()
+
+// @ts-expect-error List selection modes are constrained to none, single or multiple.
+const invalidListSelection:UiListProps={selectionMode:'toggle'}
 
 // @ts-expect-error Typography variants are constrained to text, paragraph or title.
 const invalidTypographyVariant:UiTypographyProps={variant:'quote'}
@@ -463,4 +478,4 @@ const invalidAffixPosition:UiAffixProps={position:'left'}
 // @ts-expect-error Splitter direction is constrained to horizontal or vertical.
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
-console.log(typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)
+console.log(listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

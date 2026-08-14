@@ -3,7 +3,7 @@ import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiImage, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiImage, UiList, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
@@ -35,6 +35,8 @@ const gridColumns=[{key:'name',label:'Work item',sortable:true},{key:'team',labe
 const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
+const visualListSelection=ref(['visual-list-1'])
+const visualListRecords=Array.from({length:6},(_,index)=>({id:`visual-list-${index}`,title:`Release evidence ${index+1}`,description:['API and type contract','Keyboard and ARIA audit','Visual regression baseline'][index%3],disabled:index===4}))
 const visualForm=ref(null)
 const visualFormModel=reactive({account:{email:''},profile:{displayName:'L'},contacts:[{name:'Owner',email:'owner@example.com'},{name:'Reviewer',email:'reviewer@example.com'}]})
 const visualSchemaModel=reactive({account:{type:'business',name:'Lan UI workspace',email:'owner@example.com'},taxId:''})
@@ -188,6 +190,14 @@ const tableRows=[
       <UiSplitter v-model="visualSplitterSizes" class="visual-splitter" :panels="visualSplitterPanels" aria-label="Visual workspace splitter">
         <template #panel="{panel,size}"><div class="visual-splitter-panel" :class="{accent:panel.key==='workspace'}"><strong>{{ panel.label }}</strong><span>{{ size.toFixed(1) }}% of the responsive workspace</span><small v-if="panel.key==='navigation'">Projects<br>Components<br>Release evidence</small><small v-else-if="panel.key==='workspace'">Canvas · responsive ratios<br>Adjacent resize only</small><small v-else>Properties<br>Constraints<br>Audit trail</small></div></template>
       </UiSplitter>
+    </UiCard>
+    <UiCard v-if="state==='list'" title="Semantic data list" title-tag="h2" class="visual-table-card visual-list-showcase">
+      <UiList v-model="visualListSelection" :items="visualListRecords" selection-mode="multiple" bordered hoverable :grid="{columns:1,md:2,gap:12}" :pagination="{position:'end',compact:true}" :default-page-size="4" :page-size-options="[4,8]" aria-label="Release evidence list">
+        <template #header><span>Release readiness</span><UiTag color="blue">{{ visualListSelection.length }} selected</UiTag></template>
+        <template #avatar="{index}"><span class="visual-list-avatar">{{ index+1 }}</span></template>
+        <template #extra="{item}"><UiTag :color="item.disabled?'gray':'green'">{{ item.disabled?'Archived':'Ready' }}</UiTag></template>
+        <template #footer>Responsive grid, selection, disabled state and pagination share one semantic contract.</template>
+      </UiList>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

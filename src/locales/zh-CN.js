@@ -1,7 +1,8 @@
 export const zhCN={
   name:'zh-CN',
   messages:{
-    'typography.actions':'????','typography.copy':'????','typography.copied':'???','typography.edit':'????','typography.editLabel':'????','typography.save':'????','typography.cancel':'????','typography.expand':'????','typography.collapse':'????',
+    'typography.actions':'\u6587\u672c\u64cd\u4f5c','typography.copy':'\u590d\u5236\u6587\u672c','typography.copied':'\u5df2\u590d\u5236','typography.edit':'\u7f16\u8f91\u6587\u672c','typography.editLabel':'\u7f16\u8f91\u5185\u5bb9','typography.save':'\u4fdd\u5b58\u7f16\u8f91','typography.cancel':'\u53d6\u6d88\u7f16\u8f91','typography.expand':'\u5c55\u5f00\u6587\u672c','typography.collapse':'\u6536\u8d77\u6587\u672c',
+    'dataList.label':'\u6570\u636e\u5217\u8868','dataList.empty':'\u6682\u65e0\u5217\u8868\u6570\u636e','dataList.loading':'\u6b63\u5728\u52a0\u8f7d\u5217\u8868','dataList.errorTitle':'\u5217\u8868\u52a0\u8f7d\u5931\u8d25','dataList.error':'\u8bf7\u7a0d\u540e\u91cd\u8bd5','dataList.selectedCount':'\u5df2\u9009\u62e9 {count} \u9879',
     'tour.label':'\u529f\u80fd\u5f15\u5bfc','tour.close':'\u5173\u95ed\u5f15\u5bfc','tour.previous':'\u4e0a\u4e00\u6b65','tour.next':'\u4e0b\u4e00\u6b65','tour.finish':'\u5b8c\u6210','tour.step':'\u7b2c {current} \u6b65\uff0c\u5171 {total} \u6b65',
     'common.confirm':'确认','common.cancel':'取消','common.clear':'清除','common.loading':'加载中','common.later':'稍后处理','common.reload':'重新加载','common.all':'全部',
     'command.label':'命令面板','command.title':'快捷命令','command.placeholder':'搜索命令','command.empty':'没有匹配命令','command.loading':'正在加载命令','command.error':'命令加载失败','command.retry':'重新加载命令','command.close':'关闭命令面板','command.hint':'输入关键词快速查找命令','command.results':'命令结果','command.navigate':'导航','command.select':'执行',

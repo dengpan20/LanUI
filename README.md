@@ -967,3 +967,30 @@ P44 advances to 74 public components and keeps 242 locale keys and 13 theme-scop
 P45 keeps the frozen 1.28 comparison strict for every historic metric and uses a 1.5KB gzip allowance per public component only for aggregate package JavaScript.
 
 P45 advances to 75 public components and 251 locale keys. CI requires 18 visual baselines, 36 zero-violation Axe scenarios, 40 interactions per Chromium/Firefox/WebKit engine, 30 negative type assertions and 18 performance ceilings.
+
+
+## Semantic finite-data lists (P46)
+
+`UiList` covers ordinary finite business collections without forcing teams to assemble list semantics, selection and paging independently:
+
+```vue
+<UiList
+  v-model="selectedKeys"
+  :items="records"
+  selection-mode="multiple"
+  :grid="{ columns: 1, md: 2, gap: 12 }"
+  :pagination="{ position: 'end', compact: true }"
+  bordered
+  hoverable
+/>
+```
+
+- Built-in title, description and avatar fields provide a zero-template path; item, avatar, title, description, actions, extra, header, footer and state Slots cover rich products.
+- None, single and multiple selection support disabled keys, deselection, active-index control and pointer isolation for nested actions. Arrow/Home/End, typeahead, Enter/Space and Ctrl/Cmd+A are included; horizontal movement mirrors in RTL.
+- Numeric or breakpoint grids use container width rather than viewport width. Finite client paging slices records locally, while server mode keeps caller-owned items and publishes page metadata with global ARIA positions.
+- Loading skeletons, retryable errors and empty output use locale keys. SSR, isolated CSS, declarations, API records, the standalone app and the packed consumer share the same public contract.
+- Locale contracts additionally reject replacement glyphs and runs of question marks, preventing corrupted labels from entering a release.
+
+P46 keeps the frozen 1.28 comparison strict for every historic metric and retains the 2KB aggregate JavaScript gzip allowance per public component.
+
+P46 advances to 76 public components and 257 locale keys. CI requires 19 visual baselines, 37 zero-violation Axe scenarios, 41 interactions per Chromium/Firefox/WebKit engine, 31 negative type assertions and 18 performance ceilings.

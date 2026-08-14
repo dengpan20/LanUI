@@ -730,3 +730,14 @@ pnpm run api:check
 ## Public registry boundary
 
 The current package is marked `private` and `UNLICENSED` for internal distribution. Before publishing to a public registry, select the intended source-code license, remove `private`, configure registry provenance and run the external tarball consumer verification documented in the release record.
+
+
+## Finite list composition in 1.42
+
+Version 1.42 is additive. Use `UiList` for finite records that need semantic rich content, selection, grid adaptation or pagination. Existing `UiTable`, `UiDataGrid`, `UiListToolbar` and `UiVirtualList` contracts are unchanged.
+
+```vue
+<UiList v-model="selected" :items="records" item-key="id" selection-mode="multiple" bordered />
+```
+
+Choose `UiTable` for column comparison, `UiDataGrid` for coordinated search/filter/sort orchestration and `UiVirtualList` when the rendered record count must be windowed. `UiList` client pagination slices its `items`; set `server` and control `page`, `pageSize` and `total` when data is already paged remotely. Nested buttons and links are ignored by row selection; add `data-ui-list-action` to custom interactive roots that do not use native interactive elements.

@@ -770,6 +770,28 @@ const allCases = [
     },
   },
   {
+    name:'list-selection-actions-pagination-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.locator('#interaction-list')
+      await root.scrollIntoViewIfNeeded()
+      const listbox=root.getByRole('listbox',{name:'Interaction release list'})
+      await listbox.focus()
+      await page.keyboard.press('ArrowLeft')
+      await expectText(page,'list-output','active:1:keyboard')
+      assert.match(await listbox.getAttribute('aria-activedescendant'),/-1$/)
+      await page.keyboard.press('Space')
+      await expectText(page,'list-output','select:interaction-list-0|interaction-list-1')
+      await page.locator('#list-action-interaction-list-1').click()
+      await expectText(page,'list-output','action:interaction-list-1')
+      await root.getByRole('button',{name:'2',exact:true}).click()
+      await expectText(page,'list-output','page:2:3')
+      await listbox.focus()
+      await page.keyboard.press('Control+a')
+      await expectText(page,'list-output','select:interaction-list-0|interaction-list-1|interaction-list-3|interaction-list-4|interaction-list-5|interaction-list-6')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -784,7 +806,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),75)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),76)
     },
   },
 ]

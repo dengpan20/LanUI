@@ -20,6 +20,7 @@ import {
   UiInput,
   UiIcon,
   UiImage,
+  UiList,
   UiNumberInput,
   UiRate,
   UiSelect,
@@ -61,6 +62,9 @@ const standaloneAffixed=ref(false)
 const standaloneSplitterSizes=ref([24,48,28])
 const standaloneSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
 const standaloneReleaseNote=ref('Standalone consumers can use UiTypography for release notes, copyable configuration values and keyboard-confirmed inline editing without adding separate behavior wrappers.')
+const standaloneListSelection=ref(['contract'])
+const standaloneListPage=ref(1)
+const standaloneListItems=[{id:'contract',title:'Package contract',description:'Root exports, component subpaths and typed slots',owner:'API',status:'Ready'},{id:'accessibility',title:'Accessibility review',description:'Keyboard, listbox position and selection semantics',owner:'QA',status:'Review'},{id:'consumer',title:'Consumer build',description:'Standalone Vite application and isolated package install',owner:'Release',status:'Ready'},{id:'rollback',title:'Rollback evidence',description:'Baseline archive, patch and runnable restore command',owner:'Ops',status:'Ready'}]
 const standaloneTourSteps=[
   {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
   {target:'#standalone-schema',title:'Configure the workspace',description:'The schema keeps fields, validation and repeatable reviewers synchronized.',placement:'top'},
@@ -160,6 +164,15 @@ const rows = computed(() => [
       <UiSplitter v-model="standaloneSplitterSizes" :panels="standaloneSplitterPanels" lazy aria-label="Standalone resizable workspace" style="height:260px">
         <template #panel="{panel,size}"><div style="height:100%;padding:16px;display:grid;align-content:start;gap:8px;background:var(--bg-subtle)"><strong>{{ panel.label }}</strong><span style="color:var(--text-secondary);font-size:12px">{{ size.toFixed(1) }}% · Arrow keys / Home / End / Enter</span></div></template>
       </UiSplitter>
+    </UiCard>
+
+
+    <UiCard title="Semantic responsive list">
+      <UiList v-model="standaloneListSelection" v-model:page="standaloneListPage" :items="standaloneListItems" item-key="id" selection-mode="multiple" bordered hoverable :grid="{columns:1,md:2,gap:12}" :pagination="{position:'end',compact:true}" :default-page-size="2" :page-size-options="[2,4]" aria-label="Standalone release records">
+        <template #header><strong>Release readiness</strong><UiTag color="blue">{{ standaloneListSelection.length }} selected</UiTag></template>
+        <template #extra="{item}"><UiTag :color="item.status==='Ready'?'green':'orange'">{{ item.status }}</UiTag></template>
+        <template #footer>Arrow keys move; Space selects; pagination preserves source positions.</template>
+      </UiList>
     </UiCard>
 
     <UiCard title="Semantic release text">

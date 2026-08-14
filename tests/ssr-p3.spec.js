@@ -21,6 +21,7 @@ import UiRate from '../src/components/UiRate.vue'
 import UiStatistic from '../src/components/UiStatistic.vue'
 import UiImage from '../src/components/UiImage.vue'
 import UiStatusPage from '../src/components/UiStatusPage.vue'
+import UiList from '../src/components/UiList.vue'
 import UiVirtualList from '../src/components/UiVirtualList.vue'
 import UiWatermark from '../src/components/UiWatermark.vue'
 import UiAffix from '../src/components/UiAffix.vue'
@@ -49,6 +50,7 @@ async function renderFixture() {
         h(UiRate, { modelValue:3.5, step:.5, showText:true, ariaLabel:'SSR service rating' }),
         h(UiStatistic, { value:2864000, title:'SSR revenue', prefix:'$', trend:12.6, precision:0 }),
         h(UiImage, { src:'/ssr-thumbnail.jpg', alt:'SSR architecture', preview:true, previewOpen:true, previewList:['/ssr-large-a.jpg','/ssr-large-b.jpg'], previewIndex:1 }),
+        h(UiList, { items:[{id:'ssr-list-a',title:'SSR audit item',description:'Review ready'},{id:'ssr-list-b',title:'SSR release item',description:'Published'}], itemKey:'id', modelValue:['ssr-list-a'], selectionMode:'multiple', pagination:{pageSize:1}, ariaLabel:'SSR semantic records' }),
         h(UiVirtualList, { items:Array.from({length:6},(_,index)=>({id:`ssr-${index}`,label:`SSR row ${index+1}`})), modelValue:'ssr-1', selectionMode:'single', height:120, itemSize:40, ariaLabel:'SSR virtual records' }),
         h(UiStatusPage, { status:'403', embedded:true }),
         h(UiWatermark, { content:['Lan UI','SSR'], ariaLabel:'SSR protected document' }, { default:() => h('article', 'SSR watermark content') }),
@@ -106,6 +108,9 @@ describe('server rendering', () => {
     expect(result.html).toContain('SSR architecture')
     expect(result.teleports.body).toContain('src="/ssr-large-b.jpg"')
     expect(result.teleports.body).toContain('Image 2 of 2')
+    expect(result.html).toContain('aria-label="SSR semantic records"')
+    expect(result.html).toContain('SSR audit item')
+    expect(result.html).toContain('aria-posinset="1"')
     expect(result.html).toContain('aria-label="SSR virtual records"')
     expect(result.html).toContain('aria-setsize="6"')
     expect(result.html).toContain('SSR protected document')

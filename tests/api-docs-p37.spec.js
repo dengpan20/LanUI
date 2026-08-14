@@ -16,7 +16,7 @@ afterEach(()=>{while(mounted.length)mounted.pop().unmount();history.replaceState
 describe('P37 generated component API documentation',()=>{
   it('publishes schema 3 signature and runtime default details for every component',()=>{
     expect(manifest.schemaVersion).toBe(3)
-    expect(manifest.components).toHaveLength(75)
+    expect(manifest.components).toHaveLength(76)
     for(const component of manifest.components){
       expect(component.propDetails.map(item=>item.name)).toEqual(component.props)
       expect(component.emitDetails.map(item=>item.name)).toEqual(component.emits)
@@ -43,8 +43,8 @@ describe('P37 generated component API documentation',()=>{
     expect(docs).toEqual(publicDocs)
     expect(docs.schemaVersion).toBe(1)
     expect(docs.categories).toHaveLength(6)
-    expect(docs.categories.reduce((sum,category)=>sum+category.count,0)).toBe(75)
-    expect(new Set(docs.components.map(component=>component.name)).size).toBe(75)
+    expect(docs.categories.reduce((sum,category)=>sum+category.count,0)).toBe(76)
+    expect(new Set(docs.components.map(component=>component.name)).size).toBe(76)
     expect(docs.components.every(component=>docs.categories.some(category=>category.id===component.category))).toBe(true)
   })
 

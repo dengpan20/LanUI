@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
-  UiImage, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiImage, UiList, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -75,6 +75,10 @@ const splitterOutput=ref('ready:24/48/28')
 const splitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
 const typographyValue=ref('Lan UI uses one accessible text primitive for operational notes, release evidence, copied identifiers and keyboard-confirmed inline edits. It keeps multi-line truncation, expansion and action semantics consistent across every consumer workspace.')
 const typographyOutput=ref('ready')
+const listSelection=ref(['interaction-list-0'])
+const listPage=ref(1)
+const listOutput=ref('ready')
+const interactionListItems=Array.from({length:7},(_,index)=>({id:`interaction-list-${index}`,title:`Release record ${index+1}`,description:`Evidence lane ${index%3+1}`,disabled:index===2}))
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -464,6 +468,13 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <UiSplitter id="interaction-splitter" ref="splitterRef" v-model="splitterSizes" :panels="splitterPanels" lazy aria-label="Interaction workspace splitter" @resize-start="splitterOutput=`start:${$event.source}:${Math.round($event.sizes[0])}`" @resize="splitterOutput=`resize:${$event.source}:${Math.round($event.sizes[0])}`" @resize-end="splitterOutput=`end:${$event.source}:${Math.round($event.sizes[0])}`" @collapse="splitterOutput=`collapse:${$event.collapsed}:${$event.source}`">
           <template #panel="{panel,size,collapsed}"><div class="interaction-splitter-panel"><strong>{{ panel.label }}</strong><span v-if="!collapsed">{{ size.toFixed(1) }}%</span></div></template>
         </UiSplitter>
+      </section>
+      <section class="interaction-case interaction-wide interaction-list-case">
+        <h2>List selection, action isolation and pagination contract</h2>
+        <UiList id="interaction-list" v-model="listSelection" v-model:page="listPage" :items="interactionListItems" selection-mode="multiple" bordered hoverable :grid="{columns:2}" :pagination="{compact:true}" :default-page-size="3" :page-size-options="[3,6]" aria-label="Interaction release list" @change="listOutput=`select:${$event.join('|')}`" @active-change="listOutput=`active:${$event.index}:${$event.source}`" @page-change="listOutput=`page:${$event.page}:${$event.pageSize}`">
+          <template #actions="{item}"><UiButton :id="`list-action-${item.id}`" size="sm" variant="text" @click="listOutput=`action:${item.id}`">Open</UiButton></template>
+        </UiList>
+        <output class="interaction-output" data-testid="list-output">{{ listOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

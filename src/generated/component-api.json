@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.41.0",
+  "version": "1.42.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -26,7 +26,7 @@
       "id": "data",
       "label": "数据展示",
       "description": "结构化内容、媒体、状态、文本、列表、表格和虚拟数据。",
-      "count": 17
+      "count": 18
     },
     {
       "id": "navigation",
@@ -6259,6 +6259,607 @@
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiList",
+      "category": "data",
+      "categoryLabel": "数据展示",
+      "subpath": "./components/UiList",
+      "imports": {
+        "root": "import { UiList } from 'lan-ui-design-system'",
+        "subpath": "import UiList from 'lan-ui-design-system/components/UiList'"
+      },
+      "propsType": "UiListProps",
+      "props": [
+        {
+          "name": "activeIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "avatarField",
+          "required": false,
+          "type": "string|((item:T,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"avatar\""
+          }
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultActiveIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "defaultPage",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1"
+          }
+        },
+        {
+          "name": "defaultPageSize",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "10"
+          }
+        },
+        {
+          "name": "descriptionField",
+          "required": false,
+          "type": "string|((item:T,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"description\""
+          }
+        },
+        {
+          "name": "deselectable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabledField",
+          "required": false,
+          "type": "string|((item:T,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"disabled\""
+          }
+        },
+        {
+          "name": "disabledKeys",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "string|boolean",
+          "runtimeTypes": [
+            "String",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "errorText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "grid",
+          "required": false,
+          "type": "number|UiListGrid",
+          "runtimeTypes": [
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "hoverable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "string|((item:T,index:number)=>Key)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"id\""
+          }
+        },
+        {
+          "name": "itemLayout",
+          "required": false,
+          "type": "'horizontal'|'vertical'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "items",
+          "required": false,
+          "type": "T[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "4"
+          }
+        },
+        {
+          "name": "loadingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "Key|Key[]",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "page",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "pageSize",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "pageSizeOptions",
+          "required": false,
+          "type": "number[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "pagination",
+          "required": false,
+          "type": "boolean|UiListPaginationOptions",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "selectionMode",
+          "required": false,
+          "type": "UiListSelectionMode",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"none\""
+          }
+        },
+        {
+          "name": "server",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "showSizeChanger",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "split",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "striped",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "tabindex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "textField",
+          "required": false,
+          "type": "string|((item:T,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"label\""
+          }
+        },
+        {
+          "name": "titleField",
+          "required": false,
+          "type": "string|((item:T,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"title\""
+          }
+        },
+        {
+          "name": "total",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        }
+      ],
+      "emitsType": "UiListEmits",
+      "emits": [
+        {
+          "name": "active-change",
+          "required": true,
+          "type": "(meta:UiListActiveMeta<T>)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:Key|Key[]|undefined,meta:UiListSelectionMeta<T>|{source:string;selected:boolean})=>void"
+        },
+        {
+          "name": "item-click",
+          "required": true,
+          "type": "(item:T,index:number,event:MouseEvent)=>void"
+        },
+        {
+          "name": "page-change",
+          "required": true,
+          "type": "(meta:UiListPageMeta)=>void"
+        },
+        {
+          "name": "page-size-change",
+          "required": true,
+          "type": "(meta:UiListPageMeta)=>void"
+        },
+        {
+          "name": "retry",
+          "required": true,
+          "type": "()=>void"
+        },
+        {
+          "name": "update:activeIndex",
+          "required": true,
+          "type": "(value:number)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:Key|Key[]|undefined)=>void"
+        },
+        {
+          "name": "update:page",
+          "required": true,
+          "type": "(value:number)=>void"
+        },
+        {
+          "name": "update:pageSize",
+          "required": true,
+          "type": "(value:number)=>void"
+        }
+      ],
+      "slotsType": "UiListSlots",
+      "slots": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{item:T;index:number})=>VNodeChild"
+        },
+        {
+          "name": "avatar",
+          "required": false,
+          "type": "(scope:{item:T;index:number})=>VNodeChild"
+        },
+        {
+          "name": "default",
+          "required": false,
+          "type": "(scope:UiListItemScope<T>)=>VNodeChild"
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "(scope:{item:T;index:number})=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{error:string|boolean;retry:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "extra",
+          "required": false,
+          "type": "(scope:{item:T;index:number})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:UiListItemScope<T>)=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{count:number})=>VNodeChild"
+        },
+        {
+          "name": "pagination",
+          "required": false,
+          "type": "(scope:{page:number;pageSize:number;total:number;setPage:(value:number)=>void;setPageSize:(value:number)=>void})=>VNodeChild"
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "(scope:{item:T;index:number})=>VNodeChild"
         }
       ]
     },
