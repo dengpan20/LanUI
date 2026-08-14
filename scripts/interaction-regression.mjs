@@ -792,6 +792,31 @@ const allCases = [
     },
   },
   {
+    name:'mentions-caret-keyboard-multi-trigger-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.getByRole('combobox',{name:'Interaction release comment'})
+      const input=root.getByRole('textbox',{name:'Interaction release comment'})
+      await input.scrollIntoViewIfNeeded()
+      await input.fill('Review @al')
+      const memberList=page.getByRole('listbox',{name:'Suggestions'})
+      await memberList.waitFor()
+      assert.equal(await root.getAttribute('aria-expanded'),'true')
+      assert.equal(await memberList.getAttribute('data-placement'),'bottom-end')
+      assert.equal(await memberList.getByRole('option').count(),2)
+      await input.press('Enter')
+      await expectText(page,'mentions-output','select:@:alice:enter')
+      assert.equal(await input.inputValue(),'Review @alice ')
+      await input.fill('Review @alice #re')
+      await memberList.waitFor()
+      assert.equal(await memberList.getByRole('option').count(),1)
+      await input.press('Tab')
+      await expectText(page,'mentions-output','select:#:release:tab')
+      assert.equal(await input.inputValue(),'Review @alice #release ')
+      assert.equal(await root.getAttribute('aria-expanded'),'false')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -835,7 +860,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),77)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),78)
     },
   },
 ]

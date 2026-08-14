@@ -1019,3 +1019,27 @@ P46 advances to 76 public components and 257 locale keys. CI requires 19 visual 
 - `input`, `change`, `complete`, `focus`, `blur` and `invalid` events include typed source/index metadata; refs expose focus, blur, clear and programmatic value updates.
 
 P47 advances to 77 public components and 260 locale keys. CI requires 20 visual baselines, 38 zero-violation Axe scenarios, 42 interactions per Chromium/Firefox/WebKit engine, 32 negative type assertions and 18 performance ceilings.
+
+## Contextual mentions (P48)
+
+`UiMentions` adds a production-ready multiline mention editor for reviewers, topics and product-specific tokens:
+
+```vue
+<UiMentions
+  v-model="comment"
+  :options="mentionOptions"
+  :triggers="['@', '#']"
+  :auto-size="{ minRows:3, maxRows:6 }"
+  show-count
+  maxlength="160"
+  @select="handleMention"
+/>
+```
+
+- The suggestion panel follows the active caret, filters per trigger and mirrors logical start/end placement under RTL. Arrow keys, Ctrl+Home/End, Enter, Tab and Escape provide complete keyboard operation.
+- Local options and debounced `fetchSuggestions` share one contract with AbortSignal cancellation, stale-response suppression, query cache, loading, empty and retryable error presentation.
+- IME composition is deferred until completion. Token boundary validation, spaced queries, custom filtering, validation, formatting and insertion suffixes cover common chat, issue and document workflows.
+- The multiline textbox supports controlled values, FormItem IDs/errors, autosize, maxlength/count, disabled, readonly and invalid states. The owned combobox/listbox structure exposes active-descendant state without assigning an invalid combobox role to a native textarea.
+- Typed Props, Emits, Slots and instance methods are identical through root and component subpath imports; static preview, component center and the standalone package consumer use the same behavior.
+
+P48 advances to 78 public components, 265 locale keys and 14 theme-scoped Teleport families. CI requires 21 visual baselines, 39 zero-violation Axe scenarios, 43 interactions per Chromium/Firefox/WebKit engine, 33 negative type assertions and 18 performance ceilings. The frozen 1.28 comparison uses explicit per-additive-component allowances of 500 B package JS raw, 2.75 KB package JS gzip and 800 B standalone JS raw; all remaining historical metrics retain zero allowance.

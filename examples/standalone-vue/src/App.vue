@@ -21,6 +21,7 @@ import {
   UiIcon,
   UiImage,
   UiList,
+  UiMentions,
   UiNumberInput,
   UiOtpInput,
   UiRate,
@@ -66,6 +67,12 @@ const standaloneReleaseNote=ref('Standalone consumers can use UiTypography for r
 const standaloneListSelection=ref(['contract'])
 const standaloneListPage=ref(1)
 const standaloneOtp=ref('204')
+const standaloneMentions=ref('Please ask @de')
+const standaloneMentionOptions=[
+  {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
+  {label:'Frontend owner',value:'frontend',description:'Consumer integration',trigger:'@'},
+  {label:'Release',value:'release',description:'Package and workflow evidence',trigger:'#'},
+]
 const standaloneListItems=[{id:'contract',title:'Package contract',description:'Root exports, component subpaths and typed slots',owner:'API',status:'Ready'},{id:'accessibility',title:'Accessibility review',description:'Keyboard, listbox position and selection semantics',owner:'QA',status:'Review'},{id:'consumer',title:'Consumer build',description:'Standalone Vite application and isolated package install',owner:'Release',status:'Ready'},{id:'rollback',title:'Rollback evidence',description:'Baseline archive, patch and runnable restore command',owner:'Ops',status:'Ready'}]
 const standaloneTourSteps=[
   {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
@@ -182,6 +189,13 @@ const rows = computed(() => [
         <UiOtpInput v-model="standaloneOtp" :length="6" separator="–" :separator-every="3" name="release-code" @complete="toast.success(`Code ${$event} completed`)" />
       </UiFormItem>
       <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Consumer model: {{ standaloneOtp || 'empty' }}</div>
+    </UiCard>
+
+    <UiCard title="Contextual mentions">
+      <UiFormItem label="Release handoff" help="Type @ for reviewers or # for a release topic; the suggestion panel follows the caret.">
+        <UiMentions v-model="standaloneMentions" :options="standaloneMentionOptions" :triggers="['@','#']" show-count maxlength="160" :auto-size="{minRows:3,maxRows:6}" @select="toast.success(`Inserted ${$event.label}`)" />
+      </UiFormItem>
+      <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Consumer model: {{ standaloneMentions }}</div>
     </UiCard>
 
     <UiCard title="Semantic release text">

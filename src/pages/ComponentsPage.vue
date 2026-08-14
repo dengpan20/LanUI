@@ -10,6 +10,7 @@ import UiCard from '../components/UiCard.vue'
 import UiInput from '../components/UiInput.vue'
 import UiNumberInput from '../components/UiNumberInput.vue'
 import UiOtpInput from '../components/UiOtpInput.vue'
+import UiMentions from '../components/UiMentions.vue'
 import UiSlider from '../components/UiSlider.vue'
 import UiRate from '../components/UiRate.vue'
 import UiSelect from '../components/UiSelect.vue'
@@ -110,7 +111,8 @@ async function fetchProjectSuggestions(query,{signal}){
   await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,360);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})
   return ['Design System','Admin Portal','Analytics Center','AI Workspace'].filter(item=>item.toLowerCase().includes(query.toLowerCase())).map((label,index)=>({label,value:`remote-${index}-${label.toLowerCase().replaceAll(' ','-')}`,description:'异步结果'}))
 }
-const quantityDemo=ref(12.5);const budgetDemo=ref(286400);const percentDemo=ref(68);const otpDemo=ref('204')
+const quantityDemo=ref(12.5);const budgetDemo=ref(286400);const percentDemo=ref(68);const otpDemo=ref('204');const mentionsDemo=ref('请 @design 复核 #release 交付内容。')
+const mentionsOptions=[{label:'设计负责人',value:'design',description:'Design system owner',trigger:'@',keywords:['designer']},{label:'前端负责人',value:'frontend',description:'Component implementation',trigger:'@'},{label:'质量负责人',value:'qa',description:'Accessibility and regression',trigger:'@'},{label:'Release',value:'release',description:'发布与制品验证',trigger:'#'},{label:'Accessibility',value:'a11y',description:'WCAG 2.2 检查',trigger:'#'}]
 const sliderDemo=ref(40);const sliderRangeDemo=ref([20,80]);const verticalSliderDemo=ref(65)
 const serviceRateDemo=ref(3.5);const customRateDemo=ref(4)
 const brandColorDemo=ref('#1677FFCC');const accentColorDemo=ref('hsl(155, 75%, 38%)');const colorContrast=computed(()=>getContrastRatio(brandColorDemo.value,'#FFFFFF')?.toFixed(2)||'—')
@@ -202,9 +204,9 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:77},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:78},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'OTP Input P47'},{key:'version',label:'版本',value:'1.43.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-14'},{key:'coverage',label:'覆盖范围',value:'77 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、验证码输入、Node 20/22/24 与隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Mentions P48'},{key:'version',label:'版本',value:'1.44.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-14'},{key:'coverage',label:'覆盖范围',value:'78 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、光标提及、多触发符、Node 20/22/24 与隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -367,6 +369,12 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <UiFormItem label="敏感验证码" help="mask 只隐藏视觉内容，表单值仍保持完整字符串"><UiOtpInput model-value="4826" :length="4" mask name="secure-code"/></UiFormItem>
               <UiFormItem label="字母数字邀请码" help="alphanumeric + uppercase 可过滤并统一邀请码格式"><UiOtpInput model-value="A7B" :length="5" mode="alphanumeric" uppercase/></UiFormItem>
               <UiFormItem label="状态" group><div class="otp-state-stack"><UiOtpInput model-value="12" :length="4" size="sm" readonly aria-label="只读验证码"/><UiOtpInput model-value="98" :length="4" invalid aria-label="错误验证码"/><UiOtpInput :length="4" disabled aria-label="禁用验证码"/></div></UiFormItem>
+            </div></div>
+            <div class="form-demo-section" data-mentions-state-contract="default hover active focus disabled loading empty error"><div class="form-demo-title"><strong>成员与主题提及</strong><span>UiMentions · caret / async / multi-trigger</span></div><div class="form-demo-content form-row mentions-demo-grid">
+              <UiFormItem label="协作评论" help="输入 @ 提及成员，输入 # 关联主题；建议浮层跟随当前光标位置"><UiMentions v-model="mentionsDemo" :options="mentionsOptions" :triggers="['@','#']" show-count maxlength="160" :auto-size="{minRows:3,maxRows:6}" @select="emit('notify',`已插入 ${$event.trigger||''}${$event.value}`)"/></UiFormItem>
+              <UiFormItem label="自定义输出" help="formatMention 可生成产品需要的标记格式"><UiMentions model-value="Review @ad" :options="mentionsOptions" :format-mention="(option,meta)=>`[${meta.trigger}${option.value}] `" :rows="3"/></UiFormItem>
+              <UiFormItem label="错误状态" error="至少提及一位复核人"><UiMentions model-value="请补充复核人" :options="mentionsOptions" invalid :rows="3"/></UiFormItem>
+              <UiFormItem label="只读与禁用" group><div class="mentions-state-stack"><UiMentions model-value="由 @design 维护" :options="mentionsOptions" readonly :rows="2" aria-label="只读提及"/><UiMentions model-value="已锁定评论" disabled :rows="2" aria-label="禁用提及"/></div></UiFormItem>
             </div></div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>Slider / Range</strong><span>Pointer + keyboard + ARIA</span></div><div class="form-demo-content form-row">
               <UiFormItem label="完成度" help="方向键微调，Page 键大步进，Home / End 跳到边界"><UiSlider v-model="sliderDemo" :step="5" :marks="{0:'0',50:'50',100:'100'}" :formatter="value=>`${value}%`"/></UiFormItem>
@@ -540,7 +548,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div class="watermark-showcase-card" style="grid-column:1/-1">
                 <span class="demo-label">UiWatermark · 文本 / 图片水印与防篡改恢复</span>
                 <UiWatermark :content="['Lan UI','内部审阅']" :gap="[72,64]" :font="{fontSize:14,color:'rgba(37,99,235,.16)',fontWeight:650}" aria-label="内部审阅文档水印">
-<div class="watermark-demo-document"><div><strong>组件发布检查单</strong><span>Release 1.43.0 · 视觉、键盘、类型、SSR 与产物验证</span></div><UiTag color="green">Ready</UiTag></div>
+                <div class="watermark-demo-document"><div><strong>组件发布检查单</strong><span>Release 1.44.0 · 视觉、键盘、类型、SSR 与产物验证</span></div><UiTag color="green">Ready</UiTag></div>
                 </UiWatermark>
                 <div class="preview-note"><strong>运行时契约：</strong>图片加载失败自动回退文字；高 DPI Canvas 保持清晰；MutationObserver 在图层被删除或修改后恢复，且不阻断下层点击。</div>
               </div>

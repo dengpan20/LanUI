@@ -3,7 +3,7 @@ import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput, UiOtpInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiImage, UiList, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
@@ -38,6 +38,13 @@ const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,la
 const visualListSelection=ref(['visual-list-1'])
 const visualListRecords=Array.from({length:6},(_,index)=>({id:`visual-list-${index}`,title:`Release evidence ${index+1}`,description:['API and type contract','Keyboard and ARIA audit','Visual regression baseline'][index%3],disabled:index===4}))
 const visualOtp=ref('204')
+const visualMentions=ref('Review @de')
+const visualMentionsRef=ref(null)
+const visualMentionOptions=[
+  {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
+  {label:'Frontend owner',value:'frontend',description:'Implementation review',trigger:'@'},
+  {label:'Release',value:'release',description:'Package and workflow evidence',trigger:'#'},
+]
 const visualForm=ref(null)
 const visualFormModel=reactive({account:{email:''},profile:{displayName:'L'},contacts:[{name:'Owner',email:'owner@example.com'},{name:'Reviewer',email:'reviewer@example.com'}]})
 const visualSchemaModel=reactive({account:{type:'business',name:'Lan UI workspace',email:'owner@example.com'},taxId:''})
@@ -64,7 +71,7 @@ const visualUploadFiles=ref([
   {id:'upload-error',name:'token-audit.json',size:32768,status:'error',percent:68,error:'Network timeout',raw:new File(['tokens'],'token-audit.json',{type:'application/json'})},
   {id:'upload-success',name:'checksums.txt',size:2048,status:'success',percent:100},
 ])
-onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}})
+onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}if(props.state==='mentions'){await nextTick();visualMentionsRef.value?.focus?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
   {key:'owner',label:'Owner'},
@@ -206,6 +213,14 @@ const tableRows=[
         <UiFormItem label="Masked approval code"><UiOtpInput model-value="4826" :length="4" mask/></UiFormItem>
         <UiFormItem label="Alphanumeric invite"><UiOtpInput model-value="A7B" :length="5" mode="alphanumeric" uppercase/></UiFormItem>
         <UiFormItem label="Validation state" error="The verification code has expired"><UiOtpInput model-value="98" :length="4" invalid/></UiFormItem>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='mentions'" title="Contextual mentions" title-tag="h2" class="visual-table-card visual-mentions-showcase">
+      <div class="visual-mentions-grid">
+        <UiFormItem label="Release comment" help="The popup follows the caret and filters reviewers or topics."><UiMentions ref="visualMentionsRef" v-model="visualMentions" :options="visualMentionOptions" :triggers="['@','#']" show-count maxlength="160" :auto-size="{minRows:3,maxRows:5}" :append-to-body="false"/></UiFormItem>
+        <UiFormItem label="Validation state" error="Mention at least one reviewer"><UiMentions model-value="Review is still missing an owner" :options="visualMentionOptions" invalid :rows="3"/></UiFormItem>
+        <UiFormItem label="Read-only contract"><UiMentions model-value="Maintained by @design" :options="visualMentionOptions" readonly :rows="2"/></UiFormItem>
+        <UiFormItem label="Disabled contract"><UiMentions model-value="Comment is locked" disabled :rows="2"/></UiFormItem>
       </div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">

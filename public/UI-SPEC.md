@@ -954,3 +954,18 @@ P46 advances to 76 public components and 257 locale keys. Release gates require 
 P47 retains the frozen 1.28 comparison and uses a deterministic 2.25KB aggregate JavaScript gzip allowance per public component beyond the 69-component baseline.
 
 P47 advances to 77 public components and 260 locale keys. Release gates require 20 visual baselines, 38 zero-violation Axe scenarios, 42 interactions per Chromium/Firefox/WebKit engine, 32 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+## 61. Maturity P48: contextual multiline mentions
+
+- `UiMentions` owns one controlled multiline string and recognizes one or more trigger tokens. Trigger discovery requires a token boundary, uses the current caret rather than the end of the field and supports optional spaces, minimum query length and custom validation.
+- Local options can be strings, numbers or rich records with labels, values, keywords, descriptions, disabled state and trigger scope. Filtering and inserted output can be customized independently.
+- `fetchSuggestions` is debounced and receives the trigger plus AbortSignal. New queries abort prior requests, stale completions are ignored, successful results can be cached, and loading, empty and error states have localized defaults and Slots.
+- The floating panel anchors to a virtual caret rectangle, flips on viewport collision and mirrors logical start/end in RTL. The shared floating-position utility observes only real Elements, so virtual anchors do not leak ResizeObserver exceptions.
+- Arrow Up/Down skips disabled suggestions; Ctrl+Home/End selects boundaries; Enter/Tab commits; Escape dismisses. Composition input does not update or search until IME completion.
+- A labelled combobox owner contains the native multiline textbox and owns the listbox. The textarea retains textbox semantics, autocomplete, controls and active-descendant linkage; FormItem labels, help, errors and invalid state remain associated with the focusable control.
+- Autosize, maxlength/count, size, disabled, readonly, invalid, append target, cache and placement are typed. Events report search, selection, change, open, async error and focus metadata; refs expose focus, blur, close, insert and position update.
+- Root/subpath exports, component CSS, generated API docs, component center, static preview, standalone consumer, SSR and isolated packed installation remain synchronized.
+
+P48 retains the frozen 1.28 comparison and uses deterministic per-additive-component allowances of 500 B package JavaScript raw, 2.75 KB package JavaScript gzip and 800 B standalone JavaScript raw beyond the 69-component baseline. All remaining historical metrics retain zero allowance.
+
+P48 advances to 78 public components, 265 locale keys and 14 theme-scoped Teleport families. Release gates require 21 visual baselines, 39 zero-violation Axe scenarios, 43 interactions per Chromium/Firefox/WebKit engine, 33 negative type assertions, an isolated tarball consumer and 18 performance ceilings.

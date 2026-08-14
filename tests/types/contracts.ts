@@ -17,6 +17,7 @@ import {
   UiImage,
   UiList,
   UiModal,
+  UiMentions,
   UiNumberInput,
   UiOtpInput,
   UiRate,
@@ -68,6 +69,7 @@ import SubpathStatusPage, { UiStatusPage as NamedSubpathStatusPage } from 'lan-u
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
 import SubpathOtpInput, { UiOtpInput as NamedSubpathOtpInput } from 'lan-ui-design-system/components/UiOtpInput'
+import SubpathMentions, { UiMentions as NamedSubpathMentions } from 'lan-ui-design-system/components/UiMentions'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
 import SubpathStatistic, { UiStatistic as NamedSubpathStatistic } from 'lan-ui-design-system/components/UiStatistic'
@@ -101,6 +103,7 @@ import type { UiStatusPageEmits, UiStatusPageProps, UiStatusPageSlots } from 'la
 import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } from 'lan-ui-design-system/components/UiAutoComplete'
 import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 'lan-ui-design-system/components/UiNumberInput'
 import type { UiOtpInputEmits, UiOtpInputProps, UiOtpInputSlots } from 'lan-ui-design-system/components/UiOtpInput'
+import type { UiMentionsEmits, UiMentionsProps, UiMentionsSlots } from 'lan-ui-design-system/components/UiMentions'
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
 import type { UiRateEmits, UiRateProps, UiRateSlots } from 'lan-ui-design-system/components/UiRate'
 import type { UiStatisticEmits, UiStatisticProps, UiStatisticSlots } from 'lan-ui-design-system/components/UiStatistic'
@@ -152,6 +155,7 @@ import type {
   UiWatermarkInstance,
   UiListInstance,
   UiOtpInputInstance,
+  UiMentionsInstance,
   UiTypographyInstance,
   RgbaColor,
   ColorFormat,
@@ -354,6 +358,14 @@ otpInputInstance.focus(0);otpInputInstance.clear();otpInputInstance.setValue('20
 const otpInputSubpathParity:typeof SubpathOtpInput=NamedSubpathOtpInput
 const otpInputEvent:keyof UiOtpInputEmits='invalid'
 const otpInputSlot:keyof UiOtpInputSlots|'none'='none'
+const mentionsProps:InstanceType<typeof UiMentions>['$props']&UiMentionsProps={modelValue:'Review @ad',triggers:['@','#'],options:[{label:'Ada',value:'ada',trigger:'@',keywords:['owner']}],allowSpaces:true,autoSize:{minRows:2,maxRows:6},placement:'bottom-start',fetchSuggestions:async(query,{trigger,signal})=>signal?.aborted?[]:[{label:`${trigger}${query}`,value:query}],formatMention:(option,{trigger})=>`${trigger}${option.value} `}
+const mentionsEmit:InstanceType<typeof UiMentions>['$emit']=null as never
+mentionsEmit('select',{label:'Ada',value:'ada'},{trigger:'@',query:'ad',start:7,end:10,index:0,source:'enter',value:'@ada '})
+const mentionsInstance:UiMentionsInstance=null as never
+mentionsInstance.focus();mentionsInstance.insert({label:'Ada',value:'ada'});mentionsInstance.close();mentionsInstance.blur();mentionsInstance.updatePosition()
+const mentionsSubpathParity:typeof SubpathMentions=NamedSubpathMentions
+const mentionsEvent:keyof UiMentionsEmits='load-error'
+const mentionsSlot:keyof UiMentionsSlots='option'
 const sliderProps:InstanceType<typeof UiSlider>['$props']&UiSliderProps={modelValue:[20,80],range:true,min:0,max:100,step:5,minDistance:10,tooltip:'always',marks:[{value:50,label:'Half'}],ariaLabel:['Start','End']}
 const sliderEmit:InstanceType<typeof UiSlider>['$emit']=null as never
 sliderEmit('change',[25,80],{source:'keyboard',thumb:0})
@@ -429,6 +441,9 @@ const invalidListSelection:UiListProps={selectionMode:'toggle'}
 
 // @ts-expect-error OTP modes are constrained to numeric, alphanumeric or text.
 const invalidOtpMode:UiOtpInputProps={mode:'hex'}
+
+// @ts-expect-error Mention placements use logical top or bottom start/end anchors.
+const invalidMentionsPlacement:UiMentionsProps={placement:'left'}
 
 // @ts-expect-error Typography variants are constrained to text, paragraph or title.
 const invalidTypographyVariant:UiTypographyProps={variant:'quote'}

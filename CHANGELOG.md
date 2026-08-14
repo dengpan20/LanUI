@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.44.0] - 2026-08-14
+
+### Added
+
+- `UiMentions`, a caret-aware multiline mention editor with local or asynchronous suggestions, multiple trigger tokens, trigger-scoped options, custom filtering/validation/formatting and autosize/count support.
+- Abortable debounced loading with stale-response protection and cache, plus localized loading, empty and error states and option/status Slots.
+- Mentions examples in the component center, one-page static preview and standalone consumer, with unit, SSR, visual, Axe, type and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- The shared floating-position utility now observes real DOM Elements only, allowing virtual caret anchors without ResizeObserver exceptions.
+- Mention accessibility uses a labelled combobox owner around the native multiline textbox, active-descendant/listbox ownership and contrast-compliant active suggestion metadata.
+- Release gates advance to 78 public components, 265 locale keys, 21 visual baselines, 39 Axe scenarios, 43 interactions per browser and 33 negative type assertions.
+- Generated API coverage advances to 846 Props, 297 Events and 148 Slots; package runtime, subpath styles/types and consumer verification share the 1.44.0 contract.
+- The frozen 1.28 comparison keeps zero allowance for unchanged metrics and documents additive per-component allowances of 500 B package JS raw, 2.75 KB package JS gzip and 800 B standalone JS raw.
+
 ## [1.43.0] - 2026-08-14
 
 ### Added

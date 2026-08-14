@@ -92,8 +92,10 @@ export function useFloatingPosition({ triggerRef, panelRef, open, placement, off
     window.addEventListener('scroll', update, true)
     if ('ResizeObserver' in window) {
       resizeObserver = new window.ResizeObserver(update)
-      if (unref(triggerRef)) resizeObserver.observe(unref(triggerRef))
-      if (unref(panelRef)) resizeObserver.observe(unref(panelRef))
+      const triggerElement=unref(triggerRef)
+      const panelElement=unref(panelRef)
+      if (typeof Element!=='undefined'&&triggerElement instanceof Element) resizeObserver.observe(triggerElement)
+      if (typeof Element!=='undefined'&&panelElement instanceof Element) resizeObserver.observe(panelElement)
     }
   }
   function detach() {

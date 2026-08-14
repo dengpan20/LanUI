@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.44 mentions compatibility
+
+There are no breaking changes. Collaboration, issue and document flows can add the new multiline mention editor:
+
+```vue
+<UiMentions v-model="comment" :options="options" :triggers="['@', '#']" @select="trackMention" />
+```
+
+- Existing textarea models remain plain strings. The component replaces only the active trigger/query range and appends one space by default; set `suffix` or `formatMention` when a product stores another token format.
+- Rich options may scope themselves to a trigger. Async loaders receive `{ trigger, signal }`; honor the AbortSignal when possible, although stale completions are ignored even when a transport does not cancel.
+- Query recognition requires whitespace or an opening delimiter before a trigger, preventing ordinary email addresses from opening the menu. Use `allowSpaces`, `minChars` and `validateSearch` for product-specific token rules.
+- The native textarea keeps textbox semantics inside a labelled combobox owner. Do not override its generated ARIA ownership; provide `aria-label` only when no `UiFormItem` label is present.
+- Root and `components/UiMentions` imports expose matching Props, Emits and Slots declarations, and isolated styling is available at `styles/UiMentions.css`.
+
 ## 1.43 OTP input compatibility
 
 There are no breaking changes. Verification, MFA and approval flows can add the new segmented input:

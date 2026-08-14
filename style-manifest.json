@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.43.0",
+  "version": "1.44.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 153173,
-    "rules": 1241,
+    "bytes": 157256,
+    "rules": 1269,
     "source": "component-union"
   },
   "core": {
@@ -228,6 +228,12 @@
       "subpath": "./styles/UiListToolbar.css",
       "bytes": 6072,
       "rules": 45
+    },
+    {
+      "name": "UiMentions",
+      "subpath": "./styles/UiMentions.css",
+      "bytes": 4120,
+      "rules": 28
     },
     {
       "name": "UiMenu",

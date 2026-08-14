@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.43.0",
+  "version": "1.44.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -20,7 +20,7 @@
       "id": "forms",
       "label": "数据录入",
       "description": "输入、选择、日期时间、表单编排和文件上传。",
-      "count": 25
+      "count": 26
     },
     {
       "id": "data",
@@ -7136,6 +7136,391 @@
           "name": "icon",
           "required": false,
           "type": "(props:{item:UiMenuItem})=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiMentions",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiMentions",
+      "imports": {
+        "root": "import { UiMentions } from 'lan-ui-design-system'",
+        "subpath": "import UiMentions from 'lan-ui-design-system/components/UiMentions'"
+      },
+      "propsType": "UiMentionsProps",
+      "props": [
+        {
+          "name": "allowSpaces",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "autoSize",
+          "required": false,
+          "type": "boolean|UiMentionsAutoSize",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "cache",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "debounce",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "200"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "fetchSuggestions",
+          "required": false,
+          "type": "(query:string,context:{trigger:string;signal?:AbortSignal})=>UiMentionsOptionInput[]|Promise<UiMentionsOptionInput[]>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "filterOption",
+          "required": false,
+          "type": "(query:string,option:UiMentionsOption)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "formatMention",
+          "required": false,
+          "type": "(option:UiMentionsOption,context:UiMentionsContext&{index:number;source:string})=>string|number",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "highlightFirst",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "maxlength",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": null
+        },
+        {
+          "name": "minChars",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "options",
+          "required": false,
+          "type": "UiMentionsOptionInput[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "placeholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "type": "'top-start'|'top-end'|'bottom-start'|'bottom-end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom-start\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "rows",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "showCount",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\" \""
+          }
+        },
+        {
+          "name": "triggers",
+          "required": false,
+          "type": "string|string[]",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"@\""
+          }
+        },
+        {
+          "name": "validateSearch",
+          "required": false,
+          "type": "(query:string,trigger:string,value:string)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        }
+      ],
+      "emitsType": "UiMentionsEmits",
+      "emits": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:string,meta:UiMentionsChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:string)=>void"
+        },
+        {
+          "name": "load-error",
+          "required": true,
+          "type": "(payload:UiMentionsLoadError)=>void"
+        },
+        {
+          "name": "open-change",
+          "required": true,
+          "type": "(open:boolean)=>void"
+        },
+        {
+          "name": "search",
+          "required": true,
+          "type": "(query:string,meta:UiMentionsSearchMeta)=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(option:UiMentionsOption,meta:UiMentionsSelectMeta)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:string)=>void"
+        }
+      ],
+      "slotsType": "UiMentionsSlots",
+      "slots": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{error:unknown})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "option",
+          "required": false,
+          "type": "(scope:{option:UiMentionsOption;index:number;active:boolean;trigger?:string;query?:string})=>VNodeChild"
         }
       ]
     },

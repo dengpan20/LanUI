@@ -203,6 +203,16 @@ export interface UiListToolbarProps { total?:number; selectedCount?:number; dens
 export interface UiModalProps { modelValue?:boolean; title?:string; width?:string|number; closeOnMask?:boolean; closeOnEsc?:boolean; destroyOnClose?:boolean }
 export interface UiMenuItem { key:Key; label:string; icon?:string; disabled?:boolean; badge?:Key; children?:UiMenuItem[] }
 export interface UiMenuProps { items?:UiMenuItem[]; modelValue?:Key; collapsed?:boolean; accordion?:boolean; defaultOpenKeys?:Key[] }
+export interface UiMentionsOption { label?:string; value:Key; disabled?:boolean; keywords?:Key[]; description?:string; trigger?:string; [key:string]:unknown }
+export type UiMentionsOptionInput = UiMentionsOption|Key
+export interface UiMentionsContext { trigger:string; query:string; start:number; end:number }
+export interface UiMentionsSearchMeta { trigger:string; start:number }
+export interface UiMentionsSelectMeta extends UiMentionsContext { index:number; source:string; value:string }
+export interface UiMentionsChangeMeta { source:'mention'|'blur'; option?:UiMentionsOption; trigger?:string; query?:string; start?:number; end?:number }
+export interface UiMentionsLoadError { error:unknown; query:string; trigger:string }
+export interface UiMentionsAutoSize { minRows?:number; maxRows?:number }
+export interface UiMentionsProps { modelValue?:string|number; options?:UiMentionsOptionInput[]; triggers?:string|string[]; fetchSuggestions?:(query:string,context:{trigger:string;signal?:AbortSignal})=>UiMentionsOptionInput[]|Promise<UiMentionsOptionInput[]>; debounce?:number; minChars?:number; filterOption?:(query:string,option:UiMentionsOption)=>boolean; validateSearch?:(query:string,trigger:string,value:string)=>boolean; formatMention?:(option:UiMentionsOption,context:UiMentionsContext&{index:number;source:string})=>string|number; suffix?:string; allowSpaces?:boolean; placeholder?:string; rows?:number; autoSize?:boolean|UiMentionsAutoSize; maxlength?:string|number; showCount?:boolean; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; highlightFirst?:boolean; emptyText?:string; loadingText?:string; placement?:'top-start'|'top-end'|'bottom-start'|'bottom-end'; appendToBody?:boolean; cache?:boolean }
+export interface UiMentionsInstance { root:Ref<HTMLElement|null>; textarea:Ref<HTMLTextAreaElement|null>; focus:(options?:FocusOptions)=>void; blur:()=>void; close:()=>void; insert:(option:UiMentionsOptionInput)=>boolean; updatePosition:()=>void }
 export interface UiMultiSelectProps { modelValue?:Key[]; options?:SelectOptionInput[]; placeholder?:string; searchable?:boolean; disabled?:boolean; invalid?:boolean; maxTagCount?:number }
 export interface UiNumberInputProps { modelValue?:number|null; min?:number; max?:number; step?:number; precision?:number; placeholder?:string; size?:ComponentSize; controls?:boolean; controlsPosition?:'sides'|'right'; disabled?:boolean; readonly?:boolean; invalid?:boolean; clampOnBlur?:boolean; wheel?:boolean; formatter?:(value:number)=>string|number|null|undefined; parser?:(text:string)=>number|string|null|undefined }
 export type UiOtpInputMode = 'numeric'|'alphanumeric'|'text'
@@ -371,6 +381,7 @@ export type UiInputEmits = { 'update:modelValue':(value:string)=>void; input:(va
 export type UiLayoutEmits = {}
 export type UiListToolbarEmits = { 'update:density':(value:'compact'|'default'|'comfortable')=>void; 'update:visibleColumns':(value:string[])=>void; refresh:()=>void }
 export type UiMenuEmits = { 'update:modelValue':(value:Key)=>void; select:(item:UiMenuItem)=>void; 'open-change':(keys:Key[])=>void }
+export type UiMentionsEmits = { 'update:modelValue':(value:string)=>void; input:(value:string)=>void; change:(value:string,meta:UiMentionsChangeMeta)=>void; search:(query:string,meta:UiMentionsSearchMeta)=>void; select:(option:UiMentionsOption,meta:UiMentionsSelectMeta)=>void; 'open-change':(open:boolean)=>void; 'load-error':(payload:UiMentionsLoadError)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiModalEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
 export type UiMultiSelectEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void; 'open-change':(open:boolean)=>void }
 export type UiNumberInputEmits = { 'update:modelValue':(value:number|null)=>void; input:(value:number|null)=>void; change:(value:number|null,meta:UiNumberInputChangeMeta)=>void; step:(value:number,meta:UiNumberInputStepMeta)=>void; invalid:(payload:UiNumberInputInvalid)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
@@ -455,6 +466,7 @@ export type UiInputSlots = {}
 export type UiLayoutSlots = { default?:()=>VNodeChild }
 export type UiListToolbarSlots = { default?:()=>VNodeChild; primary?:()=>VNodeChild }
 export type UiMenuSlots = { icon?:(props:{item:UiMenuItem})=>VNodeChild }
+export type UiMentionsSlots = { option?:(scope:{option:UiMentionsOption;index:number;active:boolean;trigger?:string;query?:string})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiModalSlots = { default?:()=>VNodeChild; header?:()=>VNodeChild; footer?:(props:{close:()=>void})=>VNodeChild }
 export type UiMultiSelectSlots = {}
 export type UiNumberInputSlots = { prefix?:()=>VNodeChild; suffix?:()=>VNodeChild }
@@ -515,7 +527,7 @@ export const UiFormList:LanComponent<UiFormListProps,UiFormListEmits,UiFormListS
 export const UiSchemaForm:UiSchemaFormComponent
 export const UiList:LanComponent<UiListProps,UiListEmits,UiListSlots>
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>; export const UiOtpInput:LanComponent<UiOtpInputProps,UiOtpInputEmits,UiOtpInputSlots>
-export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
+export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>; export const UiMentions:LanComponent<UiMentionsProps,UiMentionsEmits,UiMentionsSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
 export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>; export const UiStatistic:LanComponent<UiStatisticProps,UiStatisticEmits,UiStatisticSlots>

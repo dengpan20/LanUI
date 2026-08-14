@@ -6,6 +6,7 @@ import { launchBrowser, startFixtureServer } from './browser-runtime.mjs'
 const root=resolve(import.meta.dirname,'..')
 const reportDir=resolve(root,'.verify/accessibility',process.platform)
 mkdirSync(reportDir,{recursive:true})
+const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 
 const cases=[
   {name:'light-ltr-default',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default'},
@@ -46,14 +47,17 @@ const cases=[
   {name:'typography-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=typography',ready:'.visual-typography-showcase .ui-typography-action'},
   {name:'list-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=list',ready:'.visual-list-showcase [role="listbox"]'},
   {name:'otp-input-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=otp',ready:'.visual-otp-showcase [role="group"]'},
+  {name:'mentions-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=mentions',ready:'.visual-mentions-showcase .ui-mentions',prepare:async page=>{const input=page.getByRole('textbox',{name:'Release comment'});await input.fill('Review @de');await page.getByRole('listbox',{name:'Release comment'}).waitFor()}},
 ]
+const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases
+if(requestedCases.length&&selectedCases.length!==requestedCases.length)throw new Error(`Unknown accessibility case: ${requestedCases.filter(name=>!selectedCases.some(item=>item.name===name)).join(', ')}`)
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)
 let browser
 let failed=0
 try{
   browser=await launchBrowser()
-  for(const item of cases){
+  for(const item of selectedCases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')||item.name.includes('rtl')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
     await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
@@ -72,7 +76,7 @@ try{
     await context.close()
   }
   if(failed)process.exitCode=1
-  else console.log(`ACCESSIBILITY_REGRESSION PASS cases=${cases.length} axe=${axe.version} tags=${tags.length} platform=${process.platform}`)
+  else console.log(`ACCESSIBILITY_REGRESSION PASS cases=${selectedCases.length} axe=${axe.version} tags=${tags.length} platform=${process.platform}`)
 }finally{
   await browser?.close()
   await server.close()
