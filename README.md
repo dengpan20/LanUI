@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、74 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、80 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -41,7 +41,7 @@ pnpm dev
 按需导入组件，同时载入完整组件样式：
 
 ```js
-import { UiButton, UiCommandPalette, UiFormList, UiIcon, UiInput, UiSteps, UiTable } from 'lan-ui-design-system'
+import { UiButton, UiCommandPalette, UiFormList, UiIcon, UiInput, UiQueryBuilder, UiSteps, UiTable } from 'lan-ui-design-system'
 import 'lan-ui-design-system/style.css'
 ```
 
@@ -592,13 +592,13 @@ pnpm run test:interaction:cross-browser
 pnpm run test:performance
 ```
 
-- The default real-Chromium interaction gate exercises 29 flows, including repeatable Schema orchestration, form arrays, dependency validation, virtualized collections, data grids, status boundaries, overlays, data entry and keyboard navigation.
-- `test:interaction:cross-browser` runs the same 29-scenario matrix on Chromium, Firefox and WebKit for 87 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
+- The default real-Chromium interaction gate exercises 45 flows, including recursive query composition, repeatable Schema orchestration, form arrays, dependency validation, virtualized collections, data grids, status boundaries, overlays, data entry and keyboard navigation.
+- `test:interaction:cross-browser` runs the same 45-scenario matrix on Chromium, Firefox and WebKit for 135 browser cases; `--browser=firefox` or `--browser=chromium,webkit` can select engines.
 - 所有场景启用 `prefers-reduced-motion: reduce`，确保关闭动效后焦点与键盘行为仍然成立；结果写入 `.verify/interaction/<platform>/report.json`。
 - 每个引擎的明细写入 `.verify/interaction/<platform>/<browser>.json`；聚合报告同时记录引擎、用例、耗时与失败信息。
 - macOS Safari 的焦点语义由 Playwright WebKit 门禁覆盖；发布前仍应在目标系统执行关键业务流程的设备级验收。
 - `UiFormItem` 可通过 `reserve-message-space` 预留帮助/错误信息行；默认保持紧凑布局，`UiForm` 会保护提交点击过程，修正错误后首次点击即可提交。
-- `performance-budgets.json` 对组件包 JS/CSS、最大 Chunk、最大组件样式、UiButton 最小消费项目和独立示例设置 14 项 Raw/Gzip 上限。
+- `performance-budgets.json` 对组件包 JS/CSS、最大 Chunk、最大组件样式、UiButton 最小消费项目、独立示例及 Theme/Motion 子路径设置 18 项 Raw/Gzip 上限。
 - 预算报告写入 `.verify/performance/report.json`；预算提高必须与变更说明一并审查，不能通过静默放宽门禁处理回归。
 
 ## Managed forms and validation (P28)
@@ -1066,3 +1066,27 @@ P48 advances to 78 public components, 265 locale keys and 14 theme-scoped Telepo
 - Root/subpath exports, component CSS, generated API docs, built-in Schema Form resolution, component center, one-page preview, standalone consumer, SSR and isolated packed installation remain synchronized.
 
 P49 advances to 79 public components, 285 locale keys and 14 theme-scoped Teleport families. CI requires 22 visual baselines, 40 zero-violation Axe scenarios, 44 interactions per Chromium/Firefox/WebKit engine, 34 negative type assertions and 18 performance ceilings. The frozen 1.28 comparison uses explicit per-additive-component allowances of 1.9 KB package JS raw, 2.9 KB package JS gzip, 400 B package CSS raw, 450 B largest component CSS raw and 2.2 KB standalone JS raw; every remaining historical metric retains zero allowance.
+
+## Recursive query composition (P50)
+
+`UiQueryBuilder` turns enterprise filters, reports and policy rules into one typed, serializable condition tree:
+
+```vue
+<UiQueryBuilder
+  ref="queryBuilder"
+  v-model="filters"
+  :fields="queryFields"
+  show-not
+  :max-depth="3"
+  name="releaseFilters"
+/>
+```
+
+- Field metadata selects text, number, date, single-select, multi-select, tag or boolean editors. Built-in operators declare zero, one or two values; custom operators may provide an evaluator.
+- AND/OR groups can nest, negate, duplicate, reorder and delete without mutating the caller's previous tree. Per-group depth and item limits keep large filters governed.
+- Ctrl/Cmd+D duplicates, Ctrl/Cmd+Enter appends, Alt+Arrow reorders and Alt+Backspace removes the focused node. Every selector, editor and icon action has a localized accessible name and visible focus treatment.
+- Validation covers missing metadata, empty values, inverted ranges and custom field/global rules. The exposed instance supplies `validate`, `getValue`, `matches`, mutation methods, counts and errors.
+- `name` serializes the canonical tree into a hidden successful form control. Schema Form resolves `type:'query-builder'`; root and component subpaths expose matching runtime, Props/Emits/Slots and related query types.
+- Component center, static preview, standalone consumer, SSR, isolated CSS and packed installation remain synchronized. Visual and Axe fixtures cover recursive layout and target sizing, while all three browser engines verify the keyboard and evaluation contract.
+
+P50 advances to 80 public components, 349 locale keys and 14 theme-scoped Teleport families. CI requires 23 visual baselines, 41 zero-violation Axe scenarios, 45 interactions per Chromium/Firefox/WebKit engine, 35 negative type assertions and 18 performance ceilings. The frozen 1.28 comparison uses explicit additive byte allowances for the recursive typed-editor dependency closure; absolute package and consumer ceilings remain mandatory.

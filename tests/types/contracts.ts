@@ -21,6 +21,7 @@ import {
   UiMentions,
   UiNumberInput,
   UiOtpInput,
+  UiQueryBuilder,
   UiRate,
   UiStatistic,
   UiStatusPage,
@@ -72,6 +73,7 @@ import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
 import SubpathOtpInput, { UiOtpInput as NamedSubpathOtpInput } from 'lan-ui-design-system/components/UiOtpInput'
 import SubpathMentions, { UiMentions as NamedSubpathMentions } from 'lan-ui-design-system/components/UiMentions'
+import SubpathQueryBuilder, { UiQueryBuilder as NamedSubpathQueryBuilder } from 'lan-ui-design-system/components/UiQueryBuilder'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
 import SubpathStatistic, { UiStatistic as NamedSubpathStatistic } from 'lan-ui-design-system/components/UiStatistic'
@@ -97,6 +99,7 @@ import type {
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
+import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
 import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
@@ -378,6 +381,16 @@ inputTagInstance.focus();inputTagInstance.add(['Vite','Vitest']);inputTagInstanc
 const inputTagSubpathParity:typeof SubpathInputTag=NamedSubpathInputTag
 const inputTagEvent:keyof UiInputTagEmits='invalid'
 const inputTagSlot:keyof UiInputTagSlots='tag'
+const queryFields:UiQueryField[]=[{key:'status',label:'Status',type:'select',options:['Stable','Review']},{key:'coverage',label:'Coverage',type:'number',operators:['between','greaterOrEqual']}]
+const queryModel:UiQueryGroup={combinator:'and',rules:[{field:'status',operator:'equals',value:'Stable'},{field:'coverage',operator:'between',value:80,value2:100}]}
+const queryBuilderProps:InstanceType<typeof UiQueryBuilder>['$props']&UiQueryBuilderProps={modelValue:queryModel,fields:queryFields,showNot:true,maxDepth:3,maxRules:12,ruleValidator:(value,rule,{field})=>field&&rule.operator?Boolean(value):false}
+const queryBuilderEmit:InstanceType<typeof UiQueryBuilder>['$emit']=null as never
+queryBuilderEmit('change',{source:'value',value:queryModel,previous:queryModel,valid:true,errors:[],index:0,position:0})
+const queryBuilderInstance:UiQueryBuilderInstance=null as never
+queryBuilderInstance.addRule();queryBuilderInstance.addGroup();queryBuilderInstance.duplicate(0);queryBuilderInstance.move(0,1);queryBuilderInstance.remove(0);queryBuilderInstance.validate();queryBuilderInstance.getValue({includeIds:false});queryBuilderInstance.matches({status:'Stable',coverage:92});queryBuilderInstance.clear()
+const queryBuilderSubpathParity:typeof SubpathQueryBuilder=NamedSubpathQueryBuilder
+const queryBuilderEvent:keyof UiQueryBuilderEmits='action'
+const queryBuilderSlot:keyof UiQueryBuilderSlots='value'
 const sliderProps:InstanceType<typeof UiSlider>['$props']&UiSliderProps={modelValue:[20,80],range:true,min:0,max:100,step:5,minDistance:10,tooltip:'always',marks:[{value:50,label:'Half'}],ariaLabel:['Start','End']}
 const sliderEmit:InstanceType<typeof UiSlider>['$emit']=null as never
 sliderEmit('change',[25,80],{source:'keyboard',thumb:0})
@@ -460,6 +473,9 @@ const invalidMentionsPlacement:UiMentionsProps={placement:'left'}
 // @ts-expect-error InputTag size uses the shared sm, md or lg component scale.
 const invalidInputTagSize:UiInputTagProps={size:'xl'}
 
+// @ts-expect-error Query operators accept zero, one or two values.
+const invalidQueryOperatorArity:UiQueryOperator={key:'invalid',label:'Invalid',arity:3}
+
 // @ts-expect-error Typography variants are constrained to text, paragraph or title.
 const invalidTypographyVariant:UiTypographyProps={variant:'quote'}
 
@@ -522,5 +538,7 @@ const invalidWatermarkCrossOrigin:UiWatermarkProps={imageCrossOrigin:'include'}
 const invalidAffixPosition:UiAffixProps={position:'left'}
 // @ts-expect-error Splitter direction is constrained to horizontal or vertical.
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
+
+void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

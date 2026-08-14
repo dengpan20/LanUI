@@ -25,6 +25,7 @@ import {
   UiMentions,
   UiNumberInput,
   UiOtpInput,
+  UiQueryBuilder,
   UiRate,
   UiSelect,
   UiSegmented,
@@ -45,13 +46,16 @@ import {
 
 const projectModel = reactive({ project: { name: '运营管理后台', template: 'dashboard' }, members: [{ name: 'Owner', email: 'owner@example.com' }] })
 const projectRules = { project: { name: [{ required:true, message:'请输入项目名称' }, { min:2, message:'项目名称至少需要 2 个字符' }], template: { required:true } } }
-const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026',capabilities:['design-system','consumer'],reviewers:[{name:'Release owner',email:'owner@example.com'}]})
+const standaloneQueryFields=[{key:'name',label:'Component',type:'text',defaultOperator:'contains'},{key:'team',label:'Team',type:'select',options:['Forms','Data','Navigation']},{key:'coverage',label:'Coverage',type:'number',min:0,max:100},{key:'status',label:'Status',type:'select',options:['Stable','Review']}]
+const standaloneQuery=ref({combinator:'and',rules:[{field:'status',operator:'equals',value:'Stable'},{field:'coverage',operator:'greaterOrEqual',value:80}]})
+const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026',capabilities:['design-system','consumer'],filters:{combinator:'and',rules:[{field:'status',operator:'equals',value:'Stable'}]},reviewers:[{name:'Release owner',email:'owner@example.com'}]})
 const workspaceSchema=[{key:'account',title:'Schema-driven account',description:'Conditional and repeatable fields are mounted and validated from the consumer-owned schema.',columns:2,fields:[
   {name:'account.type',label:'Account type',type:'segmented',options:[{label:'Business',value:'business'},{label:'Personal',value:'personal'}],props:{block:true},span:2},
   {name:'account.name',label:'Workspace name',required:true,rules:[{required:true},{min:2}],props:{clearable:true}},
   {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}],props:{clearable:true}},
   {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true}],span:2},
   {name:'capabilities',label:'Capabilities',type:'input-tag',span:2,props:{editable:true,clearable:true,maxTags:6}},
+  {name:'filters',label:'Release filters',type:'query-builder',span:2,props:{fields:standaloneQueryFields,compact:true,showNot:true,maxDepth:2}},
   {key:'reviewers',name:'reviewers',type:'list',label:'Release reviewers',min:1,max:3,columns:2,defaultValue:({index})=>({name:`Reviewer ${index+1}`,email:''}),itemLabel:(_model,{index,item})=>`${index+1}. ${item.name||'Reviewer'}`,fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}],props:(_model,{index})=>({placeholder:`reviewer-${index+1}@example.com`})}]},
 ]}]
 const created = ref(false)
@@ -206,6 +210,11 @@ const rows = computed(() => [
         <UiInputTag v-model="standaloneCapabilities" editable clearable :max-tags="8" :max-length="24" name="capabilities" @invalid="toast.error($event.message)" />
       </UiFormItem>
       <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Consumer model: {{ standaloneCapabilities.join(' · ') }}</div>
+    </UiCard>
+
+    <UiCard title="Composable release filters">
+      <UiQueryBuilder v-model="standaloneQuery" :fields="standaloneQueryFields" show-not :max-depth="3" name="release-filters" aria-label="Standalone release filters" />
+      <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Serializable model: {{ standaloneQuery.combinator.toUpperCase() }} · {{ standaloneQuery.rules.length }} entries</div>
     </UiCard>
 
     <UiCard title="Semantic release text">

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.45.0",
+  "version": "1.46.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -19,8 +19,8 @@
     {
       "id": "forms",
       "label": "数据录入",
-      "description": "输入、选择、日期时间、表单编排和文件上传。",
-      "count": 27
+      "description": "输入、选择、日期时间、条件编排、表单编排和文件上传。",
+      "count": 28
     },
     {
       "id": "data",
@@ -9213,6 +9213,330 @@
       "emits": [],
       "slotsType": "UiProgressSlots",
       "slots": []
+    },
+    {
+      "name": "UiQueryBuilder",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiQueryBuilder",
+      "imports": {
+        "root": "import { UiQueryBuilder } from 'lan-ui-design-system'",
+        "subpath": "import UiQueryBuilder from 'lan-ui-design-system/components/UiQueryBuilder'"
+      },
+      "propsType": "UiQueryBuilderProps",
+      "props": [
+        {
+          "name": "allowGroups",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "caseSensitive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "combinators",
+          "required": false,
+          "type": "Array<{value:Key;label:string;disabled?:boolean}|Key>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "compact",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "depth",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "emitIds",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "fields",
+          "required": false,
+          "type": "UiQueryField[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "maxDepth",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "maxRules",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "20"
+          }
+        },
+        {
+          "name": "minRules",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiQueryGroup",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "operators",
+          "required": false,
+          "type": "Array<UiQueryOperator|string>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ruleValidator",
+          "required": false,
+          "type": "(value:unknown,rule:UiQueryRule,context:UiQueryValidationContext)=>boolean|string|void",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "showNot",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "validateOnChange",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        }
+      ],
+      "emitsType": "UiQueryBuilderEmits",
+      "emits": [
+        {
+          "name": "action",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "add",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(payload:UiQueryChange)=>void"
+        },
+        {
+          "name": "duplicate",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:{source:string;errors:UiQueryError[];value:UiQueryGroup})=>void"
+        },
+        {
+          "name": "move",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:UiQueryGroup)=>void"
+        }
+      ],
+      "slotsType": "UiQueryBuilderSlots",
+      "slots": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{addRule:()=>void;addGroup:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "field",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;update:(value:Key)=>void})=>VNodeChild"
+        },
+        {
+          "name": "operator",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;operator:UiQueryOperator|null;options:SelectOption[];update:(value:Key)=>void})=>VNodeChild"
+        },
+        {
+          "name": "rule-actions",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;move:(direction:-1|1)=>void;duplicate:()=>void;remove:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "value",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;operator:UiQueryOperator|null;position:number;value:unknown;update:(value:unknown)=>void})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiRadio",

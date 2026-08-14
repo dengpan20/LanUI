@@ -14,7 +14,7 @@ const currentDir=resolve(root,'.verify/visual-current',platform)
 const diffDir=resolve(root,'.verify/visual-diff',platform)
 for(const directory of [baselineDir,currentDir,diffDir])mkdirSync(directory,{recursive:true})
 
-const cases=[
+const allCases=[
   {name:'light-ltr-default',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default'},
   {name:'dark-rtl-compact',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact'},
   {name:'light-ltr-mobile',viewport:{width:390,height:1600},query:'theme=light&direction=ltr&density=default'},
@@ -37,7 +37,11 @@ const cases=[
   {name:'otp-input-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=otp',ready:'.visual-otp-showcase [role="group"]',selector:'.visual-otp-showcase'},
   {name:'mentions-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=mentions',ready:'.visual-mentions-showcase .ui-mentions',selector:'.visual-mentions-showcase'},
   {name:'input-tag-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=input-tag',ready:'.visual-input-tag-showcase .ui-input-tag',selector:'.visual-input-tag-showcase'},
+  {name:'query-builder-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=query-builder',ready:'.visual-query-builder-showcase .ui-query-builder',selector:'.visual-query-builder-showcase'},
 ]
+const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
+const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases
+if(requestedCases.length&&cases.length!==requestedCases.length)throw new Error(`Unknown visual case: ${requestedCases.filter(name=>!cases.some(item=>item.name===name)).join(', ')}`)
 
 const {server,origin}=await startFixtureServer(root)
 let browser

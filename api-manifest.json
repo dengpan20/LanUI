@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.45.0",
+  "version": "1.46.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -61,6 +61,7 @@
       "UiPopconfirm",
       "UiPopover",
       "UiProgress",
+      "UiQueryBuilder",
       "UiRadio",
       "UiRate",
       "UiResult",
@@ -536,6 +537,23 @@
       "UiProgressEmits",
       "UiProgressProps",
       "UiProgressSlots",
+      "UiQueryAction",
+      "UiQueryBuilder",
+      "UiQueryBuilderEmits",
+      "UiQueryBuilderInstance",
+      "UiQueryBuilderProps",
+      "UiQueryBuilderSlots",
+      "UiQueryChange",
+      "UiQueryCounts",
+      "UiQueryEditor",
+      "UiQueryError",
+      "UiQueryField",
+      "UiQueryFieldType",
+      "UiQueryGroup",
+      "UiQueryOperator",
+      "UiQueryRule",
+      "UiQueryValidationContext",
+      "UiQueryValidationResult",
       "UiRadio",
       "UiRadioEmits",
       "UiRadioProps",
@@ -11431,6 +11449,371 @@
       },
       "runtimeExports": [
         "UiProgress",
+        "default"
+      ]
+    },
+    {
+      "name": "UiQueryBuilder",
+      "subpath": "./components/UiQueryBuilder",
+      "propsType": "UiQueryBuilderProps",
+      "props": [
+        "allowGroups",
+        "ariaLabel",
+        "caseSensitive",
+        "combinators",
+        "compact",
+        "depth",
+        "disabled",
+        "emitIds",
+        "fields",
+        "invalid",
+        "maxDepth",
+        "maxRules",
+        "minRules",
+        "modelValue",
+        "name",
+        "operators",
+        "readonly",
+        "ruleValidator",
+        "showNot",
+        "validateOnChange"
+      ],
+      "propDetails": [
+        {
+          "name": "allowGroups",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "caseSensitive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "combinators",
+          "required": false,
+          "type": "Array<{value:Key;label:string;disabled?:boolean}|Key>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "compact",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "depth",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "emitIds",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "fields",
+          "required": false,
+          "type": "UiQueryField[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "maxDepth",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "maxRules",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "20"
+          }
+        },
+        {
+          "name": "minRules",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiQueryGroup",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "operators",
+          "required": false,
+          "type": "Array<UiQueryOperator|string>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ruleValidator",
+          "required": false,
+          "type": "(value:unknown,rule:UiQueryRule,context:UiQueryValidationContext)=>boolean|string|void",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "showNot",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "validateOnChange",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        }
+      ],
+      "emitsType": "UiQueryBuilderEmits",
+      "emits": [
+        "action",
+        "add",
+        "change",
+        "duplicate",
+        "invalid",
+        "move",
+        "remove",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "action",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "add",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(payload:UiQueryChange)=>void"
+        },
+        {
+          "name": "duplicate",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:{source:string;errors:UiQueryError[];value:UiQueryGroup})=>void"
+        },
+        {
+          "name": "move",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(payload:UiQueryAction)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:UiQueryGroup)=>void"
+        }
+      ],
+      "slotsType": "UiQueryBuilderSlots",
+      "slots": [
+        "empty",
+        "field",
+        "operator",
+        "rule-actions",
+        "value"
+      ],
+      "slotDetails": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{addRule:()=>void;addGroup:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "field",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;update:(value:Key)=>void})=>VNodeChild"
+        },
+        {
+          "name": "operator",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;operator:UiQueryOperator|null;options:SelectOption[];update:(value:Key)=>void})=>VNodeChild"
+        },
+        {
+          "name": "rule-actions",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;move:(direction:-1|1)=>void;duplicate:()=>void;remove:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "value",
+          "required": false,
+          "type": "(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;operator:UiQueryOperator|null;position:number;value:unknown;update:(value:unknown)=>void})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiQueryBuilder } from 'lan-ui-design-system'",
+        "subpath": "import UiQueryBuilder from 'lan-ui-design-system/components/UiQueryBuilder'"
+      },
+      "runtimeExports": [
+        "UiQueryBuilder",
         "default"
       ]
     },

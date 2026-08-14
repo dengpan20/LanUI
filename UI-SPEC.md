@@ -981,3 +981,17 @@ P48 advances to 78 public components, 265 locale keys and 14 theme-scoped Telepo
 - Root and component-subpath runtime exports, Props/Emits/Slots declarations, component CSS, generated API docs, component center, static preview, standalone consumer, SSR and installed-tarball verification remain synchronized.
 
 P49 advances to 79 public components, 285 locale keys and 14 theme-scoped Teleport families. Release gates require 22 visual baselines, 40 zero-violation Axe scenarios, 44 interactions per Chromium/Firefox/WebKit engine, 34 negative type assertions, an isolated tarball consumer and 18 performance ceilings. Against the frozen 1.28 baseline, per-additive-component allowances are 1.9 KB package JS raw, 2.9 KB package JS gzip, 400 B package CSS raw, 450 B largest component CSS raw and 2.2 KB standalone JS raw; other historical metrics keep zero allowance.
+
+## 63. Maturity P50: recursive typed query composition
+
+- `UiQueryBuilder` owns a controlled `UiQueryGroup` tree. Each node is either a rule with field/operator/value metadata or a nested AND/OR group with optional NOT negation.
+- Field definitions declare label, type, options, supported operators, defaults, bounds, custom value lookup and validation. Operators declare zero, one or two values, compatible field types, multi-value behavior and an optional local evaluator.
+- Text, number, date, select, multi-select, tag and boolean editors reuse existing public form primitives. Field or operator changes reset incompatible values instead of retaining stale domain data.
+- Add, remove, duplicate, move and clear create a new public tree while preserving the previous object. Depth and per-group limits are enforced before mutation; generated IDs may be retained or stripped from emitted/persisted output.
+- Ctrl/Cmd+D duplicates, Ctrl/Cmd+Enter appends, Alt+Arrow reorders and Alt+Backspace removes a focused node. Focus follows created or moved nodes, every icon action has a localized label, and mutations are announced through a polite live region.
+- Validation covers missing field/operator/value, inverted ranges, minimum rule counts and custom field/global validators. Inline errors use described-by linkage; the instance exposes validation results, errors and recursive counts.
+- `matches(record)` evaluates the same tree with built-in comparison, text, range, membership and emptiness operators. Field getters and operator tests support nested or product-specific records without coupling the component to a data layer.
+- A named builder emits one hidden serialized form value. Schema Form resolves `type:'query-builder'`; root/component subpaths, Props/Emits/Slots, related types, component CSS, generated API and SSR output stay in parity.
+- Component center, one-page preview and standalone consumer demonstrate direct and schema-driven usage. Unit, visual, zero-violation Axe, negative type, packed-consumer and three-browser interaction gates verify recursion, keyboard editing, evaluation, accessibility and distribution.
+
+P50 advances to 80 public components, 349 locale keys and 14 theme-scoped Teleport families. Release gates require 23 visual baselines, 41 zero-violation Axe scenarios, 45 interactions per Chromium/Firefox/WebKit engine, 35 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings. The frozen 1.28 comparison uses explicit per-additive-component byte allowances for the typed-editor dependency closure and no percentage tolerance.

@@ -11,10 +11,14 @@ const registry = readFileSync(resolve(root, 'src/components.js'), 'utf8')
 const components = [...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].map(([, name]) => name)
 const componentTypes = resolve(root, 'dist-lib/components')
 mkdirSync(componentTypes, { recursive: true })
+const relatedComponentTypes={
+  UiQueryBuilder:['UiQueryAction','UiQueryBuilderInstance','UiQueryChange','UiQueryCounts','UiQueryEditor','UiQueryError','UiQueryField','UiQueryFieldType','UiQueryGroup','UiQueryOperator','UiQueryRule','UiQueryValidationContext','UiQueryValidationResult'],
+}
 for (const name of components) {
+  const typeNames=[`${name}Props`,`${name}Emits`,`${name}Slots`,...(relatedComponentTypes[name]||[])]
   writeFileSync(
     resolve(componentTypes, `${name}.d.ts`),
-    `export { ${name} as default, ${name} } from '../lan-ui.js'\nexport type { ${name}Props, ${name}Emits, ${name}Slots } from '../lan-ui.js'\n`,
+    `export { ${name} as default, ${name} } from '../lan-ui.js'\nexport type { ${typeNames.join(', ')} } from '../lan-ui.js'\n`,
     'utf8',
   )
 }

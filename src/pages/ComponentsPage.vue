@@ -9,6 +9,7 @@ import UiCalendar from '../components/UiCalendar.vue'
 import UiCard from '../components/UiCard.vue'
 import UiInput from '../components/UiInput.vue'
 import UiInputTag from '../components/UiInputTag.vue'
+import UiQueryBuilder from '../components/UiQueryBuilder.vue'
 import UiNumberInput from '../components/UiNumberInput.vue'
 import UiOtpInput from '../components/UiOtpInput.vue'
 import UiMentions from '../components/UiMentions.vue'
@@ -114,6 +115,11 @@ async function fetchProjectSuggestions(query,{signal}){
 }
 const quantityDemo=ref(12.5);const budgetDemo=ref(286400);const percentDemo=ref(68);const otpDemo=ref('204');const mentionsDemo=ref('请 @design 复核 #release 交付内容。');const inputTagDemo=ref(['Vue 3','Design System','Accessibility']);const inputTagCollapsed=ref(['Vue','TypeScript','Vite','Vitest','Playwright'])
 const mentionsOptions=[{label:'设计负责人',value:'design',description:'Design system owner',trigger:'@',keywords:['designer']},{label:'前端负责人',value:'frontend',description:'Component implementation',trigger:'@'},{label:'质量负责人',value:'qa',description:'Accessibility and regression',trigger:'@'},{label:'Release',value:'release',description:'发布与制品验证',trigger:'#'},{label:'Accessibility',value:'a11y',description:'WCAG 2.2 检查',trigger:'#'}]
+const queryBuilderRef=ref(null)
+const queryFields=[{key:'name',label:'组件名称',type:'text',defaultOperator:'contains'},{key:'team',label:'负责团队',type:'select',options:['Forms','Data','Navigation','Foundation']},{key:'coverage',label:'覆盖场景',type:'number',min:0,max:100},{key:'status',label:'成熟度',type:'select',options:[{label:'稳定',value:'stable'},{label:'复核中',value:'review'}]},{key:'updated',label:'更新时间',type:'date'}]
+const queryDemo=ref({combinator:'and',rules:[{field:'status',operator:'equals',value:'stable'},{field:'coverage',operator:'between',value:80,value2:100},{combinator:'or',rules:[{field:'team',operator:'in',value:['Forms','Data']},{field:'name',operator:'contains',value:'Input'}]}]})
+const queryRows=[{name:'InputTag',team:'Forms',coverage:96,status:'stable',updated:'2026-08-15'},{name:'DataGrid',team:'Data',coverage:94,status:'stable',updated:'2026-08-12'},{name:'Tree',team:'Navigation',coverage:88,status:'stable',updated:'2026-08-09'},{name:'LegacyTable',team:'Data',coverage:62,status:'review',updated:'2026-07-30'}]
+const queryMatchCount=computed(()=>{void queryDemo.value;return queryBuilderRef.value?queryRows.filter(row=>queryBuilderRef.value.matches(row)).length:0})
 const sliderDemo=ref(40);const sliderRangeDemo=ref([20,80]);const verticalSliderDemo=ref(65)
 const serviceRateDemo=ref(3.5);const customRateDemo=ref(4)
 const brandColorDemo=ref('#1677FFCC');const accentColorDemo=ref('hsl(155, 75%, 38%)');const colorContrast=computed(()=>getContrastRatio(brandColorDemo.value,'#FFFFFF')?.toFixed(2)||'—')
@@ -130,7 +136,7 @@ const demoPage=ref(3);const demoPageSize=ref(10);const floatDemoOpen=ref(false)
 const checkboxDemo=ref(['邮件通知']);const radioDemo=ref('标准版');const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false)
 const formRef=ref(null);const validatedForm=reactive({customer:{name:'',email:'',password:'LanUI-2026',confirm:'LanUI-2026'},contacts:[{name:'李明',email:'li@example.com'}]});const validationRules={customer:{name:[{required:true,message:'请输入客户名称'},{min:2,message:'客户名称至少 2 个字符'}],email:[{required:true,message:'请输入企业邮箱'},{type:'email',message:'请输入有效的企业邮箱'}]}}
 const schemaFormRef=ref(null)
-const schemaFormModel=reactive({account:{type:'business',name:'Lan UI 工作区',email:'owner@example.com'},region:'east',taxId:'',capabilities:['design-system','admin'],contacts:[{role:'owner',name:'李明',email:'li@example.com'},{role:'reviewer',name:'王敏',email:'wang@example.com'}]})
+const schemaFormModel=reactive({account:{type:'business',name:'Lan UI 工作区',email:'owner@example.com'},region:'east',taxId:'',capabilities:['design-system','admin'],filters:{combinator:'and',rules:[{field:'status',operator:'equals',value:'stable'}]},contacts:[{role:'owner',name:'李明',email:'li@example.com'},{role:'reviewer',name:'王敏',email:'wang@example.com'}]})
 const schemaFormDefinition=[{
   key:'workspace',title:'工作区配置',description:'字段、布局、条件显隐与校验均由 Schema 声明。',columns:2,fields:[
     {name:'account.type',label:'账户类型',type:'segmented',options:[{label:'企业',value:'business'},{label:'个人',value:'personal'}],props:{block:true},span:2},
@@ -138,6 +144,7 @@ const schemaFormDefinition=[{
     {name:'account.email',label:'管理员邮箱',required:true,rules:[{required:true,message:'请输入管理员邮箱'},{type:'email',message:'请输入有效邮箱'}],props:{clearable:true,placeholder:'owner@example.com'}},
     {name:'region',label:'业务区域',type:'select',options:[{label:'华东区域',value:'east'},{label:'华南区域',value:'south'},{label:'海外区域',value:'global'}],props:{clearable:true,searchable:true}},
     {name:'capabilities',label:'能力标签',type:'input-tag',span:2,help:'Schema 内置 input-tag 字段，支持回车、分隔符和整段粘贴。',props:{editable:true,clearable:true,maxTags:6}},
+    {name:'filters',label:'发布筛选策略',type:'query-builder',span:2,help:'Schema 内置 query-builder 字段，直接输出可序列化的递归条件树。',props:{fields:queryFields,compact:true,showNot:true,maxDepth:2}},
     {name:'taxId',label:'企业税号',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true,message:'企业账户需填写税号'}],props:{placeholder:'请输入统一社会信用代码'}},
     {key:'contacts',name:'contacts',type:'list',label:'管理员与审核人',help:'Schema 原生编排可重复字段组，包含稳定键、相对依赖、校验和增删排序。',min:1,max:4,columns:3,defaultValue:({index})=>({role:index?'reviewer':'owner',name:'',email:''}),itemLabel:(_model,{index,item})=>`${index+1}. ${item.name||'新联系人'}`,removable:(_model,{item})=>item.role!=='owner',fields:[
       {name:'role',label:'角色',type:'select',options:[{label:'所有者',value:'owner'},{label:'审核人',value:'reviewer'}],dependencies:['name']},
@@ -206,9 +213,9 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:79},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:80},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'InputTag P49'},{key:'version',label:'版本',value:'1.45.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'79 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、多值标签输入、异步校验、Schema 表单与隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'QueryBuilder P50'},{key:'version',label:'版本',value:'1.46.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'80 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、递归条件树、类型化编辑器、客户端匹配、Schema 表单与隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
@@ -383,6 +390,10 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <UiFormItem label="折叠展示" help="失焦时只展示前两个标签，聚焦后展开全部内容"><UiInputTag v-model="inputTagCollapsed" collapse-tags :max-visible-tags="2" clearable/></UiFormItem>
               <UiFormItem label="异步添加守卫" help="beforeAdd 与 validate 支持同步或异步业务校验"><UiInputTag :model-value="['release']" :validate="value=>!value.toLowerCase().includes('blocked')||'该标签已被策略拦截'" :before-add="async value=>{await new Promise(resolve=>setTimeout(resolve,240));return value}" clearable/></UiFormItem>
               <UiFormItem label="状态" group><div class="input-tag-state-stack"><UiInputTag :model-value="['readonly','stable']" readonly collapse-tags aria-label="只读标签输入"/><UiInputTag :model-value="['invalid']" invalid aria-label="错误标签输入"/><UiInputTag :model-value="['locked']" disabled aria-label="禁用标签输入"/></div></UiFormItem>
+            </div></div>
+            <div class="form-demo-section" data-query-builder-state-contract="empty rule nested range not validation readonly disabled"><div class="form-demo-title"><strong>组合筛选条件</strong><span>UiQueryBuilder · recursive / typed / serializable / evaluable</span></div><div class="form-demo-content query-builder-demo-grid">
+              <UiQueryBuilder ref="queryBuilderRef" v-model="queryDemo" :fields="queryFields" show-not :max-depth="3" :max-rules="8" name="releaseFilters" aria-label="组件发布筛选条件" @invalid="emit('notify',`${$event.errors.length} 个筛选条件需要完善`,'error')"/>
+              <aside class="query-builder-demo-result"><div><span>当前匹配</span><strong>{{ queryMatchCount }} / {{ queryRows.length }}</strong></div><div><span>条件树</span><code>{{ queryDemo.combinator.toUpperCase() }} · {{ queryDemo.rules.length }} 项</code></div><p>字段类型自动映射文本、数值、日期、单选、多选及布尔编辑器；嵌套组支持 AND / OR / NOT、复制、排序、键盘快捷键和客户端匹配。</p><div class="button-row"><UiButton size="sm" variant="outline" @click="queryBuilderRef.validate()">校验条件</UiButton><UiButton size="sm" variant="text" @click="queryBuilderRef.addRule()">追加条件</UiButton></div></aside>
             </div></div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>Slider / Range</strong><span>Pointer + keyboard + ARIA</span></div><div class="form-demo-content form-row">
               <UiFormItem label="完成度" help="方向键微调，Page 键大步进，Home / End 跳到边界"><UiSlider v-model="sliderDemo" :step="5" :marks="{0:'0',50:'50',100:'100'}" :formatter="value=>`${value}%`"/></UiFormItem>
@@ -709,6 +720,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr>
               <tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr>
               <tr><td>InputTag</td><td>标签录入</td><td>标签与清除按钮强调</td><td>分隔符提交 / 编辑 / 移除</td><td>方向键选择 + Ring</td><td>只读 / 禁用</td><td>异步校验 / 重复 / 上限</td></tr>
+              <tr><td>QueryBuilder</td><td>递归条件树</td><td>规则边框强调</td><td>添加 / 复制 / 排序 / 删除</td><td>组合框 + 键盘快捷键</td><td>只读 / 禁用</td><td>缺失值 / 范围 / 自定义校验</td></tr>
               <tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr>
               <tr><td>OtpInput</td><td>分段验证码</td><td>单格边框强调</td><td>自动移焦 / 整段粘贴</td><td>方向键 + Home / End</td><td>只读 / 禁用</td><td>非法字符 / 错误 Ring</td></tr>
               <tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr>

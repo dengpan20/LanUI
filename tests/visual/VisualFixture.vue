@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput,
+  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
@@ -42,6 +42,21 @@ const visualMentions=ref('Review @de')
 const visualMentionsRef=ref(null)
 const visualInputTags=ref(['Vue 3','Design System','Accessibility'])
 const visualInputTagRef=ref(null)
+const visualQueryFields=[
+  {key:'title',label:'Work item',type:'text',placeholder:'Search title'},
+  {key:'status',label:'Status',type:'select',options:[{label:'Ready',value:'ready'},{label:'Review',value:'review'},{label:'Blocked',value:'blocked'}]},
+  {key:'priority',label:'Priority',type:'number',min:1,max:5,step:1},
+  {key:'dueAt',label:'Due date',type:'date'},
+  {key:'labels',label:'Labels',type:'tags'},
+]
+const visualQuery=ref({id:'visual-root',combinator:'and',not:false,rules:[
+  {id:'visual-rule-title',field:'title',operator:'contains',value:'release'},
+  {id:'visual-group-status',combinator:'or',not:false,rules:[
+    {id:'visual-rule-status',field:'status',operator:'equals',value:'ready'},
+    {id:'visual-rule-priority',field:'priority',operator:'greaterOrEqual',value:3},
+  ]},
+  {id:'visual-rule-date',field:'dueAt',operator:'between',value:'2026-08-15',value2:'2026-08-31'},
+]})
 const visualMentionOptions=[
   {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
   {label:'Frontend owner',value:'frontend',description:'Implementation review',trigger:'@'},
@@ -232,6 +247,10 @@ const tableRows=[
         <UiFormItem label="Validation state" error="Tag policy rejected the latest value"><UiInputTag :model-value="['release','policy-review']" invalid clearable/></UiFormItem>
         <UiFormItem label="Read-only and disabled" group><div class="visual-input-tag-states"><UiInputTag :model-value="['stable','readonly']" readonly/><UiInputTag :model-value="['locked']" disabled/></div></UiFormItem>
       </div>
+    </UiCard>
+    <UiCard v-if="state==='query-builder'" title="Recursive query builder" title-tag="h2" class="visual-table-card visual-query-builder-showcase">
+      <div class="visual-query-builder-intro"><div><strong>Release work-item filter</strong><span>Typed fields, nested logic, NOT, reordering and keyboard actions share one controlled tree.</span></div><UiTag color="blue">AND · 4 rules · 1 group</UiTag></div>
+      <UiQueryBuilder v-model="visualQuery" :fields="visualQueryFields" show-not name="releaseFilter" aria-label="Release work-item filter"/>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

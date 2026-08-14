@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -85,6 +85,18 @@ const mentionsValue=ref('Review ')
 const mentionsOutput=ref('ready')
 const inputTagValue=ref([])
 const inputTagOutput=ref('ready')
+const queryBuilderRef=ref(null)
+const queryOutput=ref('ready')
+const queryFields=[
+  {key:'title',label:'Work item',type:'text'},
+  {key:'status',label:'Status',type:'select',options:[{label:'Ready',value:'ready'},{label:'Review',value:'review'}]},
+  {key:'priority',label:'Priority',type:'number',min:1,max:5},
+]
+const queryValue=ref({id:'interaction-query-root',combinator:'and',not:false,rules:[
+  {id:'interaction-query-title',field:'title',operator:'contains',value:'release'},
+  {id:'interaction-query-priority',field:'priority',operator:'greaterOrEqual',value:3},
+]})
+function evaluateQuery(){queryOutput.value=`match:${queryBuilderRef.value?.matches?.({title:'Release train',status:'ready',priority:4})}`}
 const mentionsOptions=[
   {label:'Alice',value:'alice',description:'Design owner',trigger:'@'},
   {label:'Alina',value:'alina',description:'Frontend owner',trigger:'@'},
@@ -502,6 +514,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Bulk tag input, paste, validation and keyboard removal contract</h2>
         <UiInputTag id="interaction-input-tag" v-model="inputTagValue" editable clearable :max-tags="5" :max-length="16" aria-label="Interaction capability tags" @change="(values,meta)=>inputTagOutput=`change:${meta.source}:${values.join('|')}`" @invalid="meta=>inputTagOutput=`invalid:${meta.reason}:${meta.value}`" />
         <output class="interaction-output" data-testid="input-tag-output">{{ inputTagOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-query-builder-case">
+        <h2>Recursive query, typed values and keyboard editing contract</h2>
+        <div class="interaction-row"><UiButton id="evaluate-query" variant="secondary" @click="evaluateQuery">Evaluate sample</UiButton><output class="interaction-output" data-testid="query-builder-output">{{ queryOutput }}</output></div>
+        <UiQueryBuilder ref="queryBuilderRef" v-model="queryValue" :fields="queryFields" show-not name="interactionQuery" aria-label="Interaction release query" @change="meta=>queryOutput=`change:${meta.source}`" @action="meta=>queryOutput=`${meta.type}:${meta.kind}:${meta.index??meta.from??''}:${meta.to??''}`"/>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

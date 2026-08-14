@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.45.0",
+  "version": "1.46.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 161464,
-    "rules": 1299,
+    "bytes": 169530,
+    "rules": 1349,
     "source": "component-union"
   },
   "core": {
@@ -302,6 +302,12 @@
       "rules": 8
     },
     {
+      "name": "UiQueryBuilder",
+      "subpath": "./styles/UiQueryBuilder.css",
+      "bytes": 30754,
+      "rules": 234
+    },
+    {
       "name": "UiRadio",
       "subpath": "./styles/UiRadio.css",
       "bytes": 277,
@@ -322,8 +328,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 36398,
-      "rules": 302
+      "bytes": 48345,
+      "rules": 380
     },
     {
       "name": "UiSegmented",

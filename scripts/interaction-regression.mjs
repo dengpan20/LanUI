@@ -848,6 +848,38 @@ const allCases = [
     },
   },
   {
+    name:'query-builder-recursive-keyboard-evaluate',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.getByRole('group',{name:'Interaction release query'})
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.locator(':scope > .ui-query-builder-rules > .ui-query-builder-rule').count(),2)
+      assert.match(await page.locator('input[name="interactionQuery"]').inputValue(),/"priority"/)
+      await page.locator('#evaluate-query').click()
+      await expectText(page,'query-builder-output','match:true')
+      await root.getByRole('button',{name:'Add condition'}).click()
+      await expectText(page,'query-builder-output','add:rule:2:')
+      let rules=root.locator(':scope > .ui-query-builder-rules > .ui-query-builder-rule')
+      assert.equal(await rules.count(),3)
+      await rules.nth(2).press('Control+d')
+      await expectText(page,'query-builder-output','duplicate:rule:3:')
+      rules=root.locator(':scope > .ui-query-builder-rules > .ui-query-builder-rule')
+      assert.equal(await rules.count(),4)
+      await rules.nth(2).press('Alt+ArrowUp')
+      await expectText(page,'query-builder-output','move:rule:2:1')
+      rules=root.locator(':scope > .ui-query-builder-rules > .ui-query-builder-rule')
+      await rules.nth(1).press('Alt+Backspace')
+      await expectText(page,'query-builder-output','remove:rule:1:')
+      assert.equal(await rules.count(),3)
+      await root.getByRole('button',{name:'Add group'}).click()
+      await expectText(page,'query-builder-output','add:group:3:')
+      assert.equal(await root.locator('.ui-query-builder.depth-1').count(),1)
+      await root.getByRole('button',{name:'NOT',exact:true}).first().click()
+      await expectText(page,'query-builder-output','change:not')
+      assert.equal(await root.getByRole('button',{name:'NOT',exact:true}).first().getAttribute('aria-pressed'),'true')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -891,7 +923,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),79)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),80)
     },
   },
 ]

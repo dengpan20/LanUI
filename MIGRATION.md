@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.46 query builder compatibility
+
+There are no breaking changes. Search, reporting and policy screens can add the recursive builder directly or through Schema Form:
+
+```vue
+<UiQueryBuilder v-model="filters" :fields="fields" show-not :max-depth="3" />
+```
+
+- The public value is a `UiQueryGroup` containing rules or nested groups. Updates are immutable; keep stable optional IDs when a server or audit log addresses individual nodes.
+- Built-in two-value operators store their bounds in `value` and `value2`. Multi-value operators store an array in `value`.
+- Field `type` chooses the default editor. Limit an individual field with `operators`, or pass component-level custom operators with an optional `test` function for `matches(record)`.
+- Set `emitIds=false` when persistence must omit internal IDs. Use `name` for native form submission and `type:'query-builder'` for built-in Schema Form resolution.
+- Root and `components/UiQueryBuilder` imports expose matching Props, Emits and Slots. The component subpath additionally exports the related query field, rule, group, operator, validation and instance types; isolated styling is available at `styles/UiQueryBuilder.css`.
+
 ## 1.45 input tag compatibility
 
 There are no breaking changes. Multi-value form fields can add the new token editor directly or through Schema Form:

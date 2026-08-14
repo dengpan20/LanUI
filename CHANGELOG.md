@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.46.0] - 2026-08-15
+
+### Added
+
+- `UiQueryBuilder`, a controlled recursive condition editor with typed field/operator metadata, AND/OR/NOT groups, zero/one/two-value operators and text, number, date, select, multi-value and boolean editors.
+- Immutable add, remove, duplicate, reorder and clear operations; keyboard editing; validation; hidden form serialization; public instance methods; and a built-in local `matches(record)` evaluator with custom field getters and operator tests.
+- Query Builder examples in the component center, Schema Form, one-page static preview and standalone consumer, with unit, SSR, visual, Axe, type, packed-consumer and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Release gates advance to 80 public components, 349 locale keys, 23 visual baselines, 41 Axe scenarios, 45 interactions per browser and 35 negative type assertions.
+- Generated API coverage advances to 894 Props, 315 Events and 155 Slots; package runtime, component subpath, isolated CSS, related query types and Schema Form resolution share the 1.46.0 contract.
+- The frozen 1.28 comparison uses explicit per-additive-component allowances for package JavaScript, component-union CSS and the recursive typed editor dependency closure; absolute 18-metric ceilings remain independently enforced.
+
 ## [1.45.0] - 2026-08-15
 
 ### Added
