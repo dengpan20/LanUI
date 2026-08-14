@@ -1019,3 +1019,12 @@ P51 advances to 81 public components, 359 locale keys and generated coverage of 
 - Root and component subpaths, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone consumer, SSR and packed installation stay in parity.
 
 P52 advances to 82 public components, 365 locale keys and generated coverage of 934 Props, 329 Events and 160 Slots. Release gates require 25 visual baselines, 43 zero-violation Axe scenarios, 47 interactions per Chromium/Firefox/WebKit engine, 37 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 66. Maturity P53: discoverable date-time adapters
+
+- `UiDateTimePicker` and `UiDateTimeRangePicker` specialize the strict single/range date controls in `datetime` mode. They provide explicit application vocabulary without duplicating parsing, serialization or accessibility logic.
+- Both expose string, `Date` and timestamp representations, local/UTC/IANA zones, DST disambiguation, reference date, precision, step, Min/Max, clear, invalid, focus and blur contracts.
+- The range uses one labelled semantic group and two named native `datetime-local` inputs. Opposite-end constraints are enabled by default; unconstrained inverted input remains observable with structured order validation.
+- Existing datetime modes and Schema Form types stay compatible. Root/subpath runtime, declarations, isolated CSS, generated API, component center, static preview, standalone consumer, deterministic SSR and installed-tarball checks remain in parity.
+
+P53 advances to 84 public components, 365 locale keys and generated coverage of 965 Props, 341 Events and 160 Slots. Release gates require 26 visual baselines, 44 zero-violation Axe scenarios, 48 interactions per Chromium/Firefox/WebKit engine, 39 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

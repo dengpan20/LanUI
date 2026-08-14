@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -59,9 +59,11 @@ const visualQuery=ref({id:'visual-root',combinator:'and',not:false,rules:[
 ]})
 const visualCarouselIndex=ref(1)
 const visualTimeRange=ref(['09:00','17:30'])
+const visualDateTime=ref('2026-08-15T09:30')
+const visualDateTimeRange=ref(['2026-08-15T09:30','2026-08-15T17:30'])
 const visualCarouselItems=[
   {key:'foundations',eyebrow:'FOUNDATIONS',title:'Shared visual language',description:'Semantic color, typography, spacing and motion tokens keep every product surface coherent.',metric:'359 locale keys'},
-  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'82 public components'},
+  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'84 public components'},
   {key:'delivery',eyebrow:'DELIVERY',title:'Verified before release',description:'Unit, visual, Axe, interaction, package and performance gates protect downstream consumers.',metric:'5 CI jobs'},
 ]
 const visualMentionOptions=[
@@ -271,6 +273,14 @@ const tableRows=[
         <UiFormItem label="Read-only policy" help="Schema Form disables time ranges in readonly mode" composite><UiTimeRangePicker :model-value="['10:00','16:00']" disabled aria-label="Disabled policy window"/></UiFormItem>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">string / Date / timestamp</UiTag><UiTag color="green">UTC / IANA zone</UiTag><UiTag color="orange">range-order validation</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='date-time'" title="Date-time scheduling adapters" title-tag="h2" class="visual-table-card visual-date-time-showcase">
+      <div class="visual-date-time-grid">
+        <UiFormItem label="Release starts" help="Dedicated single-value API · minute precision"><UiDateTimePicker v-model="visualDateTime" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" aria-label="Release starts"/></UiFormItem>
+        <UiFormItem label="Release window" help="Ordered range with shared constraints" composite><UiDateTimeRangePicker v-model="visualDateTimeRange" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" aria-label="Release window"/></UiFormItem>
+        <UiFormItem label="UTC approval" help="Date model · UTC serialization"><UiDateTimePicker :model-value="new Date('2026-08-15T01:30:00Z')" value-type="date" time-zone="UTC" precision="second" disabled aria-label="UTC approval"/></UiFormItem>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">UiDateTimePicker</UiTag><UiTag color="green">UiDateTimeRangePicker</UiTag><UiTag color="orange">string / Date / timestamp</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

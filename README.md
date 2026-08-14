@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、82 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、84 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -1138,3 +1138,19 @@ P51 advances to 81 public components, 359 locale keys and generated coverage of 
 - Root/subpath runtime, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone consumer, SSR and packed installation stay synchronized.
 
 P52 advances to 82 public components, 365 locale keys and generated coverage of 934 Props, 329 Events and 160 Slots. CI requires 25 visual baselines, 43 zero-violation Axe scenarios, 47 interactions per Chromium/Firefox/WebKit engine, 37 negative type assertions and 18 absolute performance ceilings.
+
+## Discoverable date-time adapters (P53)
+
+`UiDateTimePicker` and `UiDateTimeRangePicker` expose complete-instant form controls directly while reusing the mature strict date adapter:
+
+```vue
+<UiDateTimePicker v-model="publishAt" time-zone="UTC" precision="second" />
+<UiDateTimeRangePicker v-model="releaseWindow" :step="900" />
+```
+
+- String, `Date` and timestamp representations round-trip with local, UTC or IANA time zones, explicit DST disambiguation and minute/second/millisecond precision.
+- The range owns a labelled group, endpoint-specific focus metadata, shared Min/Max constraints, optional opposite-end constraint propagation, structured validity and accessible order-error feedback.
+- Existing `mode="datetime"` and Schema Form mappings remain compatible; the dedicated components improve imports, generated API discovery and isolated-style consumption.
+- Root/component subpaths, Props/Emits/Slots, component CSS, component center, static preview, standalone application, SSR and packed installation stay synchronized.
+
+P53 advances to 84 public components, 365 locale keys and generated coverage of 965 Props, 341 Events and 160 Slots. CI requires 26 visual baselines, 44 zero-violation Axe scenarios, 48 interactions per Chromium/Firefox/WebKit engine, 39 negative type assertions and 18 absolute performance ceilings.

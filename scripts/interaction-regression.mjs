@@ -947,6 +947,38 @@ const allCases = [
     },
   },
   {
+    name:'date-time-value-range-focus',
+    query:'direction=ltr',
+    run:async page=>{
+      const single=page.getByLabel('Interaction release starts')
+      const range=page.getByRole('group',{name:'Interaction release window'})
+      const start=range.getByLabel('Window starts')
+      const end=range.getByLabel('Window ends')
+      await range.scrollIntoViewIfNeeded()
+      assert.equal(await single.getAttribute('type'),'datetime-local')
+      assert.equal(await start.getAttribute('type'),'datetime-local')
+      assert.equal(await end.getAttribute('type'),'datetime-local')
+      assert.equal(await single.getAttribute('min'),'2026-08-15T08:00')
+      await single.focus()
+      await expectText(page,'date-time-output','single-focus')
+      await single.fill('2026-08-16T10:45')
+      await expectText(page,'date-time-output','single:2026-08-16T10:45')
+      await start.focus()
+      await expectText(page,'date-time-output','range-focus:0')
+      await start.fill('2026-08-16T18:00')
+      await expectText(page,'date-time-output','invalid:range-order')
+      assert.equal(await range.getAttribute('aria-invalid'),'true')
+      for(let attempt=0;attempt<8&&!await end.evaluate(node=>node===document.activeElement);attempt+=1)await page.keyboard.press('Tab')
+      await expectFocused(page,end)
+      await expectText(page,'date-time-output','range-focus:1')
+      await end.fill('2026-08-16T19:00')
+      await expectText(page,'date-time-output','range:true:2026-08-16T18:00:2026-08-16T19:00')
+      assert.equal(await range.getAttribute('aria-invalid'),null)
+      await range.getByRole('button',{name:'Clear date or time'}).click()
+      await expectText(page,'date-time-output','range-clear')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -990,7 +1022,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),82)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),84)
     },
   },
 ]

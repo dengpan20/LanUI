@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.48.0",
+  "version": "1.49.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 177317,
-    "rules": 1406,
+    "bytes": 177421,
+    "rules": 1408,
     "source": "component-union"
   },
   "core": {
@@ -138,6 +138,18 @@
       "subpath": "./styles/UiDateRangePicker.css",
       "bytes": 2565,
       "rules": 18
+    },
+    {
+      "name": "UiDateTimePicker",
+      "subpath": "./styles/UiDateTimePicker.css",
+      "bytes": 2232,
+      "rules": 17
+    },
+    {
+      "name": "UiDateTimeRangePicker",
+      "subpath": "./styles/UiDateTimeRangePicker.css",
+      "bytes": 2623,
+      "rules": 19
     },
     {
       "name": "UiDescriptions",

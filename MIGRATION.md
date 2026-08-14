@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.49 date-time adapter compatibility
+
+There are no breaking changes. Existing `UiDatePicker mode="datetime"`, `UiDateRangePicker mode="datetime"` and Schema Form `datetime` / `datetime-range` consumers retain their behavior. New direct forms can use discoverable adapters:
+
+```vue
+<UiDateTimePicker v-model="publishAt" time-zone="UTC" />
+<UiDateTimeRangePicker v-model="releaseWindow" :step="900" />
+```
+
+- Both adapters retain the strict shared `string`, `Date` and timestamp model, local/UTC/IANA zones, DST disambiguation, precision, Min/Max, clear, focus and validation contracts.
+- The range component defaults to opposite-end constraints; set `constrain=false` when an inverted intermediate value must remain observable through `change.valid=false` and `invalid.code='range-order'`.
+- Root and `components/UiDateTimePicker` / `components/UiDateTimeRangePicker` imports expose matching Props, Emits and Slots. Isolated styles are available under the corresponding `styles/*.css` subpaths.
+
 ## 1.48 time-range compatibility
 
 There are no breaking changes. Existing `UiDateRangePicker mode="time"` consumers continue to work; new scheduling forms can use the dedicated public wrapper:

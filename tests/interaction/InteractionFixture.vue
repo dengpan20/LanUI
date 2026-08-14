@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -100,6 +100,9 @@ const carouselIndex=ref(0)
 const carouselOutput=ref('ready:0')
 const timeRangeValue=ref(['09:00','17:30'])
 const timeRangeOutput=ref('ready:09:00-17:30')
+const dateTimeValue=ref('2026-08-15T09:30')
+const dateTimeRangeValue=ref(['2026-08-15T09:30','2026-08-15T17:30'])
+const dateTimeOutput=ref('ready:2026-08-15T09:30')
 const carouselItems=[
   {key:'overview',title:'Release overview',description:'Versioned component contract'},
   {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
@@ -540,6 +543,14 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Time range value, constraint and validation contract</h2>
         <UiTimeRangePicker v-model="timeRangeValue" :constrain="false" :step="900" min="08:00" max="22:00" aria-label="Interaction service window" @change="payload=>timeRangeOutput=`change:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`" @invalid="payload=>timeRangeOutput=`invalid:${payload.code}`" @focus="payload=>timeRangeOutput=`focus:${payload.index}`" @clear="timeRangeOutput='clear'" />
         <output class="interaction-output" data-testid="time-range-output">{{ timeRangeOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-date-time-case">
+        <h2>Date-time value, range ordering and focus contract</h2>
+        <div class="interaction-date-time-grid">
+          <UiDateTimePicker v-model="dateTimeValue" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" aria-label="Interaction release starts" @change="value=>dateTimeOutput=`single:${value}`" @focus="dateTimeOutput='single-focus'" />
+          <UiDateTimeRangePicker v-model="dateTimeRangeValue" :constrain="false" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" start-placeholder="Window starts" end-placeholder="Window ends" aria-label="Interaction release window" @change="payload=>dateTimeOutput=`range:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`" @invalid="payload=>dateTimeOutput=`invalid:${payload.code}`" @focus="payload=>dateTimeOutput=`range-focus:${payload.index}`" @clear="dateTimeOutput='range-clear'" />
+        </div>
+        <output class="interaction-output" data-testid="date-time-output">{{ dateTimeOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

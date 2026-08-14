@@ -13,6 +13,8 @@ import {
   UiCommandPalette,
   UiConfigProvider,
   UiDateRangePicker,
+  UiDateTimePicker,
+  UiDateTimeRangePicker,
   UiDescriptions,
   UiForm,
   UiFormItem,
@@ -80,6 +82,8 @@ const standaloneOtp=ref('204')
 const standaloneMentions=ref('Please ask @de')
 const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
+const standalonePublishAt=ref('2026-08-20T10:00')
+const standaloneReleaseWindow=ref(['2026-08-20T10:00','2026-08-20T18:00'])
 const standaloneCarouselItems=[
   {key:'contract',title:'Package contract',description:'Runtime, type and style subpaths stay aligned.',start:'#1d4ed8',end:'#0891b2'},
   {key:'interaction',title:'Interaction quality',description:'Keyboard, swipe and pause reasons use one state model.',start:'#6d28d9',end:'#db2777'},
@@ -319,6 +323,8 @@ const rows = computed(() => [
       <UiConfigProvider :locale="locale" :direction="direction" :appearance="appearance" :motion="motion" :theme="appearance==='dark'?standaloneTheme:{'brand-600':'#2563EB'}" size="sm" density="compact">
         <div style="margin-top:16px;display:grid;gap:12px">
           <UiDateRangePicker v-model="deliveryRange" />
+          <UiDateTimePicker v-model="standalonePublishAt" :step="900" aria-label="Standalone publish time" />
+          <UiDateTimeRangePicker v-model="standaloneReleaseWindow" :step="900" aria-label="Standalone release window" />
           <UiTimeRangePicker v-model="serviceWindow" :step="900" min="08:00" max="22:00" />
           <UiButton>{{ locale==='en-US'?'Create delivery':'创建交付计划' }}</UiButton>
           <UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981']" aria-label="Scoped tenant color" />

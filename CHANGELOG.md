@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.49.0] - 2026-08-15
+
+### Added
+
+- `UiDateTimePicker` and `UiDateTimeRangePicker`, dedicated discoverable adapters for complete instants and scheduling windows without requiring consumers to remember `mode="datetime"`.
+- Component-center, static-preview and standalone examples plus unit, SSR, visual, Axe, type, installed-tarball and three-browser interaction coverage for both adapters.
+
+### Changed
+
+- Release gates advance to 84 public components, 365 locale keys, 26 visual baselines, 44 Axe scenarios, 48 interactions per browser and 39 negative type assertions.
+- Generated API coverage advances to 965 Props, 341 Events and 160 Slots.
+- Existing `UiDatePicker` / `UiDateRangePicker` datetime modes and Schema Form `datetime` / `datetime-range` mappings remain compatible while the dedicated root and component-subpath APIs improve discovery.
+- Four additive package ceilings and the standalone-example JS ceiling receive measured date-time adapter headroom; chunk, core CSS and all other runtime ceilings remain unchanged.
+
 ## [1.48.0] - 2026-08-15
 
 ### Added
