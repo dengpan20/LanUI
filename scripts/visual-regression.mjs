@@ -39,6 +39,7 @@ const allCases=[
   {name:'input-tag-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=input-tag',ready:'.visual-input-tag-showcase .ui-input-tag',selector:'.visual-input-tag-showcase'},
   {name:'query-builder-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=query-builder',ready:'.visual-query-builder-showcase .ui-query-builder',selector:'.visual-query-builder-showcase'},
   {name:'carousel-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=carousel',ready:'.visual-carousel-showcase .ui-carousel',selector:'.visual-carousel-showcase'},
+  {name:'time-range-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=time-range',ready:'.visual-time-range-showcase .ui-time-range-picker',selector:'.visual-time-range-showcase'},
 ]
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

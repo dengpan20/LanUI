@@ -1008,3 +1008,14 @@ P50 advances to 80 public components, 349 locale keys and 14 theme-scoped Telepo
 - Component center, one-page HTML, standalone consumer, root/subpath types, generated API, SSR and package exports stay in parity. Unit, visual, Axe, negative type, packed-consumer and three-engine interaction gates cover the public contract.
 
 P51 advances to 81 public components, 359 locale keys and generated coverage of 917 Props, 323 Events and 160 Slots. Release gates require 24 visual baselines, 42 zero-violation Axe scenarios, 46 interactions per Chromium/Firefox/WebKit engine, 36 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 65. Maturity P52: strict time-range input
+
+- `UiTimeRangePicker` specializes the proven range adapter in `time` mode and exposes a dedicated scheduling-oriented public contract without duplicating parsing or time-zone logic.
+- The controlled model contains start/end values in one representation: string, `Date` or timestamp. Local, UTC and IANA zones, DST disambiguation, reference date and minute/second/millisecond precision match the single time picker.
+- Min/Max and optional opposite-end constraints are applied to both native controls. Inverted values remain observable when constraints are disabled and produce structured change validity plus a range-order invalid event.
+- One labelled group owns both focusable endpoints, FormItem label/help/error associations, visible focus and invalid rings, endpoint-specific focus/blur payloads, an accessible clear action and a live order-error announcement.
+- Schema Form resolves `time-range`; `datetime` and `datetime-range` apply deterministic mode presets before consumer field props. Existing date/time types are unchanged.
+- Root and component subpaths, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone consumer, SSR and packed installation stay in parity.
+
+P52 advances to 82 public components, 365 locale keys and generated coverage of 934 Props, 329 Events and 160 Slots. Release gates require 25 visual baselines, 43 zero-violation Axe scenarios, 47 interactions per Chromium/Firefox/WebKit engine, 37 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

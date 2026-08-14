@@ -9,6 +9,7 @@ import UiConfigProvider from '../src/components/UiConfigProvider.vue'
 import UiDataGrid from '../src/components/UiDataGrid.vue'
 import UiDateRangePicker from '../src/components/UiDateRangePicker.vue'
 import UiTimePicker from '../src/components/UiTimePicker.vue'
+import UiTimeRangePicker from '../src/components/UiTimeRangePicker.vue'
 import UiDrawer from '../src/components/UiDrawer.vue'
 import UiModal from '../src/components/UiModal.vue'
 import UiMentions from '../src/components/UiMentions.vue'
@@ -48,6 +49,7 @@ async function renderFixture() {
         h(UiDataGrid, { columns:[{key:'name',label:'Name',sortable:true},{key:'status',label:'Status'}], rows:[{id:1,name:'SSR DataGrid row',status:'Ready'}], queryFields:['name'], pageSize:10, ariaLabel:'SSR release data grid' }),
         h(UiDateRangePicker, { modelValue:['2026-08-01','2026-08-11'] }),
         h(UiTimePicker, { modelValue:new Date('2026-08-12T01:30:00.000Z'), valueType:'date', timeZone:'Asia/Shanghai' }),
+        h(UiTimeRangePicker, { modelValue:['09:00','17:30'], min:'08:00', max:'22:00', step:900, 'aria-label':'SSR service window' }),
         h(UiNumberInput, { modelValue:12.5, min:0, max:100, step:0.25 }),
         h(UiMentions, { modelValue:'Review with @ada', options:[{label:'Ada Lovelace',value:'ada'}], 'aria-label':'SSR reviewers' }),
         h(UiInputTag, { modelValue:['Vue 3','SSR'], name:'capabilities', editable:true, clearable:true, ariaLabel:'SSR capability tags' }),
@@ -88,6 +90,8 @@ describe('server rendering', () => {
     expect(result.html).toContain('data-date="2026-08-12"')
     expect(result.html).toContain('aria-roledescription="carousel"')
     expect(result.html).toContain('aria-label="SSR release carousel"')
+    expect(result.html).toContain('aria-label="SSR service window"')
+    expect(result.html).toContain('ui-time-range-picker')
     expect(result.html).toContain('SSR quality content')
     expect(result.html).toContain('role="combobox"')
     expect(result.html).toContain('SSR city')

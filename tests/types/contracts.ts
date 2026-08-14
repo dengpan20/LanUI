@@ -32,6 +32,7 @@ import {
   UiTable,
   UiTabs,
   UiTimePicker,
+  UiTimeRangePicker,
   UiTree,
   UiTour,
   UiUpload,
@@ -88,6 +89,7 @@ import SubpathUpload, { UiUpload as NamedSubpathUpload } from 'lan-ui-design-sys
 import SubpathTour, { UiTour as NamedSubpathTour } from 'lan-ui-design-system/components/UiTour'
 import SubpathWatermark, { UiWatermark as NamedSubpathWatermark } from 'lan-ui-design-system/components/UiWatermark'
 import SubpathTypography, { UiTypography as NamedSubpathTypography } from 'lan-ui-design-system/components/UiTypography'
+import SubpathTimeRangePicker, { UiTimeRangePicker as NamedSubpathTimeRangePicker } from 'lan-ui-design-system/components/UiTimeRangePicker'
 import type {
   UiAnchorEmits,
   UiAnchorProps,
@@ -125,6 +127,7 @@ import type { UiUploadEmits, UiUploadProps, UiUploadSlots } from 'lan-ui-design-
 import type { UiTourEmits, UiTourProps, UiTourSlots } from 'lan-ui-design-system/components/UiTour'
 import type { UiWatermarkEmits, UiWatermarkProps, UiWatermarkSlots } from 'lan-ui-design-system/components/UiWatermark'
 import type { UiTypographyEmits, UiTypographyProps, UiTypographySlots } from 'lan-ui-design-system/components/UiTypography'
+import type { UiTimeRangePickerEmits, UiTimeRangePickerProps, UiTimeRangePickerSlots } from 'lan-ui-design-system/components/UiTimeRangePicker'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -466,6 +469,11 @@ const formattedDate:string=formatDateValue(zonedDate||0,{mode:'datetime',timeZon
 const dateSubpathParity:typeof dateValueToDate=subpathDateValueToDate
 const dateDisambiguation:DateDisambiguation='later'
 const timePickerProps:InstanceType<typeof UiTimePicker>['$props']&UiTimePickerProps={modelValue:new Date(),valueType:'date',timeZone:'UTC',precision:'second',step:1}
+const timeRangeProps:InstanceType<typeof UiTimeRangePicker>['$props']&UiTimeRangePickerProps={modelValue:['09:00','17:30'],valueType:'string',timeZone:'UTC',precision:'second',step:1,min:'08:00',max:'22:00',constrain:true}
+const timeRangeEmit:UiTimeRangePickerEmits['change']=payload=>{const valid:boolean=payload.valid;void valid}
+const timeRangeSubpathParity:typeof UiTimeRangePicker=SubpathTimeRangePicker
+const timeRangeNamedSubpathParity:typeof UiTimeRangePicker=NamedSubpathTimeRangePicker
+const timeRangeSlot:UiTimeRangePickerSlots={}
 const iconDefinition:IconDefinitionInput={body:'<path d="M4 4h16v16H4Z"/>',viewBox:'0 0 24 24'}
 const iconRegistry:IconRegistry=createIconRegistry({tenantMark:iconDefinition})
 const iconRegistryParity:typeof createIconRegistry=createSubpathIconRegistry
@@ -511,6 +519,8 @@ const invalidSchemaList:UiSchemaFormNode[] = [{name:'rows',type:'list',min:'one'
 
 // @ts-expect-error Date picker value types are constrained to the public adapter contract.
 const invalidDateValueType:UiTimePickerProps={valueType:'moment'}
+// @ts-expect-error Time range value types use the same strict public date adapter contract.
+const invalidTimeRangeValueType:UiTimeRangePickerProps={valueType:'moment'}
 // @ts-expect-error Icon flips use the constrained transform contract.
 const invalidIconFlip:UiIconProps={flip:'diagonal'}
 // @ts-expect-error Number input controls use the documented sides or right placement.
@@ -554,6 +564,6 @@ const invalidAffixPosition:UiAffixProps={position:'left'}
 // @ts-expect-error Splitter direction is constrained to horizontal or vertical.
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
-void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect]
+void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

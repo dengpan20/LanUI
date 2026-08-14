@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、81 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、82 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -1116,3 +1116,25 @@ P50 advances to 80 public components, 349 locale keys and 14 theme-scoped Telepo
 - Root and component subpaths expose matching runtime, Props/Emits/Slots and related carousel types. Component center, static preview, standalone consumer, SSR, isolated CSS and packed installation remain synchronized.
 
 P51 advances to 81 public components, 359 locale keys and generated coverage of 917 Props, 323 Events and 160 Slots. CI requires 24 visual baselines, 42 zero-violation Axe scenarios, 46 interactions per Chromium/Firefox/WebKit engine, 36 negative type assertions and 18 absolute performance ceilings.
+
+## Time-range form orchestration (P52)
+
+`UiTimeRangePicker` gives scheduling, service-window and availability forms a discoverable public component instead of requiring consumers to remember a range-picker mode:
+
+```vue
+<UiTimeRangePicker
+  v-model="serviceWindow"
+  :step="900"
+  min="08:00"
+  max="22:00"
+  value-type="string"
+/>
+```
+
+- The component specializes the strict date adapter in `time` mode while retaining string, `Date` and timestamp models, local/UTC/IANA time zones, DST disambiguation and minute/second/millisecond precision.
+- Start/end native controls share a labelled group, FormItem description/error linkage, focus styling, Min/Max boundaries, optional cross-field constraints, one clear action and an announced inverted-range error.
+- Controlled updates retain both values and emit structured `{ value, valid }` changes. Focus and blur identify the active endpoint; invalid events distinguish parsing from range-order errors.
+- Schema Form now resolves `time-range` directly. It also presets `datetime` and `datetime-range`, while explicit field props may override preset mode where appropriate.
+- Root/subpath runtime, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone consumer, SSR and packed installation stay synchronized.
+
+P52 advances to 82 public components, 365 locale keys and generated coverage of 934 Props, 329 Events and 160 Slots. CI requires 25 visual baselines, 43 zero-violation Axe scenarios, 47 interactions per Chromium/Firefox/WebKit engine, 37 negative type assertions and 18 absolute performance ceilings.

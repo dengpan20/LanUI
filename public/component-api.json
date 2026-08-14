@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.47.0",
+  "version": "1.48.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -20,7 +20,7 @@
       "id": "forms",
       "label": "数据录入",
       "description": "输入、选择、日期时间、条件编排、表单编排和文件上传。",
-      "count": 28
+      "count": 29
     },
     {
       "id": "data",
@@ -12632,6 +12632,265 @@
         }
       ],
       "slotsType": "UiTimePickerSlots",
+      "slots": []
+    },
+    {
+      "name": "UiTimeRangePicker",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiTimeRangePicker",
+      "imports": {
+        "root": "import { UiTimeRangePicker } from 'lan-ui-design-system'",
+        "subpath": "import UiTimeRangePicker from 'lan-ui-design-system/components/UiTimeRangePicker'"
+      },
+      "propsType": "UiTimeRangePickerProps",
+      "props": [
+        {
+          "name": "clearable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "constrain",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disambiguation",
+          "required": false,
+          "type": "DateDisambiguation",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"compatible\""
+          }
+        },
+        {
+          "name": "endPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "max",
+          "required": false,
+          "type": "DateInput",
+          "runtimeTypes": [
+            "String",
+            "Date",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "min",
+          "required": false,
+          "type": "DateInput",
+          "runtimeTypes": [
+            "String",
+            "Date",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "DateValue[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "precision",
+          "required": false,
+          "type": "DatePrecision",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"minute\""
+          }
+        },
+        {
+          "name": "referenceDate",
+          "required": false,
+          "type": "DateInput",
+          "runtimeTypes": [
+            "String",
+            "Date",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "startPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "step",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "timeZone",
+          "required": false,
+          "type": "'local'|'UTC'|string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"local\""
+          }
+        },
+        {
+          "name": "valueType",
+          "required": false,
+          "type": "DateValueType",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"auto\""
+          }
+        }
+      ],
+      "emitsType": "UiTimeRangePickerEmits",
+      "emits": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(payload:UiDateRangeFocusPayload)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(payload:UiDateRangeChange)=>void"
+        },
+        {
+          "name": "clear",
+          "required": true,
+          "type": "()=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(payload:UiDateRangeFocusPayload)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiDateRangeInvalid)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:DateValue[])=>void"
+        }
+      ],
+      "slotsType": "UiTimeRangePickerSlots",
       "slots": []
     },
     {

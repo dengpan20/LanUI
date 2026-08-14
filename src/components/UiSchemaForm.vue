@@ -18,6 +18,7 @@ import UiSlider from './UiSlider.vue'
 import UiSwitch from './UiSwitch.vue'
 import UiTextarea from './UiTextarea.vue'
 import UiTimePicker from './UiTimePicker.vue'
+import UiTimeRangePicker from './UiTimeRangePicker.vue'
 import { useLocale } from '../config-runtime.js'
 import { cloneValue, getPath, pathKey, setPath, toPath } from './formUtils.js'
 
@@ -56,12 +57,19 @@ const builtinComponents = Object.freeze({
   checkbox: UiCheckbox,
   switch: UiSwitch,
   date: UiDatePicker,
+  datetime: UiDatePicker,
   time: UiTimePicker,
   'date-range': UiDateRangePicker,
+  'datetime-range': UiDateRangePicker,
+  'time-range': UiTimeRangePicker,
   slider: UiSlider,
   segmented: UiSegmented,
 })
 const nativeReadonlyComponents = new Set([UiInput, UiInputTag, UiQueryBuilder, UiTextarea, UiNumberInput, UiAutoComplete, UiSlider])
+const builtinDefaultProps = Object.freeze({
+  datetime: Object.freeze({ mode: 'datetime' }),
+  'datetime-range': Object.freeze({ mode: 'datetime' }),
+})
 const sectionTitleTags = new Set(['h2', 'h3', 'h4'])
 
 function reportError(kind, definition, error) {
@@ -147,9 +155,10 @@ function resolveFieldProps(field, section, extras = {}) {
   let disabled = Boolean(custom.disabled || props.disabled || extras.disabled || fieldDisabled)
   const type = typeof field.component === 'string' ? field.component : field.type || 'input'
   const builtin = builtinComponents[type]
+  const defaults = builtinDefaultProps[type] || {}
   const usesBuiltin = builtin && !props.components[type] && typeof field.component !== 'object' && typeof field.component !== 'function'
   if (readonly && usesBuiltin && !nativeReadonlyComponents.has(builtin)) disabled = true
-  const resolved = { ...custom, disabled, readonly }
+  const resolved = { ...defaults, ...custom, disabled, readonly }
   if (field.options !== undefined && resolved.options === undefined) resolved.options = invoke(field.options, [], 'options', field, context)
   if (field.placeholder !== undefined && resolved.placeholder === undefined) resolved.placeholder = invoke(field.placeholder, '', 'placeholder', field, context)
   return resolved

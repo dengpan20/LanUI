@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.48 time-range compatibility
+
+There are no breaking changes. Existing `UiDateRangePicker mode="time"` consumers continue to work; new scheduling forms can use the dedicated public wrapper:
+
+```vue
+<UiTimeRangePicker v-model="serviceWindow" :step="900" min="08:00" max="22:00" />
+```
+
+- The value remains a two-entry array and keeps the same `string`, `Date` or timestamp representation selected by `valueType`.
+- `constrain=true` narrows each endpoint using the opposite value. Set it to `false` when temporarily inverted input should be emitted with `change.valid=false` and `invalid.code='range-order'`.
+- Schema Form accepts `time-range`, `datetime` and `datetime-range` as built-ins. Existing `date`, `time` and `date-range` definitions retain their behavior.
+- Root and `components/UiTimeRangePicker` imports expose matching Props, Emits and Slots; isolated styling is available at `styles/UiTimeRangePicker.css`.
+
 ## 1.47 carousel compatibility
 
 There are no breaking changes. Announcement, onboarding, media and release-summary screens can add the new carousel incrementally:

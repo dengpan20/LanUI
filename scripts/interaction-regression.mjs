@@ -915,6 +915,38 @@ const allCases = [
     },
   },
   {
+    name:'time-range-value-validation-focus',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.getByRole('group',{name:'Interaction service window'})
+      await root.scrollIntoViewIfNeeded()
+      const start=root.getByLabel('Start time')
+      const end=root.getByLabel('End time')
+      assert.equal(await start.getAttribute('type'),'time')
+      assert.equal(await end.getAttribute('type'),'time')
+      assert.equal(await start.getAttribute('min'),'08:00')
+      assert.equal(await end.getAttribute('max'),'22:00')
+      await start.focus()
+      await expectText(page,'time-range-output','focus:0')
+      await start.fill('18:00')
+      await expectText(page,'time-range-output','invalid:range-order')
+      assert.equal(await root.getAttribute('aria-invalid'),'true')
+      // Firefox exposes the native time field's hour/minute segments as extra
+      // Tab stops. Advance until the next public control receives focus while
+      // keeping the same keyboard-only contract in every browser.
+      for(let attempt=0;attempt<4&&!await end.evaluate(node=>node===document.activeElement);attempt+=1)await page.keyboard.press('Tab')
+      await expectFocused(page,end)
+      await expectText(page,'time-range-output','focus:1')
+      await end.fill('19:00')
+      await expectText(page,'time-range-output','change:true:18:00:19:00')
+      assert.equal(await root.getAttribute('aria-invalid'),null)
+      await root.getByRole('button',{name:'Clear date or time'}).click()
+      await expectText(page,'time-range-output','clear')
+      assert.equal(await start.inputValue(),'')
+      assert.equal(await end.inputValue(),'')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -958,7 +990,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),81)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),82)
     },
   },
 ]

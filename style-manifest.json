@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.47.0",
+  "version": "1.48.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 177185,
-    "rules": 1404,
+    "bytes": 177317,
+    "rules": 1406,
     "source": "component-union"
   },
   "core": {
@@ -136,8 +136,8 @@
     {
       "name": "UiDateRangePicker",
       "subpath": "./styles/UiDateRangePicker.css",
-      "bytes": 2481,
-      "rules": 17
+      "bytes": 2565,
+      "rules": 18
     },
     {
       "name": "UiDescriptions",
@@ -334,8 +334,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 48345,
-      "rules": 380
+      "bytes": 48477,
+      "rules": 382
     },
     {
       "name": "UiSegmented",
@@ -432,6 +432,12 @@
       "subpath": "./styles/UiTimePicker.css",
       "bytes": 2186,
       "rules": 16
+    },
+    {
+      "name": "UiTimeRangePicker",
+      "subpath": "./styles/UiTimeRangePicker.css",
+      "bytes": 2613,
+      "rules": 19
     },
     {
       "name": "UiTimeline",

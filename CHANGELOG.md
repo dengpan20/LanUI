@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.48.0] - 2026-08-15
+
+### Added
+
+- `UiTimeRangePicker`, a dedicated strict-adapter wrapper for service windows, appointment ranges and recurring daily availability with string, `Date` and timestamp models.
+- Built-in Schema Form `time-range`, `datetime` and `datetime-range` types with deterministic mode presets and consumer-prop override precedence.
+- Time-range examples in the component center, one-page static preview and standalone consumer, plus unit, SSR, visual, Axe, type, packed-consumer and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Release gates advance to 82 public components, 365 locale keys, 25 visual baselines, 43 Axe scenarios, 47 interactions per browser and 37 negative type assertions.
+- Generated API coverage advances to 934 Props, 329 Events and 160 Slots.
+- Root and component-subpath runtime, declarations, isolated CSS, generated API documentation and Schema Form resolution share the 1.48.0 contract.
+- Absolute package and distribution ceilings plus frozen 1.28 per-component allowances receive bounded Time Range headroom; file-count, consumer, chunk and non-additive improvement gates remain unchanged.
+
 ## [1.47.0] - 2026-08-15
 
 ### Added

@@ -36,6 +36,7 @@ import {
   UiSteps,
   UiTable,
   UiTag,
+  UiTimeRangePicker,
   UiToastHost,
   UiTour,
   UiTypography,
@@ -49,11 +50,13 @@ const projectModel = reactive({ project: { name: '运营管理后台', template:
 const projectRules = { project: { name: [{ required:true, message:'请输入项目名称' }, { min:2, message:'项目名称至少需要 2 个字符' }], template: { required:true } } }
 const standaloneQueryFields=[{key:'name',label:'Component',type:'text',defaultOperator:'contains'},{key:'team',label:'Team',type:'select',options:['Forms','Data','Navigation']},{key:'coverage',label:'Coverage',type:'number',min:0,max:100},{key:'status',label:'Status',type:'select',options:['Stable','Review']}]
 const standaloneQuery=ref({combinator:'and',rules:[{field:'status',operator:'equals',value:'Stable'},{field:'coverage',operator:'greaterOrEqual',value:80}]})
-const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026',capabilities:['design-system','consumer'],filters:{combinator:'and',rules:[{field:'status',operator:'equals',value:'Stable'}]},reviewers:[{name:'Release owner',email:'owner@example.com'}]})
+const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026',schedule:{window:['09:00','18:00'],publishAt:'2026-08-20T10:00'},capabilities:['design-system','consumer'],filters:{combinator:'and',rules:[{field:'status',operator:'equals',value:'Stable'}]},reviewers:[{name:'Release owner',email:'owner@example.com'}]})
 const workspaceSchema=[{key:'account',title:'Schema-driven account',description:'Conditional and repeatable fields are mounted and validated from the consumer-owned schema.',columns:2,fields:[
   {name:'account.type',label:'Account type',type:'segmented',options:[{label:'Business',value:'business'},{label:'Personal',value:'personal'}],props:{block:true},span:2},
   {name:'account.name',label:'Workspace name',required:true,rules:[{required:true},{min:2}],props:{clearable:true}},
   {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}],props:{clearable:true}},
+  {name:'schedule.publishAt',label:'Publish at',type:'datetime',props:{step:60}},
+  {name:'schedule.window',label:'Service window',type:'time-range',props:{step:900},span:2},
   {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true}],span:2},
   {name:'capabilities',label:'Capabilities',type:'input-tag',span:2,props:{editable:true,clearable:true,maxTags:6}},
   {name:'filters',label:'Release filters',type:'query-builder',span:2,props:{fields:standaloneQueryFields,compact:true,showNot:true,maxDepth:2}},
@@ -95,6 +98,7 @@ const standaloneTourSteps=[
 ]
 const standaloneTheme={'brand-600':'#7C3AED','brand-text':'#A78BFA'}
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
+const serviceWindow = ref(['09:00','18:00'])
 const standaloneAnchor = ref('#standalone-overview')
 const standaloneAnchorItems = [
   { title: 'Overview', href: '#standalone-overview' },
@@ -315,6 +319,7 @@ const rows = computed(() => [
       <UiConfigProvider :locale="locale" :direction="direction" :appearance="appearance" :motion="motion" :theme="appearance==='dark'?standaloneTheme:{'brand-600':'#2563EB'}" size="sm" density="compact">
         <div style="margin-top:16px;display:grid;gap:12px">
           <UiDateRangePicker v-model="deliveryRange" />
+          <UiTimeRangePicker v-model="serviceWindow" :step="900" min="08:00" max="22:00" />
           <UiButton>{{ locale==='en-US'?'Create delivery':'创建交付计划' }}</UiButton>
           <UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#7C3AED','#10B981']" aria-label="Scoped tenant color" />
           <UiTag color="purple">{{ appearance }} / {{ motion }}</UiTag>

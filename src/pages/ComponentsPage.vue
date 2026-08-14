@@ -22,6 +22,7 @@ import UiTag from '../components/UiTag.vue'
 import UiTextarea from '../components/UiTextarea.vue'
 import UiDatePicker from '../components/UiDatePicker.vue'
 import UiTimePicker from '../components/UiTimePicker.vue'
+import UiTimeRangePicker from '../components/UiTimeRangePicker.vue'
 import UiPagination from '../components/UiPagination.vue'
 import UiUpload from '../components/UiUpload.vue'
 import UiFloatButton from '../components/UiFloatButton.vue'
@@ -131,19 +132,21 @@ function uploadDemoRequest({file,signal,onProgress}){
 }
 const formatCurrency=value=>`\u00a5${Number(value).toLocaleString('zh-CN',{minimumFractionDigits:0,maximumFractionDigits:0})}`
 const parseCurrency=text=>String(text).replace(/[\u00a5,\s]/g,'')
-const demoDate=ref('2026-08-11');const calendarDemo=ref('2026-08-12');const calendarRangeDemo=ref(['2026-08-10','2026-08-16']);const demoTime=ref('09:30');const demoDateTime=ref('2026-08-11T14:30');const zonedInstant=ref(new Date('2026-08-11T06:30:00.000Z'));const demoTimeZone=ref('Asia/Shanghai');const demoFiles=ref([{id:'release-guide',name:'lan-ui-upload-guide.pdf',size:186368,status:'success',percent:100,response:{url:'/uploads/lan-ui-upload-guide.pdf'}}])
+const demoDate=ref('2026-08-11');const calendarDemo=ref('2026-08-12');const calendarRangeDemo=ref(['2026-08-10','2026-08-16']);const demoTime=ref('09:30');const demoTimeRange=ref(['09:00','17:30']);const demoDateTime=ref('2026-08-11T14:30');const zonedInstant=ref(new Date('2026-08-11T06:30:00.000Z'));const demoTimeZone=ref('Asia/Shanghai');const demoFiles=ref([{id:'release-guide',name:'lan-ui-upload-guide.pdf',size:186368,status:'success',percent:100,response:{url:'/uploads/lan-ui-upload-guide.pdf'}}])
 const zonedPreview=computed(()=>formatDateValue(zonedInstant.value,{mode:'datetime',timeZone:'UTC',precision:'second'}))
 const demoPage=ref(3);const demoPageSize=ref(10);const floatDemoOpen=ref(false)
 const checkboxDemo=ref(['邮件通知']);const radioDemo=ref('标准版');const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false)
 const formRef=ref(null);const validatedForm=reactive({customer:{name:'',email:'',password:'LanUI-2026',confirm:'LanUI-2026'},contacts:[{name:'李明',email:'li@example.com'}]});const validationRules={customer:{name:[{required:true,message:'请输入客户名称'},{min:2,message:'客户名称至少 2 个字符'}],email:[{required:true,message:'请输入企业邮箱'},{type:'email',message:'请输入有效的企业邮箱'}]}}
 const schemaFormRef=ref(null)
-const schemaFormModel=reactive({account:{type:'business',name:'Lan UI 工作区',email:'owner@example.com'},region:'east',taxId:'',capabilities:['design-system','admin'],filters:{combinator:'and',rules:[{field:'status',operator:'equals',value:'stable'}]},contacts:[{role:'owner',name:'李明',email:'li@example.com'},{role:'reviewer',name:'王敏',email:'wang@example.com'}]})
+const schemaFormModel=reactive({account:{type:'business',name:'Lan UI 工作区',email:'owner@example.com'},region:'east',taxId:'',schedule:{dailyWindow:['09:00','18:00'],publishAt:'2026-08-20T10:00'},capabilities:['design-system','admin'],filters:{combinator:'and',rules:[{field:'status',operator:'equals',value:'stable'}]},contacts:[{role:'owner',name:'李明',email:'li@example.com'},{role:'reviewer',name:'王敏',email:'wang@example.com'}]})
 const schemaFormDefinition=[{
   key:'workspace',title:'工作区配置',description:'字段、布局、条件显隐与校验均由 Schema 声明。',columns:2,fields:[
     {name:'account.type',label:'账户类型',type:'segmented',options:[{label:'企业',value:'business'},{label:'个人',value:'personal'}],props:{block:true},span:2},
     {name:'account.name',label:'工作区名称',required:true,rules:[{required:true,message:'请输入工作区名称'},{min:2,message:'至少输入 2 个字符'}],props:{clearable:true,placeholder:'请输入工作区名称'}},
     {name:'account.email',label:'管理员邮箱',required:true,rules:[{required:true,message:'请输入管理员邮箱'},{type:'email',message:'请输入有效邮箱'}],props:{clearable:true,placeholder:'owner@example.com'}},
     {name:'region',label:'业务区域',type:'select',options:[{label:'华东区域',value:'east'},{label:'华南区域',value:'south'},{label:'海外区域',value:'global'}],props:{clearable:true,searchable:true}},
+    {name:'schedule.publishAt',label:'发布时间',type:'datetime',props:{step:60}},
+    {name:'schedule.dailyWindow',label:'每日服务时段',type:'time-range',props:{step:900},span:2},
     {name:'capabilities',label:'能力标签',type:'input-tag',span:2,help:'Schema 内置 input-tag 字段，支持回车、分隔符和整段粘贴。',props:{editable:true,clearable:true,maxTags:6}},
     {name:'filters',label:'发布筛选策略',type:'query-builder',span:2,help:'Schema 内置 query-builder 字段，直接输出可序列化的递归条件树。',props:{fields:queryFields,compact:true,showNot:true,maxDepth:2}},
     {name:'taxId',label:'企业税号',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true,message:'企业账户需填写税号'}],props:{placeholder:'请输入统一社会信用代码'}},
@@ -214,9 +217,9 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:81},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:82},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Carousel P51'},{key:'version',label:'版本',value:'1.47.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'81 个公开组件 · API 清单、独立样式、SSR、RTL、ARIA、键盘与触控轮播、自动播放暂停、Reduced Motion、懒渲染与隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Time Range P52'},{key:'version',label:'版本',value:'1.48.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'82 个公开组件 · 时间范围、datetime/time-range Schema 映射、时区与值类型、范围顺序校验、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
@@ -423,6 +426,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="form-demo-section"><div class="form-demo-title"><strong>日期与时间</strong><span>DatePicker</span></div><div class="form-demo-content form-row">
               <label class="field"><span class="field-label">业务日期</span><UiDatePicker v-model="demoDate"/><span class="field-help">支持清除、键盘输入和系统日历</span></label>
               <label class="field"><span class="field-label">提醒时间</span><UiTimePicker v-model="demoTime" :step="60"/><span class="field-help">独立 TimePicker，支持分钟、秒和毫秒精度</span></label>
+              <label class="field"><span class="field-label">服务时段</span><UiTimeRangePicker v-model="demoTimeRange" :step="900"/><span class="field-help">独立 TimeRangePicker，自动约束开始与结束时间</span></label>
               <label class="field"><span class="field-label">日期时间</span><UiDatePicker v-model="demoDateTime" mode="datetime"/><span class="field-help">合并日期与具体时刻</span></label>
               <label class="field"><span class="field-label">时区感知时刻</span><div class="form-inline-pair"><UiSelect v-model="demoTimeZone" :options="['Asia/Shanghai','UTC','America/New_York']"/><UiDatePicker v-model="zonedInstant" mode="datetime" value-type="date" :time-zone="demoTimeZone" precision="second" :step="1"/></div><span class="field-help">同一 Instant · UTC {{ zonedPreview }}</span></label>
               <label class="field"><span class="field-label">错误 / 禁用</span><div class="form-inline-pair"><UiDatePicker invalid aria-label="错误状态日期" placeholder="请选择必填日期"/><UiDatePicker model-value="2026-08-11" aria-label="禁用日期" disabled/></div></label>
@@ -739,6 +743,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Slider / Range</td><td>单值 / 区间</td><td>Tooltip + 高亮</td><td>拖拽 / 点击 Mark</td><td>ARIA slider + Ring</td><td>禁止交互</td><td>只读 / 错误</td></tr>
               <tr><td>Rate</td><td>integer / fractional</td><td>live preview</td><td>select / clear</td><td>ARIA slider + Ring</td><td>readonly / disabled</td><td>form error</td></tr>
               <tr><td>Calendar</td><td>single / multiple / range</td><td>range preview</td><td>select / clear / today</td><td>ARIA grid + roving tabindex</td><td>readonly / disabled date</td><td>min / max / empty</td></tr>
+              <tr><td>TimeRange</td><td>字符串 / Date / 时间戳</td><td>双输入聚焦</td><td>选择 / 清除</td><td>Group + Label / Description</td><td>禁用 / 只读表单</td><td>顺序 / Min / Max / Empty</td></tr>
               <tr><td>Image</td><td>lazy / eager</td><td>preview affordance</td><td>zoom / rotate / pan</td><td>Dialog focus trap</td><td>Preview disabled</td><td>fallback / retry</td></tr>
               <tr><td>Carousel</td><td>slide / fade</td><td>暂停自动播放</td><td>箭头 / 指示器 / 滑动</td><td>逻辑方向键 + Ring</td><td>有限端点锁定</td><td>Visibility / Reduced Motion / Empty</td></tr>
               <tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr>

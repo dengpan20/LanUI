@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiSplitter, UiStatusPage, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiDataGrid, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -98,6 +98,8 @@ const queryValue=ref({id:'interaction-query-root',combinator:'and',not:false,rul
 ]})
 const carouselIndex=ref(0)
 const carouselOutput=ref('ready:0')
+const timeRangeValue=ref(['09:00','17:30'])
+const timeRangeOutput=ref('ready:09:00-17:30')
 const carouselItems=[
   {key:'overview',title:'Release overview',description:'Versioned component contract'},
   {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
@@ -533,6 +535,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #item="{item,index}"><div class="interaction-carousel-slide" :data-index="index"><strong>{{ item.title }}</strong><span>{{ item.description }}</span></div></template>
         </UiCarousel>
         <output class="interaction-output" data-testid="carousel-output">{{ carouselOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-time-range-case">
+        <h2>Time range value, constraint and validation contract</h2>
+        <UiTimeRangePicker v-model="timeRangeValue" :constrain="false" :step="900" min="08:00" max="22:00" aria-label="Interaction service window" @change="payload=>timeRangeOutput=`change:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`" @invalid="payload=>timeRangeOutput=`invalid:${payload.code}`" @focus="payload=>timeRangeOutput=`focus:${payload.index}`" @clear="timeRangeOutput='clear'" />
+        <output class="interaction-output" data-testid="time-range-output">{{ timeRangeOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>
