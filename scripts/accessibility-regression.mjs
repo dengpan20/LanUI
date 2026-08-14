@@ -45,6 +45,7 @@ const cases=[
   {name:'splitter-workspace',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=splitter',ready:'.visual-splitter-showcase [role="separator"]'},
   {name:'typography-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=typography',ready:'.visual-typography-showcase .ui-typography-action'},
   {name:'list-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=list',ready:'.visual-list-showcase [role="listbox"]'},
+  {name:'otp-input-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=otp',ready:'.visual-otp-showcase [role="group"]'},
 ]
 const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa','wcag22a','wcag22aa','best-practice']
 const {server,origin}=await startFixtureServer(root)

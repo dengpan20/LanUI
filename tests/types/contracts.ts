@@ -18,6 +18,7 @@ import {
   UiList,
   UiModal,
   UiNumberInput,
+  UiOtpInput,
   UiRate,
   UiStatistic,
   UiStatusPage,
@@ -66,6 +67,7 @@ import SubpathVirtualList, { UiVirtualList as NamedSubpathVirtualList } from 'la
 import SubpathStatusPage, { UiStatusPage as NamedSubpathStatusPage } from 'lan-ui-design-system/components/UiStatusPage'
 import SubpathAutoComplete, { UiAutoComplete as NamedSubpathAutoComplete } from 'lan-ui-design-system/components/UiAutoComplete'
 import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'lan-ui-design-system/components/UiNumberInput'
+import SubpathOtpInput, { UiOtpInput as NamedSubpathOtpInput } from 'lan-ui-design-system/components/UiOtpInput'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
 import SubpathStatistic, { UiStatistic as NamedSubpathStatistic } from 'lan-ui-design-system/components/UiStatistic'
@@ -98,6 +100,7 @@ import type { UiVirtualListEmits, UiVirtualListProps, UiVirtualListSlots } from 
 import type { UiStatusPageEmits, UiStatusPageProps, UiStatusPageSlots } from 'lan-ui-design-system/components/UiStatusPage'
 import type { UiAutoCompleteEmits, UiAutoCompleteProps, UiAutoCompleteSlots } from 'lan-ui-design-system/components/UiAutoComplete'
 import type { UiNumberInputEmits, UiNumberInputProps, UiNumberInputSlots } from 'lan-ui-design-system/components/UiNumberInput'
+import type { UiOtpInputEmits, UiOtpInputProps, UiOtpInputSlots } from 'lan-ui-design-system/components/UiOtpInput'
 import type { UiSliderEmits, UiSliderProps, UiSliderSlots } from 'lan-ui-design-system/components/UiSlider'
 import type { UiRateEmits, UiRateProps, UiRateSlots } from 'lan-ui-design-system/components/UiRate'
 import type { UiStatisticEmits, UiStatisticProps, UiStatisticSlots } from 'lan-ui-design-system/components/UiStatistic'
@@ -148,6 +151,7 @@ import type {
   UiWatermarkFont,
   UiWatermarkInstance,
   UiListInstance,
+  UiOtpInputInstance,
   UiTypographyInstance,
   RgbaColor,
   ColorFormat,
@@ -342,6 +346,14 @@ numberInputEmit('change',13,{source:'keyboard',previous:12.5})
 const numberInputSubpathParity:typeof SubpathNumberInput=NamedSubpathNumberInput
 const numberInputEvent:keyof UiNumberInputEmits='step'
 const numberInputSlot:keyof UiNumberInputSlots='suffix'
+const otpInputProps:InstanceType<typeof UiOtpInput>['$props']&UiOtpInputProps={modelValue:'204',length:6,mode:'alphanumeric',uppercase:true,separator:'-',separatorEvery:3,autocomplete:'one-time-code',transform:value=>value.trim()}
+const otpInputEmit:InstanceType<typeof UiOtpInput>['$emit']=null as never
+otpInputEmit('complete','A7B204',{source:'paste',index:0,value:'A7B204',complete:true})
+const otpInputInstance:UiOtpInputInstance=null as never
+otpInputInstance.focus(0);otpInputInstance.clear();otpInputInstance.setValue('204826');otpInputInstance.blur()
+const otpInputSubpathParity:typeof SubpathOtpInput=NamedSubpathOtpInput
+const otpInputEvent:keyof UiOtpInputEmits='invalid'
+const otpInputSlot:keyof UiOtpInputSlots|'none'='none'
 const sliderProps:InstanceType<typeof UiSlider>['$props']&UiSliderProps={modelValue:[20,80],range:true,min:0,max:100,step:5,minDistance:10,tooltip:'always',marks:[{value:50,label:'Half'}],ariaLabel:['Start','End']}
 const sliderEmit:InstanceType<typeof UiSlider>['$emit']=null as never
 sliderEmit('change',[25,80],{source:'keyboard',thumb:0})
@@ -414,6 +426,9 @@ const iconNames:string[]=plugin.listIcons()
 
 // @ts-expect-error List selection modes are constrained to none, single or multiple.
 const invalidListSelection:UiListProps={selectionMode:'toggle'}
+
+// @ts-expect-error OTP modes are constrained to numeric, alphanumeric or text.
+const invalidOtpMode:UiOtpInputProps={mode:'hex'}
 
 // @ts-expect-error Typography variants are constrained to text, paragraph or title.
 const invalidTypographyVariant:UiTypographyProps={variant:'quote'}

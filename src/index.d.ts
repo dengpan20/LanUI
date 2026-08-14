@@ -205,6 +205,12 @@ export interface UiMenuItem { key:Key; label:string; icon?:string; disabled?:boo
 export interface UiMenuProps { items?:UiMenuItem[]; modelValue?:Key; collapsed?:boolean; accordion?:boolean; defaultOpenKeys?:Key[] }
 export interface UiMultiSelectProps { modelValue?:Key[]; options?:SelectOptionInput[]; placeholder?:string; searchable?:boolean; disabled?:boolean; invalid?:boolean; maxTagCount?:number }
 export interface UiNumberInputProps { modelValue?:number|null; min?:number; max?:number; step?:number; precision?:number; placeholder?:string; size?:ComponentSize; controls?:boolean; controlsPosition?:'sides'|'right'; disabled?:boolean; readonly?:boolean; invalid?:boolean; clampOnBlur?:boolean; wheel?:boolean; formatter?:(value:number)=>string|number|null|undefined; parser?:(text:string)=>number|string|null|undefined }
+export type UiOtpInputMode = 'numeric'|'alphanumeric'|'text'
+export interface UiOtpInputProps { modelValue?:string|number; length?:number; mode?:UiOtpInputMode; size?:ComponentSize; placeholder?:string; mask?:boolean; uppercase?:boolean; separator?:string; separatorEvery?:number; disabled?:boolean; readonly?:boolean; invalid?:boolean; autofocus?:boolean; selectOnFocus?:boolean; name?:string; autocomplete?:string; ariaLabel?:string; transform?:(value:string)=>string|number|null|undefined }
+export interface UiOtpInputMeta { source:string; index:number; value:string; complete:boolean }
+export interface UiOtpInputChangeMeta extends UiOtpInputMeta { previous:string }
+export interface UiOtpInputInvalidMeta { source:string; index:number; input:string; mode:UiOtpInputMode }
+export interface UiOtpInputInstance { root:Ref<HTMLElement|null>; inputs:Ref<HTMLInputElement[]>; focus:(index?:number)=>boolean; blur:()=>void; clear:(source?:string)=>boolean; setValue:(value:unknown,source?:string)=>boolean }
 export interface UiNotice { type?:'info'|'success'|'warning'|'error'; title:string; message:string }
 export interface UiNotificationProps { notification?:UiNotice|null; actionText?:string; secondaryText?:string; feedback?:LanUiFeedback }
 export interface UiPaginationProps { page?:number; pageSize?:number; total?:number; pageSizeOptions?:number[]; showSizeChanger?:boolean; compact?:boolean; ariaLabel?:string }
@@ -368,6 +374,7 @@ export type UiMenuEmits = { 'update:modelValue':(value:Key)=>void; select:(item:
 export type UiModalEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
 export type UiMultiSelectEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[])=>void; 'open-change':(open:boolean)=>void }
 export type UiNumberInputEmits = { 'update:modelValue':(value:number|null)=>void; input:(value:number|null)=>void; change:(value:number|null,meta:UiNumberInputChangeMeta)=>void; step:(value:number,meta:UiNumberInputStepMeta)=>void; invalid:(payload:UiNumberInputInvalid)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
+export type UiOtpInputEmits = { 'update:modelValue':(value:string)=>void; input:(value:string,meta:UiOtpInputMeta)=>void; change:(value:string,meta:UiOtpInputChangeMeta)=>void; complete:(value:string,meta:UiOtpInputMeta)=>void; focus:(event:FocusEvent,meta:UiOtpInputMeta)=>void; blur:(event:FocusEvent,meta:UiOtpInputMeta)=>void; invalid:(meta:UiOtpInputInvalidMeta)=>void }
 export type UiNotificationEmits = { close:()=>void; action:()=>void }
 export type UiPaginationEmits = { 'update:page':(value:number)=>void; 'update:pageSize':(value:number)=>void; change:(payload:UiPaginationChange)=>void }
 export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(error:unknown)=>void }
@@ -451,6 +458,7 @@ export type UiMenuSlots = { icon?:(props:{item:UiMenuItem})=>VNodeChild }
 export type UiModalSlots = { default?:()=>VNodeChild; header?:()=>VNodeChild; footer?:(props:{close:()=>void})=>VNodeChild }
 export type UiMultiSelectSlots = {}
 export type UiNumberInputSlots = { prefix?:()=>VNodeChild; suffix?:()=>VNodeChild }
+export type UiOtpInputSlots = {}
 export type UiNotificationSlots = {}
 export type UiPaginationSlots = {}
 export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
@@ -506,7 +514,7 @@ export const UiFormItem:LanComponent<UiFormItemProps,UiFormItemEmits,UiFormItemS
 export const UiFormList:LanComponent<UiFormListProps,UiFormListEmits,UiFormListSlots>
 export const UiSchemaForm:UiSchemaFormComponent
 export const UiList:LanComponent<UiListProps,UiListEmits,UiListSlots>
-export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>
+export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>; export const UiOtpInput:LanComponent<UiOtpInputProps,UiOtpInputEmits,UiOtpInputSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>

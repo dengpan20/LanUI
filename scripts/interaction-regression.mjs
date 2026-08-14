@@ -792,6 +792,35 @@ const allCases = [
     },
   },
   {
+    name:'otp-input-autofill-keyboard-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.locator('.interaction-otp-case .ui-otp-input')
+      await root.scrollIntoViewIfNeeded()
+      const inputs=root.locator('.ui-otp-input-cell')
+      assert.equal(await inputs.count(),6)
+      await inputs.first().evaluate(input=>{
+        input.value='１２a3-4'
+        input.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertReplacementText',data:'１２a3-4'}))
+      })
+      await expectText(page,'otp-output','input:1234:input:0')
+      await expectFocused(page,inputs.nth(4))
+      await inputs.nth(4).fill('5')
+      await expectFocused(page,inputs.nth(5))
+      await inputs.nth(5).fill('6')
+      assert.equal((await page.getByTestId('otp-output').innerText()).trim(),'complete:123456:input:5')
+      assert.ok(await root.evaluate(node=>node.classList.contains('complete')))
+      await inputs.nth(5).press('Backspace')
+      await expectText(page,'otp-output','input:12345:backspace:5')
+      await inputs.nth(5).press('ArrowRight')
+      await expectFocused(page,inputs.nth(4))
+      await inputs.nth(4).press('End')
+      await expectFocused(page,inputs.nth(5))
+      await inputs.nth(5).fill('!')
+      await expectText(page,'otp-output','invalid:!:5')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -806,7 +835,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),76)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),77)
     },
   },
 ]

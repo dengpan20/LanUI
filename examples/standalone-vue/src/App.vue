@@ -22,6 +22,7 @@ import {
   UiImage,
   UiList,
   UiNumberInput,
+  UiOtpInput,
   UiRate,
   UiSelect,
   UiSegmented,
@@ -64,6 +65,7 @@ const standaloneSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize
 const standaloneReleaseNote=ref('Standalone consumers can use UiTypography for release notes, copyable configuration values and keyboard-confirmed inline editing without adding separate behavior wrappers.')
 const standaloneListSelection=ref(['contract'])
 const standaloneListPage=ref(1)
+const standaloneOtp=ref('204')
 const standaloneListItems=[{id:'contract',title:'Package contract',description:'Root exports, component subpaths and typed slots',owner:'API',status:'Ready'},{id:'accessibility',title:'Accessibility review',description:'Keyboard, listbox position and selection semantics',owner:'QA',status:'Review'},{id:'consumer',title:'Consumer build',description:'Standalone Vite application and isolated package install',owner:'Release',status:'Ready'},{id:'rollback',title:'Rollback evidence',description:'Baseline archive, patch and runnable restore command',owner:'Ops',status:'Ready'}]
 const standaloneTourSteps=[
   {target:'#standalone-overview',title:'Review business metrics',description:'Start with the operational signals that need attention.',placement:'bottom-start'},
@@ -173,6 +175,13 @@ const rows = computed(() => [
         <template #extra="{item}"><UiTag :color="item.status==='Ready'?'green':'orange'">{{ item.status }}</UiTag></template>
         <template #footer>Arrow keys move; Space selects; pagination preserves source positions.</template>
       </UiList>
+    </UiCard>
+
+    <UiCard title="One-time verification code">
+      <UiFormItem label="Release approval code" help="Paste, mobile autofill and keyboard movement are handled by the package component.">
+        <UiOtpInput v-model="standaloneOtp" :length="6" separator="–" :separator-every="3" name="release-code" @complete="toast.success(`Code ${$event} completed`)" />
+      </UiFormItem>
+      <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Consumer model: {{ standaloneOtp || 'empty' }}</div>
     </UiCard>
 
     <UiCard title="Semantic release text">

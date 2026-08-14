@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.43 OTP input compatibility
+
+There are no breaking changes. Verification, MFA and approval flows can add the new segmented input:
+
+```vue
+<UiOtpInput v-model="code" :length="6" mode="numeric" autocomplete="one-time-code" @complete="verify" />
+```
+
+- The public model is always a string. Full-width input is normalized with NFKC, filtered by `mode` and limited to `length` before events are emitted.
+- Keep `autocomplete="one-time-code"` for mobile code suggestions. Only the first visual cell receives that value; use `name` when native form submission needs one canonical successful control.
+- Pasting or autofilling multiple characters distributes them from the active cell. Arrow direction mirrors in RTL; Home/End, Backspace and Delete follow ordinary segmented-input editing behavior.
+- `mask` affects presentation only. `complete` fires when every segment is filled; `input` and `change` also report the source and active index.
+- Root and `components/UiOtpInput` imports expose matching Props, Emits and Slots declarations, and isolated styling is available at `styles/UiOtpInput.css`.
+
 ## 1.41 typography compatibility
 
 There are no breaking changes. Applications can consolidate semantic release notes, configuration values and instructional text:

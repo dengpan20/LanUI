@@ -938,3 +938,19 @@ P45 advances to 75 public components and 251 locale keys. Release gates require 
 P46 keeps the frozen 1.28 comparison strict for every historic metric and retains a deterministic 2KB aggregate JavaScript gzip allowance per public component beyond the 69-component baseline.
 
 P46 advances to 76 public components and 257 locale keys. Release gates require 19 visual baselines, 37 zero-violation Axe scenarios, 41 interactions per Chromium/Firefox/WebKit engine, 31 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+
+## 60. Maturity P47: segmented one-time-code input
+
+- `UiOtpInput` models one canonical verification-code value through one input cell per segment. Length is normalized to 1–12; numeric, alphanumeric and free-text modes constrain accepted characters without changing the public string model.
+- Incoming values use Unicode NFKC normalization before filtering. Optional uppercase and transform hooks run before the length limit; a failing hook falls back to normalized input without breaking entry.
+- Multi-character input and paste distribute from the active cell. Single-character entry advances focus, Backspace clears or moves backward, Delete clears, Home/End jump to boundaries and Arrow movement mirrors under RTL.
+- Only the first cell requests mobile `one-time-code` autocomplete. When `name` is supplied, one hidden successful control submits the canonical code while segmented cells remain unnamed.
+- Masking changes display only. Placeholder, separator/every grouping, size, readonly, disabled, invalid, autofocus and focus-selection behavior have stable typed Props.
+- The group inherits ID, described-by, invalid and disabled state from `UiFormItem`. Every cell has a localized position label and completion uses a polite live region; forced-colors retains visible boundaries.
+- `input`, `change`, `complete`, `focus`, `blur` and `invalid` carry typed metadata. The instance exposes the root, input collection, focus, blur, clear and setValue APIs.
+- Root/subpath exports, component CSS, generated API docs, component center, static preview, standalone consumer, SSR and isolated packed installation remain synchronized.
+
+P47 retains the frozen 1.28 comparison and uses a deterministic 2.25KB aggregate JavaScript gzip allowance per public component beyond the 69-component baseline.
+
+P47 advances to 77 public components and 260 locale keys. Release gates require 20 visual baselines, 38 zero-violation Axe scenarios, 42 interactions per Chromium/Firefox/WebKit engine, 32 negative type assertions, an isolated tarball consumer and 18 performance ceilings.

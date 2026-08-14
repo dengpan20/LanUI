@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
-  UiImage, UiList, UiModal, UiNumberInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiImage, UiList, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -79,6 +79,8 @@ const listSelection=ref(['interaction-list-0'])
 const listPage=ref(1)
 const listOutput=ref('ready')
 const interactionListItems=Array.from({length:7},(_,index)=>({id:`interaction-list-${index}`,title:`Release record ${index+1}`,description:`Evidence lane ${index%3+1}`,disabled:index===2}))
+const otpValue=ref('')
+const otpOutput=ref('ready')
 const brandColor = ref('#1677FFCC')
 const commandItems = [
   {key:'dashboard',label:'Open dashboard',description:'Review metrics',group:'Navigate',keywords:['home']},
@@ -475,6 +477,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #actions="{item}"><UiButton :id="`list-action-${item.id}`" size="sm" variant="text" @click="listOutput=`action:${item.id}`">Open</UiButton></template>
         </UiList>
         <output class="interaction-output" data-testid="list-output">{{ listOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-otp-case">
+        <h2>One-time code input, paste and directional keyboard contract</h2>
+        <UiOtpInput id="interaction-otp" v-model="otpValue" :length="6" mode="numeric" separator="–" :separator-every="3" aria-label="Interaction verification code" @input="(value,meta)=>otpOutput=`input:${value}:${meta.source}:${meta.index}`" @complete="(value,meta)=>otpOutput=`complete:${value}:${meta.source}:${meta.index}`" @invalid="meta=>otpOutput=`invalid:${meta.input}:${meta.index}`" />
+        <output class="interaction-output" data-testid="otp-output">{{ otpOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

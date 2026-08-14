@@ -11,6 +11,7 @@ import UiTimePicker from '../src/components/UiTimePicker.vue'
 import UiDrawer from '../src/components/UiDrawer.vue'
 import UiModal from '../src/components/UiModal.vue'
 import UiNumberInput from '../src/components/UiNumberInput.vue'
+import UiOtpInput from '../src/components/UiOtpInput.vue'
 import UiSlider from '../src/components/UiSlider.vue'
 import UiPopover from '../src/components/UiPopover.vue'
 import UiToastHost from '../src/components/UiToastHost.vue'
@@ -43,6 +44,7 @@ async function renderFixture() {
         h(UiDateRangePicker, { modelValue:['2026-08-01','2026-08-11'] }),
         h(UiTimePicker, { modelValue:new Date('2026-08-12T01:30:00.000Z'), valueType:'date', timeZone:'Asia/Shanghai' }),
         h(UiNumberInput, { modelValue:12.5, min:0, max:100, step:0.25 }),
+        h(UiOtpInput, { modelValue:'2048', length:4, separator:'-', separatorEvery:2, ariaLabel:'SSR verification code' }),
         h(UiSlider, { modelValue:[25,75], range:true, ariaLabel:'SSR range' }),
         h(UiTree, { data:[{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}], defaultExpandedKeys:['workspace'], modelValue:'dashboard', 'aria-label':'SSR resources' }),
         h(UiCommandPalette, { defaultOpen:true, commands:[{key:'dashboard',label:'Open dashboard',group:'Navigate'}] }),
@@ -84,6 +86,8 @@ describe('server rendering', () => {
     expect(result.html).toContain('Start date')
     expect(result.html).toContain('value="09:30"')
     expect(result.html).toContain('role="spinbutton"')
+    expect(result.html).toContain('aria-label="SSR verification code"')
+    expect(result.html).toContain('ui-otp-input-separator')
     expect(result.html).toContain('role="slider"')
     expect(result.html).toContain('SSR range Range start')
     expect(result.html).toContain('aria-label="SSR splitter"')

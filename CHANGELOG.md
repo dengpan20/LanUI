@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.43.0] - 2026-08-14
+
+### Added
+
+- `UiOtpInput`, a segmented one-time-code control with numeric, alphanumeric and text modes, Unicode NFKC normalization, optional masking, separators and form submission support.
+- Mobile `one-time-code` autofill, multi-character paste distribution, automatic focus movement, RTL-aware Arrow navigation, Home/End, Backspace/Delete and typed input/change/complete/invalid metadata.
+- OTP examples in the component center, static preview and standalone consumer, with unit, SSR, visual, Axe, type and Chromium/Firefox/WebKit interaction regression coverage.
+
+### Changed
+
+- Release gates advance to 77 public components, 260 locale keys, 20 visual baselines, 38 Axe scenarios, 42 interactions per browser and 32 negative type assertions.
+- Generated API coverage advances to 820 Props, 288 Events and 144 Slots; package runtime, subpath styles/types and consumer verification share the 1.43.0 contract.
+- The frozen 1.28 comparison remains strict for historical metrics; aggregate package JavaScript gzip uses a transparent 2.25KB allowance per additive public component and an independent 188.5KB ceiling.
+
 ## [1.42.0] - 2026-08-14
 
 ### Added

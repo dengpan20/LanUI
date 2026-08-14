@@ -994,3 +994,28 @@ P45 advances to 75 public components and 251 locale keys. CI requires 18 visual 
 P46 keeps the frozen 1.28 comparison strict for every historic metric and retains the 2KB aggregate JavaScript gzip allowance per public component.
 
 P46 advances to 76 public components and 257 locale keys. CI requires 19 visual baselines, 37 zero-violation Axe scenarios, 41 interactions per Chromium/Firefox/WebKit engine, 31 negative type assertions and 18 performance ceilings.
+
+
+## One-time code input (P47)
+
+`UiOtpInput` provides a complete segmented verification-code contract for sign-in, step-up authentication and approval flows:
+
+```vue
+<UiOtpInput
+  v-model="code"
+  :length="6"
+  mode="numeric"
+  separator="–"
+  :separator-every="3"
+  name="verificationCode"
+  @complete="verify"
+/>
+```
+
+- `numeric`, `alphanumeric` and `text` modes share NFKC normalization, so full-width codes from messages and mobile keyboards are accepted consistently. `uppercase` and `transform` support product-specific canonicalization.
+- A complete code pasted or delivered through `autocomplete="one-time-code"` is distributed across cells. Ordinary entry advances focus; Backspace/Delete, Home/End and Arrow keys provide predictable editing, with directional arrows mirrored in RTL.
+- Masked, invalid, readonly and disabled states retain visible focus and forced-colors treatment. Each cell receives a localized position label and completion is announced through a polite live region.
+- `name` renders one hidden canonical form value while visible cells remain presentation inputs. `UiFormItem` IDs, descriptions and invalid state are inherited automatically.
+- `input`, `change`, `complete`, `focus`, `blur` and `invalid` events include typed source/index metadata; refs expose focus, blur, clear and programmatic value updates.
+
+P47 advances to 77 public components and 260 locale keys. CI requires 20 visual baselines, 38 zero-violation Axe scenarios, 42 interactions per Chromium/Firefox/WebKit engine, 32 negative type assertions and 18 performance ceilings.

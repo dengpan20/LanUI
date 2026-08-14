@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.42.0",
+  "version": "1.43.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -54,6 +54,7 @@
       "UiMultiSelect",
       "UiNotification",
       "UiNumberInput",
+      "UiOtpInput",
       "UiPagination",
       "UiPopconfirm",
       "UiPopover",
@@ -484,6 +485,15 @@
       "UiNumberInputProps",
       "UiNumberInputSlots",
       "UiNumberInputStepMeta",
+      "UiOtpInput",
+      "UiOtpInputChangeMeta",
+      "UiOtpInputEmits",
+      "UiOtpInputInstance",
+      "UiOtpInputInvalidMeta",
+      "UiOtpInputMeta",
+      "UiOtpInputMode",
+      "UiOtpInputProps",
+      "UiOtpInputSlots",
       "UiPagination",
       "UiPaginationChange",
       "UiPaginationEmits",
@@ -9685,6 +9695,305 @@
       },
       "runtimeExports": [
         "UiNotification",
+        "default"
+      ]
+    },
+    {
+      "name": "UiOtpInput",
+      "subpath": "./components/UiOtpInput",
+      "propsType": "UiOtpInputProps",
+      "props": [
+        "ariaLabel",
+        "autocomplete",
+        "autofocus",
+        "disabled",
+        "invalid",
+        "length",
+        "mask",
+        "mode",
+        "modelValue",
+        "name",
+        "placeholder",
+        "readonly",
+        "selectOnFocus",
+        "separator",
+        "separatorEvery",
+        "size",
+        "transform",
+        "uppercase"
+      ],
+      "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autocomplete",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"one-time-code\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "length",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "6"
+          }
+        },
+        {
+          "name": "mask",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "mode",
+          "required": false,
+          "type": "UiOtpInputMode",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"numeric\""
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "placeholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "selectOnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "separatorEvery",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "transform",
+          "required": false,
+          "type": "(value:string)=>string|number|null|undefined",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "uppercase",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        }
+      ],
+      "emitsType": "UiOtpInputEmits",
+      "emits": [
+        "blur",
+        "change",
+        "complete",
+        "focus",
+        "input",
+        "invalid",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:string,meta:UiOtpInputChangeMeta)=>void"
+        },
+        {
+          "name": "complete",
+          "required": true,
+          "type": "(value:string,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:string,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(meta:UiOtpInputInvalidMeta)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:string)=>void"
+        }
+      ],
+      "slotsType": "UiOtpInputSlots",
+      "slots": [],
+      "slotDetails": [],
+      "imports": {
+        "root": "import { UiOtpInput } from 'lan-ui-design-system'",
+        "subpath": "import UiOtpInput from 'lan-ui-design-system/components/UiOtpInput'"
+      },
+      "runtimeExports": [
+        "UiOtpInput",
         "default"
       ]
     },

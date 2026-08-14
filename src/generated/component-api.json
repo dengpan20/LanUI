@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.42.0",
+  "version": "1.43.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -20,7 +20,7 @@
       "id": "forms",
       "label": "数据录入",
       "description": "输入、选择、日期时间、表单编排和文件上传。",
-      "count": 24
+      "count": 25
     },
     {
       "id": "data",
@@ -7696,6 +7696,273 @@
         }
       ],
       "slotsType": "UiNotificationSlots",
+      "slots": []
+    },
+    {
+      "name": "UiOtpInput",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiOtpInput",
+      "imports": {
+        "root": "import { UiOtpInput } from 'lan-ui-design-system'",
+        "subpath": "import UiOtpInput from 'lan-ui-design-system/components/UiOtpInput'"
+      },
+      "propsType": "UiOtpInputProps",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autocomplete",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"one-time-code\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "length",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "6"
+          }
+        },
+        {
+          "name": "mask",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "mode",
+          "required": false,
+          "type": "UiOtpInputMode",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"numeric\""
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "placeholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "selectOnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "separatorEvery",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "transform",
+          "required": false,
+          "type": "(value:string)=>string|number|null|undefined",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "uppercase",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        }
+      ],
+      "emitsType": "UiOtpInputEmits",
+      "emits": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:string,meta:UiOtpInputChangeMeta)=>void"
+        },
+        {
+          "name": "complete",
+          "required": true,
+          "type": "(value:string,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:string,meta:UiOtpInputMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(meta:UiOtpInputInvalidMeta)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:string)=>void"
+        }
+      ],
+      "slotsType": "UiOtpInputSlots",
       "slots": []
     },
     {

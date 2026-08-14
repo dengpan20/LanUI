@@ -133,7 +133,7 @@ const tarballBytes=statSync(tarball).size
 runPnpm(['--config.ignore-scripts=true','pack','--out',reproductionTarball,'--json'])
 const digest=sha256(tarball)
 assert(sha256(reproductionTarball)===digest,'Repeated package archives are not byte-for-byte reproducible')
-assert(componentNames.length===76,'Public component count mismatch')
+assert(componentNames.length===77,'Public component count mismatch')
 assert(packedFiles.size<=distributionBudgets.packedFiles,`Packed files ${packedFiles.size} exceed ${distributionBudgets.packedFiles}`)
 assert(tarballBytes<=distributionBudgets.packedTarballRaw,`Packed tarball ${tarballBytes}B exceeds ${distributionBudgets.packedTarballRaw}B`)
 assert(unpackedBytes<=distributionBudgets.packedUnpackedRaw,`Unpacked package ${unpackedBytes}B exceeds ${distributionBudgets.packedUnpackedRaw}B`)

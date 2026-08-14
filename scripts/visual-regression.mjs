@@ -34,6 +34,7 @@ const cases=[
   {name:'splitter-workspace',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=splitter',ready:'.visual-splitter-showcase [role="separator"]',selector:'.visual-splitter-showcase'},
   {name:'typography-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=typography',ready:'.visual-typography-showcase .ui-typography-action',selector:'.visual-typography-showcase'},
   {name:'list-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=list',ready:'.visual-list-showcase [role="listbox"]',selector:'.visual-list-showcase'},
+  {name:'otp-input-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=otp',ready:'.visual-otp-showcase [role="group"]',selector:'.visual-otp-showcase'},
 ]
 
 const {server,origin}=await startFixtureServer(root)
