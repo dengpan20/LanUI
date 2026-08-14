@@ -1043,3 +1043,26 @@ P47 advances to 77 public components and 260 locale keys. CI requires 20 visual 
 - Typed Props, Emits, Slots and instance methods are identical through root and component subpath imports; static preview, component center and the standalone package consumer use the same behavior.
 
 P48 advances to 78 public components, 265 locale keys and 14 theme-scoped Teleport families. CI requires 21 visual baselines, 39 zero-violation Axe scenarios, 43 interactions per Chromium/Firefox/WebKit engine, 33 negative type assertions and 18 performance ceilings. The frozen 1.28 comparison uses explicit per-additive-component allowances of 500 B package JS raw, 2.75 KB package JS gzip and 800 B standalone JS raw; all remaining historical metrics retain zero allowance.
+
+## Tokenized multi-value input (P49)
+
+`UiInputTag` turns compact multi-value fields such as capabilities, recipients and labels into one governed component:
+
+```vue
+<UiInputTag
+  v-model="capabilities"
+  editable
+  clearable
+  :max-tags="8"
+  :validate="validateCapability"
+  :before-add="confirmCapability"
+/>
+```
+
+- Enter, configurable submit keys, Western/CJK comma and semicolon separators, and multiline paste share Unicode NFKC normalization, optional transformation and case-aware duplicate detection.
+- Maximum tag count and code-point length are enforced before synchronous or asynchronous `validate` and `beforeAdd` hooks. Add operations are serialized so delayed rules preserve source order and expose a stable busy state.
+- Backspace selects then removes, Delete removes the active item, F2/Enter starts inline editing, and logical Arrow navigation mirrors under RTL. IME composition is deferred until completion.
+- Editable, collapsible, clearable, readonly, disabled, invalid and loading states are covered. Named hidden inputs preserve native form submission while `UiFormItem` supplies label, help and invalid associations.
+- Root/subpath exports, component CSS, generated API docs, built-in Schema Form resolution, component center, one-page preview, standalone consumer, SSR and isolated packed installation remain synchronized.
+
+P49 advances to 79 public components, 285 locale keys and 14 theme-scoped Teleport families. CI requires 22 visual baselines, 40 zero-violation Axe scenarios, 44 interactions per Chromium/Firefox/WebKit engine, 34 negative type assertions and 18 performance ceilings. The frozen 1.28 comparison uses explicit per-additive-component allowances of 1.9 KB package JS raw, 2.9 KB package JS gzip, 400 B package CSS raw, 450 B largest component CSS raw and 2.2 KB standalone JS raw; every remaining historical metric retains zero allowance.

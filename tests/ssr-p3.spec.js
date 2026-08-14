@@ -11,6 +11,7 @@ import UiTimePicker from '../src/components/UiTimePicker.vue'
 import UiDrawer from '../src/components/UiDrawer.vue'
 import UiModal from '../src/components/UiModal.vue'
 import UiMentions from '../src/components/UiMentions.vue'
+import UiInputTag from '../src/components/UiInputTag.vue'
 import UiNumberInput from '../src/components/UiNumberInput.vue'
 import UiOtpInput from '../src/components/UiOtpInput.vue'
 import UiSlider from '../src/components/UiSlider.vue'
@@ -46,6 +47,7 @@ async function renderFixture() {
         h(UiTimePicker, { modelValue:new Date('2026-08-12T01:30:00.000Z'), valueType:'date', timeZone:'Asia/Shanghai' }),
         h(UiNumberInput, { modelValue:12.5, min:0, max:100, step:0.25 }),
         h(UiMentions, { modelValue:'Review with @ada', options:[{label:'Ada Lovelace',value:'ada'}], 'aria-label':'SSR reviewers' }),
+        h(UiInputTag, { modelValue:['Vue 3','SSR'], name:'capabilities', editable:true, clearable:true, ariaLabel:'SSR capability tags' }),
         h(UiOtpInput, { modelValue:'2048', length:4, separator:'-', separatorEvery:2, ariaLabel:'SSR verification code' }),
         h(UiSlider, { modelValue:[25,75], range:true, ariaLabel:'SSR range' }),
         h(UiTree, { data:[{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}], defaultExpandedKeys:['workspace'], modelValue:'dashboard', 'aria-label':'SSR resources' }),
@@ -90,6 +92,9 @@ describe('server rendering', () => {
     expect(result.html).toContain('role="spinbutton"')
     expect(result.html).toContain('aria-label="SSR reviewers"')
     expect(result.html).toContain('Review with @ada')
+    expect(result.html).toContain('aria-label="SSR capability tags"')
+    expect(result.html).toContain('class="ui-input-tag-chip"')
+    expect(result.html).toContain('name="capabilities"')
     expect(result.html).toContain('aria-label="SSR verification code"')
     expect(result.html).toContain('ui-otp-input-separator')
     expect(result.html).toContain('role="slider"')

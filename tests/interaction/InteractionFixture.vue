@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -83,6 +83,8 @@ const otpValue=ref('')
 const otpOutput=ref('ready')
 const mentionsValue=ref('Review ')
 const mentionsOutput=ref('ready')
+const inputTagValue=ref([])
+const inputTagOutput=ref('ready')
 const mentionsOptions=[
   {label:'Alice',value:'alice',description:'Design owner',trigger:'@'},
   {label:'Alina',value:'alina',description:'Frontend owner',trigger:'@'},
@@ -495,6 +497,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Caret mentions, multiple triggers and keyboard selection contract</h2>
         <UiMentions id="interaction-mentions" v-model="mentionsValue" :options="mentionsOptions" :triggers="['@','#']" :debounce="0" aria-label="Interaction release comment" @search="(query,meta)=>mentionsOutput=`search:${meta.trigger}:${query}`" @select="(option,meta)=>mentionsOutput=`select:${meta.trigger}:${option.value}:${meta.source}`" />
         <output class="interaction-output" data-testid="mentions-output">{{ mentionsOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-input-tag-case">
+        <h2>Bulk tag input, paste, validation and keyboard removal contract</h2>
+        <UiInputTag id="interaction-input-tag" v-model="inputTagValue" editable clearable :max-tags="5" :max-length="16" aria-label="Interaction capability tags" @change="(values,meta)=>inputTagOutput=`change:${meta.source}:${values.join('|')}`" @invalid="meta=>inputTagOutput=`invalid:${meta.reason}:${meta.value}`" />
+        <output class="interaction-output" data-testid="input-tag-output">{{ inputTagOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.44.0",
+  "version": "1.45.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -46,6 +46,7 @@
       "UiIcon",
       "UiImage",
       "UiInput",
+      "UiInputTag",
       "UiLayout",
       "UiList",
       "UiListToolbar",
@@ -441,6 +442,16 @@
       "UiInputEmits",
       "UiInputProps",
       "UiInputSlots",
+      "UiInputTag",
+      "UiInputTagChangeMeta",
+      "UiInputTagContext",
+      "UiInputTagEditMeta",
+      "UiInputTagEmits",
+      "UiInputTagInstance",
+      "UiInputTagInvalidMeta",
+      "UiInputTagInvalidReason",
+      "UiInputTagProps",
+      "UiInputTagSlots",
       "UiLayout",
       "UiLayoutEmits",
       "UiLayoutProps",
@@ -7996,6 +8007,460 @@
       },
       "runtimeExports": [
         "UiInput",
+        "default"
+      ]
+    },
+    {
+      "name": "UiInputTag",
+      "subpath": "./components/UiInputTag",
+      "propsType": "UiInputTagProps",
+      "props": [
+        "addOnBlur",
+        "addOnTab",
+        "allowDuplicates",
+        "ariaLabel",
+        "autocomplete",
+        "autofocus",
+        "beforeAdd",
+        "caseSensitive",
+        "clearable",
+        "collapseTags",
+        "disabled",
+        "editable",
+        "inputmode",
+        "invalid",
+        "loading",
+        "maxLength",
+        "maxTags",
+        "maxVisibleTags",
+        "modelValue",
+        "name",
+        "placeholder",
+        "readonly",
+        "separators",
+        "size",
+        "submitKeys",
+        "transform",
+        "trim",
+        "validate"
+      ],
+      "propDetails": [
+        {
+          "name": "addOnBlur",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "addOnTab",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "allowDuplicates",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autocomplete",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"off\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "beforeAdd",
+          "required": false,
+          "type": "(value:string,context:UiInputTagContext)=>boolean|string|void|Promise<boolean|string|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "caseSensitive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "collapseTags",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "editable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "inputmode",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"text\""
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "maxLength",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "maxTags",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "maxVisibleTags",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "string[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "placeholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "separators",
+          "required": false,
+          "type": "string[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "submitKeys",
+          "required": false,
+          "type": "string[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "transform",
+          "required": false,
+          "type": "(value:string,context:UiInputTagContext)=>string|number|null|undefined",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "trim",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "validate",
+          "required": false,
+          "type": "(value:string,context:UiInputTagContext)=>boolean|string|void|Promise<boolean|string|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        }
+      ],
+      "emitsType": "UiInputTagEmits",
+      "emits": [
+        "add",
+        "blur",
+        "change",
+        "clear",
+        "edit",
+        "focus",
+        "input",
+        "invalid",
+        "remove",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "add",
+          "required": true,
+          "type": "(value:string,meta:UiInputTagContext)=>void"
+        },
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{values:string[]})=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:string[],meta:UiInputTagChangeMeta)=>void"
+        },
+        {
+          "name": "clear",
+          "required": true,
+          "type": "(meta:{source:string;previous:string[]})=>void"
+        },
+        {
+          "name": "edit",
+          "required": true,
+          "type": "(value:string,meta:UiInputTagEditMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{values:string[]})=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:string,meta:{source:string})=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(meta:UiInputTagInvalidMeta)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(value:string,meta:UiInputTagContext)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:string[])=>void"
+        }
+      ],
+      "slotsType": "UiInputTagSlots",
+      "slots": [
+        "prefix",
+        "tag"
+      ],
+      "slotDetails": [
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "tag",
+          "required": false,
+          "type": "(scope:{tag:string;index:number;remove:()=>boolean;edit:()=>boolean})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiInputTag } from 'lan-ui-design-system'",
+        "subpath": "import UiInputTag from 'lan-ui-design-system/components/UiInputTag'"
+      },
+      "runtimeExports": [
+        "UiInputTag",
         "default"
       ]
     },

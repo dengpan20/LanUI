@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.44.0",
+  "version": "1.45.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 157256,
-    "rules": 1269,
+    "bytes": 161464,
+    "rules": 1299,
     "source": "component-union"
   },
   "core": {
@@ -118,8 +118,8 @@
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 20641,
-      "rules": 175
+      "bytes": 24849,
+      "rules": 205
     },
     {
       "name": "UiDatePicker",
@@ -208,8 +208,14 @@
     {
       "name": "UiInput",
       "subpath": "./styles/UiInput.css",
-      "bytes": 2118,
-      "rules": 20
+      "bytes": 6326,
+      "rules": 50
+    },
+    {
+      "name": "UiInputTag",
+      "subpath": "./styles/UiInputTag.css",
+      "bytes": 4245,
+      "rules": 30
     },
     {
       "name": "UiLayout",
@@ -316,8 +322,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 32190,
-      "rules": 272
+      "bytes": 36398,
+      "rules": 302
     },
     {
       "name": "UiSegmented",

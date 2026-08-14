@@ -817,6 +817,37 @@ const allCases = [
     },
   },
   {
+    name:'input-tag-tokenize-edit-remove-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.locator('.interaction-input-tag-case .ui-input-tag')
+      const input=page.getByRole('textbox',{name:'Interaction capability tags'})
+      await root.scrollIntoViewIfNeeded()
+      await input.pressSequentially('Vue，TypeScript；')
+      await expectText(page,'input-tag-output','change:separator:Vue|TypeScript')
+      assert.equal(await root.locator('.ui-input-tag-chip').count(),2)
+      await input.fill('vue')
+      await input.press('Enter')
+      await expectText(page,'input-tag-output','invalid:duplicate:vue')
+      await input.press('ArrowRight')
+      assert.ok((await root.locator('.ui-input-tag-chip').last().getAttribute('class'))?.split(/\s+/).includes('active'))
+      await input.press('Backspace')
+      await expectText(page,'input-tag-output','change:backspace:Vue')
+      await root.locator('.ui-input-tag-label').first().dblclick()
+      const edit=root.locator('.ui-input-tag-edit')
+      await edit.fill('Vue 4')
+      await edit.press('Enter')
+      await expectText(page,'input-tag-output','change:edit-enter:Vue 4')
+      await input.fill('Design,System,')
+      await expectText(page,'input-tag-output','change:separator:Vue 4|Design|System')
+      await root.getByRole('button',{name:'Clear all tags'}).click()
+      await expectText(page,'input-tag-output','change:button:')
+      await page.waitForFunction(()=>!document.querySelector('.interaction-input-tag-case .ui-input-tag-chip'))
+      assert.equal(await root.locator('.ui-input-tag-chip').count(),0)
+      await expectFocused(page,input)
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -860,7 +891,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),78)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),79)
     },
   },
 ]

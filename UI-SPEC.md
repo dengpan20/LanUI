@@ -969,3 +969,15 @@ P47 advances to 77 public components and 260 locale keys. Release gates require 
 P48 retains the frozen 1.28 comparison and uses deterministic per-additive-component allowances of 500 B package JavaScript raw, 2.75 KB package JavaScript gzip and 800 B standalone JavaScript raw beyond the 69-component baseline. All remaining historical metrics retain zero allowance.
 
 P48 advances to 78 public components, 265 locale keys and 14 theme-scoped Teleport families. Release gates require 21 visual baselines, 39 zero-violation Axe scenarios, 43 interactions per Chromium/Firefox/WebKit engine, 33 negative type assertions, an isolated tarball consumer and 18 performance ceilings.
+
+## 62. Maturity P49: tokenized multi-value input
+
+- `UiInputTag` owns one controlled string array and one transient text draft. Incoming candidates use Unicode NFKC normalization, optional trimming and a typed transform hook before validation.
+- Enter, custom submit keys, configurable separators and multiline paste tokenize one or many candidates. Comparison defaults to case-insensitive deduplication and can opt into case-sensitive or duplicate values.
+- `maxTags`, Unicode code-point `maxLength`, `validate` and `beforeAdd` form one ordered guard pipeline. Both hooks may be asynchronous; additions are serialized and publish `aria-busy` while pending.
+- Backspace first arms the final tag and then removes it. Delete removes the active tag, Enter/F2 opens inline editing, Escape cancels and logical Arrow navigation mirrors under RTL. IME text is not tokenized while composition is active.
+- Editable, collapsed, clearable, readonly, disabled, invalid and loading states share one visual contract. Tags have labelled remove actions, state changes use a polite live region and focus returns to the native text input after mutations.
+- When `name` is present, each canonical value is rendered as a successful hidden form control. `UiFormItem` IDs, labels, descriptions and invalid state are inherited; Schema Form resolves `type:'input-tag'` without custom registration.
+- Root and component-subpath runtime exports, Props/Emits/Slots declarations, component CSS, generated API docs, component center, static preview, standalone consumer, SSR and installed-tarball verification remain synchronized.
+
+P49 advances to 79 public components, 285 locale keys and 14 theme-scoped Teleport families. Release gates require 22 visual baselines, 40 zero-violation Axe scenarios, 44 interactions per Chromium/Firefox/WebKit engine, 34 negative type assertions, an isolated tarball consumer and 18 performance ceilings. Against the frozen 1.28 baseline, per-additive-component allowances are 1.9 KB package JS raw, 2.9 KB package JS gzip, 400 B package CSS raw, 450 B largest component CSS raw and 2.2 KB standalone JS raw; other historical metrics keep zero allowance.

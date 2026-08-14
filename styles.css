@@ -295,6 +295,39 @@ svg { display: block; }
 .ui-input-action { width: var(--control-icon-sm); height: var(--control-icon-sm); padding: 0; display: grid; place-items: center; border: 0; border-radius: 5px; color: var(--text-tertiary); background: transparent; cursor: pointer; }
 .ui-input-action:hover { color: var(--brand-text); background: var(--brand-50); }
 .ui-input-spinner { width: 13px; height: 13px; color: var(--brand-text); }
+.ui-input-tag { width:100%; min-width:0; min-height:var(--control-md); padding:4px 36px 4px 6px; position:relative; display:flex; flex-wrap:wrap; align-items:center; align-content:center; gap:4px; color:var(--text-primary); background:var(--bg-surface); border:1px solid var(--border-default); border-radius:var(--radius-sm); cursor:text; transition:border-color var(--motion-time,var(--motion-fast)),box-shadow var(--motion-time,var(--motion-fast)),background var(--motion-time,var(--motion-fast)); }
+.ui-input-tag:hover:not(.disabled):not(.readonly) { border-color:var(--brand-300); }
+.ui-input-tag.focused { border-color:var(--brand-500); box-shadow:0 0 0 3px var(--focus-ring); }
+.ui-input-tag.invalid { border-color:var(--danger-500); box-shadow:0 0 0 3px color-mix(in srgb,var(--danger-500) 11%,transparent); }
+.ui-input-tag.disabled,.ui-input-tag.readonly { color:var(--text-tertiary); background:var(--bg-subtle); cursor:not-allowed; }
+.ui-input-tag.size-sm { min-height:var(--control-sm); padding-block:3px; font-size:var(--text-xs); }
+.ui-input-tag.size-lg { min-height:var(--control-lg); padding-block:5px; font-size:var(--text-base); }
+.ui-input-tag-prefix { flex:none; display:inline-flex; align-items:center; color:var(--text-tertiary); }
+.ui-input-tag-list { display:contents; }
+.ui-input-tag-chip { max-width:min(220px,70%); min-height:26px; padding:2px 3px 2px 8px; display:inline-flex; align-items:center; gap:3px; border:1px solid color-mix(in srgb,var(--brand-300) 58%,var(--border-subtle)); border-radius:5px; color:var(--brand-700); background:var(--brand-50); font-size:var(--text-xs); line-height:18px; cursor:default; transition:border-color var(--motion-time,var(--motion-fast)),background var(--motion-time,var(--motion-fast)),transform var(--motion-time,var(--motion-fast)),opacity var(--motion-time,var(--motion-fast)); }
+.ui-input-tag-chip.active { border-color:var(--brand-500); background:var(--brand-100); box-shadow:0 0 0 2px color-mix(in srgb,var(--brand-500) 18%,transparent); }
+.ui-input-tag.disabled .ui-input-tag-chip,.ui-input-tag.readonly .ui-input-tag-chip { color:var(--text-secondary); border-color:var(--border-subtle); background:var(--bg-disabled); }
+.ui-input-tag.size-sm .ui-input-tag-chip { min-height:22px; padding-block:0; }
+.ui-input-tag.size-lg .ui-input-tag-chip { min-height:30px; padding-block:4px; }
+.ui-input-tag-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ui-input-tag-remove,.ui-input-tag-clear { width:22px; height:22px; padding:0; flex:none; display:grid; place-items:center; border:0; border-radius:4px; color:inherit; background:transparent; cursor:pointer; }
+.ui-input-tag-remove:hover,.ui-input-tag-clear:hover { color:var(--brand-700); background:color-mix(in srgb,var(--brand-100) 74%,transparent); }
+.ui-input-tag-remove:focus-visible,.ui-input-tag-clear:focus-visible { outline:2px solid var(--brand-500); outline-offset:1px; }
+.ui-input-tag-edit { width:clamp(56px,12ch,160px); min-width:0; padding:0 2px; border:0; border-bottom:1px solid var(--brand-500); outline:0; color:var(--text-primary); background:transparent; font:inherit; line-height:18px; }
+.ui-input-tag-collapsed { padding-inline:8px; color:var(--text-secondary); border-color:var(--border-subtle); background:var(--bg-subtle); }
+.ui-input-tag-native { min-width:72px; min-height:26px; padding:0 3px; flex:1 1 88px; border:0; outline:0; color:inherit; background:transparent; font:inherit; font-size:var(--text-sm); line-height:24px; }
+.ui-input-tag-native::placeholder { color:var(--text-tertiary); }
+.ui-input-tag-native:disabled { cursor:not-allowed; }
+.ui-input-tag.size-sm .ui-input-tag-native { min-height:22px; font-size:var(--text-xs); line-height:20px; }
+.ui-input-tag.size-lg .ui-input-tag-native { min-height:30px; font-size:var(--text-base); line-height:28px; }
+.ui-input-tag-actions { position:absolute; inset-block-start:5px; inset-inline-end:6px; min-width:24px; height:24px; display:grid; place-items:center; color:var(--text-tertiary); }
+.ui-input-tag.size-sm .ui-input-tag-actions { inset-block-start:3px; }
+.ui-input-tag.size-lg .ui-input-tag-actions { inset-block-start:8px; }
+.ui-input-tag-spinner { width:14px; height:14px; border:2px solid var(--border-default); border-top-color:var(--brand-600); border-radius:50%; animation:spin var(--motion-time,800ms) linear var(--motion-count); }
+.input-tag-list-enter-active,.input-tag-list-leave-active { transition:opacity var(--motion-time,var(--motion-fast)),transform var(--motion-time,var(--motion-fast)) var(--ease-emphasized); }
+.input-tag-list-enter-from,.input-tag-list-leave-to { opacity:0; transform:scale(.82); }
+.input-tag-list-leave-active { position:absolute; }
+@media(max-width:520px){.ui-input-tag-chip{max-width:82%}.ui-input-tag-native{flex-basis:64px}}
 .ui-number-input { width:100%; min-width:0; height:var(--control-md); display:inline-flex; align-items:stretch; position:relative; overflow:hidden; color:var(--text-primary); background:var(--bg-surface); border:1px solid var(--border-default); border-radius:var(--radius-sm); transition:border-color var(--motion-time,var(--motion-fast)),box-shadow var(--motion-time,var(--motion-fast)),background var(--motion-time,var(--motion-fast)); }
 .ui-number-input:hover:not(.disabled) { border-color:var(--brand-300); }
 .ui-number-input.focused { border-color:var(--brand-500); box-shadow:0 0 0 3px var(--focus-ring); }
@@ -707,6 +740,8 @@ svg { display: block; }
 .otp-state-stack { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
 .mentions-demo-grid .ui-form-item { min-width:0; }
 .mentions-state-stack { display:grid; gap:10px; }
+.input-tag-demo-grid .ui-form-item { min-width:0; }
+.input-tag-state-stack { display:grid; gap:10px; }
 .feedback-demo-row { display: grid; grid-template-columns: 176px minmax(0,1fr); border-bottom: 1px solid var(--border-subtle); }
 .feedback-demo-row:last-child { border-bottom: 0; }
 .feedback-demo-heading { padding: 18px; background: var(--bg-subtle); border-inline-end: 1px solid var(--border-subtle); }

@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.45 input tag compatibility
+
+There are no breaking changes. Multi-value form fields can add the new token editor directly or through Schema Form:
+
+```vue
+<UiInputTag v-model="capabilities" editable clearable :separators="[',', '，', ';', '；']" />
+```
+
+- The public model is always a string array. Candidates are normalized with Unicode NFKC, trimmed by default and compared case-insensitively unless `caseSensitive` is enabled.
+- `validate` and `beforeAdd` may return booleans, localized error strings or Promises. Add requests are serialized, so asynchronous rules retain the original input and paste order.
+- Backspace selects a tag before removal; Delete removes the current selection; Enter/F2 edits when `editable` is set. Horizontal Arrow behavior follows logical direction under RTL.
+- Use `name` to submit one hidden control per tag. FormItem association and Schema Form `type:'input-tag'` resolution are built in.
+- Root and `components/UiInputTag` imports expose matching Props, Emits and Slots declarations, and isolated styling is available at `styles/UiInputTag.css`.
+
 ## 1.44 mentions compatibility
 
 There are no breaking changes. Collaboration, issue and document flows can add the new multiline mention editor:

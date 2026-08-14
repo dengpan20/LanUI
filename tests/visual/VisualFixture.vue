@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiNumberInput, UiOtpInput,
+  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiDataGrid, UiForm, UiFormItem, UiFormList, UiPopover, UiSchemaForm, UiSplitter, UiStatusPage, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
@@ -40,6 +40,8 @@ const visualListRecords=Array.from({length:6},(_,index)=>({id:`visual-list-${ind
 const visualOtp=ref('204')
 const visualMentions=ref('Review @de')
 const visualMentionsRef=ref(null)
+const visualInputTags=ref(['Vue 3','Design System','Accessibility'])
+const visualInputTagRef=ref(null)
 const visualMentionOptions=[
   {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
   {label:'Frontend owner',value:'frontend',description:'Implementation review',trigger:'@'},
@@ -71,7 +73,7 @@ const visualUploadFiles=ref([
   {id:'upload-error',name:'token-audit.json',size:32768,status:'error',percent:68,error:'Network timeout',raw:new File(['tokens'],'token-audit.json',{type:'application/json'})},
   {id:'upload-success',name:'checksums.txt',size:2048,status:'success',percent:100},
 ])
-onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}if(props.state==='mentions'){await nextTick();visualMentionsRef.value?.focus?.()}})
+onMounted(async()=>{if(props.state==='form'){await nextTick();await visualForm.value?.submit?.()}if(props.state==='mentions'){await nextTick();visualMentionsRef.value?.focus?.()}if(props.state==='input-tag'){await nextTick();visualInputTagRef.value?.focus?.()}})
 const tableColumns=[
   {key:'name',label:'Project',fixed:'start',start:0},
   {key:'owner',label:'Owner'},
@@ -221,6 +223,14 @@ const tableRows=[
         <UiFormItem label="Validation state" error="Mention at least one reviewer"><UiMentions model-value="Review is still missing an owner" :options="visualMentionOptions" invalid :rows="3"/></UiFormItem>
         <UiFormItem label="Read-only contract"><UiMentions model-value="Maintained by @design" :options="visualMentionOptions" readonly :rows="2"/></UiFormItem>
         <UiFormItem label="Disabled contract"><UiMentions model-value="Comment is locked" disabled :rows="2"/></UiFormItem>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='input-tag'" title="Bulk tag input" title-tag="h2" class="visual-table-card visual-input-tag-showcase">
+      <div class="visual-input-tag-grid">
+        <UiFormItem label="Release capabilities" help="Enter, separators, paste, edit, selection and removal share one model."><UiInputTag ref="visualInputTagRef" v-model="visualInputTags" editable clearable :max-tags="8" :max-length="24"/></UiFormItem>
+        <UiFormItem label="Collapsed contract" help="Three hidden tags expand when the control receives focus."><UiInputTag :model-value="['Vue','TypeScript','Vite','Vitest','Playwright']" collapse-tags :max-visible-tags="2"/></UiFormItem>
+        <UiFormItem label="Validation state" error="Tag policy rejected the latest value"><UiInputTag :model-value="['release','policy-review']" invalid clearable/></UiFormItem>
+        <UiFormItem label="Read-only and disabled" group><div class="visual-input-tag-states"><UiInputTag :model-value="['stable','readonly']" readonly/><UiInputTag :model-value="['locked']" disabled/></div></UiFormItem>
       </div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">

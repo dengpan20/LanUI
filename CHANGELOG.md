@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.45.0] - 2026-08-15
+
+### Added
+
+- `UiInputTag`, a controlled multi-value editor with Unicode normalization, configurable separators and submit keys, multiline paste, case-aware deduplication and maximum count/length guards.
+- Serialized synchronous or asynchronous validation and `beforeAdd` hooks, inline editing, collapse, clear, native form submission, FormItem linkage and built-in Schema Form support.
+- InputTag examples in the component center, one-page static preview and standalone consumer, with unit, SSR, visual, Axe, type, packed-consumer and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Release gates advance to 79 public components, 285 locale keys, 22 visual baselines, 40 Axe scenarios, 44 interactions per browser and 34 negative type assertions.
+- Generated API coverage advances to 874 Props, 307 Events and 150 Slots; package runtime, root/subpath styles and types, interaction matrix and artifact verification share the 1.45.0 contract.
+- InputTag keyboard behavior uses logical RTL arrows, an armed Backspace removal model, IME-safe tokenization and live localized mutation feedback.
+- The frozen 1.28 comparison uses documented per-additive-component allowances for package JavaScript, component-union CSS and the standalone consumer while every unrelated historical metric retains zero allowance.
+
 ## [1.44.0] - 2026-08-14
 
 ### Added

@@ -18,6 +18,7 @@ import {
   UiFormList,
   UiSchemaForm,
   UiInput,
+  UiInputTag,
   UiIcon,
   UiImage,
   UiList,
@@ -44,12 +45,13 @@ import {
 
 const projectModel = reactive({ project: { name: '运营管理后台', template: 'dashboard' }, members: [{ name: 'Owner', email: 'owner@example.com' }] })
 const projectRules = { project: { name: [{ required:true, message:'请输入项目名称' }, { min:2, message:'项目名称至少需要 2 个字符' }], template: { required:true } } }
-const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026',reviewers:[{name:'Release owner',email:'owner@example.com'}]})
+const workspaceModel=reactive({account:{type:'business',name:'Lan UI Consumer',email:'owner@example.com'},taxId:'91330000LANUI2026',capabilities:['design-system','consumer'],reviewers:[{name:'Release owner',email:'owner@example.com'}]})
 const workspaceSchema=[{key:'account',title:'Schema-driven account',description:'Conditional and repeatable fields are mounted and validated from the consumer-owned schema.',columns:2,fields:[
   {name:'account.type',label:'Account type',type:'segmented',options:[{label:'Business',value:'business'},{label:'Personal',value:'personal'}],props:{block:true},span:2},
   {name:'account.name',label:'Workspace name',required:true,rules:[{required:true},{min:2}],props:{clearable:true}},
   {name:'account.email',label:'Owner email',required:true,rules:[{required:true},{type:'email'}],props:{clearable:true}},
   {name:'taxId',label:'Tax ID',visible:model=>model.account.type==='business',required:model=>model.account.type==='business',dependencies:['account.type'],rules:[{required:true}],span:2},
+  {name:'capabilities',label:'Capabilities',type:'input-tag',span:2,props:{editable:true,clearable:true,maxTags:6}},
   {key:'reviewers',name:'reviewers',type:'list',label:'Release reviewers',min:1,max:3,columns:2,defaultValue:({index})=>({name:`Reviewer ${index+1}`,email:''}),itemLabel:(_model,{index,item})=>`${index+1}. ${item.name||'Reviewer'}`,fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}],props:(_model,{index})=>({placeholder:`reviewer-${index+1}@example.com`})}]},
 ]}]
 const created = ref(false)
@@ -68,6 +70,7 @@ const standaloneListSelection=ref(['contract'])
 const standaloneListPage=ref(1)
 const standaloneOtp=ref('204')
 const standaloneMentions=ref('Please ask @de')
+const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneMentionOptions=[
   {label:'Design owner',value:'design',description:'Design system review',trigger:'@'},
   {label:'Frontend owner',value:'frontend',description:'Consumer integration',trigger:'@'},
@@ -196,6 +199,13 @@ const rows = computed(() => [
         <UiMentions v-model="standaloneMentions" :options="standaloneMentionOptions" :triggers="['@','#']" show-count maxlength="160" :auto-size="{minRows:3,maxRows:6}" @select="toast.success(`Inserted ${$event.label}`)" />
       </UiFormItem>
       <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Consumer model: {{ standaloneMentions }}</div>
+    </UiCard>
+
+    <UiCard title="Bulk capability tags">
+      <UiFormItem label="Release capabilities" help="Enter, comma, semicolon and multiline paste share one typed validation contract.">
+        <UiInputTag v-model="standaloneCapabilities" editable clearable :max-tags="8" :max-length="24" name="capabilities" @invalid="toast.error($event.message)" />
+      </UiFormItem>
+      <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Consumer model: {{ standaloneCapabilities.join(' · ') }}</div>
     </UiCard>
 
     <UiCard title="Semantic release text">

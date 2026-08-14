@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.44.0",
+  "version": "1.45.0",
   "description": "Deterministic runtime, stylesheet, consumer-build and publishable-tarball budgets with previous-release improvement gates for Lan UI.",
   "baseline": {
     "version": "1.4.0",
@@ -17,37 +17,39 @@
     }
   },
   "budgets": {
-    "packageJsRaw": 480000,
-    "packageJsGzip": 195000,
-    "packageCssRaw": 420000,
-    "packageCssGzip": 102000,
+    "packageJsRaw": 486000,
+    "packageJsGzip": 198000,
+    "packageCssRaw": 440000,
+    "packageCssGzip": 104000,
     "largestChunkRaw": 20000,
     "largestChunkGzip": 6800,
-    "rootCssRaw": 165000,
-    "rootCssGzip": 29000,
-    "largestComponentCssRaw": 33000,
-    "largestComponentCssGzip": 5700,
+    "rootCssRaw": 169000,
+    "rootCssGzip": 30000,
+    "largestComponentCssRaw": 37000,
+    "largestComponentCssGzip": 5800,
     "subpathConsumerJsRaw": 88000,
     "subpathConsumerCssRaw": 8500,
-    "standaloneExampleJsRaw": 430000,
-    "standaloneExampleCssRaw": 165000,
+    "standaloneExampleJsRaw": 434000,
+    "standaloneExampleCssRaw": 169000,
     "themeSubpathJsRaw": 12000,
     "themeSubpathJsGzip": 4200,
     "motionSubpathJsRaw": 14000,
     "motionSubpathJsGzip": 5000
   },
   "distributionBudgets": {
-    "packedFiles": 358,
-    "packedTarballRaw": 375000,
-    "packedUnpackedRaw": 2120000
+    "packedFiles": 365,
+    "packedTarballRaw": 385000,
+    "packedUnpackedRaw": 2180000
   },
   "releaseBaseline": {
     "version": "1.28.0",
     "componentCount": 69,
     "perComponentAllowance": {
-      "packageJsRaw": 500,
-      "packageJsGzip": 2750,
-      "standaloneExampleJsRaw": 800
+      "packageJsRaw": 1900,
+      "packageJsGzip": 2900,
+      "packageCssRaw": 400,
+      "largestComponentCssRaw": 450,
+      "standaloneExampleJsRaw": 2200
     },
     "metrics": {
       "packageJsRaw": 467295,

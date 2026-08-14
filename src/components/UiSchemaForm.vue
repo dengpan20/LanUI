@@ -9,6 +9,7 @@ import UiForm from './UiForm.vue'
 import UiFormItem from './UiFormItem.vue'
 import UiFormList from './UiFormList.vue'
 import UiInput from './UiInput.vue'
+import UiInputTag from './UiInputTag.vue'
 import UiNumberInput from './UiNumberInput.vue'
 import UiSegmented from './UiSegmented.vue'
 import UiSelect from './UiSelect.vue'
@@ -45,6 +46,7 @@ const { t } = useLocale()
 
 const builtinComponents = Object.freeze({
   input: UiInput,
+  'input-tag': UiInputTag,
   textarea: UiTextarea,
   number: UiNumberInput,
   select: UiSelect,
@@ -57,7 +59,7 @@ const builtinComponents = Object.freeze({
   slider: UiSlider,
   segmented: UiSegmented,
 })
-const nativeReadonlyComponents = new Set([UiInput, UiTextarea, UiNumberInput, UiAutoComplete, UiSlider])
+const nativeReadonlyComponents = new Set([UiInput, UiInputTag, UiTextarea, UiNumberInput, UiAutoComplete, UiSlider])
 const sectionTitleTags = new Set(['h2', 'h3', 'h4'])
 
 function reportError(kind, definition, error) {
