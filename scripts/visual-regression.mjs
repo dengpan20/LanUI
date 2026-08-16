@@ -41,6 +41,7 @@ const allCases=[
   {name:'carousel-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=carousel',ready:'.visual-carousel-showcase .ui-carousel',selector:'.visual-carousel-showcase'},
   {name:'time-range-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=time-range',ready:'.visual-time-range-showcase .ui-time-range-picker',selector:'.visual-time-range-showcase'},
   {name:'date-time-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=date-time',ready:'.visual-date-time-showcase .ui-date-time-range-picker',selector:'.visual-date-time-showcase'},
+  {name:'qr-code-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=qr-code',ready:'.visual-qr-code-showcase .ui-qr-code-symbol',selector:'.visual-qr-code-showcase'},
 ]
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

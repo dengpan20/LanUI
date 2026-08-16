@@ -17,6 +17,7 @@ import UiModal from '../src/components/UiModal.vue'
 import UiMentions from '../src/components/UiMentions.vue'
 import UiInputTag from '../src/components/UiInputTag.vue'
 import UiQueryBuilder from '../src/components/UiQueryBuilder.vue'
+import UiQRCode from '../src/components/UiQRCode.vue'
 import UiNumberInput from '../src/components/UiNumberInput.vue'
 import UiOtpInput from '../src/components/UiOtpInput.vue'
 import UiSlider from '../src/components/UiSlider.vue'
@@ -58,6 +59,7 @@ async function renderFixture() {
         h(UiMentions, { modelValue:'Review with @ada', options:[{label:'Ada Lovelace',value:'ada'}], 'aria-label':'SSR reviewers' }),
         h(UiInputTag, { modelValue:['Vue 3','SSR'], name:'capabilities', editable:true, clearable:true, ariaLabel:'SSR capability tags' }),
         h(UiQueryBuilder, { modelValue:{combinator:'and',rules:[{field:'status',operator:'equals',value:'Ready'}]}, fields:[{key:'status',label:'Status',type:'select',options:['Ready','Review']}], name:'filters', ariaLabel:'SSR release filters' }),
+        h(UiQRCode, { value:'https://ssr.example/release', level:'H', status:'expired', label:'SSR release QR code', caption:'SSR QR lifecycle' }),
         h(UiOtpInput, { modelValue:'2048', length:4, separator:'-', separatorEvery:2, ariaLabel:'SSR verification code' }),
         h(UiSlider, { modelValue:[25,75], range:true, ariaLabel:'SSR range' }),
         h(UiTree, { data:[{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}], defaultExpandedKeys:['workspace'], modelValue:'dashboard', 'aria-label':'SSR resources' }),
@@ -99,6 +101,9 @@ describe('server rendering', () => {
     expect(result.html).toContain('ui-date-time-picker')
     expect(result.html).toContain('ui-date-time-range-picker')
     expect(result.html).toContain('aria-label="SSR release window"')
+    expect(result.html).toContain('ui-qr-code')
+    expect(result.html).toContain('data-level="H"')
+    expect(result.html).toContain('SSR release QR code')
     expect(result.html).toContain('SSR quality content')
     expect(result.html).toContain('role="combobox"')
     expect(result.html).toContain('SSR city')

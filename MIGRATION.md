@@ -1,5 +1,22 @@
 # Lan UI migration and compatibility policy
 
+## 1.50 QR code compatibility
+
+There are no breaking changes. Products can add the new component incrementally:
+
+```vue
+<UiQRCode
+  value="https://example.com/release/1.50.0"
+  level="H"
+  status="active"
+  downloadable
+/>
+```
+
+- `value` is encoded into a real byte-mode matrix. Choose `Q` or `H` when a center icon obscures modules, and preserve a quiet-zone `margin` for reliable scanning.
+- `status` changes presentation only; `expired` emits `refresh`, while the application remains responsible for issuing and replacing the encoded value. `download` exports deterministic SVG rather than rasterizing the screen.
+- Existing image, canvas and barcode implementations are unaffected. Root and `components/UiQRCode` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiQRCode.css`.
+
 ## 1.49 date-time adapter compatibility
 
 There are no breaking changes. Existing `UiDatePicker mode="datetime"`, `UiDateRangePicker mode="datetime"` and Schema Form `datetime` / `datetime-range` consumers retain their behavior. New direct forms can use discoverable adapters:

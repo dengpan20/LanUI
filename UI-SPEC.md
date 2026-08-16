@@ -1028,3 +1028,15 @@ P52 advances to 82 public components, 365 locale keys and generated coverage of 
 - Existing datetime modes and Schema Form types stay compatible. Root/subpath runtime, declarations, isolated CSS, generated API, component center, static preview, standalone consumer, deterministic SSR and installed-tarball checks remain in parity.
 
 P53 advances to 84 public components, 365 locale keys and generated coverage of 965 Props, 341 Events and 160 Slots. Release gates require 26 visual baselines, 44 zero-violation Axe scenarios, 48 interactions per Chromium/Firefox/WebKit engine, 39 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 67. Maturity P54: encoded QR lifecycle
+
+- `UiQRCode` owns a real byte-mode QR matrix backed by a pinned zero-dependency encoder. Content changes or L/M/Q/H error-correction changes produce a new deterministic matrix during both browser and server rendering.
+- Integer SVG modules use crisp-edge rendering. Size is clamped from 64–1024 px, quiet-zone margin from 0–16 modules, and foreground/background colors remain explicit export values.
+- Optional center imagery receives a background plate and a 30% size cap. Product guidance requires Q/H correction and scan-device verification when imagery obscures modules.
+- Active, loading, expired, scanned and encoder-invalid states keep the encoded image named for assistive technology while a polite status overlay communicates lifecycle. Invalid encoding upgrades to an alert.
+- Expired refresh is consumer controlled: the component emits the current value, and the product issues a new value. Download serializes the same matrix into a standalone SVG and emits filename/content metadata.
+- Overlay, caption and actions Slots preserve encoder state. The exposed instance supplies `refresh`, `download` and `toSvg`; runtime and Props/Emits/Slots types match root and component subpaths.
+- Component center, one-page HTML, standalone consumer, isolated CSS, generated API, deterministic SSR and offline installed-tarball tests remain in parity. Unit, visual, zero-violation Axe and three-engine interaction gates cover lifecycle, matrix changes and actions.
+
+P54 advances to 85 public components, 372 locale keys and generated coverage of 979 Props, 344 Events and 163 Slots. Release gates require 27 visual baselines, 45 zero-violation Axe scenarios, 49 interactions per Chromium/Firefox/WebKit engine, 41 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

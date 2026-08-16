@@ -29,6 +29,7 @@ import {
   UiNumberInput,
   UiOtpInput,
   UiQueryBuilder,
+  UiQRCode,
   UiRate,
   UiSelect,
   UiSegmented,
@@ -82,6 +83,10 @@ const standaloneOtp=ref('204')
 const standaloneMentions=ref('Please ask @de')
 const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
+const standaloneQrStatus=ref('expired')
+const standaloneQrRevision=ref(1)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.50.0?revision=${standaloneQrRevision.value}`)
+function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standalonePublishAt=ref('2026-08-20T10:00')
 const standaloneReleaseWindow=ref(['2026-08-20T10:00','2026-08-20T18:00'])
 const standaloneCarouselItems=[
@@ -237,6 +242,13 @@ const rows = computed(() => [
         <template #item="{item,index}"><div class="carousel-demo-slide" :style="{'--carousel-start':item.start,'--carousel-end':item.end}"><small>Release assurance · {{ index+1 }}/{{ standaloneCarouselItems.length }}</small><strong>{{ item.title }}</strong><p>{{ item.description }}</p></div></template>
       </UiCarousel>
       <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">Arrow keys, Home / End, controls and swipe update index {{ standaloneCarouselIndex+1 }}.</div>
+    </UiCard>
+
+    <UiCard title="Release QR code">
+      <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.50.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
+      </div>
     </UiCard>
 
     <UiCard title="Semantic release text">

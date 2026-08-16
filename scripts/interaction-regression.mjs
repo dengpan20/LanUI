@@ -979,6 +979,32 @@ const allCases = [
     },
   },
   {
+    name:'qr-code-lifecycle-refresh',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.locator('.interaction-qr-code-case .ui-qr-code')
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-status'),'expired')
+      assert.equal(await root.getAttribute('data-level'),'H')
+      const symbol=root.getByRole('img',{name:'Interaction release QR code'})
+      const initialPath=await symbol.locator('path').getAttribute('d')
+      assert.ok(initialPath?.length>100)
+      const refresh=root.locator('.ui-qr-code-overlay .ui-qr-code-action')
+      await refresh.focus()
+      await refresh.click()
+      await expectText(page,'qr-code-output','refresh:2')
+      assert.equal(await root.getAttribute('data-status'),'active')
+      assert.notEqual(await symbol.locator('path').getAttribute('d'),initialPath)
+      await page.locator('#qr-mark-scanned').click()
+      await expectText(page,'qr-code-output','status:scanned')
+      assert.equal(await root.getAttribute('data-status'),'scanned')
+      assert.equal(await root.locator('.ui-qr-code-overlay').getAttribute('role'),'status')
+      await page.locator('#qr-expire').click()
+      await expectText(page,'qr-code-output','status:expired')
+      assert.equal(await root.getAttribute('data-status'),'expired')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -1022,7 +1048,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),84)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),85)
     },
   },
 ]

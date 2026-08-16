@@ -8,6 +8,7 @@ import UiButton from '../components/UiButton.vue'
 import UiCalendar from '../components/UiCalendar.vue'
 import UiCard from '../components/UiCard.vue'
 import UiCarousel from '../components/UiCarousel.vue'
+import UiQRCode from '../components/UiQRCode.vue'
 import UiInput from '../components/UiInput.vue'
 import UiInputTag from '../components/UiInputTag.vue'
 import UiQueryBuilder from '../components/UiQueryBuilder.vue'
@@ -219,12 +220,14 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:84},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:85},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'DateTime Adapters P53'},{key:'version',label:'版本',value:'1.49.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'84 个公开组件 · 独立 DateTime / DateTimeRange API、时区与值类型、范围顺序校验、FormItem、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'QR Code P54'},{key:'version',label:'版本',value:'1.50.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'85 个公开组件 · 真实二维码编码、L / M / Q / H 纠错级别、图标与品牌色、生命周期状态、刷新与 SVG 下载、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.50.0?revision=${qrRevision.value}`)
+function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
   {key:'interaction',eyebrow:'Interaction quality',title:'键盘、触控与自动播放',description:'逻辑方向键、滑动手势、悬停与焦点暂停遵循同一状态机。',start:'#6d28d9',end:'#db2777'},
@@ -507,6 +510,19 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div><span class="demo-label">UiImage · 懒加载画廊与全屏预览</span><div class="image-gallery-demo"><UiImage v-for="(source,index) in imageGallery" :key="source" :src="source" :alt="`发布画廊 ${index+1}`" preview :preview-list="imageGallery" :preview-index="index"><template #caption>发布画廊 · 支持方向键、缩放、旋转与拖拽</template></UiImage></div></div>
               <div><span class="demo-label">Fit / Disabled / Fallback</span><div class="image-state-demo"><UiImage :src="imageGallery[0]" alt="Contain 模式" fit="contain"/><UiImage :src="imageGallery[1]" alt="停用预览" preview disabled/></div><p class="feedback-hint">加载失败时可使用 fallback 或 error 插槽；预览支持焦点闭环、Esc、滚轮缩放、双击与 RTL。</p></div>
             </div>
+            <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
+              <div class="qr-code-showcase-primary">
+                <span class="demo-label">UiQRCode · 真实编码与导出</span>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.50.0 发布二维码" caption="扫码打开 1.50.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
+                <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
+              </div>
+              <aside class="qr-code-showcase-states">
+                <strong>完整生命周期状态</strong><p>矩阵由内容真实编码生成，支持四档纠错、品牌色、中心图标、边距钳制、响应式尺寸、过期刷新和可访问 SVG 导出。</p>
+                <div class="qr-code-state-row"><UiQRCode value="lan-ui:loading" status="loading" :size="112" :bordered="false" label="加载中的二维码"/><UiQRCode value="lan-ui:scanned" status="scanned" :size="112" :bordered="false" label="已扫描二维码"/><UiQRCode value="lan-ui:expired" status="expired" :size="112" :bordered="false" label="已过期二维码"/></div>
+                <small>中心图标场景建议使用 Q / H 纠错级别并保持足够留白；导出的 SVG 与屏幕矩阵保持一致。</small>
+              </aside>
+            </div>
             <div class="carousel-showcase" data-carousel-state-contract="slide fade horizontal vertical loop finite autoplay hover focus visibility reduced-motion keyboard rtl swipe lazy empty">
               <UiCarousel ref="carouselRef" v-model="carouselIndex" :items="carouselItems" :effect="carouselEffect" :autoplay="carouselAutoplay" :interval="5000" indicators="lines" aria-label="组件成熟度发布轮播" @change="carouselStatus=`${$event.source} · ${$event.previousIndex+1} → ${$event.index+1}`">
                 <template #item="{item,index}"><div class="carousel-demo-slide" :style="{'--carousel-start':item.start,'--carousel-end':item.end}"><small>{{ item.eyebrow }} · {{ index+1 }}/{{ carouselItems.length }}</small><strong>{{ item.title }}</strong><p>{{ item.description }}</p></div></template>
@@ -750,6 +766,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>DateTime / Range</td><td>字符串 / Date / 时间戳</td><td>单输入 / 双输入聚焦</td><td>选择 / 清除</td><td>Label / Group + Description</td><td>禁用 / 错误</td><td>时区 / DST / 顺序 / Min / Max</td></tr>
               <tr><td>Image</td><td>lazy / eager</td><td>preview affordance</td><td>zoom / rotate / pan</td><td>Dialog focus trap</td><td>Preview disabled</td><td>fallback / retry</td></tr>
               <tr><td>Carousel</td><td>slide / fade</td><td>暂停自动播放</td><td>箭头 / 指示器 / 滑动</td><td>逻辑方向键 + Ring</td><td>有限端点锁定</td><td>Visibility / Reduced Motion / Empty</td></tr>
+              <tr><td>QRCode</td><td>真实 SVG 矩阵</td><td>下载动作强调</td><td>刷新 / 下载</td><td>命名图片 + Live 状态</td><td>—</td><td>Loading / Expired / Scanned / Invalid</td></tr>
               <tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr>
               <tr><td>Affix</td><td>页面流内</td><td>保留子操作</td><td>固定至边缘</td><td>内容焦点可见</td><td>立即回归文档流</td><td>目标回退 / 边界停止</td></tr>
               <tr><td>Splitter</td><td>响应式占比分栏</td><td>分隔条高亮</td><td>相邻面板调整 / 折叠</td><td>ARIA Separator + Ring</td><td>锁定分隔条</td><td>约束钳制 / Lazy 预览</td></tr>

@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.50.0] - 2026-08-15
+
+### Added
+
+- `UiQRCode`, a real SVG QR encoder with byte-mode content, L/M/Q/H error correction, configurable size, quiet-zone margin, colors, optional center icon and deterministic SVG serialization.
+- Active, loading, expired, scanned and invalid presentation, localized live status, refresh and download events, caption/action/overlay Slots and an exposed `refresh` / `download` / `toSvg` instance contract.
+- Component-center, one-page static preview and standalone-consumer examples plus unit, SSR, visual, Axe, type, installed-tarball and Chromium/Firefox/WebKit lifecycle coverage.
+
+### Changed
+
+- Release gates advance to 85 public components, 372 locale keys, 27 visual baselines, 45 Axe scenarios, 49 interactions per browser and 41 negative type assertions.
+- Generated API coverage advances to 979 Props, 344 Events and 163 Slots.
+- `qrcode-generator` 2.0.4 is pinned as the zero-runtime-dependency MIT encoder; package root and component subpaths retain matching runtime, declarations and isolated CSS.
+- Nine absolute ceilings and five frozen-baseline per-component allowances receive measured QR encoder headroom; root gzip, component CSS, subpath-consumer, theme and motion ceilings remain unchanged.
+
 ## [1.49.0] - 2026-08-15
 
 ### Added

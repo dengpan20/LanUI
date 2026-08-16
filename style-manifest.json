@@ -1,16 +1,16 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.49.0",
+  "version": "1.50.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 177421,
-    "rules": 1408,
+    "bytes": 179873,
+    "rules": 1423,
     "source": "component-union"
   },
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 5900
+    "bytes": 5950
   },
   "components": [
     {
@@ -318,6 +318,12 @@
       "subpath": "./styles/UiProgress.css",
       "bytes": 725,
       "rules": 8
+    },
+    {
+      "name": "UiQRCode",
+      "subpath": "./styles/UiQRCode.css",
+      "bytes": 2439,
+      "rules": 15
     },
     {
       "name": "UiQueryBuilder",

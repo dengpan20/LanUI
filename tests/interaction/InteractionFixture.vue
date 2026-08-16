@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -103,6 +103,10 @@ const timeRangeOutput=ref('ready:09:00-17:30')
 const dateTimeValue=ref('2026-08-15T09:30')
 const dateTimeRangeValue=ref(['2026-08-15T09:30','2026-08-15T17:30'])
 const dateTimeOutput=ref('ready:2026-08-15T09:30')
+const qrCodeStatus=ref('expired')
+const qrCodeRevision=ref(1)
+const qrCodeOutput=ref('ready:expired:1')
+function refreshQrCode(){qrCodeRevision.value+=1;qrCodeStatus.value='active';qrCodeOutput.value=`refresh:${qrCodeRevision.value}`}
 const carouselItems=[
   {key:'overview',title:'Release overview',description:'Versioned component contract'},
   {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
@@ -551,6 +555,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiDateTimeRangePicker v-model="dateTimeRangeValue" :constrain="false" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" start-placeholder="Window starts" end-placeholder="Window ends" aria-label="Interaction release window" @change="payload=>dateTimeOutput=`range:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`" @invalid="payload=>dateTimeOutput=`invalid:${payload.code}`" @focus="payload=>dateTimeOutput=`range-focus:${payload.index}`" @clear="dateTimeOutput='range-clear'" />
         </div>
         <output class="interaction-output" data-testid="date-time-output">{{ dateTimeOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-qr-code-case">
+        <h2>QR code lifecycle, refresh and SVG matrix contract</h2>
+        <div class="interaction-row"><UiButton id="qr-expire" variant="outline" @click="qrCodeStatus='expired';qrCodeOutput='status:expired'">Expire</UiButton><UiButton id="qr-mark-scanned" variant="outline" @click="qrCodeStatus='scanned';qrCodeOutput='status:scanned'">Mark scanned</UiButton><UiButton id="qr-reset" variant="text" @click="qrCodeStatus='active';qrCodeOutput='status:active'">Reset</UiButton><output class="interaction-output" data-testid="qr-code-output">{{ qrCodeOutput }}</output></div>
+        <UiQRCode :value="`https://interaction.example/release?revision=${qrCodeRevision}`" :status="qrCodeStatus" level="H" :size="164" label="Interaction release QR code" caption="Release lifecycle" @refresh="refreshQrCode" @download="qrCodeOutput='download'"/>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

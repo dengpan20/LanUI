@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.49.0",
+  "version": "1.50.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -25,8 +25,8 @@
     {
       "id": "data",
       "label": "数据展示",
-      "description": "结构化内容、媒体、轮播、状态、文本、列表、表格和虚拟数据。",
-      "count": 19
+      "description": "结构化内容、媒体、二维码、轮播、状态、文本、列表、表格和虚拟数据。",
+      "count": 20
     },
     {
       "id": "navigation",
@@ -10059,6 +10059,223 @@
       "emits": [],
       "slotsType": "UiProgressSlots",
       "slots": []
+    },
+    {
+      "name": "UiQRCode",
+      "category": "data",
+      "categoryLabel": "数据展示",
+      "subpath": "./components/UiQRCode",
+      "imports": {
+        "root": "import { UiQRCode } from 'lan-ui-design-system'",
+        "subpath": "import UiQRCode from 'lan-ui-design-system/components/UiQRCode'"
+      },
+      "propsType": "UiQRCodeProps",
+      "props": [
+        {
+          "name": "background",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"#ffffff\""
+          }
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "caption",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "color",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"#111827\""
+          }
+        },
+        {
+          "name": "downloadName",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"qr-code.svg\""
+          }
+        },
+        {
+          "name": "downloadable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "icon",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "iconSize",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "36"
+          }
+        },
+        {
+          "name": "label",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "level",
+          "required": false,
+          "type": "UiQRCodeLevel",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"M\""
+          }
+        },
+        {
+          "name": "margin",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "4"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "160"
+          }
+        },
+        {
+          "name": "status",
+          "required": false,
+          "type": "UiQRCodeStatus",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"active\""
+          }
+        },
+        {
+          "name": "value",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        }
+      ],
+      "emitsType": "UiQRCodeEmits",
+      "emits": [
+        {
+          "name": "download",
+          "required": true,
+          "type": "(payload:UiQRCodeDownloadMeta)=>void"
+        },
+        {
+          "name": "error",
+          "required": true,
+          "type": "(error:Error)=>void"
+        },
+        {
+          "name": "refresh",
+          "required": true,
+          "type": "(payload:{value:string})=>void"
+        }
+      ],
+      "slotsType": "UiQRCodeSlots",
+      "slots": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{download:()=>boolean;refresh:()=>boolean;status:UiQRCodeEffectiveStatus})=>VNodeChild"
+        },
+        {
+          "name": "caption",
+          "required": false,
+          "type": "(scope:{value:string;status:UiQRCodeEffectiveStatus})=>VNodeChild"
+        },
+        {
+          "name": "overlay",
+          "required": false,
+          "type": "(scope:{status:UiQRCodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiQueryBuilder",

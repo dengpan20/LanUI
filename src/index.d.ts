@@ -257,6 +257,12 @@ export interface UiPaginationProps { page?:number; pageSize?:number; total?:numb
 export interface UiPopconfirmProps { title?:string; message?:string; confirmText?:string; cancelText?:string; danger?:boolean; beforeConfirm?:()=>unknown|Promise<unknown>; placement?:Placement; offset?:number }
 export interface UiPopoverProps { modelValue?:boolean; placement?:Placement; width?:string|number; closeOnOutside?:boolean; title?:string; offset?:number }
 export interface UiProgressProps { value?:number; max?:number; status?:'normal'|'success'|'warning'|'error'; showText?:boolean; size?:ComponentSize; label?:string }
+export type UiQRCodeLevel = 'L'|'M'|'Q'|'H'
+export type UiQRCodeStatus = 'active'|'loading'|'expired'|'scanned'
+export type UiQRCodeEffectiveStatus = UiQRCodeStatus|'invalid'
+export interface UiQRCodeProps { value?:string; size?:number; level?:UiQRCodeLevel; color?:string; background?:string; margin?:number; status?:UiQRCodeStatus; icon?:string; iconSize?:number; bordered?:boolean; downloadable?:boolean; downloadName?:string; label?:string; caption?:string }
+export interface UiQRCodeDownloadMeta { value:string; filename:string; svg:string }
+export interface UiQRCodeInstance { refresh:()=>boolean; download:()=>boolean; toSvg:()=>string }
 export interface UiRadioProps { modelValue?:Key|boolean; value?:Key|boolean; label?:string; name?:string; disabled?:boolean }
 export interface UiRateProps { modelValue?:number; max?:number; step?:number; allowClear?:boolean; clearValue?:number; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; showText?:boolean; texts?:Array<string|number>; formatter?:(value:number,max:number)=>string|number|null|undefined; color?:string; voidColor?:string; disabledColor?:string; ariaLabel?:string }
 export interface UiResultProps { status?:'success'|'error'|'warning'|'info'|'404'; title?:string; description?:string; icon?:string }
@@ -426,6 +432,7 @@ export type UiPaginationEmits = { 'update:page':(value:number)=>void; 'update:pa
 export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(error:unknown)=>void }
 export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
 export type UiProgressEmits = {}
+export type UiQRCodeEmits = { refresh:(payload:{value:string})=>void; download:(payload:UiQRCodeDownloadMeta)=>void; error:(error:Error)=>void }
 export type UiQueryBuilderEmits = { 'update:modelValue':(value:UiQueryGroup)=>void; change:(payload:UiQueryChange)=>void; add:(payload:UiQueryAction)=>void; remove:(payload:UiQueryAction)=>void; move:(payload:UiQueryAction)=>void; duplicate:(payload:UiQueryAction)=>void; invalid:(payload:{source:string;errors:UiQueryError[];value:UiQueryGroup})=>void; action:(payload:UiQueryAction)=>void }
 export type UiRadioEmits = { 'update:modelValue':(value:Key|boolean)=>void; change:(value:Key|boolean)=>void }
 export type UiRateEmits = { 'update:modelValue':(value:number)=>void; input:(value:number,meta:Pick<UiRateChangeMeta,'source'>)=>void; change:(value:number,meta:UiRateChangeMeta)=>void; 'hover-change':(value:number|null)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
@@ -516,6 +523,7 @@ export type UiPaginationSlots = {}
 export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
 export type UiPopoverSlots = { trigger?:(props:{open:boolean})=>VNodeChild; default?:(props:{close:()=>void})=>VNodeChild }
 export type UiProgressSlots = {}
+export type UiQRCodeSlots = { overlay?:(scope:{status:UiQRCodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild; caption?:(scope:{value:string;status:UiQRCodeEffectiveStatus})=>VNodeChild; actions?:(scope:{download:()=>boolean;refresh:()=>boolean;status:UiQRCodeEffectiveStatus})=>VNodeChild }
 export type UiQueryBuilderSlots = { field?:(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;update:(value:Key)=>void})=>VNodeChild; operator?:(scope:{rule:UiQueryRule;index:number;operator:UiQueryOperator|null;options:SelectOption[];update:(value:Key)=>void})=>VNodeChild; value?:(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;operator:UiQueryOperator|null;position:number;value:unknown;update:(value:unknown)=>void})=>VNodeChild; 'rule-actions'?:(scope:{rule:UiQueryRule;index:number;move:(direction:-1|1)=>void;duplicate:()=>void;remove:()=>void})=>VNodeChild; empty?:(scope:{addRule:()=>void;addGroup:()=>void})=>VNodeChild }
 export type UiRadioSlots = { default?:()=>VNodeChild }
 export type UiRateSlots = { item?:(scope:{index:number;value:number;fill:number;active:boolean})=>VNodeChild; text?:(scope:{value:number;max:number;text:string})=>VNodeChild }
@@ -572,6 +580,7 @@ export const UiList:LanComponent<UiListProps,UiListEmits,UiListSlots>
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>; export const UiOtpInput:LanComponent<UiOtpInputProps,UiOtpInputEmits,UiOtpInputSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>; export const UiMentions:LanComponent<UiMentionsProps,UiMentionsEmits,UiMentionsSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>; export const UiQueryBuilder:LanComponent<UiQueryBuilderProps,UiQueryBuilderEmits,UiQueryBuilderSlots>
+export const UiQRCode:LanComponent<UiQRCodeProps,UiQRCodeEmits,UiQRCodeSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
 export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>; export const UiStatistic:LanComponent<UiStatisticProps,UiStatisticEmits,UiStatisticSlots>
 export const UiSplitter:LanComponent<UiSplitterProps,UiSplitterEmits,UiSplitterSlots>

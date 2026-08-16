@@ -25,6 +25,7 @@ import {
   UiNumberInput,
   UiOtpInput,
   UiQueryBuilder,
+  UiQRCode,
   UiRate,
   UiStatistic,
   UiStatusPage,
@@ -79,6 +80,7 @@ import SubpathNumberInput, { UiNumberInput as NamedSubpathNumberInput } from 'la
 import SubpathOtpInput, { UiOtpInput as NamedSubpathOtpInput } from 'lan-ui-design-system/components/UiOtpInput'
 import SubpathMentions, { UiMentions as NamedSubpathMentions } from 'lan-ui-design-system/components/UiMentions'
 import SubpathQueryBuilder, { UiQueryBuilder as NamedSubpathQueryBuilder } from 'lan-ui-design-system/components/UiQueryBuilder'
+import SubpathQRCode, { UiQRCode as NamedSubpathQRCode } from 'lan-ui-design-system/components/UiQRCode'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
 import SubpathStatistic, { UiStatistic as NamedSubpathStatistic } from 'lan-ui-design-system/components/UiStatistic'
@@ -108,6 +110,7 @@ import type {
 } from 'lan-ui-design-system/components/UiInput'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
+import type { UiQRCodeEmits, UiQRCodeProps, UiQRCodeSlots } from 'lan-ui-design-system/components/UiQRCode'
 import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
 import type { UiCarouselEmits, UiCarouselProps, UiCarouselSlots } from 'lan-ui-design-system/components/UiCarousel'
@@ -176,6 +179,7 @@ import type {
   UiCarouselInstance,
   UiMentionsInstance,
   UiInputTagInstance,
+  UiQRCodeInstance,
   UiTypographyInstance,
   RgbaColor,
   ColorFormat,
@@ -490,6 +494,12 @@ const dateTimeRangeEmit:UiDateTimeRangePickerEmits['change']=payload=>{const val
 const dateTimeRangeSubpathParity:typeof UiDateTimeRangePicker=SubpathDateTimeRangePicker
 const dateTimeRangeNamedSubpathParity:typeof UiDateTimeRangePicker=NamedSubpathDateTimeRangePicker
 const dateTimeRangeSlot:UiDateTimeRangePickerSlots={}
+const qrCodeProps:InstanceType<typeof UiQRCode>['$props']&UiQRCodeProps={value:'https://example.com/release',size:180,level:'H',status:'expired',color:'#155EEF',margin:4,downloadable:true,downloadName:'release.svg'}
+const qrCodeEmit:UiQRCodeEmits['download']=payload=>{const svg:string=payload.svg;void svg}
+const qrCodeSubpathParity:typeof UiQRCode=SubpathQRCode
+const qrCodeNamedSubpathParity:typeof UiQRCode=NamedSubpathQRCode
+const qrCodeSlot:UiQRCodeSlots={overlay:scope=>scope.status,caption:scope=>scope.value,actions:scope=>String(scope.download())}
+const qrCodeInstance:UiQRCodeInstance={refresh:()=>true,download:()=>true,toSvg:()=>'<svg/>'}
 const iconDefinition:IconDefinitionInput={body:'<path d="M4 4h16v16H4Z"/>',viewBox:'0 0 24 24'}
 const iconRegistry:IconRegistry=createIconRegistry({tenantMark:iconDefinition})
 const iconRegistryParity:typeof createIconRegistry=createSubpathIconRegistry
@@ -541,6 +551,10 @@ const invalidTimeRangeValueType:UiTimeRangePickerProps={valueType:'moment'}
 const invalidDateTimeValueType:UiDateTimePickerProps={valueType:'moment'}
 // @ts-expect-error Date-time range endpoints use date inputs rather than arbitrary records.
 const invalidDateTimeRangeMin:UiDateTimeRangePickerProps={min:{year:2026}}
+// @ts-expect-error QR error correction levels use the standard L, M, Q or H contract.
+const invalidQrCodeLevel:UiQRCodeProps={level:'X'}
+// @ts-expect-error QR lifecycle status is constrained to active, loading, expired or scanned.
+const invalidQrCodeStatus:UiQRCodeProps={status:'disabled'}
 // @ts-expect-error Icon flips use the constrained transform contract.
 const invalidIconFlip:UiIconProps={flip:'diagonal'}
 // @ts-expect-error Number input controls use the documented sides or right placement.
@@ -584,6 +598,6 @@ const invalidAffixPosition:UiAffixProps={position:'left'}
 // @ts-expect-error Splitter direction is constrained to horizontal or vertical.
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
-void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin]
+void [queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

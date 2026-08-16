@@ -2061,4 +2061,32 @@ svg { display: block; }
 .ui-carousel.is-reduced .ui-carousel-track,.ui-carousel.is-reduced .ui-carousel-slide,.ui-carousel.is-reduced .ui-carousel-arrow,.ui-carousel.is-reduced .ui-carousel-indicator>span{transition-duration:0ms!important}
 @media print{.ui-carousel-slide{display:none}.ui-carousel-slide.active{position:relative!important;display:grid;opacity:1!important;visibility:visible!important}.ui-carousel-arrow,.ui-carousel-indicators,.ui-carousel-play{display:none!important}}
 @media(forced-colors:active){.ui-carousel-viewport,.ui-carousel-empty{border:1px solid CanvasText}.ui-carousel-arrow,.ui-carousel-play,.ui-carousel-indicator{border:1px solid ButtonText;color:ButtonText;background:ButtonFace}.ui-carousel-indicator.active{outline:2px solid Highlight}.ui-carousel-indicator>span{background:currentColor}}
+
+.ui-qr-code{display:inline-flex;flex-direction:column;align-items:stretch;gap:10px;margin:0;color:var(--ui-qr-color,#111827);font-size:13px;line-height:1.4}
+.ui-qr-code-frame{position:relative;display:grid;width:var(--ui-qr-size,160px);height:var(--ui-qr-size,160px);overflow:hidden;border-radius:var(--radius-lg);background:var(--ui-qr-background,#fff);isolation:isolate}
+.ui-qr-code.bordered .ui-qr-code-frame{padding:8px;border:1px solid var(--border-default);box-sizing:content-box;box-shadow:var(--shadow-xs)}
+.ui-qr-code-symbol{display:block;width:100%;height:100%;color:inherit;background:var(--ui-qr-background,#fff)}
+.ui-qr-code-overlay{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;text-align:center;color:var(--text-secondary);background:color-mix(in srgb,var(--ui-qr-background,#fff) 90%,transparent);backdrop-filter:blur(2px)}
+.ui-qr-code-overlay.status-expired,.ui-qr-code-overlay.status-invalid{color:var(--danger-700)}
+.ui-qr-code-overlay.status-scanned{color:var(--success-700)}
+.ui-qr-code-spinner{width:24px;height:24px;border:2px solid var(--border-default);border-block-start-color:var(--brand-600);border-radius:50%;animation:ui-qr-spin var(--motion-time,900ms) linear var(--motion-count)}
+.ui-qr-code-action{display:inline-flex;min-height:28px;align-items:center;justify-content:center;gap:6px;padding:4px 10px;border:1px solid var(--border-default);border-radius:var(--radius-md);color:var(--brand-700);background:var(--bg-container);font:inherit;cursor:pointer;transition:border-color var(--motion-time,var(--motion-fast)) var(--ease-standard),background var(--motion-time,var(--motion-fast)) var(--ease-standard),box-shadow var(--motion-time,var(--motion-fast)) var(--ease-standard)}
+.ui-qr-code-action:hover:not(:disabled){border-color:var(--brand-500);background:var(--brand-50)}
+.ui-qr-code-action:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.ui-qr-code-action:disabled{cursor:not-allowed;opacity:.5}
+.ui-qr-code-caption{display:flex;min-height:28px;align-items:center;justify-content:space-between;gap:10px;color:var(--text-secondary)}
+.ui-qr-code-caption:has(>button:only-child){justify-content:center}
+@keyframes ui-qr-spin{to{transform:rotate(1turn)}}
+}
+
+@layer lan-ui {
+/* Maturity P54: encoded, accessible and exportable QR code. */
+.qr-code-showcase{margin-block:18px;display:grid;grid-template-columns:minmax(250px,320px) minmax(0,1fr);gap:18px;align-items:start}
+.qr-code-showcase-primary,.qr-code-showcase-states{min-width:0;padding:18px;display:grid;gap:14px;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);background:var(--bg-subtle)}
+.qr-code-showcase-primary{justify-items:start}.qr-code-showcase-primary code{color:var(--text-secondary);font-size:var(--text-xs)}
+.qr-code-showcase-states>p,.qr-code-showcase-states>small{margin:0;color:var(--text-secondary);font-size:var(--text-xs);line-height:1.65}
+.qr-code-state-row{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+@media(max-width:820px){.qr-code-showcase{grid-template-columns:1fr}}
+@media(max-width:520px){.qr-code-state-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.qr-code-state-row .ui-qr-code{justify-self:center}}
+@media(forced-colors:active){.ui-qr-code-frame,.ui-qr-code-action{border:1px solid CanvasText}.ui-qr-code-action:focus-visible{outline:2px solid Highlight;outline-offset:2px}}
 }

@@ -30,6 +30,7 @@ export const zhCN={
     'empty.title':'暂无数据','empty.description':'当前条件下没有可展示的内容',
     'pagination.label':'列表分页','pagination.total':'显示 {start}–{end} 条，共 {total} 条记录','pagination.size':'每页显示条数','pagination.previous':'上一页','pagination.next':'下一页',
     'upload.region':'文件上传','upload.input':'选择上传文件','upload.hint':'支持点击或拖拽文件到此处','upload.dragging':'释放以上传文件','upload.limit':'单个文件不超过 {size}MB，最多 {count} 个','upload.maxCount':'最多上传 {count} 个文件','upload.typeInvalid':'{name} 的文件类型不符合要求','upload.sizeInvalid':'{name} 超过 {size}MB','upload.beforeRejected':'{name} 未通过上传前检查','upload.list':'上传文件列表','upload.remove':'移除 {name}','upload.start':'上传 {name}','upload.abort':'取消上传 {name}','upload.retry':'重试上传 {name}','upload.progress':'{name} 的上传进度','upload.status.ready':'等待上传','upload.status.uploading':'正在上传','upload.status.success':'上传成功','upload.status.error':'上传失败','upload.status.canceled':'已取消',
+    'qrCode.label':'二维码','qrCode.status.loading':'正在生成二维码','qrCode.status.expired':'二维码已过期','qrCode.status.scanned':'二维码已扫描','qrCode.status.invalid':'二维码数据无效','qrCode.refresh':'刷新','qrCode.download':'下载 SVG',
     'popconfirm.title':'确认执行此操作？','notification.later':'稍后处理','spin.loading':'加载中','switch.label':'开关','progress.label':'进度',
     'table.caption':'数据列表','table.expandColumn':'展开行','table.selectAll':'选择当前页全部记录','table.filter':'筛选 {label}','table.resize':'调整 {label} 列宽','table.errorTitle':'列表加载失败','table.expand':'展开 {id}','table.collapse':'收起 {id}','table.select':'选择 {id}',
   },

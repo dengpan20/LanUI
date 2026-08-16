@@ -1,6 +1,6 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、84 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、85 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## 项目内容
 
@@ -1154,3 +1154,26 @@ P52 advances to 82 public components, 365 locale keys and generated coverage of 
 - Root/component subpaths, Props/Emits/Slots, component CSS, component center, static preview, standalone application, SSR and packed installation stay synchronized.
 
 P53 advances to 84 public components, 365 locale keys and generated coverage of 965 Props, 341 Events and 160 Slots. CI requires 26 visual baselines, 44 zero-violation Axe scenarios, 48 interactions per Chromium/Firefox/WebKit engine, 39 negative type assertions and 18 absolute performance ceilings.
+
+## Encoded QR lifecycle and SVG export (P54)
+
+`UiQRCode` provides one reusable QR primitive for release links, login handoff, device pairing, payments and expiring credentials:
+
+```vue
+<UiQRCode
+  :value="releaseUrl"
+  level="H"
+  color="#155EEF"
+  status="expired"
+  downloadable
+  @refresh="issueNewReleaseUrl"
+/>
+```
+
+- The matrix is generated from the real byte payload with standard L, M, Q or H error correction. SVG output uses crisp integer modules and a configurable quiet-zone margin rather than a decorative placeholder.
+- Size, foreground/background color, border, caption and optional center icon are application controlled. Icon dimensions are capped; Q/H is recommended whenever modules are covered.
+- Active, loading, expired, scanned and encoder-invalid states share localized live feedback. The expired action emits `refresh` without silently mutating consumer data.
+- `download` emits the exact filename and serialized SVG; refs expose `refresh`, `download` and deterministic `toSvg`. Overlay, caption and actions Slots can replace presentation without replacing encoding.
+- Accessible image naming, SSR-safe generation, root/subpath exports, isolated component CSS, generated API, component center, static preview, standalone application and installed-tarball consumption remain synchronized.
+
+P54 advances to 85 public components, 372 locale keys and generated coverage of 979 Props, 344 Events and 163 Slots. CI requires 27 visual baselines, 45 zero-violation Axe scenarios, 49 interactions per Chromium/Firefox/WebKit engine, 41 negative type assertions and 18 absolute performance ceilings.
