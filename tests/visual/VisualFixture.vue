@@ -284,10 +284,10 @@ const tableRows=[
     </UiCard>
     <UiCard v-if="state==='qr-code'" title="Encoded release QR code" title-tag="h2" class="visual-table-card visual-qr-code-showcase">
       <div class="visual-qr-code-grid" data-qr-code-state-contract="active loading expired scanned svg ecc refresh download">
-        <div><span>Active · branded · downloadable</span><UiQRCode value="https://lan-ui.example/release/1.50.0" level="H" color="#155EEF" :size="176" downloadable label="Lan UI release QR code" caption="Release 1.50.0"/></div>
-        <div><span>Loading</span><UiQRCode value="lan-ui:loading" status="loading" :size="132" label="Loading release QR code"/></div>
-        <div><span>Expired · refresh</span><UiQRCode value="lan-ui:expired" status="expired" :size="132" label="Expired release QR code"/></div>
-        <div><span>Scanned</span><UiQRCode value="lan-ui:scanned" status="scanned" :size="132" label="Scanned release QR code"/></div>
+        <div><span>Active · branded · downloadable</span><UiQRCode value="https://lan-ui.example/release/1.50.0" level="H" color="#155EEF" :size="180" downloadable label="Lan UI release QR code" caption="Release 1.50.0"/></div>
+        <div><span>Loading</span><UiQRCode value="lan-ui:loading" status="loading" :size="145" label="Loading release QR code"/></div>
+        <div><span>Expired · refresh</span><UiQRCode value="lan-ui:expired" status="expired" :size="145" label="Expired release QR code"/></div>
+        <div><span>Scanned</span><UiQRCode value="lan-ui:scanned" status="scanned" :size="145" label="Scanned release QR code"/></div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">Real SVG matrix</UiTag><UiTag color="green">L / M / Q / H</UiTag><UiTag color="orange">SSR / lifecycle / export</UiTag></div>
     </UiCard>

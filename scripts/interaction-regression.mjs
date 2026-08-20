@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { launchBrowser, startFixtureServer } from './browser-runtime.mjs'
+import { launchBrowser, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const reportDir = resolve(root, '.verify/interaction', process.platform)
@@ -11,6 +11,7 @@ const requestedBrowsers=browserArgument||process.env.LAN_UI_INTERACTION_BROWSERS
 const browserNames=requestedBrowsers==='all'?['chromium','firefox','webkit']:[...new Set(requestedBrowsers.split(',').map(value=>value.trim()).filter(Boolean))]
 for(const browserName of browserNames)if(!['chromium','firefox','webkit'].includes(browserName))throw new Error(`Unsupported interaction browser: ${browserName}`)
 const caseArgument=process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)
+const navigationTimeout=resolveBrowserNavigationTimeout()
 
 const allCases = [
   {
@@ -1090,7 +1091,7 @@ try {
         const context = await browser.newContext({ viewport: { width: 1280, height: 1100 }, locale: 'en-US', reducedMotion: 'reduce' })
         const page = await context.newPage()
         try {
-          await page.goto(`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`, { waitUntil: 'domcontentloaded', timeout: 60000 })
+          await page.goto(`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`, { waitUntil: 'domcontentloaded', timeout: navigationTimeout })
           await page.waitForSelector('body[data-interaction-ready="true"]')
           await item.run(page)
           const durationMs = Math.round(performance.now() - started)

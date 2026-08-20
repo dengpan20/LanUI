@@ -1,12 +1,13 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import axe from 'axe-core'
-import { launchBrowser, startFixtureServer } from './browser-runtime.mjs'
+import { launchBrowser, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const reportDir=resolve(root,'.verify/accessibility',process.platform)
 mkdirSync(reportDir,{recursive:true})
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
+const navigationTimeout=resolveBrowserNavigationTimeout()
 
 const cases=[
   {name:'light-ltr-default',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default'},
@@ -66,7 +67,7 @@ try{
   for(const item of selectedCases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')||item.name.includes('rtl')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
-    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
+    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:navigationTimeout})
     await page.waitForSelector('body[data-visual-ready="true"]')
     if(item.ready)await page.waitForSelector(item.ready)
     await item.prepare?.(page)

@@ -32,6 +32,12 @@ export function resolveChromiumExecutable(){
   return resolveBrowserExecutable('chromium')
 }
 
+export function resolveBrowserNavigationTimeout(){
+  const timeout=Number(process.env.LAN_UI_BROWSER_NAVIGATION_TIMEOUT??'180000')
+  if(!Number.isFinite(timeout)||timeout<10000||timeout>300000)throw new Error('LAN_UI_BROWSER_NAVIGATION_TIMEOUT must be between 10000 and 300000')
+  return timeout
+}
+
 export function launchBrowser(engine='chromium'){
   return resolveBrowserType(engine).launch({headless:true,executablePath:resolveBrowserExecutable(engine)})
 }

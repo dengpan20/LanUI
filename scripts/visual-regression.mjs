@@ -2,12 +2,13 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import pixelmatch from 'pixelmatch'
 import { PNG } from 'pngjs'
-import { launchBrowser, startFixtureServer } from './browser-runtime.mjs'
+import { launchBrowser, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const update=process.argv.includes('--update')
 const platform=process.platform
 const maxDiffRatio=Number(process.env.LAN_UI_VISUAL_MAX_DIFF_RATIO??'.002')
+const navigationTimeout=resolveBrowserNavigationTimeout()
 if(!Number.isFinite(maxDiffRatio)||maxDiffRatio<0||maxDiffRatio>.05)throw new Error('LAN_UI_VISUAL_MAX_DIFF_RATIO must be between 0 and 0.05')
 const baselineDir=resolve(root,'tests/visual/baselines',platform)
 const currentDir=resolve(root,'.verify/visual-current',platform)
@@ -55,7 +56,7 @@ try{
   for(const item of cases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
-    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:60000})
+    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:navigationTimeout})
     await page.waitForSelector('body[data-visual-ready="true"]')
     if(item.ready)await page.waitForSelector(item.ready)
     await item.prepare?.(page)
