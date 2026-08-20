@@ -2,6 +2,18 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P60 可交互标签词汇
+
+`UiTag` 在兼容原有 `color`、`dot`、默认插槽与 `.tag` 类名的基础上，补齐 Soft / Solid / Outlined 外观、三种尺寸、圆角、自定义颜色、受控选择、关闭、链接、禁用与结构化插槽。可选择标签使用原生 Button 与 `aria-pressed`，链接使用原生 Anchor 并自动保护 `_blank`，关闭按钮拥有本地化名称；键盘、RTL、forced-colors、SSR、类型和三浏览器回归保持同步。
+
+```vue
+<UiTag checkable :checked="selected" @update:checked="selected = $event">
+  Ready filter
+</UiTag>
+<UiTag color="red" closable @close="removeTag">Failed build</UiTag>
+<UiTag href="/release" target="_blank" variant="outlined">Release notes</UiTag>
+```
+
 ## P59 成熟卡片容器
 
 `UiCard` 在兼容原有 `title`、`header`、`action` 和默认内容用法的基础上，补齐结构化区域、标题/描述关联、封面/页脚/操作区、尺寸、外观、阴影、选择、禁用、加载、链接与可交互模式。非原生交互卡片支持 Enter/Space，嵌套按钮不会误触发卡片；Reduced Motion、forced-colors、RTL、SSR、类型和三浏览器回归保持同步。

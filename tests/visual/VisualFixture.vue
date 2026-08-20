@@ -343,6 +343,14 @@ const tableRows=[
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">default / outlined / elevated / filled</UiTag><UiTag color="green">pointer / keyboard / focus</UiTag><UiTag color="orange">loading / disabled / SSR</UiTag></div>
     </UiCard>
+    <UiCard v-if="state==='tag'" title="Production status tags" subtitle="Colors, variants, sizes and native interactions" title-tag="h2" class="visual-table-card visual-tag-showcase">
+      <div class="visual-tag-grid" data-tag-state-contract="colors custom variants sizes dot round checkable closable link disabled keyboard rtl ssr">
+        <section><h3>Semantic colors</h3><div class="visual-row"><UiTag color="blue" dot>In progress</UiTag><UiTag color="green" dot>Complete</UiTag><UiTag color="orange" dot>Pending</UiTag><UiTag color="red" dot>Failed</UiTag><UiTag color="gray">Archived</UiTag><UiTag color="purple">Review</UiTag></div></section>
+        <section><h3>Variants and sizes</h3><div class="visual-row"><UiTag variant="soft" size="sm">Soft small</UiTag><UiTag color="green" variant="solid">Solid medium</UiTag><UiTag color="orange" variant="outlined" size="lg">Outlined large</UiTag><UiTag color="#0f766e" round>Custom round</UiTag></div></section>
+        <section><h3>Action contracts</h3><div class="visual-row"><UiTag checkable checked>Selected filter</UiTag><UiTag checkable>Available filter</UiTag><UiTag color="red" closable>Removable</UiTag><UiTag href="#tag-docs" variant="outlined">Documentation</UiTag><UiTag checkable disabled>Unavailable</UiTag></div></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">native button / link</UiTag><UiTag color="green">aria-pressed / close label</UiTag><UiTag color="orange">controlled / SSR</UiTag></div>
+    </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>
     </UiCard>

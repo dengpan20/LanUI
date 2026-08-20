@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.55.0",
+  "version": "1.56.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -744,9 +744,14 @@
       "UiTabsProps",
       "UiTabsSlots",
       "UiTag",
+      "UiTagActivationMeta",
+      "UiTagCloseMeta",
       "UiTagEmits",
+      "UiTagInstance",
       "UiTagProps",
+      "UiTagSize",
       "UiTagSlots",
+      "UiTagVariant",
       "UiTextarea",
       "UiTextareaEmits",
       "UiTextareaProps",
@@ -17324,20 +17329,121 @@
       "subpath": "./components/UiTag",
       "propsType": "UiTagProps",
       "props": [
+        "ariaLabel",
+        "as",
+        "checkable",
+        "checked",
+        "closable",
+        "closeLabel",
         "color",
-        "dot"
+        "disabled",
+        "dot",
+        "href",
+        "interactive",
+        "rel",
+        "round",
+        "size",
+        "target",
+        "type",
+        "variant"
       ],
       "propDetails": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "as",
+          "required": false,
+          "type": "string|Record<string,unknown>|Function",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"span\""
+          }
+        },
+        {
+          "name": "checkable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "checked",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "closable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "closeLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "color",
           "required": false,
-          "type": "'blue'|'green'|'orange'|'red'|'gray'|string",
+          "type": "'blue'|'green'|'orange'|'red'|'gray'|'purple'|string",
           "runtimeTypes": [
             "String"
           ],
           "default": {
             "kind": "literal",
             "value": "\"blue\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -17351,20 +17457,166 @@
             "kind": "implicit",
             "value": "false"
           }
+        },
+        {
+          "name": "href",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "interactive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "rel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "round",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "UiTagSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "target",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "type",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "variant",
+          "required": false,
+          "type": "UiTagVariant",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"soft\""
+          }
         }
       ],
       "emitsType": "UiTagEmits",
-      "emits": [],
-      "emitDetails": [],
+      "emits": [
+        "activate",
+        "change",
+        "click",
+        "close",
+        "update:checked"
+      ],
+      "emitDetails": [
+        {
+          "name": "activate",
+          "required": true,
+          "type": "(meta:UiTagActivationMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(checked:boolean,meta:UiTagActivationMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "click",
+          "required": true,
+          "type": "(event:MouseEvent)=>void"
+        },
+        {
+          "name": "close",
+          "required": true,
+          "type": "(meta:UiTagCloseMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "update:checked",
+          "required": true,
+          "type": "(checked:boolean)=>void"
+        }
+      ],
       "slotsType": "UiTagSlots",
       "slots": [
-        "default"
+        "close-icon",
+        "default",
+        "prefix",
+        "suffix"
       ],
       "slotDetails": [
         {
+          "name": "close-icon",
+          "required": false,
+          "type": "(props:{disabled:boolean})=>VNodeChild"
+        },
+        {
           "name": "default",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(props:{checked:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(props:{checked:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(props:{checked:boolean;disabled:boolean})=>VNodeChild"
         }
       ],
       "imports": {

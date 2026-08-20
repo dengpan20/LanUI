@@ -48,6 +48,7 @@ const allCases=[
   {name:'key-value-editor-contract',viewport:{width:1280,height:980},query:'theme=light&direction=ltr&density=default&state=key-value-editor',ready:'.visual-key-value-showcase .ui-key-value-editor',selector:'.visual-key-value-showcase'},
   {name:'page-header-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=page-header',ready:'.visual-page-header-showcase .ui-page-header',selector:'.visual-page-header-showcase'},
   {name:'card-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=card',ready:'.visual-card-showcase [data-card-state-contract]',selector:'.visual-card-showcase'},
+  {name:'tag-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=tag',ready:'.visual-tag-showcase [data-tag-state-contract]',selector:'.visual-tag-showcase'},
 ]
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

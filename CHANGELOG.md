@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.56.0] - 2026-08-20
+
+### Added
+
+- Production `UiTag` vocabulary with semantic and custom colors, Soft/Solid/Outlined variants, three sizes, dot and rounded presentation, controlled checkable state, removable state, native links, disabled behavior, localized close labels, structured Slots and exposed focus methods.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `color`, `dot`, default Slot, passive click and `.tag` usages remain compatible; the legacy `type` alias now resolves consistently in all project examples.
+- Release gates advance to 33 visual baselines, 51 Axe scenarios, 55 interactions per browser and 53 negative type assertions. Generated API coverage advances to 1,083 Props, 375 Events and 191 Slots.
+
 ## [1.55.0] - 2026-08-20
 
 ### Added

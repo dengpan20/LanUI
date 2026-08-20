@@ -1098,3 +1098,15 @@ P58 advances to 89 public components, 433 locale keys and generated coverage of 
 - Component center, static preview, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
 
 P59 retains 89 public components and 433 locale keys while generated coverage advances to 1,068 Props, 370 Events and 188 Slots. Release gates require 32 visual baselines, 50 zero-violation Axe scenarios, 54 interactions per Chromium/Firefox/WebKit engine, 51 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 73. Maturity P60: interactive tag vocabulary
+
+- `UiTag` is the compact vocabulary for status, category, filter selection, removable tokens and lightweight navigation. Legacy `color`, `dot`, default Slot and `.tag` selectors remain stable.
+- Semantic blue, green, orange, red, gray and purple colors coexist with arbitrary CSS colors. Soft, Solid and Outlined variants, `sm`/`md`/`lg` sizes and optional pill rounding cover status and filter density without page-specific classes.
+- `checkable` and `interactive` select a native Button; `href` selects a native Anchor. Checkable state is controlled with `checked` / `update:checked`, exposes `aria-pressed`, and publishes pointer/keyboard activation metadata.
+- `closable` creates an independent native close control with a localized accessible name. Close does not activate the label and leaves collection mutation to the consumer.
+- `_blank` links receive secure relation defaults. Disabled links lose navigation and tab order; disabled buttons use native semantics. Visible focus, forced-colors, RTL logical spacing and Reduced Motion preserve the same contract.
+- Prefix, suffix, default and close-icon Slots expose checked/disabled state. The instance exposes root, action and close refs plus `focus` and `focusClose` methods.
+- Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P60 retains 89 public components while advancing to 434 locale keys and generated coverage of 1,083 Props, 375 Events and 191 Slots. Release gates require 33 visual baselines, 51 zero-violation Axe scenarios, 55 interactions per Chromium/Firefox/WebKit engine, 53 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

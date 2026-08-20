@@ -1131,6 +1131,31 @@ const allCases = [
     },
   },
   {
+    name:'tag-selection-close-link-keyboard',
+    query:'direction=ltr',
+    run:async page=>{
+      const tag=page.locator('#interaction-tag-checkable .ui-tag-main')
+      await tag.scrollIntoViewIfNeeded()
+      assert.equal(await tag.getAttribute('aria-pressed'),'false')
+      await tag.click()
+      await expectText(page,'tag-output','change:pointer:true')
+      assert.equal(await tag.getAttribute('aria-pressed'),'true')
+      await tag.focus()
+      await tag.press(' ')
+      await expectText(page,'tag-output','change:keyboard:false')
+      assert.equal(await tag.getAttribute('aria-pressed'),'false')
+      const close=page.locator('#interaction-tag-removable .ui-tag-close')
+      assert.equal(await close.getAttribute('aria-label'),'Remove tag')
+      await close.click()
+      await expectText(page,'tag-output','close:pointer')
+      assert.equal(await page.locator('#interaction-tag-removable').count(),0)
+      const link=page.locator('#interaction-tag-link .ui-tag-main')
+      assert.equal(await link.getAttribute('target'),'_blank')
+      assert.equal(await link.getAttribute('rel'),'noopener noreferrer')
+      assert.equal(await page.locator('#interaction-tag-disabled .ui-tag-main').isDisabled(),true)
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{

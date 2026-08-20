@@ -60,6 +60,7 @@ const cases=[
   {name:'key-value-editor-contract',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=key-value-editor',ready:'.visual-key-value-showcase .ui-key-value-editor'},
   {name:'page-header-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=page-header',ready:'.visual-page-header-showcase .ui-page-header'},
   {name:'card-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=card',ready:'.visual-card-showcase [data-card-state-contract]'},
+  {name:'tag-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=tag',ready:'.visual-tag-showcase [data-tag-state-contract]'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases
 if(requestedCases.length&&selectedCases.length!==requestedCases.length)throw new Error(`Unknown accessibility case: ${requestedCases.filter(name=>!selectedCases.some(item=>item.name===name)).join(', ')}`)

@@ -98,6 +98,7 @@ const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout'
 const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
 const cardSelected=ref(false)
+const tagChecked=ref(false);const tagVisible=ref(true);const tagState=ref('等待标签交互')
 const configPortalOpen=ref(false)
 const statusPageDemo=ref('403')
 const tourOpen=ref(false);const tourCurrent=ref(0)
@@ -229,13 +230,13 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.55.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 卡片语义、交互、链接、选择、禁用、加载、响应式、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.56.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 标签颜色、外观、尺寸、点标记、选择、关闭、链接、禁用、键盘、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.55.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.56.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-153-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-156-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -545,7 +546,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.55.0 发布二维码" caption="扫码打开 1.55.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.56.0 发布二维码" caption="扫码打开 1.56.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -558,7 +559,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.55.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.56.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -601,7 +602,11 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               </UiVirtualList>
               <p class="feedback-hint">Arrow / Home / End / Page keys move the active option; Enter or Space selects it. ResizeObserver keeps measured rows and the scroll anchor stable.</p>
             </div>
-            <div class="demo-row"><span class="demo-label">Tags</span><UiTag color="blue" dot>进行中</UiTag><UiTag color="green" dot>已完成</UiTag><UiTag color="orange" dot>待处理</UiTag><UiTag color="red" dot>失败</UiTag><UiTag color="gray">已停用</UiTag></div>
+            <div class="tag-showcase" data-tag-state-contract="colors custom variants sizes dot round checkable closable link disabled keyboard rtl ssr">
+              <div class="tag-showcase-group"><span class="demo-label">颜色与外观</span><div class="demo-row"><UiTag color="blue" dot>进行中</UiTag><UiTag color="green" variant="solid">已完成</UiTag><UiTag color="orange" variant="outlined">待处理</UiTag><UiTag color="purple" round>审核中</UiTag><UiTag color="#0f766e">自定义色</UiTag></div></div>
+              <div class="tag-showcase-group"><span class="demo-label">尺寸与状态</span><div class="demo-row"><UiTag size="sm">Small</UiTag><UiTag size="md">Medium</UiTag><UiTag size="lg">Large</UiTag><UiTag checkable :checked="tagChecked" @update:checked="tagChecked=$event" @change="(checked,meta)=>tagState=`选择：${checked?'是':'否'} · ${meta.source}`">{{ tagChecked?'已选择':'可选择' }}</UiTag><UiTag checkable disabled>禁用</UiTag></div></div>
+              <div class="tag-showcase-group"><span class="demo-label">关闭与链接</span><div class="demo-row"><UiTag v-if="tagVisible" color="red" closable @close="meta=>{tagVisible=false;tagState=`关闭 · ${meta.source}`}">可移除</UiTag><UiButton v-else size="sm" variant="text" @click="tagVisible=true;tagState='标签已恢复'">恢复标签</UiButton><UiTag href="#states" target="_self" color="blue" variant="outlined" aria-label="查看标签交互状态">查看状态矩阵</UiTag><output class="tag-showcase-output" aria-live="polite">{{ tagState }}</output></div></div>
+            </div>
             <div class="demo-row"><span class="demo-label">Avatar / Badge</span><UiAvatar name="Deng Pan"/><UiAvatar name="林" color="green"/><UiAvatar name="陈" color="orange"/><UiAvatar name="王" color="purple"/><UiBadge :value="8"><UiAvatar name="组件组" square/></UiBadge><UiBadge dot status="success"><UiAvatar name="在线" color="gray"/></UiBadge></div>
             <div class="completion-showcase-grid"><div><span class="demo-label">Alert</span><UiAlert type="warning" title="配置尚未发布" description="完成检查后再发布到生产环境。" closable/></div><div><span class="demo-label">Progress</span><UiProgress :value="72"/><UiProgress :value="100" status="success" size="sm"/></div><div><span class="demo-label">Steps</span><UiSteps :items="stepItems" :current="2"/></div><div><span class="demo-label">Timeline</span><UiTimeline :items="timelineItems"/></div><div><span class="demo-label">Skeleton</span><UiSkeleton avatar :rows="3"/></div><div><span class="demo-label">Empty</span><UiEmpty compact title="暂无审批任务" description="新的任务会显示在这里"><UiButton size="sm" variant="outline">刷新</UiButton></UiEmpty></div><div><span class="demo-label">Dropdown</span><UiDropdown v-model="dropdownDemoOpen" :items="[{label:'编辑资料',icon:'edit'},{label:'复制链接',icon:'copy'},{divider:true},{label:'停用账号',icon:'alert'}]" @select="emit('notify',`已选择：${$event.label}`)"><template #trigger><UiButton variant="outline" icon="more">更多操作</UiButton></template></UiDropdown></div></div>
             <div class="table-state-controls"><span class="demo-label">Table states</span><UiButton size="sm" variant="outline" @click="tableLoadingDemo">Loading</UiButton><UiButton size="sm" variant="outline" @click="tableError='接口请求超时，请检查网络后重试';tableLoading=false;tableEmpty=false">Error</UiButton><UiButton size="sm" variant="outline" @click="tableEmpty=true;tableError='';tableLoading=false">Empty</UiButton><UiButton size="sm" variant="text" @click="tableEmpty=false;tableError='';tableLoading=false">恢复默认</UiButton></div>
@@ -801,6 +806,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Input</td><td>轻边框</td><td>品牌浅边框</td><td>—</td><td>品牌边框 + Ring</td><td>弱背景</td><td>红边框 + 文案</td></tr>
               <tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr>
               <tr><td>InputTag</td><td>标签录入</td><td>标签与清除按钮强调</td><td>分隔符提交 / 编辑 / 移除</td><td>方向键选择 + Ring</td><td>只读 / 禁用</td><td>异步校验 / 重复 / 上限</td></tr>
+              <tr><td>Tag</td><td>Soft / Solid / Outlined</td><td>交互边框强调</td><td>选择 / 关闭 / 链接</td><td>原生 Button / Link + Ring</td><td>移除导航与 Tab 顺序</td><td>受控选择 / 自定义颜色</td></tr>
               <tr><td>QueryBuilder</td><td>递归条件树</td><td>规则边框强调</td><td>添加 / 复制 / 排序 / 删除</td><td>组合框 + 键盘快捷键</td><td>只读 / 禁用</td><td>缺失值 / 范围 / 自定义校验</td></tr>
               <tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr>
               <tr><td>OtpInput</td><td>分段验证码</td><td>单格边框强调</td><td>自动移焦 / 整段粘贴</td><td>方向键 + Home / End</td><td>只读 / 禁用</td><td>非法字符 / 错误 Ring</td></tr>

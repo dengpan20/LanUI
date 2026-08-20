@@ -13,6 +13,7 @@ const componentTypes = resolve(root, 'dist-lib/components')
 mkdirSync(componentTypes, { recursive: true })
 const relatedComponentTypes={
   UiCard:['UiCardActivationMeta','UiCardInstance','UiCardShadow','UiCardTitleTag','UiCardVariant'],
+  UiTag:['UiTagActivationMeta','UiTagCloseMeta','UiTagInstance','UiTagSize','UiTagVariant'],
   UiCarousel:['UiCarouselChangeMeta','UiCarouselInstance','UiCarouselItem','UiCarouselNavigationSource','UiCarouselState'],
   UiQueryBuilder:['UiQueryAction','UiQueryBuilderInstance','UiQueryChange','UiQueryCounts','UiQueryEditor','UiQueryError','UiQueryField','UiQueryFieldType','UiQueryGroup','UiQueryOperator','UiQueryRule','UiQueryValidationContext','UiQueryValidationResult'],
   UiCronEditor:['UiCronChangeMeta','UiCronEditorInstance','UiCronError','UiCronErrorCode','UiCronInputMeta','UiCronPreset','UiCronValidation'],

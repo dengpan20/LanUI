@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.56 tag compatibility
+
+There are no breaking changes. Existing `<UiTag color="green" dot>Ready</UiTag>` usage and direct `.tag` styling keep their current markup contract; richer behavior is opt-in:
+
+```vue
+<UiTag checkable :checked="selected" @update:checked="selected = $event">Ready</UiTag>
+<UiTag closable @close="removeTag">Draft</UiTag>
+```
+
+- `checkable` and `interactive` render a native button, while `href` renders a native anchor. Checkable state remains consumer controlled through `checked` and `update:checked`.
+- `closable` adds a separate localized close action. Consumers remove the item after `close`; the component does not mutate application collections.
+- `_blank` links receive `noopener noreferrer` unless `rel` is supplied. Disabled links lose navigation and tab order, and disabled buttons use native semantics.
+- `type` remains a supported legacy color alias and takes precedence over `color`. Root and `components/UiTag` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiTag.css`.
+
 ## 1.55 card compatibility
 
 There are no breaking changes. Existing `<UiCard title="…">…</UiCard>` and class-based card layouts keep their current structure and can adopt richer behavior incrementally:

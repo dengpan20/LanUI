@@ -326,7 +326,12 @@ export interface UiSwitchProps { modelValue?:boolean; disabled?:boolean; loading
 export interface UiTableProps<Row=Record<string,unknown>> { columns?:UiTableColumn[]; rows?:Row[]; rowKey?:string; selectedRows?:Key[]; expandedRows?:Key[]; selectable?:boolean; expandable?:boolean; loading?:boolean; error?:string; sortKey?:string; sortOrder?:''|'asc'|'desc'; density?:'compact'|'default'|'comfortable'; stickyHeader?:boolean; emptyTitle?:string; emptyText?:string; loadingRows?:number; filters?:Record<string,unknown>; resizable?:boolean; maxHeight?:string|number; virtual?:boolean; rowHeight?:number; viewportHeight?:number; overscan?:number }
 export interface UiTabsItem { label:string; value:Key; icon?:string; disabled?:boolean; closable?:boolean }
 export interface UiTabsProps { modelValue?:Key; items?:Array<UiTabsItem|Key>; orientation?:'horizontal'|'vertical'; size?:ComponentSize; panels?:boolean }
-export interface UiTagProps { color?:'blue'|'green'|'orange'|'red'|'gray'|string; dot?:boolean }
+export type UiTagVariant = 'soft'|'solid'|'outlined'
+export type UiTagSize = 'sm'|'md'|'lg'
+export interface UiTagActivationMeta { source:'pointer'|'keyboard'|string; checked:boolean; href?:string; previous?:boolean }
+export interface UiTagCloseMeta { source:'pointer'|'keyboard'|string; color:string; checked:boolean }
+export interface UiTagInstance { root:Ref<HTMLElement|null>; action:Ref<HTMLElement|null>; close:Ref<HTMLButtonElement|null>; focus:(options?:FocusOptions)=>boolean; focusClose:(options?:FocusOptions)=>boolean }
+export interface UiTagProps { as?:string|Record<string,unknown>|Function; color?:'blue'|'green'|'orange'|'red'|'gray'|'purple'|string; type?:string; variant?:UiTagVariant; size?:UiTagSize; dot?:boolean; round?:boolean; closable?:boolean; closeLabel?:string; disabled?:boolean; interactive?:boolean; checkable?:boolean; checked?:boolean; href?:string; target?:string; rel?:string; ariaLabel?:string }
 export interface UiTextareaProps { modelValue?:string; placeholder?:string; rows?:number; maxlength?:string|number; showCount?:boolean; disabled?:boolean; readonly?:boolean; invalid?:boolean }
 export interface UiTimelineItem { title:string; description?:string; time?:string; status?:'normal'|'success'|'warning'|'error' }
 export interface UiTimelineProps { items?:UiTimelineItem[] }
@@ -487,7 +492,7 @@ export type UiStepsEmits = {}
 export type UiSwitchEmits = { 'update:modelValue':(value:boolean)=>void; change:(value:boolean)=>void }
 export type UiTableEmits = { 'update:selectedRows':(value:Key[])=>void; 'update:expandedRows':(value:Key[])=>void; 'update:sortKey':(value:string)=>void; 'update:sortOrder':(value:''|'asc'|'desc')=>void; 'update:filters':(value:Record<string,unknown>)=>void; 'sort-change':(payload:UiTableSortChange)=>void; 'filter-change':(value:Record<string,unknown>)=>void; 'column-resize':(payload:UiTableColumnResize)=>void; 'row-click':(row:Record<string,unknown>)=>void; retry:()=>void }
 export type UiTabsEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key)=>void; close:(value:Key)=>void }
-export type UiTagEmits = {}
+export type UiTagEmits = { click:(event:MouseEvent)=>void; activate:(meta:UiTagActivationMeta,event:MouseEvent)=>void; close:(meta:UiTagCloseMeta,event:MouseEvent)=>void; 'update:checked':(checked:boolean)=>void; change:(checked:boolean,meta:UiTagActivationMeta,event:MouseEvent)=>void }
 export type UiTextareaEmits = { 'update:modelValue':(value:string)=>void; input:(value:string)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiTimelineEmits = {}
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
@@ -582,7 +587,7 @@ export type UiStepsSlots = {}
 export type UiSwitchSlots = {}
 export type UiTableSlots = { caption?:()=>VNodeChild; 'empty-action'?:()=>VNodeChild; expanded?:(props:{row:Record<string,unknown>})=>VNodeChild; [name:`cell-${string}`]:((props:{row:Record<string,unknown>;value:unknown;column:UiTableColumn;rowIndex:number})=>VNodeChild)|undefined }
 export type UiTabsSlots = { default?:(props:{item:UiTabsItem|Key})=>VNodeChild; [name:`panel-${string}`]:((props:{item:UiTabsItem|Key})=>VNodeChild)|undefined }
-export type UiTagSlots = { default?:()=>VNodeChild }
+export type UiTagSlots = { default?:(props:{checked:boolean;disabled:boolean})=>VNodeChild; prefix?:(props:{checked:boolean;disabled:boolean})=>VNodeChild; suffix?:(props:{checked:boolean;disabled:boolean})=>VNodeChild; 'close-icon'?:(props:{disabled:boolean})=>VNodeChild }
 export type UiTextareaSlots = {}
 export type UiTimelineSlots = {}
 export type UiTimePickerSlots = {}

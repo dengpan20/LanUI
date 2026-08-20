@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiTag, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -89,6 +89,11 @@ const pageHeaderOutput=ref('ready')
 const cardSelected=ref(false)
 const cardOutput=ref('ready')
 function activateCard(meta){cardSelected.value=!cardSelected.value;cardOutput.value=`activate:${meta.source}:${cardSelected.value}`}
+const tagChecked=ref(false)
+const tagVisible=ref(true)
+const tagOutput=ref('ready')
+function changeTag(checked,meta){tagChecked.value=checked;tagOutput.value=`change:${meta.source}:${checked}`}
+function closeTag(meta){tagVisible.value=false;tagOutput.value=`close:${meta.source}`}
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -608,6 +613,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiCard id="interaction-card-disabled" title="Unavailable release card" interactive disabled><p>Removed from the tab order and activation path.</p></UiCard>
         </div>
         <output class="interaction-output" data-testid="card-output">{{ cardOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-tag-case" data-tag-state-contract="selection close link keyboard disabled">
+        <h2>Tag selection, close, link and keyboard contract</h2>
+        <div class="interaction-row">
+          <UiTag id="interaction-tag-checkable" checkable :checked="tagChecked" color="blue" @change="changeTag">{{ tagChecked?'Selected filter':'Available filter' }}</UiTag>
+          <UiTag v-if="tagVisible" id="interaction-tag-removable" color="red" closable @close="closeTag">Failed build</UiTag>
+          <UiTag id="interaction-tag-link" href="#tag-target" target="_blank" variant="outlined">Release notes</UiTag>
+          <UiTag id="interaction-tag-disabled" checkable disabled>Unavailable</UiTag>
+        </div>
+        <output class="interaction-output" data-testid="tag-output">{{ tagOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

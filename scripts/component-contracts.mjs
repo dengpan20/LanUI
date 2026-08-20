@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 
 const required={
+  'UiTag.vue':['data-ui-tag','aria-pressed','update:checked','tag.close','noopener noreferrer','focusClose','defineExpose'],
   'UiCard.vue':['data-ui-card','aria-labelledby','aria-describedby','aria-busy','aria-pressed','loadingRows','isNestedControl','useReducedMotion','defineExpose'],
   'UiPageHeader.vue':['data-ui-page-header','aria-labelledby','breadcrumb-navigate','showBack','stickyOffset','useReducedMotion','defineExpose'],
   'UiAnchor.vue':['aria-current','ArrowDown','ArrowUp','scroll-start','scroll-end','useReducedMotion','useDirection','defineExpose'],

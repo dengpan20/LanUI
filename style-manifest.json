@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.55.0",
+  "version": "1.56.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 202588,
-    "rules": 1597,
+    "bytes": 204671,
+    "rules": 1615,
     "source": "component-union"
   },
   "core": {
@@ -76,8 +76,8 @@
     {
       "name": "UiCard",
       "subpath": "./styles/UiCard.css",
-      "bytes": 4331,
-      "rules": 46
+      "bytes": 3872,
+      "rules": 40
     },
     {
       "name": "UiCarousel",
@@ -460,8 +460,8 @@
     {
       "name": "UiTag",
       "subpath": "./styles/UiTag.css",
-      "bytes": 737,
-      "rules": 7
+      "bytes": 3279,
+      "rules": 31
     },
     {
       "name": "UiTextarea",
