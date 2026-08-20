@@ -45,6 +45,10 @@ describe('P37 generated component API documentation',()=>{
     expect(timeRange.props).toEqual(expect.arrayContaining(['modelValue','valueType','timeZone','step','min','max','constrain']))
     expect(timeRange.emits).toEqual(['blur','change','clear','focus','invalid','update:modelValue'])
     expect(timeRange.slots).toEqual([])
+    const card=manifest.components.find(component=>component.name==='UiCard')
+    expect(card.props).toEqual(expect.arrayContaining(['as','subtitle','variant','shadow','interactive','selected','disabled','loading','href','ariaLabel']))
+    expect(card.emits).toEqual(['activate','click'])
+    expect(card.slots).toEqual(['action','actions','cover','default','footer','header','loading','subtitle','title'])
   })
 
   it('covers every component exactly once across stable documentation categories',()=>{
@@ -66,6 +70,7 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain("import { UiAffix } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiCarousel } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiTimeRangePicker } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiCard } from 'lan-ui-design-system'")
   })
 
   it('filters the browser index and opens a deep-linkable API contract',async()=>{

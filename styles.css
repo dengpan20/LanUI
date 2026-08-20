@@ -78,6 +78,46 @@ svg { display: block; }
 .card-body { padding: var(--space-5); }
 .card-action { color: var(--brand-text); font-size: var(--text-sm); cursor: pointer; border: 0; background: none; padding: 4px; }
 .card-action:hover { color: var(--brand-700); }
+.ui-card { position: relative; display: block; min-width: 0; color: inherit; overflow: hidden; transition: border-color var(--motion-time,var(--motion-fast)), box-shadow var(--motion-time,var(--motion-fast)), background var(--motion-time,var(--motion-fast)), transform var(--motion-time,var(--motion-fast)); }
+.ui-card:not(.bordered) { border-color: transparent; }
+.ui-card.shadow-none { box-shadow: none; }
+.ui-card.shadow-xs { box-shadow: var(--shadow-xs); }
+.ui-card.shadow-sm { box-shadow: var(--shadow-sm); }
+.ui-card.shadow-md { box-shadow: var(--shadow-md); }
+.ui-card.shadow-lg { box-shadow: var(--shadow-lg); }
+.ui-card.variant-outlined { border-color: var(--border-default); box-shadow: none; }
+.ui-card.variant-elevated { border-color: transparent; background: var(--bg-elevated); }
+.ui-card.variant-filled { border-color: transparent; background: var(--bg-subtle); box-shadow: none; }
+.ui-card.hoverable:not(.disabled):not(.loading):hover,.ui-card.interactive:not(.disabled):not(.loading):hover { border-color: var(--brand-300); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.ui-card.interactive { cursor: pointer; outline: none; }
+.ui-card.interactive:active:not(.disabled):not(.loading) { transform: translateY(0); }
+.ui-card.interactive:focus-visible { border-color: var(--brand-500); box-shadow: var(--focus-ring),var(--shadow-sm); }
+.ui-card.selected { border-color: var(--brand-500); box-shadow: 0 0 0 1px var(--brand-500),var(--shadow-sm); }
+.ui-card.disabled { cursor: not-allowed; color: var(--text-disabled); background: var(--bg-disabled); box-shadow: none; opacity: .72; }
+.ui-card.loading { cursor: wait; }
+.ui-card.size-sm .card-header { min-height: 46px; padding-inline: var(--space-4); }
+.ui-card.size-sm .card-body,.ui-card.size-sm .ui-card-footer { padding: var(--space-4); }
+.ui-card.size-sm .card-title { font-size: var(--text-base); }
+.ui-card.size-lg .card-header { min-height: 62px; padding-inline: var(--space-6); }
+.ui-card.size-lg .card-body,.ui-card.size-lg .ui-card-footer { padding: var(--space-6); }
+.ui-card.size-lg .card-title { font-size: var(--text-lg); }
+.ui-card-heading { min-width: 0; display: grid; gap: 3px; padding-block: 10px; }
+.ui-card-subtitle { margin: 0; color: var(--text-secondary); font-size: var(--text-sm); line-height: var(--leading-normal); }
+.ui-card-actions { display: inline-flex; align-items: center; justify-content: flex-end; gap: var(--space-2); flex: 0 0 auto; }
+.ui-card-cover { overflow: hidden; background: var(--bg-subtle); }
+.ui-card-cover > :is(img,video,picture),.ui-card-cover > picture > img { display: block; width: 100%; height: auto; object-fit: cover; }
+.ui-card-footer { padding: var(--space-4) var(--space-5); border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); }
+.ui-card-loading { display: grid; gap: var(--space-3); }
+.ui-card-skeleton { display: block; width: var(--ui-card-skeleton-width,100%); height: 12px; border-radius: var(--radius-pill); background: linear-gradient(90deg,var(--bg-subtle) 25%,var(--bg-hover) 37%,var(--bg-subtle) 63%); background-size: 400% 100%; animation: ui-card-skeleton var(--motion-time,1.35s) ease var(--motion-count); }
+.ui-card-skeleton:first-child { height: 18px; }
+@keyframes ui-card-skeleton { from { background-position: 100% 50%; } to { background-position: 0 50%; } }
+@media (forced-colors:active) { .ui-card.interactive:focus-visible,.ui-card.selected { outline: 2px solid Highlight; outline-offset: 2px; } .ui-card-skeleton { border: 1px solid GrayText; } }
+.card-showcase-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: var(--space-4); margin-bottom: var(--space-5); }
+.card-showcase-grid .ui-card-cover { height: 112px; }
+.card-showcase-grid .ui-card-cover img { height: 100%; object-fit: cover; }
+.card-showcase-copy { margin: 0; color: var(--text-secondary); }
+@media (max-width:1100px) { .card-showcase-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width:640px) { .card-showcase-grid { grid-template-columns: 1fr; } }
 
 /* Buttons */
 .btn {

@@ -334,6 +334,15 @@ const tableRows=[
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">semantic header</UiTag><UiTag color="green">responsive / RTL</UiTag><UiTag color="orange">sticky / reduced motion / SSR</UiTag></div>
     </UiCard>
+    <UiCard v-if="state==='card'" title="Production content containers" subtitle="Variants, loading, selection and structured regions" title-tag="h2" class="visual-table-card visual-card-showcase">
+      <div class="card-showcase-grid" data-card-state-contract="sizes variants cover header subtitle actions body footer hover interactive selected disabled loading link keyboard rtl reduced-motion ssr">
+        <UiCard title="Release workspace" subtitle="Elevated · selected" variant="elevated" shadow="sm" hoverable interactive selected><template #cover><div class="visual-card-cover brand">Release evidence</div></template><p class="card-showcase-copy">The whole card exposes one keyboard and pointer activation contract.</p><template #footer><UiTag color="blue">Selected</UiTag></template></UiCard>
+        <UiCard title="API contracts" subtitle="Outlined · composed actions" variant="outlined" shadow="none"><template #actions><UiButton size="sm" variant="text">Refresh</UiButton></template><p class="card-showcase-copy">Header, actions, body and footer remain distinct semantic regions.</p><template #footer><UiTag color="green">Verified</UiTag></template></UiCard>
+        <UiCard title="Synchronizing package" subtitle="Filled · aria-busy" variant="filled" loading :loading-rows="4"/>
+        <UiCard title="Archived workspace" subtitle="Disabled · unavailable" interactive disabled><p class="card-showcase-copy">Readable content with pointer and keyboard activation suppressed.</p></UiCard>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">default / outlined / elevated / filled</UiTag><UiTag color="green">pointer / keyboard / focus</UiTag><UiTag color="orange">loading / disabled / SSR</UiTag></div>
+    </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>
     </UiCard>

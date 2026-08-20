@@ -1107,6 +1107,30 @@ const allCases = [
     },
   },
   {
+    name:'card-pointer-keyboard-selection-nested-action',
+    query:'direction=ltr',
+    run:async page=>{
+      const card=page.locator('#interaction-card')
+      await card.scrollIntoViewIfNeeded()
+      assert.equal(await card.getAttribute('data-ui-card'),'')
+      assert.equal(await card.getAttribute('role'),'button')
+      assert.equal(await card.getAttribute('aria-pressed'),'false')
+      await card.click()
+      await expectText(page,'card-output','activate:pointer:true')
+      assert.equal(await card.getAttribute('aria-pressed'),'true')
+      await card.focus()
+      await card.press('Enter')
+      await expectText(page,'card-output','activate:keyboard:false')
+      await card.press(' ')
+      await expectText(page,'card-output','activate:keyboard:true')
+      await page.locator('#card-nested-action').click()
+      await expectText(page,'card-output','nested:action')
+      const disabled=page.locator('#interaction-card-disabled')
+      assert.equal(await disabled.getAttribute('aria-disabled'),'true')
+      assert.equal(await disabled.getAttribute('tabindex'),'-1')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{

@@ -79,6 +79,7 @@ const standaloneTourCurrent=ref(0)
 const standaloneAffixTarget=ref(null)
 const standaloneAffixed=ref(false)
 const standaloneSplitterSizes=ref([24,48,28])
+const standaloneCardSelected=ref(false)
 const standaloneSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize:'24%',min:'14%',max:'38%',collapsible:true},{key:'workspace',label:'Workspace',min:'26%'},{key:'inspector',label:'Inspector',defaultSize:'28%',min:'16%',max:'42%',collapsible:true}]
 const standaloneReleaseNote=ref('Standalone consumers can use UiTypography for release notes, copyable configuration values and keyboard-confirmed inline editing without adding separate behavior wrappers.')
 const standaloneListSelection=ref(['contract'])
@@ -89,7 +90,7 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.54.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.55.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
@@ -181,7 +182,12 @@ const rows = computed(() => [
       description="独立 package.json、Vite 配置和应用入口。"
     />
 
-    <UiCard title="On-page navigation">
+    <UiCard data-card-state-contract title="Consumer release workspace" subtitle="Interactive UiCard contract from the packed dependency" variant="elevated" shadow="sm" hoverable interactive :selected="standaloneCardSelected" @activate="standaloneCardSelected=!standaloneCardSelected">
+      <p style="margin:0;color:var(--text-secondary)">Pointer, Enter and Space share one typed activation event; focus, selection and disabled states stay visible.</p>
+      <template #footer><UiTag :color="standaloneCardSelected?'blue':'gray'">{{ standaloneCardSelected?'Selected':'Select card' }}</UiTag></template>
+    </UiCard>
+
+    <UiCard title="On-page navigation" subtitle="Anchor navigation inside a composable card" variant="outlined" shadow="none">
       <UiAnchor
         v-model="standaloneAnchor"
         :items="standaloneAnchorItems"
@@ -256,7 +262,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.54.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.55.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>

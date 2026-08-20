@@ -97,6 +97,7 @@ const reducedMotion=useReducedMotion()
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
 const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
+const cardSelected=ref(false)
 const configPortalOpen=ref(false)
 const statusPageDemo=ref('403')
 const tourOpen=ref(false);const tourCurrent=ref(0)
@@ -228,11 +229,11 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'PageHeader P58'},{key:'version',label:'版本',value:'1.54.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 页面级语义标题、面包屑、返回来源、元信息、操作、页脚、加载、吸顶、响应式、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.55.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 卡片语义、交互、链接、选择、禁用、加载、响应式、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.54.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.55.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
 const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-153-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
@@ -515,8 +516,22 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         </section>
 
         <section id="data" class="card doc-section">
-          <header class="doc-section-header"><h2>列表与数据展示</h2><p>UiTable、UiListToolbar 与 UiPagination 组成完整列表系统，覆盖列配置、密度、排序、选择、展开和异步状态。</p></header>
+          <header class="doc-section-header"><h2>列表与数据展示</h2><p>UiCard、UiTable、UiListToolbar 与 UiPagination 组成完整数据展示系统，覆盖容器层级、列配置、排序、选择、展开和异步状态。</p></header>
           <div class="demo-block">
+            <div class="card-showcase-grid" data-card-state-contract="sizes variants cover header subtitle actions body footer hover interactive selected disabled loading link keyboard rtl reduced-motion ssr">
+              <UiCard title="客户成功计划" subtitle="企业版 · 更新于 10:24" variant="elevated" shadow="sm" hoverable interactive :selected="cardSelected" @activate="cardSelected=!cardSelected;emit('notify',cardSelected?'已选择客户计划':'已取消选择客户计划')">
+                <template #cover><img :src="imageGallery[0]" alt="客户成功计划封面"></template>
+                <p class="card-showcase-copy">整合页面容器、状态反馈与负责人信息，整卡支持指针和键盘激活。</p>
+                <template #footer><UiTag :color="cardSelected?'blue':'gray'">{{ cardSelected?'已选择':'Enter / Space 选择' }}</UiTag></template>
+              </UiCard>
+              <UiCard title="发布证据" subtitle="Outlined · 独立操作区" variant="outlined" shadow="none">
+                <template #actions><UiButton size="sm" variant="text" @click="emit('notify','证据已刷新')">刷新</UiButton></template>
+                <UiDescriptions :items="[{label:'单元测试',value:'504'},{label:'无障碍',value:'0 violations'},{label:'浏览器',value:'3 engines'}]" :columns="1"/>
+                <template #footer><UiButton size="sm" variant="outline" @click="emit('notify','已打开验证记录')">查看记录</UiButton></template>
+              </UiCard>
+              <UiCard title="同步组件数据" subtitle="Loading · aria-busy" variant="filled" loading :loading-rows="4"/>
+              <UiCard title="已归档方案" subtitle="Disabled · 不可聚焦或激活" interactive disabled><p class="card-showcase-copy">禁用状态保留内容语义，同时阻止跳转、点击和键盘激活。</p></UiCard>
+            </div>
             <div class="statistic-showcase-grid">
               <div class="statistic-demo-card"><UiStatistic title="本月营收" :value="2864000" :precision="0" prefix="¥" :trend="12.6"><template #extra>较上月 · 实时更新</template></UiStatistic></div>
               <div class="statistic-demo-card"><UiStatistic title="活跃客户" :value="12580" :trend="-3.2" suffix=" 人" status="warning"><template #extra>过去 30 天去重客户</template></UiStatistic></div>
@@ -530,7 +545,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.54.0 发布二维码" caption="扫码打开 1.54.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.55.0 发布二维码" caption="扫码打开 1.55.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -543,7 +558,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.54.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.55.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>

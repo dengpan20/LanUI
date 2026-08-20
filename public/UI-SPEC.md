@@ -1087,3 +1087,14 @@ P57 advances to 88 public components, 431 locale keys and 30 visual baselines. R
 - Dashboard, Workbench, Data, AI, Gantt and Components pages, the one-page HTML preview, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
 
 P58 advances to 89 public components, 433 locale keys and generated coverage of 1,050 Props, 368 Events and 182 Slots. Release gates require 31 visual baselines, 49 zero-violation Axe scenarios, 53 interactions per Chromium/Firefox/WebKit engine, 49 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 72. Maturity P59: production card containers
+
+- `UiCard` is the shared content-container contract for title, subtitle, cover, body, actions and footer. Existing `.card`, `.card-header`, `.card-title` and `.card-body` selectors remain stable for legacy consumers.
+- `default`, `outlined`, `elevated` and `filled` variants, `sm`/`md`/`lg` density, independent border and shadow controls, hover, selected, disabled and loading states cover dashboard, list and navigation-card patterns without local wrappers.
+- An `href` selects native anchor semantics and secures `_blank` by default. Other interactive roots expose button semantics, visible focus, Enter/Space activation and pointer/keyboard source metadata; nested actionable descendants never activate the container.
+- Title and subtitle IDs form the default accessible name and description. Custom headers can use explicit ARIA naming. Loading publishes busy state and localized status while disabled/loading states suppress events and focus.
+- Cover, header, title, subtitle, action/actions, loading and footer Slots preserve composition. The instance API exposes root, focus, blur and reduced-motion-aware `scrollIntoView` behavior.
+- Component center, static preview, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P59 retains 89 public components and 433 locale keys while generated coverage advances to 1,068 Props, 370 Events and 188 Slots. Release gates require 32 visual baselines, 50 zero-violation Axe scenarios, 54 interactions per Chromium/Firefox/WebKit engine, 51 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

@@ -2,6 +2,24 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P59 成熟卡片容器
+
+`UiCard` 在兼容原有 `title`、`header`、`action` 和默认内容用法的基础上，补齐结构化区域、标题/描述关联、封面/页脚/操作区、尺寸、外观、阴影、选择、禁用、加载、链接与可交互模式。非原生交互卡片支持 Enter/Space，嵌套按钮不会误触发卡片；Reduced Motion、forced-colors、RTL、SSR、类型和三浏览器回归保持同步。
+
+```vue
+<UiCard
+  title="Release evidence"
+  subtitle="Review the generated package contract."
+  variant="elevated"
+  interactive
+  :selected="selected"
+  @activate="selected = !selected"
+>
+  <p>All required checks passed.</p>
+  <template #footer>Published moments ago</template>
+</UiCard>
+```
+
 ## P58 语义化页面标题
 
 `UiPageHeader` 统一后台页面的面包屑、返回入口、标题、描述、元信息、操作区和页内导航，覆盖可配置标题层级、返回来源元数据、加载、吸顶偏移、响应式折叠、RTL、Reduced Motion、SSR、类型与三浏览器交互。Dashboard、工作台、数据页、AI、甘特图和组件中心均已迁移到同一公共契约。

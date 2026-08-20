@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
+  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -86,6 +86,9 @@ const mentionsOutput=ref('ready')
 const inputTagValue=ref([])
 const inputTagOutput=ref('ready')
 const pageHeaderOutput=ref('ready')
+const cardSelected=ref(false)
+const cardOutput=ref('ready')
+function activateCard(meta){cardSelected.value=!cardSelected.value;cardOutput.value=`activate:${meta.source}:${cardSelected.value}`}
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -596,6 +599,15 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #footer><nav aria-label="Page header sections"><a href="#page-header-overview">Overview</a></nav></template>
         </UiPageHeader>
         <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-card-case">
+        <h2>Card pointer, keyboard, selection and nested-action contract</h2>
+        <div class="interaction-card-grid" data-card-state-contract>
+          <UiCard id="interaction-card" title="Interactive release card" subtitle="Pointer, Enter and Space activation" variant="elevated" shadow="sm" hoverable interactive :selected="cardSelected" @activate="activateCard"><p>Whole-card activation keeps structured source metadata.</p><template #footer><span>{{ cardSelected?'Selected':'Not selected' }}</span></template></UiCard>
+          <UiCard title="Composed controls" subtitle="Nested controls remain isolated" variant="outlined" shadow="none"><template #actions><UiButton id="card-nested-action" size="sm" variant="text" @click="cardOutput='nested:action'">Refresh</UiButton></template><p>Using this action does not activate the adjacent card.</p></UiCard>
+          <UiCard id="interaction-card-disabled" title="Unavailable release card" interactive disabled><p>Removed from the tab order and activation path.</p></UiCard>
+        </div>
+        <output class="interaction-output" data-testid="card-output">{{ cardOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.54.0",
+  "version": "1.55.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -325,9 +325,14 @@
       "UiCalendarSlots",
       "UiCalendarViewChange",
       "UiCard",
+      "UiCardActivationMeta",
       "UiCardEmits",
+      "UiCardInstance",
       "UiCardProps",
+      "UiCardShadow",
       "UiCardSlots",
+      "UiCardTitleTag",
+      "UiCardVariant",
       "UiCarousel",
       "UiCarouselChangeMeta",
       "UiCarouselEmits",
@@ -3049,20 +3054,177 @@
       "subpath": "./components/UiCard",
       "propsType": "UiCardProps",
       "props": [
+        "ariaDescribedby",
+        "ariaLabel",
+        "ariaLabelledby",
+        "as",
         "bodyClass",
+        "bordered",
+        "disabled",
+        "hoverable",
+        "href",
+        "interactive",
+        "loading",
+        "loadingRows",
         "mark",
+        "rel",
+        "selected",
+        "shadow",
+        "size",
+        "subtitle",
+        "target",
         "title",
-        "titleTag"
+        "titleTag",
+        "variant"
       ],
       "propDetails": [
         {
-          "name": "bodyClass",
+          "name": "ariaDescribedby",
           "required": false,
           "type": "string",
           "runtimeTypes": [
             "String"
           ],
-          "default": null
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "ariaLabelledby",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "as",
+          "required": false,
+          "type": "string|Component",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "bodyClass",
+          "required": false,
+          "type": "string|string[]|Record<string,boolean>",
+          "runtimeTypes": [
+            "String",
+            "Array",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "hoverable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "href",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "interactive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingRows",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
         },
         {
           "name": "mark",
@@ -3077,18 +3239,93 @@
           }
         },
         {
+          "name": "rel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "selected",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "shadow",
+          "required": false,
+          "type": "UiCardShadow",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"xs\""
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "subtitle",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "target",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "title",
           "required": false,
           "type": "string",
           "runtimeTypes": [
             "String"
           ],
-          "default": null
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
         },
         {
           "name": "titleTag",
           "required": false,
-          "type": "'h2'|'h3'|'h4'|'h5'|'h6'",
+          "type": "UiCardTitleTag",
           "runtimeTypes": [
             "String"
           ],
@@ -3096,32 +3333,94 @@
             "kind": "literal",
             "value": "\"h3\""
           }
+        },
+        {
+          "name": "variant",
+          "required": false,
+          "type": "UiCardVariant",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
+          }
         }
       ],
       "emitsType": "UiCardEmits",
-      "emits": [],
-      "emitDetails": [],
+      "emits": [
+        "activate",
+        "click"
+      ],
+      "emitDetails": [
+        {
+          "name": "activate",
+          "required": true,
+          "type": "(meta:UiCardActivationMeta,event:MouseEvent|KeyboardEvent)=>void"
+        },
+        {
+          "name": "click",
+          "required": true,
+          "type": "(event:MouseEvent)=>void"
+        }
+      ],
       "slotsType": "UiCardSlots",
       "slots": [
         "action",
+        "actions",
+        "cover",
         "default",
-        "header"
+        "footer",
+        "header",
+        "loading",
+        "subtitle",
+        "title"
       ],
       "slotDetails": [
         {
           "name": "action",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{loading:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{loading:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "cover",
+          "required": false,
+          "type": "(scope:{disabled:boolean})=>VNodeChild"
         },
         {
           "name": "default",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{disabled:boolean;selected:boolean})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:{disabled:boolean;selected:boolean})=>VNodeChild"
         },
         {
           "name": "header",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{title:string;subtitle:string;loading:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{rows:number})=>VNodeChild"
+        },
+        {
+          "name": "subtitle",
+          "required": false,
+          "type": "(scope:{subtitle:string})=>VNodeChild"
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "(scope:{title:string})=>VNodeChild"
         }
       ],
       "imports": {

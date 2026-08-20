@@ -1,16 +1,16 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.54.0",
+  "version": "1.55.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 198900,
-    "rules": 1558,
+    "bytes": 202588,
+    "rules": 1597,
     "source": "component-union"
   },
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 6005
+    "bytes": 6087
   },
   "components": [
     {
@@ -76,8 +76,8 @@
     {
       "name": "UiCard",
       "subpath": "./styles/UiCard.css",
-      "bytes": 725,
-      "rules": 7
+      "bytes": 4331,
+      "rules": 46
     },
     {
       "name": "UiCarousel",

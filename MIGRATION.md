@@ -1,5 +1,20 @@
 # Lan UI migration and compatibility policy
 
+## 1.55 card compatibility
+
+There are no breaking changes. Existing `<UiCard title="…">…</UiCard>` and class-based card layouts keep their current structure and can adopt richer behavior incrementally:
+
+```vue
+<UiCard title="Order" variant="outlined" interactive @activate="openOrder">
+  Order summary
+</UiCard>
+```
+
+- `interactive` makes a non-link root keyboard operable with Enter/Space and publishes `activate` metadata. Nested links, buttons and form controls keep their own action and do not activate the card.
+- `href` renders an anchor; `_blank` links receive `noopener noreferrer` unless `rel` is supplied. `disabled` and `loading` suppress activation and remove non-native cards from the tab order.
+- `title`, `subtitle`, heading and description IDs provide the accessible card name and description. Custom headers should supply `ariaLabel`, `ariaLabelledby`, or a title Slot.
+- Root and `components/UiCard` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiCard.css`.
+
 ## 1.54 page-header compatibility
 
 There are no breaking changes. Existing page-specific headings can be migrated incrementally:

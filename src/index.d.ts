@@ -150,7 +150,12 @@ export interface UiCalendarCell { date:string; label:number; currentMonth:boolea
 export interface UiCalendarChangeMeta { source:'pointer'|'keyboard'|'today'|'button'|string; selectionMode:CalendarSelectionMode; date:string }
 export interface UiCalendarViewChange { value:string; previous:string; source:'api'|'button'|'keyboard'|'today'|'year-range'|'year-select'|string }
 export interface UiCalendarProps { modelValue?:DateValue|DateValue[]; selectionMode?:CalendarSelectionMode; valueType?:DateValueType; timeZone?:'local'|'UTC'|string; disambiguation?:DateDisambiguation; viewDate?:DateInput; defaultViewDate?:DateInput; today?:DateInput; min?:DateInput; max?:DateInput; firstDayOfWeek?:'auto'|0|1|2|3|4|5|6; weekdayFormat?:'narrow'|'short'|'long'; fixedWeeks?:boolean; showOutsideDays?:boolean; showWeekNumbers?:boolean; maxSelections?:number; disabledDate?:(date:Date,context:UiCalendarDisabledContext)=>boolean; size?:ComponentSize; bordered?:boolean; readonly?:boolean; disabled?:boolean; allowClear?:boolean; ariaLabel?:string }
-export interface UiCardProps { title?:string; titleTag?:'h2'|'h3'|'h4'|'h5'|'h6'; mark?:boolean; bodyClass?:string }
+export type UiCardTitleTag = 'h2'|'h3'|'h4'|'h5'|'h6'
+export type UiCardVariant = 'default'|'outlined'|'elevated'|'filled'
+export type UiCardShadow = 'none'|'xs'|'sm'|'md'|'lg'
+export interface UiCardProps { as?:string|Component; title?:string; subtitle?:string; titleTag?:UiCardTitleTag; mark?:boolean; bodyClass?:string|string[]|Record<string,boolean>; size?:ComponentSize; variant?:UiCardVariant; bordered?:boolean; shadow?:UiCardShadow; hoverable?:boolean; interactive?:boolean; selected?:boolean; disabled?:boolean; loading?:boolean; loadingRows?:number; href?:string; target?:string; rel?:string; ariaLabel?:string; ariaLabelledby?:string; ariaDescribedby?:string }
+export interface UiCardActivationMeta { source:'pointer'|'keyboard'|string; href?:string; selected:boolean }
+export interface UiCardInstance { root:Ref<HTMLElement|null>; focus:(options?:FocusOptions)=>boolean; blur:()=>boolean; scrollIntoView:(options?:ScrollIntoViewOptions)=>boolean }
 export interface UiCarouselItem { key?:Key; value?:Key; id?:Key; label?:string; title?:string; ariaLabel?:string; content?:unknown; src?:string; alt?:string; [key:string]:unknown }
 export type UiCarouselNavigationSource = 'programmatic'|'api'|'control'|'indicator'|'keyboard'|'keyboard-home'|'keyboard-end'|'swipe'|'autoplay'|string
 export interface UiCarouselChangeMeta<Item=unknown> { index:number; previousIndex:number; item:Item; previousItem:Item; source:UiCarouselNavigationSource; direction:'previous'|'next' }
@@ -407,7 +412,7 @@ export type UiBadgeEmits = {}
 export type UiBreadcrumbEmits = { navigate:(item:UiBreadcrumbItem)=>void }
 export type UiButtonEmits = {}
 export type UiCalendarEmits = { 'update:modelValue':(value:DateValue|DateValue[])=>void; change:(value:DateValue|DateValue[],meta:UiCalendarChangeMeta)=>void; clear:(meta:{source:string})=>void; 'update:viewDate':(value:string)=>void; 'view-change':(meta:UiCalendarViewChange)=>void; 'panel-change':(panel:CalendarPanel)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
-export type UiCardEmits = {}
+export type UiCardEmits = { click:(event:MouseEvent)=>void; activate:(meta:UiCardActivationMeta,event:MouseEvent|KeyboardEvent)=>void }
 export type UiCarouselEmits<Item=unknown> = { 'update:modelValue':(value:number)=>void; change:(meta:UiCarouselChangeMeta<Item>)=>void; play:(state:UiCarouselState)=>void; pause:(state:UiCarouselState)=>void; 'reach-start':(meta:UiCarouselChangeMeta<Item>)=>void; 'reach-end':(meta:UiCarouselChangeMeta<Item>)=>void; 'drag-start':(meta:{index:number;coordinate:number})=>void; 'drag-end':(meta:{index:number;delta:number;elapsed:number;changed:boolean;canceled:boolean})=>void }
 export type UiCascaderEmits = { 'update:modelValue':(value:Key[])=>void; change:(value:Key[],path:UiTreeNode[])=>void; 'open-change':(open:boolean)=>void }
 export interface UiCommandPaletteOpenMeta { source:'programmatic'|'trigger'|'shortcut'|'select'|'escape'|'mask'|'close-button' }
@@ -504,7 +509,7 @@ export type UiBadgeSlots = { default?:()=>VNodeChild }
 export type UiBreadcrumbSlots = {}
 export type UiButtonSlots = { default?:()=>VNodeChild }
 export type UiCalendarSlots = { header?:(scope:{label:string;viewDate:string;panel:CalendarPanel;previous:()=>void;next:()=>void;setPanel:(panel:CalendarPanel)=>void})=>VNodeChild; cell?:(scope:UiCalendarCell)=>VNodeChild; year?:(scope:{year:number;selected:boolean})=>VNodeChild; footer?:(scope:{today:()=>void;clear:(source?:string)=>void})=>VNodeChild }
-export type UiCardSlots = { default?:()=>VNodeChild; header?:()=>VNodeChild; action?:()=>VNodeChild }
+export type UiCardSlots = { default?:(scope:{disabled:boolean;selected:boolean})=>VNodeChild; cover?:(scope:{disabled:boolean})=>VNodeChild; header?:(scope:{title:string;subtitle:string;loading:boolean;disabled:boolean})=>VNodeChild; title?:(scope:{title:string})=>VNodeChild; subtitle?:(scope:{subtitle:string})=>VNodeChild; action?:(scope:{loading:boolean;disabled:boolean})=>VNodeChild; actions?:(scope:{loading:boolean;disabled:boolean})=>VNodeChild; loading?:(scope:{rows:number})=>VNodeChild; footer?:(scope:{disabled:boolean;selected:boolean})=>VNodeChild }
 export type UiCarouselSlots<Item=unknown> = { item?:(scope:{item:Item;index:number;active:boolean;previous:(source?:string)=>UiCarouselChangeMeta|false;next:(source?:string)=>UiCarouselChangeMeta|false;to:(index:number,source?:string)=>UiCarouselChangeMeta|false})=>VNodeChild; indicator?:(scope:{item:Item;index:number;active:boolean})=>VNodeChild; 'previous-icon'?:()=>VNodeChild; 'next-icon'?:()=>VNodeChild; empty?:()=>VNodeChild }
 export type UiCascaderSlots = {}
 export type UiCommandPaletteSlots = { trigger?:(scope:{open:()=>void;close:()=>void;toggle:()=>void})=>VNodeChild; header?:()=>VNodeChild; command?:(scope:{command:UiCommandPaletteCommand;active:boolean;query:string})=>VNodeChild; group?:(scope:{group:string})=>VNodeChild; empty?:(scope:{query:string})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown;retry:()=>void})=>VNodeChild; footer?:()=>VNodeChild }

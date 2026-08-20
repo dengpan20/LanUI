@@ -5,6 +5,7 @@ import {
   UiBarcode,
   UiButton,
   UiCalendar,
+  UiCard,
   UiAutoComplete,
   UiCommandPalette,
   UiCronEditor,
@@ -141,6 +142,7 @@ function sort(payload:UiTableSortChange) {
   <UiFormItem label="Release schedule"><UiCronEditor v-model="releaseCron" time-zone="UTC" :preview-count="3"><template #actions="{ valid, runs }">{{ valid }} / {{ runs.length }}</template></UiCronEditor></UiFormItem>
   <UiFormItem label="Request headers"><UiKeyValueEditor v-model="requestHeaders" :min-rows="1" :max-rows="8" require-value name="headers"><template #actions="{ validation, importText }"><UiButton @click="importText('REGION=east',{mode:'append'})">{{ validation.valid }}</UiButton></template></UiKeyValueEditor></UiFormItem>
   <UiPageHeader title="Typed release" description="Typed page heading contract" :breadcrumbs="[{label:'Workspace',href:'#workspace'},{label:'Release'}]" show-back bordered @back="meta=>meta.source" @breadcrumb-navigate="meta=>meta.index"><template #meta>Stable</template><template #actions><UiButton>Publish</UiButton></template><template #footer>Evidence</template></UiPageHeader>
+  <UiCard title="Typed evidence" subtitle="Verified now" variant="elevated" shadow="md" hoverable interactive selected @activate="meta=>meta.source"><template #cover><img src="/typed-card.jpg" alt="Typed card cover"></template><template #actions="{disabled}">{{ disabled }}</template><template #default="{selected}">{{ selected }}</template><template #footer>Typed footer</template></UiCard>
   <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>

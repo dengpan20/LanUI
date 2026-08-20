@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.55.0] - 2026-08-20
+
+### Added
+
+- Production `UiCard` semantics and composition: cover, subtitle, actions, footer and loading Slots; sizes, variants, borders and shadows; interactive, link, selected, disabled and loading states; accessible naming; pointer/keyboard activation metadata; exposed focus/scroll methods.
+- Component-center, static-preview and standalone card examples plus deterministic SSR, unit, visual, Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `UiCard` usages retain their legacy classes and Props while receiving responsive, RTL, Reduced Motion and forced-colors behavior through the common style contract.
+- Release gates advance to 32 visual baselines, 50 Axe scenarios, 54 interactions per browser and 51 negative type assertions. Generated API coverage advances to 1,068 Props, 370 Events and 188 Slots.
+
 ## [1.54.0] - 2026-08-20
 
 ### Added

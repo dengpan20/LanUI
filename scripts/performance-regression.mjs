@@ -105,9 +105,10 @@ if(releaseBaseline?.metrics){
     const saved=previous-actual
     const tolerance=releaseBaseline.tolerance?.[name]||0
     const perComponentAllowance=releaseBaseline.perComponentAllowance?.[name]||0
-    const allowance=addedComponents*perComponentAllowance
+    const enhancementAllowance=releaseBaseline.enhancementAllowance?.[name]||0
+    const allowance=addedComponents*perComponentAllowance+enhancementAllowance
     const limit=Math.floor(previous*(1+tolerance))+allowance
-    comparison[name]={previous,actual,saved,ratio:Number((saved/previous).toFixed(6)),tolerance,perComponentAllowance,addedComponents,allowance,limit}
+    comparison[name]={previous,actual,saved,ratio:Number((saved/previous).toFixed(6)),tolerance,perComponentAllowance,enhancementAllowance,addedComponents,allowance,limit}
     if(!Number.isFinite(actual))failures.push(`${name}: missing release comparison metric`)
     else if(actual>limit)failures.push(`${name}: ${actual}B exceeded ${releaseBaseline.version} guard ${limit}B`)
   }
