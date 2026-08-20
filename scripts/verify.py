@@ -926,7 +926,7 @@ if len(visual_baselines) < 26 or any(path.stat().st_size < 1000 for path in visu
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
+for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")

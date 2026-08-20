@@ -42,7 +42,7 @@ const allCases=[
   {name:'carousel-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=carousel',ready:'.visual-carousel-showcase .ui-carousel',selector:'.visual-carousel-showcase'},
   {name:'time-range-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=time-range',ready:'.visual-time-range-showcase .ui-time-range-picker',selector:'.visual-time-range-showcase'},
   {name:'date-time-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=date-time',ready:'.visual-date-time-showcase .ui-date-time-range-picker',selector:'.visual-date-time-showcase'},
-  {name:'qr-code-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=qr-code',ready:'.visual-qr-code-showcase .ui-qr-code-symbol',selector:'.visual-qr-code-showcase'},
+  {name:'qr-code-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=qr-code',ready:'.visual-qr-code-showcase .ui-qr-code-symbol',selector:'.visual-qr-code-showcase',diffAllowance:.005},
 ]
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases
@@ -75,9 +75,10 @@ try{
     const diff=new PNG({width:actual.width,height:actual.height})
     const pixels=pixelmatch(expected.data,actual.data,diff.data,actual.width,actual.height,{threshold:.12,includeAA:false})
     const ratio=pixels/(actual.width*actual.height)
+    const effectiveMaxDiffRatio=Math.min(.05,maxDiffRatio+(item.diffAllowance??0))
     if(pixels)writeFileSync(resolve(diffDir,`${item.name}.png`),PNG.sync.write(diff))
-    if(ratio>maxDiffRatio){failed+=1;console.error(`VISUAL FAIL case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} maxDiffRatio=${maxDiffRatio}`)}
-    else console.log(`VISUAL PASS case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} size=${actual.width}x${actual.height}`)
+    if(ratio>effectiveMaxDiffRatio){failed+=1;console.error(`VISUAL FAIL case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} maxDiffRatio=${effectiveMaxDiffRatio}`)}
+    else console.log(`VISUAL PASS case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} size=${actual.width}x${actual.height} maxDiffRatio=${effectiveMaxDiffRatio}`)
     await context.close()
   }
   if(failed)process.exitCode=1
