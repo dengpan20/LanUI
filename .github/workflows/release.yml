@@ -28,7 +28,8 @@ jobs:
       - name: Prepare release context
         shell: bash
         run: |
-          echo "LAN_UI_VERSION=$(node -p \"require('./package.json').version\")" >> "$GITHUB_ENV"
+          set -euo pipefail
+          node -e "require('node:fs').appendFileSync(process.env.GITHUB_ENV, 'LAN_UI_VERSION=' + require('./package.json').version + '\n')"
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
             echo "LAN_UI_RELEASE_TAG=true" >> "$GITHUB_ENV"
           else
