@@ -21,7 +21,7 @@ def rollback_script(added: list[str], baseline_count: int, artifact_count: int) 
     script = base.rollback_script(added, baseline_count, artifact_count).replace("p11", "p57").replace("P11", "P57")
     return script.replace(
         "    'rollback-maturity-p57-v1.ps1'",
-        "    'rollback-maturity-p57-v1.ps1',\n    'lan-ui-design-system-1.53.0.tgz',\n    'lan-ui-design-system-1.53.0.tgz.sha256'",
+        "    'rollback-maturity-p57-v1.ps1',\n    'lan-ui-design-system-1.53.1.tgz',\n    'lan-ui-design-system-1.53.1.tgz.sha256'",
     )
 
 

@@ -4,6 +4,12 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.53.1] - 2026-08-20
+
+### Fixed
+
+- Stabilized the `UiKeyValueEditor` visual contract with an explicit fixture height so Windows CI and local Chromium captures retain identical dimensions across font-rendering environments.
+
 ## [1.53.0] - 2026-08-20
 
 ### Added

@@ -136,7 +136,7 @@ onBeforeUnmount(()=>{stopThemeSubscription?.();themeController.dispose({restore:
   <div v-else class="app-shell" :class="shellClass">
     <div class="mobile-mask" @click="mobileExpanded=false" />
     <aside class="sidebar">
-      <div class="sidebar-logo"><span class="brand-mark"><AppIcon name="layers"/></span><span class="brand-name">Lan UI <small class="brand-version">V1.53.0</small></span></div>
+      <div class="sidebar-logo"><span class="brand-mark"><AppIcon name="layers"/></span><span class="brand-name">Lan UI <small class="brand-version">V1.53.1</small></span></div>
       <div class="sidebar-scroll"><div v-for="group in navGroups" :key="group.label" class="nav-group"><div class="nav-label">{{ group.label }}</div><button v-for="item in group.items" :key="item.path" class="nav-item" :class="{active:path===item.path}" :title="item.title" @click="go(item.path)"><AppIcon :name="item.icon"/><span class="nav-text">{{ item.title }}</span></button></div></div>
       <div class="sidebar-footer"><UiAvatar name="Deng Pan" size="sm"/><div class="sidebar-user"><strong>Deng Pan</strong><span>Design System Owner</span></div></div>
     </aside>
