@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.52.0",
+  "version": "1.53.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -52,6 +52,7 @@
       "UiImage",
       "UiInput",
       "UiInputTag",
+      "UiKeyValueEditor",
       "UiLayout",
       "UiList",
       "UiListToolbar",
@@ -498,6 +499,17 @@
       "UiInputTagInvalidReason",
       "UiInputTagProps",
       "UiInputTagSlots",
+      "UiKeyValueChangeMeta",
+      "UiKeyValueEditor",
+      "UiKeyValueEditorEmits",
+      "UiKeyValueEditorInstance",
+      "UiKeyValueEditorProps",
+      "UiKeyValueEditorSlots",
+      "UiKeyValueError",
+      "UiKeyValueErrorCode",
+      "UiKeyValueImportOptions",
+      "UiKeyValueItem",
+      "UiKeyValueValidation",
       "UiLayout",
       "UiLayoutEmits",
       "UiLayoutProps",
@@ -10019,6 +10031,481 @@
       },
       "runtimeExports": [
         "UiInputTag",
+        "default"
+      ]
+    },
+    {
+      "name": "UiKeyValueEditor",
+      "subpath": "./components/UiKeyValueEditor",
+      "propsType": "UiKeyValueEditorProps",
+      "props": [
+        "addable",
+        "allowDuplicateKeys",
+        "allowEmptyKey",
+        "ariaLabel",
+        "caseSensitive",
+        "defaultItem",
+        "disabled",
+        "enabledField",
+        "invalid",
+        "itemKey",
+        "keyField",
+        "keyPattern",
+        "keyPlaceholder",
+        "maxRows",
+        "minRows",
+        "modelValue",
+        "name",
+        "readonly",
+        "removable",
+        "reorderable",
+        "requireValue",
+        "required",
+        "separator",
+        "size",
+        "toggleable",
+        "valueField",
+        "valuePlaceholder"
+      ],
+      "propDetails": [
+        {
+          "name": "addable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "allowDuplicateKeys",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "allowEmptyKey",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "caseSensitive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultItem",
+          "required": false,
+          "type": "UiKeyValueItem",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "enabledField",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"enabled\""
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"id\""
+          }
+        },
+        {
+          "name": "keyField",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
+          "name": "keyPattern",
+          "required": false,
+          "type": "string|RegExp|null",
+          "runtimeTypes": [
+            "String",
+            "RegExp"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "keyPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "maxRows",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "minRows",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiKeyValueItem[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "removable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "reorderable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "requireValue",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"=\""
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "toggleable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "valueField",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"value\""
+          }
+        },
+        {
+          "name": "valuePlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        }
+      ],
+      "emitsType": "UiKeyValueEditorEmits",
+      "emits": [
+        "add",
+        "blur",
+        "change",
+        "focus",
+        "import",
+        "input",
+        "invalid",
+        "limit",
+        "move",
+        "remove",
+        "toggle",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "add",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{values:UiKeyValueItem[];validation:UiKeyValueValidation})=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:UiKeyValueItem[],meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{values:UiKeyValueItem[]})=>void"
+        },
+        {
+          "name": "import",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:UiKeyValueItem[],meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(validation:UiKeyValueValidation,meta:UiKeyValueChangeMeta|Record<string,unknown>)=>void"
+        },
+        {
+          "name": "limit",
+          "required": true,
+          "type": "(meta:{action:string;min:number;max:number;length:number})=>void"
+        },
+        {
+          "name": "move",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "toggle",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta&{enabled:boolean})=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:UiKeyValueItem[])=>void"
+        }
+      ],
+      "slotsType": "UiKeyValueEditorSlots",
+      "slots": [
+        "actions",
+        "empty",
+        "header",
+        "row"
+      ],
+      "slotDetails": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{values:UiKeyValueItem[];validation:UiKeyValueValidation;add:UiKeyValueEditorInstance['add'];importText:UiKeyValueEditorInstance['importText']})=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{add:UiKeyValueEditorInstance['add'];canAdd:boolean})=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "(scope:{values:UiKeyValueItem[];validation:UiKeyValueValidation})=>VNodeChild"
+        },
+        {
+          "name": "row",
+          "required": false,
+          "type": "(scope:{item:UiKeyValueItem;index:number;errors:UiKeyValueError[];update:(index:number,field:string,value:unknown,source?:string)=>UiKeyValueChangeMeta|false;remove:(index:number,source?:string)=>UiKeyValueChangeMeta|false;move:(from:number,to:number,source?:string)=>UiKeyValueChangeMeta|false;toggle:(index:number,source?:string)=>UiKeyValueChangeMeta|false})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiKeyValueEditor } from 'lan-ui-design-system'",
+        "subpath": "import UiKeyValueEditor from 'lan-ui-design-system/components/UiKeyValueEditor'"
+      },
+      "runtimeExports": [
+        "UiKeyValueEditor",
         "default"
       ]
     },

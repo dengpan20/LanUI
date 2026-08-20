@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.52.0",
+  "version": "1.53.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -19,8 +19,8 @@
     {
       "id": "forms",
       "label": "数据录入",
-      "description": "输入、选择、日期时间、定时计划、条件编排、表单编排和文件上传。",
-      "count": 32
+      "description": "输入、选择、键值配置、日期时间、定时计划、条件编排、表单编排和文件上传。",
+      "count": 33
     },
     {
       "id": "data",
@@ -7912,6 +7912,430 @@
           "name": "tag",
           "required": false,
           "type": "(scope:{tag:string;index:number;remove:()=>boolean;edit:()=>boolean})=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiKeyValueEditor",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiKeyValueEditor",
+      "imports": {
+        "root": "import { UiKeyValueEditor } from 'lan-ui-design-system'",
+        "subpath": "import UiKeyValueEditor from 'lan-ui-design-system/components/UiKeyValueEditor'"
+      },
+      "propsType": "UiKeyValueEditorProps",
+      "props": [
+        {
+          "name": "addable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "allowDuplicateKeys",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "allowEmptyKey",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "caseSensitive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultItem",
+          "required": false,
+          "type": "UiKeyValueItem",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "enabledField",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"enabled\""
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"id\""
+          }
+        },
+        {
+          "name": "keyField",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
+          "name": "keyPattern",
+          "required": false,
+          "type": "string|RegExp|null",
+          "runtimeTypes": [
+            "String",
+            "RegExp"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "keyPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "maxRows",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "minRows",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiKeyValueItem[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "removable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "reorderable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "requireValue",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"=\""
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "toggleable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "valueField",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"value\""
+          }
+        },
+        {
+          "name": "valuePlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        }
+      ],
+      "emitsType": "UiKeyValueEditorEmits",
+      "emits": [
+        {
+          "name": "add",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{values:UiKeyValueItem[];validation:UiKeyValueValidation})=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:UiKeyValueItem[],meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{values:UiKeyValueItem[]})=>void"
+        },
+        {
+          "name": "import",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:UiKeyValueItem[],meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(validation:UiKeyValueValidation,meta:UiKeyValueChangeMeta|Record<string,unknown>)=>void"
+        },
+        {
+          "name": "limit",
+          "required": true,
+          "type": "(meta:{action:string;min:number;max:number;length:number})=>void"
+        },
+        {
+          "name": "move",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta)=>void"
+        },
+        {
+          "name": "toggle",
+          "required": true,
+          "type": "(meta:UiKeyValueChangeMeta&{enabled:boolean})=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:UiKeyValueItem[])=>void"
+        }
+      ],
+      "slotsType": "UiKeyValueEditorSlots",
+      "slots": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{values:UiKeyValueItem[];validation:UiKeyValueValidation;add:UiKeyValueEditorInstance['add'];importText:UiKeyValueEditorInstance['importText']})=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{add:UiKeyValueEditorInstance['add'];canAdd:boolean})=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "(scope:{values:UiKeyValueItem[];validation:UiKeyValueValidation})=>VNodeChild"
+        },
+        {
+          "name": "row",
+          "required": false,
+          "type": "(scope:{item:UiKeyValueItem;index:number;errors:UiKeyValueError[];update:(index:number,field:string,value:unknown,source?:string)=>UiKeyValueChangeMeta|false;remove:(index:number,source?:string)=>UiKeyValueChangeMeta|false;move:(from:number,to:number,source?:string)=>UiKeyValueChangeMeta|false;toggle:(index:number,source?:string)=>UiKeyValueChangeMeta|false})=>VNodeChild"
         }
       ]
     },

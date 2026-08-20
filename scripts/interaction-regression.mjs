@@ -1016,14 +1016,14 @@ const allCases = [
       const symbol=root.getByRole('img',{name:'Interaction asset barcode'})
       const initialPath=await symbol.locator('path').getAttribute('d')
       assert.ok(initialPath?.length>100)
-      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-152-R1')
+      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-153-R1')
       const refresh=root.locator('.ui-barcode-overlay .ui-barcode-action')
       await refresh.focus()
       await refresh.click()
       await expectText(page,'barcode-output','refresh:2')
       assert.equal(await root.getAttribute('data-status'),'active')
       assert.notEqual(await symbol.locator('path').getAttribute('d'),initialPath)
-      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-152-R2')
+      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-153-R2')
       await page.locator('#barcode-mark-scanned').click()
       await expectText(page,'barcode-output','status:scanned')
       assert.equal(await root.getAttribute('data-status'),'scanned')
@@ -1055,6 +1055,34 @@ const allCases = [
       assert.equal(await root.getAttribute('data-valid'),'true')
       assert.equal(await input.inputValue(),'0 10 * * *')
       assert.equal(await root.locator('.ui-cron-run-list li').count(),5)
+    },
+  },
+  {
+    name:'key-value-editor-edit-import-reorder-validation',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.getByRole('group',{name:'Interaction request headers'})
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-valid'),'true')
+      const keys=root.locator('.ui-key-value-key')
+      assert.equal(await keys.count(),2)
+      await keys.nth(1).fill('authorization')
+      await expectText(page,'key-value-output','invalid:duplicate-key')
+      assert.equal(await root.getAttribute('aria-invalid'),'true')
+      await keys.nth(1).fill('X-Region')
+      await expectText(page,'key-value-output','key-input:true:Authorization|X-Region')
+      assert.equal(await root.getAttribute('aria-invalid'),null)
+      await page.locator('#key-value-import').click()
+      await expectText(page,'key-value-output','import:true:REGION|RETRIES|TRACE')
+      assert.equal(await keys.count(),3)
+      await page.locator('#key-value-api-move').click()
+      await expectText(page,'key-value-output','fixture-api:true:RETRIES|REGION|TRACE')
+      await root.getByRole('checkbox',{name:'Toggle row 1'}).click()
+      await expectText(page,'key-value-output','toggle:true:RETRIES|REGION|TRACE')
+      assert.equal(await root.getByRole('checkbox',{name:'Toggle row 1'}).isChecked(),false)
+      await root.getByRole('button',{name:'Remove row 2'}).click()
+      await expectText(page,'key-value-output','button:true:RETRIES|TRACE')
+      assert.equal(await keys.count(),2)
     },
   },
   {
@@ -1101,7 +1129,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),87)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),88)
     },
   },
 ]

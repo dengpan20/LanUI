@@ -8,6 +8,7 @@ import {
   UiAutoComplete,
   UiCommandPalette,
   UiCronEditor,
+  UiKeyValueEditor,
   UiColorPicker,
   UiDataGrid,
   UiForm,
@@ -46,6 +47,7 @@ const commandQuery = ref('')
 const brandColor = ref('#1677FFCC')
 const serviceRating = ref(3.5)
 const releaseCron=ref('0 9 * * 1-5')
+const requestHeaders=ref([{id:'authorization',key:'Authorization',value:'Bearer TOKEN',enabled:true}])
 const releaseRange = ref(['2026-08-10','2026-08-16'])
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
@@ -136,6 +138,7 @@ function sort(payload:UiTableSortChange) {
   <UiFormItem label="Service rating"><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`"><template #text="{ text }">{{ text }}</template></UiRate></UiFormItem>
   <UiStatistic title="Revenue" :value="2864000" prefix="$" :trend="12.6"><template #trend="{ direction, tone }">{{ direction }}/{{ tone }}</template><template #extra>Updated now</template></UiStatistic>
   <UiFormItem label="Release schedule"><UiCronEditor v-model="releaseCron" time-zone="UTC" :preview-count="3"><template #actions="{ valid, runs }">{{ valid }} / {{ runs.length }}</template></UiCronEditor></UiFormItem>
+  <UiFormItem label="Request headers"><UiKeyValueEditor v-model="requestHeaders" :min-rows="1" :max-rows="8" require-value name="headers"><template #actions="{ validation, importText }"><UiButton @click="importText('REGION=east',{mode:'append'})">{{ validation.valid }}</UiButton></template></UiKeyValueEditor></UiFormItem>
   <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>

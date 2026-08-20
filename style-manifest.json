@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.52.0",
+  "version": "1.53.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 187774,
-    "rules": 1481,
+    "bytes": 194934,
+    "rules": 1531,
     "source": "component-union"
   },
   "core": {
@@ -124,7 +124,7 @@
     {
       "name": "UiConfigProvider",
       "subpath": "./styles/UiConfigProvider.css",
-      "bytes": 322,
+      "bytes": 729,
       "rules": 3
     },
     {
@@ -246,6 +246,12 @@
       "subpath": "./styles/UiInputTag.css",
       "bytes": 4245,
       "rules": 30
+    },
+    {
+      "name": "UiKeyValueEditor",
+      "subpath": "./styles/UiKeyValueEditor.css",
+      "bytes": 6790,
+      "rules": 50
     },
     {
       "name": "UiLayout",

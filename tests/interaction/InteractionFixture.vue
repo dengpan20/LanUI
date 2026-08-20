@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -114,6 +114,10 @@ function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';
 const cronEditorRef=ref(null)
 const cronValue=ref('0 9 * * 1-5')
 const cronOutput=ref('ready:valid')
+const keyValueEditorRef=ref(null)
+const keyValueRows=ref([{id:'auth',key:'Authorization',value:'Bearer TOKEN',enabled:true},{id:'region',key:'X-Region',value:'east',enabled:true}])
+const keyValueOutput=ref('ready:true:Authorization|X-Region')
+function updateKeyValueOutput(value,meta){keyValueOutput.value=`${meta.source}:${meta.validation.valid}:${value.map(item=>item.key).join('|')}`}
 const carouselItems=[
   {key:'overview',title:'Release overview',description:'Versioned component contract'},
   {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
@@ -571,12 +575,17 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
       <section class="interaction-case interaction-wide interaction-barcode-case">
         <h2>Barcode lifecycle, refresh and SVG encoding contract</h2>
         <div class="interaction-row"><UiButton id="barcode-expire" variant="outline" @click="barcodeStatus='expired';barcodeOutput='status:expired'">Expire</UiButton><UiButton id="barcode-mark-scanned" variant="outline" @click="barcodeStatus='scanned';barcodeOutput='status:scanned'">Mark scanned</UiButton><UiButton id="barcode-reset" variant="text" @click="barcodeStatus='active';barcodeOutput='status:active'">Reset</UiButton><output class="interaction-output" data-testid="barcode-output">{{ barcodeOutput }}</output></div>
-        <UiBarcode :value="`LAN-UI-152-R${barcodeRevision}`" :status="barcodeStatus" format="CODE128" :width="2" :height="72" label="Interaction asset barcode" caption="Asset lifecycle" @refresh="refreshBarcode" @download="barcodeOutput='download'"/>
+        <UiBarcode :value="`LAN-UI-153-R${barcodeRevision}`" :status="barcodeStatus" format="CODE128" :width="2" :height="72" label="Interaction asset barcode" caption="Asset lifecycle" @refresh="refreshBarcode" @download="barcodeOutput='download'"/>
       </section>
       <section class="interaction-case interaction-wide interaction-cron-editor-case">
         <h2>Cron preset, validation and future-run contract</h2>
         <UiCronEditor ref="cronEditorRef" v-model="cronValue" from="2026-08-20T08:00:00Z" time-zone="UTC" aria-label="Interaction release schedule" @change="(value,meta)=>cronOutput=`${meta.source}:${meta.valid}:${value}`" @invalid="error=>cronOutput=`invalid:${error.code}`"/>
         <div class="interaction-row"><UiButton id="cron-api-daily" size="sm" variant="outline" @click="cronEditorRef.setExpression('0 10 * * *','fixture-api')">Set daily by API</UiButton><output class="interaction-output" data-testid="cron-output">{{ cronOutput }}</output></div>
+      </section>
+      <section class="interaction-case interaction-wide interaction-key-value-case">
+        <h2>Key-value edit, import, reorder and validation contract</h2>
+        <UiKeyValueEditor ref="keyValueEditorRef" v-model="keyValueRows" :min-rows="1" :max-rows="5" key-pattern="^[A-Za-z][A-Za-z0-9-]*$" require-value aria-label="Interaction request headers" @change="updateKeyValueOutput" @invalid="validation=>keyValueOutput=`invalid:${validation.errors[0]?.code}`"/>
+        <div class="interaction-row"><UiButton id="key-value-import" size="sm" variant="outline" @click="keyValueEditorRef.importText('REGION=east\nRETRIES=3\nTRACE=enabled')">Import dotenv</UiButton><UiButton id="key-value-api-move" size="sm" variant="outline" @click="keyValueEditorRef.move(0,1,'fixture-api')">Move first by API</UiButton><output class="interaction-output" data-testid="key-value-output">{{ keyValueOutput }}</output></div>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

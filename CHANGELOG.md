@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.53.0] - 2026-08-20
+
+### Added
+
+- `UiKeyValueEditor`, a controlled enterprise editor for HTTP headers, environment variables, tags and metadata with stable row identity, custom field names, add/remove/reorder/toggle operations and dotenv-style import.
+- Structured empty, duplicate, pattern, required-value and row-limit validation; native form naming, FormItem linkage, responsive container layout, RTL, forced-colors, reduced-motion, Slots and a typed instance API.
+- Component-center, static-preview and standalone examples plus unit, deterministic SSR, visual, Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Release gates advance to 88 public components, 431 locale keys, 30 visual baselines, 48 Axe scenarios, 52 interactions per browser and 47 negative type assertions.
+- Generated API coverage advances to 1,035 Props, 366 Events and 174 Slots; root, component subpath, declarations, isolated component CSS and offline consumer packaging stay synchronized.
+- Performance and distribution ceilings receive measured one-component headroom while the frozen release-baseline policy continues to reject unrelated regressions.
+
 ## [1.52.0] - 2026-08-20
 
 ### Added

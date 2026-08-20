@@ -1,10 +1,10 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、87 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、88 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
-## P56 定时表达式编辑器
+## P57 键值配置编辑器
 
-`UiCronEditor` 为任务调度、报表和自动化后台提供五字段 Unix Cron 编辑能力，支持通配、列表、区间、步长、常用预设、结构化错误和本地/UTC 未来执行预览，并同步覆盖表单、根入口、组件子路径、独立样式、SSR 与三浏览器交互。
+`UiKeyValueEditor` 为 HTTP Headers、环境变量、标签和元数据提供统一的受控键值编辑体验，覆盖稳定行身份、增删、排序、启停、dotenv 文本导入、重复/空值/格式/数量校验、表单命名、响应式布局、RTL、SSR、类型与三浏览器交互。
 
 ## 项目内容
 
@@ -45,7 +45,7 @@ pnpm dev
 按需导入组件，同时载入完整组件样式：
 
 ```js
-import { UiButton, UiCommandPalette, UiFormList, UiIcon, UiInput, UiQueryBuilder, UiSteps, UiTable } from 'lan-ui-design-system'
+import { UiButton, UiCommandPalette, UiFormList, UiIcon, UiInput, UiKeyValueEditor, UiQueryBuilder, UiSteps, UiTable } from 'lan-ui-design-system'
 import 'lan-ui-design-system/style.css'
 ```
 
@@ -65,6 +65,19 @@ import { createIconRegistry } from 'lan-ui-design-system/icons'
 ```js
 import UiButton, { UiButton as NamedButton } from 'lan-ui-design-system/components/UiButton'
 import type { UiButtonProps, UiButtonEmits, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
+```
+
+键值配置采用数组模型并保留消费者附加字段；通过 `name` 可生成后端可直接解析的嵌套表单字段：
+
+```vue
+<UiKeyValueEditor
+  v-model="headers"
+  name="headers"
+  :min-rows="1"
+  :max-rows="12"
+  key-pattern="^[A-Za-z][A-Za-z0-9-]*$"
+  require-value
+/>
 ```
 
 子路径导入不会把未使用组件带入 JavaScript Bundle；组件仍共享一份 `style.css`，保证 Token、状态和动效一致。
@@ -1210,3 +1223,11 @@ P55 advances to 86 public components and 379 locale keys. CI requires 28 visual 
 - Root/subpath runtime, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone application, deterministic SSR and installed-tarball consumption remain synchronized.
 
 P56 advances to 87 public components, 406 locale keys and generated coverage of 1,008 Props, 354 Events and 170 Slots. CI requires 29 visual baselines, 47 zero-violation Axe scenarios, 51 interactions per Chromium/Firefox/WebKit engine, 45 negative type assertions and 18 absolute performance ceilings.
+
+## Structured key-value configuration (P57)
+
+`UiKeyValueEditor` consolidates request headers, environment variables and record metadata into one controlled array contract. Consumers may remap the key/value/enabled/identity fields, keep unrelated domain metadata and receive immutable previous/current values for every add, remove, move, toggle, replace or import operation.
+
+Validation covers empty and duplicate keys, key patterns, required values and row limits. Dotenv-style import supports replace/append modes while malformed input preserves the current value. FormItem association, native indexed names, container-responsive presentation, RTL, forced colors, reduced motion, Slots and the typed instance API work from both root and component subpath imports.
+
+P57 advances to 88 public components, 431 locale keys and generated coverage of 1,035 Props, 366 Events and 174 Slots. CI requires 30 visual baselines, 48 zero-violation Axe scenarios, 52 interactions per Chromium/Firefox/WebKit engine, 47 negative type assertions, deterministic SSR, isolated installed-tarball consumption and 18 absolute performance ceilings.

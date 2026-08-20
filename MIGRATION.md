@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.53 key-value editor compatibility
+
+There are no breaking changes. Configuration, integration and deployment forms can adopt the component incrementally:
+
+```vue
+<UiKeyValueEditor v-model="headers" name="headers" :max-rows="12" require-value />
+```
+
+- The public model remains an array of consumer-owned records. `keyField`, `valueField`, `enabledField` and `itemKey` adapt existing domain shapes without rewriting them, while every update returns fresh records.
+- Duplicate comparison is case-insensitive by default. `allowDuplicateKeys`, `allowEmptyKey`, `requireValue`, `caseSensitive` and `keyPattern` make validation policy explicit; invalid input remains editable and emits structured row/field errors.
+- `importText` parses dotenv-style lines using the configurable separator and either replaces or appends. Malformed lines and min/max violations preserve the current model and emit typed invalid/limit metadata.
+- `name` renders indexed nested controls for native submission. Root and `components/UiKeyValueEditor` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiKeyValueEditor.css`.
+
 ## 1.52 Cron editor compatibility
 
 There are no breaking changes. Scheduler, reporting and automation forms can adopt the component incrementally:

@@ -1063,3 +1063,16 @@ P55 advances to 86 public components, 379 locale keys and 28 visual baselines. R
 - Root/subpath exports, Props/Emits/Slots, isolated CSS, generated API, component center, static HTML, standalone consumer, SSR and offline installed-tarball verification remain synchronized.
 
 P56 advances to 87 public components, 406 locale keys and 29 visual baselines. Release gates require 47 zero-violation Axe scenarios, 51 interactions per Chromium/Firefox/WebKit engine, 45 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 70. Maturity P57: structured key-value configuration
+
+- `UiKeyValueEditor` owns a controlled array of application records. Default `key`, `value`, `enabled` and `id` fields can be remapped, and unrelated consumer fields survive normalization and every immutable update.
+- Stable internal row identity follows `itemKey` when present and falls back to positional continuity. Add, remove, move, toggle, replace and text import preserve focus and publish previous/current values with mutation source and validation metadata.
+- Empty keys, case-sensitive or insensitive duplicates, key patterns, required values and minimum/maximum rows produce stable error codes. Invalid content stays editable, rows receive field-specific ARIA invalid state, and the group exposes one live validation summary.
+- Dotenv-style import ignores blank/comment lines, splits only on the first configurable separator and supports replace or append mode. Malformed input and quantity limits leave the current model unchanged.
+- `name` produces indexed successful controls for key, value and enabled state. FormItem label, help and error IDs flow into the named group and text controls without duplicating visible labels.
+- Container queries collapse the column layout for narrow panels; logical properties and RTL switch motion keep layout direction-safe. Disabled, readonly, forced-colors and reduced-motion states remain visible and operable according to their semantics.
+- Header, row, empty and actions Slots expose validation and mutation methods. The instance API exposes add/remove/move/toggle/replace/import/validate/getValue/focus with root and component-subpath type parity.
+- Component center, one-page HTML, standalone consumer, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P57 advances to 88 public components, 431 locale keys and 30 visual baselines. Release gates require 48 zero-violation Axe scenarios, 52 interactions per Chromium/Firefox/WebKit engine, 47 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

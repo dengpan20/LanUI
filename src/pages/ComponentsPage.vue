@@ -12,6 +12,7 @@ import UiBarcode from '../components/UiBarcode.vue'
 import UiQRCode from '../components/UiQRCode.vue'
 import UiInput from '../components/UiInput.vue'
 import UiInputTag from '../components/UiInputTag.vue'
+import UiKeyValueEditor from '../components/UiKeyValueEditor.vue'
 import UiQueryBuilder from '../components/UiQueryBuilder.vue'
 import UiNumberInput from '../components/UiNumberInput.vue'
 import UiOtpInput from '../components/UiOtpInput.vue'
@@ -126,6 +127,8 @@ const queryBuilderRef=ref(null)
 const queryFields=[{key:'name',label:'组件名称',type:'text',defaultOperator:'contains'},{key:'team',label:'负责团队',type:'select',options:['Forms','Data','Navigation','Foundation']},{key:'coverage',label:'覆盖场景',type:'number',min:0,max:100},{key:'status',label:'成熟度',type:'select',options:[{label:'稳定',value:'stable'},{label:'复核中',value:'review'}]},{key:'updated',label:'更新时间',type:'date'}]
 const queryDemo=ref({combinator:'and',rules:[{field:'status',operator:'equals',value:'stable'},{field:'coverage',operator:'between',value:80,value2:100},{combinator:'or',rules:[{field:'team',operator:'in',value:['Forms','Data']},{field:'name',operator:'contains',value:'Input'}]}]})
 const cronDemo=ref('0 9 * * 1-5')
+const keyValueEditorRef=ref(null)
+const keyValueDemo=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'release-42',enabled:true},{id:'debug',key:'X-Debug',value:'false',enabled:false}])
 const queryRows=[{name:'InputTag',team:'Forms',coverage:96,status:'stable',updated:'2026-08-15'},{name:'DataGrid',team:'Data',coverage:94,status:'stable',updated:'2026-08-12'},{name:'Tree',team:'Navigation',coverage:88,status:'stable',updated:'2026-08-09'},{name:'LegacyTable',team:'Data',coverage:62,status:'review',updated:'2026-07-30'}]
 const queryMatchCount=computed(()=>{void queryDemo.value;return queryBuilderRef.value?queryRows.filter(row=>queryBuilderRef.value.matches(row)).length:0})
 const sliderDemo=ref(40);const sliderRangeDemo=ref([20,80]);const verticalSliderDemo=ref(65)
@@ -223,15 +226,15 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:87},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:88},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'CronEditor P56'},{key:'version',label:'版本',value:'1.52.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'87 个公开组件 · 五字段 Unix Cron 校验、列表/区间/步长解析、常用计划预设、字段拆解、UTC / 本地未来执行预览、表单联动、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'KeyValueEditor P57'},{key:'version',label:'版本',value:'1.53.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'88 个公开组件 · 键值对增删排序、启停、重复与格式校验、文本导入、表单命名、响应式布局、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.52.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.53.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-152-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-153-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -240,7 +243,7 @@ const carouselItems=[
 ]
 const gridQuery=ref('');const gridPage=ref(1);const gridPageSize=ref(10);const gridFilters=ref({});const gridSortKey=ref('name');const gridSortOrder=ref('asc');const gridSelected=ref([]);const gridExpanded=ref([]);const gridDensity=ref('default');const gridVisibleColumns=ref(['name','team','status','score'])
 const gridColumns=[{key:'name',label:'Component',sortable:true,minWidth:'180px'},{key:'team',label:'Owner',sortable:true,minWidth:'130px'},{key:'status',label:'Status',filterable:true,filterOptions:['Stable','Review'],minWidth:'110px'},{key:'score',label:'Coverage',sortable:true,width:'110px',align:'right'}]
-const gridRows=Array.from({length:87},(_,index)=>({id:`GRID-${String(index+1).padStart(3,'0')}`,name:['Button','DataGrid','Calendar','Tree','Upload','VirtualList','CronEditor'][index%7]+` ${index+1}`,team:['Forms','Data','Navigation'][index%3],status:index%5===0?'Review':'Stable',score:72+(index*7)%29,updated:`2026-08-${String(1+index%12).padStart(2,'0')}`}))
+const gridRows=Array.from({length:88},(_,index)=>({id:`GRID-${String(index+1).padStart(3,'0')}`,name:['Button','DataGrid','Calendar','Tree','Upload','VirtualList','CronEditor','KeyValueEditor'][index%8]+` ${index+1}`,team:['Forms','Data','Navigation'][index%3],status:index%5===0?'Review':'Stable',score:72+(index*7)%29,updated:`2026-08-${String(1+index%12).padStart(2,'0')}`}))
 const virtualSelection=ref('virtual-3')
 const virtualItems=Array.from({length:1000},(_,index)=>({id:`virtual-${index}`,name:`Component audit #${String(index+1).padStart(4,'0')}`,owner:['Design','Frontend','QA'][index%3],status:index%7===0?'Review':'Ready',detail:index%5===0?'Variable-height note: token and keyboard contracts included.':''}))
 const virtualItemSize=item=>item.detail?68:52
@@ -419,6 +422,10 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <UiFormItem label="自动发布计划" help="使用五字段 Unix Cron；支持通配、列表、区间、步长及常用计划预设"><UiCronEditor v-model="cronDemo" from="2026-08-20T08:00:00Z" time-zone="UTC" name="releaseSchedule" @invalid="emit('notify','Cron 表达式需要修正','error')"/></UiFormItem>
               <aside class="cron-editor-demo-note"><strong>CronEditor P56</strong><code>{{ cronDemo }}</code><p>组件直接输出可提交的 Cron 字符串，同时提供字段级校验、未来执行时间和实例方法；业务层不再重复实现解析、错误提示与预览。</p><div class="cron-editor-state-stack"><UiCronEditor model-value="0 2 * * *" :preview-count="2" readonly aria-label="只读备份计划"/><UiCronEditor model-value="61 9 * * *" :preview-count="2" invalid aria-label="错误定时计划"/></div></aside>
             </div></div>
+            <div class="form-demo-section" data-key-value-editor-state-contract="add remove move toggle duplicate pattern import limits readonly disabled responsive form ssr"><div class="form-demo-title"><strong>键值配置</strong><span>UiKeyValueEditor · headers / environment / metadata</span></div><div class="form-demo-content key-value-editor-demo-grid">
+              <UiFormItem label="请求头配置" help="支持启停、排序、重复键与键名格式校验；所有输入均生成可提交的字段名"><UiKeyValueEditor ref="keyValueEditorRef" v-model="keyValueDemo" name="headers" :max-rows="8" key-pattern="^[A-Za-z][A-Za-z0-9-]*$"/></UiFormItem>
+              <aside class="key-value-editor-demo-note"><strong>KeyValueEditor P57</strong><p>统一环境变量、HTTP Headers、标签和元数据编辑交互，避免业务页面分别实现数组状态、重复校验、导入解析和键盘焦点恢复。</p><div class="button-row"><UiButton size="sm" variant="outline" @click="keyValueEditorRef.add({key:'X-Region',value:'apac',enabled:true})">追加</UiButton><UiButton size="sm" variant="outline" @click="keyValueEditorRef.importText('CACHE=enabled\nTIMEOUT=30',{mode:'append'})">导入</UiButton><UiButton size="sm" variant="text" @click="keyValueEditorRef.validate()">校验</UiButton></div><div class="key-value-editor-state-stack"><UiKeyValueEditor :model-value="[{key:'REGION',value:'apac',enabled:true}]" readonly aria-label="只读环境变量"/><UiKeyValueEditor :model-value="[{key:'TOKEN',value:'a'},{key:'token',value:'b'}]" aria-label="重复键错误"/></div></aside>
+            </div></div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>Slider / Range</strong><span>Pointer + keyboard + ARIA</span></div><div class="form-demo-content form-row">
               <UiFormItem label="完成度" help="方向键微调，Page 键大步进，Home / End 跳到边界"><UiSlider v-model="sliderDemo" :step="5" :marks="{0:'0',50:'50',100:'100'}" :formatter="value=>`${value}%`"/></UiFormItem>
               <UiFormItem label="预算区间" help="双滑块保持最小 10 个单位间距"><UiSlider v-model="sliderRangeDemo" range :step="5" :min-distance="10" :marks="[{value:25,label:'25'},{value:75,label:'75'}]"/></UiFormItem>
@@ -522,7 +529,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.52.0 发布二维码" caption="扫码打开 1.52.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.53.0 发布二维码" caption="扫码打开 1.53.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -535,7 +542,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.52.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.53.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -583,7 +590,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="completion-showcase-grid"><div><span class="demo-label">Alert</span><UiAlert type="warning" title="配置尚未发布" description="完成检查后再发布到生产环境。" closable/></div><div><span class="demo-label">Progress</span><UiProgress :value="72"/><UiProgress :value="100" status="success" size="sm"/></div><div><span class="demo-label">Steps</span><UiSteps :items="stepItems" :current="2"/></div><div><span class="demo-label">Timeline</span><UiTimeline :items="timelineItems"/></div><div><span class="demo-label">Skeleton</span><UiSkeleton avatar :rows="3"/></div><div><span class="demo-label">Empty</span><UiEmpty compact title="暂无审批任务" description="新的任务会显示在这里"><UiButton size="sm" variant="outline">刷新</UiButton></UiEmpty></div><div><span class="demo-label">Dropdown</span><UiDropdown v-model="dropdownDemoOpen" :items="[{label:'编辑资料',icon:'edit'},{label:'复制链接',icon:'copy'},{divider:true},{label:'停用账号',icon:'alert'}]" @select="emit('notify',`已选择：${$event.label}`)"><template #trigger><UiButton variant="outline" icon="more">更多操作</UiButton></template></UiDropdown></div></div>
             <div class="table-state-controls"><span class="demo-label">Table states</span><UiButton size="sm" variant="outline" @click="tableLoadingDemo">Loading</UiButton><UiButton size="sm" variant="outline" @click="tableError='接口请求超时，请检查网络后重试';tableLoading=false;tableEmpty=false">Error</UiButton><UiButton size="sm" variant="outline" @click="tableEmpty=true;tableError='';tableLoading=false">Empty</UiButton><UiButton size="sm" variant="text" @click="tableEmpty=false;tableError='';tableLoading=false">恢复默认</UiButton></div>
             <div class="table-system-demo">
-              <UiListToolbar v-model:density="tableDensity" v-model:visible-columns="tableVisibleColumns" :columns="tableColumns" :total="87" :selected-count="tableSelected.length" :loading="tableLoading" @refresh="tableLoadingDemo"><template #primary><UiButton size="sm" variant="outline" icon="download">导出</UiButton><UiButton v-if="tableSelected.length" size="sm" variant="danger-outline" icon="trash">批量删除</UiButton></template></UiListToolbar>
+              <UiListToolbar v-model:density="tableDensity" v-model:visible-columns="tableVisibleColumns" :columns="tableColumns" :total="88" :selected-count="tableSelected.length" :loading="tableLoading" @refresh="tableLoadingDemo"><template #primary><UiButton size="sm" variant="outline" icon="download">导出</UiButton><UiButton v-if="tableSelected.length" size="sm" variant="danger-outline" icon="trash">批量删除</UiButton></template></UiListToolbar>
               <UiTable v-model:selected-rows="tableSelected" v-model:expanded-rows="tableExpanded" v-model:sort-key="tableSortKey" v-model:sort-order="tableSortOrder" v-model:filters="tableFilters" :columns="renderedTableColumns" :rows="renderedTableRows" :density="tableDensity" :loading="tableLoading" :error="tableError" selectable expandable resizable sticky-header max-height="420px" @retry="tableLoadingDemo">
                 <template #cell-component="{row}"><div class="cell-title">{{ row.component }}</div><div class="cell-subtitle">{{ row.id }}</div></template>
                 <template #cell-status="{row}"><UiTag :color="row.status==='稳定'?'green':'blue'">{{ row.status }}</UiTag></template>
@@ -591,7 +598,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                 <template #expanded="{row}"><div class="ui-table-expanded-content"><div><span>维护团队</span><strong>{{ row.owner }}</strong></div><div><span>最新版本</span><strong>{{ row.version }}</strong></div><div><span>更新时间</span><strong>{{ row.updated }}</strong></div><div><span>场景覆盖</span><strong>{{ row.coverage }} 个</strong></div></div></template>
                 <template #empty-action><button class="btn btn-outline btn-sm" @click="tableEmpty=false">恢复数据</button></template>
               </UiTable>
-              <UiPagination v-model:page="demoPage" v-model:page-size="demoPageSize" :total="87" :page-size-options="[10,20,50]"/>
+              <UiPagination v-model:page="demoPage" v-model:page-size="demoPageSize" :total="88" :page-size-options="[10,20,50]"/>
             </div>
             <div class="preview-note"><strong>组合原则：</strong> Toolbar 管理批量操作、密度和显示列；Table 管理结构与行状态；Pagination 只管理翻页信息。服务端模式由页面监听排序和分页事件后请求数据。</div>
           </div>
@@ -685,7 +692,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <div class="config-demo-surface">
                 <div class="config-demo-row"><UiButton>Primary action</UiButton><UiButton variant="outline">Secondary</UiButton><UiSelect :options="[{label:'Design review',value:'review'},{label:'Ready to ship',value:'ready'}]" clearable searchable/><UiPopover v-model="configPortalOpen" title="Tenant scoped overlay"><template #trigger><UiButton variant="secondary">打开作用域浮层</UiButton></template><div class="preview-note"><strong>Teleport 作用域桥接：</strong>面板移动到 body 后继续继承当前 Provider 的外观、Token、语言、尺寸、密度、方向与动效偏好。</div></UiPopover></div>
                 <UiFormItem :label="configLocale==='en-US'?'Delivery window':'交付周期'" :error="rangeError" composite><UiDateRangePicker v-model="rangeDemo" @invalid="rangeError=$event.message" @change="$event.valid&&(rangeError='')"/></UiFormItem>
-                <UiPagination :page="2" :page-size="10" :total="87"/>
+                <UiPagination :page="2" :page-size="10" :total="88"/>
                 <div class="preview-note"><strong>作用域边界：</strong>{{ themePresetSummary }}；当前动效为 <code>{{ configMotion }}</code>。Provider 输出请求与解析后的主题和动效属性，并同步到 Teleport 悬浮层。</div>
               </div>
             </UiConfigProvider>
@@ -791,6 +798,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>QRCode</td><td>真实 SVG 矩阵</td><td>下载动作强调</td><td>刷新 / 下载</td><td>命名图片 + Live 状态</td><td>—</td><td>Loading / Expired / Scanned / Invalid</td></tr>
               <tr><td>Barcode</td><td>真实线性条纹</td><td>下载动作强调</td><td>刷新 / 下载</td><td>命名图片 + Live 状态</td><td>—</td><td>Loading / Expired / Scanned / Invalid</td></tr>
               <tr><td>CronEditor</td><td>预设 / 自定义表达式</td><td>有效状态强调</td><td>选择预设 / 编辑 / 预览</td><td>表单命名 + Alert</td><td>只读 / 禁用</td><td>字段错误 / 无未来执行时间</td></tr>
+              <tr><td>KeyValueEditor</td><td>启用 / 停用行</td><td>有效状态强调</td><td>增删 / 排序 / 导入</td><td>分行 ARIA + 错误关联</td><td>只读 / 禁用</td><td>空键 / 重复键 / 格式错误</td></tr>
               <tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr>
               <tr><td>Affix</td><td>页面流内</td><td>保留子操作</td><td>固定至边缘</td><td>内容焦点可见</td><td>立即回归文档流</td><td>目标回退 / 边界停止</td></tr>
               <tr><td>Splitter</td><td>响应式占比分栏</td><td>分隔条高亮</td><td>相邻面板调整 / 折叠</td><td>ARIA Separator + Ring</td><td>锁定分隔条</td><td>约束钳制 / Lazy 预览</td></tr>
