@@ -49,7 +49,7 @@ import UiCol from '../components/UiCol.vue'
 import UiSpace from '../components/UiSpace.vue'
 import UiDivider from '../components/UiDivider.vue'
 import UiTabs from '../components/UiTabs.vue'
-import UiBreadcrumb from '../components/UiBreadcrumb.vue'
+import UiPageHeader from '../components/UiPageHeader.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 import UiBadge from '../components/UiBadge.vue'
 import UiSkeleton from '../components/UiSkeleton.vue'
@@ -226,13 +226,13 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:88},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'KeyValueEditor P57'},{key:'version',label:'版本',value:'1.53.1'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'88 个公开组件 · 键值对增删排序、启停、重复与格式校验、文本导入、表单命名、响应式布局、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'PageHeader P58'},{key:'version',label:'版本',value:'1.54.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 页面级语义标题、面包屑、返回来源、元信息、操作、页脚、加载、吸顶、响应式、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.53.1?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.54.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
 const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-153-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
@@ -281,7 +281,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
 
 <template>
   <div class="page-container">
-    <div class="page-heading"><div><UiBreadcrumb :items="[{label:'Design System',href:'#/components'},{label:'组件用例'}]"/><h1>组件用例中心</h1><p>可交互的组件 Variant、State 与使用规范 · Vue 3 实现</p></div><div class="page-actions"><a class="btn btn-outline" href="/component-preview.html" target="_blank"><AppIcon name="external" :size="15"/>打开一页预览</a><UiButton icon="download" @click="emit('notify','Token JSON 已准备')">导出 Token</UiButton></div></div>
+    <UiPageHeader title="组件用例中心" description="可交互的组件 Variant、State 与使用规范 · Vue 3 实现" :breadcrumbs="[{label:'Design System',href:'#/components'},{label:'组件用例'}]"><template #actions><a class="btn btn-outline" href="/component-preview.html" target="_blank" rel="noreferrer"><AppIcon name="external" :size="15"/>打开一页预览</a><UiButton icon="download" @click="emit('notify','Token JSON 已准备')">导出 Token</UiButton></template></UiPageHeader>
     <div class="docs-layout"><div class="card docs-toc"><UiAnchor v-model="current" :items="anchorItems" :offset-top="120" :affix="false" aria-label="组件目录"/></div>
       <main class="docs-content">
         <section id="tokens" class="card doc-section"><header class="doc-section-header"><h2>Design Tokens</h2><p>语义 Token 是设计与代码的共同语言，避免页面中出现无语义的魔法数字。</p></header><div class="demo-block"><div class="token-grid"><div v-for="c in colors" :key="c[0]" class="color-token"><div class="color-swatch" :style="{'--swatch':c[1]}"/><div class="token-copy"><strong>{{ c[0] }}</strong><code>{{ c[1] }}</code></div></div></div><div class="preview-note"><strong>使用原则：</strong> 组件优先引用 `--brand-600`、`--text-secondary` 等语义变量；只有色阶展示才直接引用基础色阶。</div></div></section>
@@ -318,6 +318,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         <section id="layout" class="card doc-section">
           <header class="doc-section-header"><h2>布局规范</h2><p>采用 12 栏响应式栅格、统一内容宽度和页面骨架，保证列表、表单与看板在不同屏幕下保持稳定节奏。</p></header>
           <div class="demo-block layout-showcase">
+            <div class="layout-demo-section"><div class="form-demo-title"><strong>Page Header · 统一页面标题</strong><span>Breadcrumb / Back / Meta / Actions / Footer / Sticky</span></div><UiPageHeader data-page-header-state-contract style="margin:0;padding:18px" title="客户详情" description="统一呈现导航上下文、对象状态与页面级操作" :breadcrumbs="[{label:'客户管理',href:'#/data'},{label:'上海星河科技'}]" show-back bordered @back="emit('notify','返回客户列表')"><template #meta><UiTag color="green" dot>合作中</UiTag><span>更新于 10:24</span></template><template #actions><UiButton variant="outline">导出</UiButton><UiButton icon="edit">编辑客户</UiButton></template><template #footer><UiTabs model-value="概览" :panels="false" :items="['概览','跟进记录','关联订单']"/></template></UiPageHeader><div class="preview-note"><strong>组合原则：</strong>标题保持单一 H1；返回、面包屑、元信息、操作和页签各自占据固定语义区域，移动端自动折行且不隐藏功能。</div></div>
             <div class="layout-demo-section"><div class="form-demo-title"><strong>页面骨架</strong><span>Application shell</span></div><div class="layout-shell-demo"><aside><span class="layout-brand-dot"/><i/><i/><i/></aside><div><header><span/><span/></header><main><div class="layout-demo-heading"/><div class="layout-demo-cards"><i/><i/><i/></div><div class="layout-demo-table"/></main></div></div><div class="layout-rule-grid"><span><strong>240 / 64px</strong>侧栏展开 / 收起</span><span><strong>56px</strong>顶部导航高度</span><span><strong>24px</strong>桌面内容边距</span><span><strong>1440px</strong>建议内容最大宽度</span></div></div>
             <div class="layout-demo-section"><div class="form-demo-title"><strong>12 栏栅格</strong><span>UiLayout / UiGrid / UiCol / UiSpace</span></div><UiLayout :gap="12"><UiGrid :columns="12" :gap="8"><UiCol :span="12"><div class="layout-grid-cell">12</div></UiCol><UiCol :span="8"><div class="layout-grid-cell">8</div></UiCol><UiCol :span="4"><div class="layout-grid-cell">4</div></UiCol><UiCol v-for="(span,index) in [6,6,4,4,4]" :key="index" :span="span"><div class="layout-grid-cell">{{ span }}</div></UiCol></UiGrid><UiDivider label="响应式容器"/><UiSpace :size="8"><UiTag color="blue">桌面 24px</UiTag><UiTag color="gray">平板 20px</UiTag><UiTag color="green">移动端 14px</UiTag></UiSpace></UiLayout><div class="preview-note"><strong>响应规则：</strong> ≥1200px 使用完整侧栏和多栏布局；720–1199px 收起侧栏；&lt;720px 切换为单栏并保留 14px 页面边距。</div></div>
           </div>
@@ -529,7 +530,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.53.1 发布二维码" caption="扫码打开 1.53.1 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.54.0 发布二维码" caption="扫码打开 1.54.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -542,7 +543,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.53.1 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.54.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -815,3 +816,5 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
     </div>
   </div>
 </template>
+
+\n

@@ -1,6 +1,6 @@
 <script setup>
 import AppIcon from '../components/AppIcon.vue'
-import UiBreadcrumb from '../components/UiBreadcrumb.vue'
+import UiPageHeader from '../components/UiPageHeader.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 import MetricCard from '../components/MetricCard.vue'
 import UiCard from '../components/UiCard.vue'
@@ -20,7 +20,7 @@ const activities = [
 
 <template>
   <div class="page-container">
-    <div class="page-heading"><div><UiBreadcrumb :items="[{label:'工作台',href:'#/workbench'},{label:'我的工作台'}]"/><h1>我的工作台</h1><p>集中处理待办、业务动态与常用功能</p></div><div class="page-actions"><button class="icon-btn outline" title="自定义工作台" @click="$emit('notify','工作台编辑模式已开启')"><AppIcon name="settings"/></button></div></div>
+    <UiPageHeader title="我的工作台" description="集中处理待办、业务动态与常用功能" :breadcrumbs="[{label:'工作台',href:'#/workbench'},{label:'我的工作台'}]"><template #actions><button class="icon-btn outline" title="自定义工作台" @click="$emit('notify','工作台编辑模式已开启')"><AppIcon name="settings"/></button></template></UiPageHeader>
     <div class="card welcome-card" style="margin-bottom:16px">
       <UiAvatar name="Deng Pan" size="lg"/><div class="welcome-copy"><h2>早上好，Deng Pan 👋</h2><p>今天是 2026 年 8 月 10 日，星期一。你有 <strong class="text-brand">6 项待办</strong>需要处理。</p></div>
       <div class="welcome-weather"><AppIcon name="sun" :size="30" class="weather-icon"/><div><strong>29°C</strong><div class="subtle" style="font-size:10px">上海 · 晴</div></div></div>

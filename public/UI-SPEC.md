@@ -1076,3 +1076,14 @@ P56 advances to 87 public components, 406 locale keys and 29 visual baselines. R
 - Component center, one-page HTML, standalone consumer, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
 
 P57 advances to 88 public components, 431 locale keys and 30 visual baselines. Release gates require 48 zero-violation Axe scenarios, 52 interactions per Chromium/Firefox/WebKit engine, 47 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 71. Maturity P58: semantic page heading composition
+
+- `UiPageHeader` is the single page-level contract for breadcrumb, logical back navigation, title, description, metadata, actions, footer and loading presentation. Business pages must compose these regions through Props and Slots instead of recreating page-local heading wrappers.
+- The root is a named `header`; the configured `titleTag` supplies its document-outline label, and title-less or loading states retain an explicit accessible name. Nested breadcrumb landmarks receive page-specific labels so multiple examples remain distinguishable.
+- Button and link back modes share disabled semantics and emit pointer/keyboard source metadata plus optional href. Exposed `focusBack` and `scrollIntoView` methods return operation status; default smooth scrolling adapts to scoped or system Reduced Motion.
+- `sm`, `md` and `lg` title scales, optional divider and sticky offset cover dense workspaces. Logical properties, responsive single-column actions, RTL back direction, forced-colors focus and bounded skeleton motion preserve the same contract across environments.
+- Breadcrumb, back-icon, title, description, meta, actions, footer and loading Slots retain application composition without weakening the landmark or heading relationship.
+- Dashboard, Workbench, Data, AI, Gantt and Components pages, the one-page HTML preview, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P58 advances to 89 public components, 433 locale keys and generated coverage of 1,050 Props, 368 Events and 182 Slots. Release gates require 31 visual baselines, 49 zero-violation Axe scenarios, 53 interactions per Chromium/Firefox/WebKit engine, 49 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

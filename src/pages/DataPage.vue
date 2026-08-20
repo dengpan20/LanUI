@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import AppIcon from '../components/AppIcon.vue'
-import UiBreadcrumb from '../components/UiBreadcrumb.vue'
+import UiPageHeader from '../components/UiPageHeader.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 import UiButton from '../components/UiButton.vue'
 import UiInput from '../components/UiInput.vue'
@@ -79,10 +79,9 @@ watch([keyword,status,customerType,updatedRange,pageSize],()=>{page.value=1},{de
 
 <template>
   <div class="page-container">
-    <div class="page-heading">
-      <div><UiBreadcrumb :items="[{label:'业务管理',href:'#/data'},{label:'客户数据'}]"/><h1>客户数据</h1><p>统一管理客户档案、跟进状态与成交数据</p></div>
-      <div class="page-actions"><UiButton variant="outline" icon="upload" @click="uploadOpen=!uploadOpen">批量导入</UiButton><UiButton icon="plus" @click="emit('open-modal','新建客户')">新建客户</UiButton></div>
-    </div>
+    <UiPageHeader title="客户数据" description="统一管理客户档案、跟进状态与成交数据" :breadcrumbs="[{label:'业务管理',href:'#/data'},{label:'客户数据'}]">
+      <template #actions><UiButton variant="outline" icon="upload" @click="uploadOpen=!uploadOpen">批量导入</UiButton><UiButton icon="plus" @click="emit('open-modal','新建客户')">新建客户</UiButton></template>
+    </UiPageHeader>
 
     <Transition name="select-menu"><div v-if="uploadOpen" class="card inline-upload-panel"><div class="inline-upload-heading"><div><strong>批量导入客户</strong><span>上传 CSV 或 Excel 文件，完成后可在此确认数据映射。</span></div><button class="icon-btn" aria-label="关闭上传面板" @click="uploadOpen=false"><AppIcon name="close" :size="14"/></button></div><UiUpload v-model="importFiles" accept=".csv,.xls,.xlsx" :max-size="20" :max-count="1" :request="importRequest" @success="emit('notify','Import asset uploaded; field mapping is ready')" @upload-error="emit('notify','Import upload failed; retry is available','error')" @error="emit('notify',$event,'error')"/></div></Transition>
 

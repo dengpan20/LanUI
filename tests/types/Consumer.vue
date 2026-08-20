@@ -9,6 +9,7 @@ import {
   UiCommandPalette,
   UiCronEditor,
   UiKeyValueEditor,
+  UiPageHeader,
   UiColorPicker,
   UiDataGrid,
   UiForm,
@@ -139,6 +140,7 @@ function sort(payload:UiTableSortChange) {
   <UiStatistic title="Revenue" :value="2864000" prefix="$" :trend="12.6"><template #trend="{ direction, tone }">{{ direction }}/{{ tone }}</template><template #extra>Updated now</template></UiStatistic>
   <UiFormItem label="Release schedule"><UiCronEditor v-model="releaseCron" time-zone="UTC" :preview-count="3"><template #actions="{ valid, runs }">{{ valid }} / {{ runs.length }}</template></UiCronEditor></UiFormItem>
   <UiFormItem label="Request headers"><UiKeyValueEditor v-model="requestHeaders" :min-rows="1" :max-rows="8" require-value name="headers"><template #actions="{ validation, importText }"><UiButton @click="importText('REGION=east',{mode:'append'})">{{ validation.valid }}</UiButton></template></UiKeyValueEditor></UiFormItem>
+  <UiPageHeader title="Typed release" description="Typed page heading contract" :breadcrumbs="[{label:'Workspace',href:'#workspace'},{label:'Release'}]" show-back bordered @back="meta=>meta.source" @breadcrumb-navigate="meta=>meta.index"><template #meta>Stable</template><template #actions><UiButton>Publish</UiButton></template><template #footer>Evidence</template></UiPageHeader>
   <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>

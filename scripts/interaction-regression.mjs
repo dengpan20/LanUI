@@ -1086,6 +1086,27 @@ const allCases = [
     },
   },
   {
+    name:'page-header-back-breadcrumb-composition',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.locator('.interaction-page-header-case .ui-page-header')
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-ui-page-header'),'')
+      assert.equal(await root.getByRole('heading',{name:'Interaction release',level:1}).count(),1)
+      const back=root.getByRole('button',{name:'Back'})
+      await back.click()
+      await expectText(page,'page-header-output','back:pointer')
+      await back.focus()
+      await back.press('Enter')
+      await expectText(page,'page-header-output','back:keyboard')
+      await root.getByRole('link',{name:'Workspace'}).click()
+      await expectText(page,'page-header-output','breadcrumb:0:Workspace')
+      await page.locator('#page-header-action').click()
+      await expectText(page,'page-header-output','action:publish')
+      assert.equal(await root.getByRole('navigation',{name:'Page header sections'}).count(),1)
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -1129,7 +1150,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),88)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),89)
     },
   },
 ]

@@ -141,8 +141,8 @@ export interface UiAutoCompleteFetchContext { signal?:AbortSignal }
 export interface UiAutoCompleteProps { modelValue?:Key; options?:Array<UiAutoCompleteOption|Key>; fetchSuggestions?:(query:string,context:UiAutoCompleteFetchContext)=>Array<UiAutoCompleteOption|Key>|Promise<Array<UiAutoCompleteOption|Key>>; debounce?:number; minChars?:number; placeholder?:string; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; clearable?:boolean; allowCustom?:boolean; openOnFocus?:boolean; highlightFirst?:boolean; matchMode?:'contains'|'startsWith'; emptyText?:string; loadingText?:string; placement?:'top-start'|'top-end'|'bottom-start'|'bottom-end'; appendToBody?:boolean; cache?:boolean }
 export interface UiAvatarProps { src?:string; alt?:string; name?:string; size?:ComponentSize|number|string; color?:'blue'|'green'|'orange'|'purple'|'gray'|string; square?:boolean }
 export interface UiBadgeProps { value?:Key; max?:number; dot?:boolean; status?:'danger'|'success'|'warning'|'info'; show?:boolean }
-export interface UiBreadcrumbItem { label:string; href?:string; to?:string; current?:boolean; disabled?:boolean }
-export interface UiBreadcrumbProps { items?:UiBreadcrumbItem[]; separator?:string }
+export interface UiBreadcrumbItem { label:string; href?:string; to?:string; current?:boolean; disabled?:boolean; onClick?:()=>void }
+export interface UiBreadcrumbProps { items?:UiBreadcrumbItem[]; separator?:string; ariaLabel?:string }
 export interface UiButtonProps { variant?:'primary'|'secondary'|'outline'|'text'|'danger'|'danger-outline'; size?:ComponentSize; icon?:string; loading?:boolean; disabled?:boolean; type?:'button'|'submit'|'reset' }
 export interface UiCalendarDisabledContext { date:string; currentMonth:boolean }
 export interface UiCalendarRangeState { start:boolean; end:boolean; inRange:boolean; preview:boolean }
@@ -269,6 +269,11 @@ export interface UiKeyValueEditorProps { modelValue?:UiKeyValueItem[]; keyField?
 export interface UiKeyValueEditorInstance { add:(item?:UiKeyValueItem,index?:number,source?:string)=>UiKeyValueChangeMeta|false; remove:(index:number,source?:string)=>UiKeyValueChangeMeta|false; move:(from:number,to:number,source?:string)=>UiKeyValueChangeMeta|false; toggle:(index:number,source?:string)=>UiKeyValueChangeMeta|false; replace:(items:UiKeyValueItem[],source?:string)=>UiKeyValueChangeMeta|false; importText:(text:string,options?:UiKeyValueImportOptions)=>UiKeyValueChangeMeta|false; validate:(items?:UiKeyValueItem[])=>UiKeyValueValidation; getValue:()=>UiKeyValueItem[]; focus:(index?:number,field?:'key'|'value')=>boolean; values:ComputedRef<UiKeyValueItem[]>; validation:ComputedRef<UiKeyValueValidation>; canAdd:ComputedRef<boolean>; canRemove:ComputedRef<boolean> }
 export interface UiNotice { type?:'info'|'success'|'warning'|'error'; title:string; message:string }
 export interface UiNotificationProps { notification?:UiNotice|null; actionText?:string; secondaryText?:string; feedback?:LanUiFeedback }
+export type UiPageHeaderTitleTag = 'h1'|'h2'|'h3'|'h4'|'h5'|'h6'
+export interface UiPageHeaderProps { title?:string; description?:string; breadcrumbs?:UiBreadcrumbItem[]; showBack?:boolean; backHref?:string; backLabel?:string; backDisabled?:boolean; titleTag?:UiPageHeaderTitleTag; size?:ComponentSize; bordered?:boolean; sticky?:boolean; stickyOffset?:number|string; loading?:boolean; ariaLabel?:string }
+export interface UiPageHeaderBackMeta { source:'pointer'|'keyboard'|string; href?:string }
+export interface UiPageHeaderBreadcrumbMeta { item:UiBreadcrumbItem; index:number }
+export interface UiPageHeaderInstance { root:Ref<HTMLElement|null>; backControl:Ref<HTMLElement|null>; focusBack:(options?:FocusOptions)=>boolean; scrollIntoView:(options?:ScrollIntoViewOptions)=>boolean }
 export interface UiPaginationProps { page?:number; pageSize?:number; total?:number; pageSizeOptions?:number[]; showSizeChanger?:boolean; compact?:boolean; ariaLabel?:string }
 export interface UiPopconfirmProps { title?:string; message?:string; confirmText?:string; cancelText?:string; danger?:boolean; beforeConfirm?:()=>unknown|Promise<unknown>; placement?:Placement; offset?:number }
 export interface UiPopoverProps { modelValue?:boolean; placement?:Placement; width?:string|number; closeOnOutside?:boolean; title?:string; offset?:number }
@@ -453,6 +458,7 @@ export type UiMultiSelectEmits = { 'update:modelValue':(value:Key[])=>void; chan
 export type UiNumberInputEmits = { 'update:modelValue':(value:number|null)=>void; input:(value:number|null)=>void; change:(value:number|null,meta:UiNumberInputChangeMeta)=>void; step:(value:number,meta:UiNumberInputStepMeta)=>void; invalid:(payload:UiNumberInputInvalid)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiOtpInputEmits = { 'update:modelValue':(value:string)=>void; input:(value:string,meta:UiOtpInputMeta)=>void; change:(value:string,meta:UiOtpInputChangeMeta)=>void; complete:(value:string,meta:UiOtpInputMeta)=>void; focus:(event:FocusEvent,meta:UiOtpInputMeta)=>void; blur:(event:FocusEvent,meta:UiOtpInputMeta)=>void; invalid:(meta:UiOtpInputInvalidMeta)=>void }
 export type UiNotificationEmits = { close:()=>void; action:()=>void }
+export type UiPageHeaderEmits = { back:(meta:UiPageHeaderBackMeta,event:MouseEvent)=>void; 'breadcrumb-navigate':(meta:UiPageHeaderBreadcrumbMeta)=>void }
 export type UiPaginationEmits = { 'update:page':(value:number)=>void; 'update:pageSize':(value:number)=>void; change:(payload:UiPaginationChange)=>void }
 export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(error:unknown)=>void }
 export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
@@ -547,6 +553,7 @@ export type UiMultiSelectSlots = {}
 export type UiNumberInputSlots = { prefix?:()=>VNodeChild; suffix?:()=>VNodeChild }
 export type UiOtpInputSlots = {}
 export type UiNotificationSlots = {}
+export type UiPageHeaderSlots = { breadcrumb?:(scope:{items:UiBreadcrumbItem[];navigate:(item:UiBreadcrumbItem)=>UiPageHeaderBreadcrumbMeta})=>VNodeChild; 'back-icon'?:()=>VNodeChild; title?:(scope:{title:string})=>VNodeChild; description?:(scope:{description:string})=>VNodeChild; meta?:()=>VNodeChild; actions?:()=>VNodeChild; footer?:()=>VNodeChild; loading?:()=>VNodeChild }
 export type UiPaginationSlots = {}
 export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
 export type UiPopoverSlots = { trigger?:(props:{open:boolean})=>VNodeChild; default?:(props:{close:()=>void})=>VNodeChild }
@@ -610,6 +617,7 @@ export const UiCronEditor:LanComponent<UiCronEditorProps,UiCronEditorEmits,UiCro
 export const UiKeyValueEditor:LanComponent<UiKeyValueEditorProps,UiKeyValueEditorEmits,UiKeyValueEditorSlots>
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>; export const UiOtpInput:LanComponent<UiOtpInputProps,UiOtpInputEmits,UiOtpInputSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>; export const UiMentions:LanComponent<UiMentionsProps,UiMentionsEmits,UiMentionsSlots>
+export const UiPageHeader:LanComponent<UiPageHeaderProps,UiPageHeaderEmits,UiPageHeaderSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>; export const UiQueryBuilder:LanComponent<UiQueryBuilderProps,UiQueryBuilderEmits,UiQueryBuilderSlots>
 export const UiQRCode:LanComponent<UiQRCodeProps,UiQRCodeEmits,UiQRCodeSlots>
 export const UiBarcode:LanComponent<UiBarcodeProps,UiBarcodeEmits,UiBarcodeSlots>

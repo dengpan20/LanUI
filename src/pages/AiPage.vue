@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, ref } from 'vue'
 import AppIcon from '../components/AppIcon.vue'
-import UiBreadcrumb from '../components/UiBreadcrumb.vue'
+import UiPageHeader from '../components/UiPageHeader.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 const emit = defineEmits(['notify'])
 const input = ref('')
@@ -17,7 +17,7 @@ async function send(text){ const value=(text||input.value).trim();if(!value||sen
 
 <template>
   <div class="page-container">
-    <div class="page-heading"><div><UiBreadcrumb :items="[{label:'工作台',href:'#/workbench'},{label:'智能问答'}]"/><h1>智能问答</h1><p>结合业务数据与企业知识库的 AI 工作助手</p></div></div>
+    <UiPageHeader title="智能问答" description="结合业务数据与企业知识库的 AI 工作助手" :breadcrumbs="[{label:'工作台',href:'#/workbench'},{label:'智能问答'}]"/>
     <section class="card chat-layout">
       <aside class="chat-history"><button class="btn btn-primary" style="width:100%" @click="messages=[messages[0]]"><AppIcon name="plus" :size="15"/>新建对话</button><div class="chat-history-title">最近对话</div><button v-for="(h,i) in history" :key="h" class="chat-history-item" :class="{active:i===0}">{{ h }}</button></aside>
       <div class="chat-main"><header class="chat-top"><div class="chat-title"><span class="bot-mark"><AppIcon name="sparkles"/></span><div><strong>Lan AI 助手</strong><span>● 服务正常</span></div></div><div><button class="icon-btn" title="清空对话" @click="messages=[messages[0]]"><AppIcon name="trash" :size="15"/></button><button class="icon-btn" title="更多"><AppIcon name="more" :size="15"/></button></div></header>
@@ -27,4 +27,3 @@ async function send(text){ const value=(text||input.value).trim();if(!value||sen
     </section>
   </div>
 </template>
-

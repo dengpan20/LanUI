@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.53.1",
+  "version": "1.54.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 194934,
-    "rules": 1531,
+    "bytes": 198900,
+    "rules": 1558,
     "source": "component-union"
   },
   "core": {
@@ -312,6 +312,12 @@
       "subpath": "./styles/UiOtpInput.css",
       "bytes": 1844,
       "rules": 15
+    },
+    {
+      "name": "UiPageHeader",
+      "subpath": "./styles/UiPageHeader.css",
+      "bytes": 4595,
+      "rules": 34
     },
     {
       "name": "UiPagination",

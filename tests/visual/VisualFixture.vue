@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -69,7 +69,7 @@ const visualKeyValues=ref([
 ])
 const visualCarouselItems=[
   {key:'foundations',eyebrow:'FOUNDATIONS',title:'Shared visual language',description:'Semantic color, typography, spacing and motion tokens keep every product surface coherent.',metric:'359 locale keys'},
-  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'88 public components'},
+  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'89 public components'},
   {key:'delivery',eyebrow:'DELIVERY',title:'Verified before release',description:'Unit, visual, Axe, interaction, package and performance gates protect downstream consumers.',metric:'5 CI jobs'},
 ]
 const visualMentionOptions=[
@@ -319,6 +319,20 @@ const tableRows=[
         <div class="visual-key-value-states"><UiFormItem label="Read-only environment"><UiKeyValueEditor :model-value="[{key:'NODE_ENV',value:'production',enabled:true},{key:'LOG_LEVEL',value:'info',enabled:true}]" readonly/></UiFormItem><UiFormItem label="Duplicate validation" error="Keys must be unique"><UiKeyValueEditor :model-value="[{key:'REGION',value:'east',enabled:true},{key:'region',value:'west',enabled:true}]" require-value invalid/></UiFormItem></div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">headers / env / metadata</UiTag><UiTag color="green">immutable change metadata</UiTag><UiTag color="orange">form / RTL / SSR / types</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='page-header'" title="Semantic page heading" title-tag="h2" class="visual-table-card visual-page-header-showcase">
+      <div class="visual-page-header-stack" data-page-header-state-contract="breadcrumb back title description meta actions footer loading sticky responsive rtl ssr">
+        <UiPageHeader title="Release evidence" description="Review component contracts, generated documentation and verification artifacts before publishing." :breadcrumbs="[{label:'Workspace',href:'#workspace'},{label:'Components',href:'#components'},{label:'PageHeader'}]" show-back bordered>
+          <template #meta><UiTag color="green">Stable</UiTag><UiTag color="blue">89 components</UiTag></template>
+          <template #actions><UiButton variant="outline">Preview</UiButton><UiButton>Publish</UiButton></template>
+          <template #footer><UiTabs model-value="overview" :panels="false" :items="[{label:'Overview',value:'overview'},{label:'Contracts',value:'contracts'},{label:'Evidence',value:'evidence'}]"/></template>
+        </UiPageHeader>
+        <div class="visual-page-header-variants">
+          <UiPageHeader title="Compact workspace" description="Small title scale with a custom metadata lane." size="sm" :breadcrumbs="[{label:'Admin',href:'#admin'},{label:'Settings'}]" show-back><template #meta><UiTag color="orange">Draft</UiTag></template></UiPageHeader>
+          <UiPageHeader title="Loading release details" loading bordered aria-label="Loading page heading"/>
+        </div>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">semantic header</UiTag><UiTag color="green">responsive / RTL</UiTag><UiTag color="orange">sticky / reduced motion / SSR</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

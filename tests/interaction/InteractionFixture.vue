@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -85,6 +85,7 @@ const mentionsValue=ref('Review ')
 const mentionsOutput=ref('ready')
 const inputTagValue=ref([])
 const inputTagOutput=ref('ready')
+const pageHeaderOutput=ref('ready')
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -586,6 +587,15 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>Key-value edit, import, reorder and validation contract</h2>
         <UiKeyValueEditor ref="keyValueEditorRef" v-model="keyValueRows" :min-rows="1" :max-rows="5" key-pattern="^[A-Za-z][A-Za-z0-9-]*$" require-value aria-label="Interaction request headers" @change="updateKeyValueOutput" @invalid="validation=>keyValueOutput=`invalid:${validation.errors[0]?.code}`"/>
         <div class="interaction-row"><UiButton id="key-value-import" size="sm" variant="outline" @click="keyValueEditorRef.importText('REGION=east\nRETRIES=3\nTRACE=enabled')">Import dotenv</UiButton><UiButton id="key-value-api-move" size="sm" variant="outline" @click="keyValueEditorRef.move(0,1,'fixture-api')">Move first by API</UiButton><output class="interaction-output" data-testid="key-value-output">{{ keyValueOutput }}</output></div>
+      </section>
+      <section class="interaction-case interaction-wide interaction-page-header-case">
+        <h2>Page header back, breadcrumb and composition contract</h2>
+        <UiPageHeader title="Interaction release" description="Validate pointer, keyboard and breadcrumb metadata." :breadcrumbs="[{label:'Workspace',href:'#page-header-workspace'},{label:'Components',href:'#page-header-components'},{label:'PageHeader'}]" show-back bordered @back="meta=>pageHeaderOutput=`back:${meta.source}`" @breadcrumb-navigate="meta=>pageHeaderOutput=`breadcrumb:${meta.index}:${meta.item.label}`">
+          <template #meta><span>Stable contract</span></template>
+          <template #actions><UiButton id="page-header-action" size="sm" @click="pageHeaderOutput='action:publish'">Publish</UiButton></template>
+          <template #footer><nav aria-label="Page header sections"><a href="#page-header-overview">Overview</a></nav></template>
+        </UiPageHeader>
+        <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

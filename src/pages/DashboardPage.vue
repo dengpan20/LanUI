@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import AppIcon from '../components/AppIcon.vue'
-import UiBreadcrumb from '../components/UiBreadcrumb.vue'
+import UiPageHeader from '../components/UiPageHeader.vue'
 import MetricCard from '../components/MetricCard.vue'
 import UiButton from '../components/UiButton.vue'
 import UiCard from '../components/UiCard.vue'
@@ -19,10 +19,9 @@ const tasks = [
 
 <template>
   <div class="page-container">
-    <div class="page-heading">
-      <div><UiBreadcrumb :items="[{label:'首页',href:'#/home'},{label:'综合看板'}]"/><h1>综合看板</h1><p>关键经营数据与业务趋势总览，更新于今天 10:24</p></div>
-      <div class="page-actions"><UiButton variant="outline" icon="download" @click="$emit('notify','报表已开始导出')">导出报表</UiButton><UiButton icon="refresh" @click="$emit('notify','数据已刷新')">刷新数据</UiButton></div>
-    </div>
+    <UiPageHeader title="综合看板" description="关键经营数据与业务趋势总览，更新于今天 10:24" :breadcrumbs="[{label:'首页',href:'#/home'},{label:'综合看板'}]">
+      <template #actions><UiButton variant="outline" icon="download" @click="$emit('notify','报表已开始导出')">导出报表</UiButton><UiButton icon="refresh" @click="$emit('notify','数据已刷新')">刷新数据</UiButton></template>
+    </UiPageHeader>
 
     <div class="grid grid-4" style="margin-bottom:16px">
       <MetricCard label="本月销售额" value="¥ 286.4" unit="万" trend="12.6%" icon="money" color="#2563eb" tint="#eff6ff" />

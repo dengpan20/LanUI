@@ -1,5 +1,20 @@
 # Lan UI migration and compatibility policy
 
+## 1.54 page-header compatibility
+
+There are no breaking changes. Existing page-specific headings can be migrated incrementally:
+
+```vue
+<UiPageHeader title="Orders" :breadcrumbs="items" show-back bordered>
+  <template #actions><UiButton>Create order</UiButton></template>
+</UiPageHeader>
+```
+
+- Keep exactly one page-level `h1` by default; use `titleTag` only when the surrounding document outline requires another semantic level.
+- `back` emits pointer or keyboard source metadata and an optional `backHref`. Consumer routing remains explicit; a disabled back control is removed from tab order.
+- `stickyOffset` accepts a number in pixels or a CSS length. Reduced-motion contexts change the exposed default `scrollIntoView` behavior from smooth to immediate.
+- Breadcrumb landmarks receive a page-specific accessible label. Root and `components/UiPageHeader` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiPageHeader.css`.
+
 ## 1.53 key-value editor compatibility
 
 There are no breaking changes. Configuration, integration and deployment forms can adopt the component incrementally:

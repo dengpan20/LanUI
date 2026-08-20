@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.54.0] - 2026-08-20
+
+### Added
+
+- `UiPageHeader`, a semantic page-level heading primitive with breadcrumb, back, title, description, metadata, actions, footer and loading composition; configurable heading level, size, border and sticky offset; pointer/keyboard source metadata; exposed focus/scroll methods; responsive, RTL, Reduced Motion, forced-colors and SSR behavior.
+- A consumer-configurable `ariaLabel` for `UiBreadcrumb`, allowing multiple page-header breadcrumb landmarks to remain uniquely named.
+- Component-center, static-preview and standalone examples plus deterministic SSR, unit, visual, Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Dashboard, Workbench, Data, AI, Gantt and Components pages now consume one `UiPageHeader` contract instead of maintaining six page-local heading structures.
+- Release gates advance to 89 public components, 433 locale keys, 31 visual baselines, 49 Axe scenarios, 53 interactions per browser and 49 negative type assertions.
+- Generated API coverage advances to 1,050 Props, 368 Events and 182 Slots; root/subpath runtime, declarations, isolated CSS and offline consumer packaging stay synchronized.
+
 ## [1.53.1] - 2026-08-20
 
 ### Fixed

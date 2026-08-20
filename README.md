@@ -1,6 +1,22 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、88 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
+
+## P58 语义化页面标题
+
+`UiPageHeader` 统一后台页面的面包屑、返回入口、标题、描述、元信息、操作区和页内导航，覆盖可配置标题层级、返回来源元数据、加载、吸顶偏移、响应式折叠、RTL、Reduced Motion、SSR、类型与三浏览器交互。Dashboard、工作台、数据页、AI、甘特图和组件中心均已迁移到同一公共契约。
+
+```vue
+<UiPageHeader
+  title="Release evidence"
+  description="Review package contracts before publishing."
+  :breadcrumbs="[{ label:'Workspace', href:'#/workbench' }, { label:'Release' }]"
+  show-back
+  bordered
+>
+  <template #actions><UiButton>Publish</UiButton></template>
+</UiPageHeader>
+```
 
 ## P57 键值配置编辑器
 

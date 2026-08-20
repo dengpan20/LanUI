@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.53.1",
+  "version": "1.54.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -63,6 +63,7 @@
       "UiNotification",
       "UiNumberInput",
       "UiOtpInput",
+      "UiPageHeader",
       "UiPagination",
       "UiPopconfirm",
       "UiPopover",
@@ -577,6 +578,14 @@
       "UiOtpInputMode",
       "UiOtpInputProps",
       "UiOtpInputSlots",
+      "UiPageHeader",
+      "UiPageHeaderBackMeta",
+      "UiPageHeaderBreadcrumbMeta",
+      "UiPageHeaderEmits",
+      "UiPageHeaderInstance",
+      "UiPageHeaderProps",
+      "UiPageHeaderSlots",
+      "UiPageHeaderTitleTag",
       "UiPagination",
       "UiPaginationChange",
       "UiPaginationEmits",
@@ -2452,10 +2461,23 @@
       "subpath": "./components/UiBreadcrumb",
       "propsType": "UiBreadcrumbProps",
       "props": [
+        "ariaLabel",
         "items",
         "separator"
       ],
       "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
         {
           "name": "items",
           "required": false,
@@ -12950,6 +12972,276 @@
       },
       "runtimeExports": [
         "UiOtpInput",
+        "default"
+      ]
+    },
+    {
+      "name": "UiPageHeader",
+      "subpath": "./components/UiPageHeader",
+      "propsType": "UiPageHeaderProps",
+      "props": [
+        "ariaLabel",
+        "backDisabled",
+        "backHref",
+        "backLabel",
+        "bordered",
+        "breadcrumbs",
+        "description",
+        "loading",
+        "showBack",
+        "size",
+        "sticky",
+        "stickyOffset",
+        "title",
+        "titleTag"
+      ],
+      "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "backDisabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "backHref",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "backLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "breadcrumbs",
+          "required": false,
+          "type": "UiBreadcrumbItem[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "showBack",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "sticky",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "stickyOffset",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "titleTag",
+          "required": false,
+          "type": "UiPageHeaderTitleTag",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"h1\""
+          }
+        }
+      ],
+      "emitsType": "UiPageHeaderEmits",
+      "emits": [
+        "back",
+        "breadcrumb-navigate"
+      ],
+      "emitDetails": [
+        {
+          "name": "back",
+          "required": true,
+          "type": "(meta:UiPageHeaderBackMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "breadcrumb-navigate",
+          "required": true,
+          "type": "(meta:UiPageHeaderBreadcrumbMeta)=>void"
+        }
+      ],
+      "slotsType": "UiPageHeaderSlots",
+      "slots": [
+        "actions",
+        "back-icon",
+        "breadcrumb",
+        "description",
+        "footer",
+        "loading",
+        "meta",
+        "title"
+      ],
+      "slotDetails": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "back-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "breadcrumb",
+          "required": false,
+          "type": "(scope:{items:UiBreadcrumbItem[];navigate:(item:UiBreadcrumbItem)=>UiPageHeaderBreadcrumbMeta})=>VNodeChild"
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "(scope:{description:string})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "meta",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "(scope:{title:string})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiPageHeader } from 'lan-ui-design-system'",
+        "subpath": "import UiPageHeader from 'lan-ui-design-system/components/UiPageHeader'"
+      },
+      "runtimeExports": [
+        "UiPageHeader",
         "default"
       ]
     },

@@ -16,6 +16,7 @@ const relatedComponentTypes={
   UiQueryBuilder:['UiQueryAction','UiQueryBuilderInstance','UiQueryChange','UiQueryCounts','UiQueryEditor','UiQueryError','UiQueryField','UiQueryFieldType','UiQueryGroup','UiQueryOperator','UiQueryRule','UiQueryValidationContext','UiQueryValidationResult'],
   UiCronEditor:['UiCronChangeMeta','UiCronEditorInstance','UiCronError','UiCronErrorCode','UiCronInputMeta','UiCronPreset','UiCronValidation'],
   UiKeyValueEditor:['UiKeyValueChangeMeta','UiKeyValueEditorInstance','UiKeyValueError','UiKeyValueErrorCode','UiKeyValueImportOptions','UiKeyValueItem','UiKeyValueValidation'],
+  UiPageHeader:['UiPageHeaderBackMeta','UiPageHeaderBreadcrumbMeta','UiPageHeaderInstance','UiPageHeaderTitleTag'],
 }
 for (const name of components) {
   const typeNames=[`${name}Props`,`${name}Emits`,`${name}Slots`,...(relatedComponentTypes[name]||[])]
