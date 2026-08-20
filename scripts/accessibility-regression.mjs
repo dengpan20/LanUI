@@ -56,6 +56,7 @@ const cases=[
   {name:'date-time-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=date-time',ready:'.visual-date-time-showcase .ui-date-time-range-picker'},
   {name:'qr-code-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=qr-code',ready:'.visual-qr-code-showcase .ui-qr-code-symbol'},
   {name:'barcode-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=barcode',ready:'.visual-barcode-showcase .ui-barcode-symbol'},
+  {name:'cron-editor-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=cron-editor',ready:'.visual-cron-editor-showcase .ui-cron-run-list'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases
 if(requestedCases.length&&selectedCases.length!==requestedCases.length)throw new Error(`Unknown accessibility case: ${requestedCases.filter(name=>!selectedCases.some(item=>item.name===name)).join(', ')}`)

@@ -1016,14 +1016,14 @@ const allCases = [
       const symbol=root.getByRole('img',{name:'Interaction asset barcode'})
       const initialPath=await symbol.locator('path').getAttribute('d')
       assert.ok(initialPath?.length>100)
-      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-151-R1')
+      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-152-R1')
       const refresh=root.locator('.ui-barcode-overlay .ui-barcode-action')
       await refresh.focus()
       await refresh.click()
       await expectText(page,'barcode-output','refresh:2')
       assert.equal(await root.getAttribute('data-status'),'active')
       assert.notEqual(await symbol.locator('path').getAttribute('d'),initialPath)
-      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-151-R2')
+      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-152-R2')
       await page.locator('#barcode-mark-scanned').click()
       await expectText(page,'barcode-output','status:scanned')
       assert.equal(await root.getAttribute('data-status'),'scanned')
@@ -1031,6 +1031,30 @@ const allCases = [
       await page.locator('#barcode-expire').click()
       await expectText(page,'barcode-output','status:expired')
       assert.equal(await root.getAttribute('data-status'),'expired')
+    },
+  },
+  {
+    name:'cron-editor-preset-validation-preview',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.locator('.interaction-cron-editor-case .ui-cron-editor')
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-valid'),'true')
+      assert.equal(await root.getAttribute('data-preset'),'weekdays')
+      const input=root.getByRole('textbox',{name:'Interaction release schedule'})
+      await root.getByRole('button',{name:'Every 15 minutes'}).click()
+      await expectText(page,'cron-output','preset:true:*/15 * * * *')
+      assert.equal(await root.getAttribute('data-preset'),'every-15-minutes')
+      assert.equal(await root.locator('.ui-cron-run-list li').count(),5)
+      await input.fill('61 9 * * *')
+      await expectText(page,'cron-output','invalid:out-of-range')
+      assert.equal(await root.getAttribute('data-valid'),'false')
+      assert.match(await root.getByRole('alert').innerText(),/outside its allowed range/)
+      await page.locator('#cron-api-daily').click()
+      await expectText(page,'cron-output','fixture-api:true:0 10 * * *')
+      assert.equal(await root.getAttribute('data-valid'),'true')
+      assert.equal(await input.inputValue(),'0 10 * * *')
+      assert.equal(await root.locator('.ui-cron-run-list li').count(),5)
     },
   },
   {
@@ -1077,7 +1101,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),86)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),87)
     },
   },
 ]

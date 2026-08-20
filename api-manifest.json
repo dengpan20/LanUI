@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.51.0",
+  "version": "1.52.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -32,6 +32,7 @@
       "UiColorPicker",
       "UiCommandPalette",
       "UiConfigProvider",
+      "UiCronEditor",
       "UiDataGrid",
       "UiDatePicker",
       "UiDateRangePicker",
@@ -372,6 +373,17 @@
       "UiConfigProviderEmits",
       "UiConfigProviderProps",
       "UiConfigProviderSlots",
+      "UiCronChangeMeta",
+      "UiCronEditor",
+      "UiCronEditorEmits",
+      "UiCronEditorInstance",
+      "UiCronEditorProps",
+      "UiCronEditorSlots",
+      "UiCronError",
+      "UiCronErrorCode",
+      "UiCronInputMeta",
+      "UiCronPreset",
+      "UiCronValidation",
       "UiDataGrid",
       "UiDataGridChange",
       "UiDataGridEmits",
@@ -3913,6 +3925,257 @@
       },
       "runtimeExports": [
         "UiCollapse",
+        "default"
+      ]
+    },
+    {
+      "name": "UiCronEditor",
+      "subpath": "./components/UiCronEditor",
+      "propsType": "UiCronEditorProps",
+      "props": [
+        "ariaLabel",
+        "disabled",
+        "from",
+        "invalid",
+        "modelValue",
+        "name",
+        "presets",
+        "previewCount",
+        "readonly",
+        "required",
+        "size",
+        "timeZone"
+      ],
+      "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "from",
+          "required": false,
+          "type": "Date|string|number|null",
+          "runtimeTypes": [
+            "Date",
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"0 9 * * 1-5\""
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "presets",
+          "required": false,
+          "type": "UiCronPreset[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "previewCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "5"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "timeZone",
+          "required": false,
+          "type": "'local'|'UTC'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"local\""
+          }
+        }
+      ],
+      "emitsType": "UiCronEditorEmits",
+      "emits": [
+        "blur",
+        "change",
+        "focus",
+        "input",
+        "invalid",
+        "preset",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:string,meta:UiCronChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:string,meta:UiCronInputMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(error:UiCronError)=>void"
+        },
+        {
+          "name": "preset",
+          "required": true,
+          "type": "(preset:UiCronPreset&{valid:boolean})=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:string)=>void"
+        }
+      ],
+      "slotsType": "UiCronEditorSlots",
+      "slots": [
+        "actions",
+        "header",
+        "presets",
+        "preview"
+      ],
+      "slotDetails": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{valid:boolean;expression:string;runs:Date[];setExpression:(value:string,source?:string)=>boolean})=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "(scope:{valid:boolean;expression:string})=>VNodeChild"
+        },
+        {
+          "name": "presets",
+          "required": false,
+          "type": "(scope:{presets:UiCronPreset[];active:Key;apply:(preset:UiCronPreset)=>boolean})=>VNodeChild"
+        },
+        {
+          "name": "preview",
+          "required": false,
+          "type": "(scope:{runs:Date[];valid:boolean;format:(date:Date)=>string})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiCronEditor } from 'lan-ui-design-system'",
+        "subpath": "import UiCronEditor from 'lan-ui-design-system/components/UiCronEditor'"
+      },
+      "runtimeExports": [
+        "UiCronEditor",
         "default"
       ]
     },

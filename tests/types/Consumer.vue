@@ -7,6 +7,7 @@ import {
   UiCalendar,
   UiAutoComplete,
   UiCommandPalette,
+  UiCronEditor,
   UiColorPicker,
   UiDataGrid,
   UiForm,
@@ -44,6 +45,7 @@ const commandOpen = ref(false)
 const commandQuery = ref('')
 const brandColor = ref('#1677FFCC')
 const serviceRating = ref(3.5)
+const releaseCron=ref('0 9 * * 1-5')
 const releaseRange = ref(['2026-08-10','2026-08-16'])
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
@@ -133,6 +135,7 @@ function sort(payload:UiTableSortChange) {
   <UiFormItem label="Brand color"><UiColorPicker v-model="brandColor" alpha show-contrast :presets="['#1677FF','#10B981']" /></UiFormItem>
   <UiFormItem label="Service rating"><UiRate v-model="serviceRating" :step="0.5" show-text :formatter="(value,max)=>`${value} / ${max}`"><template #text="{ text }">{{ text }}</template></UiRate></UiFormItem>
   <UiStatistic title="Revenue" :value="2864000" prefix="$" :trend="12.6"><template #trend="{ direction, tone }">{{ direction }}/{{ tone }}</template><template #extra>Updated now</template></UiStatistic>
+  <UiFormItem label="Release schedule"><UiCronEditor v-model="releaseCron" time-zone="UTC" :preview-count="3"><template #actions="{ valid, runs }">{{ valid }} / {{ runs.length }}</template></UiCronEditor></UiFormItem>
   <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>

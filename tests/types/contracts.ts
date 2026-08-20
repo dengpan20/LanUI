@@ -8,6 +8,7 @@ import {
   UiAutoComplete,
   UiCommandPalette,
   UiColorPicker,
+  UiCronEditor,
   UiDateRangePicker,
   UiDateTimePicker,
   UiDateTimeRangePicker,
@@ -82,6 +83,7 @@ import SubpathOtpInput, { UiOtpInput as NamedSubpathOtpInput } from 'lan-ui-desi
 import SubpathMentions, { UiMentions as NamedSubpathMentions } from 'lan-ui-design-system/components/UiMentions'
 import SubpathQueryBuilder, { UiQueryBuilder as NamedSubpathQueryBuilder } from 'lan-ui-design-system/components/UiQueryBuilder'
 import SubpathBarcode, { UiBarcode as NamedSubpathBarcode } from 'lan-ui-design-system/components/UiBarcode'
+import SubpathCronEditor, { UiCronEditor as NamedSubpathCronEditor } from 'lan-ui-design-system/components/UiCronEditor'
 import SubpathQRCode, { UiQRCode as NamedSubpathQRCode } from 'lan-ui-design-system/components/UiQRCode'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
@@ -113,6 +115,7 @@ import type {
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
 import type { UiBarcodeEmits, UiBarcodeProps, UiBarcodeSlots } from 'lan-ui-design-system/components/UiBarcode'
+import type { UiCronEditorEmits, UiCronEditorInstance, UiCronEditorProps, UiCronEditorSlots, UiCronPreset } from 'lan-ui-design-system/components/UiCronEditor'
 import type { UiQRCodeEmits, UiQRCodeProps, UiQRCodeSlots } from 'lan-ui-design-system/components/UiQRCode'
 import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
@@ -504,6 +507,13 @@ const barcodeSubpathParity:typeof UiBarcode=SubpathBarcode
 const barcodeNamedSubpathParity:typeof UiBarcode=NamedSubpathBarcode
 const barcodeSlot:UiBarcodeSlots={overlay:scope=>scope.status,caption:scope=>scope.value,actions:scope=>String(scope.download())}
 const barcodeInstance:UiBarcodeInstance={refresh:()=>true,download:()=>true,toSvg:()=>'<svg/>',getEncoding:()=>({format:'CODE128',bits:'101',modules:3,segments:1})}
+const cronPresets:UiCronPreset[]=[{key:'daily',label:'Daily',value:'0 9 * * *'}]
+const cronEditorProps:InstanceType<typeof UiCronEditor>['$props']&UiCronEditorProps={modelValue:'0 9 * * 1-5',presets:cronPresets,previewCount:5,timeZone:'UTC',from:'2026-08-20T08:00:00Z',required:true,name:'schedule'}
+const cronEditorEmit:UiCronEditorEmits['change']=(value,meta)=>{const valid:boolean=meta.valid;void [value,valid]}
+const cronEditorSubpathParity:typeof UiCronEditor=SubpathCronEditor
+const cronEditorNamedSubpathParity:typeof UiCronEditor=NamedSubpathCronEditor
+const cronEditorSlot:UiCronEditorSlots={header:scope=>scope.expression,presets:scope=>String(scope.apply(scope.presets[0])),preview:scope=>scope.format(scope.runs[0]),actions:scope=>String(scope.setExpression('0 * * * *'))}
+const cronEditorInstance:UiCronEditorInstance={input:null as never,focus:()=>true,blur:()=>{},validate:()=>({valid:true,expression:'0 9 * * *',error:null}),nextRuns:()=>[new Date()],setExpression:()=>true,applyPreset:()=>true}
 const qrCodeProps:InstanceType<typeof UiQRCode>['$props']&UiQRCodeProps={value:'https://example.com/release',size:180,level:'H',status:'expired',color:'#155EEF',margin:4,downloadable:true,downloadName:'release.svg'}
 const qrCodeEmit:UiQRCodeEmits['download']=payload=>{const svg:string=payload.svg;void svg}
 const qrCodeSubpathParity:typeof UiQRCode=SubpathQRCode
@@ -565,6 +575,10 @@ const invalidDateTimeRangeMin:UiDateTimeRangePickerProps={min:{year:2026}}
 const invalidBarcodeFormat:UiBarcodeProps={format:'PDF417'}
 // @ts-expect-error Barcode lifecycle status is constrained to active, loading, expired or scanned.
 const invalidBarcodeStatus:UiBarcodeProps={status:'disabled'}
+// @ts-expect-error Cron editor time zones are constrained to local or UTC.
+const invalidCronTimeZone:UiCronEditorProps={timeZone:'Mars/Olympus'}
+// @ts-expect-error Cron preview counts are numeric limits.
+const invalidCronPreviewCount:UiCronEditorProps={previewCount:'five'}
 // @ts-expect-error QR error correction levels use the standard L, M, Q or H contract.
 const invalidQrCodeLevel:UiQRCodeProps={level:'X'}
 // @ts-expect-error QR lifecycle status is constrained to active, loading, expired or scanned.
@@ -612,6 +626,6 @@ const invalidAffixPosition:UiAffixProps={position:'left'}
 // @ts-expect-error Splitter direction is constrained to horizontal or vertical.
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
-void [barcodeProps,barcodeEmit,barcodeSubpathParity,barcodeNamedSubpathParity,barcodeSlot,barcodeInstance,invalidBarcodeFormat,invalidBarcodeStatus,queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
+void [cronPresets,cronEditorProps,cronEditorEmit,cronEditorSubpathParity,cronEditorNamedSubpathParity,cronEditorSlot,cronEditorInstance,invalidCronTimeZone,invalidCronPreviewCount,barcodeProps,barcodeEmit,barcodeSubpathParity,barcodeNamedSubpathParity,barcodeSlot,barcodeInstance,invalidBarcodeFormat,invalidBarcodeStatus,queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

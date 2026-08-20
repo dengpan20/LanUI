@@ -1,10 +1,10 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、86 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、87 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
-## P55 条码组件
+## P56 定时表达式编辑器
 
-`UiBarcode` 提供 CODE128、CODE39、EAN、UPC、ITF、MSI、Pharmacode 与 Codabar 等真实一维码编码，支持尺寸/静区/文本配置、active/loading/expired/scanned/invalid 生命周期、刷新与 SVG 下载，并同步覆盖根入口、组件子路径、独立样式、SSR 与三浏览器交互。
+`UiCronEditor` 为任务调度、报表和自动化后台提供五字段 Unix Cron 编辑能力，支持通配、列表、区间、步长、常用预设、结构化错误和本地/UTC 未来执行预览，并同步覆盖表单、根入口、组件子路径、独立样式、SSR 与三浏览器交互。
 
 ## 项目内容
 
@@ -1188,3 +1188,25 @@ P54 advances to 85 public components, 372 locale keys and generated coverage of 
 - Root/subpath exports, isolated CSS, generated API, component center, static preview, standalone consumer, installed tarball and browser test fixtures stay synchronized.
 
 P55 advances to 86 public components and 379 locale keys. CI requires 28 visual baselines, 46 zero-violation Axe scenarios, 50 interactions per Chromium/Firefox/WebKit engine, 43 negative type assertions and 18 absolute performance ceilings.
+
+## Validated Unix Cron scheduling (P56)
+
+`UiCronEditor` supplies one reusable scheduling field for automation, report delivery and maintenance jobs:
+
+```vue
+<UiCronEditor
+  v-model="schedule"
+  time-zone="UTC"
+  :from="releaseInstant"
+  name="releaseSchedule"
+/>
+```
+
+- Five-field Unix syntax accepts wildcard, lists, ranges and steps. Validation returns structured codes and the affected field instead of relying on a generic regular expression.
+- Common presets remain controlled Cron strings. Custom presets can be supplied without changing form serialization or event contracts.
+- The component previews bounded future runs in local time or UTC, applies Unix day-of-month/day-of-week OR semantics, and never mutates the source date.
+- FormItem label/help/error associations, visible focus and invalid states, disabled/readonly modes, responsive container layout and localized live feedback are built in.
+- Header, preset, preview and action Slots plus `validate`, `nextRuns`, `setExpression`, `applyPreset`, `focus` and `blur` instance methods cover product-specific composition.
+- Root/subpath runtime, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone application, deterministic SSR and installed-tarball consumption remain synchronized.
+
+P56 advances to 87 public components, 406 locale keys and generated coverage of 1,008 Props, 354 Events and 170 Slots. CI requires 29 visual baselines, 47 zero-violation Axe scenarios, 51 interactions per Chromium/Firefox/WebKit engine, 45 negative type assertions and 18 absolute performance ceilings.

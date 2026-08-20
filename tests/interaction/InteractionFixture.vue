@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiBarcode, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -111,6 +111,9 @@ const barcodeStatus=ref('expired')
 const barcodeRevision=ref(1)
 const barcodeOutput=ref('ready:expired:1')
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';barcodeOutput.value=`refresh:${barcodeRevision.value}`}
+const cronEditorRef=ref(null)
+const cronValue=ref('0 9 * * 1-5')
+const cronOutput=ref('ready:valid')
 const carouselItems=[
   {key:'overview',title:'Release overview',description:'Versioned component contract'},
   {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
@@ -568,7 +571,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
       <section class="interaction-case interaction-wide interaction-barcode-case">
         <h2>Barcode lifecycle, refresh and SVG encoding contract</h2>
         <div class="interaction-row"><UiButton id="barcode-expire" variant="outline" @click="barcodeStatus='expired';barcodeOutput='status:expired'">Expire</UiButton><UiButton id="barcode-mark-scanned" variant="outline" @click="barcodeStatus='scanned';barcodeOutput='status:scanned'">Mark scanned</UiButton><UiButton id="barcode-reset" variant="text" @click="barcodeStatus='active';barcodeOutput='status:active'">Reset</UiButton><output class="interaction-output" data-testid="barcode-output">{{ barcodeOutput }}</output></div>
-        <UiBarcode :value="`LAN-UI-151-R${barcodeRevision}`" :status="barcodeStatus" format="CODE128" :width="2" :height="72" label="Interaction asset barcode" caption="Asset lifecycle" @refresh="refreshBarcode" @download="barcodeOutput='download'"/>
+        <UiBarcode :value="`LAN-UI-152-R${barcodeRevision}`" :status="barcodeStatus" format="CODE128" :width="2" :height="72" label="Interaction asset barcode" caption="Asset lifecycle" @refresh="refreshBarcode" @download="barcodeOutput='download'"/>
+      </section>
+      <section class="interaction-case interaction-wide interaction-cron-editor-case">
+        <h2>Cron preset, validation and future-run contract</h2>
+        <UiCronEditor ref="cronEditorRef" v-model="cronValue" from="2026-08-20T08:00:00Z" time-zone="UTC" aria-label="Interaction release schedule" @change="(value,meta)=>cronOutput=`${meta.source}:${meta.valid}:${value}`" @invalid="error=>cronOutput=`invalid:${error.code}`"/>
+        <div class="interaction-row"><UiButton id="cron-api-daily" size="sm" variant="outline" @click="cronEditorRef.setExpression('0 10 * * *','fixture-api')">Set daily by API</UiButton><output class="interaction-output" data-testid="cron-output">{{ cronOutput }}</output></div>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

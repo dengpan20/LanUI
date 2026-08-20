@@ -251,6 +251,14 @@ export interface UiOtpInputMeta { source:string; index:number; value:string; com
 export interface UiOtpInputChangeMeta extends UiOtpInputMeta { previous:string }
 export interface UiOtpInputInvalidMeta { source:string; index:number; input:string; mode:UiOtpInputMode }
 export interface UiOtpInputInstance { root:Ref<HTMLElement|null>; inputs:Ref<HTMLInputElement[]>; focus:(index?:number)=>boolean; blur:()=>void; clear:(source?:string)=>boolean; setValue:(value:unknown,source?:string)=>boolean }
+export type UiCronErrorCode = 'empty'|'field-count'|'empty-field'|'invalid-token'|'invalid-step'|'invalid-range'|'out-of-range'
+export interface UiCronError { code:UiCronErrorCode; message:string; field:string|null; value:string }
+export interface UiCronValidation { valid:boolean; expression?:string; error:UiCronError|null }
+export interface UiCronPreset { key:Key; label:string; value:string; disabled?:boolean }
+export interface UiCronInputMeta { source:string; valid:boolean; error:UiCronError|null }
+export interface UiCronChangeMeta extends UiCronInputMeta { previous:string }
+export interface UiCronEditorProps { modelValue?:string; presets?:UiCronPreset[]; previewCount?:number; timeZone?:'local'|'UTC'; from?:Date|string|number|null; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; required?:boolean; name?:string; ariaLabel?:string }
+export interface UiCronEditorInstance { input:Ref<HTMLInputElement|null>; focus:()=>boolean; blur:()=>void; validate:(value?:string)=>UiCronValidation; nextRuns:(count?:number,from?:Date|string|number)=>Date[]; setExpression:(value:string,source?:string)=>boolean; applyPreset:(preset:UiCronPreset)=>boolean }
 export interface UiNotice { type?:'info'|'success'|'warning'|'error'; title:string; message:string }
 export interface UiNotificationProps { notification?:UiNotice|null; actionText?:string; secondaryText?:string; feedback?:LanUiFeedback }
 export interface UiPaginationProps { page?:number; pageSize?:number; total?:number; pageSizeOptions?:number[]; showSizeChanger?:boolean; compact?:boolean; ariaLabel?:string }
@@ -400,6 +408,7 @@ export type UiColorPickerEmits = { 'update:modelValue':(value:string)=>void; 'up
 export type UiCheckboxEmits = { 'update:modelValue':(value:boolean|Key[])=>void; change:(value:boolean|Key[])=>void }
 export type UiColEmits = {}
 export type UiCollapseEmits = { 'update:modelValue':(value:Key|Key[])=>void; change:(value:Key|Key[])=>void }
+export type UiCronEditorEmits = { 'update:modelValue':(value:string)=>void; input:(value:string,meta:UiCronInputMeta)=>void; change:(value:string,meta:UiCronChangeMeta)=>void; invalid:(error:UiCronError)=>void; preset:(preset:UiCronPreset&{valid:boolean})=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiConfigProviderEmits = {}
 export type UiDatePickerEmits = { 'update:modelValue':(value:DateValue)=>void; change:(value:DateValue)=>void; clear:()=>void; invalid:(payload:UiDateInvalid)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiDateRangePickerEmits = { 'update:modelValue':(value:DateValue[])=>void; change:(payload:UiDateRangeChange)=>void; clear:()=>void; invalid:(payload:UiDateRangeInvalid)=>void; focus:(payload:UiDateRangeFocusPayload)=>void; blur:(payload:UiDateRangeFocusPayload)=>void }
@@ -488,6 +497,7 @@ export type UiColorPickerSlots = { trigger?:(scope:{value:string;open:()=>void;c
 export type UiCheckboxSlots = { default?:()=>VNodeChild }
 export type UiColSlots = { default?:()=>VNodeChild }
 export type UiCollapseSlots = { [name:`item-${string}`]:((props:{item:UiCollapseItem})=>VNodeChild)|undefined }
+export type UiCronEditorSlots = { header?:(scope:{valid:boolean;expression:string})=>VNodeChild; presets?:(scope:{presets:UiCronPreset[];active:Key;apply:(preset:UiCronPreset)=>boolean})=>VNodeChild; preview?:(scope:{runs:Date[];valid:boolean;format:(date:Date)=>string})=>VNodeChild; actions?:(scope:{valid:boolean;expression:string;runs:Date[];setExpression:(value:string,source?:string)=>boolean})=>VNodeChild }
 export type UiConfigProviderSlots = { default?:()=>VNodeChild }
 export type UiDatePickerSlots = {}
 export type UiDateRangePickerSlots = {}
@@ -586,6 +596,7 @@ export const UiFormItem:LanComponent<UiFormItemProps,UiFormItemEmits,UiFormItemS
 export const UiFormList:LanComponent<UiFormListProps,UiFormListEmits,UiFormListSlots>
 export const UiSchemaForm:UiSchemaFormComponent
 export const UiList:LanComponent<UiListProps,UiListEmits,UiListSlots>
+export const UiCronEditor:LanComponent<UiCronEditorProps,UiCronEditorEmits,UiCronEditorSlots>
 export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,UiListToolbarSlots>; export const UiModal:LanComponent<UiModalProps,UiModalEmits,UiModalSlots>; export const UiMultiSelect:LanComponent<UiMultiSelectProps,UiMultiSelectEmits,UiMultiSelectSlots>; export const UiNumberInput:LanComponent<UiNumberInputProps,UiNumberInputEmits,UiNumberInputSlots>; export const UiNotification:LanComponent<UiNotificationProps,UiNotificationEmits,UiNotificationSlots>; export const UiOtpInput:LanComponent<UiOtpInputProps,UiOtpInputEmits,UiOtpInputSlots>
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>; export const UiMentions:LanComponent<UiMentionsProps,UiMentionsEmits,UiMentionsSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>; export const UiQueryBuilder:LanComponent<UiQueryBuilderProps,UiQueryBuilderEmits,UiQueryBuilderSlots>

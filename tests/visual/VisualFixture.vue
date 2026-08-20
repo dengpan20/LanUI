@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -61,9 +61,10 @@ const visualCarouselIndex=ref(1)
 const visualTimeRange=ref(['09:00','17:30'])
 const visualDateTime=ref('2026-08-15T09:30')
 const visualDateTimeRange=ref(['2026-08-15T09:30','2026-08-15T17:30'])
+const visualCron=ref('0 9 * * 1-5')
 const visualCarouselItems=[
   {key:'foundations',eyebrow:'FOUNDATIONS',title:'Shared visual language',description:'Semantic color, typography, spacing and motion tokens keep every product surface coherent.',metric:'359 locale keys'},
-  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'86 public components'},
+  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'87 public components'},
   {key:'delivery',eyebrow:'DELIVERY',title:'Verified before release',description:'Unit, visual, Axe, interaction, package and performance gates protect downstream consumers.',metric:'5 CI jobs'},
 ]
 const visualMentionOptions=[
@@ -299,6 +300,13 @@ const tableRows=[
         <div><span>CODE39 · expired</span><UiBarcode value="LANUI151" format="CODE39" status="expired" :width="1" :height="62" :font-size="12" label="Expired CODE39 barcode"/></div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">Real binary bars</UiTag><UiTag color="green">CODE / EAN / UPC / ITF</UiTag><UiTag color="orange">SSR / lifecycle / export</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='cron-editor'" title="Validated automation schedules" title-tag="h2" class="visual-table-card visual-cron-editor-showcase">
+      <div class="visual-cron-editor-grid" data-cron-editor-state-contract="preset custom valid invalid readonly disabled local utc preview form ssr">
+        <UiFormItem label="Release automation" help="Five-field Unix Cron · wildcard, list, range and step syntax"><UiCronEditor v-model="visualCron" from="2026-08-20T08:00:00Z" time-zone="UTC" name="releaseSchedule"/></UiFormItem>
+        <div class="visual-cron-editor-states"><UiFormItem label="Read-only backup"><UiCronEditor model-value="30 2 * * *" :preview-count="2" readonly/></UiFormItem><UiFormItem label="Validation error" error="Minute must be between 0 and 59"><UiCronEditor model-value="61 9 * * *" :preview-count="2" invalid/></UiFormItem></div>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">wildcard / list / range / step</UiTag><UiTag color="green">UTC / local preview</UiTag><UiTag color="orange">form / SSR / types</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

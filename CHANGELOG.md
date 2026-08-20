@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.52.0] - 2026-08-20
+
+### Added
+
+- `UiCronEditor`, a controlled five-field Unix Cron form control with wildcard, list, range and step parsing, structured validation and local/UTC future-run previews.
+- Five localized schedule presets, accessible field breakdown, FormItem naming/error linkage, responsive container layout, scoped Slots and exposed validation/scheduling instance methods.
+- Component-center, static-preview and standalone examples plus unit, SSR, visual, Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Release gates advance to 87 public components, 406 locale keys, 29 visual baselines, 47 Axe scenarios, 51 interactions per browser and 45 negative type assertions.
+- Generated API now covers 1,008 Props, 354 Events and 170 Slots; root, component subpath, declarations and isolated CSS remain synchronized.
+- Performance and distribution ceilings receive measured one-component headroom while existing additive release-baseline policy remains enforced.
+
 ## [1.51.0] - 2026-08-20
 
 ### Added

@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.52 Cron editor compatibility
+
+There are no breaking changes. Scheduler, reporting and automation forms can adopt the component incrementally:
+
+```vue
+<UiCronEditor v-model="schedule" time-zone="UTC" name="schedule" />
+```
+
+- `modelValue` remains a plain five-field Unix Cron string. Default or custom presets emit the same serialized value through controlled updates.
+- Syntax validation covers wildcard, number, list, range and step fields. Unsupported aliases, Quartz fields or out-of-range values stay visible and emit a structured `invalid` payload.
+- `timeZone` is deliberately limited to `local` or `UTC`; applications that require an IANA-zone scheduler should calculate server execution policy separately rather than infer it from a browser preview.
+- Root and `components/UiCronEditor` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiCronEditor.css`.
+
 ## 1.51 barcode compatibility
 
 There are no breaking changes. Asset, inventory, logistics and ticket workflows can add the new component incrementally:

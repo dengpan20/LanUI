@@ -6,14 +6,14 @@ ROOT = Path(__file__).resolve().parents[1]
 required = [
     "COMPONENT-API.md", "public/component-api.json", "src/generated/component-api.json", "src/pages/ApiReferencePage.vue", "scripts/api-docs.mjs", "tests/api-docs-p37.spec.js", "tests/visual/baselines/win32/api-reference.png", "scripts/build_p37_artifacts.py",
     "src/components/UiAnchor.vue", "tests/anchor-p38.spec.js", "tests/visual/baselines/win32/anchor-navigation.png", "scripts/build_p38_artifacts.py",
-    "LICENSE", "scripts/packed-consumer-regression.mjs", "scripts/build_p39_artifacts.py", "scripts/build_p41_artifacts.py", "scripts/build_p42_artifacts.py", "scripts/build_p43_artifacts.py", "scripts/build_p44_artifacts.py", "scripts/build_p45_artifacts.py", "scripts/build_p46_artifacts.py", "scripts/build_p47_artifacts.py", "scripts/build_p48_artifacts.py", "scripts/build_p49_artifacts.py", "scripts/build_p50_artifacts.py", "scripts/build_p51_artifacts.py", "scripts/build_p52_artifacts.py", "scripts/build_p53_artifacts.py", "scripts/build_p54_artifacts.py", "scripts/build_p55_artifacts.py",
+    "LICENSE", "scripts/packed-consumer-regression.mjs", "scripts/build_p39_artifacts.py", "scripts/build_p41_artifacts.py", "scripts/build_p42_artifacts.py", "scripts/build_p43_artifacts.py", "scripts/build_p44_artifacts.py", "scripts/build_p45_artifacts.py", "scripts/build_p46_artifacts.py", "scripts/build_p47_artifacts.py", "scripts/build_p48_artifacts.py", "scripts/build_p49_artifacts.py", "scripts/build_p50_artifacts.py", "scripts/build_p51_artifacts.py", "scripts/build_p52_artifacts.py", "scripts/build_p53_artifacts.py", "scripts/build_p54_artifacts.py", "scripts/build_p55_artifacts.py", "scripts/build_p56_artifacts.py",
     "index.html", "component-preview.html", "interaction-regression.html", "styles.css", "tokens.css", "font-preview.css",
     "UI-SPEC.md", "README.md", "CHANGELOG.md", "MIGRATION.md", "api-manifest.json", "style-manifest.json", "visual-regression.html", "package.json", "pnpm-workspace.yaml", "vite.config.js", "src/main.js", "src/App.vue",
     "src/pages/LoginPage.vue", "src/pages/LogoutPage.vue", "src/pages/NotFoundPage.vue", "src/pages/ForbiddenPage.vue", "src/pages/ServerErrorPage.vue",
     "src/pages/DashboardPage.vue", "src/pages/WorkbenchPage.vue", "src/pages/DataPage.vue",
     "src/pages/AiPage.vue", "src/pages/GanttPage.vue", "src/pages/ComponentsPage.vue",
     "src/components/UiIcon.vue", "src/components/UiInput.vue", "src/components/UiInputTag.vue", "src/components/UiMentions.vue", "src/components/UiNumberInput.vue", "src/components/UiOtpInput.vue", "src/components/UiQueryBuilder.vue", "src/components/UiCarousel.vue", "src/components/UiSlider.vue", "src/components/UiRate.vue", "src/components/UiStatistic.vue", "src/components/UiCalendar.vue", "src/components/UiImage.vue", "src/components/UiDataGrid.vue", "src/components/UiList.vue", "src/components/UiVirtualList.vue", "src/components/UiStatusPage.vue", "src/components/UiAutoComplete.vue", "src/components/UiSelect.vue", "src/components/UiTextarea.vue",
-    "src/components/UiDatePicker.vue", "src/components/UiDateTimePicker.vue", "src/components/UiDateTimeRangePicker.vue", "src/components/UiTimePicker.vue", "src/components/UiTimeRangePicker.vue", "src/components/UiQRCode.vue", "src/components/UiBarcode.vue", "src/components/UiPagination.vue",
+    "src/components/UiDatePicker.vue", "src/components/UiDateTimePicker.vue", "src/components/UiDateTimeRangePicker.vue", "src/components/UiTimePicker.vue", "src/components/UiTimeRangePicker.vue", "src/components/UiQRCode.vue", "src/components/UiBarcode.vue", "src/components/UiCronEditor.vue", "src/components/cronUtils.js", "src/components/UiPagination.vue",
     "src/components/UiUpload.vue", "src/components/UiFloatButton.vue",
     "src/components/UiTable.vue", "src/components/UiListToolbar.vue",
     "src/components/UiModal.vue", "src/components/UiDrawer.vue",
@@ -35,7 +35,7 @@ required = [
     "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/config-runtime.js", "src/locales/zh-CN.js", "src/locales/en-US.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/theme-tokens.js", "src/theme.js", "src/motion.js", "src/theme-scope.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
     "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/generate-theme-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/minify-library-js.mjs", "scripts/css-boundary-contracts.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
     "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/otp-input-p47.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/watermark-p42.spec.js", "tests/affix-p43.spec.js", "tests/splitter-p44.spec.js", "tests/typography-p45.spec.js", "tests/list-p46.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/visual/baselines/win32/watermark-document.png", "tests/visual/baselines/win32/affix-container.png", "tests/visual/baselines/win32/splitter-workspace.png", "tests/visual/baselines/win32/typography-contract.png", "tests/visual/baselines/win32/list-contract.png", "tests/visual/baselines/win32/otp-input-contract.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
-    "tests/mentions-p48.spec.js", "tests/visual/baselines/win32/mentions-contract.png", "tests/input-tag-p49.spec.js", "tests/visual/baselines/win32/input-tag-contract.png", "tests/query-builder-p50.spec.js", "tests/visual/baselines/win32/query-builder-contract.png", "tests/carousel-p51.spec.js", "tests/visual/baselines/win32/carousel-contract.png", "tests/time-range-p52.spec.js", "tests/visual/baselines/win32/time-range-contract.png", "tests/date-time-p53.spec.js", "tests/visual/baselines/win32/date-time-contract.png", "tests/qr-code-p54.spec.js", "tests/visual/baselines/win32/qr-code-contract.png", "tests/barcode-p55.spec.js", "tests/visual/baselines/win32/barcode-contract.png",
+    "tests/mentions-p48.spec.js", "tests/visual/baselines/win32/mentions-contract.png", "tests/input-tag-p49.spec.js", "tests/visual/baselines/win32/input-tag-contract.png", "tests/query-builder-p50.spec.js", "tests/visual/baselines/win32/query-builder-contract.png", "tests/carousel-p51.spec.js", "tests/visual/baselines/win32/carousel-contract.png", "tests/time-range-p52.spec.js", "tests/visual/baselines/win32/time-range-contract.png", "tests/date-time-p53.spec.js", "tests/visual/baselines/win32/date-time-contract.png", "tests/qr-code-p54.spec.js", "tests/visual/baselines/win32/qr-code-contract.png", "tests/barcode-p55.spec.js", "tests/visual/baselines/win32/barcode-contract.png", "tests/cron-editor-p56.spec.js", "tests/visual/baselines/win32/cron-editor-contract.png",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue",
 ]
@@ -86,7 +86,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 697 or len(manifest_components) != 86:
+if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 710 or len(manifest_components) != 87:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -99,14 +99,14 @@ if component_api != generated_component_api or component_api.get("version") != p
     failures.append("p37:generated-api-parity")
 api_categories = component_api.get("categories", [])
 api_components = component_api.get("components", [])
-if len(api_categories) != 6 or len(api_components) != 86 or sum(item.get("count", 0) for item in api_categories) != 86 or len({item.get("name") for item in api_components}) != 86:
+if len(api_categories) != 6 or len(api_components) != 87 or sum(item.get("count", 0) for item in api_categories) != 87 or len({item.get("name") for item in api_components}) != 87:
     failures.append("p37:generated-api-coverage")
 
 style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="utf-8"))
 style_components = style_manifest.get("components", [])
 if style_manifest.get("package") != package.get("name") or style_manifest.get("version") != package.get("version"):
     failures.append("style-manifest:package-version")
-if len(style_components) != 86 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
+if len(style_components) != 87 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
@@ -632,7 +632,7 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.51.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.52.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -667,7 +667,7 @@ if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "R
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.51.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.52.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -675,14 +675,14 @@ if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens
     failures.append("p39:token-style-export")
 if not {"README.md", "LICENSE"}.issubset(set(package.get("files", []))) or "Permission is hereby granted" not in license_text:
     failures.append("p39:license-packlist")
-for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===86", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
+for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===87", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
     if marker not in packed_consumer:
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 390, "packedTarballRaw": 445000, "packedUnpackedRaw": 2520000}:
+if distribution_budgets != {"packedFiles": 394, "packedTarballRaw": 455000, "packedUnpackedRaw": 2580000}:
     failures.append("p39:distribution-budgets")
-if "Barcode P55" not in components_page or "1.51.0" not in components_page or "V1.51.0" not in preview:
+if "CronEditor P56" not in components_page or "1.52.0" not in components_page or "V1.52.0" not in preview:
     failures.append("p39:showcase-version")
 if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p39:documentation")
@@ -694,7 +694,7 @@ release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="
 for marker in ["20.19.0", "22.12.0", "LAN_UI_EXPECTED_NODE", "RUNTIME_COMPATIBILITY PASS"]:
     if marker not in runtime_contract and marker not in ci_workflow:
         failures.append(f"p40:runtime-matrix:{marker}")
-for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===86", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
+for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===87", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
     if marker not in release_contract and marker not in release_workflow:
         failures.append(f"p40:release-contract:{marker}")
 if package.get("scripts", {}).get("test:runtime") != "node scripts/runtime-compatibility.mjs" or "test:release" not in package.get("scripts", {}).get("test:package", ""):
@@ -721,7 +721,7 @@ for marker in ["MutationObserver", "devicePixelRatio", "imageCrossOrigin", "buil
 if "UiWatermark" not in components_page or 'id="watermark"' not in preview or "previewWatermarkObserver" not in preview or "UiWatermark" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p42:showcase-consumers")
 login_page = (ROOT / "src/pages/LoginPage.vue").read_text(encoding="utf-8")
-if "V1.51.0" not in app or "V1.51.0" not in login_page or "badge:86" not in components_page or "<td>Watermark</td>" not in components_page:
+if "V1.52.0" not in app or "V1.52.0" not in login_page or "badge:87" not in components_page or "<td>Watermark</td>" not in components_page:
     failures.append("p42:showcase-version-and-state-matrix")
 if "Resilient document watermark (P42)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p42:documentation")
@@ -890,7 +890,7 @@ for marker in ["jsbarcode", "shape-rendering=\"crispEdges\"", "formats=new Map",
         failures.append(f"p55:barcode-runtime:{marker}")
 if package.get("dependencies", {}).get("jsbarcode") != "3.12.3":
     failures.append("p55:encoder-dependency")
-if any(marker not in components_page for marker in ["UiBarcode", "Barcode P55", "data-barcode-state-contract", "<td>Barcode</td>"]):
+if any(marker not in components_page for marker in ["UiBarcode", "data-barcode-state-contract", "<td>Barcode</td>"]):
     failures.append("p55:component-center")
 if any(marker not in preview for marker in ['id="barcode"', "previewBarcodeBits", "previewBarcodeDownload", "data-barcode-state-contract"]):
     failures.append("p55:static-preview")
@@ -901,6 +901,25 @@ if "barcode-lifecycle-refresh" not in (ROOT / "scripts/interaction-regression.mj
 if "Scanner-ready barcode lifecycle (P55)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P55: scanner-ready barcode lifecycle" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p55:documentation")
 
+cron_editor_source = (ROOT / "src/components/UiCronEditor.vue").read_text(encoding="utf-8")
+cron_utils_source = (ROOT / "src/components/cronUtils.js").read_text(encoding="utf-8")
+for marker in ["parseCronExpression", "getNextCronRuns", "data-valid", "data-preset", "aria-invalid", "previewRuns", "applyPreset", "defineExpose"]:
+    if marker not in cron_editor_source:
+        failures.append(f"p56:cron-editor-runtime:{marker}")
+for marker in ["parseCronField", "cronMatches", "getNextCronRuns", "dayOfMonth||dayOfWeek", "maxMinutes"]:
+    if marker not in cron_utils_source:
+        failures.append(f"p56:cron-parser:{marker}")
+if any(marker not in components_page for marker in ["UiCronEditor", "CronEditor P56", "data-cron-editor-state-contract", "<td>CronEditor</td>"]):
+    failures.append("p56:component-center")
+if any(marker not in preview for marker in ['id="cron-editor"', "previewCronInput", "renderPreviewCron", "data-cron-editor-state-contract"]):
+    failures.append("p56:static-preview")
+if "UiCronEditor" not in standalone_source or "standaloneCron" not in standalone_source:
+    failures.append("p56:standalone-consumer")
+if "cron-editor-preset-validation-preview" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "cron-editor-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
+    failures.append("p56:state-and-interaction")
+if "Validated Unix Cron scheduling (P56)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P56: validated Unix Cron scheduling" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p56:documentation")
+
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
 if (ROOT / "UI-SPEC.md").read_bytes() != (ROOT / "public/UI-SPEC.md").read_bytes():
@@ -910,7 +929,7 @@ for path in [ROOT / "README.md", ROOT / "UI-SPEC.md"]:
         failures.append(f"docs:corrupted-section:{path.name}")
 
 standalone = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
-for component in ["UiAffix", "UiAlert", "UiAnchor", "UiAutoComplete", "UiButton", "UiCalendar", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiInputTag", "UiMentions", "UiNumberInput", "UiOtpInput", "UiQueryBuilder", "UiQRCode", "UiBarcode", "UiSlider", "UiRate", "UiSplitter", "UiTypography", "UiStatistic", "UiSelect", "UiSchemaForm", "UiTimeRangePicker", "UiTour", "UiWatermark", "UiUpload", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
+for component in ["UiAffix", "UiAlert", "UiAnchor", "UiAutoComplete", "UiButton", "UiCalendar", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiInputTag", "UiMentions", "UiNumberInput", "UiOtpInput", "UiQueryBuilder", "UiQRCode", "UiBarcode", "UiCronEditor", "UiSlider", "UiRate", "UiSplitter", "UiTypography", "UiStatistic", "UiSelect", "UiSchemaForm", "UiTimeRangePicker", "UiTour", "UiWatermark", "UiUpload", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
     if component not in standalone:
         failures.append(f"standalone:component:{component}")
 for marker in ["direction", ":direction=", "RTL", "LTR"]:
@@ -939,29 +958,29 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 26 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 29 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
+for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
 for script_name, script_source in [("visual", visual_script), ("accessibility", accessibility_script)]:
     if "resolveBrowserNavigationTimeout" not in script_source:
         failures.append(f"browser:navigation-timeout:{script_name}")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 46:
+if accessibility_script.count("{name:") < 47:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
 if "resolveBrowserNavigationTimeout" not in interaction_script:
     failures.append("browser:navigation-timeout:interaction")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "cron-editor-preset-validation-preview", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") + interaction_script.count("name:'") < 50:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 51:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -978,8 +997,8 @@ if len(performance_budgets.get("budgets", {})) != 18 or performance_budgets.get(
     failures.append("performance:budget-version-or-count")
 if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or len(performance_budgets.get("releaseBaseline", {}).get("metrics", {})) != 14:
     failures.append("performance:p33-release-baseline")
-if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10000, "packageJsGzip": 4000, "packageCssRaw": 5750, "packageCssGzip": 900, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10200, "standaloneExampleCssRaw": 100, "subpathConsumerCssRaw": 2}:
-    failures.append("performance:p55-additive-component-policy")
+if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10000, "packageJsGzip": 4000, "packageCssRaw": 5750, "packageCssGzip": 1000, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10200, "standaloneExampleCssRaw": 425, "subpathConsumerCssRaw": 2, "rootCssRaw": 300}:
+    failures.append("performance:p56-additive-component-policy")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
 for export_name in ["./performance-budgets", "./performance-budgets.json"]:
@@ -1002,13 +1021,13 @@ for rel in ["lan-ui.js","lan-ui.css","lan-ui.d.ts"]:
 if dist_lib.exists():
     component_js=list((dist_lib / "components").glob("Ui*.js"))
     component_types=list((dist_lib / "components").glob("Ui*.d.ts"))
-    if len(component_js) != 86 or len(component_types) != 86:
+    if len(component_js) != 87 or len(component_types) != 87:
         failures.append(f"dist-lib:component-subpaths:{len(component_js)}:{len(component_types)}")
     for rel in ["color.js","color.d.ts","config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts","theme.js","theme.d.ts","motion.js","motion.d.ts"]:
         if not (dist_lib / rel).is_file():
             failures.append(f"dist-lib:subpath:{rel}")
     style_files = list((dist_lib / "styles").glob("Ui*.css"))
-    if len(style_files) != 86 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
+    if len(style_files) != 87 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
         failures.append(f"dist-lib:component-styles:{len(style_files)}")
 
 if failures:
@@ -1022,7 +1041,7 @@ print(f"- required_files={len(required)}")
 print(f"- vue_pages={len(list((ROOT / 'src/pages').glob('*.vue')))}")
 print("- routes=9")
 print("- preview_sections=" + str(preview.count('class="preview-section"')))
-print("- forms=ui-input,ui-input-tag,ui-query-builder,ui-number-input,ui-slider,ui-autocomplete,ui-color-picker,ui-select,ui-textarea,no-native-select")
+print("- forms=ui-input,ui-input-tag,ui-query-builder,ui-cron-editor,ui-number-input,ui-slider,ui-autocomplete,ui-color-picker,ui-select,ui-textarea,no-native-select")
 print("- extensions=date-picker,date-range-picker,date-time-picker,date-time-range-picker,time-picker,time-range-picker,calendar,image,pagination,upload,layout,float-button")
 print("- table-system=toolbar,columns,density,sort,selection,expand,loading,error,empty,responsive")
 print("- feedback-system=modal,drawer,toast,notification,tooltip,popover,popconfirm,focus-trap")
@@ -1087,3 +1106,6 @@ print("- maturity-p52=ui-time-range-picker,string+date+timestamp,timezone+precis
 print("- maturity-p53=ui-date-time-picker+range,string+date+timestamp,timezone+precision,constraints+order-validation,ssr+types,26-visual,44-axe,48-interactions-per-browser,39-negative-types")
 print("- maturity-p54=ui-qr-code,real-svg-encoding,l+m+q+h,active+loading+expired+scanned,refresh+download,ssr+types,27-visual,45-axe,49-interactions-per-browser,41-negative-types")
 print("- maturity-p55=ui-barcode,scanner-ready-encoding,code128+ean+upc+itf+msi,active+loading+expired+scanned+invalid,refresh+download,ssr+types,28-visual,46-axe,50-interactions-per-browser,43-negative-types")
+
+# P56 summary is intentionally appended so the latest gate is visible in verification logs.
+print("- maturity-p56=ui-cron-editor,unix-5-field,wildcard+list+range+step,structured-validation,presets,local+utc-preview,form+ssr+types,29-visual,47-axe,51-interactions-per-browser,45-negative-types")

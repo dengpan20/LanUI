@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.51.0",
+  "version": "1.52.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 182567,
-    "rules": 1440,
+    "bytes": 187774,
+    "rules": 1481,
     "source": "component-union"
   },
   "core": {
@@ -124,8 +124,14 @@
     {
       "name": "UiConfigProvider",
       "subpath": "./styles/UiConfigProvider.css",
-      "bytes": 170,
-      "rules": 2
+      "bytes": 322,
+      "rules": 3
+    },
+    {
+      "name": "UiCronEditor",
+      "subpath": "./styles/UiCronEditor.css",
+      "bytes": 5092,
+      "rules": 40
     },
     {
       "name": "UiDataGrid",

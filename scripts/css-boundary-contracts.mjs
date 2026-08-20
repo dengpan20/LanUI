@@ -15,7 +15,7 @@ const required=['.btn-primary','.ui-input','.ui-select-trigger','.ui-table-wrap'
 if(manifest.schemaVersion!==2||JSON.stringify(manifest)!==JSON.stringify(builtManifest))throw new Error('Style manifest v2 parity failed')
 if(manifest.root?.subpath!=='./style.css'||manifest.root?.source!=='component-union'||manifest.root?.bytes!==statSync(rootCssPath).size||!manifest.root?.rules)throw new Error('Root component-union manifest is incomplete')
 if(manifest.core?.bytes!==statSync(coreCssPath).size||!coreCss.includes(':root{')||!coreCss.includes('@layer lan-ui'))throw new Error('Core stylesheet contract failed')
-if(componentFiles.length!==manifest.components.length||componentFiles.length!==86)throw new Error(`Component stylesheet count mismatch: ${componentFiles.length}`)
+if(componentFiles.length!==manifest.components.length||componentFiles.length!==87)throw new Error(`Component stylesheet count mismatch: ${componentFiles.length}`)
 for(const marker of required)if(!rootCss.includes(marker))throw new Error(`Required component selector is missing from root CSS: ${marker}`)
 for(const marker of forbidden){
   if(rootCss.includes(marker))throw new Error(`Showcase selector leaked into root CSS: ${marker}`)
