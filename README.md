@@ -1,6 +1,10 @@
 # Lan UI · 企业后台 Design System
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、85 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、86 个可复用组件、交互规范、完整后台示例和独立消费项目。
+
+## P55 条码组件
+
+`UiBarcode` 提供 CODE128、CODE39、EAN、UPC、ITF、MSI、Pharmacode 与 Codabar 等真实一维码编码，支持尺寸/静区/文本配置、active/loading/expired/scanned/invalid 生命周期、刷新与 SVG 下载，并同步覆盖根入口、组件子路径、独立样式、SSR 与三浏览器交互。
 
 ## 项目内容
 
@@ -1177,3 +1181,10 @@ P53 advances to 84 public components, 365 locale keys and generated coverage of 
 - Accessible image naming, SSR-safe generation, root/subpath exports, isolated component CSS, generated API, component center, static preview, standalone application and installed-tarball consumption remain synchronized.
 
 P54 advances to 85 public components, 372 locale keys and generated coverage of 979 Props, 344 Events and 163 Slots. CI requires 27 visual baselines, 45 zero-violation Axe scenarios, 49 interactions per Chromium/Firefox/WebKit engine, 41 negative type assertions and 18 absolute performance ceilings.
+## Scanner-ready barcode lifecycle (P55)
+
+- `UiBarcode` encodes real scanner-ready one-dimensional symbols for CODE128/39, EAN, UPC, ITF, MSI, Pharmacode and Codabar.
+- Bounded geometry, quiet zones, human-readable text and deterministic crisp-edge SVG work in browsers and SSR. Active, loading, expired, scanned and invalid lifecycle states include localized feedback, refresh, download and typed instance contracts.
+- Root/subpath exports, isolated CSS, generated API, component center, static preview, standalone consumer, installed tarball and browser test fixtures stay synchronized.
+
+P55 advances to 86 public components and 379 locale keys. CI requires 28 visual baselines, 46 zero-violation Axe scenarios, 50 interactions per Chromium/Firefox/WebKit engine, 43 negative type assertions and 18 absolute performance ceilings.

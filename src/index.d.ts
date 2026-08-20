@@ -257,6 +257,13 @@ export interface UiPaginationProps { page?:number; pageSize?:number; total?:numb
 export interface UiPopconfirmProps { title?:string; message?:string; confirmText?:string; cancelText?:string; danger?:boolean; beforeConfirm?:()=>unknown|Promise<unknown>; placement?:Placement; offset?:number }
 export interface UiPopoverProps { modelValue?:boolean; placement?:Placement; width?:string|number; closeOnOutside?:boolean; title?:string; offset?:number }
 export interface UiProgressProps { value?:number; max?:number; status?:'normal'|'success'|'warning'|'error'; showText?:boolean; size?:ComponentSize; label?:string }
+export type UiBarcodeFormat = 'AUTO'|'CODE128'|'CODE128A'|'CODE128B'|'CODE128C'|'CODE39'|'EAN13'|'EAN8'|'EAN5'|'EAN2'|'UPC'|'UPCE'|'ITF14'|'ITF'|'MSI'|'MSI10'|'MSI11'|'MSI1010'|'MSI1110'|'pharmacode'|'codabar'
+export type UiBarcodeStatus = 'active'|'loading'|'expired'|'scanned'
+export type UiBarcodeEffectiveStatus = UiBarcodeStatus|'invalid'
+export interface UiBarcodeProps { value?:string; format?:UiBarcodeFormat; width?:number; height?:number; margin?:number; displayValue?:boolean; text?:string; fontSize?:number; textMargin?:number; color?:string; background?:string; status?:UiBarcodeStatus; bordered?:boolean; downloadable?:boolean; downloadName?:string; label?:string; caption?:string }
+export interface UiBarcodeEncoding { format:UiBarcodeFormat; bits:string; modules:number; segments:number }
+export interface UiBarcodeDownloadMeta { value:string; format:UiBarcodeFormat; filename:string; svg:string }
+export interface UiBarcodeInstance { refresh:()=>boolean; download:()=>boolean; toSvg:()=>string; getEncoding:()=>UiBarcodeEncoding|null }
 export type UiQRCodeLevel = 'L'|'M'|'Q'|'H'
 export type UiQRCodeStatus = 'active'|'loading'|'expired'|'scanned'
 export type UiQRCodeEffectiveStatus = UiQRCodeStatus|'invalid'
@@ -432,6 +439,7 @@ export type UiPaginationEmits = { 'update:page':(value:number)=>void; 'update:pa
 export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(error:unknown)=>void }
 export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
 export type UiProgressEmits = {}
+export type UiBarcodeEmits = { refresh:(payload:{value:string;format:UiBarcodeFormat})=>void; download:(payload:UiBarcodeDownloadMeta)=>void; error:(error:Error)=>void }
 export type UiQRCodeEmits = { refresh:(payload:{value:string})=>void; download:(payload:UiQRCodeDownloadMeta)=>void; error:(error:Error)=>void }
 export type UiQueryBuilderEmits = { 'update:modelValue':(value:UiQueryGroup)=>void; change:(payload:UiQueryChange)=>void; add:(payload:UiQueryAction)=>void; remove:(payload:UiQueryAction)=>void; move:(payload:UiQueryAction)=>void; duplicate:(payload:UiQueryAction)=>void; invalid:(payload:{source:string;errors:UiQueryError[];value:UiQueryGroup})=>void; action:(payload:UiQueryAction)=>void }
 export type UiRadioEmits = { 'update:modelValue':(value:Key|boolean)=>void; change:(value:Key|boolean)=>void }
@@ -523,6 +531,7 @@ export type UiPaginationSlots = {}
 export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
 export type UiPopoverSlots = { trigger?:(props:{open:boolean})=>VNodeChild; default?:(props:{close:()=>void})=>VNodeChild }
 export type UiProgressSlots = {}
+export type UiBarcodeSlots = { overlay?:(scope:{status:UiBarcodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild; caption?:(scope:{value:string;format:UiBarcodeFormat|null;status:UiBarcodeEffectiveStatus})=>VNodeChild; actions?:(scope:{download:()=>boolean;refresh:()=>boolean;status:UiBarcodeEffectiveStatus})=>VNodeChild }
 export type UiQRCodeSlots = { overlay?:(scope:{status:UiQRCodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild; caption?:(scope:{value:string;status:UiQRCodeEffectiveStatus})=>VNodeChild; actions?:(scope:{download:()=>boolean;refresh:()=>boolean;status:UiQRCodeEffectiveStatus})=>VNodeChild }
 export type UiQueryBuilderSlots = { field?:(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;update:(value:Key)=>void})=>VNodeChild; operator?:(scope:{rule:UiQueryRule;index:number;operator:UiQueryOperator|null;options:SelectOption[];update:(value:Key)=>void})=>VNodeChild; value?:(scope:{rule:UiQueryRule;index:number;field:UiQueryField|null;operator:UiQueryOperator|null;position:number;value:unknown;update:(value:unknown)=>void})=>VNodeChild; 'rule-actions'?:(scope:{rule:UiQueryRule;index:number;move:(direction:-1|1)=>void;duplicate:()=>void;remove:()=>void})=>VNodeChild; empty?:(scope:{addRule:()=>void;addGroup:()=>void})=>VNodeChild }
 export type UiRadioSlots = { default?:()=>VNodeChild }
@@ -581,6 +590,7 @@ export const UiListToolbar:LanComponent<UiListToolbarProps,UiListToolbarEmits,Ui
 export const UiMenu:LanComponent<UiMenuProps,UiMenuEmits,UiMenuSlots>; export const UiMentions:LanComponent<UiMentionsProps,UiMentionsEmits,UiMentionsSlots>
 export const UiPagination:LanComponent<UiPaginationProps,UiPaginationEmits,UiPaginationSlots>; export const UiPopconfirm:LanComponent<UiPopconfirmProps,UiPopconfirmEmits,UiPopconfirmSlots>; export const UiPopover:LanComponent<UiPopoverProps,UiPopoverEmits,UiPopoverSlots>; export const UiProgress:LanComponent<UiProgressProps,UiProgressEmits,UiProgressSlots>; export const UiQueryBuilder:LanComponent<UiQueryBuilderProps,UiQueryBuilderEmits,UiQueryBuilderSlots>
 export const UiQRCode:LanComponent<UiQRCodeProps,UiQRCodeEmits,UiQRCodeSlots>
+export const UiBarcode:LanComponent<UiBarcodeProps,UiBarcodeEmits,UiBarcodeSlots>
 export const UiRadio:LanComponent<UiRadioProps,UiRadioEmits,UiRadioSlots>; export const UiRate:LanComponent<UiRateProps,UiRateEmits,UiRateSlots>; export const UiSelect:LanComponent<UiSelectProps,UiSelectEmits,UiSelectSlots>; export const UiSkeleton:LanComponent<UiSkeletonProps,UiSkeletonEmits,UiSkeletonSlots>; export const UiSlider:LanComponent<UiSliderProps,UiSliderEmits,UiSliderSlots>; export const UiSpace:LanComponent<UiSpaceProps,UiSpaceEmits,UiSpaceSlots>
 export const UiResult:LanComponent<UiResultProps,UiResultEmits,UiResultSlots>; export const UiSegmented:LanComponent<UiSegmentedProps,UiSegmentedEmits,UiSegmentedSlots>; export const UiSpin:LanComponent<UiSpinProps,UiSpinEmits,UiSpinSlots>; export const UiStatistic:LanComponent<UiStatisticProps,UiStatisticEmits,UiStatisticSlots>
 export const UiSplitter:LanComponent<UiSplitterProps,UiSplitterEmits,UiSplitterSlots>

@@ -1,5 +1,17 @@
 # Lan UI migration and compatibility policy
 
+## 1.51 barcode compatibility
+
+There are no breaking changes. Asset, inventory, logistics and ticket workflows can add the new component incrementally:
+
+```vue
+<UiBarcode value="LAN-UI-151" format="CODE128" status="active" downloadable />
+```
+
+- `value` is encoded into a real scanner-ready module stream. Select the symbology required by the receiving system and preserve an adequate `margin` quiet zone.
+- `status` controls lifecycle presentation. Expired refresh stays consumer-controlled; invalid content produces a localized alert and `error` event.
+- SVG download serializes the same module path. Root and `components/UiBarcode` imports expose matching Props, Emits, Slots and instance types, with isolated styling at `styles/UiBarcode.css`.
+
 ## 1.50 QR code compatibility
 
 There are no breaking changes. Products can add the new component incrementally:

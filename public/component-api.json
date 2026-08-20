@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.50.0",
+  "version": "1.51.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -25,8 +25,8 @@
     {
       "id": "data",
       "label": "数据展示",
-      "description": "结构化内容、媒体、二维码、轮播、状态、文本、列表、表格和虚拟数据。",
-      "count": 20
+      "description": "结构化内容、媒体、条码、二维码、轮播、状态、文本、列表、表格和虚拟数据。",
+      "count": 21
     },
     {
       "id": "navigation",
@@ -862,6 +862,259 @@
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiBarcode",
+      "category": "data",
+      "categoryLabel": "数据展示",
+      "subpath": "./components/UiBarcode",
+      "imports": {
+        "root": "import { UiBarcode } from 'lan-ui-design-system'",
+        "subpath": "import UiBarcode from 'lan-ui-design-system/components/UiBarcode'"
+      },
+      "propsType": "UiBarcodeProps",
+      "props": [
+        {
+          "name": "background",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"#ffffff\""
+          }
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "caption",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "color",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"#111827\""
+          }
+        },
+        {
+          "name": "displayValue",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "downloadName",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"barcode.svg\""
+          }
+        },
+        {
+          "name": "downloadable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "fontSize",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "16"
+          }
+        },
+        {
+          "name": "format",
+          "required": false,
+          "type": "UiBarcodeFormat",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"CODE128\""
+          }
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "80"
+          }
+        },
+        {
+          "name": "label",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "margin",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "10"
+          }
+        },
+        {
+          "name": "status",
+          "required": false,
+          "type": "UiBarcodeStatus",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"active\""
+          }
+        },
+        {
+          "name": "text",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "textMargin",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "6"
+          }
+        },
+        {
+          "name": "value",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "width",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "2"
+          }
+        }
+      ],
+      "emitsType": "UiBarcodeEmits",
+      "emits": [
+        {
+          "name": "download",
+          "required": true,
+          "type": "(payload:UiBarcodeDownloadMeta)=>void"
+        },
+        {
+          "name": "error",
+          "required": true,
+          "type": "(error:Error)=>void"
+        },
+        {
+          "name": "refresh",
+          "required": true,
+          "type": "(payload:{value:string;format:UiBarcodeFormat})=>void"
+        }
+      ],
+      "slotsType": "UiBarcodeSlots",
+      "slots": [
+        {
+          "name": "actions",
+          "required": false,
+          "type": "(scope:{download:()=>boolean;refresh:()=>boolean;status:UiBarcodeEffectiveStatus})=>VNodeChild"
+        },
+        {
+          "name": "caption",
+          "required": false,
+          "type": "(scope:{value:string;format:UiBarcodeFormat|null;status:UiBarcodeEffectiveStatus})=>VNodeChild"
+        },
+        {
+          "name": "overlay",
+          "required": false,
+          "type": "(scope:{status:UiBarcodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild"
         }
       ]
     },

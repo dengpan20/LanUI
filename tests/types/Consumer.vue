@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import {
   UiAffix,
+  UiBarcode,
   UiButton,
   UiCalendar,
   UiAutoComplete,
@@ -153,5 +154,6 @@ function sort(payload:UiTableSortChange) {
   <UiTour v-model="tourOpen" v-model:current="tourCurrent" :steps="tourSteps"><template #actions="{finish}"><UiButton @click="finish">Done</UiButton></template></UiTour>
   <div ref="affixTarget"><UiAffix :target="()=>affixTarget" position="top" :offset="8" :z-index="120" @change="(value,meta)=>[value,meta.scrollTop]"><UiButton>Typed sticky action</UiButton></UiAffix></div>
   <UiWatermark :content="['Lan UI','TYPED']" :gap="[80,64]" :font="watermarkFont" image-cross-origin="anonymous" aria-label="Typed watermark" @remove="payload=>payload.reason"><article>Typed protected document</article></UiWatermark>
+  <UiBarcode value="LAN-UI-151" format="CODE128" status="scanned" downloadable><template #caption="{ value, status }">{{ value }} / {{ status }}</template></UiBarcode>
   <UiStatusPage status="403" embedded @home="open=false"><template #extra>Typed status page</template></UiStatusPage>
 </template>

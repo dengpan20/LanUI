@@ -5,6 +5,7 @@ import {
   UiAffix,
   UiAnchor,
   UiAutoComplete,
+  UiBarcode,
   UiButton,
   UiCalendar,
   UiCard,
@@ -85,8 +86,12 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.50.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.51.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
+const standaloneBarcodeStatus=ref('expired')
+const standaloneBarcodeRevision=ref(1)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-151-R${standaloneBarcodeRevision.value}`)
+function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standalonePublishAt=ref('2026-08-20T10:00')
 const standaloneReleaseWindow=ref(['2026-08-20T10:00','2026-08-20T18:00'])
 const standaloneCarouselItems=[
@@ -246,8 +251,15 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.50.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.51.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
+      </div>
+    </UiCard>
+
+    <UiCard title="Asset barcode">
+      <div style="display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);align-items:start;gap:24px">
+        <UiBarcode :value="standaloneBarcodeValue" :status="standaloneBarcodeStatus" format="CODE128" color="#0F766E" :width="2" :height="78" downloadable download-name="consumer-asset.svg" label="Consumer asset barcode" caption="Release asset · CODE128" @refresh="refreshStandaloneBarcode" @download="toast.success('Asset barcode downloaded')"/>
+        <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Scanner-ready package component</strong><span>CODE128, EAN, UPC, ITF, MSI, Codabar and Pharmacode share one SSR-safe binary encoding, lifecycle and SVG export contract.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneBarcodeStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneBarcodeStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneBarcodeStatus='active'">Reset</UiButton></div><code>{{ standaloneBarcodeStatus }} · revision {{ standaloneBarcodeRevision }}</code></div>
       </div>
     </UiCard>
 

@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.51.0] - 2026-08-20
+
+### Added
+
+- `UiBarcode`, a real deterministic SVG barcode encoder covering CODE128/39, EAN, UPC, ITF, MSI, Pharmacode and Codabar with configurable module width, height, quiet zone, text and colors.
+- Active, loading, expired, scanned and invalid lifecycle presentation, localized live feedback, refresh/error/download events, overlay/caption/action Slots and an exposed encoding contract.
+- Component-center, static-preview and standalone examples plus unit, SSR, visual, Axe, negative type, installed-tarball and Chromium/Firefox/WebKit lifecycle coverage.
+
+### Changed
+
+- Release gates advance to 86 public components, 379 locale keys, 28 visual baselines, 46 Axe scenarios, 50 interactions per browser and 43 negative type assertions.
+- `jsbarcode` 3.12.3 is pinned as the MIT scanner-ready encoder; package root, component subpath, declarations and isolated CSS remain synchronized.
+- Performance and distribution ceilings receive measured encoder and one-component headroom; existing core CSS, theme, motion and consumer-boundary gates remain enforced.
+
 ## [1.50.0] - 2026-08-15
 
 ### Added

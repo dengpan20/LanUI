@@ -1040,3 +1040,14 @@ P53 advances to 84 public components, 365 locale keys and generated coverage of 
 - Component center, one-page HTML, standalone consumer, isolated CSS, generated API, deterministic SSR and offline installed-tarball tests remain in parity. Unit, visual, zero-violation Axe and three-engine interaction gates cover lifecycle, matrix changes and actions.
 
 P54 advances to 85 public components, 372 locale keys and generated coverage of 979 Props, 344 Events and 163 Slots. Release gates require 27 visual baselines, 45 zero-violation Axe scenarios, 49 interactions per Chromium/Firefox/WebKit engine, 41 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+
+## 68. Maturity P55: scanner-ready barcode lifecycle
+
+- `UiBarcode` produces a real deterministic one-dimensional module stream through the pinned JsBarcode encoder. CODE128/39, EAN, UPC, ITF, MSI, Pharmacode and Codabar cover common asset, retail, logistics and medication workflows.
+- Module width, bar height, quiet-zone margin, foreground/background, human-readable text, font size and text gap use bounded values. SVG paths use crisp edges and serialize without a browser DOM.
+- Active, loading, expired, scanned and encoder-invalid states retain the named barcode graphic. Polite lifecycle overlays become alerts for invalid input; expired actions emit refresh while applications replace the value.
+- Download emits the exact standalone SVG and metadata. Overlay, caption and actions Slots plus `refresh`, `download`, `toSvg` and `getEncoding` instance methods expose the full contract.
+- Root/subpath runtime exports, Props/Emits/Slots, isolated CSS, generated API, component center, static preview, standalone consumer, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P55 advances to 86 public components, 379 locale keys and 28 visual baselines. Release gates require 46 zero-violation Axe scenarios, 50 interactions per Chromium/Firefox/WebKit engine, 43 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

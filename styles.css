@@ -2090,3 +2090,32 @@ svg { display: block; }
 @media(max-width:520px){.qr-code-state-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.qr-code-state-row .ui-qr-code{justify-self:center}}
 @media(forced-colors:active){.ui-qr-code-frame,.ui-qr-code-action{border:1px solid CanvasText}.ui-qr-code-action:focus-visible{outline:2px solid Highlight;outline-offset:2px}}
 }
+
+@layer lan-ui {
+/* Maturity P55: encoded, accessible and exportable linear barcode. */
+.ui-barcode{display:inline-flex;max-width:100%;flex-direction:column;align-items:stretch;gap:10px;margin:0;color:var(--ui-barcode-color,#111827);font-size:13px;line-height:1.4}
+.ui-barcode-frame{position:relative;display:grid;width:var(--ui-barcode-width,240px);max-width:100%;min-height:80px;overflow:hidden;border-radius:var(--radius-lg);background:var(--ui-barcode-background,#fff);isolation:isolate}
+.ui-barcode.bordered .ui-barcode-frame{padding:8px;border:1px solid var(--border-default);box-sizing:content-box;box-shadow:var(--shadow-xs)}
+.ui-barcode-symbol{display:block;width:100%;height:auto;color:inherit;background:var(--ui-barcode-background,#fff)}
+.ui-barcode-overlay{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;text-align:center;color:var(--text-secondary);background:color-mix(in srgb,var(--ui-barcode-background,#fff) 90%,transparent);backdrop-filter:blur(2px)}
+.ui-barcode-overlay.status-expired,.ui-barcode-overlay.status-invalid{color:var(--danger-700)}
+.ui-barcode-overlay.status-scanned{color:var(--success-700)}
+.ui-barcode-spinner{width:24px;height:24px;border:2px solid var(--border-default);border-block-start-color:var(--brand-600);border-radius:50%;animation:ui-barcode-spin var(--motion-time,900ms) linear var(--motion-count)}
+.ui-barcode-action{display:inline-flex;min-height:28px;align-items:center;justify-content:center;gap:6px;padding:4px 10px;border:1px solid var(--border-default);border-radius:var(--radius-md);color:var(--brand-700);background:var(--bg-container);font:inherit;cursor:pointer;transition:border-color var(--motion-time,var(--motion-fast)) var(--ease-standard),background var(--motion-time,var(--motion-fast)) var(--ease-standard),box-shadow var(--motion-time,var(--motion-fast)) var(--ease-standard)}
+.ui-barcode-action:hover:not(:disabled){border-color:var(--brand-500);background:var(--brand-50)}
+.ui-barcode-action:focus-visible{outline:0;box-shadow:0 0 0 3px var(--focus-ring)}
+.ui-barcode-action:disabled{cursor:not-allowed;opacity:.5}
+.ui-barcode-caption{display:flex;min-height:28px;align-items:center;justify-content:space-between;gap:10px;color:var(--text-secondary)}
+.ui-barcode-caption:has(>button:only-child){justify-content:center}
+.barcode-showcase{margin-block:18px;display:grid;grid-template-columns:minmax(340px,1.25fr) minmax(280px,1fr);gap:18px;align-items:start}
+.barcode-showcase-primary,.barcode-showcase-states{min-width:0;padding:18px;display:grid;gap:14px;border:1px solid var(--border-subtle);border-radius:var(--radius-lg);background:var(--bg-subtle)}
+.barcode-showcase-primary{justify-items:start}.barcode-showcase-primary code{color:var(--text-secondary);font-size:var(--text-xs)}
+.barcode-showcase-states>p,.barcode-showcase-states>small{margin:0;color:var(--text-secondary);font-size:var(--text-xs);line-height:1.65}
+.barcode-state-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:14px}.barcode-state-row .ui-barcode{width:100%}
+@keyframes ui-barcode-spin{to{transform:rotate(1turn)}}
+@media(max-width:900px){.barcode-showcase{grid-template-columns:1fr}}
+@media(max-width:560px){.barcode-state-row{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.ui-barcode-spinner{animation-duration:0.01ms!important}}
+.ui-config-provider[data-ui-motion="reduced"] .ui-barcode-spinner{animation-duration:0ms!important}
+@media(forced-colors:active){.ui-barcode-frame,.ui-barcode-action{border:1px solid CanvasText}.ui-barcode-action:focus-visible{outline:2px solid Highlight;outline-offset:2px}}
+}

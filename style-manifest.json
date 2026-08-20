@@ -1,16 +1,16 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.50.0",
+  "version": "1.51.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 179873,
-    "rules": 1423,
+    "bytes": 182567,
+    "rules": 1440,
     "source": "component-union"
   },
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 5950
+    "bytes": 6005
   },
   "components": [
     {
@@ -48,6 +48,12 @@
       "subpath": "./styles/UiBadge.css",
       "bytes": 646,
       "rules": 6
+    },
+    {
+      "name": "UiBarcode",
+      "subpath": "./styles/UiBarcode.css",
+      "bytes": 2580,
+      "rules": 16
     },
     {
       "name": "UiBreadcrumb",
@@ -118,8 +124,8 @@
     {
       "name": "UiConfigProvider",
       "subpath": "./styles/UiConfigProvider.css",
-      "bytes": 74,
-      "rules": 1
+      "bytes": 170,
+      "rules": 2
     },
     {
       "name": "UiDataGrid",

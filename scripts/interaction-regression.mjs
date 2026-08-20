@@ -1006,6 +1006,34 @@ const allCases = [
     },
   },
   {
+    name:'barcode-lifecycle-refresh',
+    query:'direction=ltr',
+    run:async page=>{
+      const root=page.locator('.interaction-barcode-case .ui-barcode')
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-status'),'expired')
+      assert.equal(await root.getAttribute('data-format'),'CODE128')
+      const symbol=root.getByRole('img',{name:'Interaction asset barcode'})
+      const initialPath=await symbol.locator('path').getAttribute('d')
+      assert.ok(initialPath?.length>100)
+      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-151-R1')
+      const refresh=root.locator('.ui-barcode-overlay .ui-barcode-action')
+      await refresh.focus()
+      await refresh.click()
+      await expectText(page,'barcode-output','refresh:2')
+      assert.equal(await root.getAttribute('data-status'),'active')
+      assert.notEqual(await symbol.locator('path').getAttribute('d'),initialPath)
+      assert.equal(await symbol.locator('text').textContent(),'LAN-UI-151-R2')
+      await page.locator('#barcode-mark-scanned').click()
+      await expectText(page,'barcode-output','status:scanned')
+      assert.equal(await root.getAttribute('data-status'),'scanned')
+      assert.equal(await root.locator('.ui-barcode-overlay').getAttribute('role'),'status')
+      await page.locator('#barcode-expire').click()
+      await expectText(page,'barcode-output','status:expired')
+      assert.equal(await root.getAttribute('data-status'),'expired')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{
@@ -1049,7 +1077,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),85)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),86)
     },
   },
 ]

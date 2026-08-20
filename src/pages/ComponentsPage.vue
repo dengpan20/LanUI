@@ -8,6 +8,7 @@ import UiButton from '../components/UiButton.vue'
 import UiCalendar from '../components/UiCalendar.vue'
 import UiCard from '../components/UiCard.vue'
 import UiCarousel from '../components/UiCarousel.vue'
+import UiBarcode from '../components/UiBarcode.vue'
 import UiQRCode from '../components/UiQRCode.vue'
 import UiInput from '../components/UiInput.vue'
 import UiInputTag from '../components/UiInputTag.vue'
@@ -220,14 +221,16 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:85},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:86},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'QR Code P54'},{key:'version',label:'版本',value:'1.50.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-15'},{key:'coverage',label:'覆盖范围',value:'85 个公开组件 · 真实二维码编码、L / M / Q / H 纠错级别、图标与品牌色、生命周期状态、刷新与 SVG 下载、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Barcode P55'},{key:'version',label:'版本',value:'1.51.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'86 个公开组件 · CODE128 / CODE39 / EAN / UPC / ITF / MSI / Codabar / Pharmacode 真实编码、响应式 SVG、生命周期状态、刷新与下载、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.50.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.51.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-151-R${barcodeRevision.value}`)
+function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
   {key:'interaction',eyebrow:'Interaction quality',title:'键盘、触控与自动播放',description:'逻辑方向键、滑动手势、悬停与焦点暂停遵循同一状态机。',start:'#6d28d9',end:'#db2777'},
@@ -513,7 +516,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.50.0 发布二维码" caption="扫码打开 1.50.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.51.0 发布二维码" caption="扫码打开 1.51.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -521,6 +524,19 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                 <strong>完整生命周期状态</strong><p>矩阵由内容真实编码生成，支持四档纠错、品牌色、中心图标、边距钳制、响应式尺寸、过期刷新和可访问 SVG 导出。</p>
                 <div class="qr-code-state-row"><UiQRCode value="lan-ui:loading" status="loading" :size="112" :bordered="false" label="加载中的二维码"/><UiQRCode value="lan-ui:scanned" status="scanned" :size="112" :bordered="false" label="已扫描二维码"/><UiQRCode value="lan-ui:expired" status="expired" :size="112" :bordered="false" label="已过期二维码"/></div>
                 <small>中心图标场景建议使用 Q / H 纠错级别并保持足够留白；导出的 SVG 与屏幕矩阵保持一致。</small>
+              </aside>
+            </div>
+            <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
+              <div class="barcode-showcase-primary">
+                <span class="demo-label">UiBarcode · 真实编码与导出</span>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.51.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
+                <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
+              </div>
+              <aside class="barcode-showcase-states">
+                <strong>多制式与完整生命周期</strong><p>真实二进制条纹支持资产、库存、物流与票据场景；显示文本、模块宽度、高度、留白、品牌色、下载及状态插槽均可独立配置。</p>
+                <div class="barcode-state-row"><UiBarcode value="5901234123457" format="EAN13" status="loading" :width="1" :height="54" :bordered="false" label="加载中的 EAN13 条形码"/><UiBarcode value="10012345000017" format="ITF14" status="scanned" :width="1" :height="54" :bordered="false" label="已扫描 ITF14 条形码"/><UiBarcode value="LANUI151" format="CODE39" status="expired" :width="1" :height="54" :bordered="false" label="已过期 CODE39 条形码"/><UiBarcode value="not-digits" format="EAN13" :width="1" :height="54" :bordered="false" label="无效 EAN13 条形码"/></div>
+                <small>EAN / UPC 等数字制式会执行格式与校验位验证；导出 SVG 与屏幕条纹使用同一编码结果，并可在 SSR 阶段直接生成。</small>
               </aside>
             </div>
             <div class="carousel-showcase" data-carousel-state-contract="slide fade horizontal vertical loop finite autoplay hover focus visibility reduced-motion keyboard rtl swipe lazy empty">
@@ -767,6 +783,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Image</td><td>lazy / eager</td><td>preview affordance</td><td>zoom / rotate / pan</td><td>Dialog focus trap</td><td>Preview disabled</td><td>fallback / retry</td></tr>
               <tr><td>Carousel</td><td>slide / fade</td><td>暂停自动播放</td><td>箭头 / 指示器 / 滑动</td><td>逻辑方向键 + Ring</td><td>有限端点锁定</td><td>Visibility / Reduced Motion / Empty</td></tr>
               <tr><td>QRCode</td><td>真实 SVG 矩阵</td><td>下载动作强调</td><td>刷新 / 下载</td><td>命名图片 + Live 状态</td><td>—</td><td>Loading / Expired / Scanned / Invalid</td></tr>
+              <tr><td>Barcode</td><td>真实线性条纹</td><td>下载动作强调</td><td>刷新 / 下载</td><td>命名图片 + Live 状态</td><td>—</td><td>Loading / Expired / Scanned / Invalid</td></tr>
               <tr><td>Watermark</td><td>Text / Image</td><td>内容可交互</td><td>不拦截指针</td><td>命名图片可选</td><td>关闭观察</td><td>图片回退 / DOM 自修复</td></tr>
               <tr><td>Affix</td><td>页面流内</td><td>保留子操作</td><td>固定至边缘</td><td>内容焦点可见</td><td>立即回归文档流</td><td>目标回退 / 边界停止</td></tr>
               <tr><td>Splitter</td><td>响应式占比分栏</td><td>分隔条高亮</td><td>相邻面板调整 / 折叠</td><td>ARIA Separator + Ring</td><td>锁定分隔条</td><td>约束钳制 / Lazy 预览</td></tr>

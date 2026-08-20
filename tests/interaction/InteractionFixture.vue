@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -107,6 +107,10 @@ const qrCodeStatus=ref('expired')
 const qrCodeRevision=ref(1)
 const qrCodeOutput=ref('ready:expired:1')
 function refreshQrCode(){qrCodeRevision.value+=1;qrCodeStatus.value='active';qrCodeOutput.value=`refresh:${qrCodeRevision.value}`}
+const barcodeStatus=ref('expired')
+const barcodeRevision=ref(1)
+const barcodeOutput=ref('ready:expired:1')
+function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';barcodeOutput.value=`refresh:${barcodeRevision.value}`}
 const carouselItems=[
   {key:'overview',title:'Release overview',description:'Versioned component contract'},
   {key:'quality',title:'Quality gates',description:'Keyboard, Axe and visual verification'},
@@ -560,6 +564,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <h2>QR code lifecycle, refresh and SVG matrix contract</h2>
         <div class="interaction-row"><UiButton id="qr-expire" variant="outline" @click="qrCodeStatus='expired';qrCodeOutput='status:expired'">Expire</UiButton><UiButton id="qr-mark-scanned" variant="outline" @click="qrCodeStatus='scanned';qrCodeOutput='status:scanned'">Mark scanned</UiButton><UiButton id="qr-reset" variant="text" @click="qrCodeStatus='active';qrCodeOutput='status:active'">Reset</UiButton><output class="interaction-output" data-testid="qr-code-output">{{ qrCodeOutput }}</output></div>
         <UiQRCode :value="`https://interaction.example/release?revision=${qrCodeRevision}`" :status="qrCodeStatus" level="H" :size="164" label="Interaction release QR code" caption="Release lifecycle" @refresh="refreshQrCode" @download="qrCodeOutput='download'"/>
+      </section>
+      <section class="interaction-case interaction-wide interaction-barcode-case">
+        <h2>Barcode lifecycle, refresh and SVG encoding contract</h2>
+        <div class="interaction-row"><UiButton id="barcode-expire" variant="outline" @click="barcodeStatus='expired';barcodeOutput='status:expired'">Expire</UiButton><UiButton id="barcode-mark-scanned" variant="outline" @click="barcodeStatus='scanned';barcodeOutput='status:scanned'">Mark scanned</UiButton><UiButton id="barcode-reset" variant="text" @click="barcodeStatus='active';barcodeOutput='status:active'">Reset</UiButton><output class="interaction-output" data-testid="barcode-output">{{ barcodeOutput }}</output></div>
+        <UiBarcode :value="`LAN-UI-151-R${barcodeRevision}`" :status="barcodeStatus" format="CODE128" :width="2" :height="72" label="Interaction asset barcode" caption="Asset lifecycle" @refresh="refreshBarcode" @download="barcodeOutput='download'"/>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>
