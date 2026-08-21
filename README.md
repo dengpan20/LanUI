@@ -2,6 +2,20 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P61 成熟时间轴
+
+`UiTimeline` 在兼容原有 `items` 展示的基础上，补齐纵向/横向、起始/末端/交替位置、内容/对侧时间、状态与自定义色、图标、受控或非受控选择、原生链接、禁用、Pending、Loading、Empty 和字段适配。可交互事件使用 roving focus，方向键、Home/End 会跳过禁用项并遵循 RTL；语义化 `ol`、`time`、本地化名称、Reduced Motion、forced-colors、SSR、类型与三浏览器回归保持同步。
+
+```vue
+<UiTimeline
+  v-model="selectedStage"
+  :items="releaseStages"
+  selectable
+  time-position="opposite"
+  pending="Waiting for release"
+/>
+```
+
 ## P60 可交互标签词汇
 
 `UiTag` 在兼容原有 `color`、`dot`、默认插槽与 `.tag` 类名的基础上，补齐 Soft / Solid / Outlined 外观、三种尺寸、圆角、自定义颜色、受控选择、关闭、链接、禁用与结构化插槽。可选择标签使用原生 Button 与 `aria-pressed`，链接使用原生 Anchor 并自动保护 `_blank`，关闭按钮拥有本地化名称；键盘、RTL、forced-colors、SSR、类型和三浏览器回归保持同步。

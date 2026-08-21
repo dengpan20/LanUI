@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiTag, UiUpload,
+  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -94,6 +94,15 @@ const tagVisible=ref(true)
 const tagOutput=ref('ready')
 function changeTag(checked,meta){tagChecked.value=checked;tagOutput.value=`change:${meta.source}:${checked}`}
 function closeTag(meta){tagVisible.value=false;tagOutput.value=`close:${meta.source}`}
+const timelineSelection=ref('audit')
+const timelineOutput=ref('ready:audit')
+const timelineItems=[
+  {key:'audit',title:'Audit complete',description:'Tokens and API verified',time:'09:10',datetime:'2026-08-20T09:10:00+08:00',status:'success'},
+  {key:'review',title:'Component review',description:'Keyboard and ARIA validation',time:'11:30',datetime:'2026-08-20T11:30:00+08:00',status:'primary'},
+  {key:'approval',title:'Approval unavailable',description:'Disabled workflow stage',time:'13:00',status:'warning',disabled:true},
+  {key:'release',title:'Release notes',description:'Open the consumer evidence',time:'16:20',status:'info',href:'#interaction-timeline-target',target:'_blank'},
+]
+function changeTimeline(value,meta){timelineOutput.value=`change:${meta.source}:${String(value)}`}
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -623,6 +632,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiTag id="interaction-tag-disabled" checkable disabled>Unavailable</UiTag>
         </div>
         <output class="interaction-output" data-testid="tag-output">{{ tagOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-timeline-case" data-timeline-state-contract="selection keyboard disabled link horizontal rtl home end">
+        <h2>Timeline selection, keyboard and link contract</h2>
+        <UiTimeline id="interaction-timeline" v-model="timelineSelection" :items="timelineItems" selectable orientation="horizontal" placement="alternate" time-position="opposite" line="dashed" aria-label="Interaction release timeline" @change="changeTimeline" />
+        <i id="interaction-timeline-target" />
+        <output class="interaction-output" data-testid="timeline-output">{{ timelineOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

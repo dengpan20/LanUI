@@ -26,19 +26,22 @@ import {
   UiTable,
   UiTabs,
   UiTag,
+  UiTimeline,
   UiTree,
   UiTour,
   UiUpload,
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
 const gridPage = ref(1)
 const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
+const timelineSelection=ref<Key>('review')
+const timelineItems:UiTimelineItem[]=[{key:'audit',title:'Audit',time:'09:30',status:'success'},{key:'review',title:'Review',time:'11:20',status:'warning'}]
 interface FormModel extends Record<string, unknown> { name:string; contacts:Array<{email:string}>; password:string; confirm:string }
 const model = ref<FormModel>({ name: '', contacts:[{email:''}], password:'', confirm:'' })
 const schema:UiSchemaFormNode<FormModel>[]=[{key:'profile',title:'Profile',fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'password',label:'Password',props:{type:'password'}},{name:'confirm',label:'Confirm',visible:current=>Boolean(current.password),dependencies:['password']},{key:'contacts',name:'contacts',type:'list',label:'Contacts',min:1,max:4,defaultValue:({index})=>({email:`typed-${index}@example.com`}),itemLabel:(_current,{index})=>`Contact ${Number(index)+1}`,fields:[{name:'email',label:'Email',rules:[{required:true,type:'email'}],props:(_current,{index})=>({placeholder:`Email ${Number(index)+1}`})}]}]}]
@@ -145,6 +148,7 @@ function sort(payload:UiTableSortChange) {
   <UiPageHeader title="Typed release" description="Typed page heading contract" :breadcrumbs="[{label:'Workspace',href:'#workspace'},{label:'Release'}]" show-back bordered @back="meta=>meta.source" @breadcrumb-navigate="meta=>meta.index"><template #meta>Stable</template><template #actions><UiButton>Publish</UiButton></template><template #footer>Evidence</template></UiPageHeader>
   <UiCard title="Typed evidence" subtitle="Verified now" variant="elevated" shadow="md" hoverable interactive selected @activate="meta=>meta.source"><template #cover><img src="/typed-card.jpg" alt="Typed card cover"></template><template #actions="{disabled}">{{ disabled }}</template><template #default="{selected}">{{ selected }}</template><template #footer>Typed footer</template></UiCard>
   <UiTag color="purple" variant="solid" size="lg" round closable checkable checked @change="(_checked,meta)=>meta.source" @close="meta=>meta.color"><template #prefix="{checked}">{{ checked }}</template>Typed tag</UiTag>
+  <UiTimeline v-model="timelineSelection" :items="timelineItems" selectable interactive time-position="opposite" pending="Publishing" @change="(_value,meta)=>meta.source"><template #item="{title,selected}">{{ title }} / {{ selected }}</template><template #pending>Queued</template></UiTimeline>
   <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>

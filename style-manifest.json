@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.56.0",
+  "version": "1.57.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 204671,
-    "rules": 1615,
+    "bytes": 213224,
+    "rules": 1672,
     "source": "component-union"
   },
   "core": {
@@ -484,8 +484,8 @@
     {
       "name": "UiTimeline",
       "subpath": "./styles/UiTimeline.css",
-      "bytes": 809,
-      "rules": 9
+      "bytes": 9362,
+      "rules": 66
     },
     {
       "name": "UiToastHost",

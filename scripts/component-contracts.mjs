@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 
 const required={
+  'UiTimeline.vue':['data-ui-timeline','aria-busy','aria-pressed','timePosition','disabledKeys','useDirection','timeline.pending','defineExpose'],
   'UiTag.vue':['data-ui-tag','aria-pressed','update:checked','tag.close','noopener noreferrer','focusClose','defineExpose'],
   'UiCard.vue':['data-ui-card','aria-labelledby','aria-describedby','aria-busy','aria-pressed','loadingRows','isNestedControl','useReducedMotion','defineExpose'],
   'UiPageHeader.vue':['data-ui-page-header','aria-labelledby','breadcrumb-navigate','showBack','stickyOffset','useReducedMotion','defineExpose'],

@@ -35,3 +35,5 @@ body { margin: 0; background: var(--bg-page); color: var(--text-primary); }
 .interaction-card-case{display:grid;gap:12px}.interaction-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.interaction-card-grid .ui-card{min-height:190px}.interaction-card-grid .card-body p{margin:0}.interaction-card-case>.interaction-output{justify-self:end}
 .interaction-tag-case{display:grid;gap:12px}.interaction-tag-case>.interaction-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.interaction-tag-case>.interaction-output{justify-self:end}
 @media (max-width: 720px) { .interaction-grid { grid-template-columns: 1fr; } .interaction-wide { grid-column: auto; } }
+
+.interaction-timeline-case{display:grid;gap:12px}.interaction-timeline-case .ui-timeline{min-height:220px}.interaction-timeline-case>.interaction-output{justify-self:end}

@@ -1,5 +1,18 @@
 # Lan UI migration and compatibility policy
 
+## 1.57 timeline compatibility
+
+There are no breaking changes. Existing `<UiTimeline :items="items" />` usage remains valid; richer state and interaction are opt-in:
+
+```vue
+<UiTimeline v-model="stage" :items="stages" selectable time-position="opposite" pending />
+```
+
+- Stable keys default to `item.key`; `itemKey` and the title, description, time, datetime, status, color, icon, link and disabled field adapters support existing domain records without data reshaping.
+- `selectable` supports controlled `modelValue` or uncontrolled `defaultValue`. `change`, `activate`, `item-click` and `item-focus` publish stable item/source metadata, while exposed focus/select methods support application workflows.
+- Vertical and horizontal direction, start/end/alternate placement, opposite/content time and solid/dashed/dotted/hidden connectors are presentation choices that do not alter item identity. Arrow keys and Home/End use roving focus, skip disabled records and respect RTL.
+- Links use native anchors and protect `_blank`; selectable/interactive records use native buttons. Pending, Loading and Empty retain ordered-list semantics and localized status copy. Root and `components/UiTimeline` imports expose matching Props, Emits, Slots and instance types with isolated styling at `styles/UiTimeline.css`.
+
 ## 1.56 tag compatibility
 
 There are no breaking changes. Existing `<UiTag color="green" dot>Ready</UiTag>` usage and direct `.tag` styling keep their current markup contract; richer behavior is opt-in:

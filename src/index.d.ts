@@ -333,8 +333,15 @@ export interface UiTagCloseMeta { source:'pointer'|'keyboard'|string; color:stri
 export interface UiTagInstance { root:Ref<HTMLElement|null>; action:Ref<HTMLElement|null>; close:Ref<HTMLButtonElement|null>; focus:(options?:FocusOptions)=>boolean; focusClose:(options?:FocusOptions)=>boolean }
 export interface UiTagProps { as?:string|Record<string,unknown>|Function; color?:'blue'|'green'|'orange'|'red'|'gray'|'purple'|string; type?:string; variant?:UiTagVariant; size?:UiTagSize; dot?:boolean; round?:boolean; closable?:boolean; closeLabel?:string; disabled?:boolean; interactive?:boolean; checkable?:boolean; checked?:boolean; href?:string; target?:string; rel?:string; ariaLabel?:string }
 export interface UiTextareaProps { modelValue?:string; placeholder?:string; rows?:number; maxlength?:string|number; showCount?:boolean; disabled?:boolean; readonly?:boolean; invalid?:boolean }
-export interface UiTimelineItem { title:string; description?:string; time?:string; status?:'normal'|'success'|'warning'|'error' }
-export interface UiTimelineProps { items?:UiTimelineItem[] }
+export type UiTimelineStatus = 'default'|'normal'|'primary'|'success'|'warning'|'error'|'info'|'pending'
+export type UiTimelineOrientation = 'vertical'|'horizontal'
+export type UiTimelinePlacement = 'start'|'end'|'alternate'
+export type UiTimelineLine = 'solid'|'dashed'|'dotted'|'none'
+export type UiTimelineField<Item=UiTimelineItem> = string|((item:Item,index:number)=>unknown)
+export interface UiTimelineItem { key?:Key; title:string; description?:string; time?:string; datetime?:string; status?:UiTimelineStatus; color?:string; icon?:string; href?:string; target?:string; rel?:string; current?:boolean; disabled?:boolean; [key:string]:unknown }
+export interface UiTimelineActivationMeta<Item=UiTimelineItem> { key:Key; index:number; sourceIndex:number; item:Item; status:Exclude<UiTimelineStatus,'normal'>; selected:boolean; source:string; href?:string; previous?:Key }
+export interface UiTimelineProps<Item=UiTimelineItem> { items?:Item[]; itemKey?:UiTimelineField<Item>; titleField?:UiTimelineField<Item>; descriptionField?:UiTimelineField<Item>; timeField?:UiTimelineField<Item>; datetimeField?:UiTimelineField<Item>; statusField?:UiTimelineField<Item>; colorField?:UiTimelineField<Item>; iconField?:UiTimelineField<Item>; hrefField?:UiTimelineField<Item>; disabledField?:UiTimelineField<Item>; modelValue?:Key; defaultValue?:Key; disabledKeys?:Key[]; selectable?:boolean; interactive?:boolean; keyboard?:boolean; loop?:boolean; reverse?:boolean; orientation?:UiTimelineOrientation; placement?:UiTimelinePlacement; timePosition?:'content'|'opposite'; size?:ComponentSize; line?:UiTimelineLine; dotVariant?:'outlined'|'solid'; pending?:boolean|string; pendingText?:string; loading?:boolean; loadingCount?:number; emptyText?:string; ariaLabel?:string }
+export interface UiTimelineInstance { root:Ref<HTMLOListElement|null>; focusItem:(keyOrIndex:Key,options?:FocusOptions)=>boolean; focusFirst:(options?:FocusOptions)=>boolean; focusLast:(options?:FocusOptions)=>boolean; select:(key:Key,source?:string)=>UiTimelineActivationMeta|false }
 export interface UiToastItem extends UiNotice { id:Key; placement?:ToastPlacement; out?:boolean; duration?:number }
 export interface UiToastHostProps { items?:UiToastItem[]; feedback?:LanUiFeedback }
 export interface UiTooltipProps { content?:string; placement?:Placement; disabled?:boolean; offset?:number }
@@ -494,7 +501,7 @@ export type UiTableEmits = { 'update:selectedRows':(value:Key[])=>void; 'update:
 export type UiTabsEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key)=>void; close:(value:Key)=>void }
 export type UiTagEmits = { click:(event:MouseEvent)=>void; activate:(meta:UiTagActivationMeta,event:MouseEvent)=>void; close:(meta:UiTagCloseMeta,event:MouseEvent)=>void; 'update:checked':(checked:boolean)=>void; change:(checked:boolean,meta:UiTagActivationMeta,event:MouseEvent)=>void }
 export type UiTextareaEmits = { 'update:modelValue':(value:string)=>void; input:(value:string)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
-export type UiTimelineEmits = {}
+export type UiTimelineEmits<Item=UiTimelineItem> = { 'update:modelValue':(value:Key|undefined)=>void; change:(value:Key|undefined,meta:UiTimelineActivationMeta<Item>,event?:MouseEvent)=>void; 'item-click':(item:Item,index:number,event:MouseEvent)=>void; activate:(meta:UiTimelineActivationMeta<Item>,event?:MouseEvent)=>void; 'item-focus':(meta:UiTimelineActivationMeta<Item>,event?:FocusEvent|KeyboardEvent)=>void }
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
 export type UiTooltipEmits = {}
 export type UiTourEmits = { 'update:modelValue':(value:boolean)=>void; 'update:current':(value:number)=>void; open:(meta:{current:number;step:UiTourStep})=>void; close:(meta:UiTourCloseMeta)=>void; change:(current:number,previous:number,meta:UiTourChangeMeta)=>void; finish:(meta:{current:number;step:UiTourStep})=>void; 'target-missing':(meta:{index:number;step:UiTourStep})=>void }
@@ -589,7 +596,9 @@ export type UiTableSlots = { caption?:()=>VNodeChild; 'empty-action'?:()=>VNodeC
 export type UiTabsSlots = { default?:(props:{item:UiTabsItem|Key})=>VNodeChild; [name:`panel-${string}`]:((props:{item:UiTabsItem|Key})=>VNodeChild)|undefined }
 export type UiTagSlots = { default?:(props:{checked:boolean;disabled:boolean})=>VNodeChild; prefix?:(props:{checked:boolean;disabled:boolean})=>VNodeChild; suffix?:(props:{checked:boolean;disabled:boolean})=>VNodeChild; 'close-icon'?:(props:{disabled:boolean})=>VNodeChild }
 export type UiTextareaSlots = {}
-export type UiTimelineSlots = {}
+export interface UiTimelineRecordScope<Item=UiTimelineItem> { key:Key; index:number; sourceIndex:number; item:Item; status:Exclude<UiTimelineStatus,'normal'>; selected:boolean; title:unknown; description:unknown; time:unknown; datetime:unknown; color:string; icon:string; href:string; target:string; rel:string; current:boolean; disabled:boolean; domKey:string }
+export type UiTimelineItemScope<Item=UiTimelineItem> = UiTimelineRecordScope<Item>&{ activate:(source?:string)=>UiTimelineActivationMeta<Item>|false }
+export type UiTimelineSlots<Item=UiTimelineItem> = { item?:(scope:UiTimelineItemScope<Item>)=>VNodeChild; dot?:(scope:UiTimelineRecordScope<Item>)=>VNodeChild; title?:(scope:UiTimelineRecordScope<Item>)=>VNodeChild; description?:(scope:UiTimelineRecordScope<Item>)=>VNodeChild; time?:(scope:UiTimelineRecordScope<Item>)=>VNodeChild; opposite?:(scope:UiTimelineRecordScope<Item>)=>VNodeChild; pending?:()=>VNodeChild; empty?:()=>VNodeChild }
 export type UiTimePickerSlots = {}
 export type UiTimeRangePickerSlots = {}
 export type UiToastHostSlots = {}

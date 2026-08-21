@@ -53,6 +53,10 @@ describe('P37 generated component API documentation',()=>{
     expect(tag.props).toEqual(expect.arrayContaining(['as','color','type','variant','size','dot','round','closable','disabled','interactive','checkable','checked','href','ariaLabel']))
     expect(tag.emits).toEqual(['activate','change','click','close','update:checked'])
     expect(tag.slots).toEqual(['close-icon','default','prefix','suffix'])
+    const timeline=manifest.components.find(component=>component.name==='UiTimeline')
+    expect(timeline.props).toEqual(expect.arrayContaining(['items','itemKey','modelValue','defaultValue','selectable','interactive','orientation','placement','timePosition','line','pending','loading','ariaLabel']))
+    expect(timeline.emits).toEqual(['activate','change','item-click','item-focus','update:modelValue'])
+    expect(timeline.slots).toEqual(['description','dot','empty','item','opposite','pending','time','title'])
   })
 
   it('covers every component exactly once across stable documentation categories',()=>{
@@ -76,6 +80,7 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain("import { UiTimeRangePicker } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiCard } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiTag } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiTimeline } from 'lan-ui-design-system'")
   })
 
   it('filters the browser index and opens a deep-linkable API contract',async()=>{

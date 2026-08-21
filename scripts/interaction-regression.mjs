@@ -1156,6 +1156,30 @@ const allCases = [
     },
   },
   {
+    name:'timeline-selection-keyboard-link-disabled',
+    query:'direction=rtl',
+    run:async page=>{
+      const timeline=page.locator('#interaction-timeline')
+      await timeline.scrollIntoViewIfNeeded()
+      const review=timeline.locator('[data-key="review"] .ui-timeline-content')
+      await review.click()
+      await expectText(page,'timeline-output','change:pointer:review')
+      assert.equal(await review.getAttribute('aria-pressed'),'true')
+      await review.focus()
+      await review.press('ArrowLeft')
+      const release=timeline.locator('[data-key="release"] .ui-timeline-content')
+      await expectFocused(page,release)
+      assert.equal(await release.getAttribute('target'),'_blank')
+      assert.equal(await release.getAttribute('rel'),'noopener noreferrer')
+      await release.press('Home')
+      await expectFocused(page,timeline.locator('[data-key="audit"] .ui-timeline-content'))
+      await page.keyboard.press('End')
+      await expectFocused(page,release)
+      assert.equal(await timeline.locator('[data-key="approval"] .ui-timeline-content').isDisabled(),true)
+      assert.equal(await timeline.getAttribute('aria-label'),'Interaction release timeline')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{

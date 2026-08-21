@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.57.0] - 2026-08-20
+
+### Added
+
+- Production `UiTimeline` contract with field adapters, status/custom-color dots, icons, vertical/horizontal orientation, start/end/alternate placement, semantic opposite time, controlled/uncontrolled selection, native links, disabled stages, pending/loading/empty states, structured Slots and focus/select instance methods.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `items`-only timelines remain compatible while opting into semantic ordered-list output, responsive/RTL layouts, roving keyboard focus, secure `_blank` links, Reduced Motion and forced-colors behavior.
+- Release gates advance to 34 visual baselines, 52 Axe scenarios, 56 interactions per browser, 55 negative type assertions and 438 locale keys. Generated API coverage advances to 1,113 Props, 380 Events and 199 Slots.
+
 ## [1.56.0] - 2026-08-20
 
 ### Added

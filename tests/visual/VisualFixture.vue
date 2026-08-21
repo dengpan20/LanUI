@@ -3,7 +3,7 @@ import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
-  UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
@@ -35,6 +35,13 @@ const gridColumns=[{key:'name',label:'Work item',sortable:true},{key:'team',labe
 const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
+const visualTimelineSelection=ref('review')
+const visualTimelineItems=[
+  {key:'foundation',title:'Foundation audit',description:'Tokens, typography and layout constraints verified.',time:'09:15',datetime:'2026-08-20T09:15:00+08:00',status:'success',icon:'check'},
+  {key:'review',title:'Component review',description:'Keyboard, ARIA and typed state contracts are under review.',time:'11:40',datetime:'2026-08-20T11:40:00+08:00',status:'primary',current:true},
+  {key:'blocked',title:'Dependency approval',description:'Disabled until the package policy is approved.',time:'13:20',datetime:'2026-08-20T13:20:00+08:00',status:'warning',disabled:true},
+  {key:'release',title:'Consumer release',description:'Publish package, evidence and rollback artifacts.',time:'16:30',datetime:'2026-08-20T16:30:00+08:00',status:'info',href:'#timeline-release'},
+]
 const visualListSelection=ref(['visual-list-1'])
 const visualListRecords=Array.from({length:6},(_,index)=>({id:`visual-list-${index}`,title:`Release evidence ${index+1}`,description:['API and type contract','Keyboard and ARIA audit','Visual regression baseline'][index%3],disabled:index===4}))
 const visualOtp=ref('204')
@@ -350,6 +357,13 @@ const tableRows=[
         <section><h3>Action contracts</h3><div class="visual-row"><UiTag checkable checked>Selected filter</UiTag><UiTag checkable>Available filter</UiTag><UiTag color="red" closable>Removable</UiTag><UiTag href="#tag-docs" variant="outlined">Documentation</UiTag><UiTag checkable disabled>Unavailable</UiTag></div></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">native button / link</UiTag><UiTag color="green">aria-pressed / close label</UiTag><UiTag color="orange">controlled / SSR</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='timeline'" title="Release timeline" subtitle="Selection, status, time placement and orientation" title-tag="h2" class="visual-table-card visual-timeline-showcase">
+      <div class="visual-timeline-grid" data-timeline-state-contract="vertical horizontal alternate opposite pending selection disabled link keyboard rtl loading empty ssr">
+        <section><h3>Vertical · opposite time</h3><UiTimeline v-model="visualTimelineSelection" :items="visualTimelineItems" selectable pending time-position="opposite" dot-variant="solid" aria-label="Release progress timeline"/></section>
+        <section><h3>Horizontal · alternate</h3><UiTimeline :items="visualTimelineItems.slice(0,3)" orientation="horizontal" placement="alternate" line="dashed" size="sm" interactive aria-label="Release stages timeline"/></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">roving focus / selection</UiTag><UiTag color="green">semantic time / status</UiTag><UiTag color="orange">vertical / horizontal / RTL</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

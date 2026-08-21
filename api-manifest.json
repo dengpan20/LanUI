@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.56.0",
+  "version": "1.57.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -765,10 +765,19 @@
       "UiTimeRangePickerProps",
       "UiTimeRangePickerSlots",
       "UiTimeline",
+      "UiTimelineActivationMeta",
       "UiTimelineEmits",
+      "UiTimelineField",
+      "UiTimelineInstance",
       "UiTimelineItem",
+      "UiTimelineItemScope",
+      "UiTimelineLine",
+      "UiTimelineOrientation",
+      "UiTimelinePlacement",
       "UiTimelineProps",
+      "UiTimelineRecordScope",
       "UiTimelineSlots",
+      "UiTimelineStatus",
       "UiToastHost",
       "UiToastHostEmits",
       "UiToastHostProps",
@@ -17775,13 +17784,120 @@
       "subpath": "./components/UiTimeline",
       "propsType": "UiTimelineProps",
       "props": [
-        "items"
+        "ariaLabel",
+        "colorField",
+        "datetimeField",
+        "defaultValue",
+        "descriptionField",
+        "disabledField",
+        "disabledKeys",
+        "dotVariant",
+        "emptyText",
+        "hrefField",
+        "iconField",
+        "interactive",
+        "itemKey",
+        "items",
+        "keyboard",
+        "line",
+        "loading",
+        "loadingCount",
+        "loop",
+        "modelValue",
+        "orientation",
+        "pending",
+        "pendingText",
+        "placement",
+        "reverse",
+        "selectable",
+        "size",
+        "statusField",
+        "timeField",
+        "timePosition",
+        "titleField"
       ],
       "propDetails": [
         {
-          "name": "items",
+          "name": "ariaLabel",
           "required": false,
-          "type": "UiTimelineItem[]",
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "colorField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"color\""
+          }
+        },
+        {
+          "name": "datetimeField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"datetime\""
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "descriptionField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"description\""
+          }
+        },
+        {
+          "name": "disabledField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"disabled\""
+          }
+        },
+        {
+          "name": "disabledKeys",
+          "required": false,
+          "type": "Key[]",
           "runtimeTypes": [
             "Array"
           ],
@@ -17789,14 +17905,392 @@
             "kind": "factory",
             "value": "factory()"
           }
+        },
+        {
+          "name": "dotVariant",
+          "required": false,
+          "type": "'outlined'|'solid'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"outlined\""
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "hrefField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"href\""
+          }
+        },
+        {
+          "name": "iconField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"icon\""
+          }
+        },
+        {
+          "name": "interactive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
+          "name": "items",
+          "required": false,
+          "type": "Item[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "line",
+          "required": false,
+          "type": "UiTimelineLine",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"solid\""
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "orientation",
+          "required": false,
+          "type": "UiTimelineOrientation",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"vertical\""
+          }
+        },
+        {
+          "name": "pending",
+          "required": false,
+          "type": "boolean|string",
+          "runtimeTypes": [
+            "Boolean",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "pendingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "type": "UiTimelinePlacement",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"start\""
+          }
+        },
+        {
+          "name": "reverse",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "selectable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "statusField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"status\""
+          }
+        },
+        {
+          "name": "timeField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"time\""
+          }
+        },
+        {
+          "name": "timePosition",
+          "required": false,
+          "type": "'content'|'opposite'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"content\""
+          }
+        },
+        {
+          "name": "titleField",
+          "required": false,
+          "type": "UiTimelineField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"title\""
+          }
         }
       ],
       "emitsType": "UiTimelineEmits",
-      "emits": [],
-      "emitDetails": [],
+      "emits": [
+        "activate",
+        "change",
+        "item-click",
+        "item-focus",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "activate",
+          "required": true,
+          "type": "(meta:UiTimelineActivationMeta<Item>,event?:MouseEvent)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:Key|undefined,meta:UiTimelineActivationMeta<Item>,event?:MouseEvent)=>void"
+        },
+        {
+          "name": "item-click",
+          "required": true,
+          "type": "(item:Item,index:number,event:MouseEvent)=>void"
+        },
+        {
+          "name": "item-focus",
+          "required": true,
+          "type": "(meta:UiTimelineActivationMeta<Item>,event?:FocusEvent|KeyboardEvent)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:Key|undefined)=>void"
+        }
+      ],
       "slotsType": "UiTimelineSlots",
-      "slots": [],
-      "slotDetails": [],
+      "slots": [
+        "description",
+        "dot",
+        "empty",
+        "item",
+        "opposite",
+        "pending",
+        "time",
+        "title"
+      ],
+      "slotDetails": [
+        {
+          "name": "description",
+          "required": false,
+          "type": "(scope:UiTimelineRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "dot",
+          "required": false,
+          "type": "(scope:UiTimelineRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:UiTimelineItemScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "opposite",
+          "required": false,
+          "type": "(scope:UiTimelineRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "pending",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "time",
+          "required": false,
+          "type": "(scope:UiTimelineRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "(scope:UiTimelineRecordScope<Item>)=>VNodeChild"
+        }
+      ],
       "imports": {
         "root": "import { UiTimeline } from 'lan-ui-design-system'",
         "subpath": "import UiTimeline from 'lan-ui-design-system/components/UiTimeline'"

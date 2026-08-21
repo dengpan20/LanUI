@@ -99,6 +99,7 @@ const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
 const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
 const cardSelected=ref(false)
 const tagChecked=ref(false);const tagVisible=ref(true);const tagState=ref('等待标签交互')
+const timelineSelection=ref('review');const timelineState=ref('等待时间轴交互')
 const configPortalOpen=ref(false)
 const statusPageDemo=ref('403')
 const tourOpen=ref(false);const tourCurrent=ref(0)
@@ -230,13 +231,13 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.56.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 标签颜色、外观、尺寸、点标记、选择、关闭、链接、禁用、键盘、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.57.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-20'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 时间轴方向、位置、状态、时间语义、选择、链接、禁用、待处理、加载、键盘、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.56.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.57.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-156-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-157-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -259,7 +260,13 @@ const listItems=[
   {id:'list-docs',name:'使用文档同步',description:'更新迁移说明和组件用例',owner:'Docs',status:'Ready'},
 ]
 const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
-const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}];const timelineItems=[{title:'完成组件审计',time:'09:30',status:'success'},{title:'同步业务页面',time:'11:20',status:'success'},{title:'执行视觉回归',time:'14:00'}]
+const stepItems=[{title:'基础规范',description:'Token 与布局'},{title:'组件实现',description:'状态与交互'},{title:'业务验收',description:'页面回归'}]
+const timelineItems=[
+  {key:'audit',title:'完成组件审计',description:'运行时、类型与旧用法保持兼容',time:'09:30',datetime:'2026-08-20T09:30:00+08:00',status:'success',icon:'check'},
+  {key:'review',title:'同步业务页面',description:'组件中心与独立项目共享同一契约',time:'11:20',datetime:'2026-08-20T11:20:00+08:00',status:'warning'},
+  {key:'visual',title:'执行视觉回归',description:'覆盖暗色、RTL 与响应式布局',time:'14:00',datetime:'2026-08-20T14:00:00+08:00',status:'info',current:true},
+  {key:'release',title:'发布版本',description:'等待三浏览器与消费包门禁',time:'16:30',datetime:'2026-08-20T16:30:00+08:00',disabled:true},
+]
 const tableDensity=ref('default');const tableVisibleColumns=ref(['component','version','status','coverage','actions']);const tableSelected=ref([]);const tableExpanded=ref([]);const tableSortKey=ref('component');const tableSortOrder=ref('asc');const tableFilters=ref({});const tableLoading=ref(false);const tableError=ref('');const tableEmpty=ref(false)
 const tableColumns=[{key:'component',label:'组件',minWidth:'160px',sortable:true},{key:'version',label:'版本',minWidth:'90px'},{key:'status',label:'状态',minWidth:'110px',filterable:true,filterOptions:['稳定','测试中']},{key:'coverage',label:'覆盖场景',minWidth:'110px',sortable:true},{key:'actions',label:'操作',width:'90px',align:'right',configurable:false,resizable:false}]
 const tableRows=[{id:'CMP-001',component:'Button',version:'1.2.0',status:'稳定',coverage:18,owner:'交互组件组',updated:'2026-08-11'},{id:'CMP-002',component:'Table',version:'1.0.0',status:'稳定',coverage:12,owner:'数据组件组',updated:'2026-08-11'},{id:'CMP-003',component:'DatePicker',version:'1.0.0',status:'测试中',coverage:8,owner:'表单组件组',updated:'2026-08-10'},{id:'CMP-004',component:'Upload',version:'1.28.0',status:'稳定',coverage:16,owner:'表单组件组',updated:'2026-08-13'}]
@@ -546,7 +553,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.56.0 发布二维码" caption="扫码打开 1.56.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.57.0 发布二维码" caption="扫码打开 1.57.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -559,7 +566,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.56.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.57.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -601,6 +608,10 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                 <template #item="{item,index,selected}"><div class="virtual-list-demo-row"><span class="virtual-list-demo-index">{{ index+1 }}</span><div><strong>{{ item.name }}</strong><small>{{ item.owner }} · {{ item.status }}<template v-if="item.detail"><br>{{ item.detail }}</template></small></div><UiTag :color="selected?'blue':item.status==='Ready'?'green':'orange'">{{ selected?'Selected':item.status }}</UiTag></div></template>
               </UiVirtualList>
               <p class="feedback-hint">Arrow / Home / End / Page keys move the active option; Enter or Space selects it. ResizeObserver keeps measured rows and the scroll anchor stable.</p>
+            </div>
+            <div class="timeline-showcase" data-timeline-state-contract="vertical horizontal placement time status custom-color selection link disabled pending loading empty keyboard rtl ssr">
+              <div class="timeline-showcase-panel"><div class="form-demo-title"><strong>UiTimeline · 可选择发布历程</strong><span>Opposite time / Pending / Keyboard</span></div><UiTimeline v-model="timelineSelection" :items="timelineItems" selectable interactive loop time-position="opposite" pending="等待发布" aria-label="发布历程" @change="(value,meta)=>timelineState=`已选择 ${value} · ${meta.source}`"/><output class="timeline-showcase-output" aria-live="polite">{{ timelineState }}</output></div>
+              <div class="timeline-showcase-panel"><div class="form-demo-title"><strong>横向与交替布局</strong><span>Horizontal / Alternate / Dashed</span></div><UiTimeline :items="timelineItems.slice(0,3)" orientation="horizontal" placement="alternate" line="dashed" dot-variant="solid" size="sm" aria-label="横向发布历程"/></div>
             </div>
             <div class="tag-showcase" data-tag-state-contract="colors custom variants sizes dot round checkable closable link disabled keyboard rtl ssr">
               <div class="tag-showcase-group"><span class="demo-label">颜色与外观</span><div class="demo-row"><UiTag color="blue" dot>进行中</UiTag><UiTag color="green" variant="solid">已完成</UiTag><UiTag color="orange" variant="outlined">待处理</UiTag><UiTag color="purple" round>审核中</UiTag><UiTag color="#0f766e">自定义色</UiTag></div></div>
@@ -807,6 +818,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr>
               <tr><td>InputTag</td><td>标签录入</td><td>标签与清除按钮强调</td><td>分隔符提交 / 编辑 / 移除</td><td>方向键选择 + Ring</td><td>只读 / 禁用</td><td>异步校验 / 重复 / 上限</td></tr>
               <tr><td>Tag</td><td>Soft / Solid / Outlined</td><td>交互边框强调</td><td>选择 / 关闭 / 链接</td><td>原生 Button / Link + Ring</td><td>移除导航与 Tab 顺序</td><td>受控选择 / 自定义颜色</td></tr>
+              <tr><td>Timeline</td><td>纵向 / 横向 / 交替</td><td>事件内容强调</td><td>选择 / 链接 / 程序化激活</td><td>方向键 / Home / End</td><td>跳过禁用事件</td><td>Pending / Loading / Empty</td></tr>
               <tr><td>QueryBuilder</td><td>递归条件树</td><td>规则边框强调</td><td>添加 / 复制 / 排序 / 删除</td><td>组合框 + 键盘快捷键</td><td>只读 / 禁用</td><td>缺失值 / 范围 / 自定义校验</td></tr>
               <tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr>
               <tr><td>OtpInput</td><td>分段验证码</td><td>单格边框强调</td><td>自动移焦 / 整段粘贴</td><td>方向键 + Home / End</td><td>只读 / 禁用</td><td>非法字符 / 错误 Ring</td></tr>
