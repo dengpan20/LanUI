@@ -62,11 +62,12 @@ export function useFloatingPosition({ triggerRef, panelRef, open, placement, off
     if (preferred.side === 'top' || preferred.side === 'bottom') candidates.push('right', 'left')
     else candidates.push('bottom', 'top')
     let best = candidates[0]
-    let bestPoint = coordinates(trigger, panel, best, offset)
+    const resolvedOffset = Number(unref(offset)) || 0
+    let bestPoint = coordinates(trigger, panel, best, resolvedOffset)
     let bestScore = overflowScore(bestPoint, panel, padding)
     let bestMainOverflow = mainAxisOverflow(bestPoint, panel, best, padding)
     for (const candidate of candidates.slice(1)) {
-      const point = coordinates(trigger, panel, candidate, offset)
+      const point = coordinates(trigger, panel, candidate, resolvedOffset)
       const score = overflowScore(point, panel, padding)
       const mainOverflow = mainAxisOverflow(point, panel, candidate, padding)
       if (mainOverflow < bestMainOverflow || (mainOverflow === bestMainOverflow && score < bestScore)) {
@@ -106,7 +107,7 @@ export function useFloatingPosition({ triggerRef, panelRef, open, placement, off
     resizeObserver = null
   }
 
-  watch([() => unref(open), () => unref(placement), () => unref(zIndex)], async ([visible]) => {
+  watch([() => unref(open), () => unref(placement), () => unref(offset), () => unref(zIndex)], async ([visible]) => {
     detach()
     if (!visible) return
     await nextTick()

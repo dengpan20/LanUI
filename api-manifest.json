@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.59.0",
+  "version": "1.60.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -797,8 +797,12 @@
       "UiToastItem",
       "UiTooltip",
       "UiTooltipEmits",
+      "UiTooltipInstance",
+      "UiTooltipOpenMeta",
+      "UiTooltipOpenSource",
       "UiTooltipProps",
       "UiTooltipSlots",
+      "UiTooltipTrigger",
       "UiTour",
       "UiTourChangeMeta",
       "UiTourCloseMeta",
@@ -19678,22 +19682,97 @@
       "subpath": "./components/UiTooltip",
       "propsType": "UiTooltipProps",
       "props": [
+        "appendToBody",
+        "arrow",
+        "closeOnEscape",
+        "closeOnOutside",
         "content",
+        "defaultOpen",
         "disabled",
+        "hideDelay",
+        "maxWidth",
         "offset",
-        "placement"
+        "open",
+        "placement",
+        "showDelay",
+        "teleportTo",
+        "tooltipId",
+        "trigger",
+        "wrap",
+        "zIndex"
       ],
       "propDetails": [
         {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "arrow",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnEscape",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnOutside",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
           "name": "content",
           "required": false,
-          "type": "string",
+          "type": "string|number",
           "runtimeTypes": [
-            "String"
+            "String",
+            "Number"
           ],
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -19709,6 +19788,31 @@
           }
         },
         {
+          "name": "hideDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "maxWidth",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "260"
+          }
+        },
+        {
           "name": "offset",
           "required": false,
           "type": "number",
@@ -19718,6 +19822,18 @@
           "default": {
             "kind": "literal",
             "value": "8"
+          }
+        },
+        {
+          "name": "open",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -19731,20 +19847,132 @@
             "kind": "literal",
             "value": "\"top\""
           }
+        },
+        {
+          "name": "showDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "teleportTo",
+          "required": false,
+          "type": "string|Element",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"body\""
+          }
+        },
+        {
+          "name": "tooltipId",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "trigger",
+          "required": false,
+          "type": "UiTooltipTrigger|UiTooltipTrigger[]",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "wrap",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
         }
       ],
       "emitsType": "UiTooltipEmits",
-      "emits": [],
-      "emitDetails": [],
+      "emits": [
+        "hide",
+        "open-change",
+        "show",
+        "update:open"
+      ],
+      "emitDetails": [
+        {
+          "name": "hide",
+          "required": true,
+          "type": "(meta:UiTooltipOpenMeta)=>void"
+        },
+        {
+          "name": "open-change",
+          "required": true,
+          "type": "(open:boolean,meta:UiTooltipOpenMeta)=>void"
+        },
+        {
+          "name": "show",
+          "required": true,
+          "type": "(meta:UiTooltipOpenMeta)=>void"
+        },
+        {
+          "name": "update:open",
+          "required": true,
+          "type": "(open:boolean)=>void"
+        }
+      ],
       "slotsType": "UiTooltipSlots",
       "slots": [
+        "arrow",
+        "content",
         "default"
       ],
       "slotDetails": [
         {
+          "name": "arrow",
+          "required": false,
+          "type": "(props:{placement:Placement})=>VNodeChild"
+        },
+        {
+          "name": "content",
+          "required": false,
+          "type": "(props:{open:boolean;placement:Placement})=>VNodeChild"
+        },
+        {
           "name": "default",
           "required": false,
-          "type": "(props:{describedby:string})=>VNodeChild"
+          "type": "(props:{open:boolean;describedby:string|undefined;show:(source?:UiTooltipOpenSource,event?:Event)=>boolean;hide:(source?:UiTooltipOpenSource,event?:Event)=>void;toggle:(source?:UiTooltipOpenSource,event?:Event)=>void})=>VNodeChild"
         }
       ],
       "imports": {

@@ -114,6 +114,7 @@ const tourSteps=[
   {target:'#component-tour-api',title:'检查组件契约',description:'继续查看自动生成的 Props、Events 与 Slots 文档。',placement:'bottom-end'},
 ]
 const customerName=ref('');const customerType=ref('');const searchableType=ref('');const passwordDemo=ref('LanUI2026');const notes=ref('');const toastPlacement=ref('top-center')
+const tooltipDemoOpen=ref(false);const tooltipState=ref('等待 Tooltip 交互')
 const cityDemo=ref('');const strictCityDemo=ref('shanghai');const remoteProjectDemo=ref('')
 const cityOptions=[
   {label:'北京',value:'beijing',description:'华北区域',keywords:['北京','Beijing','BJ']},
@@ -232,13 +233,13 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.59.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 面包屑语义、长路径折叠、受控/非受控展开、字段适配、链接、按钮、当前页、禁用、加载、键盘、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.60.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · Tooltip 组合触发、受控状态、延时、外部点击、Escape、Arrow、换行、碰撞定位、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.59.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.60.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-159-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-160-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -557,7 +558,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.59.0 发布二维码" caption="扫码打开 1.59.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.60.0 发布二维码" caption="扫码打开 1.60.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -570,7 +571,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.59.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.60.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -800,7 +801,16 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
             </div>
             <div class="feedback-demo-row">
               <div class="feedback-demo-heading"><strong>任务浮层</strong><span>Overlay</span></div>
-              <div class="feedback-demo-content"><UiButton @click="emit('open-modal','Modal 交互示例')">屏幕居中 Modal</UiButton><UiButton variant="secondary" @click="emit('open-drawer',{name:'上海星河科技有限公司',id:'CUS-26081001',owner:'周琪',status:'合作中',amount:286400})">右侧 Drawer</UiButton><UiTooltip content="Tooltip 支持 Hover 与键盘 Focus"><template #default="{describedby}"><button class="icon-btn outline" :aria-describedby="describedby" aria-label="Tooltip 示例"><AppIcon name="info"/></button></template></UiTooltip></div>
+              <div class="feedback-demo-content"><UiButton @click="emit('open-modal','Modal 交互示例')">屏幕居中 Modal</UiButton><UiButton variant="secondary" @click="emit('open-drawer',{name:'上海星河科技有限公司',id:'CUS-26081001',owner:'周琪',status:'合作中',amount:286400})">右侧 Drawer</UiButton></div>
+            </div>
+            <div class="feedback-demo-row" data-tooltip-showcase>
+              <div class="feedback-demo-heading"><strong>Tooltip 提示</strong><span>Hover · Focus · Click · Controlled</span></div>
+              <div class="feedback-demo-content">
+                <UiTooltip content="Hover 与键盘 Focus 共享打开原因" placement="top-start" :show-delay="120" :hide-delay="80" @open-change="(open,meta)=>tooltipState=`${open?'打开':'关闭'} · ${meta.source}`"><template #default="{describedby,open}"><button class="icon-btn outline" :aria-describedby="describedby" :aria-pressed="open" aria-label="Tooltip 焦点示例"><AppIcon name="info"/></button></template></UiTooltip>
+                <UiTooltip v-model:open="tooltipDemoOpen" trigger="click" placement="bottom-start" wrap :max-width="220" content="点击触发支持外部点击和 Escape 关闭；长文案可以在最大宽度内自然换行。"><UiButton variant="outline">点击切换</UiButton></UiTooltip>
+                <UiTooltip content="禁用状态不会创建浮层" disabled><UiButton variant="outline" disabled>禁用提示</UiButton></UiTooltip>
+                <span class="feedback-hint" aria-live="polite">{{ tooltipState }}；受控状态：{{ tooltipDemoOpen?'已打开':'已关闭' }}</span>
+              </div>
             </div>
             <div class="feedback-demo-row">
               <div class="feedback-demo-heading"><strong>Popover 与确认</strong><span>上下文内容 · 二次确认</span></div>
@@ -832,6 +842,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>Tag</td><td>Soft / Solid / Outlined</td><td>交互边框强调</td><td>选择 / 关闭 / 链接</td><td>原生 Button / Link + Ring</td><td>移除导航与 Tab 顺序</td><td>受控选择 / 自定义颜色</td></tr>
               <tr><td>Breadcrumb</td><td>语义路径 / 自动当前页</td><td>链接背景强调</td><td>链接 / 按钮 / 展开折叠</td><td>原生 Tab 顺序 + Ring</td><td>禁用项保留上下文</td><td>Loading / Empty / 长路径</td></tr>
               <tr><td>Timeline</td><td>纵向 / 横向 / 交替</td><td>事件内容强调</td><td>选择 / 链接 / 程序化激活</td><td>方向键 / Home / End</td><td>跳过禁用事件</td><td>Pending / Loading / Empty</td></tr>
+              <tr><td>Tooltip</td><td>自动定位 + Arrow</td><td>延时打开 / 重入取消</td><td>Click / Manual / 受控</td><td>Focus + Describedby + Esc</td><td>不创建浮层</td><td>空内容抑制 / 碰撞翻转</td></tr>
               <tr><td>QueryBuilder</td><td>递归条件树</td><td>规则边框强调</td><td>添加 / 复制 / 排序 / 删除</td><td>组合框 + 键盘快捷键</td><td>只读 / 禁用</td><td>缺失值 / 范围 / 自定义校验</td></tr>
               <tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr>
               <tr><td>OtpInput</td><td>分段验证码</td><td>单格边框强调</td><td>自动移焦 / 整段粘贴</td><td>方向键 + Home / End</td><td>只读 / 禁用</td><td>非法字符 / 错误 Ring</td></tr>

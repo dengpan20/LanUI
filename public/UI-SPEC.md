@@ -1146,3 +1146,15 @@ P62 retains 89 public components while advancing to 440 locale keys and generate
 - The semantic structure remains one named `nav` containing an ordered list. Loading assistive copy remains a list item with a nested live status, SSR is deterministic, and PageHeader, component center, static HTML, standalone consumer, isolated CSS, generated API and offline installed-tarball verification remain synchronized.
 
 P63 retains 89 public components while advancing to 443 locale keys and generated coverage of 1,159 Props, 389 Events and 212 Slots. Release gates require 36 visual baselines, 54 zero-violation Axe scenarios, 58 interactions per Chromium/Firefox/WebKit engine, 59 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 77. Maturity P64: production contextual tooltips
+
+- `UiTooltip` keeps the existing content, placement, disabled, offset and Hover + Focus defaults while adding Hover/Focus/Click/Manual trigger composition. Active reasons are independent: a focused trigger remains described after pointer leave, and timer re-entry cancels stale closes.
+- Controlled `open` and uncontrolled `defaultOpen` share one visibility contract. Update, open-change, show and hide events publish previous state, source, resolved placement and the source event; the instance exposes root/panel refs plus show, hide, toggle, trigger focus and position update methods.
+- `showDelay` / `hideDelay`, second-click toggling, outside pointer dismissal and Escape dismissal cover dense admin interactions. Disabled and empty content suppress creation; prop changes close stale uncontrolled state and clean global listeners/timers.
+- Logical top/bottom/left/right start/end placement coexists with legacy top-left/top-right values. Floating collision flip/shift reacts to viewport, scroll, resize, panel/trigger resize, offset and z-index changes. Arrow alignment, bounded wrapping and viewport-safe maximum width avoid page-local overlay CSS.
+- The tooltip is non-interactive by design; actionable content belongs in Popover. Teleport targeting, inline rendering and scoped theme/direction attributes support embedded apps, nested providers and SSR.
+- While visible, the component merges its ID into the first actionable trigger's `aria-describedby`; on close/unmount it removes only its own ID and restores existing descriptions. The default Slot exposes open/describedby/actions, while content and arrow Slots expose resolved placement.
+- Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P64 retains 89 public components and 443 locale keys while generated coverage advances to 1,173 Props, 393 Events and 214 Slots. Release gates require 37 visual baselines, 55 zero-violation Axe scenarios, 59 interactions per Chromium/Firefox/WebKit engine, 61 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

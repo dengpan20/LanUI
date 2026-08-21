@@ -2,6 +2,23 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P64 成熟上下文提示
+
+`UiTooltip` 保留原有 `content / placement / disabled / offset` 与 Hover + Focus 默认行为，同时补齐 Hover、Focus、Click、Manual 组合触发，受控 `open` / 非受控 `defaultOpen`，显示/隐藏延时与重入取消、外部点击和 Escape 关闭、Arrow、长文案换行、逻辑方向定位、Teleported 主题桥接、稳定事件元数据和实例控制。提示仅在实际打开时建立 `aria-describedby`，会合并并恢复触发元素已有描述；禁用或空内容不会创建浮层。
+
+```vue
+<UiTooltip
+  v-model:open="guidanceOpen"
+  trigger="click"
+  placement="bottom-start"
+  wrap
+  :max-width="240"
+  content="发布前请确认 API、视觉与回滚记录。"
+>
+  <UiButton variant="outline">发布说明</UiButton>
+</UiTooltip>
+```
+
 ## P63 成熟面包屑导航
 
 `UiBreadcrumb` 保留原有 `items / separator / ariaLabel / navigate` 用法，同时补齐字段适配、显式当前页、图标、原生链接/按钮、禁用、三种尺寸、换行/横向滚动、长文本截断、Loading、Empty 与结构化插槽。长路径可通过 `maxItems` 折叠，并使用受控 `expanded` 或非受控 `defaultExpanded` 展开；事件追加稳定 key/index/item/source 元数据，实例 API 提供聚焦、导航和展开控制。语义化 `nav > ol`、安全 `_blank`、本地化名称、RTL 方向图标、Reduced Motion、forced-colors、SSR、类型和三浏览器回归保持同步。

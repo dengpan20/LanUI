@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { launchBrowser, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
+import { launchBrowser, navigateFixture, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const reportDir = resolve(root, '.verify/interaction', process.platform)
@@ -1262,6 +1262,33 @@ const allCases = [
     },
   },
   {
+    name:'tooltip-trigger-dismissal',
+    run:async page=>{
+      const clickTrigger=page.getByRole('button',{name:'Tooltip click trigger'})
+      await clickTrigger.click()
+      const clickTooltip=page.getByRole('tooltip',{name:/Click-triggered release guidance/})
+      await clickTooltip.waitFor()
+      await expectText(page,'tooltip-output','open:click')
+      assert.match(await clickTrigger.getAttribute('aria-describedby'),/ui-tooltip-/)
+      assert.equal(await clickTooltip.getAttribute('data-placement'),'bottom-start')
+      await page.keyboard.press('Escape')
+      await clickTooltip.waitFor({state:'hidden'})
+      await expectText(page,'tooltip-output','close:escape')
+      assert.equal(await clickTrigger.getAttribute('aria-describedby'),null)
+      await clickTrigger.click();await clickTooltip.waitFor()
+      await page.getByRole('button',{name:'Outside target'}).click()
+      await clickTooltip.waitFor({state:'hidden'})
+      await expectText(page,'tooltip-output','close:outside')
+      const focusTrigger=page.getByRole('button',{name:'Tooltip focus trigger'})
+      await focusTrigger.focus();await page.waitForTimeout(30)
+      const focusTooltip=page.getByRole('tooltip',{name:/Hover and keyboard focus/})
+      await focusTooltip.waitFor()
+      await page.mouse.move(0,0);await page.waitForTimeout(30)
+      assert.equal(await focusTooltip.isVisible(),true)
+      await page.getByRole('button',{name:'Outside target'}).focus();await focusTooltip.waitFor({state:'hidden'})
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -1318,7 +1345,7 @@ try {
         const context = await browser.newContext({ viewport: { width: 1280, height: 1100 }, locale: 'en-US', reducedMotion: 'reduce' })
         const page = await context.newPage()
         try {
-          await page.goto(`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`, { waitUntil: 'domcontentloaded', timeout: navigationTimeout })
+          await navigateFixture(page,`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`,{timeout:navigationTimeout})
           await page.waitForSelector('body[data-interaction-ready="true"]')
           await item.run(page)
           const durationMs = Math.round(performance.now() - started)

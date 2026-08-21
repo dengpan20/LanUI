@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiUpload,
+  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -118,6 +118,8 @@ const stepsItems=[
 function changeSteps(value,meta){stepsOutput.value=`change:${meta.source}:${value}`}
 const timelineSelection=ref('audit')
 const timelineOutput=ref('ready:audit')
+const tooltipOpen=ref(false)
+const tooltipOutput=ref('ready')
 const timelineItems=[
   {key:'audit',title:'Audit complete',description:'Tokens and API verified',time:'09:10',datetime:'2026-08-20T09:10:00+08:00',status:'success'},
   {key:'review',title:'Component review',description:'Keyboard and ARIA validation',time:'11:30',datetime:'2026-08-20T11:30:00+08:00',status:'primary'},
@@ -125,6 +127,7 @@ const timelineItems=[
   {key:'release',title:'Release notes',description:'Open the consumer evidence',time:'16:20',status:'info',href:'#interaction-timeline-target',target:'_blank'},
 ]
 function changeTimeline(value,meta){timelineOutput.value=`change:${meta.source}:${String(value)}`}
+function changeTooltip(open,meta){tooltipOutput.value=`${open?'open':'close'}:${meta.source}`}
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -666,6 +669,15 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <UiTimeline id="interaction-timeline" v-model="timelineSelection" :items="timelineItems" selectable orientation="horizontal" placement="alternate" time-position="opposite" line="dashed" aria-label="Interaction release timeline" @change="changeTimeline" />
         <i id="interaction-timeline-target" />
         <output class="interaction-output" data-testid="timeline-output">{{ timelineOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide" data-tooltip-state-contract="controlled click outside escape focus hover delay aria-describedby">
+        <h2>Tooltip trigger, dismissal and description contract</h2>
+        <div class="interaction-row">
+          <UiTooltip v-model:open="tooltipOpen" trigger="click" placement="bottom-start" wrap :max-width="220" content="Click-triggered release guidance closes with Escape or an outside pointer action." @open-change="changeTooltip"><UiButton id="tooltip-click-trigger">Tooltip click trigger</UiButton></UiTooltip>
+          <UiTooltip content="Hover and keyboard focus keep independent open reasons." :show-delay="20" :hide-delay="20"><UiButton id="tooltip-focus-trigger" variant="outline">Tooltip focus trigger</UiButton></UiTooltip>
+          <UiButton id="tooltip-outside-target" variant="text">Outside target</UiButton>
+          <output class="interaction-output" data-testid="tooltip-output">{{ tooltipOutput }}</output>
+        </div>
       </section>
       <section class="interaction-case interaction-wide interaction-steps-case" data-steps-state-contract="controlled navigation connectors keyboard disabled horizontal rtl home end">
         <h2>Steps navigation, keyboard and disabled contract</h2>

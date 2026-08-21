@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.60 tooltip compatibility
+
+There are no breaking changes. Existing `<UiTooltip content="Help">...</UiTooltip>`, `placement`, `disabled` and `offset` usage remains valid; Hover + Focus stay the default triggers:
+
+```vue
+<UiTooltip v-model:open="open" trigger="click" placement="bottom-start" wrap :max-width="240">...</UiTooltip>
+```
+
+- `trigger` accepts Hover, Focus, Click, Manual or an array. Hover and Focus reasons are tracked independently, so moving between pointer and keyboard interaction does not flicker or close prematurely.
+- `open` is controlled; `defaultOpen` is uncontrolled. `update:open`, `open-change`, `show` and `hide` publish source and resolved-placement metadata without changing the existing default Slot.
+- `showDelay` and `hideDelay` cancel stale timers on re-entry. Click mode can dismiss on outside pointer actions; every visible mode can dismiss with Escape unless explicitly disabled.
+- `arrow`, `wrap`, `maxWidth`, `appendToBody`, `teleportTo`, `tooltipId` and `zIndex` are presentation/integration controls. Logical start/end placements coexist with the legacy top-left/top-right values.
+- The component attaches `aria-describedby` only while visible, preserves consumer descriptions, and suppresses disabled or empty content. `content` and `arrow` Slots plus show/hide/toggle/focus/update instance methods have matching root and component-subpath declarations.
+
 ## 1.59 breadcrumb compatibility
 
 There are no breaking changes. Existing `<UiBreadcrumb :items="items" />`, `separator`, `ariaLabel` and `navigate(item)` handlers remain valid; long-path behavior is opt-in:

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.59.0",
+  "version": "1.60.0",
   "description": "Deterministic runtime, stylesheet, consumer-build and publishable-tarball budgets with previous-release improvement gates for Lan UI.",
   "baseline": {
     "version": "1.4.0",
@@ -17,10 +17,10 @@
     }
   },
   "budgets": {
-    "packageJsRaw": 704000,
-    "packageJsGzip": 262000,
-    "packageCssRaw": 607000,
-    "packageCssGzip": 134000,
+    "packageJsRaw": 708000,
+    "packageJsGzip": 263200,
+    "packageCssRaw": 608000,
+    "packageCssGzip": 134200,
     "largestChunkRaw": 74000,
     "largestChunkGzip": 14500,
     "rootCssRaw": 223500,
@@ -29,7 +29,7 @@
     "largestComponentCssGzip": 7500,
     "subpathConsumerJsRaw": 92200,
     "subpathConsumerCssRaw": 8500,
-    "standaloneExampleJsRaw": 655000,
+    "standaloneExampleJsRaw": 661000,
     "standaloneExampleCssRaw": 226000,
     "themeSubpathJsRaw": 12000,
     "themeSubpathJsGzip": 4200,
@@ -39,7 +39,7 @@
   "distributionBudgets": {
     "packedFiles": 402,
     "packedTarballRaw": 500000,
-    "packedUnpackedRaw": 2860000
+    "packedUnpackedRaw": 2870000
   },
   "releaseBaseline": {
     "version": "1.28.0",
@@ -59,15 +59,15 @@
       "rootCssRaw": 850
     },
     "enhancementAllowance": {
-      "packageJsRaw": 32000,
-      "packageJsGzip": 9800,
-      "packageCssRaw": 49600,
-      "packageCssGzip": 8800,
+      "packageJsRaw": 36000,
+      "packageJsGzip": 12000,
+      "packageCssRaw": 52500,
+      "packageCssGzip": 9400,
       "rootCssRaw": 24500,
       "rootCssGzip": 3500,
       "subpathConsumerJsRaw": 300,
       "subpathConsumerCssRaw": 100,
-      "standaloneExampleJsRaw": 33000,
+      "standaloneExampleJsRaw": 40000,
       "standaloneExampleCssRaw": 25000
     },
     "metrics": {

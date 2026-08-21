@@ -43,6 +43,7 @@ import {
   UiTabs,
   UiTag,
   UiTimeline,
+  UiTooltip,
   UiTimePicker,
   UiTimeRangePicker,
   UiTree,
@@ -84,6 +85,7 @@ import SubpathBreadcrumb, { UiBreadcrumb as NamedSubpathBreadcrumb } from 'lan-u
 import SubpathTag, { UiTag as NamedSubpathTag } from 'lan-ui-design-system/components/UiTag'
 import SubpathSteps, { UiSteps as NamedSubpathSteps } from 'lan-ui-design-system/components/UiSteps'
 import SubpathTimeline, { UiTimeline as NamedSubpathTimeline } from 'lan-ui-design-system/components/UiTimeline'
+import SubpathTooltip, { UiTooltip as NamedSubpathTooltip } from 'lan-ui-design-system/components/UiTooltip'
 import SubpathCarousel, { UiCarousel as NamedSubpathCarousel } from 'lan-ui-design-system/components/UiCarousel'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathList, { UiList as NamedSubpathList } from 'lan-ui-design-system/components/UiList'
@@ -138,6 +140,7 @@ import type { UiBreadcrumbEmits, UiBreadcrumbExpandMeta, UiBreadcrumbInstance, U
 import type { UiTagActivationMeta, UiTagEmits, UiTagInstance, UiTagProps, UiTagSlots } from 'lan-ui-design-system/components/UiTag'
 import type { UiStepItem, UiStepsChangeMeta, UiStepsEmits, UiStepsInstance, UiStepsProps, UiStepsSlots } from 'lan-ui-design-system/components/UiSteps'
 import type { UiTimelineActivationMeta, UiTimelineEmits, UiTimelineInstance, UiTimelineItem, UiTimelineProps, UiTimelineSlots } from 'lan-ui-design-system/components/UiTimeline'
+import type { UiTooltipEmits, UiTooltipInstance, UiTooltipOpenMeta, UiTooltipProps, UiTooltipSlots } from 'lan-ui-design-system/components/UiTooltip'
 import type { UiCarouselEmits, UiCarouselProps, UiCarouselSlots } from 'lan-ui-design-system/components/UiCarousel'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiListEmits, UiListProps, UiListSlots } from 'lan-ui-design-system/components/UiList'
@@ -589,6 +592,13 @@ const timelineNamedSubpathParity:typeof UiTimeline=NamedSubpathTimeline
 const timelineSlots:UiTimelineSlots={item:scope=>String(scope.activate('slot')),dot:scope=>scope.status,title:scope=>String(scope.title),description:scope=>String(scope.description),time:scope=>String(scope.time),opposite:scope=>String(scope.datetime),pending:()=>null,empty:()=>null}
 const timelineInstance:UiTimelineInstance=null as never
 timelineInstance.focusItem('review');timelineInstance.focusFirst();timelineInstance.focusLast();timelineInstance.select('audit','api')
+const tooltipProps:InstanceType<typeof UiTooltip>['$props']&UiTooltipProps={content:0,placement:'right-start',trigger:['hover','focus','click'],open:true,showDelay:120,hideDelay:80,arrow:true,maxWidth:280,wrap:true,appendToBody:true,teleportTo:document.body,closeOnEscape:true,closeOnOutside:true,tooltipId:'typed-tooltip',zIndex:930}
+const tooltipEmit:UiTooltipEmits['open-change']=(open,meta)=>{const typed:UiTooltipOpenMeta=meta;void [open,typed.source,typed.placement]}
+const tooltipSubpathParity:typeof UiTooltip=SubpathTooltip
+const tooltipNamedSubpathParity:typeof UiTooltip=NamedSubpathTooltip
+const tooltipSlots:UiTooltipSlots={default:scope=>String(scope.open&&scope.describedby),content:scope=>scope.placement,arrow:scope=>scope.placement}
+const tooltipInstance:UiTooltipInstance=null as never
+tooltipInstance.show('api');tooltipInstance.hide('api');tooltipInstance.toggle('api');tooltipInstance.focusTrigger();tooltipInstance.updatePosition()
 const qrCodeProps:InstanceType<typeof UiQRCode>['$props']&UiQRCodeProps={value:'https://example.com/release',size:180,level:'H',status:'expired',color:'#155EEF',margin:4,downloadable:true,downloadName:'release.svg'}
 const qrCodeEmit:UiQRCodeEmits['download']=payload=>{const svg:string=payload.svg;void svg}
 const qrCodeSubpathParity:typeof UiQRCode=SubpathQRCode
@@ -682,6 +692,10 @@ const invalidStepsType:UiStepsProps={type:'wizard'}
 const invalidTimelineOrientation:UiTimelineProps={orientation:'diagonal'}
 // @ts-expect-error Timeline lines are constrained to the documented connector styles.
 const invalidTimelineLine:UiTimelineProps={line:'double'}
+// @ts-expect-error Tooltip triggers are constrained to hover, focus, click or manual.
+const invalidTooltipTrigger:UiTooltipProps={trigger:'contextmenu'}
+// @ts-expect-error Tooltip placement uses the shared logical floating-layer contract.
+const invalidTooltipPlacement:UiTooltipProps={placement:'center'}
 // @ts-expect-error QR error correction levels use the standard L, M, Q or H contract.
 const invalidQrCodeLevel:UiQRCodeProps={level:'X'}
 // @ts-expect-error QR lifecycle status is constrained to active, loading, expired or scanned.
@@ -735,5 +749,6 @@ void [cardProps,cardEmit,cardSubpathParity,cardNamedSubpathParity,cardSlots,card
 void [tagProps,tagEmit,tagSubpathParity,tagNamedSubpathParity,tagSlots,tagInstance,invalidTagVariant,invalidTagSize]
 void [stepsItems,stepsProps,stepsEmit,stepsSubpathParity,stepsNamedSubpathParity,stepsSlots,stepsInstance,invalidStepsDirection,invalidStepsType]
 void [timelineItems,timelineProps,timelineEmit,timelineSubpathParity,timelineNamedSubpathParity,timelineSlots,timelineInstance,invalidTimelineOrientation,invalidTimelineLine]
+void [tooltipProps,tooltipEmit,tooltipSubpathParity,tooltipNamedSubpathParity,tooltipSlots,tooltipInstance,invalidTooltipTrigger,invalidTooltipPlacement]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

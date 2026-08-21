@@ -57,7 +57,7 @@ const required={
   'UiStatusPage.vue':['statusPage.${props.status}.title','status === \'500\' ? \'alert\' : \'region\'','ui-status-page-actions','emit(\'retry\')','useDirection'],
   'UiSpin.vue':['aria-busy','role="status"'],
   'UiSegmented.vue':['role="radiogroup"','role="radio"','ArrowRight'],
-  'UiTooltip.vue':['ui-floating-panel','aria-describedby'],
+  'UiTooltip.vue':['ui-floating-panel','aria-describedby','activeReasons','showDelay','closeOnEscape','closeOnOutside','open-change','defineExpose','ui-tooltip-arrow'],
   'UiPopover.vue':['ui-floating-panel','aria-controls'],
   'UiDropdown.vue':['ui-floating-panel','aria-haspopup'],
   'UiConfigProvider.vue':['lanUiConfigKey','provide(lanUiConfigKey','data-ui-locale','data-ui-density','data-ui-direction',':dir="config.direction"'],

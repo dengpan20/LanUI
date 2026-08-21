@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.60.0] - 2026-08-22
+
+### Added
+
+- Production `UiTooltip` contract with Hover/Focus/Click/Manual triggers, controlled and uncontrolled state, cancellable show/hide delays, outside/Escape dismissal, Arrow, wrapping, custom portal/id/z-index controls, structured Slots and imperative methods.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `content`, `placement`, `disabled`, `offset` and default Hover + Focus behavior remain compatible while temporary `aria-describedby` relationships now merge and restore existing values only while visible.
+- Shared floating positioning now reacts to runtime offset changes; Tooltip placement uses logical start/end values, collision flip/shift, Teleported theme scope, RTL and Reduced Motion styles.
+- Absolute and frozen-baseline enhancement ceilings receive bounded headroom only for the expanded Tooltip runtime, shared floating offset reactivity, synchronized examples and tooltip styles.
+- Release gates advance to 37 visual baselines, 55 Axe scenarios, 59 interactions per browser and 61 negative type assertions while retaining 443 locale keys. Generated API coverage advances to 1,173 Props, 393 Events and 214 Slots.
+
 ## [1.59.0] - 2026-08-22
 
 ### Added

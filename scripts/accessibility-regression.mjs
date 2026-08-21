@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import axe from 'axe-core'
-import { launchBrowser, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
+import { launchBrowser, navigateFixture, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const reportDir=resolve(root,'.verify/accessibility',process.platform)
@@ -64,6 +64,7 @@ const cases=[
   {name:'steps-contract',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=steps',ready:'.visual-steps-showcase [data-ui-steps]'},
   {name:'timeline-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=timeline',ready:'.visual-timeline-showcase [data-ui-timeline]'},
   {name:'breadcrumb-contract',viewport:{width:1280,height:900},query:'theme=light&direction=rtl&density=default&state=breadcrumb',ready:'.visual-breadcrumb-showcase [data-ui-breadcrumb]'},
+  {name:'tooltip-contract',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact&state=tooltip',ready:'.visual-tooltip-showcase [role="tooltip"]'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases
 if(requestedCases.length&&selectedCases.length!==requestedCases.length)throw new Error(`Unknown accessibility case: ${requestedCases.filter(name=>!selectedCases.some(item=>item.name===name)).join(', ')}`)
@@ -76,7 +77,7 @@ try{
   for(const item of selectedCases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')||item.name.includes('rtl')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
-    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:navigationTimeout})
+    await navigateFixture(page,`${origin}/visual-regression.html?${item.query}`,{timeout:navigationTimeout})
     await page.waitForSelector('body[data-visual-ready="true"]')
     if(item.ready)await page.waitForSelector(item.ready)
     await item.prepare?.(page)

@@ -3,7 +3,7 @@ import type { App, Component, ComponentOptionsMixin, ComponentPublicInstance, Co
 export type Key = string | number
 export type ComponentSize = 'sm' | 'md' | 'lg'
 export type Direction = 'ltr' | 'rtl'
-export type Placement = 'top' | 'top-left' | 'top-right' | 'bottom' | 'bottom-left' | 'bottom-right' | 'left' | 'right'
+export type Placement = 'top'|'top-start'|'top-end'|'top-left'|'top-right'|'bottom'|'bottom-start'|'bottom-end'|'bottom-left'|'bottom-right'|'left'|'left-start'|'left-end'|'right'|'right-start'|'right-end'
 export type ToastPlacement = 'top-center'|'top-end'|'bottom-end'|'top-right'|'bottom-right'
 export type LocaleName = 'zh-CN'|'en-US'|string
 export type DateValueMode = 'date'|'time'|'datetime'
@@ -354,7 +354,11 @@ export interface UiTimelineProps<Item=UiTimelineItem> { items?:Item[]; itemKey?:
 export interface UiTimelineInstance { root:Ref<HTMLOListElement|null>; focusItem:(keyOrIndex:Key,options?:FocusOptions)=>boolean; focusFirst:(options?:FocusOptions)=>boolean; focusLast:(options?:FocusOptions)=>boolean; select:(key:Key,source?:string)=>UiTimelineActivationMeta|false }
 export interface UiToastItem extends UiNotice { id:Key; placement?:ToastPlacement; out?:boolean; duration?:number }
 export interface UiToastHostProps { items?:UiToastItem[]; feedback?:LanUiFeedback }
-export interface UiTooltipProps { content?:string; placement?:Placement; disabled?:boolean; offset?:number }
+export type UiTooltipTrigger = 'hover'|'focus'|'click'|'manual'
+export type UiTooltipOpenSource = UiTooltipTrigger|'api'|'outside'|'escape'|'disabled'|'content'|string
+export interface UiTooltipOpenMeta { open:boolean; previous:boolean; source:UiTooltipOpenSource; placement:Placement; event?:Event }
+export interface UiTooltipProps { content?:string|number; placement?:Placement; disabled?:boolean; offset?:number; open?:boolean; defaultOpen?:boolean; trigger?:UiTooltipTrigger|UiTooltipTrigger[]; showDelay?:number; hideDelay?:number; arrow?:boolean; maxWidth?:string|number; wrap?:boolean; appendToBody?:boolean; teleportTo?:string|Element; closeOnEscape?:boolean; closeOnOutside?:boolean; tooltipId?:string; zIndex?:number }
+export interface UiTooltipInstance { root:Ref<HTMLElement|null>; panel:Ref<HTMLElement|null>; show:(source?:UiTooltipOpenSource,event?:Event)=>boolean; hide:(source?:UiTooltipOpenSource,event?:Event)=>void; toggle:(source?:UiTooltipOpenSource,event?:Event)=>void; focusTrigger:(options?:FocusOptions)=>void; updatePosition:()=>void }
 export type UiTourPlacement = 'top'|'top-start'|'top-end'|'bottom'|'bottom-start'|'bottom-end'|'left'|'left-start'|'left-end'|'right'|'right-start'|'right-end'
 export interface UiTourStep { target?:string|Element|ComponentPublicInstance|null|(()=>Element|ComponentPublicInstance|null); title?:string; description?:string; placement?:UiTourPlacement; mask?:boolean; maskColor?:string; prevText?:string; nextText?:string; finishText?:string; [key:string]:unknown }
 export interface UiTourCloseMeta { source:'api'|'finish'|'mask'|'escape'|'close'|string; current:number; step:UiTourStep }
@@ -513,7 +517,7 @@ export type UiTagEmits = { click:(event:MouseEvent)=>void; activate:(meta:UiTagA
 export type UiTextareaEmits = { 'update:modelValue':(value:string)=>void; input:(value:string)=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void }
 export type UiTimelineEmits<Item=UiTimelineItem> = { 'update:modelValue':(value:Key|undefined)=>void; change:(value:Key|undefined,meta:UiTimelineActivationMeta<Item>,event?:MouseEvent)=>void; 'item-click':(item:Item,index:number,event:MouseEvent)=>void; activate:(meta:UiTimelineActivationMeta<Item>,event?:MouseEvent)=>void; 'item-focus':(meta:UiTimelineActivationMeta<Item>,event?:FocusEvent|KeyboardEvent)=>void }
 export type UiToastHostEmits = { remove:(id:Key)=>void; pause:(id:Key)=>void; resume:(id:Key)=>void }
-export type UiTooltipEmits = {}
+export type UiTooltipEmits = { 'update:open':(open:boolean)=>void; 'open-change':(open:boolean,meta:UiTooltipOpenMeta)=>void; show:(meta:UiTooltipOpenMeta)=>void; hide:(meta:UiTooltipOpenMeta)=>void }
 export type UiTourEmits = { 'update:modelValue':(value:boolean)=>void; 'update:current':(value:number)=>void; open:(meta:{current:number;step:UiTourStep})=>void; close:(meta:UiTourCloseMeta)=>void; change:(current:number,previous:number,meta:UiTourChangeMeta)=>void; finish:(meta:{current:number;step:UiTourStep})=>void; 'target-missing':(meta:{index:number;step:UiTourStep})=>void }
 export type UiTypographyEmits = { 'update:content':(value:string)=>void; 'update:expanded':(value:boolean)=>void; 'update:editing':(value:boolean)=>void; copy:(payload:{text:string;source:string})=>void; 'copy-error':(payload:{text:string;source:string;error:unknown})=>void; 'edit-start':(meta:UiTypographyEditMeta)=>void; 'edit-end':(meta:UiTypographyEditMeta)=>void; 'edit-cancel':(meta:UiTypographyEditMeta)=>void; expand:(payload:{expanded:boolean;source:string;rows:number})=>void }
 export type UiWatermarkEmits = { render:(meta:UiWatermarkRenderMeta)=>void; remove:(meta:{reason:'removed'|'modified'})=>void; 'image-load':(meta:UiWatermarkImageEvent)=>void; 'image-error':(meta:UiWatermarkImageEvent)=>void }
@@ -614,7 +618,7 @@ export type UiTimelineSlots<Item=UiTimelineItem> = { item?:(scope:UiTimelineItem
 export type UiTimePickerSlots = {}
 export type UiTimeRangePickerSlots = {}
 export type UiToastHostSlots = {}
-export type UiTooltipSlots = { default?:(props:{describedby:string})=>VNodeChild }
+export type UiTooltipSlots = { default?:(props:{open:boolean;describedby:string|undefined;show:(source?:UiTooltipOpenSource,event?:Event)=>boolean;hide:(source?:UiTooltipOpenSource,event?:Event)=>void;toggle:(source?:UiTooltipOpenSource,event?:Event)=>void})=>VNodeChild; content?:(props:{open:boolean;placement:Placement})=>VNodeChild; arrow?:(props:{placement:Placement})=>VNodeChild }
 export type UiTourSlots = { title?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; indicator?:(scope:{current:number;total:number})=>VNodeChild; description?:(scope:{step:UiTourStep;current:number;total:number})=>VNodeChild; actions?:(scope:{step:UiTourStep;current:number;total:number;previous:()=>void;next:()=>void;close:(source?:string)=>void;finish:()=>void})=>VNodeChild }
 export type UiTypographySlots = { default?:(scope:{content:string})=>VNodeChild; prefix?:()=>VNodeChild; suffix?:()=>VNodeChild; 'copy-icon'?:(scope:{copied:boolean})=>VNodeChild; 'edit-icon'?:()=>VNodeChild; 'expand-icon'?:(scope:{expanded:boolean})=>VNodeChild }
 export type UiWatermarkSlots = { default?:()=>VNodeChild }

@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import pixelmatch from 'pixelmatch'
 import { PNG } from 'pngjs'
-import { launchBrowser, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
+import { launchBrowser, navigateFixture, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const update=process.argv.includes('--update')
@@ -52,6 +52,7 @@ const allCases=[
   {name:'steps-contract',viewport:{width:1280,height:1000},query:'theme=light&direction=ltr&density=default&state=steps',ready:'.visual-steps-showcase [data-ui-steps]',selector:'.visual-steps-showcase'},
   {name:'timeline-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=timeline',ready:'.visual-timeline-showcase [data-ui-timeline]',selector:'.visual-timeline-showcase'},
   {name:'breadcrumb-contract',viewport:{width:1280,height:820},query:'theme=light&direction=ltr&density=default&state=breadcrumb',ready:'.visual-breadcrumb-showcase [data-ui-breadcrumb]',selector:'.visual-breadcrumb-showcase'},
+  {name:'tooltip-contract',viewport:{width:1280,height:820},query:'theme=light&direction=ltr&density=default&state=tooltip',ready:'.visual-tooltip-showcase [role="tooltip"]',selector:'.visual-tooltip-showcase'},
 ]
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases
@@ -65,7 +66,7 @@ try{
   for(const item of cases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
     const page=await context.newPage()
-    await page.goto(`${origin}/visual-regression.html?${item.query}`,{waitUntil:'domcontentloaded',timeout:navigationTimeout})
+    await navigateFixture(page,`${origin}/visual-regression.html?${item.query}`,{timeout:navigationTimeout})
     await page.waitForSelector('body[data-visual-ready="true"]')
     if(item.ready)await page.waitForSelector(item.ready)
     await item.prepare?.(page)

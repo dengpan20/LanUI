@@ -42,6 +42,22 @@ export function launchBrowser(engine='chromium'){
   return resolveBrowserType(engine).launch({headless:true,executablePath:resolveBrowserExecutable(engine)})
 }
 
+export async function navigateFixture(page,url,{waitUntil='domcontentloaded',timeout=resolveBrowserNavigationTimeout(),attempts=2}={}){
+  let lastError
+  for(let attempt=1;attempt<=attempts;attempt+=1){
+    try{
+      await page.goto(url,{waitUntil,timeout})
+      return
+    }catch(error){
+      lastError=error
+      if(attempt>=attempts||error?.name!=='TimeoutError')throw error
+      console.warn(`BROWSER_NAVIGATION RETRY attempt=${attempt+1}/${attempts} url=${url}`)
+      await page.waitForTimeout(500)
+    }
+  }
+  throw lastError
+}
+
 export async function startFixtureServer(root){
   const server=await createServer({root,logLevel:'error',server:{host:'127.0.0.1',port:0}})
   await server.listen()
