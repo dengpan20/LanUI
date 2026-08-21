@@ -71,6 +71,7 @@ const workspaceSchema=[{key:'account',title:'Schema-driven account',description:
   {key:'reviewers',name:'reviewers',type:'list',label:'Release reviewers',min:1,max:3,columns:2,defaultValue:({index})=>({name:`Reviewer ${index+1}`,email:''}),itemLabel:(_model,{index,item})=>`${index+1}. ${item.name||'Reviewer'}`,fields:[{name:'name',label:'Name',required:true,rules:[{required:true}]},{name:'email',label:'Email',required:true,rules:[{required:true},{type:'email'}],props:(_model,{index})=>({placeholder:`reviewer-${index+1}@example.com`})}]},
 ]}]
 const created = ref(false)
+const deliveryStep=ref(1)
 const locale = ref('en-US')
 const direction = ref('ltr')
 const appearance = ref('system')
@@ -99,11 +100,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.57.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.58.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-157-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-158-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -159,12 +160,12 @@ const resourceTree = [
   { label:'运营中心', value:'operations', children:[{label:'经营看板',value:'dashboard'},{label:'客户数据',value:'customers'}] },
   { label:'系统设置', value:'settings', children:[{label:'成员权限',value:'permissions'},{label:'审计日志',value:'audit'}] },
 ]
-function createProject(){created.value=true;toast.success('独立项目配置已生成')}
+function createProject(){created.value=true;deliveryStep.value=2;toast.success('独立项目配置已生成')}
 function runCommand(command){lastCommand.value=command.label;toast.success(`已执行：${command.label}`)}
 const steps = [
-  { title: '项目配置', description: '名称与模板' },
-  { title: '组件装配', description: '加载组件库' },
-  { title: '独立构建', description: '输出生产文件' },
+  { key:'configure', title: '项目配置', subtitle:'完成', description: '名称与模板' },
+  { key:'assemble', title: '组件装配', subtitle:'进行中', description: '加载组件库' },
+  { key:'build', title: '独立构建', subtitle:'待处理', description: '输出生产文件' },
 ]
 const columns = [
   { key: 'module', label: '模块' },
@@ -280,7 +281,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.57.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.58.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>
@@ -352,7 +353,7 @@ const rows = computed(() => [
       <UiUpload v-model="releaseFiles" multiple accept=".json,.zip,.pdf" :max-count="4" :concurrency="2" :request="releaseUploadRequest" @success="payload=>toast.success(`${payload.file.name} uploaded`)" @upload-error="payload=>toast.error(String(payload.file.error||'Upload failed'))" />
     </UiCard>
 
-    <UiCard title="交付进度"><UiSteps :items="steps" :current="created ? 3 : 2" /></UiCard>
+    <UiCard title="交付进度"><UiSteps v-model="deliveryStep" :items="steps" type="navigation" linear aria-label="独立项目交付步骤" @change="(_value,meta)=>toast.info(`步骤已切换 · ${meta.source}`)" /></UiCard>
 
     <UiCard title="Release calendar">
       <UiCalendar v-model="releaseWindow" selection-mode="range" view-date="2026-08-01" today="2026-08-12" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" />

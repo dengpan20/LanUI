@@ -44,7 +44,7 @@ describe('P6 browser-audit semantics',()=>{
     await trigger.trigger('click')
     const controlled=trigger.attributes('aria-controls')
     expect(controlled).toBeTruthy()
-    expect(wrapper.get(`#${controlled}`).attributes('role')).toBe('listbox')
+    expect(document.getElementById(controlled)?.getAttribute('role')).toBe('listbox')
   })
 
   it('uses a dialog-compatible section element for drawers',async()=>{

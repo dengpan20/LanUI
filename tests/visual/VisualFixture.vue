@@ -35,6 +35,13 @@ const gridColumns=[{key:'name',label:'Work item',sortable:true},{key:'team',labe
 const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,name:`Release item ${index+1}`,team:['Design','Frontend','QA'][index%3],status:index%5===0?'Review':'Ready'}))
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
+const visualStepsCurrent=ref(1)
+const visualStepsItems=[
+  {key:'foundation',title:'Foundation audit',subtitle:'Complete',description:'Tokens and layout rules verified.'},
+  {key:'components',title:'Component contract',subtitle:'In review',description:'Keyboard, ARIA and type coverage.'},
+  {key:'approval',title:'Approval',subtitle:'Blocked',description:'Waiting for release evidence.',disabled:true},
+  {key:'publish',title:'Publish package',subtitle:'Queued',description:'Tag, attest and release artifacts.'},
+]
 const visualTimelineSelection=ref('review')
 const visualTimelineItems=[
   {key:'foundation',title:'Foundation audit',description:'Tokens, typography and layout constraints verified.',time:'09:15',datetime:'2026-08-20T09:15:00+08:00',status:'success',icon:'check'},
@@ -364,6 +371,14 @@ const tableRows=[
         <section><h3>Horizontal · alternate</h3><UiTimeline :items="visualTimelineItems.slice(0,3)" orientation="horizontal" placement="alternate" line="dashed" size="sm" interactive aria-label="Release stages timeline"/></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">roving focus / selection</UiTag><UiTag color="green">semantic time / status</UiTag><UiTag color="orange">vertical / horizontal / RTL</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='steps'" title="Release workflow steps" subtitle="Persistent connectors, navigation and responsive state" title-tag="h2" class="visual-table-card visual-steps-showcase">
+      <div class="visual-steps-grid" data-steps-state-contract="connectors default navigation inline horizontal vertical label placement controlled uncontrolled linear disabled loading empty keyboard rtl responsive ssr">
+        <section><h3>Navigation · horizontal labels</h3><UiSteps v-model="visualStepsCurrent" :items="visualStepsItems" type="navigation" interactive aria-label="Release workflow navigation"/></section>
+        <section><h3>Vertical · explicit error</h3><UiSteps :items="visualStepsItems.slice(0,3).map((item,index)=>index===1?{...item,status:'error'}:item)" :current="1" direction="vertical" size="sm" aria-label="Release validation steps"/></section>
+        <section><h3>Centered · vertical labels</h3><UiSteps :items="visualStepsItems.slice(0,3)" :current="1" label-placement="vertical" size="lg" aria-label="Release centered steps"/></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">dedicated connectors</UiTag><UiTag color="green">controlled navigation</UiTag><UiTag color="orange">responsive / keyboard / RTL</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

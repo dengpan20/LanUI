@@ -53,6 +53,10 @@ describe('P37 generated component API documentation',()=>{
     expect(tag.props).toEqual(expect.arrayContaining(['as','color','type','variant','size','dot','round','closable','disabled','interactive','checkable','checked','href','ariaLabel']))
     expect(tag.emits).toEqual(['activate','change','click','close','update:checked'])
     expect(tag.slots).toEqual(['close-icon','default','prefix','suffix'])
+    const steps=manifest.components.find(component=>component.name==='UiSteps')
+    expect(steps.props).toEqual(expect.arrayContaining(['items','itemKey','modelValue','current','defaultCurrent','interactive','linear','keyboard','loop','direction','labelPlacement','type','size','status','responsive','loading','ariaLabel']))
+    expect(steps.emits).toEqual(['change','item-click','item-focus','update:current','update:modelValue'])
+    expect(steps.slots).toEqual(['description','empty','icon','item','loading','subtitle','title'])
     const timeline=manifest.components.find(component=>component.name==='UiTimeline')
     expect(timeline.props).toEqual(expect.arrayContaining(['items','itemKey','modelValue','defaultValue','selectable','interactive','orientation','placement','timePosition','line','pending','loading','ariaLabel']))
     expect(timeline.emits).toEqual(['activate','change','item-click','item-focus','update:modelValue'])
@@ -80,6 +84,7 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain("import { UiTimeRangePicker } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiCard } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiTag } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiSteps } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiTimeline } from 'lan-ui-design-system'")
   })
 

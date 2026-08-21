@@ -168,6 +168,7 @@
 ### 数据展示
 - `UiAvatar / UiBadge / UiSkeleton / UiEmpty / UiAlert` 统一头像回退、状态计数、加载、空数据和持久提示。
 - `UiProgress / UiSteps / UiTimeline` 分别表达连续进度、阶段流程和时间事件，不互相替代。
+- `UiSteps` 使用独立连接线元素，禁止依赖标题剩余宽度绘制连线；支持 Default / Navigation / Inline、水平/垂直方向和标签、三种尺寸、受控/非受控当前步骤、线性流程、禁用、Loading、Empty 与响应式收拢。可导航模式必须使用原生 Button、`aria-current="step"`、roving focus，并让 Arrow/Home/End 跳过不可用阶段且遵循 RTL。
 - Skeleton 只表示结构加载；超过 10 秒必须切换为明确的错误或重试状态。
 
 ### 高级表单
@@ -1121,3 +1122,15 @@ P60 retains 89 public components while advancing to 434 locale keys and generate
 - One roving tab stop follows selection and focus. Vertical ArrowUp/ArrowDown and horizontal logical ArrowLeft/ArrowRight navigate enabled records; Home/End jump to enabled boundaries; optional looping wraps without stopping on disabled stages.
 - Pending, loading skeleton and empty copy remain localized and accessible through `aria-live`, `aria-busy` and named ordered-list semantics. Item, dot, title, description, time, opposite, pending and empty Slots share typed record scopes.
 - Root/subpath runtime, declarations, isolated CSS, generated API, SSR, component center, static HTML and standalone consumer stay in parity. P61 gates require 34 visual baselines, 52 zero-violation Axe scenarios, 56 interactions in each of Chromium/Firefox/WebKit, 55 negative type assertions, 438 locale keys and an offline installed-tarball consumer.
+
+## 75. Maturity P62: semantic navigable steps
+
+- `UiSteps` accepts consumer-owned items and maps stable identity, title, description, subtitle, status, icon and disabled values through string or function field adapters. Existing `items`, `current` and `direction` usage remains compatible, while `modelValue` takes precedence and `defaultCurrent` supplies uncontrolled state.
+- Dedicated `.ui-step-connector` rails are independent of title width, so horizontal lines remain visible across short, long and localized labels. Horizontal, vertical, horizontal-label and vertical-label layouts, three sizes, Default/Navigation/Inline appearances and responsive fallback remain orthogonal presentation controls.
+- Finish, process, wait and error states derive from the current index unless an item supplies an explicit status. Custom icons, subtitles, descriptions, disabled indexes, global disabled state, loading skeletons and localized empty content preserve stable ordered-list semantics.
+- `interactive` and Navigation mode render native buttons. Controlled changes publish model/current compatibility updates plus index, previous index, stable key, source item, status and pointer/keyboard/API source metadata; linear flow rejects later jumps and disabled stages are never activated.
+- One roving tab stop follows the active stage. Logical ArrowLeft/ArrowRight, ArrowUp/ArrowDown, Home and End navigate enabled stages, optional looping wraps, and RTL reverses horizontal intent without reversing consumer data.
+- Item, icon, title, subtitle, description, loading and empty Slots share typed record scopes. The instance exposes root, current/first/last/item focus plus go-to, next and previous methods with matching root and component-subpath declarations.
+- Visible focus, forced-colors rails, Reduced Motion, `aria-current`, `aria-busy`, localized naming and deterministic SSR cover accessibility and server rendering. Component center, one-page HTML, standalone consumer, isolated CSS, generated API and offline installed-tarball verification remain synchronized.
+
+P62 retains 89 public components while advancing to 440 locale keys and generated coverage of 1,138 Props, 385 Events and 206 Slots. Release gates require 35 visual baselines, 53 zero-violation Axe scenarios, 57 interactions per Chromium/Firefox/WebKit engine, 57 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

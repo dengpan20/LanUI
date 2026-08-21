@@ -37,9 +37,11 @@ describe('P50 UiQueryBuilder',()=>{
 
   it('resets operator and value when the selected field changes',async()=>{
     const wrapper=controlled({combinator:'and',rules:[{field:'name',operator:'contains',value:'Ada'}]})
-    await wrapper.get('.is-field [role="combobox"]').trigger('click');await flush()
-    const age=wrapper.findAll('.is-field [role="option"]').find(option=>option.text()==='Age')
-    await age.trigger('click');await flush()
+    const fieldSelect=wrapper.get('.is-field [role="combobox"]')
+    await fieldSelect.trigger('click');await flush()
+    const listbox=document.getElementById(fieldSelect.attributes('aria-controls'))
+    const age=[...listbox.querySelectorAll('[role="option"]')].find(option=>option.textContent==='Age')
+    age.click();await flush()
     expect(wrapper.props('modelValue').rules[0]).toMatchObject({field:'age',operator:'equals',value:null})
     expect(wrapper.emitted('change')?.at(-1)?.[0]).toMatchObject({source:'field',field:'age'})
   })

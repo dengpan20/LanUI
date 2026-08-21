@@ -300,7 +300,7 @@ export interface UiRadioProps { modelValue?:Key|boolean; value?:Key|boolean; lab
 export interface UiRateProps { modelValue?:number; max?:number; step?:number; allowClear?:boolean; clearValue?:number; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; showText?:boolean; texts?:Array<string|number>; formatter?:(value:number,max:number)=>string|number|null|undefined; color?:string; voidColor?:string; disabledColor?:string; ariaLabel?:string }
 export interface UiResultProps { status?:'success'|'error'|'warning'|'info'|'404'; title?:string; description?:string; icon?:string }
 export interface UiStatusPageProps { status?:'403'|'404'|'500'; title?:string; description?:string; icon?:string; embedded?:boolean }
-export interface UiSelectProps { modelValue?:Key; options?:SelectOptionInput[]; placeholder?:string; size?:ComponentSize; disabled?:boolean; invalid?:boolean; clearable?:boolean; searchable?:boolean; emptyText?:string }
+export interface UiSelectProps { modelValue?:Key; options?:SelectOptionInput[]; placeholder?:string; size?:ComponentSize; disabled?:boolean; invalid?:boolean; clearable?:boolean; searchable?:boolean; emptyText?:string; placement?:'top-start'|'top-end'|'bottom-start'|'bottom-end'; appendToBody?:boolean }
 export interface UiSkeletonProps { rows?:number; avatar?:boolean; animated?:boolean; width?:string|number }
 export interface UiStatisticFormatterContext { numericValue:number|null; localeOptions:Intl.NumberFormatOptions }
 export interface UiStatisticTrendContext { direction:'up'|'down'|'flat'; tone:'positive'|'negative'|'neutral' }
@@ -320,8 +320,14 @@ export interface UiSplitterCollapseMeta { index:number; collapsed:boolean; sourc
 export interface UiSplitterInvalid { reason:'panels'|'constraints'|'size'; value:unknown }
 export interface UiSplitterProps { panels?:UiSplitterPanel[]; modelValue?:number[]; direction?:UiSplitterDirection; lazy?:boolean; disabled?:boolean; keyboardStep?:number; separatorSize?:number; ariaLabel?:string }
 export interface UiSplitterInstance { reset:()=>number[]; setSizes:(sizes:number[],source?:UiSplitterResizeSource)=>number[]; collapse:(index:number,source?:UiSplitterResizeSource)=>number[]; expand:(index:number,source?:UiSplitterResizeSource)=>number[]; toggleCollapse:(index:number,source?:UiSplitterResizeSource)=>number[]; sizes:Ref<number[]> }
-export interface UiStepItem { title:string; description?:string; status?:'wait'|'process'|'finish'|'error' }
-export interface UiStepsProps { items?:UiStepItem[]; current?:number; direction?:'horizontal'|'vertical'; ariaLabel?:string }
+export type UiStepStatus = 'wait'|'process'|'finish'|'error'
+export type UiStepsDirection = 'horizontal'|'vertical'
+export type UiStepsType = 'default'|'navigation'|'inline'
+export type UiStepsField<Item=UiStepItem> = string|((item:Item,index:number)=>unknown)
+export interface UiStepItem { key?:Key; title:string; description?:string; subtitle?:string; status?:UiStepStatus; icon?:string; disabled?:boolean }
+export interface UiStepsChangeMeta<Item=UiStepItem> { index:number; previous:number; key:Key; item:Item; status:UiStepStatus; source:string }
+export interface UiStepsProps<Item=UiStepItem> { items?:Item[]; itemKey?:UiStepsField<Item>; titleField?:UiStepsField<Item>; descriptionField?:UiStepsField<Item>; subtitleField?:UiStepsField<Item>; statusField?:UiStepsField<Item>; iconField?:UiStepsField<Item>; disabledField?:UiStepsField<Item>; modelValue?:number; current?:number; defaultCurrent?:number; disabledIndexes?:number[]; interactive?:boolean; linear?:boolean; keyboard?:boolean; loop?:boolean; disabled?:boolean; direction?:UiStepsDirection; labelPlacement?:'horizontal'|'vertical'; type?:UiStepsType; size?:ComponentSize; status?:UiStepStatus; responsive?:boolean; loading?:boolean; loadingCount?:number; emptyText?:string; ariaLabel?:string }
+export interface UiStepsInstance { root:Ref<HTMLOListElement|null>; focusItem:(keyOrIndex:Key,options?:FocusOptions)=>boolean; focusCurrent:(options?:FocusOptions)=>boolean; focusFirst:(options?:FocusOptions)=>boolean; focusLast:(options?:FocusOptions)=>boolean; goTo:(keyOrIndex:Key,source?:string)=>UiStepsChangeMeta|false; next:(source?:string)=>UiStepsChangeMeta|false; previous:(source?:string)=>UiStepsChangeMeta|false }
 export interface UiSwitchProps { modelValue?:boolean; disabled?:boolean; loading?:boolean; size?:ComponentSize; checkedText?:string; uncheckedText?:string; ariaLabel?:string }
 export interface UiTableProps<Row=Record<string,unknown>> { columns?:UiTableColumn[]; rows?:Row[]; rowKey?:string; selectedRows?:Key[]; expandedRows?:Key[]; selectable?:boolean; expandable?:boolean; loading?:boolean; error?:string; sortKey?:string; sortOrder?:''|'asc'|'desc'; density?:'compact'|'default'|'comfortable'; stickyHeader?:boolean; emptyTitle?:string; emptyText?:string; loadingRows?:number; filters?:Record<string,unknown>; resizable?:boolean; maxHeight?:string|number; virtual?:boolean; rowHeight?:number; viewportHeight?:number; overscan?:number }
 export interface UiTabsItem { label:string; value:Key; icon?:string; disabled?:boolean; closable?:boolean }
@@ -495,7 +501,7 @@ export type UiSpaceEmits = {}
 export type UiSpinEmits = {}
 export type UiSplitterEmits = { 'update:modelValue':(sizes:number[])=>void; 'resize-start':(meta:UiSplitterResizeMeta)=>void; resize:(meta:UiSplitterResizeMeta)=>void; 'resize-end':(meta:UiSplitterResizeMeta)=>void; collapse:(meta:UiSplitterCollapseMeta)=>void; invalid:(payload:UiSplitterInvalid)=>void }
 export type UiStatisticEmits = {}
-export type UiStepsEmits = {}
+export type UiStepsEmits<Item=UiStepItem> = { 'update:modelValue':(value:number)=>void; 'update:current':(value:number)=>void; change:(value:number,meta:UiStepsChangeMeta<Item>,event?:MouseEvent)=>void; 'item-click':(item:Item,index:number,event:MouseEvent)=>void; 'item-focus':(meta:UiStepsChangeMeta<Item>,event?:FocusEvent|KeyboardEvent)=>void }
 export type UiSwitchEmits = { 'update:modelValue':(value:boolean)=>void; change:(value:boolean)=>void }
 export type UiTableEmits = { 'update:selectedRows':(value:Key[])=>void; 'update:expandedRows':(value:Key[])=>void; 'update:sortKey':(value:string)=>void; 'update:sortOrder':(value:''|'asc'|'desc')=>void; 'update:filters':(value:Record<string,unknown>)=>void; 'sort-change':(payload:UiTableSortChange)=>void; 'filter-change':(value:Record<string,unknown>)=>void; 'column-resize':(payload:UiTableColumnResize)=>void; 'row-click':(row:Record<string,unknown>)=>void; retry:()=>void }
 export type UiTabsEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key)=>void; close:(value:Key)=>void }
@@ -590,7 +596,9 @@ export type UiSpaceSlots = { default?:()=>VNodeChild }
 export type UiSpinSlots = { default?:()=>VNodeChild }
 export type UiSplitterSlots = { panel?:(scope:{panel:UiSplitterPanel;index:number;size:number;collapsed:boolean})=>VNodeChild; separator?:(scope:{index:number;active:boolean})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiStatisticSlots = { title?:(scope:{title:string})=>VNodeChild; prefix?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; value?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; suffix?:(scope:{value:number|string|null;formattedValue:string})=>VNodeChild; trend?:(scope:{value:number;direction:'up'|'down'|'flat';tone:'positive'|'negative'|'neutral';text:string})=>VNodeChild; extra?:()=>VNodeChild }
-export type UiStepsSlots = {}
+export interface UiStepsRecordScope<Item=UiStepItem> { item:Item; index:number; key:Key; status:UiStepStatus; title:unknown; description:unknown; subtitle:unknown; icon:string; disabled:boolean; domKey:string }
+export type UiStepsItemScope<Item=UiStepItem> = UiStepsRecordScope<Item>&{ activate:(source?:string)=>UiStepsChangeMeta<Item>|false }
+export type UiStepsSlots<Item=UiStepItem> = { item?:(scope:UiStepsItemScope<Item>)=>VNodeChild; icon?:(scope:UiStepsRecordScope<Item>)=>VNodeChild; title?:(scope:UiStepsRecordScope<Item>)=>VNodeChild; subtitle?:(scope:UiStepsRecordScope<Item>)=>VNodeChild; description?:(scope:UiStepsRecordScope<Item>)=>VNodeChild; loading?:(scope:{count:number})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiSwitchSlots = {}
 export type UiTableSlots = { caption?:()=>VNodeChild; 'empty-action'?:()=>VNodeChild; expanded?:(props:{row:Record<string,unknown>})=>VNodeChild; [name:`cell-${string}`]:((props:{row:Record<string,unknown>;value:unknown;column:UiTableColumn;rowIndex:number})=>VNodeChild)|undefined }
 export type UiTabsSlots = { default?:(props:{item:UiTabsItem|Key})=>VNodeChild; [name:`panel-${string}`]:((props:{item:UiTabsItem|Key})=>VNodeChild)|undefined }

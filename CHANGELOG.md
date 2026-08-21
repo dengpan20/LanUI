@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.58.0] - 2026-08-22
+
+### Added
+
+- Production `UiSteps` contract with stable field adapters, controlled/uncontrolled current state, Default/Navigation/Inline presentation, horizontal/vertical direction and labels, three sizes, linear navigation, disabled stages, loading/empty states, structured Slots and focus/navigation instance methods.
+- Dedicated connectors independent of title width, plus component-center, one-page HTML and standalone-consumer examples with deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `items`, `current`, `direction`, status derivation and `.ui-step-*` styling remain compatible while opt-in navigation uses native buttons, roving keyboard focus, responsive layout, RTL logical arrows, Reduced Motion and forced-colors behavior.
+- `UiSelect` now teleports its listbox by default with collision-aware floating placement and theme/direction scope, avoiding clipped menus inside cards and scroll containers; `appendToBody=false` preserves explicit inline integration.
+- `UiTable` empty and error rows now use class-driven full-width mobile hooks instead of relational-selector-dependent layout.
+- Release gates advance to 35 visual baselines, 53 Axe scenarios, 57 interactions per browser, 57 negative type assertions and 440 locale keys. Generated API coverage advances to 1,138 Props, 385 Events and 206 Slots.
+
 ## [1.57.0] - 2026-08-20
 
 ### Added

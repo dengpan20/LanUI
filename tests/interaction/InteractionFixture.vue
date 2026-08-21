@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiUpload,
+  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -94,6 +94,15 @@ const tagVisible=ref(true)
 const tagOutput=ref('ready')
 function changeTag(checked,meta){tagChecked.value=checked;tagOutput.value=`change:${meta.source}:${checked}`}
 function closeTag(meta){tagVisible.value=false;tagOutput.value=`close:${meta.source}`}
+const stepsCurrent=ref(1)
+const stepsOutput=ref('ready:1')
+const stepsItems=[
+  {key:'foundation',title:'Foundation',description:'Tokens verified'},
+  {key:'components',title:'Components',description:'Contracts in review'},
+  {key:'approval',title:'Approval',description:'Disabled stage',disabled:true},
+  {key:'release',title:'Release',description:'Publish artifacts'},
+]
+function changeSteps(value,meta){stepsOutput.value=`change:${meta.source}:${value}`}
 const timelineSelection=ref('audit')
 const timelineOutput=ref('ready:audit')
 const timelineItems=[
@@ -638,6 +647,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <UiTimeline id="interaction-timeline" v-model="timelineSelection" :items="timelineItems" selectable orientation="horizontal" placement="alternate" time-position="opposite" line="dashed" aria-label="Interaction release timeline" @change="changeTimeline" />
         <i id="interaction-timeline-target" />
         <output class="interaction-output" data-testid="timeline-output">{{ timelineOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-steps-case" data-steps-state-contract="controlled navigation connectors keyboard disabled horizontal rtl home end">
+        <h2>Steps navigation, keyboard and disabled contract</h2>
+        <UiSteps id="interaction-steps" v-model="stepsCurrent" :items="stepsItems" type="navigation" loop aria-label="Interaction release steps" @change="changeSteps" />
+        <output class="interaction-output" data-testid="steps-output">{{ stepsOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-typography-case">
         <h2>Typography copy, edit, ellipsis and expansion contract</h2>

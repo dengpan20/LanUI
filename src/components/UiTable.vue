@@ -104,11 +104,11 @@ function sort(column) {
           <td v-for="column in visibleColumns" :key="column.key"><span class="skeleton ui-table-skeleton" :style="{width:`${48+(index*17+column.key.length*7)%42}%`}"/></td>
         </tr>
       </tbody>
-      <tbody v-else-if="error">
-        <tr><td :colspan="columnCount"><div class="ui-table-state is-error"><span class="empty-icon"><AppIcon name="alert" :size="24"/></span><strong>{{ t('table.errorTitle') }}</strong><p>{{ error }}</p><button type="button" class="btn btn-outline btn-sm" @click="emit('retry')"><AppIcon name="refresh" :size="13"/>{{ t('common.reload') }}</button></div></td></tr>
+      <tbody v-else-if="error" class="ui-table-state-body">
+        <tr class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><div class="ui-table-state is-error"><span class="empty-icon"><AppIcon name="alert" :size="24"/></span><strong>{{ t('table.errorTitle') }}</strong><p>{{ error }}</p><button type="button" class="btn btn-outline btn-sm" @click="emit('retry')"><AppIcon name="refresh" :size="13"/>{{ t('common.reload') }}</button></div></td></tr>
       </tbody>
-      <tbody v-else-if="!rows.length">
-        <tr><td :colspan="columnCount"><div class="ui-table-state"><span class="empty-icon"><AppIcon name="search" :size="24"/></span><strong>{{ resolvedEmptyTitle }}</strong><p>{{ resolvedEmptyText }}</p><slot name="empty-action"/></div></td></tr>
+      <tbody v-else-if="!rows.length" class="ui-table-state-body">
+        <tr class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><div class="ui-table-state"><span class="empty-icon"><AppIcon name="search" :size="24"/></span><strong>{{ resolvedEmptyTitle }}</strong><p>{{ resolvedEmptyText }}</p><slot name="empty-action"/></div></td></tr>
       </tbody>
       <tbody v-else>
         <tr v-if="topSpace" class="ui-table-virtual-space"><td :colspan="columnCount" :style="{height:`${topSpace}px`}"/></tr>

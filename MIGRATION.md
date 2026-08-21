@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.58 steps compatibility
+
+There are no breaking changes. Existing `<UiSteps :items="items" :current="current" />` usage remains valid; navigation is opt-in:
+
+```vue
+<UiSteps v-model="current" :items="steps" type="navigation" linear />
+```
+
+- `current` remains a supported controlled compatibility prop. `modelValue` takes precedence when supplied; otherwise an omitted `current` uses `defaultCurrent` and updates internal state.
+- Stable keys default to `item.key`; item key, title, description, subtitle, status, icon and disabled field adapters accept existing domain records without reshaping them.
+- `interactive` or `type="navigation"` renders native buttons. `change`, `item-click` and `item-focus` publish stable index/key/item/source metadata; exposed focus, previous, next and go-to methods support application workflows.
+- `linear` permits completed/current stages and the next available stage while rejecting later jumps. Roving Arrow/Home/End navigation skips disabled stages, loops only when requested and follows RTL logical direction.
+- Dedicated connector elements no longer depend on remaining title width. Horizontal, vertical, responsive and label-placement choices preserve ordered-list identity. Root and `components/UiSteps` imports expose matching Props, Emits, Slots and instance types with isolated styling at `styles/UiSteps.css`.
+
 ## 1.57 timeline compatibility
 
 There are no breaking changes. Existing `<UiTimeline :items="items" />` usage remains valid; richer state and interaction are opt-in:

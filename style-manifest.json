@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.57.0",
+  "version": "1.58.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 213224,
-    "rules": 1672,
+    "bytes": 218850,
+    "rules": 1717,
     "source": "component-union"
   },
   "core": {
@@ -136,8 +136,8 @@
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 24849,
-      "rules": 205
+      "bytes": 25210,
+      "rules": 208
     },
     {
       "name": "UiDatePicker",
@@ -262,14 +262,14 @@
     {
       "name": "UiList",
       "subpath": "./styles/UiList.css",
-      "bytes": 14534,
-      "rules": 124
+      "bytes": 14676,
+      "rules": 126
     },
     {
       "name": "UiListToolbar",
       "subpath": "./styles/UiListToolbar.css",
-      "bytes": 6072,
-      "rules": 45
+      "bytes": 6214,
+      "rules": 47
     },
     {
       "name": "UiMentions",
@@ -322,8 +322,8 @@
     {
       "name": "UiPagination",
       "subpath": "./styles/UiPagination.css",
-      "bytes": 5508,
-      "rules": 43
+      "bytes": 5650,
+      "rules": 45
     },
     {
       "name": "UiPopconfirm",
@@ -352,8 +352,8 @@
     {
       "name": "UiQueryBuilder",
       "subpath": "./styles/UiQueryBuilder.css",
-      "bytes": 30754,
-      "rules": 234
+      "bytes": 30896,
+      "rules": 236
     },
     {
       "name": "UiRadio",
@@ -376,8 +376,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 48477,
-      "rules": 382
+      "bytes": 48619,
+      "rules": 384
     },
     {
       "name": "UiSegmented",
@@ -388,8 +388,8 @@
     {
       "name": "UiSelect",
       "subpath": "./styles/UiSelect.css",
-      "bytes": 3953,
-      "rules": 27
+      "bytes": 4095,
+      "rules": 29
     },
     {
       "name": "UiSkeleton",
@@ -436,8 +436,8 @@
     {
       "name": "UiSteps",
       "subpath": "./styles/UiSteps.css",
-      "bytes": 2312,
-      "rules": 19
+      "bytes": 7577,
+      "rules": 61
     },
     {
       "name": "UiSwitch",
@@ -448,8 +448,8 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 9992,
-      "rules": 87
+      "bytes": 10211,
+      "rules": 88
     },
     {
       "name": "UiTabs",

@@ -2,6 +2,20 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P62 成熟步骤流程
+
+`UiSteps` 保留原有 `items / current / direction` 用法，同时补齐专用连接线、受控与非受控当前步骤、字段适配、Default / Navigation / Inline 外观、水平/垂直标签、三种尺寸、线性流程、禁用、Loading、Empty、响应式布局和结构化插槽。可导航步骤使用原生 Button 与 roving focus，方向键、Home/End 会跳过不可用阶段并遵循 RTL；语义化 `ol`、本地化状态、Reduced Motion、forced-colors、SSR、类型和三浏览器回归保持同步。
+
+```vue
+<UiSteps
+  v-model="currentStep"
+  :items="releaseSteps"
+  type="navigation"
+  linear
+  @change="handleStepChange"
+/>
+```
+
 ## P61 成熟时间轴
 
 `UiTimeline` 在兼容原有 `items` 展示的基础上，补齐纵向/横向、起始/末端/交替位置、内容/对侧时间、状态与自定义色、图标、受控或非受控选择、原生链接、禁用、Pending、Loading、Empty 和字段适配。可交互事件使用 roving focus，方向键、Home/End 会跳过禁用项并遵循 RTL；语义化 `ol`、`time`、本地化名称、Reduced Motion、forced-colors、SSR、类型与三浏览器回归保持同步。

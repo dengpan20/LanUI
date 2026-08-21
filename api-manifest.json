@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.57.0",
+  "version": "1.58.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -723,10 +723,18 @@
       "UiStatusPageProps",
       "UiStatusPageSlots",
       "UiStepItem",
+      "UiStepStatus",
       "UiSteps",
+      "UiStepsChangeMeta",
+      "UiStepsDirection",
       "UiStepsEmits",
+      "UiStepsField",
+      "UiStepsInstance",
+      "UiStepsItemScope",
       "UiStepsProps",
+      "UiStepsRecordScope",
       "UiStepsSlots",
+      "UiStepsType",
       "UiSwitch",
       "UiSwitchEmits",
       "UiSwitchProps",
@@ -15439,6 +15447,7 @@
       "subpath": "./components/UiSelect",
       "propsType": "UiSelectProps",
       "props": [
+        "appendToBody",
         "clearable",
         "disabled",
         "emptyText",
@@ -15446,10 +15455,23 @@
         "modelValue",
         "options",
         "placeholder",
+        "placement",
         "searchable",
         "size"
       ],
       "propDetails": [
+        {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
         {
           "name": "clearable",
           "required": false,
@@ -15527,6 +15549,18 @@
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "type": "'top-start'|'top-end'|'bottom-start'|'bottom-end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom-start\""
           }
         },
         {
@@ -16609,8 +16643,31 @@
       "props": [
         "ariaLabel",
         "current",
+        "defaultCurrent",
+        "descriptionField",
         "direction",
-        "items"
+        "disabled",
+        "disabledField",
+        "disabledIndexes",
+        "emptyText",
+        "iconField",
+        "interactive",
+        "itemKey",
+        "items",
+        "keyboard",
+        "labelPlacement",
+        "linear",
+        "loading",
+        "loadingCount",
+        "loop",
+        "modelValue",
+        "responsive",
+        "size",
+        "status",
+        "statusField",
+        "subtitleField",
+        "titleField",
+        "type"
       ],
       "propDetails": [
         {
@@ -16633,12 +16690,160 @@
             "Number"
           ],
           "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "defaultCurrent",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
             "kind": "literal",
             "value": "0"
           }
         },
         {
+          "name": "descriptionField",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"description\""
+          }
+        },
+        {
           "name": "direction",
+          "required": false,
+          "type": "UiStepsDirection",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabledField",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"disabled\""
+          }
+        },
+        {
+          "name": "disabledIndexes",
+          "required": false,
+          "type": "number[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "iconField",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"icon\""
+          }
+        },
+        {
+          "name": "interactive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
+          "name": "items",
+          "required": false,
+          "type": "Item[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "labelPlacement",
           "required": false,
           "type": "'horizontal'|'vertical'",
           "runtimeTypes": [
@@ -16650,24 +16855,235 @@
           }
         },
         {
-          "name": "items",
+          "name": "linear",
           "required": false,
-          "type": "UiStepItem[]",
+          "type": "boolean",
           "runtimeTypes": [
-            "Array"
+            "Boolean"
           ],
           "default": {
-            "kind": "factory",
-            "value": "factory()"
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "responsive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "status",
+          "required": false,
+          "type": "UiStepStatus",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"process\""
+          }
+        },
+        {
+          "name": "statusField",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"status\""
+          }
+        },
+        {
+          "name": "subtitleField",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"subtitle\""
+          }
+        },
+        {
+          "name": "titleField",
+          "required": false,
+          "type": "UiStepsField<Item>",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"title\""
+          }
+        },
+        {
+          "name": "type",
+          "required": false,
+          "type": "UiStepsType",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
           }
         }
       ],
       "emitsType": "UiStepsEmits",
-      "emits": [],
-      "emitDetails": [],
+      "emits": [
+        "change",
+        "item-click",
+        "item-focus",
+        "update:current",
+        "update:modelValue"
+      ],
+      "emitDetails": [
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:number,meta:UiStepsChangeMeta<Item>,event?:MouseEvent)=>void"
+        },
+        {
+          "name": "item-click",
+          "required": true,
+          "type": "(item:Item,index:number,event:MouseEvent)=>void"
+        },
+        {
+          "name": "item-focus",
+          "required": true,
+          "type": "(meta:UiStepsChangeMeta<Item>,event?:FocusEvent|KeyboardEvent)=>void"
+        },
+        {
+          "name": "update:current",
+          "required": true,
+          "type": "(value:number)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:number)=>void"
+        }
+      ],
       "slotsType": "UiStepsSlots",
-      "slots": [],
-      "slotDetails": [],
+      "slots": [
+        "description",
+        "empty",
+        "icon",
+        "item",
+        "loading",
+        "subtitle",
+        "title"
+      ],
+      "slotDetails": [
+        {
+          "name": "description",
+          "required": false,
+          "type": "(scope:UiStepsRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "icon",
+          "required": false,
+          "type": "(scope:UiStepsRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:UiStepsItemScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{count:number})=>VNodeChild"
+        },
+        {
+          "name": "subtitle",
+          "required": false,
+          "type": "(scope:UiStepsRecordScope<Item>)=>VNodeChild"
+        },
+        {
+          "name": "title",
+          "required": false,
+          "type": "(scope:UiStepsRecordScope<Item>)=>VNodeChild"
+        }
+      ],
       "imports": {
         "root": "import { UiSteps } from 'lan-ui-design-system'",
         "subpath": "import UiSteps from 'lan-ui-design-system/components/UiSteps'"

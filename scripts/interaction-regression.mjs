@@ -1180,6 +1180,33 @@ const allCases = [
     },
   },
   {
+    name:'steps-navigation-keyboard-disabled-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const steps=page.locator('#interaction-steps')
+      await steps.scrollIntoViewIfNeeded()
+      const first=steps.locator('[data-index="0"] .ui-step-main')
+      const second=steps.locator('[data-index="1"] .ui-step-main')
+      const disabled=steps.locator('[data-index="2"] .ui-step-main')
+      const release=steps.locator('[data-index="3"] .ui-step-main')
+      assert.equal(await steps.locator('.ui-step-connector').count(),3)
+      await first.click()
+      await expectText(page,'steps-output','change:pointer:0')
+      assert.equal(await first.getAttribute('aria-current'),'step')
+      await first.focus()
+      await first.press('ArrowLeft')
+      await expectFocused(page,second)
+      await second.press('ArrowLeft')
+      await expectFocused(page,release)
+      await release.press('Home')
+      await expectFocused(page,first)
+      await page.keyboard.press('End')
+      await expectFocused(page,release)
+      assert.equal(await disabled.isDisabled(),true)
+      assert.equal(await steps.getAttribute('aria-label'),'Interaction release steps')
+    },
+  },
+  {
     name:'otp-input-autofill-keyboard-rtl',
     query:'direction=rtl',
     run:async page=>{

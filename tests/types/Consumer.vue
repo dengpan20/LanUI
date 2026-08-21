@@ -21,6 +21,7 @@ import {
   UiImage,
   UiModal,
   UiRate,
+  UiSteps,
   UiStatistic,
   UiStatusPage,
   UiTable,
@@ -33,13 +34,15 @@ import {
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiTableColumn, UiTableSortChange, UiTabsItem, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
 const gridPage = ref(1)
 const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
+const stepsCurrent=ref(1)
+const stepsItems:UiStepItem[]=[{key:'foundation',title:'Foundation',description:'Tokens'},{key:'components',title:'Components',subtitle:'8/12',description:'Contracts'},{key:'release',title:'Release',description:'Package'}]
 const timelineSelection=ref<Key>('review')
 const timelineItems:UiTimelineItem[]=[{key:'audit',title:'Audit',time:'09:30',status:'success'},{key:'review',title:'Review',time:'11:20',status:'warning'}]
 interface FormModel extends Record<string, unknown> { name:string; contacts:Array<{email:string}>; password:string; confirm:string }
@@ -148,6 +151,7 @@ function sort(payload:UiTableSortChange) {
   <UiPageHeader title="Typed release" description="Typed page heading contract" :breadcrumbs="[{label:'Workspace',href:'#workspace'},{label:'Release'}]" show-back bordered @back="meta=>meta.source" @breadcrumb-navigate="meta=>meta.index"><template #meta>Stable</template><template #actions><UiButton>Publish</UiButton></template><template #footer>Evidence</template></UiPageHeader>
   <UiCard title="Typed evidence" subtitle="Verified now" variant="elevated" shadow="md" hoverable interactive selected @activate="meta=>meta.source"><template #cover><img src="/typed-card.jpg" alt="Typed card cover"></template><template #actions="{disabled}">{{ disabled }}</template><template #default="{selected}">{{ selected }}</template><template #footer>Typed footer</template></UiCard>
   <UiTag color="purple" variant="solid" size="lg" round closable checkable checked @change="(_checked,meta)=>meta.source" @close="meta=>meta.color"><template #prefix="{checked}">{{ checked }}</template>Typed tag</UiTag>
+  <UiSteps v-model="stepsCurrent" :items="stepsItems" type="navigation" interactive linear loop label-placement="vertical" @change="(_value,meta)=>meta.source"><template #title="{title,status}">{{ title }} / {{ status }}</template><template #empty>No steps</template></UiSteps>
   <UiTimeline v-model="timelineSelection" :items="timelineItems" selectable interactive time-position="opposite" pending="Publishing" @change="(_value,meta)=>meta.source"><template #item="{title,selected}">{{ title }} / {{ selected }}</template><template #pending>Queued</template></UiTimeline>
   <UiCalendar v-model="releaseRange" selection-mode="range" view-date="2026-08-01" today="2026-08-12">
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
