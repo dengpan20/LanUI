@@ -2,6 +2,7 @@ import {
   UiAffix,
   UiAnchor,
   UiBarcode,
+  UiBreadcrumb,
   UiButton,
   UiCalendar,
   UiCard,
@@ -79,6 +80,7 @@ import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-desi
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
 import SubpathCard, { UiCard as NamedSubpathCard } from 'lan-ui-design-system/components/UiCard'
+import SubpathBreadcrumb, { UiBreadcrumb as NamedSubpathBreadcrumb } from 'lan-ui-design-system/components/UiBreadcrumb'
 import SubpathTag, { UiTag as NamedSubpathTag } from 'lan-ui-design-system/components/UiTag'
 import SubpathSteps, { UiSteps as NamedSubpathSteps } from 'lan-ui-design-system/components/UiSteps'
 import SubpathTimeline, { UiTimeline as NamedSubpathTimeline } from 'lan-ui-design-system/components/UiTimeline'
@@ -132,6 +134,7 @@ import type { UiQRCodeEmits, UiQRCodeProps, UiQRCodeSlots } from 'lan-ui-design-
 import type { UiDataGridEmits, UiDataGridProps, UiDataGridSlots } from 'lan-ui-design-system/components/UiDataGrid'
 import type { UiCalendarEmits, UiCalendarProps, UiCalendarSlots } from 'lan-ui-design-system/components/UiCalendar'
 import type { UiCardActivationMeta, UiCardEmits, UiCardInstance, UiCardProps, UiCardSlots } from 'lan-ui-design-system/components/UiCard'
+import type { UiBreadcrumbEmits, UiBreadcrumbExpandMeta, UiBreadcrumbInstance, UiBreadcrumbItem, UiBreadcrumbNavigateMeta, UiBreadcrumbProps, UiBreadcrumbSlots } from 'lan-ui-design-system/components/UiBreadcrumb'
 import type { UiTagActivationMeta, UiTagEmits, UiTagInstance, UiTagProps, UiTagSlots } from 'lan-ui-design-system/components/UiTag'
 import type { UiStepItem, UiStepsChangeMeta, UiStepsEmits, UiStepsInstance, UiStepsProps, UiStepsSlots } from 'lan-ui-design-system/components/UiSteps'
 import type { UiTimelineActivationMeta, UiTimelineEmits, UiTimelineInstance, UiTimelineItem, UiTimelineProps, UiTimelineSlots } from 'lan-ui-design-system/components/UiTimeline'
@@ -547,6 +550,15 @@ const pageHeaderNamedSubpathParity:typeof UiPageHeader=NamedSubpathPageHeader
 const pageHeaderSlot:UiPageHeaderSlots={breadcrumb:scope=>String(scope.navigate(scope.items[0]).index),title:scope=>scope.title,description:scope=>scope.description,meta:()=>null,actions:()=>null,footer:()=>null,loading:()=>null}
 const pageHeaderInstance:UiPageHeaderInstance=null as never
 pageHeaderInstance.focusBack();pageHeaderInstance.scrollIntoView({behavior:'smooth',block:'start'})
+const breadcrumbItems:UiBreadcrumbItem[]=[{key:'home',label:'Home',href:'#home',icon:'home'},{key:'components',label:'Components',onClick:(_event,meta)=>meta?.source},{key:'breadcrumb',label:'Breadcrumb'}]
+const breadcrumbProps:InstanceType<typeof UiBreadcrumb>['$props']&UiBreadcrumbProps={items:breadcrumbItems,itemKey:'key',labelField:'label',hrefField:'href',iconField:'icon',disabledField:'disabled',currentField:'current',currentKey:'breadcrumb',separator:'/',separatorMode:'text',size:'lg',maxItems:3,itemsBeforeCollapse:1,itemsAfterCollapse:1,expanded:false,defaultExpanded:false,interactive:true,wrap:false,truncate:true,maxItemWidth:160,loading:false,loadingCount:3,emptyText:'No path',ariaLabel:'Typed location'}
+const breadcrumbEmit:UiBreadcrumbEmits['navigate']=(item,meta,event)=>{const source:UiBreadcrumbNavigateMeta['source']=meta.source;event?.preventDefault();void [item,source]}
+const breadcrumbExpandEmit:UiBreadcrumbEmits['expand-change']=(_expanded,meta)=>{const value:UiBreadcrumbExpandMeta=meta;void value}
+const breadcrumbSubpathParity:typeof UiBreadcrumb=SubpathBreadcrumb
+const breadcrumbNamedSubpathParity:typeof UiBreadcrumb=NamedSubpathBreadcrumb
+const breadcrumbSlots:UiBreadcrumbSlots={item:scope=>String(scope.navigate('slot')),icon:scope=>scope.icon,separator:scope=>String(scope.index),overflow:scope=>String(scope.expand(true,'slot').hiddenCount),loading:scope=>String(scope.count),empty:()=>null}
+const breadcrumbInstance:UiBreadcrumbInstance=null as never
+breadcrumbInstance.focusItem('components');breadcrumbInstance.focusFirst();breadcrumbInstance.focusLast();breadcrumbInstance.navigate('components','api');breadcrumbInstance.expand();breadcrumbInstance.collapse();breadcrumbInstance.toggle()
 const cardProps:InstanceType<typeof UiCard>['$props']&UiCardProps={title:'Typed evidence',subtitle:'Verified now',size:'lg',variant:'elevated',shadow:'md',hoverable:true,interactive:true,selected:true,loadingRows:4,href:'#evidence',target:'_self'}
 const cardEmit:UiCardEmits['activate']=(meta,event)=>{const source:UiCardActivationMeta['source']=meta.source;event.preventDefault();void source}
 const cardSubpathParity:typeof UiCard=SubpathCard
@@ -650,6 +662,10 @@ const invalidKeyValueImport:Parameters<UiKeyValueEditorInstance['importText']>[1
 const invalidPageHeaderTitleTag:UiPageHeaderProps={titleTag:'div'}
 // @ts-expect-error PageHeader size uses the shared sm, md or lg component scale.
 const invalidPageHeaderSize:UiPageHeaderProps={size:'xl'}
+// @ts-expect-error Breadcrumb separator mode is constrained to icon or text.
+const invalidBreadcrumbSeparatorMode:UiBreadcrumbProps={separatorMode:'image'}
+// @ts-expect-error Breadcrumb size uses the shared sm, md or lg component scale.
+const invalidBreadcrumbSize:UiBreadcrumbProps={size:'xl'}
 // @ts-expect-error Card variant is constrained to the documented surface treatments.
 const invalidCardVariant:UiCardProps={variant:'glass'}
 // @ts-expect-error Card shadow is constrained to the shared elevation scale.
@@ -714,6 +730,7 @@ const invalidAffixPosition:UiAffixProps={position:'left'}
 const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
 void [pageHeaderProps,pageHeaderEmit,pageHeaderSubpathParity,pageHeaderNamedSubpathParity,pageHeaderSlot,pageHeaderInstance,invalidPageHeaderTitleTag,invalidPageHeaderSize,keyValueItems,keyValueEditorProps,keyValueEditorEmit,keyValueEditorSubpathParity,keyValueEditorNamedSubpathParity,keyValueEditorSlot,keyValueEditorInstance,invalidKeyValueSize,invalidKeyValueImport,cronPresets,cronEditorProps,cronEditorEmit,cronEditorSubpathParity,cronEditorNamedSubpathParity,cronEditorSlot,cronEditorInstance,invalidCronTimeZone,invalidCronPreviewCount,barcodeProps,barcodeEmit,barcodeSubpathParity,barcodeNamedSubpathParity,barcodeSlot,barcodeInstance,invalidBarcodeFormat,invalidBarcodeStatus,queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
+void [breadcrumbItems,breadcrumbProps,breadcrumbEmit,breadcrumbExpandEmit,breadcrumbSubpathParity,breadcrumbNamedSubpathParity,breadcrumbSlots,breadcrumbInstance,invalidBreadcrumbSeparatorMode,invalidBreadcrumbSize]
 void [cardProps,cardEmit,cardSubpathParity,cardNamedSubpathParity,cardSlots,cardInstance,invalidCardVariant,invalidCardShadow]
 void [tagProps,tagEmit,tagSubpathParity,tagNamedSubpathParity,tagSlots,tagInstance,invalidTagVariant,invalidTagSize]
 void [stepsItems,stepsProps,stepsEmit,stepsSubpathParity,stepsNamedSubpathParity,stepsSlots,stepsInstance,invalidStepsDirection,invalidStepsType]

@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
+  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
@@ -36,6 +36,15 @@ const gridRows=Array.from({length:18},(_,index)=>({id:`visual-grid-${index+1}`,n
 const virtualSelection=ref('visual-1')
 const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,label:`Release record ${String(index+1).padStart(2,'0')}`,status:index%4===0?'Review':'Ready'}))
 const visualStepsCurrent=ref(1)
+const visualBreadcrumbExpanded=ref(false)
+const visualBreadcrumbItems=[
+  {key:'home',label:'Home',href:'#home',icon:'home'},
+  {key:'workspace',label:'Workspace',href:'#workspace'},
+  {key:'design',label:'Design system',href:'#design'},
+  {key:'components',label:'Components',href:'#components'},
+  {key:'navigation',label:'Navigation',href:'#navigation'},
+  {key:'breadcrumb',label:'Breadcrumb contract'},
+]
 const visualStepsItems=[
   {key:'foundation',title:'Foundation audit',subtitle:'Complete',description:'Tokens and layout rules verified.'},
   {key:'components',title:'Component contract',subtitle:'In review',description:'Keyboard, ARIA and type coverage.'},
@@ -379,6 +388,15 @@ const tableRows=[
         <section><h3>Centered · vertical labels</h3><UiSteps :items="visualStepsItems.slice(0,3)" :current="1" label-placement="vertical" size="lg" aria-label="Release centered steps"/></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">dedicated connectors</UiTag><UiTag color="green">controlled navigation</UiTag><UiTag color="orange">responsive / keyboard / RTL</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='breadcrumb'" title="Navigation location paths" subtitle="Semantic links, long-path disclosure and stable current-page context" title-tag="h2" class="visual-table-card visual-breadcrumb-showcase">
+      <div class="visual-breadcrumb-grid" data-breadcrumb-state-contract="semantic links buttons current disabled icons collapse controlled uncontrolled wrap nowrap truncate sizes separator loading empty slots focus rtl ssr">
+        <section><h3>Collapsed · controlled</h3><UiBreadcrumb v-model:expanded="visualBreadcrumbExpanded" :items="visualBreadcrumbItems" :max-items="4" :items-after-collapse="2" truncate aria-label="Release location"/></section>
+        <section><h3>Expanded · text separator</h3><UiBreadcrumb :items="visualBreadcrumbItems" :max-items="4" default-expanded separator="/" separator-mode="text" truncate :max-item-width="110" aria-label="Expanded release location"/></section>
+        <section><h3>Disabled context</h3><UiBreadcrumb :items="[{key:'workspace',label:'Workspace',href:'#workspace',icon:'home'},{key:'restricted',label:'Restricted folder',disabled:true},{key:'evidence',label:'Release evidence'}]" size="sm" aria-label="Restricted location"/></section>
+        <section><h3>Loading and empty</h3><UiBreadcrumb loading :loading-count="4" aria-label="Loading navigation location"/><UiBreadcrumb empty-text="No parent location" aria-label="Empty navigation location"/></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">ordered navigation</UiTag><UiTag color="green">controlled disclosure</UiTag><UiTag color="orange">RTL / loading / empty</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

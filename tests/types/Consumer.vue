@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import {
   UiAffix,
   UiBarcode,
+  UiBreadcrumb,
   UiButton,
   UiCalendar,
   UiCard,
@@ -34,7 +35,7 @@ import {
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -42,6 +43,8 @@ const gridPage = ref(1)
 const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
 const stepsCurrent=ref(1)
+const breadcrumbExpanded=ref(false)
+const breadcrumbItems:UiBreadcrumbItem[]=[{key:'home',label:'Home',href:'#home',icon:'home'},{key:'workspace',label:'Workspace',href:'#workspace'},{key:'components',label:'Components',href:'#components'},{key:'breadcrumb',label:'Breadcrumb'}]
 const stepsItems:UiStepItem[]=[{key:'foundation',title:'Foundation',description:'Tokens'},{key:'components',title:'Components',subtitle:'8/12',description:'Contracts'},{key:'release',title:'Release',description:'Package'}]
 const timelineSelection=ref<Key>('review')
 const timelineItems:UiTimelineItem[]=[{key:'audit',title:'Audit',time:'09:30',status:'success'},{key:'review',title:'Review',time:'11:20',status:'warning'}]
@@ -149,6 +152,7 @@ function sort(payload:UiTableSortChange) {
   <UiFormItem label="Release schedule"><UiCronEditor v-model="releaseCron" time-zone="UTC" :preview-count="3"><template #actions="{ valid, runs }">{{ valid }} / {{ runs.length }}</template></UiCronEditor></UiFormItem>
   <UiFormItem label="Request headers"><UiKeyValueEditor v-model="requestHeaders" :min-rows="1" :max-rows="8" require-value name="headers"><template #actions="{ validation, importText }"><UiButton @click="importText('REGION=east',{mode:'append'})">{{ validation.valid }}</UiButton></template></UiKeyValueEditor></UiFormItem>
   <UiPageHeader title="Typed release" description="Typed page heading contract" :breadcrumbs="[{label:'Workspace',href:'#workspace'},{label:'Release'}]" show-back bordered @back="meta=>meta.source" @breadcrumb-navigate="meta=>meta.index"><template #meta>Stable</template><template #actions><UiButton>Publish</UiButton></template><template #footer>Evidence</template></UiPageHeader>
+  <UiBreadcrumb v-model:expanded="breadcrumbExpanded" :items="breadcrumbItems" :max-items="3" truncate @navigate="(_item,meta,event)=>{event?.preventDefault();return meta.source}"><template #item="{label,current}">{{ label }} / {{ current }}</template><template #overflow="{count}">+{{ count }}</template></UiBreadcrumb>
   <UiCard title="Typed evidence" subtitle="Verified now" variant="elevated" shadow="md" hoverable interactive selected @activate="meta=>meta.source"><template #cover><img src="/typed-card.jpg" alt="Typed card cover"></template><template #actions="{disabled}">{{ disabled }}</template><template #default="{selected}">{{ selected }}</template><template #footer>Typed footer</template></UiCard>
   <UiTag color="purple" variant="solid" size="lg" round closable checkable checked @change="(_checked,meta)=>meta.source" @close="meta=>meta.color"><template #prefix="{checked}">{{ checked }}</template>Typed tag</UiTag>
   <UiSteps v-model="stepsCurrent" :items="stepsItems" type="navigation" interactive linear loop label-placement="vertical" @change="(_value,meta)=>meta.source"><template #title="{title,status}">{{ title }} / {{ status }}</template><template #empty>No steps</template></UiSteps>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.58.0",
+  "version": "1.59.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -308,8 +308,12 @@
       "UiBarcodeStatus",
       "UiBreadcrumb",
       "UiBreadcrumbEmits",
+      "UiBreadcrumbExpandMeta",
+      "UiBreadcrumbInstance",
       "UiBreadcrumbItem",
+      "UiBreadcrumbNavigateMeta",
       "UiBreadcrumbProps",
+      "UiBreadcrumbRecord",
       "UiBreadcrumbSlots",
       "UiButton",
       "UiButtonEmits",
@@ -2489,8 +2493,29 @@
       "propsType": "UiBreadcrumbProps",
       "props": [
         "ariaLabel",
+        "currentField",
+        "currentKey",
+        "defaultExpanded",
+        "disabledField",
+        "emptyText",
+        "expanded",
+        "hrefField",
+        "iconField",
+        "interactive",
+        "itemKey",
         "items",
-        "separator"
+        "itemsAfterCollapse",
+        "itemsBeforeCollapse",
+        "labelField",
+        "loading",
+        "loadingCount",
+        "maxItemWidth",
+        "maxItems",
+        "separator",
+        "separatorMode",
+        "size",
+        "truncate",
+        "wrap"
       ],
       "propDetails": [
         {
@@ -2506,15 +2531,227 @@
           }
         },
         {
+          "name": "currentField",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"current\""
+          }
+        },
+        {
+          "name": "currentKey",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "defaultExpanded",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabledField",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"disabled\""
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "expanded",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "hrefField",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"href\""
+          }
+        },
+        {
+          "name": "iconField",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"icon\""
+          }
+        },
+        {
+          "name": "interactive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>Key)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
           "name": "items",
           "required": false,
-          "type": "UiBreadcrumbItem[]",
+          "type": "Item[]",
           "runtimeTypes": [
             "Array"
           ],
           "default": {
             "kind": "factory",
             "value": "factory()"
+          }
+        },
+        {
+          "name": "itemsAfterCollapse",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1"
+          }
+        },
+        {
+          "name": "itemsBeforeCollapse",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1"
+          }
+        },
+        {
+          "name": "labelField",
+          "required": false,
+          "type": "string|((item:Item,index:number)=>unknown)",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"label\""
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "maxItemWidth",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "160"
+          }
+        },
+        {
+          "name": "maxItems",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
           }
         },
         {
@@ -2528,22 +2765,132 @@
             "kind": "literal",
             "value": "\"chevronRight\""
           }
+        },
+        {
+          "name": "separatorMode",
+          "required": false,
+          "type": "'icon'|'text'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"icon\""
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "truncate",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "wrap",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
         }
       ],
       "emitsType": "UiBreadcrumbEmits",
       "emits": [
-        "navigate"
+        "expand-change",
+        "item-click",
+        "item-focus",
+        "navigate",
+        "update:expanded"
       ],
       "emitDetails": [
         {
+          "name": "expand-change",
+          "required": true,
+          "type": "(expanded:boolean,meta:UiBreadcrumbExpandMeta,event?:MouseEvent)=>void"
+        },
+        {
+          "name": "item-click",
+          "required": true,
+          "type": "(item:Item,meta:UiBreadcrumbNavigateMeta<Item>,event?:MouseEvent)=>void"
+        },
+        {
+          "name": "item-focus",
+          "required": true,
+          "type": "(meta:UiBreadcrumbNavigateMeta<Item>,event:FocusEvent)=>void"
+        },
+        {
           "name": "navigate",
           "required": true,
-          "type": "(item:UiBreadcrumbItem)=>void"
+          "type": "(item:Item,meta:UiBreadcrumbNavigateMeta<Item>,event?:MouseEvent)=>void"
+        },
+        {
+          "name": "update:expanded",
+          "required": true,
+          "type": "(expanded:boolean)=>void"
         }
       ],
       "slotsType": "UiBreadcrumbSlots",
-      "slots": [],
-      "slotDetails": [],
+      "slots": [
+        "empty",
+        "icon",
+        "item",
+        "loading",
+        "overflow",
+        "separator"
+      ],
+      "slotDetails": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "icon",
+          "required": false,
+          "type": "(scope:UiBreadcrumbRecord<Item>)=>VNodeChild"
+        },
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:UiBreadcrumbRecord<Item>&{navigate:(source?:string)=>UiBreadcrumbNavigateMeta<Item>|false})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{count:number})=>VNodeChild"
+        },
+        {
+          "name": "overflow",
+          "required": false,
+          "type": "(scope:{items:Item[];count:number;expand:(expanded:boolean,source?:string,event?:MouseEvent)=>UiBreadcrumbExpandMeta})=>VNodeChild"
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "(scope:{index:number;from?:Item;to?:Item})=>VNodeChild"
+        }
+      ],
       "imports": {
         "root": "import { UiBreadcrumb } from 'lan-ui-design-system'",
         "subpath": "import UiBreadcrumb from 'lan-ui-design-system/components/UiBreadcrumb'"

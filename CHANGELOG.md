@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.59.0] - 2026-08-22
+
+### Added
+
+- Production `UiBreadcrumb` contract with stable field adapters, explicit current-page resolution, item icons, native links/buttons, disabled context, three sizes, wrap/nowrap and truncation controls, Loading/Empty states, structured Slots and focus/navigation/disclosure instance methods.
+- Controlled and uncontrolled long-path disclosure with configurable leading/trailing context, localized hidden-level labels, keyboard focus restoration and stable expand/navigation metadata.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `items`, `separator`, `ariaLabel`, last-item current-page behavior and first `navigate` argument remain compatible; the event now appends metadata/source event and item callbacks execute through the same activation path.
+- PageHeader and static-preview breadcrumb markup now consume the common item, separator, current-page, focus, RTL, forced-colors and Reduced Motion style contract.
+- Release gates advance to 36 visual baselines, 54 Axe scenarios, 58 interactions per browser, 59 negative type assertions and 443 locale keys. Generated API coverage advances to 1,159 Props, 389 Events and 212 Slots.
+
 ## [1.58.0] - 2026-08-22
 
 ### Added

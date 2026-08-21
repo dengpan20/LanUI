@@ -12,6 +12,7 @@ const components = [...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].ma
 const componentTypes = resolve(root, 'dist-lib/components')
 mkdirSync(componentTypes, { recursive: true })
 const relatedComponentTypes={
+  UiBreadcrumb:['UiBreadcrumbExpandMeta','UiBreadcrumbInstance','UiBreadcrumbItem','UiBreadcrumbNavigateMeta','UiBreadcrumbRecord'],
   UiSteps:['UiStepItem','UiStepStatus','UiStepsChangeMeta','UiStepsDirection','UiStepsField','UiStepsInstance','UiStepsItemScope','UiStepsRecordScope','UiStepsType'],
   UiCard:['UiCardActivationMeta','UiCardInstance','UiCardShadow','UiCardTitleTag','UiCardVariant'],
   UiTag:['UiTagActivationMeta','UiTagCloseMeta','UiTagInstance','UiTagSize','UiTagVariant'],

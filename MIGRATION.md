@@ -1,5 +1,20 @@
 # Lan UI migration and compatibility policy
 
+## 1.59 breadcrumb compatibility
+
+There are no breaking changes. Existing `<UiBreadcrumb :items="items" />`, `separator`, `ariaLabel` and `navigate(item)` handlers remain valid; long-path behavior is opt-in:
+
+```vue
+<UiBreadcrumb v-model:expanded="expanded" :items="path" :max-items="4" truncate />
+```
+
+- Stable keys default to `item.key`; key, label, href, icon, disabled and current values accept string or function field adapters. A string `to` remains a native-link fallback for existing router-oriented records.
+- The last item remains the default current page. `currentKey` or an item current field can select another record without mutating consumer data.
+- Native anchors retain their href and secure `_blank`; callback or opt-in interactive items use native buttons. Disabled/current items remain readable but leave the navigation and activation path.
+- `navigate` keeps the item as its first argument and appends stable metadata plus the source event. `item-click`, `item-focus`, `update:expanded` and `expand-change` let consumers separate routing, analytics, focus and disclosure state.
+- `maxItems` values of three or more enable a disclosure item. `itemsBeforeCollapse` and `itemsAfterCollapse` retain path context; `expanded` is controlled and `defaultExpanded` is uncontrolled. Focus moves to the first revealed actionable item after keyboard expansion.
+- `sm`/`md`/`lg`, icon/text/custom separators, wrapping, horizontal overflow, truncation, loading and empty states are presentation choices. Root and `components/UiBreadcrumb` imports expose matching Props, Emits, Slots and instance types with isolated styling at `styles/UiBreadcrumb.css`.
+
 ## 1.58 steps compatibility
 
 There are no breaking changes. Existing `<UiSteps :items="items" :current="current" />` usage remains valid; navigation is opt-in:

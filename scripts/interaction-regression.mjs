@@ -1180,6 +1180,32 @@ const allCases = [
     },
   },
   {
+    name:'breadcrumb-collapse-navigation-focus-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.locator('#interaction-breadcrumb')
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-ui-breadcrumb'),'')
+      assert.equal(await root.getAttribute('aria-label'),'Interaction release location')
+      assert.equal(await root.locator('.ui-breadcrumb-node').count(),4)
+      const overflow=root.getByRole('button',{name:'Show 3 hidden levels'})
+      await overflow.focus()
+      await overflow.press('Enter')
+      await expectText(page,'breadcrumb-output','expand:true:keyboard:3')
+      assert.equal(await root.locator('.ui-breadcrumb-node').count(),6)
+      await expectFocused(page,root.getByRole('link',{name:'Workspace'}))
+      await root.getByRole('link',{name:'Components'}).click()
+      await expectText(page,'breadcrumb-output','navigate:pointer:components')
+      await page.locator('#breadcrumb-api-navigate').click()
+      await expectText(page,'breadcrumb-output','navigate:fixture-api:design')
+      assert.equal(await root.locator('[data-key="blocked"]').getAttribute('aria-disabled'),'true')
+      assert.equal(await root.locator('[data-key="breadcrumb"]').getAttribute('aria-current'),'page')
+      await page.locator('#breadcrumb-api-collapse').click()
+      await expectText(page,'breadcrumb-output','expand:false:fixture-api:3')
+      assert.equal(await root.locator('.ui-breadcrumb-node').count(),4)
+    },
+  },
+  {
     name:'steps-navigation-keyboard-disabled-rtl',
     query:'direction=rtl',
     run:async page=>{

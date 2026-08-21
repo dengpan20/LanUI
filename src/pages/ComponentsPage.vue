@@ -50,6 +50,7 @@ import UiSpace from '../components/UiSpace.vue'
 import UiDivider from '../components/UiDivider.vue'
 import UiTabs from '../components/UiTabs.vue'
 import UiPageHeader from '../components/UiPageHeader.vue'
+import UiBreadcrumb from '../components/UiBreadcrumb.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 import UiBadge from '../components/UiBadge.vue'
 import UiSkeleton from '../components/UiSkeleton.vue'
@@ -231,13 +232,13 @@ async function loadFrenchLocale(){
 }
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有交互均支持键盘操作、可见焦点和清晰的辅助技术名称。'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。'}]
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.58.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 步骤连接线、受控/非受控导航、字段适配、线性流程、布局、状态、禁用、加载、键盘、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.59.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · 面包屑语义、长路径折叠、受控/非受控展开、字段适配、链接、按钮、当前页、禁用、加载、键盘、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.58.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.59.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-158-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-159-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -261,6 +262,8 @@ const listItems=[
 ]
 const advancedOptions=['华东区域','华南区域','华北区域','西南区域','海外区域'];const treeOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou'},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'},{label:'苏州市',value:'suzhou'}]}];const cascaderOptions=[{label:'浙江省',value:'zhejiang',children:[{label:'杭州市',value:'hangzhou',children:[{label:'西湖区',value:'xihu'},{label:'滨江区',value:'binjiang'}]},{label:'宁波市',value:'ningbo'}]},{label:'江苏省',value:'jiangsu',children:[{label:'南京市',value:'nanjing'}]}];const transferOptions=[{label:'组件 API',value:'api'},{label:'交互规范',value:'interaction'},{label:'无障碍规范',value:'a11y'},{label:'视觉 Token',value:'token'},{label:'业务模板',value:'template'}]
 const stepsCurrent=ref(1);const stepsState=ref('当前步骤：组件实现')
+const breadcrumbExpanded=ref(false);const breadcrumbState=ref('当前路径：组件 / 导航 / Breadcrumb')
+const breadcrumbItems=[{key:'home',label:'首页',href:'#tokens',icon:'home'},{key:'design',label:'设计系统',href:'#foundations'},{key:'components',label:'组件',href:'#data'},{key:'navigation',label:'导航组件',href:'#maturity'},{key:'breadcrumb',label:'Breadcrumb',href:'#maturity'},{key:'contract',label:'成熟契约'}]
 const stepItems=[{key:'foundation',title:'基础规范',subtitle:'已完成',description:'Token 与布局'},{key:'components',title:'组件实现',subtitle:'进行中',description:'状态与交互'},{key:'review',title:'业务验收',subtitle:'待处理',description:'页面回归',disabled:true},{key:'release',title:'发布交付',subtitle:'待处理',description:'制品与回滚'}]
 const timelineItems=[
   {key:'audit',title:'完成组件审计',description:'运行时、类型与旧用法保持兼容',time:'09:30',datetime:'2026-08-20T09:30:00+08:00',status:'success',icon:'check'},
@@ -554,7 +557,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.58.0 发布二维码" caption="扫码打开 1.58.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.59.0 发布二维码" caption="扫码打开 1.59.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -567,7 +570,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.58.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.59.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -613,6 +616,10 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="steps-showcase timeline-showcase" data-steps-state-contract="connectors default navigation inline horizontal vertical label-placement controlled uncontrolled linear disabled loading empty keyboard rtl responsive ssr">
               <div class="timeline-showcase-panel steps-showcase-panel"><div class="form-demo-title"><strong>UiSteps · 可导航发布流程</strong><span>Controlled / Keyboard / Disabled</span></div><UiSteps v-model="stepsCurrent" :items="stepItems" type="navigation" loop aria-label="发布流程步骤" @change="(value,meta)=>stepsState=`当前步骤：${stepItems[value]?.title} · ${meta.source}`"/><output class="timeline-showcase-output" aria-live="polite">{{ stepsState }}</output></div>
               <div class="timeline-showcase-panel steps-showcase-panel"><div class="form-demo-title"><strong>纵向与标签布局</strong><span>Vertical / Error / Sizes</span></div><UiSteps :items="stepItems.slice(0,3).map((item,index)=>index===1?{...item,status:'error'}:item)" :current="1" direction="vertical" size="sm" aria-label="验证流程步骤"/><UiSteps :items="stepItems.slice(0,3)" :current="1" label-placement="vertical" size="lg" aria-label="居中流程步骤"/></div>
+            </div>
+            <div class="breadcrumb-showcase timeline-showcase" data-breadcrumb-state-contract="semantic links buttons current disabled icons collapse controlled uncontrolled wrap nowrap truncate sizes separator loading empty slots focus rtl ssr">
+              <div class="timeline-showcase-panel"><div class="form-demo-title"><strong>UiBreadcrumb · 长路径折叠</strong><span>Controlled expansion / Field adapters</span></div><UiBreadcrumb v-model:expanded="breadcrumbExpanded" :items="breadcrumbItems" :max-items="4" :items-after-collapse="2" truncate aria-label="组件文档位置" @navigate="(item,meta,event)=>{event?.preventDefault();breadcrumbState=`已导航：${item.label} · ${meta.source}`}"/><output class="timeline-showcase-output" aria-live="polite">{{ breadcrumbState }}</output></div>
+              <div class="timeline-showcase-panel"><div class="form-demo-title"><strong>尺寸、分隔与状态</strong><span>Text separator / Disabled / Loading</span></div><UiBreadcrumb :items="[{key:'workspace',label:'工作区',href:'#maturity'},{key:'locked',label:'受限目录',disabled:true},{key:'detail',label:'发布详情'}]" separator="/" separator-mode="text" size="lg" :wrap="false"/><UiBreadcrumb loading :loading-count="4" size="sm" aria-label="导航路径加载示例"/></div>
             </div>
             <div class="timeline-showcase" data-timeline-state-contract="vertical horizontal placement time status custom-color selection link disabled pending loading empty keyboard rtl ssr">
               <div class="timeline-showcase-panel"><div class="form-demo-title"><strong>UiTimeline · 可选择发布历程</strong><span>Opposite time / Pending / Keyboard</span></div><UiTimeline v-model="timelineSelection" :items="timelineItems" selectable interactive loop time-position="opposite" pending="等待发布" aria-label="发布历程" @change="(value,meta)=>timelineState=`已选择 ${value} · ${meta.source}`"/><output class="timeline-showcase-output" aria-live="polite">{{ timelineState }}</output></div>
@@ -823,6 +830,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
               <tr><td>AutoComplete</td><td>自由输入</td><td>候选高亮</td><td>选择并提交</td><td>Combobox + Active descendant</td><td>只读 / 禁用</td><td>异步加载 / 空 / 错误</td></tr>
               <tr><td>InputTag</td><td>标签录入</td><td>标签与清除按钮强调</td><td>分隔符提交 / 编辑 / 移除</td><td>方向键选择 + Ring</td><td>只读 / 禁用</td><td>异步校验 / 重复 / 上限</td></tr>
               <tr><td>Tag</td><td>Soft / Solid / Outlined</td><td>交互边框强调</td><td>选择 / 关闭 / 链接</td><td>原生 Button / Link + Ring</td><td>移除导航与 Tab 顺序</td><td>受控选择 / 自定义颜色</td></tr>
+              <tr><td>Breadcrumb</td><td>语义路径 / 自动当前页</td><td>链接背景强调</td><td>链接 / 按钮 / 展开折叠</td><td>原生 Tab 顺序 + Ring</td><td>禁用项保留上下文</td><td>Loading / Empty / 长路径</td></tr>
               <tr><td>Timeline</td><td>纵向 / 横向 / 交替</td><td>事件内容强调</td><td>选择 / 链接 / 程序化激活</td><td>方向键 / Home / End</td><td>跳过禁用事件</td><td>Pending / Loading / Empty</td></tr>
               <tr><td>QueryBuilder</td><td>递归条件树</td><td>规则边框强调</td><td>添加 / 复制 / 排序 / 删除</td><td>组合框 + 键盘快捷键</td><td>只读 / 禁用</td><td>缺失值 / 范围 / 自定义校验</td></tr>
               <tr><td>NumberInput</td><td>数值草稿</td><td>控制键高亮</td><td>步进并限界</td><td>Spinbutton + Ring</td><td>控制键锁定</td><td>解析错误 + 恢复</td></tr>

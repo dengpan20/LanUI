@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.58.0",
+  "version": "1.59.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 218850,
-    "rules": 1717,
+    "bytes": 221858,
+    "rules": 1735,
     "source": "component-union"
   },
   "core": {
@@ -58,8 +58,8 @@
     {
       "name": "UiBreadcrumb",
       "subpath": "./styles/UiBreadcrumb.css",
-      "bytes": 606,
-      "rules": 6
+      "bytes": 3614,
+      "rules": 24
     },
     {
       "name": "UiButton",
@@ -316,8 +316,8 @@
     {
       "name": "UiPageHeader",
       "subpath": "./styles/UiPageHeader.css",
-      "bytes": 4595,
-      "rules": 34
+      "bytes": 7603,
+      "rules": 52
     },
     {
       "name": "UiPagination",

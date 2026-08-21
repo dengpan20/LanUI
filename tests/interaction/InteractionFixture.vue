@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAffix, UiAnchor, UiAutoComplete, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
@@ -86,6 +86,19 @@ const mentionsOutput=ref('ready')
 const inputTagValue=ref([])
 const inputTagOutput=ref('ready')
 const pageHeaderOutput=ref('ready')
+const breadcrumbRef=ref(null)
+const breadcrumbExpanded=ref(false)
+const breadcrumbOutput=ref('ready:collapsed')
+const breadcrumbItems=[
+  {key:'home',label:'Home',href:'#breadcrumb-home',icon:'home'},
+  {key:'workspace',label:'Workspace',href:'#breadcrumb-workspace'},
+  {key:'design',label:'Design system',onClick:()=>{}},
+  {key:'blocked',label:'Restricted',href:'#breadcrumb-blocked',disabled:true},
+  {key:'components',label:'Components',href:'#breadcrumb-components'},
+  {key:'breadcrumb',label:'Breadcrumb'},
+]
+function navigateBreadcrumb(_item,meta,event){event?.preventDefault();breadcrumbOutput.value=`navigate:${meta.source}:${meta.key}`}
+function changeBreadcrumbExpansion(_expanded,meta){breadcrumbOutput.value=`expand:${meta.expanded}:${meta.source}:${meta.hiddenCount}`}
 const cardSelected=ref(false)
 const cardOutput=ref('ready')
 function activateCard(meta){cardSelected.value=!cardSelected.value;cardOutput.value=`activate:${meta.source}:${cardSelected.value}`}
@@ -622,6 +635,12 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #footer><nav aria-label="Page header sections"><a href="#page-header-overview">Overview</a></nav></template>
         </UiPageHeader>
         <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-breadcrumb-case" data-breadcrumb-state-contract="collapse controlled keyboard focus link callback disabled current api rtl">
+        <h2>Breadcrumb collapse, navigation and focus contract</h2>
+        <UiBreadcrumb ref="breadcrumbRef" id="interaction-breadcrumb" v-model:expanded="breadcrumbExpanded" :items="breadcrumbItems" :max-items="4" :items-after-collapse="2" truncate aria-label="Interaction release location" @navigate="navigateBreadcrumb" @expand-change="changeBreadcrumbExpansion"/>
+        <div class="interaction-row"><UiButton id="breadcrumb-api-navigate" size="sm" variant="outline" @click="breadcrumbRef.navigate('design','fixture-api')">Navigate by API</UiButton><UiButton id="breadcrumb-api-collapse" size="sm" variant="outline" @click="breadcrumbRef.collapse('fixture-api')">Collapse by API</UiButton></div>
+        <output class="interaction-output" data-testid="breadcrumb-output">{{ breadcrumbOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-card-case">
         <h2>Card pointer, keyboard, selection and nested-action contract</h2>

@@ -6,6 +6,7 @@ import {
   UiAnchor,
   UiAutoComplete,
   UiBarcode,
+  UiBreadcrumb,
   UiButton,
   UiCalendar,
   UiCard,
@@ -82,6 +83,8 @@ const standaloneAffixTarget=ref(null)
 const standaloneAffixed=ref(false)
 const standaloneSplitterSizes=ref([24,48,28])
 const standaloneCardSelected=ref(false)
+const standaloneBreadcrumbExpanded=ref(false)
+const standaloneBreadcrumbItems=[{key:'consumer',label:'Consumer',href:'#consumer',icon:'home'},{key:'workspace',label:'Workspace',href:'#workspace'},{key:'packages',label:'Packages',href:'#packages'},{key:'components',label:'Components',href:'#components'},{key:'breadcrumb',label:'Breadcrumb',href:'#breadcrumb'},{key:'contract',label:'Release contract'}]
 const standaloneTagChecked=ref(false)
 const standaloneTagVisible=ref(true)
 const standaloneTimelineSelection=ref('review')
@@ -100,11 +103,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.58.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.59.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-158-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-159-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -185,6 +188,11 @@ const rows = computed(() => [
       <template #meta><UiIcon name="projectMark" :size="18" color="var(--brand-600)" aria-label="项目标识"/><span class="standalone-kicker">独立消费示例</span><UiTag color="blue">Vue 3 + Vite</UiTag></template>
       <template #actions><UiButton id="standalone-tour-trigger" size="sm" variant="outline" @click="standaloneTourCurrent=0;standaloneTourOpen=true">Product tour</UiButton></template>
     </UiPageHeader>
+
+    <UiCard data-breadcrumb-state-contract title="Consumer navigation path" subtitle="Semantic, collapsible and typed UiBreadcrumb from the packed dependency">
+      <UiBreadcrumb v-model:expanded="standaloneBreadcrumbExpanded" :items="standaloneBreadcrumbItems" :max-items="4" :items-after-collapse="2" truncate aria-label="Consumer package location" @navigate="(_item,meta,event)=>{event?.preventDefault();toast.info(`${meta.label} · ${meta.source}`)}"/>
+      <template #footer><UiTag color="blue" variant="outlined">{{ standaloneBreadcrumbExpanded?'Expanded path':'Collapsed path' }}</UiTag></template>
+    </UiCard>
 
     <UiAlert
       :type="created ? 'success' : 'info'"
@@ -281,7 +289,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.58.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.59.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>
