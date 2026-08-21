@@ -54,6 +54,7 @@ const allCases=[
   {name:'breadcrumb-contract',viewport:{width:1280,height:820},query:'theme=light&direction=ltr&density=default&state=breadcrumb',ready:'.visual-breadcrumb-showcase [data-ui-breadcrumb]',selector:'.visual-breadcrumb-showcase'},
   {name:'tooltip-contract',viewport:{width:1280,height:820},query:'theme=light&direction=ltr&density=default&state=tooltip',ready:'.visual-tooltip-showcase [role="tooltip"]',selector:'.visual-tooltip-showcase'},
   {name:'popover-contract',viewport:{width:1280,height:820},query:'theme=light&direction=ltr&density=default&state=popover',ready:'.visual-popover-showcase [data-popover-state-contract]',capture:'viewport'},
+  {name:'dropdown-contract',viewport:{width:1280,height:820},query:'theme=light&direction=ltr&density=default&state=dropdown',ready:'.visual-dropdown-showcase [role="menu"]',selector:'.visual-dropdown-showcase'},
 ]
 const requestedCases=(process.argv.find(argument=>argument.startsWith('--case='))?.slice('--case='.length)||'').split(',').map(value=>value.trim()).filter(Boolean)
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases

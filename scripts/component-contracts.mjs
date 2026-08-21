@@ -59,7 +59,7 @@ const required={
   'UiSegmented.vue':['role="radiogroup"','role="radio"','ArrowRight'],
   'UiTooltip.vue':['ui-floating-panel','aria-describedby','activeReasons','showDelay','closeOnEscape','closeOnOutside','open-change','defineExpose','ui-tooltip-arrow'],
   'UiPopover.vue':['ui-floating-panel','aria-controls','activeReasons','defaultOpen','showDelay','hideDelay','closeOnEscape','closeOnOutside','closeOnContentClick','trapFocus','syncTrigger','open-change','ui-popover-arrow','defineExpose'],
-  'UiDropdown.vue':['ui-floating-panel','aria-haspopup'],
+  'UiDropdown.vue':['ui-floating-panel','aria-haspopup','activeReasons','defaultOpen','showDelay','hideDelay','closeOnOutside','closeOnEscape','closeOnSelect','typeaheadBuffer','focusAdjacentTrigger','menuitemcheckbox','open-change','active-change','defineExpose'],
   'UiConfigProvider.vue':['lanUiConfigKey','provide(lanUiConfigKey','data-ui-locale','data-ui-density','data-ui-direction',':dir="config.direction"'],
   'UiDateRangePicker.vue':['role="group"','range-order','aria-invalid','showPicker','compareDateValues','data-time-zone'],
   'UiDateTimeRangePicker.vue':['mode="datetime"','ui-date-time-range-picker','update:modelValue','constrain'],

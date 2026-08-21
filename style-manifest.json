@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.61.0",
+  "version": "1.62.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 224638,
-    "rules": 1756,
+    "bytes": 225838,
+    "rules": 1768,
     "source": "component-union"
   },
   "core": {
@@ -184,8 +184,8 @@
     {
       "name": "UiDropdown",
       "subpath": "./styles/UiDropdown.css",
-      "bytes": 1328,
-      "rules": 12
+      "bytes": 2528,
+      "rules": 24
     },
     {
       "name": "UiEmpty",

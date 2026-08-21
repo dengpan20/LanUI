@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -39,6 +39,8 @@ const visualStepsCurrent=ref(1)
 const visualBreadcrumbExpanded=ref(false)
 const visualTooltipOpen=ref(true)
 const visualPopoverOpen=ref(true)
+const visualDropdownOpen=ref(true)
+const visualDropdownItems=[{type:'heading',label:'Workspace actions'},{key:'edit',label:'Edit profile',icon:'edit',description:'Update customer information'},{key:'copy',label:'Copy link',shortcut:'⌘ C'},{key:'pin',label:'Pin to top',role:'menuitemcheckbox',checked:true},{key:'archive',label:'Archive project',disabled:true},{divider:true},{key:'disable',label:'Disable account',danger:true}]
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
   {key:'workspace',label:'Workspace',href:'#workspace'},
@@ -413,6 +415,12 @@ const tableRows=[
         <section><h3>Trigger and state contracts</h3><div class="visual-row"><UiPopover trigger="hover focus" title="Operational note" :show-delay="120" :hide-delay="80"><template #trigger><UiButton variant="outline">Hover + Focus</UiButton></template>The trigger and panel preserve independent hover and focus reasons.</UiPopover><UiPopover disabled title="Disabled panel"><template #trigger><UiButton disabled>Disabled</UiButton></template>Unavailable.</UiPopover><UiPopover default-open loading :append-to-body="false" title="Loading context" :width="210"><template #trigger><UiButton variant="outline">Loading</UiButton></template>Refreshing release evidence.</UiPopover></div></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">controlled / uncontrolled</UiTag><UiTag color="green">ARIA / focus / dismissal</UiTag><UiTag color="orange">portal / flip / RTL</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='dropdown'" title="Production dropdown menus" subtitle="Semantic items, complete keyboard navigation and collision-aware floating" title-tag="h2" class="visual-table-card visual-dropdown-showcase">
+      <div class="visual-dropdown-grid" data-dropdown-state-contract="controlled uncontrolled click hover focus contextmenu manual portal placement collision outside escape select tab arrows home end typeahead loop disabled loading empty checked description rtl ssr">
+        <section><h3>Controlled · semantic menu</h3><div class="visual-dropdown-stage"><UiDropdown v-model="visualDropdownOpen" trigger="manual" :items="visualDropdownItems" placement="bottom-start" :append-to-body="false" :active-index="1"><template #trigger><UiButton id="visual-dropdown-controlled">Release actions</UiButton></template></UiDropdown></div></section>
+        <section><h3>Trigger and state contracts</h3><div class="visual-row"><UiDropdown default-open :append-to-body="false" trigger="manual" :items="visualDropdownItems.slice(1,4)" placement="bottom-start"><template #trigger><UiButton variant="outline">Default open</UiButton></template></UiDropdown><UiDropdown loading default-open :append-to-body="false" trigger="manual" :items="visualDropdownItems.slice(1,3)"><template #trigger><UiButton variant="outline">Loading</UiButton></template></UiDropdown><UiDropdown disabled :items="visualDropdownItems"><template #trigger><UiButton disabled>Disabled</UiButton></template></UiDropdown></div></section>
+      </div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

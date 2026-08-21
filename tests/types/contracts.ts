@@ -88,6 +88,7 @@ import SubpathSteps, { UiSteps as NamedSubpathSteps } from 'lan-ui-design-system
 import SubpathTimeline, { UiTimeline as NamedSubpathTimeline } from 'lan-ui-design-system/components/UiTimeline'
 import SubpathTooltip, { UiTooltip as NamedSubpathTooltip } from 'lan-ui-design-system/components/UiTooltip'
 import SubpathPopover, { UiPopover as NamedSubpathPopover } from 'lan-ui-design-system/components/UiPopover'
+import SubpathDropdown, { UiDropdown as NamedSubpathDropdown } from 'lan-ui-design-system/components/UiDropdown'
 import SubpathCarousel, { UiCarousel as NamedSubpathCarousel } from 'lan-ui-design-system/components/UiCarousel'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathList, { UiList as NamedSubpathList } from 'lan-ui-design-system/components/UiList'
@@ -144,6 +145,7 @@ import type { UiStepItem, UiStepsChangeMeta, UiStepsEmits, UiStepsInstance, UiSt
 import type { UiTimelineActivationMeta, UiTimelineEmits, UiTimelineInstance, UiTimelineItem, UiTimelineProps, UiTimelineSlots } from 'lan-ui-design-system/components/UiTimeline'
 import type { UiTooltipEmits, UiTooltipInstance, UiTooltipOpenMeta, UiTooltipProps, UiTooltipSlots } from 'lan-ui-design-system/components/UiTooltip'
 import type { UiPopoverEmits, UiPopoverInstance, UiPopoverOpenMeta, UiPopoverProps, UiPopoverSlots } from 'lan-ui-design-system/components/UiPopover'
+import type { UiDropdownActiveMeta, UiDropdownEmits, UiDropdownInstance, UiDropdownItem, UiDropdownOpenMeta, UiDropdownProps, UiDropdownSelectMeta, UiDropdownSlots } from 'lan-ui-design-system/components/UiDropdown'
 import type { UiCarouselEmits, UiCarouselProps, UiCarouselSlots } from 'lan-ui-design-system/components/UiCarousel'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiListEmits, UiListProps, UiListSlots } from 'lan-ui-design-system/components/UiList'
@@ -609,6 +611,16 @@ const popoverNamedSubpathParity:typeof UiPopover=NamedSubpathPopover
 const popoverSlots:UiPopoverSlots={trigger:scope=>String(scope.open&&scope.controls),default:scope=>String(scope.open&&scope.placement),title:scope=>String(scope.close()),footer:scope=>String(scope.open),arrow:scope=>scope.placement}
 const popoverInstance:UiPopoverInstance=null as never
 popoverInstance.show('api');popoverInstance.hide('api');popoverInstance.toggle('api');popoverInstance.focusTrigger();popoverInstance.focusPanel();popoverInstance.updatePosition()
+const dropdownItems:UiDropdownItem[]=[{type:'heading',label:'Workspace'},{key:'edit',label:'Edit profile',description:'Update details',role:'menuitem',shortcut:'E'},{divider:true},{key:'pin',label:'Pin',role:'menuitemcheckbox',checked:true}]
+const dropdownProps:InstanceType<typeof UiDropdown>['$props']&UiDropdownProps={modelValue:true,defaultOpen:false,items:dropdownItems,trigger:['click','hover','contextmenu'],placement:'bottom-end',disabled:false,loading:true,offset:8,showDelay:80,hideDelay:120,closeOnSelect:true,closeOnOutside:true,closeOnEscape:true,loop:true,typeahead:true,typeaheadTimeout:500,focusOnOpen:'keyboard',returnFocus:true,appendToBody:true,teleportTo:document.body,minWidth:200,maxWidth:'90vw',menuId:'typed-dropdown',ariaLabel:'Workspace actions',zIndex:950,activeIndex:1,defaultActiveIndex:-1}
+const dropdownOpenEmit:UiDropdownEmits['open-change']=(open,meta)=>{const typed:UiDropdownOpenMeta=meta;void [open,typed.source,typed.placement]}
+const dropdownSelectEmit:UiDropdownEmits['select']=(item,meta)=>{const typed:UiDropdownSelectMeta=meta;void [item.label,typed.index,typed.value]}
+const dropdownActiveEmit:UiDropdownEmits['active-change']=(meta)=>{const typed:UiDropdownActiveMeta=meta;void [typed.key,typed.source]}
+const dropdownSubpathParity:typeof UiDropdown=SubpathDropdown
+const dropdownNamedSubpathParity:typeof UiDropdown=NamedSubpathDropdown
+const dropdownSlots:UiDropdownSlots={trigger:scope=>String(scope.open&&scope.controls),default:scope=>String(scope.open&&scope.activeIndex),item:scope=>String(scope.item.label&&scope.select()),empty:()=>null}
+const dropdownInstance:UiDropdownInstance=null as never
+dropdownInstance.show('api',undefined,'first');dropdownInstance.hide('api');dropdownInstance.toggle('api');dropdownInstance.focusTrigger();dropdownInstance.focusItem(1);dropdownInstance.focusFirst();dropdownInstance.focusLast();dropdownInstance.select(1);dropdownInstance.updatePosition()
 const qrCodeProps:InstanceType<typeof UiQRCode>['$props']&UiQRCodeProps={value:'https://example.com/release',size:180,level:'H',status:'expired',color:'#155EEF',margin:4,downloadable:true,downloadName:'release.svg'}
 const qrCodeEmit:UiQRCodeEmits['download']=payload=>{const svg:string=payload.svg;void svg}
 const qrCodeSubpathParity:typeof UiQRCode=SubpathQRCode
@@ -710,6 +722,10 @@ const invalidTooltipPlacement:UiTooltipProps={placement:'center'}
 const invalidPopoverTrigger:UiPopoverProps={trigger:'contextmenu'}
 // @ts-expect-error Popover roles are constrained to supported interactive popup roles.
 const invalidPopoverRole:UiPopoverProps={role:'tooltip'}
+// @ts-expect-error Dropdown trigger modes are constrained to the documented menu interactions.
+const invalidDropdownTrigger:UiDropdownProps={trigger:'dblclick'}
+// @ts-expect-error Dropdown focus policy is constrained to keyboard, always or none.
+const invalidDropdownFocus:UiDropdownProps={focusOnOpen:'pointer'}
 // @ts-expect-error QR error correction levels use the standard L, M, Q or H contract.
 const invalidQrCodeLevel:UiQRCodeProps={level:'X'}
 // @ts-expect-error QR lifecycle status is constrained to active, loading, expired or scanned.
@@ -764,5 +780,6 @@ void [tagProps,tagEmit,tagSubpathParity,tagNamedSubpathParity,tagSlots,tagInstan
 void [stepsItems,stepsProps,stepsEmit,stepsSubpathParity,stepsNamedSubpathParity,stepsSlots,stepsInstance,invalidStepsDirection,invalidStepsType]
 void [timelineItems,timelineProps,timelineEmit,timelineSubpathParity,timelineNamedSubpathParity,timelineSlots,timelineInstance,invalidTimelineOrientation,invalidTimelineLine]
 void [tooltipProps,tooltipEmit,tooltipSubpathParity,tooltipNamedSubpathParity,tooltipSlots,tooltipInstance,invalidTooltipTrigger,invalidTooltipPlacement]
+void [dropdownItems,dropdownProps,dropdownOpenEmit,dropdownSelectEmit,dropdownActiveEmit,dropdownSubpathParity,dropdownNamedSubpathParity,dropdownSlots,dropdownInstance,invalidDropdownTrigger,invalidDropdownFocus]
 
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

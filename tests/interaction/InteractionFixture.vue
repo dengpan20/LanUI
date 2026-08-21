@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
+  UiCard, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -122,6 +122,10 @@ const tooltipOpen=ref(false)
 const tooltipOutput=ref('ready')
 const popoverOpen=ref(false)
 const popoverOutput=ref('ready')
+const dropdownOpen=ref(false)
+const dropdownActive=ref(-1)
+const dropdownOutput=ref('ready')
+const dropdownItems=[{type:'heading',label:'Release actions'},{key:'inspect',label:'Inspect package',description:'Review package exports'},{key:'archive',label:'Archive release',disabled:true},{divider:true},{key:'copy',label:'Copy release link',shortcut:'⌘ C'},{key:'pin',label:'Pin evidence',role:'menuitemcheckbox',checked:true},{key:'rollback',label:'Run rollback',danger:true}]
 const timelineItems=[
   {key:'audit',title:'Audit complete',description:'Tokens and API verified',time:'09:10',datetime:'2026-08-20T09:10:00+08:00',status:'success'},
   {key:'review',title:'Component review',description:'Keyboard and ARIA validation',time:'11:30',datetime:'2026-08-20T11:30:00+08:00',status:'primary'},
@@ -131,6 +135,7 @@ const timelineItems=[
 function changeTimeline(value,meta){timelineOutput.value=`change:${meta.source}:${String(value)}`}
 function changeTooltip(open,meta){tooltipOutput.value=`${open?'open':'close'}:${meta.source}`}
 function changePopover(open,meta){popoverOutput.value=`${open?'open':'close'}:${meta.source}`}
+function changeDropdown(open,meta){dropdownOutput.value=`${open?'open':'close'}:${meta.source}`}
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -694,6 +699,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiPopover disabled title="Disabled"><template #trigger><UiButton id="popover-disabled-trigger" disabled>Disabled popover</UiButton></template>Unavailable.</UiPopover>
           <UiButton id="popover-outside-target" variant="text">Popover outside target</UiButton>
           <output class="interaction-output" data-testid="popover-output">{{ popoverOutput }}</output>
+        </div>
+      </section>
+      <section class="interaction-case interaction-wide" data-dropdown-state-contract="controlled click hover focus contextmenu outside escape select tab arrows home end typeahead loop disabled checked aria-controls">
+        <h2>Dropdown trigger, keyboard and dismissal contract</h2>
+        <div class="interaction-row">
+          <UiDropdown v-model="dropdownOpen" v-model:active-index="dropdownActive" :items="dropdownItems" placement="bottom-start" :close-on-select="false" @open-change="changeDropdown" @active-change="meta=>dropdownOutput=`active:${meta.source}:${meta.item?.key}`" @select="(item,meta)=>dropdownOutput=`select:${meta.source}:${item.key}`"><template #trigger><UiButton id="dropdown-click-trigger">Dropdown click trigger</UiButton></template></UiDropdown>
+          <UiDropdown trigger="contextmenu" :items="dropdownItems.slice(1,5)"><template #trigger><UiButton id="dropdown-context-trigger" variant="outline">Dropdown context trigger</UiButton></template></UiDropdown>
+          <UiDropdown disabled :items="dropdownItems"><template #trigger><UiButton id="dropdown-disabled-trigger" disabled>Disabled dropdown</UiButton></template></UiDropdown>
+          <UiButton id="dropdown-outside-target" variant="text">Dropdown outside target</UiButton>
+          <output class="interaction-output" data-testid="dropdown-output">{{ dropdownOutput }}</output>
         </div>
       </section>
       <section class="interaction-case interaction-wide interaction-steps-case" data-steps-state-contract="controlled navigation connectors keyboard disabled horizontal rtl home end">

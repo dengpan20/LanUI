@@ -1323,6 +1323,39 @@ const allCases = [
     },
   },
   {
+    name:'dropdown-menu-keyboard-typeahead',
+    run:async page=>{
+      const trigger=page.getByRole('button',{name:'Dropdown click trigger'})
+      await trigger.focus();await trigger.press('ArrowDown')
+      const menu=page.getByRole('menu',{name:'Dropdown click trigger'})
+      await menu.waitFor()
+      assert.equal(await trigger.getAttribute('aria-expanded'),'true')
+      assert.match(await trigger.getAttribute('aria-controls'),/ui-dropdown-/)
+      await expectFocused(page,page.getByRole('menuitem',{name:/Inspect package/}))
+      await page.keyboard.press('ArrowDown')
+      await expectFocused(page,page.getByRole('menuitem',{name:/Copy release link/}))
+      await page.keyboard.press('End')
+      await expectFocused(page,page.getByRole('menuitem',{name:'Run rollback'}))
+      await page.keyboard.press('p')
+      await expectFocused(page,page.getByRole('menuitemcheckbox',{name:'Pin evidence'}))
+      await page.keyboard.press('Enter')
+      await expectText(page,'dropdown-output','select:keyboard:pin')
+      assert.equal(await menu.isVisible(),true)
+      await page.keyboard.press('Escape');await menu.waitFor({state:'hidden'})
+      await expectText(page,'dropdown-output','close:escape')
+      await expectFocused(page,trigger)
+      await trigger.press('ArrowDown');await menu.waitFor();await page.keyboard.press('Tab');await menu.waitFor({state:'hidden'})
+      await expectText(page,'dropdown-output','close:tab')
+      await expectFocused(page,page.getByRole('button',{name:'Dropdown context trigger'}))
+      const contextTrigger=page.getByRole('button',{name:'Dropdown context trigger'})
+      await contextTrigger.click({button:'right'})
+      const contextMenu=page.getByRole('menu',{name:'Dropdown context trigger'})
+      await contextMenu.waitFor();assert.equal(await contextTrigger.getAttribute('aria-expanded'),'true')
+      await page.getByRole('button',{name:'Dropdown outside target'}).click();await contextMenu.waitFor({state:'hidden'})
+      assert.equal(await page.getByRole('button',{name:'Disabled dropdown'}).getAttribute('aria-disabled'),'true')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{

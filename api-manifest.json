@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.61.0",
+  "version": "1.62.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -436,10 +436,19 @@
       "UiDrawerProps",
       "UiDrawerSlots",
       "UiDropdown",
+      "UiDropdownActiveMeta",
+      "UiDropdownActiveSource",
       "UiDropdownEmits",
+      "UiDropdownFocusOnOpen",
+      "UiDropdownInstance",
       "UiDropdownItem",
+      "UiDropdownItemRole",
+      "UiDropdownOpenMeta",
+      "UiDropdownOpenSource",
       "UiDropdownProps",
+      "UiDropdownSelectMeta",
       "UiDropdownSlots",
+      "UiDropdownTrigger",
       "UiEmpty",
       "UiEmptyEmits",
       "UiEmptyProps",
@@ -8094,13 +8103,131 @@
       "subpath": "./components/UiDropdown",
       "propsType": "UiDropdownProps",
       "props": [
+        "activeIndex",
+        "appendToBody",
+        "ariaLabel",
+        "closeOnEscape",
+        "closeOnOutside",
+        "closeOnSelect",
+        "defaultActiveIndex",
+        "defaultOpen",
         "disabled",
+        "focusOnOpen",
+        "hideDelay",
         "items",
+        "loading",
+        "loop",
+        "maxWidth",
+        "menuId",
+        "minWidth",
         "modelValue",
         "offset",
-        "placement"
+        "placement",
+        "returnFocus",
+        "showDelay",
+        "teleportTo",
+        "trigger",
+        "typeahead",
+        "typeaheadTimeout",
+        "zIndex"
       ],
       "propDetails": [
+        {
+          "name": "activeIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "closeOnEscape",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnOutside",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "defaultActiveIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "-1"
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
         {
           "name": "disabled",
           "required": false,
@@ -8111,6 +8238,30 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "focusOnOpen",
+          "required": false,
+          "type": "UiDropdownFocusOnOpen",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"keyboard\""
+          }
+        },
+        {
+          "name": "hideDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
           }
         },
         {
@@ -8126,7 +8277,7 @@
           }
         },
         {
-          "name": "modelValue",
+          "name": "loading",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -8135,6 +8286,68 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "maxWidth",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"calc(100vw - 16px)\""
+          }
+        },
+        {
+          "name": "menuId",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "minWidth",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "180"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -8152,32 +8365,142 @@
         {
           "name": "placement",
           "required": false,
-          "type": "'bottom-left'|'bottom-right'",
+          "type": "Placement",
           "runtimeTypes": [
             "String"
           ],
           "default": {
             "kind": "literal",
-            "value": "\"bottom-right\""
+            "value": "\"bottom-end\""
+          }
+        },
+        {
+          "name": "returnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "teleportTo",
+          "required": false,
+          "type": "string|Element",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"body\""
+          }
+        },
+        {
+          "name": "trigger",
+          "required": false,
+          "type": "UiDropdownTrigger|UiDropdownTrigger[]",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"click\""
+          }
+        },
+        {
+          "name": "typeahead",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "typeaheadTimeout",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "500"
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         }
       ],
       "emitsType": "UiDropdownEmits",
       "emits": [
+        "active-change",
+        "close",
+        "open",
         "open-change",
         "select",
+        "update:activeIndex",
         "update:modelValue"
       ],
       "emitDetails": [
         {
+          "name": "active-change",
+          "required": true,
+          "type": "(meta:UiDropdownActiveMeta)=>void"
+        },
+        {
+          "name": "close",
+          "required": true,
+          "type": "(meta:UiDropdownOpenMeta)=>void"
+        },
+        {
+          "name": "open",
+          "required": true,
+          "type": "(meta:UiDropdownOpenMeta)=>void"
+        },
+        {
           "name": "open-change",
           "required": true,
-          "type": "(open:boolean)=>void"
+          "type": "(open:boolean,meta:UiDropdownOpenMeta)=>void"
         },
         {
           "name": "select",
           "required": true,
-          "type": "(item:UiDropdownItem)=>void"
+          "type": "(item:UiDropdownItem,meta:UiDropdownSelectMeta)=>void"
+        },
+        {
+          "name": "update:activeIndex",
+          "required": true,
+          "type": "(value:number)=>void"
         },
         {
           "name": "update:modelValue",
@@ -8188,18 +8511,30 @@
       "slotsType": "UiDropdownSlots",
       "slots": [
         "default",
+        "empty",
+        "item",
         "trigger"
       ],
       "slotDetails": [
         {
           "name": "default",
           "required": false,
+          "type": "(scope:{close:UiDropdownInstance['hide'];open:boolean;activeIndex:number})=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
           "type": "()=>VNodeChild"
+        },
+        {
+          "name": "item",
+          "required": false,
+          "type": "(scope:{item:UiDropdownItem;index:number;active:boolean;select:(event?:Event)=>boolean})=>VNodeChild"
         },
         {
           "name": "trigger",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{open:boolean;show:UiDropdownInstance['show'];hide:UiDropdownInstance['hide'];toggle:UiDropdownInstance['toggle'];controls:string})=>VNodeChild"
         }
       ],
       "imports": {

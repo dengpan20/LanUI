@@ -191,8 +191,17 @@ export interface UiDividerProps { vertical?:boolean; dashed?:boolean; label?:str
 export interface UiDescriptionItem { key?:Key; label:string; value?:unknown; span?:number }
 export interface UiDescriptionsProps { items?:UiDescriptionItem[]; title?:string; columns?:number; bordered?:boolean; size?:ComponentSize }
 export interface UiDrawerProps { modelValue?:boolean; title?:string; width?:string|number; placement?:'left'|'right'|'start'|'end'; closeOnMask?:boolean; closeOnEsc?:boolean }
-export interface UiDropdownItem { label?:string; value?:Key; icon?:string; disabled?:boolean; divider?:boolean; shortcut?:string; danger?:boolean }
-export interface UiDropdownProps { modelValue?:boolean; items?:UiDropdownItem[]; placement?:'bottom-left'|'bottom-right'; disabled?:boolean; offset?:number }
+export type UiDropdownTrigger = 'click'|'hover'|'focus'|'contextmenu'|'manual'
+export type UiDropdownFocusOnOpen = 'keyboard'|'always'|'none'
+export type UiDropdownItemRole = 'menuitem'|'menuitemcheckbox'|'menuitemradio'
+export type UiDropdownOpenSource = UiDropdownTrigger|'api'|'keyboard'|'outside'|'escape'|'select'|'tab'|'disabled'|'content'
+export type UiDropdownActiveSource = 'api'|'open'|'keyboard'|'pointer'|'focus'|'typeahead'|'items'
+export interface UiDropdownItem { key?:Key; label?:string; value?:Key; icon?:string; description?:string; disabled?:boolean; divider?:boolean; heading?:boolean; type?:'item'|'divider'|'heading'; shortcut?:string; danger?:boolean; href?:string; target?:string; role?:UiDropdownItemRole; checked?:boolean; class?:unknown }
+export interface UiDropdownOpenMeta { open:boolean; previous:boolean; source:UiDropdownOpenSource; placement:Placement; event?:Event }
+export interface UiDropdownActiveMeta { index:number; key?:Key; item?:UiDropdownItem; source:UiDropdownActiveSource; event?:Event }
+export interface UiDropdownSelectMeta extends UiDropdownActiveMeta { value?:Key; checked?:boolean }
+export interface UiDropdownProps { modelValue?:boolean; defaultOpen?:boolean; items?:UiDropdownItem[]; trigger?:UiDropdownTrigger|UiDropdownTrigger[]; placement?:Placement; disabled?:boolean; loading?:boolean; offset?:number; showDelay?:number; hideDelay?:number; closeOnSelect?:boolean; closeOnOutside?:boolean; closeOnEscape?:boolean; loop?:boolean; typeahead?:boolean; typeaheadTimeout?:number; focusOnOpen?:UiDropdownFocusOnOpen; returnFocus?:boolean; appendToBody?:boolean; teleportTo?:string|Element; minWidth?:string|number; maxWidth?:string|number; menuId?:string; ariaLabel?:string; zIndex?:number; activeIndex?:number; defaultActiveIndex?:number }
+export interface UiDropdownInstance { root:Ref<HTMLElement|null>; trigger:Ref<HTMLElement|null>; panel:Ref<HTMLElement|null>; show:(source?:UiDropdownOpenSource,event?:Event,focus?:'first'|'last'|'none')=>boolean; hide:(source?:UiDropdownOpenSource,event?:Event,returnFocus?:boolean)=>void; toggle:(source?:UiDropdownOpenSource,event?:Event,focus?:'first'|'last'|'none')=>void; focusTrigger:()=>boolean; focusItem:(index?:number)=>boolean; focusFirst:()=>boolean; focusLast:()=>boolean; select:(index:number,event?:Event)=>boolean; updatePosition:()=>void }
 export interface UiEmptyProps { title?:string; description?:string; icon?:string; compact?:boolean }
 export interface UiFloatButtonProps { icon?:string; label?:string; variant?:'default'|'primary'|'danger'; badge?:Key; active?:boolean; disabled?:boolean }
 export interface UiFormProps<Model extends Record<string,unknown>=Record<string,unknown>> { model:Model; rules?:UiFormRules; initialValues?:Partial<Model>; validateOnSubmit?:boolean; validateOnRuleChange?:boolean; focusOnError?:boolean; scrollToError?:boolean; scrollIntoViewOptions?:ScrollIntoViewOptions; showErrorSummary?:boolean; errorSummaryTitle?:string }
@@ -470,7 +479,7 @@ export type UiTimeRangePickerEmits = { 'update:modelValue':(value:DateValue[])=>
 export type UiDescriptionsEmits = {}
 export type UiDividerEmits = {}
 export type UiDrawerEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
-export type UiDropdownEmits = { 'update:modelValue':(value:boolean)=>void; select:(item:UiDropdownItem)=>void; 'open-change':(open:boolean)=>void }
+export type UiDropdownEmits = { 'update:modelValue':(value:boolean)=>void; 'update:activeIndex':(value:number)=>void; select:(item:UiDropdownItem,meta:UiDropdownSelectMeta)=>void; 'active-change':(meta:UiDropdownActiveMeta)=>void; 'open-change':(open:boolean,meta:UiDropdownOpenMeta)=>void; open:(meta:UiDropdownOpenMeta)=>void; close:(meta:UiDropdownOpenMeta)=>void }
 export type UiEmptyEmits = {}
 export type UiFloatButtonEmits = {}
 export type UiFormEmits = { submit:(model:Record<string,unknown>,event:SubmitEvent)=>void; invalid:(model:Record<string,unknown>,event:SubmitEvent,errors:UiFormFieldState[])=>void; reset:(payload:UiFormResetPayload)=>void; validate:(payload:UiFormValidationResult)=>void }
@@ -559,7 +568,7 @@ export type UiDataGridSlots = { 'toolbar-primary'?:(scope:{state:UiDataGridState
 export type UiDescriptionsSlots = { extra?:()=>VNodeChild; [name:`item-${string}`]:((props:{item:UiDescriptionItem})=>VNodeChild)|undefined }
 export type UiDividerSlots = {}
 export type UiDrawerSlots = { default?:()=>VNodeChild; header?:()=>VNodeChild; footer?:(props:{close:()=>void})=>VNodeChild }
-export type UiDropdownSlots = { default?:()=>VNodeChild; trigger?:()=>VNodeChild }
+export type UiDropdownSlots = { default?:(scope:{close:UiDropdownInstance['hide'];open:boolean;activeIndex:number})=>VNodeChild; trigger?:(scope:{open:boolean;show:UiDropdownInstance['show'];hide:UiDropdownInstance['hide'];toggle:UiDropdownInstance['toggle'];controls:string})=>VNodeChild; item?:(scope:{item:UiDropdownItem;index:number;active:boolean;select:(event?:Event)=>boolean})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiEmptySlots = { default?:()=>VNodeChild }
 export type UiFloatButtonSlots = {}
 export type UiFormSlots = { default?:(props:{validate:(names?:string|string[],options?:UiFormValidateOptions)=>Promise<boolean>;validateField:(names:string|string[],options?:UiFormValidateOptions)=>Promise<boolean>;submit:(event?:SubmitEvent)=>Promise<void>;reset:(event?:Event)=>void;resetFields:(names?:string|string[])=>void;errors:UiFormFieldState[];validating:boolean;dirty:boolean;touched:boolean})=>VNodeChild }

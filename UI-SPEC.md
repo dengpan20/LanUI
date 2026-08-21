@@ -1170,3 +1170,14 @@ P64 retains 89 public components and 443 locale keys while generated coverage ad
 - Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
 
 P65 retains 89 public components and 443 locale keys while generated coverage advances to 1,193 Props, 394 Events and 217 Slots. Release gates require 38 visual baselines, 56 zero-violation Axe scenarios, 60 interactions per Chromium/Firefox/WebKit engine, 63 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 79. Maturity P66: production dropdown menus
+
+- `UiDropdown` keeps existing `modelValue`, items, placement, disabled, default Click trigger, outside dismissal and selection behavior while adding uncontrolled `defaultOpen`, controlled/uncontrolled active index and Click/Hover/Focus/Contextmenu/Manual trigger composition.
+- Headings and dividers remain outside the activation path; disabled items are skipped. Menu items support descriptions, shortcuts, danger state, links, checkbox/radio roles and checked semantics without consumer-side wrappers.
+- Arrow Up/Down, Home/End, PageUp/PageDown and incremental Typeahead share roving focus. Enter/Space activate, Escape closes and returns focus, while Tab closes then continues to the logically adjacent page control even when the menu is teleported.
+- Outside, Escape and selection dismissal remain independent. Update, open-change, active-change, open, close and select events expose source, event, item, value, placement and prior-state metadata; instance methods cover open, focus, selection and position orchestration.
+- Trigger ARIA relationships merge and restore through mount, replacement and unmount. Loading/empty states, minimum/maximum widths, custom Portal target, collision flip/shift, logical RTL placement, scoped appearance/direction, Reduced Motion, forced colors and SSR stay synchronized.
+- Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API and installed-tarball verification all exercise the same public contract.
+
+P66 retains 89 public components and 443 locale keys while generated coverage advances to 1,215 Props, 398 Events and 219 Slots. Release gates require 39 visual baselines, 57 zero-violation Axe scenarios, 61 interactions per Chromium/Firefox/WebKit engine, 65 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

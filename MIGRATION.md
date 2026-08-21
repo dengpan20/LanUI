@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.62 dropdown compatibility
+
+There are no breaking changes. Existing `<UiDropdown v-model="open" :items="items">...</UiDropdown>`, `placement`, `disabled`, `closeOnOutside` and Click behavior remain valid:
+
+```vue
+<UiDropdown v-model="open" v-model:active-index="activeIndex" :items="actions" placement="bottom-start">...</UiDropdown>
+```
+
+- `modelValue` remains controlled and omitted models now support `defaultOpen`; `activeIndex` / `defaultActiveIndex` provide the same controlled/uncontrolled split for roving focus.
+- `trigger` accepts Click, Hover, Focus, Contextmenu, Manual or an array. Independent Hover/Focus reasons and cancellable delays keep the menu open while moving between trigger and teleported panel.
+- Arrow Up/Down, Home/End, PageUp/PageDown, incremental Typeahead, Enter/Space, Escape and logical Tab navigation skip headings, dividers and disabled items. `loop` can be disabled for bounded navigation.
+- Items may declare stable keys, descriptions, shortcuts, danger styling, links and `menuitemcheckbox` / `menuitemradio` checked state. Existing label/icon/divider records continue to render unchanged.
+- Outside, Escape and selection dismissal are independent; trigger ARIA attributes merge and restore on unmount. Portal target, width bounds, logical placement, collision handling, RTL, SSR and exposed focus/select/position methods have matching root and subpath declarations.
+
 ## 1.61 popover compatibility
 
 There are no breaking changes. Existing `<UiPopover v-model="open">...</UiPopover>`, `placement`, `width`, `title`, `offset` and `closeOnOutside` usage remains valid; Click stays the default trigger:

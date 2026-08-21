@@ -66,6 +66,7 @@ const cases=[
   {name:'breadcrumb-contract',viewport:{width:1280,height:900},query:'theme=light&direction=rtl&density=default&state=breadcrumb',ready:'.visual-breadcrumb-showcase [data-ui-breadcrumb]'},
   {name:'tooltip-contract',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact&state=tooltip',ready:'.visual-tooltip-showcase [role="tooltip"]'},
   {name:'popover-contract',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact&state=popover',ready:'.visual-popover-showcase [role="dialog"]'},
+  {name:'dropdown-contract',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact&state=dropdown',ready:'.visual-dropdown-showcase [role="menu"]'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases
 if(requestedCases.length&&selectedCases.length!==requestedCases.length)throw new Error(`Unknown accessibility case: ${requestedCases.filter(name=>!selectedCases.some(item=>item.name===name)).join(', ')}`)

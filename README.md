@@ -2,6 +2,22 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P66 成熟下拉菜单
+
+`UiDropdown` 在保留 `v-model / items / placement / disabled / closeOnOutside` 基础用法的同时，补齐 Click、Hover、Focus、Contextmenu、Manual 组合触发，受控/非受控打开与活动索引、可取消延时、方向键、Home/End/Page、增量 Typeahead、逻辑 Tab 延续、Escape/外部点击/选择关闭和焦点返回。菜单支持标题、分隔线、描述、快捷键、危险项、禁用项及 `menuitemcheckbox / menuitemradio`，并通过主题作用域 Portal、RTL 逻辑定位、碰撞翻转、SSR、类型和实例 API 保持消费端一致。
+
+```vue
+<UiDropdown
+  v-model="menuOpen"
+  v-model:active-index="activeIndex"
+  :items="releaseActions"
+  placement="bottom-start"
+  @select="handleAction"
+>
+  <template #trigger><UiButton>发布操作</UiButton></template>
+</UiDropdown>
+```
+
 ## P65 成熟交互式悬浮层
 
 `UiPopover` 保留原有 `v-model / placement / width / title / offset / closeOnOutside` 用法，同时补齐 Click、Hover、Focus、Manual 组合触发，受控与非受控状态、可取消延时、外部点击、Escape、内容关闭、可选自动聚焦与焦点循环、焦点返回、Arrow、逻辑方向定位、Portal 主题桥接和稳定事件元数据。标题、正文、页脚及 Arrow 均可组合，触发元素的 `aria-expanded / aria-controls / aria-haspopup` 会在生命周期内同步并于卸载时恢复。

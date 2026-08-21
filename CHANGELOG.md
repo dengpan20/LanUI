@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.62.0] - 2026-08-22
+
+### Added
+
+- Production `UiDropdown` contract with Click/Hover/Focus/Contextmenu/Manual triggers, controlled and uncontrolled open and active-index state, cancellable delays, complete menu keyboard navigation, typeahead, logical Tab continuation, focus restoration, semantic item roles and imperative controls.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `v-model`, `items`, `placement`, `disabled`, click trigger, outside dismissal and select behavior remain compatible while item headings, dividers, descriptions, shortcuts, checked roles and stable event metadata are now first-class.
+- Dropdown surfaces now use logical collision-aware placement, scoped Portal appearance/direction, loading/empty states, disabled-item skipping and trigger ARIA synchronization with lifecycle restoration.
+- Release gates advance to 39 visual baselines, 57 Axe scenarios, 61 interactions per browser and 65 negative type assertions while retaining 443 locale keys. Generated API coverage advances to 1,215 Props, 398 Events and 219 Slots.
+
 ## [1.61.0] - 2026-08-22
 
 ### Added

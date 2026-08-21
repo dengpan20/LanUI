@@ -20,6 +20,7 @@ import {
   UiDateTimePicker,
   UiDateTimeRangePicker,
   UiDescriptions,
+  UiDropdown,
   UiForm,
   UiFormItem,
   UiFormList,
@@ -92,6 +93,17 @@ const standaloneTagVisible=ref(true)
 const standaloneTimelineSelection=ref('review')
 const standaloneTooltipOpen=ref(false)
 const standalonePopoverOpen=ref(false)
+const standaloneDropdownOpen=ref(false)
+const standaloneDropdownActive=ref(-1)
+const standaloneDropdownItems=[
+  {type:'heading',label:'Release actions'},
+  {key:'inspect',label:'Inspect package',description:'Review exports and declarations'},
+  {key:'copy',label:'Copy release link',shortcut:'⌘ C'},
+  {key:'pin',label:'Pin evidence',role:'menuitemcheckbox',checked:true},
+  {key:'archive',label:'Archive release',disabled:true},
+  {divider:true},
+  {key:'rollback',label:'Run rollback',danger:true},
+]
 const standaloneTimelineItems=[
   {key:'install',title:'Install package',description:'Root and subpath exports resolved.',time:'09:30',datetime:'2026-08-20T09:30:00+08:00',status:'success',icon:'check'},
   {key:'review',title:'Review contracts',description:'Types, styles and SSR remain aligned.',time:'11:20',datetime:'2026-08-20T11:20:00+08:00',status:'warning'},
@@ -107,11 +119,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.61.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.62.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-161-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-162-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -238,6 +250,14 @@ const rows = computed(() => [
       </div>
     </UiCard>
 
+    <UiCard data-dropdown-state-contract title="Consumer dropdown menu" subtitle="Controlled state, semantic menu items and complete keyboard behavior from the packed dependency">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <UiDropdown v-model="standaloneDropdownOpen" v-model:active-index="standaloneDropdownActive" :items="standaloneDropdownItems" placement="bottom-start" @select="item=>toast.info(`${item.label} selected`)"><template #trigger><UiButton variant="outline">Release menu</UiButton></template></UiDropdown>
+        <UiDropdown trigger="hover focus" :items="standaloneDropdownItems.slice(0,4)" :show-delay="120" :hide-delay="80" :close-on-select="false"><template #trigger><UiButton variant="text">Hover + focus menu</UiButton></template></UiDropdown>
+        <UiTag color="blue">{{ standaloneDropdownOpen?`menu open · ${standaloneDropdownActive}`:'menu closed' }}</UiTag>
+      </div>
+    </UiCard>
+
     <UiCard title="On-page navigation" subtitle="Anchor navigation inside a composable card" variant="outlined" shadow="none">
       <UiAnchor
         v-model="standaloneAnchor"
@@ -313,7 +333,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.61.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.62.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>
