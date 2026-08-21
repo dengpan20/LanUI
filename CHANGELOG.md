@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.61.0] - 2026-08-22
+
+### Added
+
+- Production `UiPopover` contract with Click/Hover/Focus/Manual triggers, controlled and uncontrolled state, cancellable delays, outside/Escape/content dismissal, optional auto-focus and focus trap, focus restoration, Arrow, portal targeting, structured Slots and imperative controls.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `v-model`, `placement`, `width`, `title`, `offset`, click trigger and outside-dismiss behavior remain compatible while trigger ARIA attributes now merge with consumer values and restore on unmount.
+- Popover surfaces use logical collision-aware placement, scoped portal theme/direction, title/body/footer regions, loading semantics and optional interactive focus policy instead of page-local absolute-position rules.
+- Browser visual, accessibility and interaction harnesses share a bounded retry for transient Vite cold-start navigation without masking non-timeout failures.
+- Release gates advance to 38 visual baselines, 56 Axe scenarios, 60 interactions per browser and 63 negative type assertions while retaining 443 locale keys. Generated API coverage advances to 1,193 Props, 394 Events and 217 Slots.
+
 ## [1.60.0] - 2026-08-22
 
 ### Added

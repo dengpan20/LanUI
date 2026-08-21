@@ -18,6 +18,7 @@ const relatedComponentTypes={
   UiTag:['UiTagActivationMeta','UiTagCloseMeta','UiTagInstance','UiTagSize','UiTagVariant'],
   UiTimeline:['UiTimelineActivationMeta','UiTimelineField','UiTimelineInstance','UiTimelineItem','UiTimelineItemScope','UiTimelineLine','UiTimelineOrientation','UiTimelinePlacement','UiTimelineRecordScope','UiTimelineStatus'],
   UiTooltip:['UiTooltipInstance','UiTooltipOpenMeta','UiTooltipOpenSource','UiTooltipTrigger'],
+  UiPopover:['UiPopoverInstance','UiPopoverOpenMeta','UiPopoverOpenSource','UiPopoverRole','UiPopoverTrigger'],
   UiCarousel:['UiCarouselChangeMeta','UiCarouselInstance','UiCarouselItem','UiCarouselNavigationSource','UiCarouselState'],
   UiQueryBuilder:['UiQueryAction','UiQueryBuilderInstance','UiQueryChange','UiQueryCounts','UiQueryEditor','UiQueryError','UiQueryField','UiQueryFieldType','UiQueryGroup','UiQueryOperator','UiQueryRule','UiQueryValidationContext','UiQueryValidationResult'],
   UiCronEditor:['UiCronChangeMeta','UiCronEditorInstance','UiCronError','UiCronErrorCode','UiCronInputMeta','UiCronPreset','UiCronValidation'],

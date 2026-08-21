@@ -120,6 +120,8 @@ const timelineSelection=ref('audit')
 const timelineOutput=ref('ready:audit')
 const tooltipOpen=ref(false)
 const tooltipOutput=ref('ready')
+const popoverOpen=ref(false)
+const popoverOutput=ref('ready')
 const timelineItems=[
   {key:'audit',title:'Audit complete',description:'Tokens and API verified',time:'09:10',datetime:'2026-08-20T09:10:00+08:00',status:'success'},
   {key:'review',title:'Component review',description:'Keyboard and ARIA validation',time:'11:30',datetime:'2026-08-20T11:30:00+08:00',status:'primary'},
@@ -128,6 +130,7 @@ const timelineItems=[
 ]
 function changeTimeline(value,meta){timelineOutput.value=`change:${meta.source}:${String(value)}`}
 function changeTooltip(open,meta){tooltipOutput.value=`${open?'open':'close'}:${meta.source}`}
+function changePopover(open,meta){popoverOutput.value=`${open?'open':'close'}:${meta.source}`}
 const queryBuilderRef=ref(null)
 const queryOutput=ref('ready')
 const queryFields=[
@@ -677,6 +680,20 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiTooltip content="Hover and keyboard focus keep independent open reasons." :show-delay="20" :hide-delay="20"><UiButton id="tooltip-focus-trigger" variant="outline">Tooltip focus trigger</UiButton></UiTooltip>
           <UiButton id="tooltip-outside-target" variant="text">Outside target</UiButton>
           <output class="interaction-output" data-testid="tooltip-output">{{ tooltipOutput }}</output>
+        </div>
+      </section>
+      <section class="interaction-case interaction-wide" data-popover-state-contract="controlled click hover focus manual outside escape content focus-trap aria-controls">
+        <h2>Popover trigger, focus and dismissal contract</h2>
+        <div class="interaction-row">
+          <UiPopover v-model="popoverOpen" title="Release actions" placement="bottom-start" :width="280" auto-focus trap-focus @open-change="changePopover">
+            <template #trigger><UiButton id="popover-click-trigger">Popover click trigger</UiButton></template>
+            <div class="visual-stack"><span>Review package and rollback evidence.</span><UiButton id="popover-first-action" variant="outline" size="sm">Inspect package</UiButton></div>
+            <template #footer="{close}"><UiButton id="popover-keep-open" size="sm" variant="text" data-popover-keep-open>Keep open</UiButton><UiButton id="popover-finish" size="sm" @click="close('content')">Finish review</UiButton></template>
+          </UiPopover>
+          <UiPopover trigger="hover focus" title="Hover details" :show-delay="20" :hide-delay="20" :width="220"><template #trigger><UiButton id="popover-hover-trigger" variant="outline">Popover hover trigger</UiButton></template><UiButton id="popover-hover-action" size="sm">Panel action</UiButton></UiPopover>
+          <UiPopover disabled title="Disabled"><template #trigger><UiButton id="popover-disabled-trigger" disabled>Disabled popover</UiButton></template>Unavailable.</UiPopover>
+          <UiButton id="popover-outside-target" variant="text">Popover outside target</UiButton>
+          <output class="interaction-output" data-testid="popover-output">{{ popoverOutput }}</output>
         </div>
       </section>
       <section class="interaction-case interaction-wide interaction-steps-case" data-steps-state-contract="controlled navigation connectors keyboard disabled horizontal rtl home end">

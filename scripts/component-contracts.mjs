@@ -58,7 +58,7 @@ const required={
   'UiSpin.vue':['aria-busy','role="status"'],
   'UiSegmented.vue':['role="radiogroup"','role="radio"','ArrowRight'],
   'UiTooltip.vue':['ui-floating-panel','aria-describedby','activeReasons','showDelay','closeOnEscape','closeOnOutside','open-change','defineExpose','ui-tooltip-arrow'],
-  'UiPopover.vue':['ui-floating-panel','aria-controls'],
+  'UiPopover.vue':['ui-floating-panel','aria-controls','activeReasons','defaultOpen','showDelay','hideDelay','closeOnEscape','closeOnOutside','closeOnContentClick','trapFocus','syncTrigger','open-change','ui-popover-arrow','defineExpose'],
   'UiDropdown.vue':['ui-floating-panel','aria-haspopup'],
   'UiConfigProvider.vue':['lanUiConfigKey','provide(lanUiConfigKey','data-ui-locale','data-ui-density','data-ui-direction',':dir="config.direction"'],
   'UiDateRangePicker.vue':['role="group"','range-order','aria-invalid','showPicker','compareDateValues','data-time-zone'],

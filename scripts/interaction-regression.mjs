@@ -1276,7 +1276,7 @@ const allCases = [
       await expectText(page,'tooltip-output','close:escape')
       assert.equal(await clickTrigger.getAttribute('aria-describedby'),null)
       await clickTrigger.click();await clickTooltip.waitFor()
-      await page.getByRole('button',{name:'Outside target'}).click()
+      await page.getByRole('button',{name:'Outside target',exact:true}).click()
       await clickTooltip.waitFor({state:'hidden'})
       await expectText(page,'tooltip-output','close:outside')
       const focusTrigger=page.getByRole('button',{name:'Tooltip focus trigger'})
@@ -1285,7 +1285,41 @@ const allCases = [
       await focusTooltip.waitFor()
       await page.mouse.move(0,0);await page.waitForTimeout(30)
       assert.equal(await focusTooltip.isVisible(),true)
-      await page.getByRole('button',{name:'Outside target'}).focus();await focusTooltip.waitFor({state:'hidden'})
+      await page.getByRole('button',{name:'Outside target',exact:true}).focus();await focusTooltip.waitFor({state:'hidden'})
+    },
+  },
+  {
+    name:'popover-focus-dismissal',
+    run:async page=>{
+      const trigger=page.getByRole('button',{name:'Popover click trigger'})
+      await trigger.click()
+      const panel=page.getByRole('dialog',{name:'Release actions'})
+      await panel.waitFor()
+      await expectText(page,'popover-output','open:click')
+      assert.equal(await trigger.getAttribute('aria-expanded'),'true')
+      assert.match(await trigger.getAttribute('aria-controls'),/ui-popover-/)
+      assert.equal(await panel.getAttribute('data-placement'),'bottom-start')
+      await expectFocused(page,page.getByRole('button',{name:'Inspect package'}))
+      const finish=page.getByRole('button',{name:'Finish review'})
+      await finish.focus();await finish.press('Tab')
+      await expectFocused(page,page.getByRole('button',{name:'Inspect package'}))
+      await page.getByRole('button',{name:'Keep open'}).click()
+      assert.equal(await panel.isVisible(),true)
+      await finish.click();await panel.waitFor({state:'hidden'})
+      await expectText(page,'popover-output','close:content')
+      await expectFocused(page,trigger)
+      await trigger.click();await panel.waitFor();await page.keyboard.press('Escape');await panel.waitFor({state:'hidden'})
+      await expectText(page,'popover-output','close:escape')
+      await expectFocused(page,trigger)
+      await trigger.click();await panel.waitFor();await page.getByRole('button',{name:'Popover outside target'}).click();await panel.waitFor({state:'hidden'})
+      await expectText(page,'popover-output','close:outside')
+      const hoverTrigger=page.getByRole('button',{name:'Popover hover trigger'})
+      await hoverTrigger.hover();await page.waitForTimeout(30)
+      const hoverPanel=page.getByRole('dialog',{name:'Hover details'})
+      await hoverPanel.waitFor();await hoverPanel.hover();await page.waitForTimeout(30)
+      assert.equal(await hoverPanel.isVisible(),true)
+      await page.getByRole('button',{name:'Popover outside target'}).hover();await hoverPanel.waitFor({state:'hidden'})
+      assert.equal(await page.getByRole('button',{name:'Disabled popover'}).getAttribute('aria-disabled'),'true')
     },
   },
   {

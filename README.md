@@ -2,6 +2,24 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P65 成熟交互式悬浮层
+
+`UiPopover` 保留原有 `v-model / placement / width / title / offset / closeOnOutside` 用法，同时补齐 Click、Hover、Focus、Manual 组合触发，受控与非受控状态、可取消延时、外部点击、Escape、内容关闭、可选自动聚焦与焦点循环、焦点返回、Arrow、逻辑方向定位、Portal 主题桥接和稳定事件元数据。标题、正文、页脚及 Arrow 均可组合，触发元素的 `aria-expanded / aria-controls / aria-haspopup` 会在生命周期内同步并于卸载时恢复。
+
+```vue
+<UiPopover
+  v-model="releaseOpen"
+  title="发布检查"
+  placement="bottom-start"
+  auto-focus
+  trap-focus
+>
+  <template #trigger><UiButton>检查发布</UiButton></template>
+  <p>确认构建、验证记录与回滚制品。</p>
+  <template #footer="{ close }"><UiButton @click="close('content')">完成</UiButton></template>
+</UiPopover>
+```
+
 ## P64 成熟上下文提示
 
 `UiTooltip` 保留原有 `content / placement / disabled / offset` 与 Hover + Focus 默认行为，同时补齐 Hover、Focus、Click、Manual 组合触发，受控 `open` / 非受控 `defaultOpen`，显示/隐藏延时与重入取消、外部点击和 Escape 关闭、Arrow、长文案换行、逻辑方向定位、Teleported 主题桥接、稳定事件元数据和实例控制。提示仅在实际打开时建立 `aria-describedby`，会合并并恢复触发元素已有描述；禁用或空内容不会创建浮层。

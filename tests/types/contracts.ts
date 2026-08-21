@@ -30,6 +30,7 @@ import {
   UiMentions,
   UiNumberInput,
   UiOtpInput,
+  UiPopover,
   UiQueryBuilder,
   UiQRCode,
   UiRate,
@@ -86,6 +87,7 @@ import SubpathTag, { UiTag as NamedSubpathTag } from 'lan-ui-design-system/compo
 import SubpathSteps, { UiSteps as NamedSubpathSteps } from 'lan-ui-design-system/components/UiSteps'
 import SubpathTimeline, { UiTimeline as NamedSubpathTimeline } from 'lan-ui-design-system/components/UiTimeline'
 import SubpathTooltip, { UiTooltip as NamedSubpathTooltip } from 'lan-ui-design-system/components/UiTooltip'
+import SubpathPopover, { UiPopover as NamedSubpathPopover } from 'lan-ui-design-system/components/UiPopover'
 import SubpathCarousel, { UiCarousel as NamedSubpathCarousel } from 'lan-ui-design-system/components/UiCarousel'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathList, { UiList as NamedSubpathList } from 'lan-ui-design-system/components/UiList'
@@ -141,6 +143,7 @@ import type { UiTagActivationMeta, UiTagEmits, UiTagInstance, UiTagProps, UiTagS
 import type { UiStepItem, UiStepsChangeMeta, UiStepsEmits, UiStepsInstance, UiStepsProps, UiStepsSlots } from 'lan-ui-design-system/components/UiSteps'
 import type { UiTimelineActivationMeta, UiTimelineEmits, UiTimelineInstance, UiTimelineItem, UiTimelineProps, UiTimelineSlots } from 'lan-ui-design-system/components/UiTimeline'
 import type { UiTooltipEmits, UiTooltipInstance, UiTooltipOpenMeta, UiTooltipProps, UiTooltipSlots } from 'lan-ui-design-system/components/UiTooltip'
+import type { UiPopoverEmits, UiPopoverInstance, UiPopoverOpenMeta, UiPopoverProps, UiPopoverSlots } from 'lan-ui-design-system/components/UiPopover'
 import type { UiCarouselEmits, UiCarouselProps, UiCarouselSlots } from 'lan-ui-design-system/components/UiCarousel'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiListEmits, UiListProps, UiListSlots } from 'lan-ui-design-system/components/UiList'
@@ -599,6 +602,13 @@ const tooltipNamedSubpathParity:typeof UiTooltip=NamedSubpathTooltip
 const tooltipSlots:UiTooltipSlots={default:scope=>String(scope.open&&scope.describedby),content:scope=>scope.placement,arrow:scope=>scope.placement}
 const tooltipInstance:UiTooltipInstance=null as never
 tooltipInstance.show('api');tooltipInstance.hide('api');tooltipInstance.toggle('api');tooltipInstance.focusTrigger();tooltipInstance.updatePosition()
+const popoverProps:InstanceType<typeof UiPopover>['$props']&UiPopoverProps={modelValue:true,defaultOpen:false,trigger:['click','focus'],disabled:false,loading:true,placement:'bottom-start',width:320,minWidth:180,maxWidth:'90vw',title:'Release actions',offset:10,showDelay:80,hideDelay:120,arrow:true,closeOnOutside:true,closeOnEscape:true,closeOnContentClick:false,autoFocus:true,trapFocus:true,returnFocus:true,appendToBody:true,teleportTo:document.body,role:'dialog',ariaLabel:'Release actions',popoverId:'typed-popover',zIndex:940}
+const popoverEmit:UiPopoverEmits['open-change']=(open,meta)=>{const typed:UiPopoverOpenMeta=meta;void [open,typed.source,typed.placement]}
+const popoverSubpathParity:typeof UiPopover=SubpathPopover
+const popoverNamedSubpathParity:typeof UiPopover=NamedSubpathPopover
+const popoverSlots:UiPopoverSlots={trigger:scope=>String(scope.open&&scope.controls),default:scope=>String(scope.open&&scope.placement),title:scope=>String(scope.close()),footer:scope=>String(scope.open),arrow:scope=>scope.placement}
+const popoverInstance:UiPopoverInstance=null as never
+popoverInstance.show('api');popoverInstance.hide('api');popoverInstance.toggle('api');popoverInstance.focusTrigger();popoverInstance.focusPanel();popoverInstance.updatePosition()
 const qrCodeProps:InstanceType<typeof UiQRCode>['$props']&UiQRCodeProps={value:'https://example.com/release',size:180,level:'H',status:'expired',color:'#155EEF',margin:4,downloadable:true,downloadName:'release.svg'}
 const qrCodeEmit:UiQRCodeEmits['download']=payload=>{const svg:string=payload.svg;void svg}
 const qrCodeSubpathParity:typeof UiQRCode=SubpathQRCode
@@ -696,6 +706,10 @@ const invalidTimelineLine:UiTimelineProps={line:'double'}
 const invalidTooltipTrigger:UiTooltipProps={trigger:'contextmenu'}
 // @ts-expect-error Tooltip placement uses the shared logical floating-layer contract.
 const invalidTooltipPlacement:UiTooltipProps={placement:'center'}
+// @ts-expect-error Popover triggers are constrained to click, hover, focus or manual.
+const invalidPopoverTrigger:UiPopoverProps={trigger:'contextmenu'}
+// @ts-expect-error Popover roles are constrained to supported interactive popup roles.
+const invalidPopoverRole:UiPopoverProps={role:'tooltip'}
 // @ts-expect-error QR error correction levels use the standard L, M, Q or H contract.
 const invalidQrCodeLevel:UiQRCodeProps={level:'X'}
 // @ts-expect-error QR lifecycle status is constrained to active, loading, expired or scanned.

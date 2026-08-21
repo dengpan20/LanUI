@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.60.0",
+  "version": "1.61.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 222720,
-    "rules": 1742,
+    "bytes": 224638,
+    "rules": 1756,
     "source": "component-union"
   },
   "core": {
@@ -328,14 +328,14 @@
     {
       "name": "UiPopconfirm",
       "subpath": "./styles/UiPopconfirm.css",
-      "bytes": 3437,
-      "rules": 34
+      "bytes": 3452,
+      "rules": 35
     },
     {
       "name": "UiPopover",
       "subpath": "./styles/UiPopover.css",
-      "bytes": 826,
-      "rules": 7
+      "bytes": 2640,
+      "rules": 20
     },
     {
       "name": "UiProgress",

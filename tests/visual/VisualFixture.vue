@@ -38,6 +38,7 @@ const virtualRecords=Array.from({length:80},(_,index)=>({id:`visual-${index}`,la
 const visualStepsCurrent=ref(1)
 const visualBreadcrumbExpanded=ref(false)
 const visualTooltipOpen=ref(true)
+const visualPopoverOpen=ref(true)
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
   {key:'workspace',label:'Workspace',href:'#workspace'},
@@ -405,6 +406,13 @@ const tableRows=[
         <section><h3>Trigger contracts</h3><div class="visual-row"><UiTooltip content="Hover and keyboard focus share independent open reasons." :show-delay="120" :hide-delay="80"><UiButton variant="outline">Hover + Focus</UiButton></UiTooltip><UiTooltip content="Click again, press Escape, or click outside to close." trigger="click" placement="bottom-start"><UiButton variant="outline">Click</UiButton></UiTooltip><UiTooltip content="Disabled tooltip" disabled><UiButton disabled>Disabled</UiButton></UiTooltip></div></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">controlled / uncontrolled</UiTag><UiTag color="green">ARIA / Escape / outside</UiTag><UiTag color="orange">flip / shift / RTL</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='popover'" title="Interactive popover surfaces" subtitle="Trigger composition, focus policy, dismissal and portal-aware positioning" title-tag="h2" class="visual-table-card visual-popover-showcase">
+      <div class="visual-popover-grid" data-popover-state-contract="click hover focus manual controlled uncontrolled delays outside escape content arrow portal focus-trap disabled loading rtl ssr">
+        <section><h3>Controlled · focus trap · footer</h3><div class="visual-popover-stage"><UiPopover v-model="visualPopoverOpen" trigger="manual" title="Release actions" placement="bottom-start" :width="280" trap-focus><template #trigger><UiButton id="visual-popover-controlled">Review release</UiButton></template><p style="margin:0">Review the package, verification record and rollback before publishing.</p><template #footer="{close}"><UiButton size="sm" variant="text" data-popover-keep-open>Keep open</UiButton><UiButton size="sm" @click="close('content')">Approve</UiButton></template></UiPopover></div></section>
+        <section><h3>Trigger and state contracts</h3><div class="visual-row"><UiPopover trigger="hover focus" title="Operational note" :show-delay="120" :hide-delay="80"><template #trigger><UiButton variant="outline">Hover + Focus</UiButton></template>The trigger and panel preserve independent hover and focus reasons.</UiPopover><UiPopover disabled title="Disabled panel"><template #trigger><UiButton disabled>Disabled</UiButton></template>Unavailable.</UiPopover><UiPopover default-open loading :append-to-body="false" title="Loading context" :width="210"><template #trigger><UiButton variant="outline">Loading</UiButton></template>Refreshing release evidence.</UiPopover></div></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">controlled / uncontrolled</UiTag><UiTag color="green">ARIA / focus / dismissal</UiTag><UiTag color="orange">portal / flip / RTL</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>

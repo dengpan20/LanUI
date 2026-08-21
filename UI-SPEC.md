@@ -1158,3 +1158,15 @@ P63 retains 89 public components while advancing to 443 locale keys and generate
 - Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
 
 P64 retains 89 public components and 443 locale keys while generated coverage advances to 1,173 Props, 393 Events and 214 Slots. Release gates require 37 visual baselines, 55 zero-violation Axe scenarios, 59 interactions per Chromium/Firefox/WebKit engine, 61 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 78. Maturity P65: production interactive popovers
+
+- `UiPopover` keeps the existing controlled `modelValue`, placement, width, title, offset, default Click trigger and outside-dismiss behavior while adding uncontrolled `defaultOpen` and Click/Hover/Focus/Manual trigger composition. Hover and Focus reasons persist across the trigger-to-panel boundary, and cancellable show/hide timers prevent re-entry flicker.
+- Update, open-change, open and close events publish previous/requested state, source, resolved logical placement and source event. Exposed root/trigger/panel refs plus show, hide, toggle, trigger/panel focus and position update methods support orchestration without private DOM access.
+- Outside pointer, Escape and optional content-click dismissal are independent policies. Disabled state suppresses opening; loading remains dismissible while exposing `aria-busy`. Width, minimum/maximum width, Arrow, custom Portal target, inline rendering and z-index are orthogonal presentation controls.
+- Non-modal focus remains unchanged by default. `autoFocus` moves into actionable panel content, `trapFocus` loops Tab only when requested, and `returnFocus` restores the trigger for Escape or explicit completion without stealing focus after an outside pointer action.
+- The first actionable trigger receives merged `aria-expanded`, `aria-controls`, `aria-haspopup` and disabled state while mounted; consumer-owned values are restored on trigger replacement or unmount. The panel uses a configurable interactive popup role with title/label relationships and deterministic SSR output.
+- Title, body, footer and Arrow Slots expose open/close/placement/loading actions. Collision flip/shift, logical start/end placement, scoped portal appearance/direction, RTL, Reduced Motion and forced-colors preserve the contract across embedded apps.
+- Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and offline installed-tarball verification remain synchronized.
+
+P65 retains 89 public components and 443 locale keys while generated coverage advances to 1,193 Props, 394 Events and 217 Slots. Release gates require 38 visual baselines, 56 zero-violation Axe scenarios, 60 interactions per Chromium/Firefox/WebKit engine, 63 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.60.0",
+  "version": "1.61.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -11591,6 +11591,78 @@
       "propsType": "UiPopoverProps",
       "props": [
         {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "arrow",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "autoFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "closeOnContentClick",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "closeOnEscape",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
           "name": "closeOnOutside",
           "required": false,
           "type": "boolean",
@@ -11603,7 +11675,7 @@
           }
         },
         {
-          "name": "modelValue",
+          "name": "defaultOpen",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -11612,6 +11684,80 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "hideDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "maxWidth",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"calc(100vw - 16px)\""
+          }
+        },
+        {
+          "name": "minWidth",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -11639,6 +11785,67 @@
           }
         },
         {
+          "name": "popoverId",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "returnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "role",
+          "required": false,
+          "type": "UiPopoverRole",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"dialog\""
+          }
+        },
+        {
+          "name": "showDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "teleportTo",
+          "required": false,
+          "type": "string|Element",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"body\""
+          }
+        },
+        {
           "name": "title",
           "required": false,
           "type": "string",
@@ -11648,6 +11855,31 @@
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "trapFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "trigger",
+          "required": false,
+          "type": "UiPopoverTrigger|UiPopoverTrigger[]",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"click\""
           }
         },
         {
@@ -11662,6 +11894,18 @@
             "kind": "literal",
             "value": "240"
           }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
         }
       ],
       "emitsType": "UiPopoverEmits",
@@ -11669,12 +11913,17 @@
         {
           "name": "close",
           "required": true,
-          "type": "()=>void"
+          "type": "(meta:UiPopoverOpenMeta)=>void"
         },
         {
           "name": "open",
           "required": true,
-          "type": "()=>void"
+          "type": "(meta:UiPopoverOpenMeta)=>void"
+        },
+        {
+          "name": "open-change",
+          "required": true,
+          "type": "(value:boolean,meta:UiPopoverOpenMeta)=>void"
         },
         {
           "name": "update:modelValue",
@@ -11685,14 +11934,29 @@
       "slotsType": "UiPopoverSlots",
       "slots": [
         {
+          "name": "arrow",
+          "required": false,
+          "type": "(props:{placement:Placement})=>VNodeChild"
+        },
+        {
           "name": "default",
+          "required": false,
+          "type": "(props:{close:()=>void;open:boolean;placement:Placement;loading:boolean})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(props:{close:()=>void;open:boolean})=>VNodeChild"
+        },
+        {
+          "name": "title",
           "required": false,
           "type": "(props:{close:()=>void})=>VNodeChild"
         },
         {
           "name": "trigger",
           "required": false,
-          "type": "(props:{open:boolean})=>VNodeChild"
+          "type": "(props:{open:boolean;show:()=>boolean;hide:()=>void;toggle:()=>void;controls?:string})=>VNodeChild"
         }
       ]
     },

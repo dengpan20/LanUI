@@ -285,7 +285,12 @@ export interface UiPageHeaderBreadcrumbMeta { item:UiBreadcrumbItem; index:numbe
 export interface UiPageHeaderInstance { root:Ref<HTMLElement|null>; backControl:Ref<HTMLElement|null>; focusBack:(options?:FocusOptions)=>boolean; scrollIntoView:(options?:ScrollIntoViewOptions)=>boolean }
 export interface UiPaginationProps { page?:number; pageSize?:number; total?:number; pageSizeOptions?:number[]; showSizeChanger?:boolean; compact?:boolean; ariaLabel?:string }
 export interface UiPopconfirmProps { title?:string; message?:string; confirmText?:string; cancelText?:string; danger?:boolean; beforeConfirm?:()=>unknown|Promise<unknown>; placement?:Placement; offset?:number }
-export interface UiPopoverProps { modelValue?:boolean; placement?:Placement; width?:string|number; closeOnOutside?:boolean; title?:string; offset?:number }
+export type UiPopoverTrigger = 'click'|'hover'|'focus'|'manual'
+export type UiPopoverRole = 'dialog'|'menu'|'listbox'|'tree'|'grid'
+export type UiPopoverOpenSource = UiPopoverTrigger|'api'|'outside'|'escape'|'content'|'disabled'|string
+export interface UiPopoverOpenMeta { open:boolean; previous:boolean; source:UiPopoverOpenSource; placement:Placement; event?:Event }
+export interface UiPopoverProps { modelValue?:boolean; defaultOpen?:boolean; trigger?:UiPopoverTrigger|UiPopoverTrigger[]; disabled?:boolean; loading?:boolean; placement?:Placement; width?:string|number; minWidth?:string|number; maxWidth?:string|number; title?:string; offset?:number; showDelay?:number; hideDelay?:number; arrow?:boolean; closeOnOutside?:boolean; closeOnEscape?:boolean; closeOnContentClick?:boolean; autoFocus?:boolean; trapFocus?:boolean; returnFocus?:boolean; appendToBody?:boolean; teleportTo?:string|Element; role?:UiPopoverRole; ariaLabel?:string; popoverId?:string; zIndex?:number }
+export interface UiPopoverInstance { root:Ref<HTMLElement|null>; trigger:Ref<HTMLElement|null>; panel:Ref<HTMLElement|null>; show:(source?:UiPopoverOpenSource,event?:Event)=>boolean; hide:(source?:UiPopoverOpenSource,event?:Event,returnFocus?:boolean)=>void; toggle:(source?:UiPopoverOpenSource,event?:Event)=>void; focusTrigger:()=>boolean; focusPanel:()=>boolean; updatePosition:()=>void }
 export interface UiProgressProps { value?:number; max?:number; status?:'normal'|'success'|'warning'|'error'; showText?:boolean; size?:ComponentSize; label?:string }
 export type UiBarcodeFormat = 'AUTO'|'CODE128'|'CODE128A'|'CODE128B'|'CODE128C'|'CODE39'|'EAN13'|'EAN8'|'EAN5'|'EAN2'|'UPC'|'UPCE'|'ITF14'|'ITF'|'MSI'|'MSI10'|'MSI11'|'MSI1010'|'MSI1110'|'pharmacode'|'codabar'
 export type UiBarcodeStatus = 'active'|'loading'|'expired'|'scanned'
@@ -492,7 +497,7 @@ export type UiNotificationEmits = { close:()=>void; action:()=>void }
 export type UiPageHeaderEmits = { back:(meta:UiPageHeaderBackMeta,event:MouseEvent)=>void; 'breadcrumb-navigate':(meta:UiPageHeaderBreadcrumbMeta)=>void }
 export type UiPaginationEmits = { 'update:page':(value:number)=>void; 'update:pageSize':(value:number)=>void; change:(payload:UiPaginationChange)=>void }
 export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(error:unknown)=>void }
-export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; open:()=>void; close:()=>void }
+export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; 'open-change':(value:boolean,meta:UiPopoverOpenMeta)=>void; open:(meta:UiPopoverOpenMeta)=>void; close:(meta:UiPopoverOpenMeta)=>void }
 export type UiProgressEmits = {}
 export type UiBarcodeEmits = { refresh:(payload:{value:string;format:UiBarcodeFormat})=>void; download:(payload:UiBarcodeDownloadMeta)=>void; error:(error:Error)=>void }
 export type UiQRCodeEmits = { refresh:(payload:{value:string})=>void; download:(payload:UiQRCodeDownloadMeta)=>void; error:(error:Error)=>void }
@@ -587,7 +592,7 @@ export type UiNotificationSlots = {}
 export type UiPageHeaderSlots = { breadcrumb?:(scope:{items:UiBreadcrumbItem[];navigate:(item:UiBreadcrumbItem)=>UiPageHeaderBreadcrumbMeta})=>VNodeChild; 'back-icon'?:()=>VNodeChild; title?:(scope:{title:string})=>VNodeChild; description?:(scope:{description:string})=>VNodeChild; meta?:()=>VNodeChild; actions?:()=>VNodeChild; footer?:()=>VNodeChild; loading?:()=>VNodeChild }
 export type UiPaginationSlots = {}
 export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
-export type UiPopoverSlots = { trigger?:(props:{open:boolean})=>VNodeChild; default?:(props:{close:()=>void})=>VNodeChild }
+export type UiPopoverSlots = { trigger?:(props:{open:boolean;show:()=>boolean;hide:()=>void;toggle:()=>void;controls?:string})=>VNodeChild; default?:(props:{close:()=>void;open:boolean;placement:Placement;loading:boolean})=>VNodeChild; title?:(props:{close:()=>void})=>VNodeChild; footer?:(props:{close:()=>void;open:boolean})=>VNodeChild; arrow?:(props:{placement:Placement})=>VNodeChild }
 export type UiProgressSlots = {}
 export type UiBarcodeSlots = { overlay?:(scope:{status:UiBarcodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild; caption?:(scope:{value:string;format:UiBarcodeFormat|null;status:UiBarcodeEffectiveStatus})=>VNodeChild; actions?:(scope:{download:()=>boolean;refresh:()=>boolean;status:UiBarcodeEffectiveStatus})=>VNodeChild }
 export type UiQRCodeSlots = { overlay?:(scope:{status:UiQRCodeEffectiveStatus;text:string;refresh:()=>boolean})=>VNodeChild; caption?:(scope:{value:string;status:UiQRCodeEffectiveStatus})=>VNodeChild; actions?:(scope:{download:()=>boolean;refresh:()=>boolean;status:UiQRCodeEffectiveStatus})=>VNodeChild }

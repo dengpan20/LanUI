@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.61 popover compatibility
+
+There are no breaking changes. Existing `<UiPopover v-model="open">...</UiPopover>`, `placement`, `width`, `title`, `offset` and `closeOnOutside` usage remains valid; Click stays the default trigger:
+
+```vue
+<UiPopover v-model="open" title="Release actions" placement="bottom-start" auto-focus trap-focus>...</UiPopover>
+```
+
+- `modelValue` is controlled; an omitted model uses `defaultOpen`. `trigger` accepts Click, Hover, Focus, Manual or an array, and Hover/Focus reasons remain active while moving between the trigger and teleported panel.
+- `showDelay` and `hideDelay` cancel stale timers. Outside pointer, Escape and optional content-click dismissal publish a stable source and resolved placement through `open-change`, `open` and `close` metadata.
+- `autoFocus` moves focus to the first panel action, `trapFocus` optionally loops Tab within interactive content, and `returnFocus` restores the trigger after keyboard or explicit content dismissal. These policies remain opt-in for non-modal popovers.
+- Trigger `aria-expanded`, `aria-controls`, `aria-haspopup` and disabled semantics merge with consumer attributes and restore on unmount. Panel title or `ariaLabel`, busy state and role provide explicit assistive-technology relationships.
+- `arrow`, width bounds, logical placement, custom Portal target, inline rendering, z-index, title/footer/arrow Slots and exposed show/hide/toggle/focus/update methods have matching root and component-subpath declarations.
+
 ## 1.60 tooltip compatibility
 
 There are no breaking changes. Existing `<UiTooltip content="Help">...</UiTooltip>`, `placement`, `disabled` and `offset` usage remains valid; Hover + Focus stay the default triggers:
