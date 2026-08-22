@@ -352,7 +352,15 @@ export interface UiPageHeaderProps { title?:string; description?:string; breadcr
 export interface UiPageHeaderBackMeta { source:'pointer'|'keyboard'|string; href?:string }
 export interface UiPageHeaderBreadcrumbMeta { item:UiBreadcrumbItem; index:number }
 export interface UiPageHeaderInstance { root:Ref<HTMLElement|null>; backControl:Ref<HTMLElement|null>; focusBack:(options?:FocusOptions)=>boolean; scrollIntoView:(options?:ScrollIntoViewOptions)=>boolean }
-export interface UiPaginationProps { page?:number; pageSize?:number; total?:number; pageSizeOptions?:number[]; showSizeChanger?:boolean; compact?:boolean; ariaLabel?:string }
+export type UiPaginationSource = 'pointer'|'keyboard'|'api'|'size'|'quick-jump'|'simple'|'simple-blur'|'jump-forward'|'jump-backward'|'sync'|string
+export type UiPaginationPageSizeBehavior = 'reset'|'preserve-page'|'preserve-item'
+export interface UiPaginationContext { page:number; pageSize:number; total:number; pageCount:number; start:number; end:number }
+export interface UiPaginationChange { page:number; pageSize:number }
+export interface UiPaginationChangeMeta extends UiPaginationChange { previousPage:number; previousPageSize:number; total:number; pageCount:number; source:UiPaginationSource; event?:Event }
+export interface UiPaginationInvalid { reason:'page'|'page-size'|'page-clamped'|'blocked'|'readonly'|'guard-rejected'|'guard-error'|'formatter-error'|string; source:UiPaginationSource; page:number; pageSize:number; total:number; value?:unknown; normalized?:number; error?:unknown }
+export type UiPaginationActionResult = UiPaginationChangeMeta|false|Promise<UiPaginationChangeMeta|false>
+export interface UiPaginationProps { modelValue?:number; page?:number; defaultPage?:number; pageSize?:number; defaultPageSize?:number; total?:number; pageSizeOptions?:number[]; pagerCount?:number; showTotal?:boolean; showSizeChanger?:boolean; showQuickJumper?:boolean; showFirstLast?:boolean; showPrevNext?:boolean; hideOnSinglePage?:boolean; ellipsisInteractive?:boolean; simple?:boolean; compact?:boolean; responsive?:boolean; size?:ComponentSize; disabled?:boolean; readonly?:boolean; loading?:boolean; keyboard?:boolean; autofocus?:boolean; pageSizeChangeBehavior?:UiPaginationPageSizeBehavior; totalFormatter?:(context:UiPaginationContext)=>string|number|null|undefined; pageAriaLabel?:(page:number,context:{page:number;active:boolean;pageCount:number;total:number})=>string|number|null|undefined; beforeChange?:(meta:UiPaginationChangeMeta,event?:Event)=>boolean|void|Promise<boolean|void>; ariaLabel?:string }
+export interface UiPaginationInstance { root:Ref<HTMLElement|null>; simpleInput:Ref<HTMLInputElement|null>; quickInput:Ref<HTMLInputElement|null>; page:ComputedRef<number>; pageSize:ComputedRef<number>; pageCount:ComputedRef<number>; total:ComputedRef<number>; pending:Ref<boolean>; goTo:(page:number,source?:UiPaginationSource,event?:Event)=>UiPaginationActionResult; next:(source?:UiPaginationSource,event?:Event)=>UiPaginationActionResult; previous:(source?:UiPaginationSource,event?:Event)=>UiPaginationActionResult; first:(source?:UiPaginationSource,event?:Event)=>UiPaginationActionResult; last:(source?:UiPaginationSource,event?:Event)=>UiPaginationActionResult; setPageSize:(pageSize:number,source?:UiPaginationSource,event?:Event)=>UiPaginationActionResult; focusPage:(page:number,options?:FocusOptions)=>boolean; focus:(options?:FocusOptions)=>boolean; blur:()=>boolean }
 export interface UiPopconfirmProps { title?:string; message?:string; confirmText?:string; cancelText?:string; danger?:boolean; beforeConfirm?:()=>unknown|Promise<unknown>; placement?:Placement; offset?:number }
 export type UiPopoverTrigger = 'click'|'hover'|'focus'|'manual'
 export type UiPopoverRole = 'dialog'|'menu'|'listbox'|'tree'|'grid'
@@ -545,7 +553,6 @@ export interface UiSliderFocusMeta { thumb:number }
 export interface UiRateChangeMeta { source:'pointer'|'keyboard'; previous:number }
 export interface UiAutoCompleteChangeMeta { source:'option'|'clear'|'enter'|'blur'|'tab'; option?:UiAutoCompleteOption; index?:number }
 export interface UiAutoCompleteLoadError { error:unknown; query:string }
-export interface UiPaginationChange { page:number; pageSize:number }
 export interface UiTableSortChange { key:string; order:''|'asc'|'desc' }
 export interface UiTableColumnResize { key:string; width:number }
 export interface UiTreeSelectMeta { selected:boolean; source:'pointer'|'keyboard' }
@@ -622,7 +629,7 @@ export type UiNumberInputEmits = { 'update:modelValue':(value:number|null)=>void
 export type UiOtpInputEmits = { 'update:modelValue':(value:string)=>void; input:(value:string,meta:UiOtpInputMeta)=>void; change:(value:string,meta:UiOtpInputChangeMeta)=>void; complete:(value:string,meta:UiOtpInputMeta)=>void; focus:(event:FocusEvent,meta:UiOtpInputMeta)=>void; blur:(event:FocusEvent,meta:UiOtpInputMeta)=>void; invalid:(meta:UiOtpInputInvalidMeta)=>void }
 export type UiNotificationEmits = { close:()=>void; action:()=>void }
 export type UiPageHeaderEmits = { back:(meta:UiPageHeaderBackMeta,event:MouseEvent)=>void; 'breadcrumb-navigate':(meta:UiPageHeaderBreadcrumbMeta)=>void }
-export type UiPaginationEmits = { 'update:page':(value:number)=>void; 'update:pageSize':(value:number)=>void; change:(payload:UiPaginationChange)=>void }
+export type UiPaginationEmits = { 'update:modelValue':(value:number)=>void; 'update:page':(value:number)=>void; 'update:pageSize':(value:number)=>void; change:(payload:UiPaginationChangeMeta)=>void; 'page-change':(payload:UiPaginationChangeMeta)=>void; 'page-size-change':(payload:UiPaginationChangeMeta)=>void; 'quick-jump':(payload:UiPaginationChangeMeta)=>void; invalid:(payload:UiPaginationInvalid)=>void; focus:(payload:{page:number;pageSize:number;source:'focus'},event:FocusEvent)=>void; blur:(payload:{page:number;pageSize:number;source:'blur'},event:FocusEvent)=>void }
 export type UiPopconfirmEmits = { confirm:()=>void; cancel:()=>void; error:(error:unknown)=>void }
 export type UiPopoverEmits = { 'update:modelValue':(value:boolean)=>void; 'open-change':(value:boolean,meta:UiPopoverOpenMeta)=>void; open:(meta:UiPopoverOpenMeta)=>void; close:(meta:UiPopoverOpenMeta)=>void }
 export type UiProgressEmits = {}
@@ -725,7 +732,7 @@ export type UiNumberInputSlots = { prefix?:()=>VNodeChild; suffix?:()=>VNodeChil
 export type UiOtpInputSlots = {}
 export type UiNotificationSlots = {}
 export type UiPageHeaderSlots = { breadcrumb?:(scope:{items:UiBreadcrumbItem[];navigate:(item:UiBreadcrumbItem)=>UiPageHeaderBreadcrumbMeta})=>VNodeChild; 'back-icon'?:()=>VNodeChild; title?:(scope:{title:string})=>VNodeChild; description?:(scope:{description:string})=>VNodeChild; meta?:()=>VNodeChild; actions?:()=>VNodeChild; footer?:()=>VNodeChild; loading?:()=>VNodeChild }
-export type UiPaginationSlots = {}
+export type UiPaginationSlots = { total?:(scope:UiPaginationContext&{text:string})=>VNodeChild; page?:(scope:{page:number;active:boolean;disabled:boolean;go:UiPaginationInstance['goTo']})=>VNodeChild; previous?:(scope:{page:number;disabled:boolean;go:UiPaginationInstance['previous']})=>VNodeChild; next?:(scope:{page:number;disabled:boolean;go:UiPaginationInstance['next']})=>VNodeChild; first?:(scope:{page:number;disabled:boolean;go:UiPaginationInstance['first']})=>VNodeChild; last?:(scope:{page:number;disabled:boolean;go:UiPaginationInstance['last']})=>VNodeChild; ellipsis?:(scope:{direction:'backward'|'forward';target:number;disabled:boolean;go:UiPaginationInstance['goTo']})=>VNodeChild; 'size-changer'?:(scope:{pageSize:number;options:Array<{value:number;label:string}>;change:UiPaginationInstance['setPageSize'];disabled:boolean})=>VNodeChild; 'quick-jumper'?:(scope:{value:string;setValue:(value:unknown)=>void;submit:(source?:UiPaginationSource,event?:Event,kind?:'quick'|'simple')=>UiPaginationActionResult;disabled:boolean})=>VNodeChild }
 export type UiPopconfirmSlots = { default?:(props:{open:boolean})=>VNodeChild }
 export type UiPopoverSlots = { trigger?:(props:{open:boolean;show:()=>boolean;hide:()=>void;toggle:()=>void;controls?:string})=>VNodeChild; default?:(props:{close:()=>void;open:boolean;placement:Placement;loading:boolean})=>VNodeChild; title?:(props:{close:()=>void})=>VNodeChild; footer?:(props:{close:()=>void;open:boolean})=>VNodeChild; arrow?:(props:{placement:Placement})=>VNodeChild }
 export type UiProgressSlots = {}

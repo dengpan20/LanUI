@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.72.0",
+  "version": "1.73.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -14009,6 +14009,27 @@
           }
         },
         {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "beforeChange",
+          "required": false,
+          "type": "(meta:UiPaginationChangeMeta,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
           "name": "compact",
           "required": false,
           "type": "boolean",
@@ -14021,7 +14042,7 @@
           }
         },
         {
-          "name": "page",
+          "name": "defaultPage",
           "required": false,
           "type": "number",
           "runtimeTypes": [
@@ -14033,7 +14054,7 @@
           }
         },
         {
-          "name": "pageSize",
+          "name": "defaultPageSize",
           "required": false,
           "type": "number",
           "runtimeTypes": [
@@ -14042,6 +14063,123 @@
           "default": {
             "kind": "literal",
             "value": "10"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ellipsisInteractive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "hideOnSinglePage",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "page",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "pageAriaLabel",
+          "required": false,
+          "type": "(page:number,context:{page:number;active:boolean;pageCount:number;total:number})=>string|number|null|undefined",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "pageSize",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "pageSizeChangeBehavior",
+          "required": false,
+          "type": "UiPaginationPageSizeBehavior",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"reset\""
           }
         },
         {
@@ -14057,6 +14195,78 @@
           }
         },
         {
+          "name": "pagerCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "7"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "responsive",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showFirstLast",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "showPrevNext",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showQuickJumper",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "showSizeChanger",
           "required": false,
           "type": "boolean",
@@ -14066,6 +14276,42 @@
           "default": {
             "kind": "literal",
             "value": "true"
+          }
+        },
+        {
+          "name": "showTotal",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "simple",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
           }
         },
         {
@@ -14079,14 +14325,58 @@
             "kind": "literal",
             "value": "0"
           }
+        },
+        {
+          "name": "totalFormatter",
+          "required": false,
+          "type": "(context:UiPaginationContext)=>string|number|null|undefined",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
         }
       ],
       "emitsType": "UiPaginationEmits",
       "emits": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(payload:{page:number;pageSize:number;source:'blur'},event:FocusEvent)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(payload:UiPaginationChange)=>void"
+          "type": "(payload:UiPaginationChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(payload:{page:number;pageSize:number;source:'focus'},event:FocusEvent)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiPaginationInvalid)=>void"
+        },
+        {
+          "name": "page-change",
+          "required": true,
+          "type": "(payload:UiPaginationChangeMeta)=>void"
+        },
+        {
+          "name": "page-size-change",
+          "required": true,
+          "type": "(payload:UiPaginationChangeMeta)=>void"
+        },
+        {
+          "name": "quick-jump",
+          "required": true,
+          "type": "(payload:UiPaginationChangeMeta)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:number)=>void"
         },
         {
           "name": "update:page",
@@ -14100,7 +14390,53 @@
         }
       ],
       "slotsType": "UiPaginationSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "ellipsis",
+          "required": false,
+          "type": "(scope:{direction:'backward'|'forward';target:number;disabled:boolean;go:UiPaginationInstance['goTo']})=>VNodeChild"
+        },
+        {
+          "name": "first",
+          "required": false,
+          "type": "(scope:{page:number;disabled:boolean;go:UiPaginationInstance['first']})=>VNodeChild"
+        },
+        {
+          "name": "last",
+          "required": false,
+          "type": "(scope:{page:number;disabled:boolean;go:UiPaginationInstance['last']})=>VNodeChild"
+        },
+        {
+          "name": "next",
+          "required": false,
+          "type": "(scope:{page:number;disabled:boolean;go:UiPaginationInstance['next']})=>VNodeChild"
+        },
+        {
+          "name": "page",
+          "required": false,
+          "type": "(scope:{page:number;active:boolean;disabled:boolean;go:UiPaginationInstance['goTo']})=>VNodeChild"
+        },
+        {
+          "name": "previous",
+          "required": false,
+          "type": "(scope:{page:number;disabled:boolean;go:UiPaginationInstance['previous']})=>VNodeChild"
+        },
+        {
+          "name": "quick-jumper",
+          "required": false,
+          "type": "(scope:{value:string;setValue:(value:unknown)=>void;submit:(source?:UiPaginationSource,event?:Event,kind?:'quick'|'simple')=>UiPaginationActionResult;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "size-changer",
+          "required": false,
+          "type": "(scope:{pageSize:number;options:Array<{value:number;label:string}>;change:UiPaginationInstance['setPageSize'];disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "total",
+          "required": false,
+          "type": "(scope:UiPaginationContext&{text:string})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiPopconfirm",

@@ -543,6 +543,13 @@ const tableRows=[
         <div class="visual-time-range-summary"><UiTag color="blue">search / select all / virtual</UiTag><UiTag color="green">native form / constraints</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
       </div>
     </UiCard>
+    <UiCard v-if="state==='pagination'" title="Production pagination navigation" title-tag="h2" class="visual-table-card visual-pagination-showcase">
+      <div class="visual-stack" data-pagination-state-contract="controlled uncontrolled normalization window ellipsis quick-jump simple size disabled readonly loading keyboard rtl responsive slots api">
+        <UiPagination :page="50" :page-size="20" :total="1286" :page-size-options="[10,20,50,100]" :pager-count="7" show-first-last show-quick-jumper page-size-change-behavior="preserve-item" aria-label="Release evidence pages"><template #total="{start,end,total}"><span><strong>{{ start }}–{{ end }}</strong> of {{ total }} release records</span></template></UiPagination>
+        <div class="visual-form"><UiPagination :default-page="4" :default-page-size="20" :total="286" simple compact aria-label="Simple release pages"/><UiPagination :page="2" :total="86" readonly compact :show-size-changer="false" aria-label="Readonly release pages"/><UiPagination :page="2" :total="86" loading compact :show-size-changer="false" aria-label="Loading release pages"/></div>
+        <div class="visual-time-range-summary"><UiTag color="blue">window / quick jump / sizes</UiTag><UiTag color="green">controlled / guarded / responsive</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
+      </div>
+    </UiCard>
     <UiCard v-if="state==='anchor'" title="Page anchor navigation" title-tag="h2" class="visual-table-card visual-anchor-showcase">
       <div class="visual-anchor-grid">
         <UiAnchor v-model="anchorValue" :affix="false" aria-label="Release document outline" :items="[{key:'anchor-overview',href:'#visual-anchor-overview',title:'Overview'},{key:'anchor-contracts',href:'#visual-anchor-contracts',title:'Contracts',children:[{key:'anchor-events',href:'#visual-anchor-events',title:'Events and slots'}]},{key:'anchor-disabled',href:'#visual-anchor-disabled',title:'Archived section',disabled:true}]" />

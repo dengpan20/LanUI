@@ -41,6 +41,7 @@ import {
   UiOtpInput,
   UiPopover,
   UiPageHeader,
+  UiPagination,
   UiQueryBuilder,
   UiQRCode,
   UiRadio,
@@ -170,6 +171,9 @@ const standaloneSplitterPanels=[{key:'navigation',label:'Navigation',defaultSize
 const standaloneReleaseNote=ref('Standalone consumers can use UiTypography for release notes, copyable configuration values and keyboard-confirmed inline editing without adding separate behavior wrappers.')
 const standaloneListSelection=ref(['contract'])
 const standaloneListPage=ref(1)
+const standalonePaginationPage=ref(6)
+const standalonePaginationSize=ref(20)
+const standalonePaginationState=ref('Page 6 · 20 rows')
 const standaloneOtp=ref('204')
 const standaloneMentions=ref('Please ask @de')
 const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
@@ -422,6 +426,13 @@ const rows = computed(() => [
         <template #extra="{item}"><UiTag :color="item.status==='Ready'?'green':'orange'">{{ item.status }}</UiTag></template>
         <template #footer>Arrow keys move; Space selects; pagination preserves source positions.</template>
       </UiList>
+    </UiCard>
+
+    <UiCard title="Production pagination contract">
+      <UiPagination v-model:page="standalonePaginationPage" v-model:page-size="standalonePaginationSize" :total="1286" :page-size-options="[10,20,50,100]" :pager-count="7" show-first-last show-quick-jumper page-size-change-behavior="preserve-item" aria-label="Standalone release pages" @change="meta=>standalonePaginationState=`Page ${meta.page} · ${meta.pageSize} rows · ${meta.source}`">
+        <template #total="{start,end,total}"><strong>{{ start }}–{{ end }}</strong>&nbsp;of {{ total }} release records</template>
+      </UiPagination>
+      <div style="margin-top:10px;color:var(--text-secondary);font-size:12px">{{ standalonePaginationState }} · Arrow keys, Home and End are available from every pager button.</div>
     </UiCard>
 
     <UiCard title="One-time verification code">

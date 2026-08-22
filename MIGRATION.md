@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.73 pagination compatibility
+
+There are no breaking changes. Existing `<UiPagination :page="page" :page-size="pageSize" :total="total" />` usage remains valid:
+
+```vue
+<UiPagination v-model="page" v-model:page-size="pageSize" :total="1286" show-first-last show-quick-jumper />
+```
+
+- `modelValue`/`page` and `pageSize` are controlled when supplied; `defaultPage` and `defaultPageSize` own internal state otherwise. Non-finite, negative and out-of-range values normalize to valid display boundaries and report structured `invalid` metadata.
+- Odd pager windows are bounded from 5 to 21 items. First/last, previous/next and interactive ellipses use the same change pipeline; `reset`, `preserve-page` and `preserve-item` make page-size transitions explicit.
+- `beforeChange` supports synchronous or asynchronous approval, locks duplicate work while pending and reports rejection or failure. Quick-jump events publish only after approval; readonly controls remain focusable while disabled and loading controls are inert.
+- Logical Arrow, Home and End keys reverse correctly in RTL. Compact, simple and ResizeObserver-backed responsive modes preserve a semantic navigation landmark, localized page labels and current-page state.
+- Total, size-changer, direction, page, ellipsis and quick-jumper Slots remain additive. Root/subpath declarations, SSR, forced colors, reduced motion and exposed page/size/focus operations stay synchronized.
+
 ## 1.72 transfer compatibility
 
 There are no breaking changes. Existing `<UiTransfer v-model="value" :options="options" />` usage remains valid:

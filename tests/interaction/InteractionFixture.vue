@@ -70,6 +70,11 @@ const drawerOpen = ref(false)
 const confirmResult = ref('idle')
 const page = ref(1)
 const pageSize = ref(10)
+const productionPaginationRef=ref(null)
+const productionPaginationPage=ref(50)
+const productionPaginationSize=ref(20)
+const productionPaginationOutput=ref('ready:50:20')
+async function guardProductionPagination(meta){await new Promise(resolve=>setTimeout(resolve,45));return meta.page!==13}
 const enabled = ref(false)
 const selectionChannels=ref(['email'])
 const selectionPlan=ref('team')
@@ -722,6 +727,15 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #footer><nav aria-label="Page header sections"><a href="#page-header-overview">Overview</a></nav></template>
         </UiPageHeader>
         <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-pagination-production-case">
+        <h2>Production pagination window, guard and API contract</h2>
+        <div class="interaction-stack">
+          <UiPagination ref="productionPaginationRef" v-model:page="productionPaginationPage" v-model:page-size="productionPaginationSize" :total="1286" :page-size-options="[10,20,50,100]" :pager-count="7" show-first-last show-quick-jumper page-size-change-behavior="preserve-item" :before-change="guardProductionPagination" aria-label="Production release pages" @change="meta=>productionPaginationOutput=`change:${meta.source}:${meta.page}:${meta.pageSize}`" @invalid="meta=>productionPaginationOutput=`invalid:${meta.reason}:${meta.page}:${meta.pageSize}`"/>
+          <UiButton id="production-pagination-api-next" size="sm" variant="outline" @click="productionPaginationRef?.next('api')">API next</UiButton>
+          <output class="interaction-output" data-testid="pagination-production-output">{{ productionPaginationOutput }}</output>
+        </div>
       </section>
 
       <section class="interaction-case interaction-wide interaction-select-production-case" data-select-state-contract="controlled uncontrolled native form reset search ime remote abort race cache loading error readonly disabled keyboard typeahead rtl ssr slots api">

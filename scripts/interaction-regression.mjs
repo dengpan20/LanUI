@@ -320,7 +320,7 @@ const allCases = [
       const paginationCase = page.locator('.interaction-pagination-case')
       await paginationCase.getByRole('button', { name: 'Next page' }).click()
       await expectText(page, 'pagination-output', '2 / 10')
-      assert.equal(await paginationCase.getByRole('button', { name: '2', exact: true }).getAttribute('aria-current'), 'page')
+      assert.equal(await paginationCase.getByRole('button', { name: 'Page 2, current page', exact: true }).getAttribute('aria-current'), 'page')
       const size = paginationCase.locator('.ui-pagination-size [role="combobox"]')
       await size.focus()
       await page.keyboard.press('ArrowDown')
@@ -332,6 +332,34 @@ const allCases = [
       await page.keyboard.press('Space')
       await expectText(page, 'switch-output', 'enabled')
       assert.equal(await toggle.getAttribute('aria-checked'), 'true')
+    },
+  },
+  {
+    name:'pagination-production-window-quick-size-guard-api-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const section=page.locator('.interaction-pagination-production-case')
+      const pagination=section.getByRole('navigation',{name:'Production release pages'})
+      await pagination.getByRole('button',{name:'Page 50, current page'}).press('ArrowLeft')
+      await expectText(page,'pagination-production-output','change:keyboard:51:20')
+      await pagination.getByRole('button',{name:/Jump forward/}).click()
+      await expectText(page,'pagination-production-output','change:jump-forward:54:20')
+      const jump=pagination.getByRole('spinbutton',{name:'Enter a page to jump to'})
+      await jump.fill('999')
+      await jump.press('Enter')
+      await expectText(page,'pagination-production-output','change:quick-jump:65:20')
+      const size=pagination.locator('.ui-pagination-size [role="combobox"]')
+      await size.click()
+      await page.getByRole('option',{name:'50',exact:true}).click()
+      await expectText(page,'pagination-production-output','change:size:26:50')
+      await pagination.getByRole('button',{name:'First page'}).click()
+      await expectText(page,'pagination-production-output','change:pointer:1:50')
+      await section.locator('#production-pagination-api-next').click()
+      await expectText(page,'pagination-production-output','change:api:2:50')
+      await jump.fill('13')
+      await jump.press('Enter')
+      await expectText(page,'pagination-production-output','invalid:guard-rejected:2:50')
+      assert.equal(await pagination.getByRole('button',{name:'Page 2, current page'}).getAttribute('aria-current'),'page')
     },
   },
   {
@@ -1006,7 +1034,7 @@ const allCases = [
       await expectText(page,'list-output','select:interaction-list-0|interaction-list-1')
       await page.locator('#list-action-interaction-list-1').click()
       await expectText(page,'list-output','action:interaction-list-1')
-      await root.getByRole('button',{name:'2',exact:true}).click()
+      await root.getByRole('button',{name:'Go to page 2',exact:true}).click()
       await expectText(page,'list-output','page:2:3')
       await listbox.focus()
       await page.keyboard.press('Control+a')

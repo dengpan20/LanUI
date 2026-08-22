@@ -14,6 +14,7 @@ import {
   UiCronEditor,
   UiKeyValueEditor,
   UiPageHeader,
+  UiPagination,
   UiColorPicker,
   UiDataGrid,
   UiForm,
@@ -40,7 +41,7 @@ import {
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiPaginationInstance, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -83,6 +84,9 @@ const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashbo
 const selectedTeams=ref<Key[]>(['dashboard'])
 const selectedPaths=ref<Key[][]>([['workspace','dashboard']])
 const transferRef=ref<UiTransferInstance>()
+const paginationRef=ref<UiPaginationInstance>()
+const releasePage=ref(4)
+const releasePageSize=ref(20)
 const transferredPermissions=ref<Key[]>(['token'])
 const selectedPermissionKeys=ref<Key[]>(['api'])
 const permissionSearch=ref<[string,string]>(['',''])
@@ -177,6 +181,12 @@ function sort(payload:UiTableSortChange) {
     <template #operation="{direction,move}"><UiButton @click="move('typed')">{{ direction }}</UiButton></template>
     <template #footer="{selectedCount}">{{ selectedCount }}</template>
   </UiTransfer>
+  <UiPagination ref="paginationRef" v-model="releasePage" v-model:page-size="releasePageSize" :total="286" :page-size-options="[10,20,50]" :pager-count="7" show-quick-jumper show-first-last page-size-change-behavior="preserve-item" :before-change="async meta=>meta.page<=meta.pageCount" @change="meta=>meta.previousPage" @page-size-change="meta=>meta.previousPageSize" @quick-jump="meta=>meta.source" @invalid="meta=>meta.reason">
+    <template #total="{start,end,total}">{{ start }}-{{ end }}/{{ total }}</template>
+    <template #page="{page,active,go}"><button type="button" @click="go(page,'typed')">{{ page }}/{{ active }}</button></template>
+    <template #ellipsis="{direction,target}">{{ direction }}/{{ target }}</template>
+    <template #quick-jumper="{value,submit}"><button type="button" @click="submit('typed')">{{ value }}</button></template>
+  </UiPagination>
   <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commands">
     <template #trigger="{ open }"><UiButton @click="open">Commands</UiButton></template>
     <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>

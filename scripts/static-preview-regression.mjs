@@ -47,9 +47,17 @@ try{
   await page.locator('#previewTransferRightAll').click()
   await page.locator('#previewTransferLeftAction').click()
   assert(await page.locator('#previewTransferState').textContent()==='minimum 1 · invalid','Transfer minimum constraint should reject removing all target values')
+
+  await page.locator('#previewPaginationJump').fill('999')
+  await page.locator('#previewPaginationJump').press('Enter')
+  assert((await page.locator('#previewPaginationState').textContent())?.includes('第 65 / 65 页 · quick-jump'),'Pagination quick jump should clamp to its last page')
+  await page.locator('#previewPaginationSize').selectOption('50')
+  assert((await page.locator('#previewPaginationTotal').textContent())?.includes('显示 1–50 条'),'Pagination size changes should reset the static preview to page one')
+  await page.locator('#previewPaginationNext').click()
+  assert((await page.locator('#previewPaginationState').textContent())?.includes('第 2 / 26 页 · next'),'Pagination next should publish the normalized page state')
   assert(pageErrors.length===0,`Static preview emitted page errors: ${pageErrors.join(' | ')}`)
 
-  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 keyboard=pass minimum=invalid')
+  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 keyboard=pass minimum=invalid')
 }finally{
   await browser?.close()
   await server.close()

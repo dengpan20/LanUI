@@ -7,6 +7,7 @@ const required={
   'UiTag.vue':['data-ui-tag','aria-pressed','update:checked','tag.close','noopener noreferrer','focusClose','defineExpose'],
   'UiCard.vue':['data-ui-card','aria-labelledby','aria-describedby','aria-busy','aria-pressed','loadingRows','isNestedControl','useReducedMotion','defineExpose'],
   'UiPageHeader.vue':['data-ui-page-header','aria-labelledby','breadcrumb-navigate','showBack','stickyOffset','useReducedMotion','defineExpose'],
+  'UiPagination.vue':['data-ui-pagination','defaultPage','defaultPageSize','pagerCount','showQuickJumper','pageSizeChangeBehavior','ellipsisInteractive','beforeChange','ResizeObserver','useDirection','aria-current','quick-jump','defineExpose'],
   'UiAnchor.vue':['aria-current','ArrowDown','ArrowUp','scroll-start','scroll-end','useReducedMotion','useDirection','defineExpose'],
   'UiTabs.vue':['role="tablist"','role="tab"','ArrowRight','aria-controls'],
   'UiForm.vue':['provide(\'uiFormContext\'','async function validate','defineExpose'],

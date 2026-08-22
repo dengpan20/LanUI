@@ -17,6 +17,7 @@ import {
   UiCronEditor,
   UiKeyValueEditor,
   UiPageHeader,
+  UiPagination,
   UiDateRangePicker,
   UiDateTimePicker,
   UiDateTimeRangePicker,
@@ -128,6 +129,7 @@ import SubpathBarcode, { UiBarcode as NamedSubpathBarcode } from 'lan-ui-design-
 import SubpathCronEditor, { UiCronEditor as NamedSubpathCronEditor } from 'lan-ui-design-system/components/UiCronEditor'
 import SubpathKeyValueEditor, { UiKeyValueEditor as NamedSubpathKeyValueEditor } from 'lan-ui-design-system/components/UiKeyValueEditor'
 import SubpathPageHeader, { UiPageHeader as NamedSubpathPageHeader } from 'lan-ui-design-system/components/UiPageHeader'
+import SubpathPagination, { UiPagination as NamedSubpathPagination } from 'lan-ui-design-system/components/UiPagination'
 import SubpathQRCode, { UiQRCode as NamedSubpathQRCode } from 'lan-ui-design-system/components/UiQRCode'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
@@ -212,6 +214,7 @@ import type { UiDateTimePickerEmits, UiDateTimePickerProps, UiDateTimePickerSlot
 import type { UiDateTimeRangePickerEmits, UiDateTimeRangePickerProps, UiDateTimeRangePickerSlots } from 'lan-ui-design-system/components/UiDateTimeRangePicker'
 import type { UiKeyValueEditorEmits, UiKeyValueEditorInstance, UiKeyValueEditorProps, UiKeyValueEditorSlots, UiKeyValueItem } from 'lan-ui-design-system/components/UiKeyValueEditor'
 import type { UiPageHeaderEmits, UiPageHeaderInstance, UiPageHeaderProps, UiPageHeaderSlots } from 'lan-ui-design-system/components/UiPageHeader'
+import type { UiPaginationChangeMeta, UiPaginationEmits, UiPaginationInstance, UiPaginationInvalid, UiPaginationProps, UiPaginationSlots } from 'lan-ui-design-system/components/UiPagination'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -425,6 +428,16 @@ const transferInstance:UiTransferInstance=null as never
 transferInstance.focus('left');transferInstance.blur();transferInstance.moveTo('right',['api'],'api');transferInstance.moveRight('api');transferInstance.moveLeft('api');transferInstance.setValue(['token'],'api');transferInstance.clear('api');transferInstance.selectAll('left','api');transferInstance.clearSelection('right','api');transferInstance.clearSearch('left','api');transferInstance.scrollTo('right',4,{align:'center'});transferInstance.getSelectedKeys('left')
 const transferSlot:UiTransferSlots={option:scope=>{const typed:UiTransferPublicOption=scope.option;return typed.label},header:scope=>scope.title,operation:scope=>String(scope.disabled),loading:scope=>scope.direction,error:scope=>String(scope.error),empty:scope=>scope.query,footer:scope=>String(scope.total)}
 const transferParity:typeof SubpathTransfer=NamedSubpathTransfer
+
+const paginationProps:InstanceType<typeof UiPagination>['$props']&UiPaginationProps={modelValue:4,page:4,defaultPage:1,pageSize:20,defaultPageSize:10,total:286,pageSizeOptions:[10,20,50],pagerCount:7,showTotal:true,showSizeChanger:true,showQuickJumper:true,showFirstLast:true,showPrevNext:true,hideOnSinglePage:false,ellipsisInteractive:true,simple:false,compact:false,responsive:true,size:'lg',disabled:false,readonly:false,loading:false,keyboard:true,autofocus:false,pageSizeChangeBehavior:'preserve-item',totalFormatter:context=>`${context.start}-${context.end}/${context.total}`,pageAriaLabel:(page,context)=>`${page}/${context.pageCount}`,beforeChange:async meta=>meta.page<=meta.pageCount,ariaLabel:'Release pages'}
+const paginationChange:UiPaginationEmits['change']=meta=>{const typed:UiPaginationChangeMeta=meta;void typed.previousPage}
+const paginationInvalid:UiPaginationEmits['invalid']=meta=>{const typed:UiPaginationInvalid=meta;void typed.reason}
+const paginationInstance:UiPaginationInstance=null as never
+paginationInstance.goTo(5,'api')
+paginationInstance.setPageSize(50,'size')
+paginationInstance.focusPage(3,{preventScroll:true})
+const paginationSlot:UiPaginationSlots={total:scope=>scope.text,page:scope=>String(scope.active),previous:scope=>String(scope.disabled),next:scope=>String(scope.page),first:scope=>String(scope.page),last:scope=>String(scope.page),ellipsis:scope=>scope.direction,'size-changer':scope=>String(scope.options.length),'quick-jumper':scope=>scope.value}
+const paginationParity:typeof SubpathPagination=NamedSubpathPagination
 
 // @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
@@ -1014,6 +1027,14 @@ const invalidTransferSize:UiTransferProps={size:'xl'}
 const invalidTransferSearch:UiTransferProps={searchValues:['only-one']}
 // @ts-expect-error Transfer instance directions are constrained to left or right.
 transferInstance.moveTo('center',['api'])
+// @ts-expect-error Pagination page-size behavior is constrained to reset, preserve-page or preserve-item.
+const invalidPaginationBehavior:UiPaginationProps={pageSizeChangeBehavior:'anchor'}
+// @ts-expect-error Pagination size uses the shared sm, md or lg scale.
+const invalidPaginationSize:UiPaginationProps={size:'xl'}
+// @ts-expect-error Pagination formatters return presentable scalar content.
+const invalidPaginationFormatter:UiPaginationProps={totalFormatter:()=>({text:'invalid'})}
+// @ts-expect-error Pagination page labels must be presentable scalar content.
+const invalidPaginationLabel:UiPaginationProps={pageAriaLabel:()=>true}
 
 void [pageHeaderProps,pageHeaderEmit,pageHeaderSubpathParity,pageHeaderNamedSubpathParity,pageHeaderSlot,pageHeaderInstance,invalidPageHeaderTitleTag,invalidPageHeaderSize,keyValueItems,keyValueEditorProps,keyValueEditorEmit,keyValueEditorSubpathParity,keyValueEditorNamedSubpathParity,keyValueEditorSlot,keyValueEditorInstance,invalidKeyValueSize,invalidKeyValueImport,cronPresets,cronEditorProps,cronEditorEmit,cronEditorSubpathParity,cronEditorNamedSubpathParity,cronEditorSlot,cronEditorInstance,invalidCronTimeZone,invalidCronPreviewCount,barcodeProps,barcodeEmit,barcodeSubpathParity,barcodeNamedSubpathParity,barcodeSlot,barcodeInstance,invalidBarcodeFormat,invalidBarcodeStatus,queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
 void [breadcrumbItems,breadcrumbProps,breadcrumbEmit,breadcrumbExpandEmit,breadcrumbSubpathParity,breadcrumbNamedSubpathParity,breadcrumbSlots,breadcrumbInstance,invalidBreadcrumbSeparatorMode,invalidBreadcrumbSize]
@@ -1031,4 +1052,5 @@ void [selectOptions,selectProps,selectChange,selectOpen,selectInvalid,selectInst
 void [multiSelectProps,multiSelectChange,multiSelectInvalid,multiSelectMax,multiSelectInstance,multiSelectSlot,multiSelectParity,invalidMultiSelectPlacement,invalidMultiSelectField,invalidMultiSelectFilter,invalidMultiSelectRemote]
 void [treeSelectOptions,treeSelectProps,treeSelectChange,treeSelectExpand,treeSelectInvalid,treeSelectInstance,treeSelectSlot,treeSelectParity,invalidTreeSelectPlacement,invalidTreeSelectField,invalidTreeSelectFilter,invalidTreeSelectLoader]
 void [transferOptions,transferProps,transferChange,transferSelection,transferSearch,transferLimit,transferInvalid,transferInstance,transferSlot,transferParity,invalidTransferOrder,invalidTransferSize,invalidTransferSearch]
+void [paginationProps,paginationChange,paginationInvalid,paginationInstance,paginationSlot,paginationParity,invalidPaginationBehavior,invalidPaginationSize,invalidPaginationFormatter,invalidPaginationLabel]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

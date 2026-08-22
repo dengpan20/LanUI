@@ -333,6 +333,39 @@ const permissionOptions = [
 
 大数据集可设置 `listHeight`、`itemHeight`、`overscan` 和 `measure`；两侧面板使用虚拟列表。Enter 或 Alt+逻辑方向键移动已勾选项，Space 切换当前项，移动限制会通过 `limit` 和 `invalid` 事件返回结构化原因。
 
+### 8.2 分页与服务端列表
+
+`UiPagination` 可同时控制页码和每页数量；服务端列表通常在 `change` 中使用同一份结构化上下文发起请求：
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { UiPagination, type UiPaginationChangeMeta } from 'lan-ui-design-system'
+
+const page = ref(1)
+const pageSize = ref(20)
+
+async function load(meta: UiPaginationChangeMeta) {
+  await fetch(`/api/orders?page=${meta.page}&pageSize=${meta.pageSize}`)
+}
+</script>
+
+<template>
+  <UiPagination
+    v-model="page"
+    v-model:page-size="pageSize"
+    :total="1286"
+    :page-size-options="[10, 20, 50, 100]"
+    page-size-change-behavior="preserve-item"
+    show-first-last
+    show-quick-jumper
+    @change="load"
+  />
+</template>
+```
+
+窄容器会自动进入简洁模式；也可以显式设置 `simple` 或 `compact`。需要在离开当前页前确认时，传入同步或异步 `beforeChange(meta)`；返回 `false` 即保留原页，并通过 `invalid` 事件说明原因。
+
 ## 9. 服务式反馈
 
 在应用根部挂载 Host：

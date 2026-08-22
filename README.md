@@ -14,7 +14,7 @@
 
 Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同时提供组件库、设计 Token、主题与国际化运行时、组件 API 文档，以及可直接运行的后台示例，适合 ERP、CRM、运营平台、数据后台和 AI 工作台等中后台产品。
 
-当前版本为 **v1.72.0**，公共 API 覆盖 **91 个组件、1,518 个 Props、511 个 Events 和 321 个 Slots**。
+当前版本为 **v1.73.0**，公共 API 覆盖 **91 个组件、1,540 个 Props、518 个 Events 和 330 个 Slots**。
 
 ## 为什么选择 Lan UI
 
@@ -28,10 +28,10 @@ Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同�
 
 ## 本轮组件完善
 
-**P76 成熟穿梭框组件**：`UiTransfer` 已补齐受控/默认目标值、双侧勾选与搜索状态、字段映射、IME、可见项全选、最小/最大目标数量、排序与单向策略、虚拟列表、原生表单、完整键盘/RTL、加载/错误/只读状态，以及结构化事件、Slots 和实例 API。
+**P77 成熟分页组件**：`UiPagination` 已补齐页码与每页数量的受控/默认状态、边界归一化、首末页、可交互省略号、快速跳页、简洁/紧凑/响应式模式、异步切换守卫、只读/加载状态、完整键盘/RTL、结构化事件、Slots 和实例 API。
 
 ```vue
-<UiTransfer v-model="permissions" :options="permissionOptions" searchable :min-count="1" :max-count="8" />
+<UiPagination v-model="page" v-model:page-size="pageSize" :total="1286" show-first-last show-quick-jumper />
 ```
 
 ## 界面预览

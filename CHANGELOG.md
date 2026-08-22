@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.73.0] - 2026-08-23
+
+### Added
+
+- Production `UiPagination` contracts for controlled/default page and page-size state, normalized totals and boundaries, configurable odd pager windows, first/last controls and interactive backward/forward ellipses.
+- Quick jumping, compact/simple/responsive modes, three page-size retention policies, asynchronous change guards, localized labels, disabled/readonly/loading states, logical LTR/RTL keyboard navigation, 9 Slots, 10 events and public focus/navigation operations.
+- Synchronized component-center, one-page HTML and standalone-consumer examples plus deterministic unit, visual, Axe, type, installed-tarball, SSR and Chromium/Firefox/WebKit interaction evidence.
+
+### Changed
+
+- Existing `page`, `pageSize`, `total`, `pageSizeOptions`, total text and change usage remains compatible while `modelValue`, defaults and structured metadata make controlled ownership explicit.
+- Pager windows remain bounded from 5 to 21 items, page and size changes share one guarded pipeline, narrow containers collapse to simple mode, and quick-jump events now publish only after an approved transition.
+- Release gates advance to 50 visual baselines, 67 zero-violation Axe scenarios, 72 interactions per browser and 101 negative type assertions. Public coverage remains 91 components and advances to 488 locale keys, 1,540 Props, 518 Events and 330 Slots.
+- Measured P77 ceilings remain absolute and bounded: package JS `900000 / 324000` B raw/gzip, package CSS `805000 / 166000` B, root CSS `280000 / 42500` B, largest component CSS `68000 / 10200` B and standalone JS/CSS raw `905000 / 282000` B.
+
 ## [1.72.0] - 2026-08-23
 
 ### Added

@@ -1294,3 +1294,15 @@ Every movement shares minimum/maximum target constraints, one-way policy and exp
 Loading, error/retry, empty, readonly, disabled, invalid and focus states stay distinct per panel. Native multiple-value submission, required validation, FormItem linkage and reset synchronize with public state. Header/option/state/operation/footer Slots, root/subpath declarations, SSR, component-center, static HTML, standalone consumer and installed-tarball verification exercise the same contract.
 
 P76 retains 91 public components and advances to 477 locale keys with generated coverage of 1,518 Props, 511 Events and 321 Slots. Release gates require 49 visual baselines, 66 zero-violation Axe scenarios, 71 interactions per Chromium/Firefox/WebKit engine, 97 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 90. Maturity P77: production pagination controls
+
+`UiPagination` is the list-navigation control for finite and server-backed records. Page and page-size may be controlled or default-owned; aliases remain backward compatible, numeric inputs normalize to finite positive boundaries and every mutation publishes one context containing previous/current page, page size, total, page count, source and event.
+
+Pager windows use a configurable odd count between 5 and 21. First/last, previous/next, individual pages and backward/forward ellipses share the same guarded transition path. Quick jump and simple input clamp safely, while reset, preserve-page and preserve-item policies make page-size changes deterministic.
+
+Synchronous or asynchronous `beforeChange` guards serialize mutations, expose pending state and distinguish rejected, failed, readonly, blocked and invalid input outcomes. Disabled, readonly and loading remain separate. Logical Arrow, Home and End navigation reverses in RTL; semantic page labels, `aria-current`, busy state, live totals, forced colors and reduced motion remain localized and testable.
+
+Compact, simple and container-observed responsive layouts preserve the navigation landmark from desktop tables to narrow panels. Total, size-changer, direction, page, ellipsis and quick-jumper Slots plus exposed navigation, size and focus methods complete the composition contract. Component center, static HTML, standalone consumer, generated API, isolated CSS, deterministic SSR and installed-tarball verification exercise the same surface.
+
+P77 retains 91 public components and advances to 488 locale keys with generated coverage of 1,540 Props, 518 Events and 330 Slots. Release gates require 50 visual baselines, 67 zero-violation Axe scenarios, 72 interactions per Chromium/Firefox/WebKit engine, 101 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
