@@ -411,6 +411,42 @@ const allCases = [
     },
   },
   {
+    name:'tree-select-production-hierarchy-search-lazy-native-api',
+    run:async page=>{
+      const section=page.locator('.interaction-tree-select-production-case')
+      const trigger=section.locator('#interaction-production-tree-select')
+      const treeSelect=trigger.locator('..')
+      await trigger.click()
+      const search=treeSelect.locator('.ui-tree-select-search input')
+      await search.fill('backend')
+      assert.equal(await treeSelect.getByRole('treeitem').count(),2)
+      await treeSelect.getByRole('treeitem',{name:/Backend platform/}).getByRole('button',{name:/Backend platform/}).click()
+      await expectText(page,'production-tree-select-output','tree:pointer:frontend,backend,product')
+      assert.deepEqual(await treeSelect.locator('select[name="deliveryTeams"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['product','frontend','backend'])
+      await section.locator('#interaction-production-tree-select-api').click()
+      await expectText(page,'production-tree-select-output','invalid:max-count')
+      await treeSelect.locator('.ui-tree-select-tag button').filter({hasText:''}).first().click()
+      await expectText(page,'production-tree-select-output','tree:tag:backend')
+      await section.locator('#interaction-production-tree-select-api').click()
+      await expectText(page,'production-tree-select-output','tree:fixture-api:backend,design,experience')
+      await section.locator('#interaction-production-tree-select-load-api').click()
+      await expectText(page,'production-tree-select-output','expand:fixture-api:experience:true')
+      await section.locator('#interaction-production-tree-select-close-api').click({force:true})
+      assert.equal(await trigger.getAttribute('aria-expanded'),'false')
+      await section.locator('#interaction-production-readonly-tree-select').click()
+      await expectText(page,'production-tree-select-output','invalid:readonly')
+      const lazyTrigger=section.locator('#interaction-production-lazy-tree-select')
+      await lazyTrigger.click()
+      const lazy=lazyTrigger.locator('..')
+      await lazy.getByRole('button',{name:/Remote organization/}).first().click()
+      await lazy.getByRole('treeitem',{name:/Remote child/}).waitFor()
+      await expectText(page,'production-tree-select-output','load:remote:1')
+      await page.locator('#interaction-tree-select-form').evaluate(form=>form.reset())
+      await expectText(page,'production-tree-select-output','tree:reset:frontend')
+      assert.deepEqual(await treeSelect.locator('select[name="deliveryTeams"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['frontend'])
+    },
+  },
+  {
     name:'selection-groups-limits-radio-switch-guard',
     run:async page=>{
       const section=page.locator('.interaction-selection-case')

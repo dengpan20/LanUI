@@ -1258,3 +1258,17 @@ Arrow, Home, End, Enter, Escape, Tab, Typeahead and Backspace share disabled-opt
 FormItem context, Portal theme scope, collision-aware RTL placement, tag collapsing, prefix/tag/overflow/placeholder/suffix/arrow/loading/clear/error/select-all/option/empty/footer Slots, structured events and exposed focus/open/value/reload operations complete the integration contract.
 
 P73 retains 91 public components and advances to 458 locale keys with generated coverage of 1,408 Props, 471 Events and 280 Slots. Release gates require 46 visual baselines, 64 zero-violation Axe scenarios, 68 interactions per Chromium/Firefox/WebKit engine, 85 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 87. Maturity P74: production tree-select controls
+
+`UiTreeSelect` preserves its scalar or multiple model, options, placeholder and Disabled surface while adding controlled/default value, popup and expanded state. String/Number nodes and domain records normalize through configurable label, value, children, disabled, selectable, checkable, leaf, icon, description and keyword fields; identity comparisons use `Object.is`, and selected-memory keeps labels stable when records are temporarily unavailable.
+
+Local search covers labels, values, descriptions, keywords and ancestor paths through a replaceable predicate, suppresses intermediate IME updates and keeps ancestors visible. Lazy loading receives node metadata plus AbortSignal and source, caches children per branch, aborts superseded work, ignores stale completion, publishes structured load/error events and exposes retry without mutating consumer data.
+
+Scalar, multiple, checkbox cascade and strict-check selection share one value pipeline. Minimum and maximum limits apply to pointer, keyboard, tag, clear and API paths. Path labels, collapsed removable tags, disabled checkbox policy, controlled expansion and optional fixed-height virtual rendering remain orthogonal.
+
+Arrow, Home, End, Enter, Space, Escape, Tab and Typeahead implement tree navigation with disabled-node skipping, parent/child movement and logical RTL reversal. Native form submission, required validation and reset synchronize with public values. The scroll viewport is keyboard reachable, removal targets meet WCAG 2.2 sizing, and dark-theme descriptions pass measured contrast.
+
+FormItem context, collision-aware Portal theme scope, prefix/suffix/arrow/tag/value/search/node/icon/loading/error/empty/footer Slots, structured events and exposed focus/open/value/expand/load methods complete the contract. Component center, static HTML, standalone consumer, generated API, isolated CSS, root/subpath declarations, deterministic SSR and installed-tarball verification exercise the same surface.
+
+P74 retains 91 public components and advances to 462 locale keys with generated coverage of 1,449 Props, 485 Events and 294 Slots. Release gates require 47 visual baselines, 65 zero-violation Axe scenarios, 69 interactions per Chromium/Firefox/WebKit engine, 89 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

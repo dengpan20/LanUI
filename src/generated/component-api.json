@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.69.0",
+  "version": "1.70.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -21458,6 +21458,150 @@
       "propsType": "UiTreeSelectProps",
       "props": [
         {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "checkStrictly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "checkable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearValue",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "clearable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "closeOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "defaultExpandAll",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultExpandedKeys",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "Key|Key[]",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "disabled",
           "required": false,
           "type": "boolean",
@@ -21467,6 +21611,113 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "errorText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "expandOnClickNode",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "expandedKeys",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "fieldNames",
+          "required": false,
+          "type": "UiTreeSelectFieldNames",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "filterNode",
+          "required": false,
+          "type": "boolean|((query:string,node?:UiTreeSelectPublicNode)=>boolean)",
+          "runtimeTypes": [
+            "Boolean",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "height",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "260"
+          }
+        },
+        {
+          "name": "indent",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "18"
           }
         },
         {
@@ -21482,22 +21733,155 @@
           }
         },
         {
+          "name": "itemHeight",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "34"
+          }
+        },
+        {
+          "name": "loadData",
+          "required": false,
+          "type": "(node:UiTreeSelectPublicNode|undefined,context:UiTreeSelectLoadContext)=>UiTreeSelectNodeInput[]|Promise<UiTreeSelectNodeInput[]>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "maxCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "maxTagCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "minCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
-          "type": "Key",
-          "runtimeTypes": [],
+          "type": "Key|Key[]",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "multiple",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
           "default": null
+        },
+        {
+          "name": "open",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
         },
         {
           "name": "options",
           "required": false,
-          "type": "UiTreeNode[]",
+          "type": "UiTreeSelectNodeInput[]",
           "runtimeTypes": [
             "Array"
           ],
           "default": {
             "kind": "factory",
             "value": "factory()"
+          }
+        },
+        {
+          "name": "overscan",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "4"
           }
         },
         {
@@ -21511,28 +21895,277 @@
             "kind": "literal",
             "value": "\"\""
           }
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "type": "'top-start'|'top-end'|'bottom-start'|'bottom-end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom-start\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "searchPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "searchable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "selectable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showPath",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "virtual",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
         }
       ],
       "emitsType": "UiTreeSelectEmits",
       "emits": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{value:Key|Key[]|undefined;query:string})=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:Key,node:UiTreeNode)=>void"
+          "type": "(value:Key|Key[],meta:UiTreeSelectChangeMeta)=>void"
+        },
+        {
+          "name": "check-change",
+          "required": true,
+          "type": "(value:Key|Key[],node:UiTreeSelectPublicNode|undefined,meta:UiTreeSelectChangeMeta)=>void"
+        },
+        {
+          "name": "clear",
+          "required": true,
+          "type": "(meta:UiTreeSelectChangeMeta)=>void"
+        },
+        {
+          "name": "deselect",
+          "required": true,
+          "type": "(value:Key|Key[],node:UiTreeSelectPublicNode|undefined,meta:UiTreeSelectChangeMeta)=>void"
+        },
+        {
+          "name": "expand-change",
+          "required": true,
+          "type": "(value:Key[],node:UiTreeSelectPublicNode|undefined,meta:UiTreeSelectExpandMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{value:Key|Key[]|undefined;query:string})=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:Key|Key[],meta:UiTreeSelectChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiTreeSelectInvalid)=>void"
+        },
+        {
+          "name": "load",
+          "required": true,
+          "type": "(payload:UiTreeSelectLoadPayload)=>void"
+        },
+        {
+          "name": "load-error",
+          "required": true,
+          "type": "(payload:UiTreeSelectLoadError)=>void"
         },
         {
           "name": "open-change",
           "required": true,
-          "type": "(open:boolean)=>void"
+          "type": "(open:boolean,meta:UiTreeSelectOpenMeta)=>void"
+        },
+        {
+          "name": "search",
+          "required": true,
+          "type": "(query:string,meta:{source:UiTreeSelectSource})=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(value:Key|Key[],node:UiTreeSelectPublicNode|undefined,meta:UiTreeSelectChangeMeta)=>void"
+        },
+        {
+          "name": "update:expandedKeys",
+          "required": true,
+          "type": "(value:Key[])=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
-          "type": "(value:Key)=>void"
+          "type": "(value:Key|Key[])=>void"
+        },
+        {
+          "name": "update:open",
+          "required": true,
+          "type": "(open:boolean)=>void"
         }
       ],
       "slotsType": "UiTreeSelectSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "arrow",
+          "required": false,
+          "type": "(scope:{open:boolean})=>VNodeChild"
+        },
+        {
+          "name": "clear-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{query:string})=>VNodeChild"
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{error:unknown})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:{query:string;nodes:Array<UiTreeSelectPublicNode|undefined>;value:Key|Key[]|undefined;expandedKeys:Key[]})=>VNodeChild"
+        },
+        {
+          "name": "icon",
+          "required": false,
+          "type": "(scope:{node?:UiTreeSelectPublicNode;expanded:boolean})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "node",
+          "required": false,
+          "type": "(scope:UiTreeSelectNodeScope)=>VNodeChild"
+        },
+        {
+          "name": "placeholder",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(scope:{value:Key|Key[]|undefined;nodes:Array<UiTreeSelectPublicNode|undefined>})=>VNodeChild"
+        },
+        {
+          "name": "search-prefix",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(scope:{value:Key|Key[]|undefined;nodes:Array<UiTreeSelectPublicNode|undefined>})=>VNodeChild"
+        },
+        {
+          "name": "tag",
+          "required": false,
+          "type": "(scope:{node?:UiTreeSelectPublicNode;remove:(event:Event)=>unknown})=>VNodeChild"
+        },
+        {
+          "name": "value",
+          "required": false,
+          "type": "(scope:{node?:UiTreeSelectPublicNode;value:Key|Key[]|undefined})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiUpload",

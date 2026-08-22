@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
-  UiTree, UiStatistic,
+  UiTree, UiTreeSelect, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
   UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
@@ -24,6 +24,21 @@ const productionMultiSelectValue=ref(['east'])
 const productionRemoteMultiSelect=ref([])
 const productionMultiSelectOutput=ref('ready')
 const productionMultiSelectOptions=[{label:'East cluster',value:'east',description:'Shanghai and Hangzhou',keywords:['hangzhou']},{label:'South cluster',value:'south',disabled:true},{label:'North cluster',value:'north',description:'Beijing and Tianjin'},{label:'Global cluster',value:'global',description:'Cross-time-zone delivery',keywords:['overseas']}]
+const productionTreeSelectRef=ref(null)
+const productionTreeSelectValue=ref(['frontend'])
+const productionTreeSelectOutput=ref('ready')
+const productionTreeSelectOptions=[
+  {label:'Product engineering',value:'product',description:'Delivery organization',children:[
+    {label:'Frontend platform',value:'frontend',description:'Design system and shell',keywords:['browser']},
+    {label:'Backend platform',value:'backend',description:'Services and data'},
+  ]},
+  {label:'Experience',value:'experience',children:[{label:'Product design',value:'design'},{label:'Research archive',value:'research',disabled:true}]},
+]
+const productionLazyTreeOptions=[{label:'Remote organization',value:'remote'}]
+async function loadProductionTree(node,{signal}){
+  await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,70);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})
+  return node.value==='remote'?[{label:'Remote child',value:'remote-child',isLeaf:true}]:[]
+}
 const anchorValue=ref('fixture-anchor-overview')
 const anchorItems=[{key:'fixture-anchor-overview',href:'#fixture-anchor-overview',title:'Overview'},{key:'fixture-anchor-disabled',href:'#fixture-anchor-disabled',title:'Disabled',disabled:true},{key:'fixture-anchor-api',href:'#fixture-anchor-api',title:'API contract'},{key:'fixture-anchor-release',href:'#fixture-anchor-release',title:'Release'}]
 const officeCity = ref('')
@@ -302,7 +317,7 @@ const treeItems = [
   { label:'Remote', value:'remote', isLeaf:false },
 ]
 async function loadTreeData(node){treeLoadCount.value+=1;await new Promise(resolve=>setTimeout(resolve,40));return node.value==='remote'?[{label:'Remote child',value:'remote-child',isLeaf:true}]:[]}
-function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisticValue.value=1250;statisticTrend.value=-2.5;statisticLoading.value=false},40)}
+function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisticValue.value=1250;statisticTrend.value=-2.5;statisticLoading.value=false},160)}
 </script>
 
 <template>
@@ -706,6 +721,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
 <div class="interaction-row"><UiButton id="interaction-production-multi-select-api" size="sm" variant="outline" @click="productionMultiSelectRef.select('north','fixture-api')">Select by API</UiButton><UiButton id="interaction-production-multi-select-close-api" size="sm" variant="text" @click="productionMultiSelectRef.hide('fixture-api')">Close by API</UiButton></div>
         </div>
         <output class="interaction-output" data-testid="production-multi-select-output">{{ productionMultiSelectOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-tree-select-production-case" data-tree-select-state-contract="controlled uncontrolled scalar multiple expansion field mapping search ime lazy abort retry race cascade strict limits tags native reset readonly keyboard rtl ssr portal slots api">
+        <h2>TreeSelect production contract</h2>
+        <div class="interaction-grid">
+          <form id="interaction-tree-select-form"><UiFormItem label="Delivery teams" required help="Hierarchy, search, cascade, limits, native multiple form and API"><UiTreeSelect id="interaction-production-tree-select" ref="productionTreeSelectRef" v-model="productionTreeSelectValue" :default-value="['frontend']" :options="productionTreeSelectOptions" name="deliveryTeams" required multiple checkable searchable clearable show-path default-expand-all :min-count="1" :max-count="3" :max-tag-count="2" :append-to-body="false" @change="(values,meta)=>productionTreeSelectOutput=`tree:${meta.source}:${values.join(',')}`" @invalid="meta=>productionTreeSelectOutput=`invalid:${meta.reason}`" @expand-change="(_keys,node,meta)=>productionTreeSelectOutput=`expand:${meta.source}:${node.value}:${meta.expanded}`"/></UiFormItem></form>
+          <UiFormItem label="Lazy organization" help="AbortSignal-aware branch loading"><UiTreeSelect id="interaction-production-lazy-tree-select" :options="productionLazyTreeOptions" :load-data="loadProductionTree" :append-to-body="false" @load="payload=>productionTreeSelectOutput=`load:${payload.node.value}:${payload.children.length}`" @load-error="payload=>productionTreeSelectOutput=`load-error:${payload.node.value}`"/></UiFormItem>
+          <UiFormItem label="Read only"><UiTreeSelect id="interaction-production-readonly-tree-select" model-value="frontend" :options="productionTreeSelectOptions" readonly :append-to-body="false" @invalid="meta=>productionTreeSelectOutput=`invalid:${meta.reason}`"/></UiFormItem>
+          <div class="interaction-row"><UiButton id="interaction-production-tree-select-api" size="sm" variant="outline" @click="productionTreeSelectRef.select('design','fixture-api')">Select by API</UiButton><UiButton id="interaction-production-tree-select-load-api" size="sm" variant="outline" @click="productionTreeSelectRef.expand('experience','fixture-api')">Expand by API</UiButton><UiButton id="interaction-production-tree-select-close-api" size="sm" variant="text" @click="productionTreeSelectRef.hide('fixture-api')">Close by API</UiButton></div>
+        </div>
+        <output class="interaction-output" data-testid="production-tree-select-output">{{ productionTreeSelectOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-selection-case" data-selection-state-contract="checkbox group array min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
         <h2>Selection controls production contract</h2>

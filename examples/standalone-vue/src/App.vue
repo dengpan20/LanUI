@@ -61,6 +61,7 @@ import {
   UiTour,
   UiTypography,
   UiTree,
+  UiTreeSelect,
   UiUpload,
   UiWatermark,
   toast,
@@ -111,6 +112,12 @@ async function fetchStandaloneSelect(query,{signal}){await new Promise((resolve,
 const standaloneMultiSelect=ref(['east','global'])
 const standaloneRemoteMultiSelect=ref([])
 const standaloneMultiSelectState=ref('ready')
+const standaloneTreeSelect=ref(['frontend'])
+const standaloneRemoteTreeSelect=ref('')
+const standaloneTreeSelectState=ref('ready')
+const standaloneTreeOptions=[{label:'Engineering',value:'engineering',description:'Product delivery',children:[{label:'Frontend',value:'frontend',description:'Web applications',keywords:['web']},{label:'Backend',value:'backend'}]},{label:'Operations',value:'operations',children:[{label:'Release',value:'release'},{label:'Observability',value:'observability'}]},{label:'Archive',value:'archive',disabled:true}]
+const standaloneAsyncTreeOptions=[{label:'Remote tenants',value:'remote-tenants',description:'Lazy enterprise directory',isLeaf:false}]
+async function loadStandaloneTree(node,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,240);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return node.value==='remote-tenants'?[{label:'Tenant Alpha',value:'tenant-alpha',isLeaf:true},{label:'Tenant Beta',value:'tenant-beta',isLeaf:true}]:[]}
 const standaloneChannels=ref(['email'])
 const standalonePlan=ref('team')
 const standalonePolicy=ref('enabled')
@@ -159,7 +166,7 @@ const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.69.0?r
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-169-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-170-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -287,6 +294,14 @@ const rows = computed(() => [
         <UiFormItem label="Operational states" group><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiMultiSelect :model-value="['east']" :options="standaloneSelectOptions" loading aria-label="Loading multi select"/><UiMultiSelect invalid :options="standaloneSelectOptions" aria-label="Invalid multi select"/><UiMultiSelect :model-value="['east']" :options="standaloneSelectOptions" readonly aria-label="Readonly multi select"/><UiMultiSelect :model-value="['east']" :options="standaloneSelectOptions" disabled aria-label="Disabled multi select"/></div></UiFormItem>
       </div>
       <template #footer><code>{{ standaloneMultiSelectState }} · {{ standaloneMultiSelect.join(',') }} · {{ standaloneRemoteMultiSelect.join(',')||'remote empty' }}</code></template>
+    </UiCard>
+    <UiCard data-tree-select-state-contract title="Consumer production tree selects" subtitle="Controlled expansion, mapped trees, lazy loading, checkbox cascade, native forms and complete keyboard semantics from the packed dependency">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+        <UiFormItem label="Delivery ownership" required help="Search · checkbox cascade · path tags · maximum five"><UiTreeSelect v-model="standaloneTreeSelect" :options="standaloneTreeOptions" multiple checkable searchable clearable default-expand-all show-path :max-count="5" :max-tag-count="2" name="deliveryOwnership" required @change="(values,meta)=>standaloneTreeSelectState=`${meta.source} · ${values.join(',')}`"><template #prefix>◇</template><template #footer="{nodes}">{{ nodes.length }} visible nodes</template></UiTreeSelect></UiFormItem>
+        <UiFormItem label="Remote tenant tree" help="AbortSignal · race guard · cached children · retry"><UiTreeSelect v-model="standaloneRemoteTreeSelect" :options="standaloneAsyncTreeOptions" :load-data="loadStandaloneTree" searchable clearable placeholder="Expand remote tenants" @change="(value,meta)=>standaloneTreeSelectState=`lazy ${meta.source} · ${value}`"/></UiFormItem>
+        <UiFormItem label="Operational states" group><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiTreeSelect model-value="frontend" :options="standaloneTreeOptions" loading aria-label="Loading tree select"/><UiTreeSelect invalid :options="standaloneTreeOptions" aria-label="Invalid tree select"/><UiTreeSelect model-value="frontend" :options="standaloneTreeOptions" readonly aria-label="Readonly tree select"/><UiTreeSelect model-value="frontend" :options="standaloneTreeOptions" disabled aria-label="Disabled tree select"/></div></UiFormItem>
+      </div>
+      <template #footer><code>{{ standaloneTreeSelectState }} · {{ standaloneTreeSelect.join(',') }} · {{ standaloneRemoteTreeSelect||'lazy empty' }}</code></template>
     </UiCard>
     <UiCard data-selection-state-contract title="Consumer production selection controls" subtitle="Native form semantics, typed groups, constraints and guarded switches from the packed dependency">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">

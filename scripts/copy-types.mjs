@@ -36,6 +36,7 @@ const relatedComponentTypes={
   UiCronEditor:['UiCronChangeMeta','UiCronEditorInstance','UiCronError','UiCronErrorCode','UiCronInputMeta','UiCronPreset','UiCronValidation'],
   UiKeyValueEditor:['UiKeyValueChangeMeta','UiKeyValueEditorInstance','UiKeyValueError','UiKeyValueErrorCode','UiKeyValueImportOptions','UiKeyValueItem','UiKeyValueValidation'],
   UiPageHeader:['UiPageHeaderBackMeta','UiPageHeaderBreadcrumbMeta','UiPageHeaderInstance','UiPageHeaderTitleTag'],
+  UiTreeSelect:['UiTreeSelectChangeMeta','UiTreeSelectExpandMeta','UiTreeSelectFieldNames','UiTreeSelectInstance','UiTreeSelectInvalid','UiTreeSelectLoadContext','UiTreeSelectLoadError','UiTreeSelectLoadPayload','UiTreeSelectNodeInput','UiTreeSelectNodeScope','UiTreeSelectOpenMeta','UiTreeSelectPublicNode','UiTreeSelectSource'],
 }
 for (const name of components) {
   const typeNames=[`${name}Props`,`${name}Emits`,`${name}Slots`,...(relatedComponentTypes[name]||[])]

@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.70.0] - 2026-08-22
+
+### Added
+
+- Production `UiTreeSelect` contracts for controlled/default scalar or array values, popup and expanded state, domain-field mapping, path labels, local/IME search, lazy node loading, AbortSignal cancellation, stale-result protection, retry and optional virtual rendering.
+- Single, multiple, checkbox-cascade and strict-check modes with min/max selection limits, removable/collapsed tags, native form participation, reset/required semantics, complete tree keyboard navigation and 14 composable Slots.
+- Synchronized component-center, one-page HTML and standalone-consumer examples plus deterministic unit, visual, Axe, type, installed-tarball, SSR and Chromium/Firefox/WebKit interaction evidence.
+
+### Changed
+
+- Existing TreeSelect usage remains compatible while value identity now uses `Object.is`, unknown selected labels remain stable, controlled expansion and collision-aware RTL Portal placement become explicit, and every mutation publishes structured metadata.
+- The scrollable tree viewport is keyboard reachable, tag removal targets meet the WCAG 2.2 target-size contract, and dark-theme node descriptions and active rows pass measured contrast checks.
+- Release gates advance to 47 visual baselines, 65 zero-violation Axe scenarios, 69 interactions per browser and 89 negative type assertions. Public coverage remains 91 components and advances to 462 locale keys, 1,449 Props, 485 Events and 294 Slots.
+- Measured P74 ceilings remain absolute and bounded: package JS `820000 / 303000` B raw/gzip, package CSS `735000 / 158000` B, root CSS `255000 / 40000` B, largest component CSS `68000 / 10200` B and standalone JS/CSS raw `795000 / 255000` B; tarball ceilings remain fixed.
+
 ## [1.69.0] - 2026-08-22
 
 ### Added

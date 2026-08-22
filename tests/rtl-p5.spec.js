@@ -43,7 +43,7 @@ describe('logical direction configuration',()=>{
 
   it('uses logical expand and collapse keys for tree, cascader and menu',async()=>{
     const tree=[{label:'Parent',value:'parent',children:[{label:'Child',value:'child'}]}]
-    const treeSelect=withDirection('rtl',UiTreeSelect,{options:tree})
+    const treeSelect=withDirection('rtl',UiTreeSelect,{options:tree,appendToBody:false})
     const treeTrigger=treeSelect.get('[role="combobox"]')
     await treeTrigger.trigger('keydown',{key:'ArrowDown'})
     await treeTrigger.trigger('keydown',{key:'ArrowLeft'})

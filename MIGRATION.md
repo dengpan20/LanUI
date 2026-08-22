@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.70 tree-select compatibility
+
+There are no breaking changes. Existing `<UiTreeSelect v-model="value" :options="options" />` scalar or multiple usage remains valid:
+
+```vue
+<UiTreeSelect v-model="teams" :options="teamTree" multiple checkable searchable show-path />
+```
+
+- `modelValue`, `open` and `expandedKeys` are controlled when supplied; the corresponding default values own internal state otherwise. Values de-duplicate with `Object.is`, and field mappings adapt labels, values, children, state flags, icons, descriptions and keywords without rewriting domain records.
+- Search covers labels, values, descriptions, keywords and ancestor paths through a replaceable predicate while IME suppresses partial composition. `loadData(node,{ signal, source })` supports per-node caching, cancellation, stale-response suppression, retry and structured load errors.
+- Scalar, multiple, cascade and `checkStrictly` modes are additive. `minCount` and `maxCount` guard pointer, keyboard, tag, clear and API mutations; `maxTagCount`, `showPath`, `selectable`, `expandOnClickNode` and optional virtual rendering remain explicit policies.
+- Arrow, Home, End, Enter, Space, Escape, Tab and Typeahead follow tree semantics, skip disabled nodes and reverse horizontal expand/collapse intent in RTL. The scroll viewport remains keyboard reachable and active descendants stay synchronized.
+- Named controls submit through a native Select, required validation focuses the visible combobox and form reset restores declared value and expansion defaults. FormItem, Portal theme scope, forced colors, SSR, root/subpath types, 14 Slots, 17 events and exposed focus/open/value/expand/load operations remain synchronized.
+
 ## 1.69 multi-select compatibility
 
 There are no breaking changes. Existing `<UiMultiSelect v-model="values" :options="options" searchable />` usage remains valid:

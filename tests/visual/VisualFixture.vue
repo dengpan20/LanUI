@@ -51,6 +51,17 @@ const visualTextareaValue=ref('Multiline release notes grow from three to six ro
 const visualSelectValue=ref('east')
 const visualSelectOptions=[{name:'East release cluster',id:'east',detail:'Shanghai and Hangzhou',terms:['east','hangzhou']},{name:'South release cluster',id:'south',detail:'Unavailable for this policy',locked:true},{name:'Global release cluster',id:'global',detail:'Cross-time-zone delivery',terms:['global','overseas']}]
 const visualMultiSelectValue=ref(['east','global'])
+const visualTreeSelectValue=ref(['frontend','design'])
+const visualTreeSelectOptions=[
+  {name:'Product & Engineering',id:'product',detail:'Core delivery teams',terms:['engineering','product'],children:[
+    {name:'Frontend platform',id:'frontend',detail:'Design system and application shell'},
+    {name:'Backend platform',id:'backend',detail:'Services and data contracts'},
+  ]},
+  {name:'Experience',id:'experience',detail:'Customer-facing disciplines',children:[
+    {name:'Product design',id:'design',detail:'Interaction and visual language'},
+    {name:'Research archive',id:'research',detail:'Unavailable for this policy',locked:true},
+  ]},
+]
 const visualChannels=ref(['email','inbox'])
 const visualPlan=ref('team')
 const visualPolicy=ref('enabled')
@@ -417,6 +428,13 @@ const tableRows=[
         <section><h3>Sizes and operational states</h3><div class="visual-multi-select-sizes"><UiMultiSelect size="sm" :model-value="['Small']" :options="['Small']" aria-label="Small multi select"/><UiMultiSelect :model-value="['Medium','Review']" :options="['Medium','Review']" :max-tag-count="1" aria-label="Medium multi select"/><UiMultiSelect size="lg" :model-value="['Large']" :options="['Large']" aria-label="Large multi select"/></div><div class="visual-multi-select-states"><UiMultiSelect :model-value="['Loading']" :options="['Loading']" loading aria-label="Loading multi select"/><UiMultiSelect invalid :options="['Required']" placeholder="Required values" aria-label="Invalid multi select"/><UiMultiSelect :model-value="['Read only']" :options="['Read only']" readonly aria-label="Read-only multi select"/><UiMultiSelect :model-value="['Disabled']" :options="['Disabled']" disabled aria-label="Disabled multi select"/></div></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">native multiple / controlled arrays</UiTag><UiTag color="green">limits / select-all / tags</UiTag><UiTag color="orange">keyboard / ARIA / RTL / SSR / API</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='tree-select'" title="Production tree select controls" subtitle="Hierarchical selection, checkbox cascade, resilient search, native forms and lazy branch loading" title-tag="h2" class="visual-table-card visual-tree-select-showcase">
+      <div class="visual-tree-select-grid" data-tree-select-state-contract="controlled uncontrolled scalar multiple expansion field mapping search ime lazy abort retry race cascade strict limits tags form keyboard rtl ssr portal slots api">
+        <section class="visual-tree-select-stage"><h3>Mapped searchable hierarchy</h3><UiFormItem label="Delivery teams" required help="Paths and descriptions · maximum 3 leaf teams"><UiTreeSelect v-model="visualTreeSelectValue" :options="visualTreeSelectOptions" :field-names="{label:'name',value:'id',description:'detail',keywords:'terms',disabled:'locked'}" name="deliveryTeams" required multiple checkable searchable clearable default-expand-all show-path :max-count="3" :max-tag-count="1" :append-to-body="false"><template #prefix>◇</template><template #footer="{nodes}">{{ nodes.length }} visible nodes</template></UiTreeSelect></UiFormItem></section>
+        <section><h3>Sizes and operational states</h3><div class="visual-tree-select-sizes"><UiTreeSelect size="sm" model-value="frontend" :options="visualTreeSelectOptions" default-expand-all aria-label="Small tree select"/><UiTreeSelect model-value="design" :options="visualTreeSelectOptions" show-path default-expand-all aria-label="Medium tree select"/><UiTreeSelect size="lg" model-value="backend" :options="visualTreeSelectOptions" default-expand-all aria-label="Large tree select"/></div><div class="visual-tree-select-states"><UiTreeSelect model-value="frontend" :options="visualTreeSelectOptions" loading aria-label="Loading tree select"/><UiTreeSelect invalid :options="visualTreeSelectOptions" placeholder="Required team" aria-label="Invalid tree select"/><UiTreeSelect model-value="design" :options="visualTreeSelectOptions" readonly aria-label="Read-only tree select"/><UiTreeSelect model-value="backend" :options="visualTreeSelectOptions" disabled aria-label="Disabled tree select"/></div></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">native form / controlled expansion</UiTag><UiTag color="green">cascade / limits / lazy retry</UiTag><UiTag color="orange">keyboard / ARIA / RTL / SSR / API</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='selection'" title="Production selection controls" subtitle="Native inputs, typed groups, constraints, value mapping and complete operational states" title-tag="h2" class="visual-table-card visual-selection-showcase">
       <div class="visual-selection-grid" data-selection-state-contract="checkbox group boolean array true-value false-value min max indeterminate radio keyboard switch guard loading form aria rtl ssr">

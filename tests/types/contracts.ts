@@ -57,6 +57,7 @@ import {
   UiTimePicker,
   UiTimeRangePicker,
   UiTree,
+  UiTreeSelect,
   UiTour,
   UiUpload,
   UiVirtualList,
@@ -95,6 +96,7 @@ import SubpathRadioGroup, { UiRadioGroup as NamedSubpathRadioGroup } from 'lan-u
 import SubpathSwitch, { UiSwitch as NamedSubpathSwitch } from 'lan-ui-design-system/components/UiSwitch'
 import SubpathSelect, { UiSelect as NamedSubpathSelect } from 'lan-ui-design-system/components/UiSelect'
 import SubpathMultiSelect, { UiMultiSelect as NamedSubpathMultiSelect } from 'lan-ui-design-system/components/UiMultiSelect'
+import SubpathTreeSelect, { UiTreeSelect as NamedSubpathTreeSelect } from 'lan-ui-design-system/components/UiTreeSelect'
 import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
@@ -160,6 +162,7 @@ import type { UiRadioGroupEmits, UiRadioGroupInstance, UiRadioGroupProps, UiRadi
 import type { UiSwitchChangeMeta, UiSwitchEmits, UiSwitchInstance, UiSwitchProps, UiSwitchSlots } from 'lan-ui-design-system/components/UiSwitch'
 import type { SelectOption, UiSelectChangeMeta, UiSelectEmits, UiSelectInstance, UiSelectInvalidMeta, UiSelectOpenMeta, UiSelectProps, UiSelectSlots } from 'lan-ui-design-system/components/UiSelect'
 import type { UiMultiSelectChangeMeta, UiMultiSelectEmits, UiMultiSelectInstance, UiMultiSelectInvalidMeta, UiMultiSelectMaxMeta, UiMultiSelectProps, UiMultiSelectSlots } from 'lan-ui-design-system/components/UiMultiSelect'
+import type { UiTreeSelectChangeMeta, UiTreeSelectEmits, UiTreeSelectExpandMeta, UiTreeSelectInstance, UiTreeSelectInvalid, UiTreeSelectLoadContext, UiTreeSelectProps, UiTreeSelectPublicNode, UiTreeSelectSlots } from 'lan-ui-design-system/components/UiTreeSelect'
 import type { UiButtonActivationMeta, UiButtonEmits, UiButtonInstance, UiButtonProps, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
@@ -387,6 +390,16 @@ multiSelectInstance.focus();multiSelectInstance.blur();multiSelectInstance.show(
 const multiSelectSlot:UiMultiSelectSlots={prefix:scope=>String(scope.values),tag:scope=>scope.option.label,'overflow-tag':scope=>String(scope.count),arrow:scope=>String(scope.open),option:scope=>scope.option.label,empty:scope=>scope.query,error:scope=>String(scope.retry()),'select-all':scope=>String(scope.selected),footer:scope=>String(scope.options.length)}
 const multiSelectParity:typeof SubpathMultiSelect=NamedSubpathMultiSelect
 
+const treeSelectOptions=[{label:'Product',value:'product',description:'Delivery organization',children:[{label:'Frontend',value:'frontend',isLeaf:true},{label:'Backend',value:'backend',isLeaf:true}]}]
+const treeSelectProps:InstanceType<typeof UiTreeSelect>['$props']&UiTreeSelectProps={modelValue:['frontend'],defaultValue:['backend'],open:true,defaultOpen:false,options:treeSelectOptions,fieldNames:{label:'name',value:'id',children:'nodes',description:'detail'},placeholder:'Choose teams',size:'lg',readonly:false,loading:false,clearable:true,multiple:true,checkable:true,checkStrictly:false,selectable:true,expandedKeys:['product'],defaultExpandedKeys:['product'],defaultExpandAll:true,expandOnClickNode:false,closeOnSelect:false,searchable:true,filterNode:(query,node)=>Boolean(node?.label.includes(query)),loadData:async(_node,context:UiTreeSelectLoadContext)=>context.signal?.aborted?[]:treeSelectOptions,virtual:true,height:260,itemHeight:34,overscan:5,indent:18,maxCount:4,minCount:1,maxTagCount:2,showPath:true,loadingText:'Loading',errorText:'Failed',searchPlaceholder:'Search',placement:'bottom-end',appendToBody:true,name:'teams',form:'release',required:true,autofocus:false,ariaLabel:'Teams'}
+const treeSelectChange:UiTreeSelectEmits['change']=(_value,meta)=>{const typed:UiTreeSelectChangeMeta=meta;const node:UiTreeSelectPublicNode|undefined=typed.node;void [typed.source,node?.pathLabels]}
+const treeSelectExpand:UiTreeSelectEmits['expand-change']=(_keys,_node,meta)=>{const typed:UiTreeSelectExpandMeta=meta;void typed.expanded}
+const treeSelectInvalid:UiTreeSelectEmits['invalid']=payload=>{const typed:UiTreeSelectInvalid=payload;void typed.reason}
+const treeSelectInstance:UiTreeSelectInstance=null as never
+treeSelectInstance.focus();treeSelectInstance.blur();treeSelectInstance.show('api');treeSelectInstance.hide('api');treeSelectInstance.toggle('api');treeSelectInstance.select('frontend','api');treeSelectInstance.remove('frontend','api');treeSelectInstance.setValue(['backend'],'api');treeSelectInstance.expand('product','api');treeSelectInstance.collapse('product','api');treeSelectInstance.loadNode('product','api');treeSelectInstance.clear('api');treeSelectInstance.scrollToActive()
+const treeSelectSlot:UiTreeSelectSlots={prefix:scope=>String(scope.value),tag:scope=>scope.node?.label,arrow:scope=>String(scope.open),node:scope=>scope.node?.label,icon:scope=>String(scope.expanded),empty:scope=>scope.query,error:scope=>String(scope.error),footer:scope=>String(scope.nodes.length)}
+const treeSelectParity:typeof SubpathTreeSelect=NamedSubpathTreeSelect
+
 // @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
 // @ts-expect-error UiInput only supports text-like native input types.
@@ -421,6 +434,14 @@ const invalidMultiSelectField:UiMultiSelectProps={fieldNames:{label:2}}
 const invalidMultiSelectFilter:UiMultiSelectProps={filterOption:()=> 'match'}
 // @ts-expect-error Remote MultiSelect methods resolve to option arrays.
 const invalidMultiSelectRemote:UiMultiSelectProps={remoteMethod:async()=>({label:'East',value:'east'})}
+// @ts-expect-error TreeSelect placement uses logical top/bottom start/end anchors.
+const invalidTreeSelectPlacement:UiTreeSelectProps={placement:'center'}
+// @ts-expect-error TreeSelect field mappings point to record field names.
+const invalidTreeSelectField:UiTreeSelectProps={fieldNames:{children:3}}
+// @ts-expect-error TreeSelect node filters resolve to booleans.
+const invalidTreeSelectFilter:UiTreeSelectProps={filterNode:()=> 'match'}
+// @ts-expect-error TreeSelect lazy loaders resolve to node arrays.
+const invalidTreeSelectLoader:UiTreeSelectProps={loadData:async()=>({label:'Child',value:'child'})}
 // @ts-expect-error Component sizes are limited to sm, md and lg.
 const invalidButton: InstanceType<typeof UiButton>['$props'] = { size: 'xl' }
 
@@ -966,4 +987,5 @@ void [inputProps,inputMeta,inputInstance,invalidInputType,invalidInputMode,texta
 void [checkboxValues,checkboxOptions,checkboxProps,checkboxEmit,selectionMeta,selectionInvalid,checkboxInstance,checkboxEvent,checkboxSlot,checkboxParity,checkboxGroupProps,checkboxGroupInstance,checkboxGroupEvent,checkboxGroupSlot,checkboxGroupParity,radioOptions,radioProps,radioEmit,radioInstance,radioEvent,radioSlot,radioParity,radioGroupProps,radioGroupInstance,radioGroupEvent,radioGroupSlot,radioGroupParity,switchProps,switchMeta,switchEmit,switchInstance,switchEvent,switchSlot,switchParity,invalidCheckboxPlacement,invalidCheckboxGroupDirection,invalidRadioGroupKeyboard,invalidSwitchGuard]
 void [selectOptions,selectProps,selectChange,selectOpen,selectInvalid,selectInstance,selectSlot,selectParity,invalidSelectPlacement,invalidSelectField,invalidSelectFilter,invalidSelectRemote]
 void [multiSelectProps,multiSelectChange,multiSelectInvalid,multiSelectMax,multiSelectInstance,multiSelectSlot,multiSelectParity,invalidMultiSelectPlacement,invalidMultiSelectField,invalidMultiSelectFilter,invalidMultiSelectRemote]
+void [treeSelectOptions,treeSelectProps,treeSelectChange,treeSelectExpand,treeSelectInvalid,treeSelectInstance,treeSelectSlot,treeSelectParity,invalidTreeSelectPlacement,invalidTreeSelectField,invalidTreeSelectFilter,invalidTreeSelectLoader]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

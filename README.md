@@ -1,5 +1,26 @@
 # Lan UI · 企业后台 Design System
 
+## P74 成熟树选择组件
+
+`UiTreeSelect` 在兼容既有 `v-model / options / placeholder / disabled / multiple` 用法的同时，补齐受控与非受控值、弹层及展开状态、字段映射、路径显示、本地搜索与 IME、按节点异步加载、AbortSignal 取消、失败重试和竞态保护。单选、多选、复选级联、严格勾选、选择上下限、标签折叠、虚拟化、原生表单与重置、完整树键盘导航、14 个 Slots、17 个结构化事件和实例 API 同步覆盖 Portal 主题桥、RTL、强制颜色、SSR、根入口及独立子路径类型。
+
+```vue
+<UiTreeSelect
+  v-model="teams"
+  v-model:open="teamsOpen"
+  v-model:expanded-keys="expandedTeams"
+  :options="teamTree"
+  :load-data="loadChildren"
+  multiple
+  checkable
+  searchable
+  show-path
+  :max-count="5"
+  name="teams"
+  required
+/>
+```
+
 ## P73 成熟多选组件
 
 `UiMultiSelect` 在兼容既有 `v-model / options / searchable / disabled / invalid / maxTagCount` 用法的同时，补齐受控与非受控数组及展开状态、字段映射、本地与远程搜索、IME、防抖、AbortSignal 竞态保护、缓存、失败重试、原生多值表单、重置和必填校验。选择上下限、全选、隐藏已选、标签折叠与删除、Backspace、完整键盘导航、13 个 Slots、16 个结构化事件和实例 API 同步覆盖 Portal、RTL、强制颜色、SSR、根入口及独立子路径类型。

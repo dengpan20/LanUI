@@ -73,6 +73,7 @@ const cases=[
   {name:'textarea-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=textarea',ready:'.visual-textarea-showcase [data-textarea-state-contract]'},
   {name:'select-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=select',ready:'.visual-select-showcase [data-select-state-contract]'},
   {name:'multi-select-contract',viewport:{width:1280,height:1150},query:'theme=dark&direction=rtl&density=compact&state=multi-select',ready:'.visual-multi-select-showcase [data-multi-select-state-contract]'},
+  {name:'tree-select-contract',viewport:{width:1280,height:1250},query:'theme=dark&direction=rtl&density=compact&state=tree-select',ready:'.visual-tree-select-showcase [data-tree-select-state-contract]',prepare:async page=>{const showcase=page.locator('.visual-tree-select-showcase');await showcase.evaluate(element=>element.scrollIntoView({block:'center'}));await showcase.locator('.visual-tree-select-stage .ui-tree-trigger').click();await showcase.locator('.ui-tree-select-menu').waitFor()}},
   {name:'selection-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=selection',ready:'.visual-selection-showcase [data-selection-state-contract]'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases

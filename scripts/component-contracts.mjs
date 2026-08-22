@@ -45,7 +45,7 @@ const required={
   'UiDataGrid.vue':["mode==='server'",'processedRows','searchDebounce','state-change','request','UiListToolbar','UiPagination','defineExpose'],
   'UiTable.vue':['filter-change','column-resize','virtualRange','aria-sort','import UiCheckbox','size="sm"'],
   'UiMultiSelect.vue':['data-ui-multi-select','defaultValue','update:open','fieldNames','remoteMethod','AbortController','requestSequence','remoteCache','maxCount','minCount','showSelectAll','removeOnBackspace','aria-multiselectable="true"','aria-activedescendant','ArrowDown','Home','End','Backspace','ui-multi-select-native','onFormReset','useTeleportThemeScope','useFloatingPosition','defineExpose'],
-  'UiTreeSelect.vue':['role="tree"','aria-level','aria-activedescendant','ArrowRight','ArrowLeft'],
+  'UiTreeSelect.vue':['data-ui-tree-select','defaultValue','update:open','update:expandedKeys','fieldNames','loadData','AbortController','load-error','checkStrictly','maxCount','minCount','aria-multiselectable','aria-activedescendant','ArrowRight','ArrowLeft','ui-tree-select-native','onFormReset','useTeleportThemeScope','useFloatingPosition','defineExpose'],
   'UiTree.vue':['role="tree"','role="treeitem"','aria-activedescendant','aria-checked','checkStrictly','AbortController','ResizeObserver','load-error','useDirection'],
   'UiCommandPalette.vue':['role="dialog"','role="combobox"','role="listbox"','aria-activedescendant','AbortController','requestSequence','load-error','data-error','openOverlay','isTopOverlay','focusWithRetry','useDirection'],
   'UiColorPicker.vue':['role="dialog"','role="slider"','aria-valuetext','pointerdown','formatColor','getContrastRatio','useFloatingPosition','useDirection','uiFormItemContext'],

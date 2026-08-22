@@ -32,6 +32,7 @@ import {
   UiTag,
   UiTimeline,
   UiTree,
+  UiTreeSelect,
   UiTour,
   UiUpload,
   UiVirtualList,
@@ -77,6 +78,7 @@ const virtualSelection = ref<Key>('typed-1')
 const virtualItems = Array.from({length:100},(_,index)=>({id:`typed-${index}`,label:`Typed row ${index+1}`}))
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
+const selectedTeams=ref<Key[]>(['dashboard'])
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
 const rows = [{ id:1, name:'Lan UI' }]
 const tabs:UiTabsItem[] = [{ label:'Summary', value:'summary' }]
@@ -151,6 +153,11 @@ function sort(payload:UiTableSortChange) {
   <UiTree v-model="resource" v-model:checked-keys="checkedResources" :data="resources" :default-expanded-keys="['workspace']" checkable show-line>
     <template #node="{ node, selected }">{{ node.label }} / {{ selected }}</template>
   </UiTree>
+  <UiTreeSelect v-model="selectedTeams" :options="resources" multiple checkable searchable clearable default-expand-all show-path :max-count="3" :min-count="1" name="teams" required>
+    <template #tag="{node,remove}"><button type="button" @click="remove">{{ node?.label }}</button></template>
+    <template #node="{node,checked,expanded}">{{ node?.label }} / {{ checked }} / {{ expanded }}</template>
+    <template #footer="{nodes,expandedKeys}">{{ nodes.length }} / {{ expandedKeys.length }}</template>
+  </UiTreeSelect>
   <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commands">
     <template #trigger="{ open }"><UiButton @click="open">Commands</UiButton></template>
     <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>
