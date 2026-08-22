@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.63.0",
+  "version": "1.64.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -316,9 +316,14 @@
       "UiBreadcrumbRecord",
       "UiBreadcrumbSlots",
       "UiButton",
+      "UiButtonActivationMeta",
       "UiButtonEmits",
+      "UiButtonIconPosition",
+      "UiButtonInstance",
       "UiButtonProps",
+      "UiButtonShape",
       "UiButtonSlots",
+      "UiButtonVariant",
       "UiCalendar",
       "UiCalendarCell",
       "UiCalendarChangeMeta",
@@ -2929,14 +2934,80 @@
       "subpath": "./components/UiButton",
       "propsType": "UiButtonProps",
       "props": [
+        "action",
+        "ariaLabel",
+        "autofocus",
+        "block",
         "disabled",
+        "download",
+        "form",
+        "href",
         "icon",
+        "iconPosition",
+        "iconSize",
         "loading",
+        "loadingText",
+        "name",
+        "pressed",
+        "preventDefault",
+        "rel",
+        "shape",
         "size",
+        "stopPropagation",
+        "target",
         "type",
+        "value",
         "variant"
       ],
       "propDetails": [
+        {
+          "name": "action",
+          "required": false,
+          "type": "(event:MouseEvent,meta:UiButtonActivationMeta)=>unknown|Promise<unknown>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "block",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
         {
           "name": "disabled",
           "required": false,
@@ -2950,13 +3021,78 @@
           }
         },
         {
+          "name": "download",
+          "required": false,
+          "type": "boolean|string",
+          "runtimeTypes": [
+            "Boolean",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "href",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "icon",
           "required": false,
           "type": "string",
           "runtimeTypes": [
             "String"
           ],
-          "default": null
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "iconPosition",
+          "required": false,
+          "type": "UiButtonIconPosition",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"start\""
+          }
+        },
+        {
+          "name": "iconSize",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "15"
+          }
         },
         {
           "name": "loading",
@@ -2971,9 +3107,106 @@
           }
         },
         {
+          "name": "loadingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "pressed",
+          "required": false,
+          "type": "boolean|'mixed'",
+          "runtimeTypes": [
+            "Boolean",
+            "String"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "preventDefault",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "rel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "shape",
+          "required": false,
+          "type": "UiButtonShape",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
+          }
+        },
+        {
           "name": "size",
           "required": false,
           "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "stopPropagation",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "target",
+          "required": false,
+          "type": "string",
           "runtimeTypes": [
             "String"
           ],
@@ -2995,9 +3228,22 @@
           }
         },
         {
+          "name": "value",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "variant",
           "required": false,
-          "type": "'primary'|'secondary'|'outline'|'text'|'danger'|'danger-outline'",
+          "type": "UiButtonVariant",
           "runtimeTypes": [
             "String"
           ],
@@ -3008,17 +3254,67 @@
         }
       ],
       "emitsType": "UiButtonEmits",
-      "emits": [],
-      "emitDetails": [],
+      "emits": [
+        "action-error",
+        "action-start",
+        "action-success",
+        "click"
+      ],
+      "emitDetails": [
+        {
+          "name": "action-error",
+          "required": true,
+          "type": "(error:unknown,meta:UiButtonActivationMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "action-start",
+          "required": true,
+          "type": "(meta:UiButtonActivationMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "action-success",
+          "required": true,
+          "type": "(result:unknown,meta:UiButtonActivationMeta,event:MouseEvent)=>void"
+        },
+        {
+          "name": "click",
+          "required": true,
+          "type": "(event:MouseEvent,meta:UiButtonActivationMeta)=>void"
+        }
+      ],
       "slotsType": "UiButtonSlots",
       "slots": [
-        "default"
+        "default",
+        "icon",
+        "loading",
+        "prefix",
+        "suffix"
       ],
       "slotDetails": [
         {
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        },
+        {
+          "name": "icon",
+          "required": false,
+          "type": "(scope:{position:UiButtonIconPosition;size:number|string})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{pending:boolean;size:ComponentSize})=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(scope:{pending:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(scope:{pending:boolean;disabled:boolean})=>VNodeChild"
         }
       ],
       "imports": {

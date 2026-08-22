@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.64.0] - 2026-08-22
+
+### Added
+
+- Production `UiButton` contract with native button, form and secure anchor semantics, logical icon placement, prefix/suffix/loading Slots, Block/Round/Circle/Pressed presentation, asynchronous actions and duplicate-activation locking.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `variant`, `size`, `icon`, `loading`, `disabled` and `type` usage remains compatible while action metadata, native attributes, accessible icon-only labels, Reduced Motion, RTL and imperative focus/click controls are now first-class.
+- Release gates advance to 41 visual baselines, 59 Axe scenarios, 63 interactions per browser and 69 negative type assertions while retaining 445 locale keys. Generated API coverage advances to 1,255 Props, 409 Events and 229 Slots.
+
 ## [1.63.0] - 2026-08-22
 
 ### Added

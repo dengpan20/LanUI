@@ -1192,3 +1192,14 @@ P66 retains 89 public components and 443 locale keys while generated coverage ad
 - Header, content, extra, icon, Loading, Empty and keyed item Slots expose typed scopes. Root/subpath declarations and exposed open/close/toggle/bulk/focus methods stay aligned with component center, one-page HTML, standalone consumer, deterministic SSR, isolated CSS, generated API and installed-tarball verification.
 
 P67 retains 89 public components while advancing to 445 locale keys and generated coverage of 1,237 Props, 405 Events and 225 Slots. Release gates require 40 visual baselines, 58 zero-violation Axe scenarios, 62 interactions per Chromium/Firefox/WebKit engine, 67 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 81. Maturity P68: production button actions
+
+- `UiButton` keeps existing variant, size, icon, loading, disabled and native type usage while adding logical icon placement, explicit icon sizing, Loading text, Block, Round, Circle, Pressed, prefix/suffix Slots and accessible icon-only presentation.
+- Without `href` the root is a native Button and preserves form, name, value and autofocus attributes. With `href` it is a native Anchor; disabled/loading links leave the tab and activation paths, while `_blank` links gain secure relationship defaults.
+- Click emits the native event first and stable activation metadata second. Optional synchronous or asynchronous `action` publishes start, success and error events; internal pending state locks duplicate activation and composes with externally controlled Loading.
+- Default prevention and propagation stopping are explicit policies. Exposed root/pending refs plus focus, blur and click methods support orchestration without private DOM access.
+- `aria-busy`, `aria-disabled`, `aria-pressed`, native disabled state, fallback icon-only labels, logical RTL order, Reduced Motion and forced-colors remain aligned across Button, Anchor and form contexts.
+- Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and installed-tarball verification exercise the same contract.
+
+P68 retains 89 public components and 445 locale keys while generated coverage advances to 1,255 Props, 409 Events and 229 Slots. Release gates require 41 visual baselines, 59 zero-violation Axe scenarios, 63 interactions per Chromium/Firefox/WebKit engine, 69 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

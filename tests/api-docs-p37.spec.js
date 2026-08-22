@@ -24,7 +24,10 @@ describe('P37 generated component API documentation',()=>{
       expect(component.imports.root).toContain(component.name)
     }
     const button=manifest.components.find(component=>component.name==='UiButton')
-    expect(button.propDetails.find(prop=>prop.name==='variant')).toMatchObject({type:"'primary'|'secondary'|'outline'|'text'|'danger'|'danger-outline'",default:{kind:'literal',value:'"primary"'}})
+    expect(button.propDetails.find(prop=>prop.name==='variant')).toMatchObject({type:'UiButtonVariant',default:{kind:'literal',value:'"primary"'}})
+    expect(button.props).toEqual(expect.arrayContaining(['variant','size','icon','iconPosition','iconSize','loading','loadingText','disabled','type','block','shape','href','target','rel','download','autofocus','form','name','value','action','preventDefault','stopPropagation','ariaLabel','pressed']))
+    expect(button.emits).toEqual(['action-error','action-start','action-success','click'])
+    expect(button.slots).toEqual(['default','icon','loading','prefix','suffix'])
     const tour=manifest.components.find(component=>component.name==='UiTour')
     expect(tour.props).toContain('targetClickable')
     expect(tour.emits).toContain('target-missing')
@@ -86,6 +89,9 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain("import { UiTag } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiSteps } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiTimeline } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiButton } from 'lan-ui-design-system'")
+    expect(markdown).toContain('#### Events · `UiButtonEmits`')
+    expect(markdown).toContain('#### Slots · `UiButtonSlots`')
   })
 
   it('filters the browser index and opens a deep-linkable API contract',async()=>{

@@ -79,6 +79,7 @@ import SubpathAffix, { UiAffix as NamedSubpathAffix } from 'lan-ui-design-system
 import SubpathSplitter, { UiSplitter as NamedSubpathSplitter } from 'lan-ui-design-system/components/UiSplitter'
 import SubpathAnchor, { UiAnchor as NamedSubpathAnchor } from 'lan-ui-design-system/components/UiAnchor'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
+import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
@@ -133,6 +134,7 @@ import type {
   UiInputProps,
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
+import type { UiButtonActivationMeta, UiButtonEmits, UiButtonInstance, UiButtonProps, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
 import type { UiBarcodeEmits, UiBarcodeProps, UiBarcodeSlots } from 'lan-ui-design-system/components/UiBarcode'
@@ -570,6 +572,14 @@ const breadcrumbNamedSubpathParity:typeof UiBreadcrumb=NamedSubpathBreadcrumb
 const breadcrumbSlots:UiBreadcrumbSlots={item:scope=>String(scope.navigate('slot')),icon:scope=>scope.icon,separator:scope=>String(scope.index),overflow:scope=>String(scope.expand(true,'slot').hiddenCount),loading:scope=>String(scope.count),empty:()=>null}
 const breadcrumbInstance:UiBreadcrumbInstance=null as never
 breadcrumbInstance.focusItem('components');breadcrumbInstance.focusFirst();breadcrumbInstance.focusLast();breadcrumbInstance.navigate('components','api');breadcrumbInstance.expand();breadcrumbInstance.collapse();breadcrumbInstance.toggle()
+const buttonProps:InstanceType<typeof UiButton>['$props']&UiButtonProps={variant:'danger-outline',size:'lg',icon:'download',iconPosition:'end',iconSize:18,loading:false,loadingText:'Publishing',disabled:false,type:'submit',block:true,shape:'round',href:'/release',target:'_blank',rel:'noopener',download:'release.tgz',autofocus:false,form:'release-form',name:'intent',value:'publish',action:async(_event,meta)=>meta.source,preventDefault:true,stopPropagation:true,ariaLabel:'Publish release',pressed:'mixed'}
+const buttonClickEmit:UiButtonEmits['click']=(_event,meta)=>{const typed:UiButtonActivationMeta=meta;void [typed.source,typed.variant,typed.pending]}
+const buttonSuccessEmit:UiButtonEmits['action-success']=(result,meta,event)=>{event.preventDefault();void [result,meta.size]}
+const buttonSubpathParity:typeof UiButton=SubpathButton
+const buttonNamedSubpathParity:typeof UiButton=NamedSubpathButton
+const buttonSlots:UiButtonSlots={default:()=>null,icon:scope=>String(scope.position),loading:scope=>String(scope.size),prefix:scope=>String(scope.disabled),suffix:scope=>String(scope.pending)}
+const buttonInstance:UiButtonInstance=null as never
+buttonInstance.focus();buttonInstance.blur();buttonInstance.click();buttonInstance.pending.value
 const cardProps:InstanceType<typeof UiCard>['$props']&UiCardProps={title:'Typed evidence',subtitle:'Verified now',size:'lg',variant:'elevated',shadow:'md',hoverable:true,interactive:true,selected:true,loadingRows:4,href:'#evidence',target:'_self'}
 const cardEmit:UiCardEmits['activate']=(meta,event)=>{const source:UiCardActivationMeta['source']=meta.source;event.preventDefault();void source}
 const cardSubpathParity:typeof UiCard=SubpathCard
@@ -654,6 +664,12 @@ const invalidCollapseSize:UiCollapseProps={size:'xl'}
 
 // @ts-expect-error Collapse expand icons use logical start or end positions.
 const invalidCollapseIconPosition:UiCollapseProps={expandIconPosition:'left'}
+
+// @ts-expect-error Button shapes are constrained to default, round or circle.
+const invalidButtonShape:UiButtonProps={shape:'square'}
+
+// @ts-expect-error Button icons use logical start or end positions.
+const invalidButtonIconPosition:UiButtonProps={iconPosition:'left'}
 
 // @ts-expect-error OTP modes are constrained to numeric, alphanumeric or text.
 const invalidOtpMode:UiOtpInputProps={mode:'hex'}
@@ -793,6 +809,7 @@ const invalidSplitterDirection:UiSplitterProps={direction:'diagonal'}
 
 void [pageHeaderProps,pageHeaderEmit,pageHeaderSubpathParity,pageHeaderNamedSubpathParity,pageHeaderSlot,pageHeaderInstance,invalidPageHeaderTitleTag,invalidPageHeaderSize,keyValueItems,keyValueEditorProps,keyValueEditorEmit,keyValueEditorSubpathParity,keyValueEditorNamedSubpathParity,keyValueEditorSlot,keyValueEditorInstance,invalidKeyValueSize,invalidKeyValueImport,cronPresets,cronEditorProps,cronEditorEmit,cronEditorSubpathParity,cronEditorNamedSubpathParity,cronEditorSlot,cronEditorInstance,invalidCronTimeZone,invalidCronPreviewCount,barcodeProps,barcodeEmit,barcodeSubpathParity,barcodeNamedSubpathParity,barcodeSlot,barcodeInstance,invalidBarcodeFormat,invalidBarcodeStatus,queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
 void [breadcrumbItems,breadcrumbProps,breadcrumbEmit,breadcrumbExpandEmit,breadcrumbSubpathParity,breadcrumbNamedSubpathParity,breadcrumbSlots,breadcrumbInstance,invalidBreadcrumbSeparatorMode,invalidBreadcrumbSize]
+void [buttonProps,buttonClickEmit,buttonSuccessEmit,buttonSubpathParity,buttonNamedSubpathParity,buttonSlots,buttonInstance,invalidButtonShape,invalidButtonIconPosition]
 void [cardProps,cardEmit,cardSubpathParity,cardNamedSubpathParity,cardSlots,cardInstance,invalidCardVariant,invalidCardShadow]
 void [tagProps,tagEmit,tagSubpathParity,tagNamedSubpathParity,tagSlots,tagInstance,invalidTagVariant,invalidTagSize]
 void [stepsItems,stepsProps,stepsEmit,stepsSubpathParity,stepsNamedSubpathParity,stepsSlots,stepsInstance,invalidStepsDirection,invalidStepsType]

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.63.0",
+  "version": "1.64.0",
   "description": "Deterministic runtime, stylesheet, consumer-build and publishable-tarball budgets with previous-release improvement gates for Lan UI.",
   "baseline": {
     "version": "1.4.0",
@@ -17,20 +17,20 @@
     }
   },
   "budgets": {
-    "packageJsRaw": 731000,
-    "packageJsGzip": 271500,
-    "packageCssRaw": 620000,
-    "packageCssGzip": 136000,
+    "packageJsRaw": 736000,
+    "packageJsGzip": 273500,
+    "packageCssRaw": 632000,
+    "packageCssGzip": 139000,
     "largestChunkRaw": 74000,
     "largestChunkGzip": 14500,
-    "rootCssRaw": 229500,
-    "rootCssGzip": 36300,
-    "largestComponentCssRaw": 50000,
-    "largestComponentCssGzip": 7500,
-    "subpathConsumerJsRaw": 92200,
-    "subpathConsumerCssRaw": 8500,
-    "standaloneExampleJsRaw": 695000,
-    "standaloneExampleCssRaw": 232000,
+    "rootCssRaw": 232000,
+    "rootCssGzip": 36700,
+    "largestComponentCssRaw": 51000,
+    "largestComponentCssGzip": 7800,
+    "subpathConsumerJsRaw": 100000,
+    "subpathConsumerCssRaw": 10200,
+    "standaloneExampleJsRaw": 702000,
+    "standaloneExampleCssRaw": 234000,
     "themeSubpathJsRaw": 12000,
     "themeSubpathJsGzip": 4200,
     "motionSubpathJsRaw": 14000,
@@ -38,8 +38,8 @@
   },
   "distributionBudgets": {
     "packedFiles": 402,
-    "packedTarballRaw": 516000,
-    "packedUnpackedRaw": 2972000
+    "packedTarballRaw": 522000,
+    "packedUnpackedRaw": 3010000
   },
   "releaseBaseline": {
     "version": "1.28.0",
@@ -59,16 +59,16 @@
       "rootCssRaw": 850
     },
     "enhancementAllowance": {
-      "packageJsRaw": 59200,
-      "packageJsGzip": 19750,
-      "packageCssRaw": 63650,
-      "packageCssGzip": 11500,
-      "rootCssRaw": 29200,
-      "rootCssGzip": 4250,
-      "subpathConsumerJsRaw": 350,
-      "subpathConsumerCssRaw": 100,
-      "standaloneExampleJsRaw": 74350,
-      "standaloneExampleCssRaw": 29800
+      "packageJsRaw": 63700,
+      "packageJsGzip": 21350,
+      "packageCssRaw": 74700,
+      "packageCssGzip": 13950,
+      "rootCssRaw": 30700,
+      "rootCssGzip": 4500,
+      "subpathConsumerJsRaw": 6500,
+      "subpathConsumerCssRaw": 1600,
+      "standaloneExampleJsRaw": 80000,
+      "standaloneExampleCssRaw": 31300
     },
     "metrics": {
       "packageJsRaw": 467295,

@@ -23,8 +23,10 @@ for (const forbidden of ['ui-table-wrap','ui-modal-overlay','UiDateRangePicker',
   if (js.includes(forbidden)) throw new Error(`Unused component leaked into subpath bundle: ${forbidden}`)
 }
 if (!js.includes('btn-loading')) throw new Error('UiButton implementation is missing from consumer bundle')
+if (!js.includes('action-start') || !js.includes('data-ui-button')) throw new Error('UiButton action/state contract is missing from consumer bundle')
 for(const forbiddenLocale of ['Quick commands','Access denied','File upload','en-US'])if(js.includes(forbiddenLocale))throw new Error(`Unused English locale leaked into component subpath: ${forbiddenLocale}`)
 if (!css.includes('.btn-primary')) throw new Error('UiButton component stylesheet is missing')
+if (!css.includes('.ui-button.shape-circle') || !css.includes('.ui-button.is-block')) throw new Error('UiButton shape/block styles are missing')
 if (css.includes('.ui-table-wrap')) throw new Error('Unused table styles leaked into component stylesheet')
 const jsBytes = statSync(resolve(assets, jsFile)).size
 const cssBytes = statSync(resolve(assets, cssFile)).size

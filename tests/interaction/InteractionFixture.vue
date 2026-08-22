@@ -102,6 +102,11 @@ function changeBreadcrumbExpansion(_expanded,meta){breadcrumbOutput.value=`expan
 const cardSelected=ref(false)
 const cardOutput=ref('ready')
 function activateCard(meta){cardSelected.value=!cardSelected.value;cardOutput.value=`activate:${meta.source}:${cardSelected.value}`}
+const buttonRef=ref(null)
+const buttonPressed=ref(false)
+const buttonOutput=ref('ready:0')
+let buttonActionRuns=0
+async function runButtonAction(){buttonActionRuns+=1;await new Promise(resolve=>setTimeout(resolve,720));return{revision:'P68',runs:buttonActionRuns}}
 const tagChecked=ref(false)
 const tagVisible=ref(true)
 const tagOutput=ref('ready')
@@ -666,6 +671,21 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiCard id="interaction-card-disabled" title="Unavailable release card" interactive disabled><p>Removed from the tab order and activation path.</p></UiCard>
         </div>
         <output class="interaction-output" data-testid="card-output">{{ cardOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-button-case" data-button-state-contract="async duplicate-guard pointer keyboard focus link form disabled pressed icon rtl">
+        <h2>Button async action, native semantics and imperative focus contract</h2>
+        <div class="interaction-row">
+          <UiButton id="interaction-button-action" :action="runButtonAction" loading-text="Publishing" @action-start="buttonOutput=`pending:${buttonActionRuns+1}`" @action-success="result=>buttonOutput=`success:${result.revision}:${result.runs}`">Publish release</UiButton>
+          <UiButton id="interaction-button-toggle" shape="round" variant="secondary" :pressed="buttonPressed" @click="buttonPressed=!buttonPressed;buttonOutput=`pressed:${buttonPressed}`">Pin evidence</UiButton>
+          <UiButton id="interaction-button-link" href="#button-release-target" target="_blank" icon="external" icon-position="end" variant="outline">Release docs</UiButton>
+          <UiButton id="interaction-button-form" type="submit" form="interaction-release-form" name="intent" value="publish" variant="outline">Submit release</UiButton>
+          <UiButton id="interaction-button-icon" icon="more" shape="circle" aria-label="More button actions" variant="outline"/>
+          <UiButton id="interaction-button-disabled" disabled @click="buttonOutput='invalid:disabled'">Unavailable action</UiButton>
+          <UiButton id="interaction-button-focus-target" ref="buttonRef" variant="text" @focus="buttonOutput='focus:api'">Focus target</UiButton>
+          <UiButton id="interaction-button-focus-api" variant="text" @click="buttonRef.focus()">Focus via API</UiButton>
+        </div>
+        <i id="button-release-target"/>
+        <output class="interaction-output" data-testid="button-output">{{ buttonOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-tag-case" data-tag-state-contract="selection close link keyboard disabled">
         <h2>Tag selection, close, link and keyboard contract</h2>

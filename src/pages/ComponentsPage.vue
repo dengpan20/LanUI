@@ -97,7 +97,7 @@ const emit=defineEmits(['notify','open-modal','open-drawer','open-notification']
 const reducedMotion=useReducedMotion()
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
 const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
-const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const loading=ref(false);const invalid=ref(false)
+const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const buttonPressed=ref(false);const buttonActionState=ref('等待异步操作');const invalid=ref(false)
 const cardSelected=ref(false)
 const tagChecked=ref(false);const tagVisible=ref(true);const tagState=ref('等待标签交互')
 const timelineSelection=ref('review');const timelineState=ref('等待时间轴交互')
@@ -243,13 +243,13 @@ async function loadFrenchLocale(){
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有面板均使用标题按钮与关联 Region；Arrow、Home、End 可在标题间移动焦点。',extra:'WCAG'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。',extra:'异步检查'},{key:'locked',label:'已锁定规范',content:'停用项目不会进入键盘导航。',disabled:true}]
 async function validateCollapseToggle(item,open){if(item.key==='release'&&open){collapseState.value='正在校验发布面板…';await new Promise(resolve=>setTimeout(resolve,420))}return true}
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.63.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · Collapse 受控/非受控、手风琴、键盘、懒渲染、销毁、异步守卫、动效降级、插槽、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.64.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · Button 原生按钮/链接/表单语义、异步动作与重复触发锁、图标位置、形状、加载与按下状态、插槽、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.63.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.64.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-163-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-164-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -288,7 +288,7 @@ const tableRows=[{id:'CMP-001',component:'Button',version:'1.2.0',status:'稳定
 const renderedTableColumns=computed(()=>tableColumns.map(column=>({...column,hidden:!tableVisibleColumns.value.includes(column.key)})))
 const renderedTableRows=computed(()=>{if(tableEmpty.value)return [];let rows=tableRows.filter(row=>Object.entries(tableFilters.value).every(([key,value])=>!value||row[key]===value));if(!tableSortKey.value||!tableSortOrder.value)return rows;return [...rows].sort((a,b)=>{const left=a[tableSortKey.value],right=b[tableSortKey.value];const value=typeof left==='number'?left-right:String(left).localeCompare(String(right));return value*(tableSortOrder.value==='asc'?1:-1)})})
 function scrollTo(id){current.value=id;document.getElementById(id)?.scrollIntoView({behavior:reducedMotion.value?'auto':'smooth',block:'start'})}
-function loadingDemo(){loading.value=true;setTimeout(()=>{loading.value=false;emit('notify','异步操作已完成')},1200)}
+async function runButtonAction(){await new Promise(resolve=>setTimeout(resolve,720));emit('notify','异步发布操作已完成');return{revision:'P68'}}
 function asyncConfirm(){return new Promise(resolve=>setTimeout(resolve,450))}
 function tableLoadingDemo(){tableError.value='';tableEmpty.value=false;tableLoading.value=true;setTimeout(()=>{tableLoading.value=false;emit('notify','列表数据加载完成')},900)}
 const fontPresets=[
@@ -349,8 +349,8 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         </section>
 
         <section id="buttons" class="card doc-section">
-          <header class="doc-section-header"><h2>Button 按钮</h2><p>用独立展示单元呈现变体、尺寸与状态，避免按钮宽度和状态含义混淆。</p></header>
-          <div class="demo-block button-showcase">
+          <header class="doc-section-header"><h2>Button 按钮</h2><p>统一原生按钮、链接、表单提交与异步任务的视觉、语义、状态和键盘契约。</p></header>
+          <div class="demo-block button-showcase" data-button-state-contract="variants sizes disabled loading async action link form icon logical-position shape block pressed slots keyboard focus rtl reduced-motion ssr api">
             <div class="button-demo-group">
               <div class="button-demo-heading"><strong>按钮变体</strong><span>Variant</span></div>
               <div class="button-demo-stage button-variant-grid">
@@ -359,6 +359,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                 <div class="button-demo-item"><UiButton variant="outline">描边按钮</UiButton><small>Outline</small></div>
                 <div class="button-demo-item"><UiButton variant="text">文字按钮</UiButton><small>Text</small></div>
                 <div class="button-demo-item"><UiButton variant="danger">危险操作</UiButton><small>Danger</small></div>
+                <div class="button-demo-item"><UiButton variant="danger-outline">谨慎操作</UiButton><small>Danger outline</small></div>
               </div>
             </div>
             <div class="button-demo-group">
@@ -376,21 +377,29 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
                 <div class="button-demo-item"><UiButton class="force-hover">悬停</UiButton><small>Hover</small></div>
                 <div class="button-demo-item"><UiButton class="force-pressed">按下</UiButton><small>Pressed</small></div>
                 <div class="button-demo-item"><UiButton class="force-focus">焦点</UiButton><small>Focus</small></div>
-                <div class="button-demo-item"><UiButton :loading="true">加载中</UiButton><small>Loading</small></div>
+                <div class="button-demo-item"><UiButton loading loading-text="发布中">加载中</UiButton><small>Loading</small></div>
                 <div class="button-demo-item"><UiButton disabled>已禁用</UiButton><small>Disabled</small></div>
               </div>
             </div>
             <div class="button-demo-group interactive-button-demo">
-              <div class="button-demo-heading"><strong>真实交互</strong><span>点击体验反馈</span></div>
+              <div class="button-demo-heading"><strong>图标与形状</strong><span>Logical position</span></div>
               <div class="button-demo-stage">
-                <UiButton icon="plus" @click="emit('notify','新建操作已触发')">带图标按钮</UiButton>
-                <UiButton variant="secondary" :loading="loading" @click="loadingDemo">{{ loading ? '处理中' : '模拟异步操作' }}</UiButton>
-                <button class="icon-btn outline" title="更多操作" aria-label="更多操作"><AppIcon name="more"/></button>
+                <UiButton icon="plus" @click="emit('notify','新建操作已触发')">起始图标</UiButton>
+                <UiButton icon="download" icon-position="end" variant="outline">末尾图标</UiButton>
+                <UiButton icon="more" shape="circle" variant="outline" aria-label="更多操作"/>
+                <UiButton shape="round" variant="secondary" :pressed="buttonPressed" @click="buttonPressed=!buttonPressed">{{ buttonPressed?'已固定':'固定筛选' }}</UiButton>
               </div>
             </div>
-            <pre class="code-block button-code"><code>&lt;UiButton variant="primary" size="md" icon="plus" :loading="saving"&gt;
-  新建客户
-&lt;/UiButton&gt;</code></pre>
+            <div class="button-demo-group interactive-button-demo">
+              <div class="button-demo-heading"><strong>链接与异步</strong><span>Native / Action</span></div>
+              <div class="button-demo-stage button-action-stage"><UiButton href="#/api" target="_blank" icon="external" icon-position="end" variant="text">API 参考</UiButton><UiButton id="button-async-action" :action="runButtonAction" loading-text="正在发布" @action-start="buttonActionState='正在执行 · 重复点击已锁定'" @action-success="buttonActionState=`完成 · ${$event.revision}`" @action-error="buttonActionState='失败 · 已恢复操作'">执行异步操作</UiButton><output class="preview-note" aria-live="polite">{{ buttonActionState }}</output></div>
+            </div>
+            <div class="button-demo-group">
+              <div class="button-demo-heading"><strong>块级操作</strong><span>Block / Form</span></div>
+              <div class="button-demo-stage"><div class="button-block-demo"><UiButton block shape="round" type="submit" form="button-demo-form" name="intent" value="publish">发布全部变更</UiButton><small>保留原生 form / name / value 语义</small></div></div>
+            </div>
+            <pre class="code-block button-code"><code>&lt;UiButton :action="publish" loading-text="正在发布" icon="upload"&gt;发布&lt;/UiButton&gt;
+&lt;UiButton href="/docs" target="_blank" icon-position="end"&gt;文档&lt;/UiButton&gt;</code></pre>
           </div>
         </section>
 
@@ -568,7 +577,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.63.0 发布二维码" caption="扫码打开 1.63.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.64.0 发布二维码" caption="扫码打开 1.64.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -581,7 +590,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.63.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.64.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>

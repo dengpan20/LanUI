@@ -1131,6 +1131,46 @@ const allCases = [
     },
   },
   {
+    name:'button-async-native-focus-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const action=page.locator('#interaction-button-action')
+      await action.scrollIntoViewIfNeeded()
+      assert.equal(await action.getAttribute('data-ui-button'),'')
+      assert.equal(await action.getAttribute('data-state'),'ready')
+      await action.click()
+      await expectText(page,'button-output','pending:1')
+      assert.equal(await action.getAttribute('data-state'),'loading')
+      assert.equal(await action.getAttribute('aria-busy'),'true')
+      assert.equal(await action.isDisabled(),true)
+      await action.evaluate(node=>node.click())
+      await expectText(page,'button-output','success:P68:1')
+      assert.equal(await action.getAttribute('data-state'),'ready')
+      assert.equal(await action.getAttribute('aria-busy'),null)
+      const toggle=page.locator('#interaction-button-toggle')
+      await toggle.focus();await toggle.press(' ')
+      await expectText(page,'button-output','pressed:true')
+      assert.equal(await toggle.getAttribute('aria-pressed'),'true')
+      await toggle.press('Enter')
+      await expectText(page,'button-output','pressed:false')
+      const link=page.locator('#interaction-button-link')
+      assert.equal(await link.evaluate(node=>node.tagName),'A')
+      assert.equal(await link.getAttribute('rel'),'noopener noreferrer')
+      assert.equal(await link.getAttribute('data-icon-position'),'end')
+      assert.equal(await link.locator('.ui-button-icon-end').count(),1)
+      const form=page.locator('#interaction-button-form')
+      assert.equal(await form.getAttribute('type'),'submit')
+      assert.equal(await form.getAttribute('form'),'interaction-release-form')
+      assert.equal(await form.getAttribute('name'),'intent')
+      assert.equal(await form.getAttribute('value'),'publish')
+      assert.equal(await page.locator('#interaction-button-icon').getAttribute('aria-label'),'More button actions')
+      assert.equal(await page.locator('#interaction-button-disabled').isDisabled(),true)
+      await page.locator('#interaction-button-focus-api').click()
+      await expectFocused(page,page.locator('#interaction-button-focus-target'))
+      await expectText(page,'button-output','focus:api')
+    },
+  },
+  {
     name:'tag-selection-close-link-keyboard',
     query:'direction=ltr',
     run:async page=>{

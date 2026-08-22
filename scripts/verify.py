@@ -632,7 +632,7 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.63.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.64.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -667,7 +667,7 @@ if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "R
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.63.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.64.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -680,9 +680,9 @@ for marker in ["--ignore-workspace", "--offline", "packedManifest.private===fals
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 402, "packedTarballRaw": 516000, "packedUnpackedRaw": 2972000}:
+if distribution_budgets != {"packedFiles": 402, "packedTarballRaw": 522000, "packedUnpackedRaw": 3010000}:
     failures.append("p39:distribution-budgets")
-if "Collapse P67" not in components_page or "1.63.0" not in components_page or "V1.63.0" not in preview:
+if "Button P68" not in components_page or "1.64.0" not in components_page or "V1.64.0" not in preview:
     failures.append("p39:showcase-version")
 if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p39:documentation")
@@ -721,7 +721,7 @@ for marker in ["MutationObserver", "devicePixelRatio", "imageCrossOrigin", "buil
 if "UiWatermark" not in components_page or 'id="watermark"' not in preview or "previewWatermarkObserver" not in preview or "UiWatermark" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p42:showcase-consumers")
 login_page = (ROOT / "src/pages/LoginPage.vue").read_text(encoding="utf-8")
-if "V1.63.0" not in app or "V1.63.0" not in login_page or "badge:89" not in components_page or "<td>Watermark</td>" not in components_page:
+if "V1.64.0" not in app or "V1.64.0" not in login_page or "badge:89" not in components_page or "<td>Watermark</td>" not in components_page:
     failures.append("p42:showcase-version-and-state-matrix")
 if "Resilient document watermark (P42)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p42:documentation")
@@ -1090,6 +1090,21 @@ if "collapse-keyboard-lifecycle-guard" not in (ROOT / "scripts/interaction-regre
 if "P67 成熟折叠面板" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P67: production collapse and accordion" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p67:documentation")
 
+button_source = (ROOT / "src/components/UiButton.vue").read_text(encoding="utf-8")
+for marker in ["iconPosition", "loadingText", "shape", "safeRel", "action-start", "action-success", "action-error", "data-ui-button", "defineExpose"]:
+    if marker not in button_source:
+        failures.append(f"p68:button-runtime:{marker}")
+if any(marker not in components_page for marker in ["Button P68", "data-button-state-contract", "buttonActionState", "runButtonAction"]):
+    failures.append("p68:component-center")
+if any(marker not in preview for marker in ['id="actions"', "data-button-state-contract", "previewButtonState", "success · revision P68"]):
+    failures.append("p68:static-preview")
+if any(marker not in standalone_source for marker in ["UiButton", "standaloneButtonPressed", "data-button-state-contract", "runStandaloneButtonAction"]):
+    failures.append("p68:standalone-consumer")
+if "button-async-native-focus-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "button-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "button-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
+    failures.append("p68:state-and-interaction")
+if "P68 成熟按钮动作" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P68: production button actions" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p68:documentation")
+
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
 if (ROOT / "UI-SPEC.md").read_bytes() != (ROOT / "public/UI-SPEC.md").read_bytes():
@@ -1128,29 +1143,29 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 40 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 41 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
+for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "button-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
 for script_name, script_source in [("visual", visual_script), ("accessibility", accessibility_script)]:
     if "resolveBrowserNavigationTimeout" not in script_source:
         failures.append(f"browser:navigation-timeout:{script_name}")
-for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "modal-open", "drawer-rtl-open"]:
+for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "button-contract", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 58:
+if accessibility_script.count("{name:") < 59:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
 if "resolveBrowserNavigationTimeout" not in interaction_script:
     failures.append("browser:navigation-timeout:interaction")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "cron-editor-preset-validation-preview", "key-value-editor-edit-import-reorder-validation", "page-header-back-breadcrumb-composition", "card-pointer-keyboard-selection-nested-action", "tag-selection-close-link-keyboard", "timeline-selection-keyboard-link-disabled", "steps-navigation-keyboard-disabled-rtl", "breadcrumb-collapse-navigation-focus-rtl", "tooltip-trigger-dismissal", "popover-focus-dismissal", "dropdown-menu-keyboard-typeahead", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "cron-editor-preset-validation-preview", "key-value-editor-edit-import-reorder-validation", "page-header-back-breadcrumb-composition", "card-pointer-keyboard-selection-nested-action", "tag-selection-close-link-keyboard", "timeline-selection-keyboard-link-disabled", "steps-navigation-keyboard-disabled-rtl", "breadcrumb-collapse-navigation-focus-rtl", "tooltip-trigger-dismissal", "popover-focus-dismissal", "dropdown-menu-keyboard-typeahead", "button-async-native-focus-rtl", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") + interaction_script.count("name:'") < 62:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 63:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -1169,8 +1184,8 @@ if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or 
     failures.append("performance:p33-release-baseline")
 if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10200, "packageJsGzip": 4100, "packageCssRaw": 6050, "packageCssGzip": 1100, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10500, "standaloneExampleCssRaw": 875, "subpathConsumerCssRaw": 2, "rootCssRaw": 850}:
     failures.append("performance:p59-additive-component-policy")
-if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 59200, 'packageJsGzip': 19750, 'packageCssRaw': 63650, 'packageCssGzip': 11500, 'rootCssRaw': 29200, 'rootCssGzip': 4250, 'subpathConsumerJsRaw': 350, 'subpathConsumerCssRaw': 100, 'standaloneExampleJsRaw': 74350, 'standaloneExampleCssRaw': 29800}:
-    failures.append("performance:p67-bounded-component-enhancement-policy")
+if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 63700, 'packageJsGzip': 21350, 'packageCssRaw': 74700, 'packageCssGzip': 13950, 'rootCssRaw': 30700, 'rootCssGzip': 4500, 'subpathConsumerJsRaw': 6500, 'subpathConsumerCssRaw': 1600, 'standaloneExampleJsRaw': 80000, 'standaloneExampleCssRaw': 31300}:
+    failures.append("performance:p68-bounded-component-enhancement-policy")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
 for export_name in ["./performance-budgets", "./performance-budgets.json"]:
@@ -1292,3 +1307,4 @@ print("- maturity-p64=ui-tooltip,hover+focus+click+manual,controlled+uncontrolle
 print("- maturity-p65=ui-popover,hover+focus+click+manual,controlled+uncontrolled,delays+reentry,outside+escape+content,focus-trap+return,arrow+portal+rtl+ssr+types,38-visual,56-axe,60-interactions-per-browser,63-negative-types")
 print("- maturity-p66=ui-dropdown,click+hover+focus+contextmenu+manual,controlled+uncontrolled,active-index+typeahead,arrows+home+end+tab,outside+escape+select,semantic-items+portal+rtl+ssr+types,39-visual,57-axe,61-interactions-per-browser,65-negative-types")
 print("- maturity-p67=ui-collapse,controlled+uncontrolled,multiple+accordion+non-collapsible,async-guard,lazy+destroy+force-render,arrows+home+end,slots+rtl+ssr+types,40-visual,58-axe,62-interactions-per-browser,67-negative-types")
+print("- maturity-p68=ui-button,native-button+anchor+form,async-action+duplicate-lock,icons+slots+shapes+pressed,aria+rtl+ssr+types,41-visual,59-axe,63-interactions-per-browser,69-negative-types")

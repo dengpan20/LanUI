@@ -95,7 +95,7 @@ function sort(payload:UiTableSortChange) {
 </script>
 
 <template>
-  <UiButton @click="open=true">Open</UiButton>
+  <UiButton icon="upload" icon-position="end" shape="round" loading-text="Opening" :pressed="open" :action="async (_event,meta)=>{open=true;return meta.variant}"><template #prefix="{ pending }">{{ pending ? 'Pending' : 'Ready' }}</template>Open</UiButton>
   <UiCollapse v-model="collapseOpen" :items="[{key:'overview',label:'Overview',content:'Typed collapse content'}]" lazy loop aria-label="Typed release sections"><template #header="{label,open}">{{ label }} / {{ open }}</template><template #content="{content}">{{ content }}</template></UiCollapse>
   <UiModal v-model="open" title="Typed modal">
     Typed content

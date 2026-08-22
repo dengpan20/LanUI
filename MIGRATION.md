@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.64 button compatibility
+
+There are no breaking changes. Existing `<UiButton variant="primary" size="md" icon="check">...</UiButton>`, `loading`, `disabled` and native `type` usage remains valid:
+
+```vue
+<UiButton icon="upload" loading-text="Publishing" :action="publishRelease">Publish</UiButton>
+```
+
+- Without `href`, the component remains a native Button and forwards `type`, `form`, `name`, `value` and `autofocus`. With `href`, it becomes a native Anchor; `_blank` links receive `noopener noreferrer` unless `rel` is explicit.
+- `action` may return synchronously or asynchronously. Pending state locks duplicate activation, publishes start/success/error events and composes with controlled `loading` without mutating consumer state.
+- Existing `click` handlers continue to receive the native event as their first argument and now receive stable source/variant/size/href/pressed/pending metadata as the second argument.
+- `iconPosition` uses logical start/end order in RTL. Prefix, suffix, icon and loading Slots coexist with Block, Round, Circle, Pressed and icon-only presentation.
+- Disabled/loading links leave the activation and tab paths; icon-only controls derive a fallback label or use `ariaLabel`. Root/subpath declarations, SSR and exposed focus/blur/click controls remain synchronized.
+
 ## 1.63 collapse compatibility
 
 There are no breaking changes. Existing `<UiCollapse v-model="openKeys" :items="items">...</UiCollapse>`, `accordion` and `bordered` usage remains valid:

@@ -2,6 +2,21 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P68 成熟按钮动作
+
+`UiButton` 在兼容 `variant / size / icon / loading / disabled / type` 基础用法的同时，补齐原生 Button、表单提交和安全 Anchor 三种语义，支持图标逻辑位置、前后缀、Block、Round、Circle、Pressed、受控 Loading，以及带重复触发锁的同步/异步 `action`。Click 与 Action 事件携带稳定元数据，实例 API、ARIA Busy/Disabled/Pressed、RTL、Reduced Motion、SSR、根入口和组件子路径类型保持一致。
+
+```vue
+<UiButton
+  icon="upload"
+  loading-text="正在发布"
+  :action="publishRelease"
+  @action-success="handlePublished"
+>
+  发布版本
+</UiButton>
+```
+
 ## P67 成熟折叠面板
 
 `UiCollapse` 在保留 `items / v-model / accordion / bordered` 基础用法的同时，补齐受控与非受控多项展开、不可全部收起的手风琴、字段适配、禁用跳过、Arrow/Home/End 标题导航、异步 `beforeToggle` 守卫以及稳定的变更元数据。内容可选择立即渲染、懒渲染、隐藏后销毁或强制保留，并统一支持尺寸、Ghost、图标位置、Loading、Empty、Reduced Motion、RTL、SSR 和实例方法。

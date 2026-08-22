@@ -43,6 +43,7 @@ const visualDropdownOpen=ref(true)
 const visualDropdownItems=[{type:'heading',label:'Workspace actions'},{key:'edit',label:'Edit profile',icon:'edit',description:'Update customer information'},{key:'copy',label:'Copy link',shortcut:'⌘ C'},{key:'pin',label:'Pin to top',role:'menuitemcheckbox',checked:true},{key:'archive',label:'Archive project',disabled:true},{divider:true},{key:'disable',label:'Disable account',danger:true}]
 const visualCollapseOpen=ref(['contract','evidence'])
 const visualCollapseAccordion=ref('keyboard')
+const visualButtonPressed=ref(true)
 const visualCollapseItems=[{key:'contract',label:'Public component contract',content:'Root and subpath exports align Props, Emits, Slots and methods.',extra:'Required'},{key:'keyboard',label:'Keyboard and semantics',content:'Arrow, Home and End skip disabled headings.',extra:'WCAG'},{key:'evidence',label:'Release evidence',content:'Unit, visual, Axe, browser and package gates protect consumers.',extra:'Verified'},{key:'locked',label:'Restricted policy',content:'This panel is unavailable.',disabled:true}]
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
@@ -363,6 +364,15 @@ const tableRows=[
         </div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">semantic header</UiTag><UiTag color="green">responsive / RTL</UiTag><UiTag color="orange">sticky / reduced motion / SSR</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='button'" title="Production action controls" subtitle="Native semantics, async state, icons and responsive geometry" title-tag="h2" class="visual-table-card visual-button-showcase">
+      <div class="visual-button-grid" data-button-state-contract="variants sizes disabled loading async action link form icon logical-position shape block pressed slots keyboard focus rtl reduced-motion ssr api">
+        <section><h3>Variants</h3><div class="visual-row"><UiButton>Primary</UiButton><UiButton variant="secondary">Secondary</UiButton><UiButton variant="outline">Outline</UiButton><UiButton variant="text">Text</UiButton><UiButton variant="danger">Danger</UiButton><UiButton variant="danger-outline">Danger outline</UiButton></div></section>
+        <section><h3>Icon and shape</h3><div class="visual-row"><UiButton icon="plus">Create</UiButton><UiButton icon="download" icon-position="end" variant="outline">Export</UiButton><UiButton icon="more" shape="circle" variant="outline" aria-label="More release actions"/><UiButton shape="round" variant="secondary" :pressed="visualButtonPressed">Pinned filter</UiButton></div></section>
+        <section><h3>Size and state</h3><div class="visual-row visual-button-baseline"><UiButton size="sm">Small</UiButton><UiButton>Medium</UiButton><UiButton size="lg">Large</UiButton><UiButton loading loading-text="Publishing">Publish</UiButton><UiButton disabled>Disabled</UiButton></div></section>
+        <section><h3>Native composition</h3><div class="visual-button-native"><UiButton href="#release-api" target="_blank" icon="external" icon-position="end" variant="text">API reference</UiButton><UiButton block shape="round" type="submit" form="visual-release-form" name="intent" value="publish">Publish all changes</UiButton></div></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">button / anchor / form</UiTag><UiTag color="green">pending / duplicate guard</UiTag><UiTag color="orange">RTL / reduced motion / SSR</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='card'" title="Production content containers" subtitle="Variants, loading, selection and structured regions" title-tag="h2" class="visual-table-card visual-card-showcase">
       <div class="card-showcase-grid" data-card-state-contract="sizes variants cover header subtitle actions body footer hover interactive selected disabled loading link keyboard rtl reduced-motion ssr">

@@ -110,7 +110,7 @@ onBeforeUnmount(()=>window.removeEventListener('hashchange',syncFromHash))
 
         <section class="api-reference-section" aria-labelledby="api-props-title">
           <div class="api-reference-section-title"><div><h3 id="api-props-title">Props</h3><p><code>{{ selected.propsType }}</code> · 类型、必填状态与运行时默认值</p></div><UiTag color="gray">{{ selected.props.length }}</UiTag></div>
-          <div v-if="selected.props.length" class="api-reference-table-wrap">
+          <div v-if="selected.props.length" class="api-reference-table-wrap" tabindex="0" aria-labelledby="api-props-title">
             <table><caption class="sr-only">{{ selected.name }} 属性 API</caption><thead><tr><th scope="col">属性</th><th scope="col">类型</th><th scope="col">默认值</th><th scope="col">运行时</th></tr></thead><tbody><tr v-for="prop in selected.props" :key="prop.name"><th scope="row"><code>{{ prop.name }}</code><span v-if="prop.required" class="api-required">必填</span></th><td><code>{{ prop.type }}</code></td><td><code>{{ prop.default?.value || '—' }}</code></td><td>{{ prop.runtimeTypes.join(' / ') || '—' }}</td></tr></tbody></table>
           </div>
           <UiEmpty v-else compact title="无公开 Props" description="此组件通过插槽或上下文工作" />
@@ -119,12 +119,12 @@ onBeforeUnmount(()=>window.removeEventListener('hashchange',syncFromHash))
         <div class="api-reference-contract-grid">
           <section class="api-reference-section" aria-labelledby="api-events-title">
             <div class="api-reference-section-title"><div><h3 id="api-events-title">Events</h3><p><code>{{ selected.emitsType }}</code></p></div><UiTag color="gray">{{ selected.emits.length }}</UiTag></div>
-            <ul v-if="selected.emits.length" class="api-reference-contract-list"><li v-for="event in selected.emits" :key="event.name"><code>{{ event.name }}</code><span>{{ event.type }}</span></li></ul>
+            <ul v-if="selected.emits.length" class="api-reference-contract-list" tabindex="0" aria-labelledby="api-events-title"><li v-for="event in selected.emits" :key="event.name"><code>{{ event.name }}</code><span>{{ event.type }}</span></li></ul>
             <UiEmpty v-else compact title="无公开 Events" description="该组件不主动发送事件" />
           </section>
           <section class="api-reference-section" aria-labelledby="api-slots-title">
             <div class="api-reference-section-title"><div><h3 id="api-slots-title">Slots</h3><p><code>{{ selected.slotsType }}</code></p></div><UiTag color="gray">{{ selected.slots.length }}</UiTag></div>
-            <ul v-if="selected.slots.length" class="api-reference-contract-list"><li v-for="slot in selected.slots" :key="slot.name"><code>#{{ slot.name }}</code><span>{{ slot.type }}</span></li></ul>
+            <ul v-if="selected.slots.length" class="api-reference-contract-list" tabindex="0" aria-labelledby="api-slots-title"><li v-for="slot in selected.slots" :key="slot.name"><code>#{{ slot.name }}</code><span>{{ slot.type }}</span></li></ul>
             <UiEmpty v-else compact title="无公开 Slots" description="该组件不提供插槽" />
           </section>
         </div>
