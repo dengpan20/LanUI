@@ -8,7 +8,7 @@ required = [
     "src/components/UiAnchor.vue", "tests/anchor-p38.spec.js", "tests/visual/baselines/win32/anchor-navigation.png", "scripts/build_p38_artifacts.py",
     "LICENSE", "scripts/packed-consumer-regression.mjs", "scripts/build_p39_artifacts.py", "scripts/build_p41_artifacts.py", "scripts/build_p42_artifacts.py", "scripts/build_p43_artifacts.py", "scripts/build_p44_artifacts.py", "scripts/build_p45_artifacts.py", "scripts/build_p46_artifacts.py", "scripts/build_p47_artifacts.py", "scripts/build_p48_artifacts.py", "scripts/build_p49_artifacts.py", "scripts/build_p50_artifacts.py", "scripts/build_p51_artifacts.py", "scripts/build_p52_artifacts.py", "scripts/build_p53_artifacts.py", "scripts/build_p54_artifacts.py", "scripts/build_p55_artifacts.py", "scripts/build_p56_artifacts.py", "scripts/build_p57_artifacts.py", "scripts/build_p58_artifacts.py", "scripts/build_p59_artifacts.py", "scripts/build_p60_artifacts.py", "scripts/build_p61_artifacts.py", "scripts/build_p62_artifacts.py", "scripts/build_p63_artifacts.py", "scripts/build_p64_artifacts.py", "scripts/build_p65_artifacts.py", "scripts/build_p66_artifacts.py", "scripts/build_p67_artifacts.py",
     "index.html", "component-preview.html", "interaction-regression.html", "styles.css", "tokens.css", "font-preview.css",
-    "UI-SPEC.md", "README.md", "CHANGELOG.md", "MIGRATION.md", "api-manifest.json", "style-manifest.json", "visual-regression.html", "package.json", "pnpm-workspace.yaml", "vite.config.js", "src/main.js", "src/App.vue",
+    "UI-SPEC.md", "README.md", "docs/USAGE-GUIDE.md", "docs/images/dashboard.jpg", "docs/images/components.jpg", "docs/images/data-table.jpg", "CHANGELOG.md", "MIGRATION.md", "api-manifest.json", "style-manifest.json", "visual-regression.html", "package.json", "pnpm-workspace.yaml", "vite.config.js", "src/main.js", "src/App.vue",
     "src/pages/LoginPage.vue", "src/pages/LogoutPage.vue", "src/pages/NotFoundPage.vue", "src/pages/ForbiddenPage.vue", "src/pages/ServerErrorPage.vue",
     "src/pages/DashboardPage.vue", "src/pages/WorkbenchPage.vue", "src/pages/DataPage.vue",
     "src/pages/AiPage.vue", "src/pages/GanttPage.vue", "src/pages/ComponentsPage.vue",
@@ -37,7 +37,7 @@ required = [
     "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/otp-input-p47.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/watermark-p42.spec.js", "tests/affix-p43.spec.js", "tests/splitter-p44.spec.js", "tests/typography-p45.spec.js", "tests/list-p46.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/visual/baselines/win32/watermark-document.png", "tests/visual/baselines/win32/affix-container.png", "tests/visual/baselines/win32/splitter-workspace.png", "tests/visual/baselines/win32/typography-contract.png", "tests/visual/baselines/win32/list-contract.png", "tests/visual/baselines/win32/otp-input-contract.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
     "tests/mentions-p48.spec.js", "tests/visual/baselines/win32/mentions-contract.png", "tests/input-tag-p49.spec.js", "tests/visual/baselines/win32/input-tag-contract.png", "tests/query-builder-p50.spec.js", "tests/visual/baselines/win32/query-builder-contract.png", "tests/carousel-p51.spec.js", "tests/visual/baselines/win32/carousel-contract.png", "tests/time-range-p52.spec.js", "tests/visual/baselines/win32/time-range-contract.png", "tests/date-time-p53.spec.js", "tests/visual/baselines/win32/date-time-contract.png", "tests/qr-code-p54.spec.js", "tests/visual/baselines/win32/qr-code-contract.png", "tests/barcode-p55.spec.js", "tests/visual/baselines/win32/barcode-contract.png", "tests/cron-editor-p56.spec.js", "tests/visual/baselines/win32/cron-editor-contract.png", "tests/key-value-editor-p57.spec.js", "tests/visual/baselines/win32/key-value-editor-contract.png", "tests/page-header-p58.spec.js", "tests/visual/baselines/win32/page-header-contract.png", "tests/card-p59.spec.js", "tests/visual/baselines/win32/card-contract.png", "tests/tag-p60.spec.js", "tests/visual/baselines/win32/tag-contract.png", "tests/timeline-p61.spec.js", "tests/visual/baselines/win32/timeline-contract.png", "tests/steps-p62.spec.js", "tests/visual/baselines/win32/steps-contract.png", "tests/breadcrumb-p63.spec.js", "tests/visual/baselines/win32/breadcrumb-contract.png", "tests/tooltip-p64.spec.js", "tests/visual/baselines/win32/tooltip-contract.png", "tests/popover-p65.spec.js", "tests/visual/baselines/win32/popover-contract.png", "tests/dropdown-p66.spec.js", "tests/visual/baselines/win32/dropdown-contract.png", "tests/collapse-p67.spec.js", "tests/visual/baselines/win32/collapse-contract.png", "scripts/build_p68_artifacts.py", "scripts/build_p69_artifacts.py", "scripts/build_p70_artifacts.py", "tests/input-p69.spec.js", "tests/textarea-p70.spec.js", "tests/visual/baselines/win32/input-contract.png", "tests/visual/baselines/win32/textarea-contract.png",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
-    "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue", "scripts/build_p71_artifacts.py", "tests/selection-p71.spec.js", "tests/visual/baselines/win32/selection-contract.png", "scripts/build_p72_artifacts.py", "tests/select-p72.spec.js", "tests/visual/baselines/win32/select-contract.png", "scripts/build_p73_artifacts.py", "tests/multi-select-p73.spec.js", "tests/visual/baselines/win32/multi-select-contract.png", "scripts/build_p74_artifacts.py", "tests/tree-select-p74.spec.js", "tests/visual/baselines/win32/tree-select-contract.png",
+    "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue", "scripts/build_p71_artifacts.py", "tests/selection-p71.spec.js", "tests/visual/baselines/win32/selection-contract.png", "scripts/build_p72_artifacts.py", "tests/select-p72.spec.js", "tests/visual/baselines/win32/select-contract.png", "scripts/build_p73_artifacts.py", "tests/multi-select-p73.spec.js", "tests/visual/baselines/win32/multi-select-contract.png", "scripts/build_p74_artifacts.py", "tests/tree-select-p74.spec.js", "tests/visual/baselines/win32/tree-select-contract.png", "scripts/build_p75_artifacts.py", "scripts/static-preview-regression.mjs", "tests/cascader-p75.spec.js", "tests/select-scroll-position-regression.spec.js", "src/components/scrollUtils.js", "tests/visual/baselines/win32/cascader-contract.png",
 ]
 
 failures = []
@@ -319,8 +319,8 @@ if "</i>" in preview.replace('<i class="status-dot"></i>', ""):
 
 vue_source_paths = list((ROOT / "src").rglob("*.vue"))
 vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in vue_source_paths)
-non_select_vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in vue_source_paths if path.name not in {"UiSelect.vue", "UiMultiSelect.vue", "UiTreeSelect.vue"})
-if "<select" in non_select_vue_sources or 'class="ui-select-native"' not in (ROOT / "src/components/UiSelect.vue").read_text(encoding="utf-8") or 'class="ui-multi-select-native"' not in (ROOT / "src/components/UiMultiSelect.vue").read_text(encoding="utf-8") or 'class="ui-tree-select-native"' not in (ROOT / "src/components/UiTreeSelect.vue").read_text(encoding="utf-8"):
+non_select_vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in vue_source_paths if path.name not in {"UiSelect.vue", "UiMultiSelect.vue", "UiTreeSelect.vue", "UiCascader.vue"})
+if "<select" in non_select_vue_sources or 'class="ui-select-native"' not in (ROOT / "src/components/UiSelect.vue").read_text(encoding="utf-8") or 'class="ui-multi-select-native"' not in (ROOT / "src/components/UiMultiSelect.vue").read_text(encoding="utf-8") or 'class="ui-tree-select-native"' not in (ROOT / "src/components/UiTreeSelect.vue").read_text(encoding="utf-8") or 'class="ui-cascader-native"' not in (ROOT / "src/components/UiCascader.vue").read_text(encoding="utf-8"):
     failures.append("form:native-select")
 for component in ["UiInput", "UiNumberInput", "UiSlider", "UiAutoComplete", "UiSelect", "UiTextarea", "UiSchemaForm"]:
     if component not in vue_sources:
@@ -570,7 +570,7 @@ js_minifier = (ROOT / "scripts/minify-library-js.mjs").read_text(encoding="utf-8
 for marker,source in [("component-union",style_split),("splitSelectors",style_split),("startsAtComponentBoundary",style_split),("lightningcss",style_split),("Showcase selector leaked",css_boundary),("minifySync",js_minifier),("LIBRARY_JS_MINIFY PASS",js_minifier)]:
     if marker not in source:
         failures.append(f"p33:build-boundary:{marker}")
-if "Package boundary and delivery optimization (P33)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P33: package and style boundaries" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P33: package and style boundaries" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p33:documentation")
 theme_source = (ROOT / "src/theme.js").read_text(encoding="utf-8")
 theme_tokens = (ROOT / "src/theme-tokens.js").read_text(encoding="utf-8")
@@ -583,7 +583,7 @@ for marker, source in [
 ]:
     if marker not in source:
         failures.append(f"p34:theme-runtime:{marker}")
-if "Theme runtime and scoped appearance (P34)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P34: theme runtime and scoped appearance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P34: theme runtime and scoped appearance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p34:documentation")
 if any(marker not in preview for marker in ["previewAppearanceSwitch", "previewThemeState", "data-ui-resolved-appearance"]):
     failures.append("p34:showcase-version")
@@ -598,9 +598,9 @@ for marker, source in [
 ]:
     if marker not in source:
         failures.append(f"p35:portal-runtime:{marker}")
-if len(teleport_sources) != 17 or any("useTeleportThemeScope" not in source or 'v-bind="portalThemeAttrs"' not in source for source in teleport_sources.values()):
+if len(teleport_sources) != 18 or any("useTeleportThemeScope" not in source or 'v-bind="portalThemeAttrs"' not in source for source in teleport_sources.values()):
     failures.append(f"p35:teleport-coverage:{len(teleport_sources)}")
-if "Scoped Teleport theme bridge (P35)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P35: scoped Teleport theme inheritance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P35: scoped Teleport theme inheritance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p35:documentation")
 if "data-ui-teleport-scope" not in preview:
     failures.append("p35:showcase-version")
@@ -632,9 +632,9 @@ for marker, source in [
 ]:
     if marker not in source:
         failures.append(f"p36:motion-runtime:{marker}")
-if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.70.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.71.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -649,7 +649,7 @@ if any(marker not in app for marker in ["defineAsyncComponent", "'/api'", "split
     failures.append("p37:api-route")
 if any(marker not in api_docs_script for marker in ["categoryDefinitions", "Duplicate API documentation category", "category coverage failed", "API_DOCS PASS", "COMPONENT-API.md"]):
     failures.append("p37:api-doc-generator")
-if "Generated Component API reference (P37)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P37: generated API reference and drift governance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P37: generated API reference and drift governance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p37:documentation")
 if "api-docs.mjs" not in package.get("scripts", {}).get("api:check", "") or "api:check" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p37:package-gate")
@@ -664,12 +664,12 @@ if preview.count('id="anchor" class="preview-section"') != 1 or "ui-anchor direc
     failures.append("p38:static-preview")
 if app.count("defineAsyncComponent") < 12:
     failures.append("p38:lazy-showcase-routes")
-if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p38:documentation")
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.70.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.71.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -677,16 +677,16 @@ if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens
     failures.append("p39:token-style-export")
 if not {"README.md", "LICENSE"}.issubset(set(package.get("files", []))) or "Permission is hereby granted" not in license_text:
     failures.append("p39:license-packlist")
-for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===91", "PACKED_SELECTION_SSR PASS", "PACKED_SELECT_SSR PASS", "select-contracts.ts", "PACKED_MULTI_SELECT_SSR PASS", "multi-select-contracts.ts", "PACKED_TREE_SELECT_SSR PASS", "tree-select-contracts.ts", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "PACKED_KEY_VALUE_EDITOR_SSR PASS", "PACKED_PAGE_HEADER_SSR PASS", "PACKED_CARD_SSR PASS", "PACKED_TAG_SSR PASS", "PACKED_TIMELINE_SSR PASS", "PACKED_STEPS_SSR PASS", "PACKED_BREADCRUMB_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
+for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===91", "PACKED_SELECTION_SSR PASS", "PACKED_SELECT_SSR PASS", "select-contracts.ts", "PACKED_MULTI_SELECT_SSR PASS", "multi-select-contracts.ts", "PACKED_TREE_SELECT_SSR PASS", "tree-select-contracts.ts", "PACKED_CASCADER_SSR PASS", "cascader-contracts.ts", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "PACKED_KEY_VALUE_EDITOR_SSR PASS", "PACKED_PAGE_HEADER_SSR PASS", "PACKED_CARD_SSR PASS", "PACKED_TAG_SSR PASS", "PACKED_TIMELINE_SSR PASS", "PACKED_STEPS_SSR PASS", "PACKED_BREADCRUMB_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
     if marker not in packed_consumer:
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 410, "packedTarballRaw": 590000, "packedUnpackedRaw": 3500000}:
+if distribution_budgets != {"packedFiles": 412, "packedTarballRaw": 590000, "packedUnpackedRaw": 3500000}:
     failures.append("p39:distribution-budgets")
-if "MultiSelect P73" not in components_page or "1.70.0" not in components_page or "V1.70.0" not in preview:
+if "MultiSelect P73" not in components_page or "1.71.0" not in components_page or "V1.71.0" not in preview:
     failures.append("p39:showcase-version")
-if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p39:documentation")
 
 runtime_contract = (ROOT / "scripts/runtime-compatibility.mjs").read_text(encoding="utf-8")
@@ -701,7 +701,7 @@ for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===91", "actions/u
         failures.append(f"p40:release-contract:{marker}")
 if package.get("scripts", {}).get("test:runtime") != "node scripts/runtime-compatibility.mjs" or "test:release" not in package.get("scripts", {}).get("test:package", ""):
     failures.append("p40:package-gates")
-if "Runtime matrix and auditable GitHub releases (P40)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P40: runtime matrix and auditable release contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P40: runtime matrix and auditable release contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p40:documentation")
 
 tour_source = (ROOT / "src/components/UiTour.vue").read_text(encoding="utf-8")
@@ -713,7 +713,7 @@ if "lockScroll" not in overlay_source or "syncScrollLock" not in overlay_source:
     failures.append("p41:nonmodal-overlay-lock")
 if "UiTour" not in components_page or 'id="product-tour"' not in preview or "previewTourOpen" not in preview or "UiTour" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p41:showcase-consumers")
-if "Target-aware product onboarding (P41)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P41: target-aware product onboarding" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P41: target-aware product onboarding" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p41:documentation")
 
 watermark_source = (ROOT / "src/components/UiWatermark.vue").read_text(encoding="utf-8")
@@ -723,9 +723,9 @@ for marker in ["MutationObserver", "devicePixelRatio", "imageCrossOrigin", "buil
 if "UiWatermark" not in components_page or 'id="watermark"' not in preview or "previewWatermarkObserver" not in preview or "UiWatermark" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p42:showcase-consumers")
 login_page = (ROOT / "src/pages/LoginPage.vue").read_text(encoding="utf-8")
-if "V1.70.0" not in app or "V1.70.0" not in login_page or "badge:91" not in components_page or "<td>Watermark</td>" not in components_page:
+if "V1.71.0" not in app or "V1.71.0" not in login_page or "badge:91" not in components_page or "<td>Watermark</td>" not in components_page:
     failures.append("p42:showcase-version-and-state-matrix")
-if "Resilient document watermark (P42)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p42:documentation")
 
 affix_source = (ROOT / "src/components/UiAffix.vue").read_text(encoding="utf-8")
@@ -736,7 +736,7 @@ if "UiAffix" not in components_page or 'id="affix" class="preview-section"' not 
     failures.append("p43:showcase-consumers")
 if "<td>Affix</td>" not in components_page or "affix-container-lifecycle" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p43:state-and-interaction")
-if "Container-aware sticky actions (P43)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P43: viewport and container-aware affix" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P43: viewport and container-aware affix" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p43:documentation")
 
 splitter_source = (ROOT / "src/components/UiSplitter.vue").read_text(encoding="utf-8")
@@ -747,7 +747,7 @@ if "UiSplitter" not in components_page or 'id="splitter" class="preview-section"
     failures.append("p44:showcase-consumers")
 if "<td>Splitter</td>" not in components_page or "splitter-keyboard-pointer-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p44:state-and-interaction")
-if "Responsive resizable workspace layout (P44)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P44: constrained multi-panel splitter" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P44: constrained multi-panel splitter" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p44:documentation")
 
 typography_source = (ROOT / "src/components/UiTypography.vue").read_text(encoding="utf-8")
@@ -758,7 +758,7 @@ if "UiTypography" not in components_page or 'id="typography-component" class="pr
     failures.append("p45:showcase-consumers")
 if "<td>Typography</td>" not in components_page or "typography-copy-edit-expand" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p45:state-and-interaction")
-if "Semantic typography (P45)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P45: semantic typography primitive" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P45: semantic typography primitive" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p45:documentation")
 
 list_source = (ROOT / "src/components/UiList.vue").read_text(encoding="utf-8")
@@ -769,7 +769,7 @@ if "UiList" not in components_page or 'id="data-list" class="preview-section"' n
     failures.append("p46:showcase-consumers")
 if "<td>List</td>" not in components_page or "list-selection-actions-pagination-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p46:state-and-interaction")
-if "Semantic finite-data lists (P46)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P46: semantic finite-data list" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P46: semantic finite-data list" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p46:documentation")
 locale_contract_source = (ROOT / "scripts/locale-contracts.mjs").read_text(encoding="utf-8")
 if "\\uFFFD" not in locale_contract_source or "\\?{3,}" not in locale_contract_source:
@@ -783,7 +783,7 @@ if "UiOtpInput" not in components_page or 'id="otp-input" class="preview-section
     failures.append("p47:showcase-consumers")
 if "<td>OtpInput</td>" not in components_page or "otp-input-autofill-keyboard-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p47:state-and-interaction")
-if "One-time code input (P47)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P47: segmented one-time-code input" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P47: segmented one-time-code input" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p47:documentation")
 
 mentions_source = (ROOT / "src/components/UiMentions.vue").read_text(encoding="utf-8")
@@ -794,7 +794,7 @@ if "UiMentions" not in components_page or 'id="mentions" class="preview-section"
     failures.append("p48:showcase-consumers")
 if "data-mentions-state-contract" not in components_page or "mentions-caret-keyboard-multi-trigger-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p48:state-and-interaction")
-if "Contextual mentions (P48)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P48: contextual multiline mentions" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P48: contextual multiline mentions" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p48:documentation")
 
 input_tag_source = (ROOT / "src/components/UiInputTag.vue").read_text(encoding="utf-8")
@@ -805,7 +805,7 @@ if "UiInputTag" not in components_page or 'data-input-tag-state-contract' not in
     failures.append("p49:showcase-consumers")
 if "<td>InputTag</td>" not in components_page or "input-tag-tokenize-edit-remove-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p49:state-and-interaction")
-if "Tokenized multi-value input (P49)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P49: tokenized multi-value input" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P49: tokenized multi-value input" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p49:documentation")
 
 query_builder_source = (ROOT / "src/components/UiQueryBuilder.vue").read_text(encoding="utf-8")
@@ -818,7 +818,7 @@ if "<td>QueryBuilder</td>" not in components_page or "query-builder-recursive-ke
     failures.append("p50:state-and-interaction")
 if "type:'query-builder'" not in (ROOT / "src/components/UiSchemaForm.vue").read_text(encoding="utf-8") + components_page + (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p50:schema-form")
-if "Recursive query composition (P50)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P50: recursive typed query composition" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P50: recursive typed query composition" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p50:documentation")
 
 carousel_source = (ROOT / "src/components/UiCarousel.vue").read_text(encoding="utf-8")
@@ -829,7 +829,7 @@ if "UiCarousel" not in components_page or "data-carousel-state-contract" not in 
     failures.append("p51:showcase-consumers")
 if "<td>Carousel</td>" not in components_page or "carousel-keyboard-swipe-playback" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p51:state-and-interaction")
-if "Accessible content rotation (P51)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P51: accessible content carousel" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P51: accessible content carousel" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p51:documentation")
 
 time_range_source = (ROOT / "src/components/UiTimeRangePicker.vue").read_text(encoding="utf-8")
@@ -848,7 +848,7 @@ if "UiTimeRangePicker" not in components_page or "data-time-range-state-contract
     failures.append("p52:showcase-consumers")
 if "<td>TimeRange</td>" not in components_page or "time-range-value-validation-focus" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p52:state-and-interaction")
-if "Time-range form orchestration (P52)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P52: strict time-range input" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P52: strict time-range input" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p52:documentation")
 
 date_time_source = (ROOT / "src/components/UiDateTimePicker.vue").read_text(encoding="utf-8")
@@ -866,7 +866,7 @@ if "data-date-time-state-contract" not in preview or any(marker not in standalon
     failures.append("p53:preview-consumer")
 if "date-time-value-range-focus" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "<td>DateTime / Range</td>" not in components_page:
     failures.append("p53:state-and-interaction")
-if "Discoverable date-time adapters (P53)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P53: discoverable date-time adapters" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P53: discoverable date-time adapters" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p53:documentation")
 
 qr_code_source = (ROOT / "src/components/UiQRCode.vue").read_text(encoding="utf-8")
@@ -883,7 +883,7 @@ if "UiQRCode" not in standalone_source or "standaloneQrStatus" not in standalone
     failures.append("p54:standalone-consumer")
 if "qr-code-lifecycle-refresh" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "qr-code-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p54:state-and-interaction")
-if "Encoded QR lifecycle and SVG export (P54)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P54: encoded QR lifecycle" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P54: encoded QR lifecycle" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p54:documentation")
 
 barcode_source = (ROOT / "src/components/UiBarcode.vue").read_text(encoding="utf-8")
@@ -900,7 +900,7 @@ if "UiBarcode" not in standalone_source or "standaloneBarcodeStatus" not in stan
     failures.append("p55:standalone-consumer")
 if "barcode-lifecycle-refresh" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "barcode-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p55:state-and-interaction")
-if "Scanner-ready barcode lifecycle (P55)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P55: scanner-ready barcode lifecycle" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P55: scanner-ready barcode lifecycle" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p55:documentation")
 
 cron_editor_source = (ROOT / "src/components/UiCronEditor.vue").read_text(encoding="utf-8")
@@ -919,7 +919,7 @@ if "UiCronEditor" not in standalone_source or "standaloneCron" not in standalone
     failures.append("p56:standalone-consumer")
 if "cron-editor-preset-validation-preview" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "cron-editor-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p56:state-and-interaction")
-if "Validated Unix Cron scheduling (P56)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P56: validated Unix Cron scheduling" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P56: validated Unix Cron scheduling" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p56:documentation")
 
 key_value_source = (ROOT / "src/components/UiKeyValueEditor.vue").read_text(encoding="utf-8")
@@ -934,7 +934,7 @@ if "UiKeyValueEditor" not in standalone_source or "standaloneHeaders" not in sta
     failures.append("p57:standalone-consumer")
 if "key-value-editor-edit-import-reorder-validation" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "key-value-editor-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p57:state-and-interaction")
-if "Structured key-value configuration (P57)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P57: structured key-value configuration" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P57: structured key-value configuration" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p57:documentation")
 
 page_header_source = (ROOT / "src/components/UiPageHeader.vue").read_text(encoding="utf-8")
@@ -949,7 +949,7 @@ if "UiPageHeader" not in standalone_source or "standalone-tour-trigger" not in s
     failures.append("p58:standalone-consumer")
 if "page-header-back-breadcrumb-composition" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "page-header-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p58:state-and-interaction")
-if "P58 语义化页面标题" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P58: semantic page heading composition" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P58: semantic page heading composition" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p58:documentation")
 for page_name in ["DashboardPage.vue", "WorkbenchPage.vue", "DataPage.vue", "AiPage.vue", "GanttPage.vue", "ComponentsPage.vue"]:
     page_source = (ROOT / "src/pages" / page_name).read_text(encoding="utf-8")
@@ -968,7 +968,7 @@ if any(marker not in standalone_source for marker in ["UiCard", "standaloneCardS
     failures.append("p59:standalone-consumer")
 if "card-pointer-keyboard-selection-nested-action" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "card-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p59:state-and-interaction")
-if "P59 成熟卡片容器" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P59: production card containers" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P59: production card containers" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p59:documentation")
 
 tag_source = (ROOT / "src/components/UiTag.vue").read_text(encoding="utf-8")
@@ -983,7 +983,7 @@ if any(marker not in standalone_source for marker in ["UiTag", "standaloneTagChe
     failures.append("p60:standalone-consumer")
 if "tag-selection-close-link-keyboard" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "tag-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p60:state-and-interaction")
-if "P60 可交互标签词汇" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P60: interactive tag vocabulary" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P60: interactive tag vocabulary" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p60:documentation")
 
 timeline_source = (ROOT / "src/components/UiTimeline.vue").read_text(encoding="utf-8")
@@ -998,7 +998,7 @@ if any(marker not in standalone_source for marker in ["UiTimeline", "standaloneT
     failures.append("p61:standalone-consumer")
 if "timeline-selection-keyboard-link-disabled" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "timeline-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "timeline-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p61:state-and-interaction")
-if "P61 成熟时间轴" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P61: semantic interactive timelines" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P61: semantic interactive timelines" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p61:documentation")
 
 steps_source = (ROOT / "src/components/UiSteps.vue").read_text(encoding="utf-8")
@@ -1013,7 +1013,7 @@ if any(marker not in standalone_source for marker in ["UiSteps", "deliveryStep",
     failures.append("p62:standalone-consumer")
 if "steps-navigation-keyboard-disabled-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "steps-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "steps-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p62:state-and-interaction")
-if "P62 成熟步骤流程" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P62: semantic navigable steps" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P62: semantic navigable steps" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p62:documentation")
 
 breadcrumb_source = (ROOT / "src/components/UiBreadcrumb.vue").read_text(encoding="utf-8")
@@ -1028,7 +1028,7 @@ if any(marker not in standalone_source for marker in ["UiBreadcrumb", "standalon
     failures.append("p63:standalone-consumer")
 if "breadcrumb-collapse-navigation-focus-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "breadcrumb-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "breadcrumb-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p63:state-and-interaction")
-if "P63 成熟面包屑导航" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P63: semantic collapsible breadcrumbs" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P63: semantic collapsible breadcrumbs" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p63:documentation")
 
 tooltip_source = (ROOT / "src/components/UiTooltip.vue").read_text(encoding="utf-8")
@@ -1043,7 +1043,7 @@ if any(marker not in standalone_source for marker in ["UiTooltip", "standaloneTo
     failures.append("p64:standalone-consumer")
 if "tooltip-trigger-dismissal" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "tooltip-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "tooltip-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p64:state-and-interaction")
-if "P64 成熟上下文提示" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P64: production contextual tooltips" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P64: production contextual tooltips" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p64:documentation")
 
 popover_source = (ROOT / "src/components/UiPopover.vue").read_text(encoding="utf-8")
@@ -1058,7 +1058,7 @@ if any(marker not in standalone_source for marker in ["UiPopover", "standalonePo
     failures.append("p65:standalone-consumer")
 if "popover-focus-dismissal" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "popover-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "popover-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p65:state-and-interaction")
-if "P65 成熟交互式悬浮层" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P65: production interactive popovers" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P65: production interactive popovers" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p65:documentation")
 
 dropdown_source = (ROOT / "src/components/UiDropdown.vue").read_text(encoding="utf-8")
@@ -1073,7 +1073,7 @@ if any(marker not in standalone_source for marker in ["UiDropdown", "standaloneD
     failures.append("p66:standalone-consumer")
 if "dropdown-menu-keyboard-typeahead" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "dropdown-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "dropdown-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p66:state-and-interaction")
-if "P66 成熟下拉菜单" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P66: production dropdown menus" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P66: production dropdown menus" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p66:documentation")
 
 
@@ -1089,7 +1089,7 @@ if any(marker not in standalone_source for marker in ["UiCollapse", "standaloneC
     failures.append("p67:standalone-consumer")
 if "collapse-keyboard-lifecycle-guard" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "collapse-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "collapse-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p67:state-and-interaction")
-if "P67 成熟折叠面板" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P67: production collapse and accordion" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P67: production collapse and accordion" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p67:documentation")
 
 button_source = (ROOT / "src/components/UiButton.vue").read_text(encoding="utf-8")
@@ -1104,7 +1104,7 @@ if any(marker not in standalone_source for marker in ["UiButton", "standaloneBut
     failures.append("p68:standalone-consumer")
 if "button-async-native-focus-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "button-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "button-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p68:state-and-interaction")
-if "P68 成熟按钮动作" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P68: production button actions" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P68: production button actions" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p68:documentation")
 
 input_source = (ROOT / "src/components/UiInput.vue").read_text(encoding="utf-8")
@@ -1119,7 +1119,7 @@ if any(marker not in standalone_source for marker in ["UiInput", "standaloneInpu
     failures.append("p69:standalone-consumer")
 if "input-ime-password-clear-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "input-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "input-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p69:state-and-interaction")
-if "P69 成熟文本输入" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P69: production text inputs" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P69: production text inputs" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p69:documentation")
 
 textarea_source = (ROOT / "src/components/UiTextarea.vue").read_text(encoding="utf-8")
@@ -1134,7 +1134,7 @@ if any(marker not in standalone_source for marker in ["UiTextarea", "standaloneT
     failures.append("p70:standalone-consumer")
 if "textarea-ime-autosize-submit-clear-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "textarea-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "textarea-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p70:state-and-interaction")
-if "P70 成熟多行文本输入" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P70: production textareas" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P70: production textareas" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p70:documentation")
 
 for component_name, markers in {
@@ -1156,7 +1156,7 @@ if any(marker not in standalone_source for marker in ["UiCheckboxGroup", "UiRadi
     failures.append("p71:standalone-consumer")
 if "selection-groups-limits-radio-switch-guard" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "selection-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "selection-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p71:state-and-interaction")
-if "P71 成熟选择控件" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P71: production selection controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P71: production selection controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p71:documentation")
 
 select_source = (ROOT / "src/components/UiSelect.vue").read_text(encoding="utf-8")
@@ -1171,7 +1171,7 @@ if any(marker not in standalone_source for marker in ["UiSelect", "standaloneSel
     failures.append("p72:standalone-consumer")
 if "select-production-search-native-keyboard-api" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "select-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "select-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p72:state-and-interaction")
-if "P72 成熟下拉选择" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P72: production select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P72: production select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p72:documentation")
 
 multi_select_source = (ROOT / "src/components/UiMultiSelect.vue").read_text(encoding="utf-8")
@@ -1186,7 +1186,7 @@ if any(marker not in standalone_source for marker in ["UiMultiSelect", "standalo
     failures.append("p73:standalone-consumer")
 if "multi-select-production-array-limits-search-native-api" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "multi-select-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "multi-select-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
     failures.append("p73:state-and-interaction")
-if "P73 成熟多选组件" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P73: production multi-select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P73: production multi-select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p73:documentation")
 
 tree_select_source = (ROOT / "src/components/UiTreeSelect.vue").read_text(encoding="utf-8")
@@ -1205,9 +1205,40 @@ if any(marker not in (ROOT / "tests/types/contracts.ts").read_text(encoding="utf
     failures.append("p74:type-contract")
 if any(marker not in packed_consumer for marker in ["PACKED_TREE_SELECT_SSR PASS", "tree-select-contracts.ts"]):
     failures.append("p74:packed-consumer")
-if "P74 成熟树选择组件" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P74: production tree-select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+if "Maturity P74: production tree-select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p74:documentation")
 
+cascader_source = (ROOT / "src/components/UiCascader.vue").read_text(encoding="utf-8")
+for marker in ["defaultValue", "defaultOpen", "activePath", "defaultActivePath", "fieldNames", "filterOption", "loadData", "AbortController", "loadSequences", "maxCount", "minCount", "checkStrictly", "emitPath", "ui-cascader-native", "onFormReset", "handleTypeahead", "useTeleportThemeScope", "scrollElementWithin", "defineExpose"]:
+    if marker not in cascader_source:
+        failures.append(f"p75:cascader-runtime:{marker}")
+if any(marker not in components_page for marker in ["Cascader P75", "data-cascader-state-contract", "cascaderOptions", "loadCascaderDemo", "cascaderState"]):
+    failures.append("p75:component-center")
+if any(marker not in preview for marker in ["UiCascader P75", "data-cascader-state-contract", "previewCascaderNative", "previewCascaderSearch", "renderPreviewCascader"]):
+    failures.append("p75:static-preview")
+if any(marker not in standalone_source for marker in ["UiCascader", "standaloneCascader", "loadStandaloneCascader", "data-cascader-state-contract"]):
+    failures.append("p75:standalone-consumer")
+if "cascader-production-path-search-lazy-native-api" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "cascader-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "cascader-open" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
+    failures.append("p75:state-and-interaction")
+if "test:preview" not in package.get("scripts", {}).get("check", "") or "test:preview" not in package.get("scripts", {}).get("prepack", ""):
+    failures.append("p75:static-preview-gate")
+if any(marker not in (ROOT / "tests/types/contracts.ts").read_text(encoding="utf-8") for marker in ["UiCascaderProps", "UiCascaderInstance", "invalidCascaderLoader"]):
+    failures.append("p75:type-contract")
+if any(marker not in packed_consumer for marker in ["PACKED_CASCADER_SSR PASS", "cascader-contracts.ts"]):
+    failures.append("p75:packed-consumer")
+if "Maturity P75: production cascader controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p75:documentation")
+if any(marker not in (ROOT / "tests/select-scroll-position-regression.spec.js").read_text(encoding="utf-8") for marker in ["scrolls only the option viewport", "preventScroll:true", "select-portal"]):
+    failures.append("p75:shared-select-scroll-focus")
+
+readme_current = (ROOT / "README.md").read_text(encoding="utf-8")
+usage_guide = (ROOT / "docs/USAGE-GUIDE.md").read_text(encoding="utf-8")
+for marker in ["v1.71.0", "91 个组件、1,485 个 Props、498 个 Events 和 308 个 Slots", "P75 成熟级联选择组件", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
+    if marker not in readme_current:
+        failures.append(f"docs:concise-readme:{marker}")
+for marker in ["整库接入", "按需接入", "主题与 Token", "国际化", "工程验证"]:
+    if marker not in usage_guide:
+        failures.append(f"docs:usage-guide:{marker}")
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
 if (ROOT / "UI-SPEC.md").read_bytes() != (ROOT / "public/UI-SPEC.md").read_bytes():
@@ -1217,7 +1248,7 @@ for path in [ROOT / "README.md", ROOT / "UI-SPEC.md"]:
         failures.append(f"docs:corrupted-section:{path.name}")
 
 standalone = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
-for component in ["UiAffix", "UiAlert", "UiAnchor", "UiAutoComplete", "UiBreadcrumb", "UiButton", "UiCalendar", "UiCard", "UiTag", "UiTimeline", "UiTooltip", "UiPopover", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiTextarea", "UiInputTag", "UiKeyValueEditor", "UiPageHeader", "UiMentions", "UiMultiSelect", "UiNumberInput", "UiOtpInput", "UiQueryBuilder", "UiQRCode", "UiBarcode", "UiCronEditor", "UiSlider", "UiRate", "UiSplitter", "UiTypography", "UiStatistic", "UiSelect", "UiTreeSelect", "UiSchemaForm", "UiTimeRangePicker", "UiTour", "UiWatermark", "UiUpload", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
+for component in ["UiAffix", "UiAlert", "UiAnchor", "UiAutoComplete", "UiBreadcrumb", "UiButton", "UiCalendar", "UiCard", "UiTag", "UiTimeline", "UiTooltip", "UiPopover", "UiImage", "UiCommandPalette", "UiColorPicker", "UiIcon", "UiInput", "UiTextarea", "UiInputTag", "UiKeyValueEditor", "UiPageHeader", "UiMentions", "UiMultiSelect", "UiCascader", "UiNumberInput", "UiOtpInput", "UiQueryBuilder", "UiQRCode", "UiBarcode", "UiCronEditor", "UiSlider", "UiRate", "UiSplitter", "UiTypography", "UiStatistic", "UiSelect", "UiTreeSelect", "UiSchemaForm", "UiTimeRangePicker", "UiTour", "UiWatermark", "UiUpload", "UiSteps", "UiTable", "UiTree", "UiSegmented", "UiDescriptions", "UiToastHost", "UiConfigProvider", "UiDateRangePicker", "toast.success"]:
     if component not in standalone:
         failures.append(f"standalone:component:{component}")
 for marker in ["direction", ":direction=", "RTL", "LTR"]:
@@ -1246,11 +1277,11 @@ for marker in ["useDirection", "rtl", "direction"]:
         failures.append(f"rtl:marker:{marker}")
 
 visual_baselines = list((ROOT / "tests/visual/baselines").glob("*/*.png"))
-if len(visual_baselines) < 47 or any(path.stat().st_size < 1000 for path in visual_baselines):
+if len(visual_baselines) < 48 or any(path.stat().st_size < 1000 for path in visual_baselines):
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
-for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "button-contract", "input-contract", "multi-select-contract", "tree-select-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
+for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "button-contract", "input-contract", "multi-select-contract", "tree-select-contract", "cascader-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
 accessibility_script = (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8")
@@ -1265,10 +1296,10 @@ if accessibility_script.count("{name:") < 65:
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
 if "resolveBrowserNavigationTimeout" not in interaction_script:
     failures.append("browser:navigation-timeout:interaction")
-for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "cron-editor-preset-validation-preview", "key-value-editor-edit-import-reorder-validation", "page-header-back-breadcrumb-composition", "card-pointer-keyboard-selection-nested-action", "tag-selection-close-link-keyboard", "timeline-selection-keyboard-link-disabled", "steps-navigation-keyboard-disabled-rtl", "breadcrumb-collapse-navigation-focus-rtl", "tooltip-trigger-dismissal", "popover-focus-dismissal", "dropdown-menu-keyboard-typeahead", "button-async-native-focus-rtl", "input-ime-password-clear-rtl", "multi-select-production-array-limits-search-native-api", "tree-select-production-hierarchy-search-lazy-native-api", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
+for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "cron-editor-preset-validation-preview", "key-value-editor-edit-import-reorder-validation", "page-header-back-breadcrumb-composition", "card-pointer-keyboard-selection-nested-action", "tag-selection-close-link-keyboard", "timeline-selection-keyboard-link-disabled", "steps-navigation-keyboard-disabled-rtl", "breadcrumb-collapse-navigation-focus-rtl", "tooltip-trigger-dismissal", "popover-focus-dismissal", "dropdown-menu-keyboard-typeahead", "button-async-native-focus-rtl", "input-ime-password-clear-rtl", "multi-select-production-array-limits-search-native-api", "tree-select-production-hierarchy-search-lazy-native-api", "cascader-production-path-search-lazy-native-api", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") + interaction_script.count("name:'") < 69:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 70:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -1287,8 +1318,8 @@ if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or 
     failures.append("performance:p33-release-baseline")
 if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10200, "packageJsGzip": 4100, "packageCssRaw": 6050, "packageCssGzip": 1100, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10500, "standaloneExampleCssRaw": 875, "subpathConsumerCssRaw": 2, "rootCssRaw": 850}:
     failures.append("performance:p59-additive-component-policy")
-if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 148000, 'packageJsGzip': 47000, 'packageCssRaw': 178000, 'packageCssGzip': 32000, 'rootCssRaw': 54000, 'rootCssGzip': 8000, 'largestComponentCssRaw': 1000, 'largestComponentCssGzip': 1000, 'subpathConsumerJsRaw': 7250, 'subpathConsumerCssRaw': 1600, 'standaloneExampleJsRaw': 175000, 'standaloneExampleCssRaw': 56000}:
-    failures.append("performance:p73-bounded-component-enhancement-policy")
+if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 174000, 'packageJsGzip': 56000, 'packageCssRaw': 198000, 'packageCssGzip': 35000, 'rootCssRaw': 64000, 'rootCssGzip': 9500, 'largestComponentCssRaw': 1000, 'largestComponentCssGzip': 1000, 'subpathConsumerJsRaw': 10000, 'subpathConsumerCssRaw': 2100, 'standaloneExampleJsRaw': 212000, 'standaloneExampleCssRaw': 67000}:
+    failures.append("performance:p75-bounded-component-enhancement-policy")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
 for export_name in ["./performance-budgets", "./performance-budgets.json"]:
@@ -1417,3 +1448,4 @@ print("- maturity-p71=checkbox+radio+switch,controlled+uncontrolled,groups+const
 print("- maturity-p72=ui-select,controlled+uncontrolled,value+open,field-mapping,local+remote-search,abort+race+cache,native-form+reset,keyboard+typeahead,portal+rtl+ssr+types,45-visual,63-axe,67-interactions-per-browser,81-negative-types")
 print("- maturity-p73=ui-multi-select,controlled+uncontrolled,array+open,field-mapping,local+remote-search,abort+race+cache,selection-limits+select-all,collapsed-tags+backspace,native-multiple-form+reset,keyboard+typeahead,portal+rtl+ssr+types,46-visual,64-axe,68-interactions-per-browser,85-negative-types")
 print("- maturity-p74=ui-tree-select,controlled+uncontrolled,value+open+expansion,field-mapping,local-search+ime,lazy-load+abort+retry+race,cascade+strict+limits,path+collapsed-tags,virtual,native-form+reset,tree-keyboard,portal+rtl+ssr+types,47-visual,65-axe,69-interactions-per-browser,89-negative-types")
+print("- maturity-p75=ui-cascader,controlled+uncontrolled,value+open+active-path,field-mapping,path-search+ime,lazy-load+abort+retry+race,single+multiple+cascade+strict+limits+collapsed-tags,native-form+reset,keyboard+rtl+portal+ssr+types,48-visual,65-axe,70-interactions-per-browser,93-negative-types")

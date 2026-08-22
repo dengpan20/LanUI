@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.70.0",
+  "version": "1.71.0",
   "private": false,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -157,10 +157,11 @@
     "test:interaction": "node scripts/interaction-regression.mjs",
     "test:interaction:cross-browser": "node scripts/interaction-regression.mjs --browser=all",
     "test:interaction:non-chromium": "node scripts/interaction-regression.mjs --browser=firefox,webkit",
+    "test:preview": "node scripts/static-preview-regression.mjs",
     "test:performance": "node scripts/performance-regression.mjs",
     "visual:update": "node scripts/visual-regression.mjs --update",
     "test:package": "node scripts/test-package-exports.mjs && node scripts/css-boundary-contracts.mjs && node scripts/build-subpath-consumer.mjs && pnpm run test:release && pnpm run test:packed-consumer",
-    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=89')\"",
+    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=93')\"",
     "api:generate": "pnpm run build:lib && node scripts/api-manifest.mjs --write && node scripts/api-docs.mjs --write",
     "api:check": "node scripts/api-manifest.mjs && node scripts/api-docs.mjs",
     "docs:generate": "node scripts/api-docs.mjs --write",
@@ -168,14 +169,14 @@
     "styles:generate": "pnpm run build:lib:base && node scripts/split-component-css.mjs --write",
     "theme:generate": "node scripts/generate-theme-tokens.mjs --write",
     "styles:check": "node scripts/split-component-css.mjs",
-    "check": "pnpm run lint && pnpm run test && pnpm run test:visual && pnpm run test:a11y && pnpm run test:interaction && pnpm run build && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance",
+    "check": "pnpm run lint && pnpm run test && pnpm run test:visual && pnpm run test:a11y && pnpm run test:interaction && pnpm run test:preview && pnpm run build && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance",
     "ci": "pnpm run tokens && pnpm run check",
-    "prepack": "pnpm run tokens && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme && pnpm run test:motion && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:performance",
+    "prepack": "pnpm run tokens && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme && pnpm run test:motion && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:preview && pnpm run test:performance",
     "test:packed-consumer": "node scripts/packed-consumer-regression.mjs",
     "pack:artifact": "node -e \"require('node:fs').mkdirSync('artifacts',{recursive:true})\" && pnpm run prepack && pnpm --config.ignore-scripts=true pack --out artifacts/lan-ui-design-system-%v.tgz",
     "prepublishOnly": "pnpm run ci",
     "test:runtime": "node scripts/runtime-compatibility.mjs",
-    "test:release": "node scripts/release-contracts.mjs --ref v1.70.0 --tag true",
+    "test:release": "node scripts/release-contracts.mjs --ref v1.71.0 --tag true",
     "test:compatibility": "pnpm run test:runtime && pnpm run test:unit && pnpm run build:lib && pnpm run test:packed-consumer"
   },
   "peerDependencies": {

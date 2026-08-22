@@ -7,6 +7,7 @@ import {
   UiButton,
   UiCalendar,
   UiCard,
+  UiCascader,
   UiAutoComplete,
   UiCommandPalette,
   UiCollapse,
@@ -79,6 +80,7 @@ const virtualItems = Array.from({length:100},(_,index)=>({id:`typed-${index}`,la
 const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboard',group:'Navigate',keywords:['home']}]
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const selectedTeams=ref<Key[]>(['dashboard'])
+const selectedPaths=ref<Key[][]>([['workspace','dashboard']])
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
 const rows = [{ id:1, name:'Lan UI' }]
 const tabs:UiTabsItem[] = [{ label:'Summary', value:'summary' }]
@@ -158,6 +160,11 @@ function sort(payload:UiTableSortChange) {
     <template #node="{node,checked,expanded}">{{ node?.label }} / {{ checked }} / {{ expanded }}</template>
     <template #footer="{nodes,expandedKeys}">{{ nodes.length }} / {{ expandedKeys.length }}</template>
   </UiTreeSelect>
+  <UiCascader v-model="selectedPaths" :options="resources" multiple searchable clearable :max-count="3" :min-count="1" name="paths" required>
+    <template #tag="{node,remove}"><button type="button" @click="remove">{{ node?.label }}</button></template>
+    <template #option="{node,selected,active}">{{ node?.label }} / {{ selected }} / {{ active }}</template>
+    <template #footer="{options,activePath}">{{ options.length }} / {{ activePath.length }}</template>
+  </UiCascader>
   <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commands">
     <template #trigger="{ open }"><UiButton @click="open">Commands</UiButton></template>
     <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>

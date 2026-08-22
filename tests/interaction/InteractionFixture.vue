@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
   UiTree, UiTreeSelect, UiStatistic,
   UiColorPicker,
@@ -39,6 +39,15 @@ async function loadProductionTree(node,{signal}){
   await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,70);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})
   return node.value==='remote'?[{label:'Remote child',value:'remote-child',isLeaf:true}]:[]
 }
+const productionCascaderRef=ref(null)
+const productionCascaderValue=ref([['product','platform','frontend']])
+const productionCascaderOutput=ref('ready')
+const productionCascaderOptions=[
+  {label:'Product engineering',value:'product',description:'Delivery organization',children:[{label:'Platform',value:'platform',children:[{label:'Frontend application',value:'frontend',isLeaf:true},{label:'Backend services',value:'backend',isLeaf:true}]}]},
+  {label:'Experience',value:'experience',children:[{label:'Product design',value:'design',isLeaf:true},{label:'Research archive',value:'research',disabled:true,isLeaf:true}]},
+]
+const productionLazyCascaderOptions=[{label:'Remote regions',value:'remote-regions',isLeaf:false}]
+async function loadProductionCascader(node,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,70);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return node.value==='remote-regions'?[{label:'Remote site',value:'remote-site',isLeaf:true}]:[]}
 const anchorValue=ref('fixture-anchor-overview')
 const anchorItems=[{key:'fixture-anchor-overview',href:'#fixture-anchor-overview',title:'Overview'},{key:'fixture-anchor-disabled',href:'#fixture-anchor-disabled',title:'Disabled',disabled:true},{key:'fixture-anchor-api',href:'#fixture-anchor-api',title:'API contract'},{key:'fixture-anchor-release',href:'#fixture-anchor-release',title:'Release'}]
 const officeCity = ref('')
@@ -731,6 +740,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-row"><UiButton id="interaction-production-tree-select-api" size="sm" variant="outline" @click="productionTreeSelectRef.select('design','fixture-api')">Select by API</UiButton><UiButton id="interaction-production-tree-select-load-api" size="sm" variant="outline" @click="productionTreeSelectRef.expand('experience','fixture-api')">Expand by API</UiButton><UiButton id="interaction-production-tree-select-close-api" size="sm" variant="text" @click="productionTreeSelectRef.hide('fixture-api')">Close by API</UiButton></div>
         </div>
         <output class="interaction-output" data-testid="production-tree-select-output">{{ productionTreeSelectOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-cascader-production-case" data-cascader-state-contract="controlled uncontrolled path scalar field mapping search ime lazy abort retry race multiple strict limits tags native reset readonly keyboard rtl ssr portal slots api">
+        <h2>Cascader production contract</h2>
+        <div class="interaction-grid">
+          <form id="interaction-cascader-form"><UiFormItem label="Delivery paths" required help="Path search, multiple limits, native form and API"><UiCascader id="interaction-production-cascader" ref="productionCascaderRef" v-model="productionCascaderValue" :default-value="[['product','platform','frontend']]" :options="productionCascaderOptions" name="deliveryPaths" required multiple searchable clearable :min-count="1" :max-count="2" :max-tag-count="1" :append-to-body="false" @change="(value,_paths,meta)=>productionCascaderOutput=`cascader:${meta.source}:${value.length}`" @invalid="meta=>productionCascaderOutput=`invalid:${meta.reason}`" @active-path-change="(path,meta)=>productionCascaderOutput=`path:${meta.source}:${path.join('/')}`"/></UiFormItem></form>
+          <UiFormItem label="Lazy hierarchy" help="AbortSignal-aware branch loading"><UiCascader id="interaction-production-lazy-cascader" :options="productionLazyCascaderOptions" :load-data="loadProductionCascader" :append-to-body="false" @load="payload=>productionCascaderOutput=`load:${payload.node.value}:${payload.children.length}`" @load-error="payload=>productionCascaderOutput=`load-error:${payload.node.value}`"/></UiFormItem>
+          <UiFormItem label="Read only"><UiCascader id="interaction-production-readonly-cascader" :model-value="['product','platform','frontend']" :options="productionCascaderOptions" readonly :append-to-body="false" @invalid="meta=>productionCascaderOutput=`invalid:${meta.reason}`"/></UiFormItem>
+          <div class="interaction-row"><UiButton id="interaction-production-cascader-api" size="sm" variant="outline" @click="productionCascaderRef.select(['experience','design'],'fixture-api')">Select by API</UiButton><UiButton id="interaction-production-cascader-close-api" size="sm" variant="text" @click="productionCascaderRef.hide('fixture-api')">Close by API</UiButton></div>
+        </div>
+        <output class="interaction-output" data-testid="production-cascader-output">{{ productionCascaderOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-selection-case" data-selection-state-contract="checkbox group array min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
         <h2>Selection controls production contract</h2>

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.70.0",
+  "version": "1.71.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 254957,
-    "rules": 2003,
+    "bytes": 262145,
+    "rules": 2056,
     "source": "component-union"
   },
   "core": {
@@ -88,8 +88,8 @@
     {
       "name": "UiCascader",
       "subpath": "./styles/UiCascader.css",
-      "bytes": 2164,
-      "rules": 16
+      "bytes": 9627,
+      "rules": 72
     },
     {
       "name": "UiCheckbox",
@@ -130,8 +130,8 @@
     {
       "name": "UiConfigProvider",
       "subpath": "./styles/UiConfigProvider.css",
-      "bytes": 987,
-      "rules": 4
+      "bytes": 1258,
+      "rules": 5
     },
     {
       "name": "UiCronEditor",

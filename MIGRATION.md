@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.71 cascader compatibility
+
+There are no breaking changes. Existing `<UiCascader v-model="path" :options="options" />` usage remains valid:
+
+```vue
+<UiCascader v-model="paths" :options="deliveryTree" multiple searchable clearable :max-count="5" />
+```
+
+- `modelValue`, `open` and `activePath` are controlled when supplied; `defaultValue`, `defaultOpen` and `defaultActivePath` own internal state otherwise. Paths de-duplicate with `Object.is`, and field mappings adapt labels, values, children, state flags, icons, descriptions and keywords without rewriting domain records.
+- Search covers labels, values, descriptions, keywords and full ancestor paths through a replaceable predicate while IME suppresses partial composition. `loadData(node,{ signal, source })` supports per-node caching, cancellation, stale-response suppression, retry and structured load errors.
+- Scalar and path output (`emitPath`), single/multiple cascade, `checkStrictly`, `changeOnSelect`, `minCount`, `maxCount`, `maxTagCount`, `showAllLevels` and `closeOnSelect` are additive policies.
+- Arrow, Home, End, Enter, Space, Escape, Tab and Typeahead skip disabled nodes, preserve active descendants and reverse horizontal drill/back intent in RTL. Space toggles multiple branches and publishes their checked state through listbox semantics.
+- Named controls submit native select values, required validation focuses the visible combobox and form reset restores declared defaults. FormItem, Portal theme scope, forced colors, SSR, root/subpath types, 14 Slots, 16 events and exposed focus/open/value/path/load operations remain synchronized.
+
 ## 1.70 tree-select compatibility
 
 There are no breaking changes. Existing `<UiTreeSelect v-model="value" :options="options" />` scalar or multiple usage remains valid:

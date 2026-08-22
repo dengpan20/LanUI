@@ -11,6 +11,7 @@ import {
   UiCalendar,
   UiCard,
   UiCarousel,
+  UiCascader,
   UiCheckbox,
   UiCheckboxGroup,
   UiColorPicker,
@@ -118,6 +119,13 @@ const standaloneTreeSelectState=ref('ready')
 const standaloneTreeOptions=[{label:'Engineering',value:'engineering',description:'Product delivery',children:[{label:'Frontend',value:'frontend',description:'Web applications',keywords:['web']},{label:'Backend',value:'backend'}]},{label:'Operations',value:'operations',children:[{label:'Release',value:'release'},{label:'Observability',value:'observability'}]},{label:'Archive',value:'archive',disabled:true}]
 const standaloneAsyncTreeOptions=[{label:'Remote tenants',value:'remote-tenants',description:'Lazy enterprise directory',isLeaf:false}]
 async function loadStandaloneTree(node,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,240);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return node.value==='remote-tenants'?[{label:'Tenant Alpha',value:'tenant-alpha',isLeaf:true},{label:'Tenant Beta',value:'tenant-beta',isLeaf:true}]:[]}
+const standaloneCascader=ref(['engineering','frontend','web-admin'])
+const standaloneCascaderMultiple=ref([['operations','release','stable']])
+const standaloneCascaderState=ref('ready')
+const standaloneCascaderOptions=[{label:'Engineering',value:'engineering',description:'Product delivery',keywords:['web','product'],children:[{label:'Frontend',value:'frontend',children:[{label:'Web admin',value:'web-admin',isLeaf:true},{label:'Mobile shell',value:'mobile',isLeaf:true}]}]},{label:'Operations',value:'operations',children:[{label:'Release',value:'release',children:[{label:'Stable lane',value:'stable',isLeaf:true},{label:'Preview lane',value:'preview',isLeaf:true}]}]}]
+const standaloneAsyncCascaderOptions=[{label:'Remote regions',value:'remote-regions',description:'Lazy tenant topology',isLeaf:false}]
+const standaloneRemoteCascader=ref([])
+async function loadStandaloneCascader(node,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,240);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});if(node.value==='remote-regions')return [{label:'Asia Pacific',value:'apac',isLeaf:false},{label:'Europe',value:'europe',isLeaf:false}];if(node.value==='apac')return [{label:'Singapore',value:'singapore',isLeaf:true},{label:'Tokyo',value:'tokyo',isLeaf:true}];if(node.value==='europe')return [{label:'Frankfurt',value:'frankfurt',isLeaf:true}];return []}
 const standaloneChannels=ref(['email'])
 const standalonePlan=ref('team')
 const standalonePolicy=ref('enabled')
@@ -302,6 +310,14 @@ const rows = computed(() => [
         <UiFormItem label="Operational states" group><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiTreeSelect model-value="frontend" :options="standaloneTreeOptions" loading aria-label="Loading tree select"/><UiTreeSelect invalid :options="standaloneTreeOptions" aria-label="Invalid tree select"/><UiTreeSelect model-value="frontend" :options="standaloneTreeOptions" readonly aria-label="Readonly tree select"/><UiTreeSelect model-value="frontend" :options="standaloneTreeOptions" disabled aria-label="Disabled tree select"/></div></UiFormItem>
       </div>
       <template #footer><code>{{ standaloneTreeSelectState }} · {{ standaloneTreeSelect.join(',') }} · {{ standaloneRemoteTreeSelect||'lazy empty' }}</code></template>
+    </UiCard>
+    <UiCard data-cascader-state-contract title="Consumer production cascaders" subtitle="Controlled paths, search, lazy loading, multiple selection, native forms, portals and typed instance methods from the packed dependency">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+        <UiFormItem label="Office hierarchy" required help="Path search · native form · clear · keyboard"><UiCascader v-model="standaloneCascader" :options="standaloneCascaderOptions" searchable clearable name="officeHierarchy" required @change="(value,_paths,meta)=>standaloneCascaderState=`${meta.source} · ${value.join(' / ')}`"><template #prefix>◇</template><template #footer="{options}">{{ options.length }} visible options</template></UiCascader></UiFormItem>
+        <UiFormItem label="Multiple delivery paths" help="Leaf cascade · limits · collapsed tags"><UiCascader v-model="standaloneCascaderMultiple" :options="standaloneCascaderOptions" multiple searchable clearable :max-count="3" :max-tag-count="1" @change="(value,_paths,meta)=>standaloneCascaderState=`multi ${meta.source} · ${value.length}`"/></UiFormItem>
+        <UiFormItem label="Remote hierarchy" help="AbortSignal · race guard · cached children · retry"><UiCascader v-model="standaloneRemoteCascader" :options="standaloneAsyncCascaderOptions" :load-data="loadStandaloneCascader" searchable clearable placeholder="Expand remote regions" @change="(value,_paths,meta)=>standaloneCascaderState=`lazy ${meta.source} · ${value.join(' / ')}`"/></UiFormItem>
+      </div>
+      <template #footer><code>{{ standaloneCascaderState }} · {{ standaloneCascader.join(' / ') }} · {{ standaloneCascaderMultiple.length }} paths</code></template>
     </UiCard>
     <UiCard data-selection-state-contract title="Consumer production selection controls" subtitle="Native form semantics, typed groups, constraints and guarded switches from the packed dependency">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">

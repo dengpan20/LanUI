@@ -2,6 +2,8 @@
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, useAttrs, useId, useSlots, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
+import { focusWithRetry } from './focusUtils.js'
+import { scrollElementWithin } from './scrollUtils.js'
 import { useComponentSize, useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 import { useTeleportThemeScope } from '../theme-scope.js'
 
@@ -58,6 +60,7 @@ const uid=useId()
 const rootRef=ref(null)
 const triggerRef=ref(null)
 const panelRef=ref(null)
+const optionsRef=ref(null)
 const searchInputRef=ref(null)
 const nativeRef=ref(null)
 const internalValue=ref(uniqueValues(props.modelValue===undefined?props.defaultValue:props.modelValue))
@@ -241,12 +244,12 @@ function prepareOpen(){
   dropUp.value=props.placement.startsWith('top')||Boolean(rect&&viewportHeight-rect.bottom<260&&rect.top>260)
   resetActive()
   if(props.remoteMethod)reload(query.value,{source:'open',useCache:true})
-  nextTick(()=>{if(props.searchable)searchInputRef.value?.focus();else triggerRef.value?.focus()})
+  nextTick(()=>focusWithRetry(()=>props.searchable?searchInputRef.value:triggerRef.value))
 }
 function cleanupClose({focusTrigger=false}={}){
   activeIndex.value=-1
   if(props.searchable&&query.value){query.value='';emit('search','',{source:'close'});if(!props.remoteMethod)nextTick(updatePosition)}
-  if(focusTrigger)nextTick(()=>triggerRef.value?.focus())
+  if(focusTrigger)nextTick(()=>focusWithRetry(()=>triggerRef.value))
 }
 function setOpen(value,source='api',nativeEvent){
   const next=Boolean(value)
@@ -310,7 +313,7 @@ function selectOption(option,index=activeIndex.value,source='api',nativeEvent){
   emit('select',publicOption(option),meta)
   clearQueryAfterSelect()
   if(props.closeOnSelect)setOpen(false,'select',nativeEvent)
-  else nextTick(()=>props.searchable?searchInputRef.value?.focus():triggerRef.value?.focus())
+  else nextTick(()=>focusWithRetry(()=>props.searchable?searchInputRef.value:triggerRef.value))
   return meta
 }
 function deselectOption(option,index=activeIndex.value,source='api',nativeEvent){
@@ -324,7 +327,7 @@ function deselectOption(option,index=activeIndex.value,source='api',nativeEvent)
   if(source==='tag'||source==='backspace')emit('remove',publicOption(option),meta)
   clearQueryAfterSelect()
   if(props.closeOnSelect)setOpen(false,'select',nativeEvent)
-  else nextTick(()=>props.searchable?searchInputRef.value?.focus():triggerRef.value?.focus())
+  else nextTick(()=>focusWithRetry(()=>props.searchable?searchInputRef.value:triggerRef.value))
   return meta
 }
 function select(valueOrOption,source='api',nativeEvent){
@@ -353,7 +356,7 @@ function clear(source='clear',nativeEvent){
   selectedMemory.value=new Map()
   emit('clear',[],{...meta,previous:[...previous]})
   query.value=''
-  nextTick(()=>triggerRef.value?.focus())
+  nextTick(()=>focusWithRetry(()=>triggerRef.value))
   return meta
 }
 function clearFromControl(event){event.preventDefault();event.stopPropagation();clear('clear',event)}
@@ -450,8 +453,7 @@ function closeOutside(event){
 function scrollToActive(){
   if(activeIndex.value<0||typeof document==='undefined')return false
   const element=document.getElementById(optionId(activeIndex.value))
-  element?.scrollIntoView?.({block:'nearest'})
-  return Boolean(element)
+  return scrollElementWithin(element,optionsRef.value)
 }
 function moveActive(delta){activeIndex.value=enabledIndex(activeIndex.value,delta);nextTick(scrollToActive)}
 function moveBoundary(end=false){activeIndex.value=enabledIndex(end?0:-1,end?-1:1);nextTick(scrollToActive)}
@@ -589,14 +591,14 @@ defineExpose({
     <span v-if="resolvedLoading" class="ui-multi-select-loading" role="status" :aria-label="resolvedLoadingText"><slot name="loading"><span class="spinner ui-multi-select-spinner"/></slot></span>
     <button v-else-if="clearable&&hasValue&&!disabled&&!readonly" type="button" class="ui-multi-select-clear" :aria-label="t('multiselect.clear')" :aria-controls="controlId" @mousedown.prevent @click="clearFromControl"><slot name="clear-icon"><AppIcon name="close" :size="12"/></slot></button>
     <Teleport to="body" :disabled="!appendToBody">
-      <Transition name="select-menu">
+      <Transition name="select-portal">
         <div v-if="resolvedOpen" v-bind="portalThemeAttrs" class="ui-multi-select-portal" :style="portalThemeStyle" :role="appendToBody?'region':undefined" :aria-label="appendToBody?`${resolvedAriaLabel||resolvedPlaceholder} popup`:undefined" @focusin="handleFocusIn" @focusout="handleFocusOut" @keydown="onKeydown">
           <div ref="panelRef" class="ui-multi-menu" :class="{'ui-floating-panel':appendToBody}" :style="panelStyle" :data-placement="appendToBody?actualPlacement:(dropUp?'top-start':'bottom-start')" :dir="direction" :aria-busy="resolvedLoading||undefined">
             <label v-if="searchable" class="ui-multi-search"><AppIcon name="search" :size="14"/><input ref="searchInputRef" :value="query" type="search" autocomplete="off" :placeholder="resolvedSearchPlaceholder" :aria-label="resolvedSearchPlaceholder" :aria-controls="!resolvedLoading&&!remoteError?listboxId:undefined" :aria-activedescendant="activeDescendant" @input="onSearchInput" @compositionstart="composing=true" @compositionend="onCompositionEnd" @keydown.stop="onKeydown"/></label>
             <div v-if="resolvedLoading" class="ui-select-state ui-multi-loading-state" role="status" aria-live="polite"><slot name="loading"><span class="spinner ui-multi-select-spinner"/><span>{{ resolvedLoadingText }}</span></slot></div>
             <div v-else-if="remoteError" class="ui-select-state ui-multi-error" role="alert"><slot name="error" :error="remoteError" :retry="reload"><AppIcon name="warning" :size="18"/><span>{{ resolvedErrorText }}</span><button type="button" @click="reload(query)">{{ t('multiselect.retry') }}</button></slot></div>
             <button v-if="showSelectAll&&!resolvedLoading&&!remoteError&&enabledVisibleOptions.length" type="button" class="ui-multi-select-all" :aria-pressed="allVisibleSelected" @click="toggleSelectAll('pointer',$event)"><slot name="select-all" :selected="allVisibleSelected" :toggle="toggleSelectAll"><span class="ui-option-check"><AppIcon v-if="allVisibleSelected" name="check" :size="11"/></span><span>{{ t(allVisibleSelected?'multiselect.deselectAll':'multiselect.selectAll') }}</span></slot></button>
-            <div v-if="!resolvedLoading&&!remoteError" :id="listboxId" class="ui-multi-options" role="listbox" aria-multiselectable="true" :aria-label="resolvedAriaLabel||resolvedPlaceholder">
+            <div v-if="!resolvedLoading&&!remoteError" :id="listboxId" ref="optionsRef" class="ui-multi-options" role="listbox" aria-multiselectable="true" :aria-label="resolvedAriaLabel||resolvedPlaceholder">
               <template v-if="filteredOptions.length">
                 <div v-for="(option,index) in filteredOptions" :id="optionId(index)" :key="`${option.source}-${typeof option.key}-${String(option.key)}-${option.index}`" class="ui-multi-option" :class="{selected:includesValue(resolvedValue,option.value),active:index===activeIndex,disabled:optionIsDisabled(option)}" role="option" :aria-selected="includesValue(resolvedValue,option.value)" :aria-disabled="optionIsDisabled(option)||undefined" @pointerdown.prevent @mouseenter="!optionIsDisabled(option)&&(activeIndex=index)" @click="selectOption(option,index,'pointer',$event)">
                   <slot name="option" :option="publicOption(option)" :index="index" :selected="includesValue(resolvedValue,option.value)" :active="index===activeIndex" :disabled="optionIsDisabled(option)">

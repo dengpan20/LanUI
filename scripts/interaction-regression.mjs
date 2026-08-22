@@ -447,6 +447,40 @@ const allCases = [
     },
   },
   {
+    name:'cascader-production-path-search-lazy-native-api',
+    run:async page=>{
+      const section=page.locator('.interaction-cascader-production-case')
+      const trigger=section.locator('#interaction-production-cascader')
+      const cascader=trigger.locator('..')
+      await trigger.click()
+      const search=cascader.locator('.ui-cascader-search input')
+      await search.fill('backend')
+      assert.equal(await cascader.getByRole('option').count(),1)
+      await cascader.getByRole('option',{name:/Backend services/}).click()
+      await expectText(page,'production-cascader-output','cascader:search:2')
+      assert.deepEqual(await cascader.locator('select[name="deliveryPaths"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['product / platform / frontend','product / platform / backend'])
+      await section.locator('#interaction-production-cascader-api').click()
+      await expectText(page,'production-cascader-output','invalid:max-count')
+      await cascader.locator('.ui-cascader-tag button').first().click()
+      await expectText(page,'production-cascader-output','cascader:tag:1')
+      await section.locator('#interaction-production-cascader-api').click()
+      await expectText(page,'production-cascader-output','cascader:fixture-api:2')
+      await section.locator('#interaction-production-cascader-close-api').click({force:true})
+      assert.equal(await trigger.getAttribute('aria-expanded'),'false')
+      await section.locator('#interaction-production-readonly-cascader').click()
+      await expectText(page,'production-cascader-output','invalid:readonly')
+      const lazyTrigger=section.locator('#interaction-production-lazy-cascader')
+      await lazyTrigger.click()
+      const lazy=lazyTrigger.locator('..')
+      await lazy.getByRole('option',{name:/Remote regions/}).click()
+      await lazy.getByRole('option',{name:/Remote site/}).waitFor()
+      await expectText(page,'production-cascader-output','load:remote-regions:1')
+      await page.locator('#interaction-cascader-form').evaluate(form=>form.reset())
+      await expectText(page,'production-cascader-output','cascader:reset:1')
+      assert.deepEqual(await cascader.locator('select[name="deliveryPaths"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['product / platform / frontend'])
+    },
+  },
+  {
     name:'selection-groups-limits-radio-switch-guard',
     run:async page=>{
       const section=page.locator('.interaction-selection-case')

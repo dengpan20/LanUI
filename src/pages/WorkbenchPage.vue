@@ -22,7 +22,7 @@ const activities = [
   <div class="page-container">
     <UiPageHeader title="我的工作台" description="集中处理待办、业务动态与常用功能" :breadcrumbs="[{label:'工作台',href:'#/workbench'},{label:'我的工作台'}]"><template #actions><button class="icon-btn outline" title="自定义工作台" @click="$emit('notify','工作台编辑模式已开启')"><AppIcon name="settings"/></button></template></UiPageHeader>
     <div class="card welcome-card" style="margin-bottom:16px">
-      <UiAvatar name="Deng Pan" size="lg"/><div class="welcome-copy"><h2>早上好，Deng Pan 👋</h2><p>今天是 2026 年 8 月 10 日，星期一。你有 <strong class="text-brand">6 项待办</strong>需要处理。</p></div>
+      <UiAvatar name="Admin User" size="lg"/><div class="welcome-copy"><h2>早上好，Admin User 👋</h2><p>今天是 2026 年 8 月 10 日，星期一。你有 <strong class="text-brand">6 项待办</strong>需要处理。</p></div>
       <div class="welcome-weather"><AppIcon name="sun" :size="30" class="weather-icon"/><div><strong>29°C</strong><div class="subtle" style="font-size:10px">上海 · 晴</div></div></div>
     </div>
     <div class="grid grid-4" style="margin-bottom:16px"><MetricCard label="我的待办" value="6" unit="项" trend="2 项" direction="down" icon="checkCircle" color="#2563eb" tint="#eff6ff"/><MetricCard label="本周完成" value="28" unit="项" trend="16.7%" icon="check" color="#059669" tint="#ecfdf5"/><MetricCard label="待审批" value="12" unit="项" trend="3 项" direction="down" icon="file" color="#ea580c" tint="#fff7ed"/><MetricCard label="未读消息" value="9" unit="条" trend="4 条" direction="down" icon="bell" color="#7c3aed" tint="#f5f3ff"/></div>

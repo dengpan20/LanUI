@@ -6,6 +6,7 @@ import {
   UiButton,
   UiCalendar,
   UiCard,
+  UiCascader,
   UiCheckbox,
   UiCheckboxGroup,
   UiCarousel,
@@ -97,6 +98,7 @@ import SubpathSwitch, { UiSwitch as NamedSubpathSwitch } from 'lan-ui-design-sys
 import SubpathSelect, { UiSelect as NamedSubpathSelect } from 'lan-ui-design-system/components/UiSelect'
 import SubpathMultiSelect, { UiMultiSelect as NamedSubpathMultiSelect } from 'lan-ui-design-system/components/UiMultiSelect'
 import SubpathTreeSelect, { UiTreeSelect as NamedSubpathTreeSelect } from 'lan-ui-design-system/components/UiTreeSelect'
+import SubpathCascader, { UiCascader as NamedSubpathCascader } from 'lan-ui-design-system/components/UiCascader'
 import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
@@ -163,6 +165,7 @@ import type { UiSwitchChangeMeta, UiSwitchEmits, UiSwitchInstance, UiSwitchProps
 import type { SelectOption, UiSelectChangeMeta, UiSelectEmits, UiSelectInstance, UiSelectInvalidMeta, UiSelectOpenMeta, UiSelectProps, UiSelectSlots } from 'lan-ui-design-system/components/UiSelect'
 import type { UiMultiSelectChangeMeta, UiMultiSelectEmits, UiMultiSelectInstance, UiMultiSelectInvalidMeta, UiMultiSelectMaxMeta, UiMultiSelectProps, UiMultiSelectSlots } from 'lan-ui-design-system/components/UiMultiSelect'
 import type { UiTreeSelectChangeMeta, UiTreeSelectEmits, UiTreeSelectExpandMeta, UiTreeSelectInstance, UiTreeSelectInvalid, UiTreeSelectLoadContext, UiTreeSelectProps, UiTreeSelectPublicNode, UiTreeSelectSlots } from 'lan-ui-design-system/components/UiTreeSelect'
+import type { UiCascaderChangeMeta, UiCascaderEmits, UiCascaderInstance, UiCascaderInvalid, UiCascaderLoadContext, UiCascaderProps, UiCascaderPublicNode, UiCascaderSlots } from 'lan-ui-design-system/components/UiCascader'
 import type { UiButtonActivationMeta, UiButtonEmits, UiButtonInstance, UiButtonProps, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
@@ -400,6 +403,15 @@ treeSelectInstance.focus();treeSelectInstance.blur();treeSelectInstance.show('ap
 const treeSelectSlot:UiTreeSelectSlots={prefix:scope=>String(scope.value),tag:scope=>scope.node?.label,arrow:scope=>String(scope.open),node:scope=>scope.node?.label,icon:scope=>String(scope.expanded),empty:scope=>scope.query,error:scope=>String(scope.error),footer:scope=>String(scope.nodes.length)}
 const treeSelectParity:typeof SubpathTreeSelect=NamedSubpathTreeSelect
 
+const cascaderOptions=[{label:'Product',value:'product',description:'Delivery organization',children:[{label:'Frontend',value:'frontend',isLeaf:true},{label:'Backend',value:'backend',isLeaf:true}]}]
+const cascaderProps:InstanceType<typeof UiCascader>['$props']&UiCascaderProps={modelValue:[['product','frontend']],defaultValue:[['product','backend']],open:true,defaultOpen:false,options:cascaderOptions,fieldNames:{label:'name',value:'id',children:'nodes',description:'detail'},placeholder:'Choose paths',size:'lg',readonly:false,loading:false,clearable:true,multiple:true,checkStrictly:false,changeOnSelect:false,emitPath:true,showAllLevels:true,separator:' / ',activePath:['product'],defaultActivePath:['product'],expandTrigger:'hover',searchable:true,filterOption:(query,node)=>Boolean(node?.label.includes(query)),loadData:async(_node,context:UiCascaderLoadContext)=>context.signal?.aborted?[]:cascaderOptions,closeOnSelect:false,maxCount:4,minCount:1,maxTagCount:2,loadingText:'Loading',errorText:'Failed',searchPlaceholder:'Search',placement:'bottom-end',appendToBody:true,name:'paths',form:'release',required:true,autofocus:false,ariaLabel:'Paths'}
+const cascaderChange:UiCascaderEmits['change']=(_value,_path,meta)=>{const typed:UiCascaderChangeMeta=meta;const node:UiCascaderPublicNode|undefined=typed.node;void [typed.source,node?.pathLabels]}
+const cascaderInvalid:UiCascaderEmits['invalid']=payload=>{const typed:UiCascaderInvalid=payload;void typed.reason}
+const cascaderInstance:UiCascaderInstance=null as never
+cascaderInstance.focus();cascaderInstance.blur();cascaderInstance.show('api');cascaderInstance.hide('api');cascaderInstance.toggle('api');cascaderInstance.select(['product','frontend'],'api');cascaderInstance.remove(['product','frontend'],'api');cascaderInstance.setValue([['product','backend']],'api');cascaderInstance.setActivePath(['product'],'api');cascaderInstance.loadNode(['product'],'api');cascaderInstance.clear('api');cascaderInstance.scrollToActive()
+const cascaderSlot:UiCascaderSlots={prefix:scope=>String(scope.value),tag:scope=>scope.node?.label,arrow:scope=>String(scope.open),option:scope=>scope.node?.label,'option-icon':scope=>scope.node?.icon,empty:scope=>scope.query,error:scope=>String(scope.error),footer:scope=>String(scope.options.length)}
+const cascaderParity:typeof SubpathCascader=NamedSubpathCascader
+
 // @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
 // @ts-expect-error UiInput only supports text-like native input types.
@@ -442,6 +454,14 @@ const invalidTreeSelectField:UiTreeSelectProps={fieldNames:{children:3}}
 const invalidTreeSelectFilter:UiTreeSelectProps={filterNode:()=> 'match'}
 // @ts-expect-error TreeSelect lazy loaders resolve to node arrays.
 const invalidTreeSelectLoader:UiTreeSelectProps={loadData:async()=>({label:'Child',value:'child'})}
+// @ts-expect-error Cascader placement uses logical top/bottom start/end anchors.
+const invalidCascaderPlacement:UiCascaderProps={placement:'center'}
+// @ts-expect-error Cascader field mappings point to record field names.
+const invalidCascaderField:UiCascaderProps={fieldNames:{children:3}}
+// @ts-expect-error Cascader path filters resolve to booleans.
+const invalidCascaderFilter:UiCascaderProps={filterOption:()=> 'match'}
+// @ts-expect-error Cascader lazy loaders resolve to node arrays.
+const invalidCascaderLoader:UiCascaderProps={loadData:async()=>({label:'Child',value:'child'})}
 // @ts-expect-error Component sizes are limited to sm, md and lg.
 const invalidButton: InstanceType<typeof UiButton>['$props'] = { size: 'xl' }
 

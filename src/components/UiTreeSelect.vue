@@ -2,6 +2,8 @@
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, useAttrs, useId, useSlots, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
+import { focusWithRetry } from './focusUtils.js'
+import { scrollElementWithin } from './scrollUtils.js'
 import { useComponentSize, useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 import { useTeleportThemeScope } from '../theme-scope.js'
 
@@ -315,12 +317,12 @@ function prepareOpen(){
   const viewport=typeof innerHeight==='number'?innerHeight:0
   dropUp.value=props.placement.startsWith('top')||Boolean(rect&&viewport-rect.bottom<280&&rect.top>280)
   resetActive()
-  nextTick(()=>{if(props.searchable)searchInputRef.value?.focus();else triggerRef.value?.focus()})
+  nextTick(()=>focusWithRetry(()=>props.searchable?searchInputRef.value:triggerRef.value))
 }
 function cleanupClose({focusTrigger=false}={}){
   activeIndex.value=-1
   if(props.searchable&&query.value){query.value='';emit('search','',{source:'close'})}
-  if(focusTrigger)nextTick(()=>triggerRef.value?.focus())
+  if(focusTrigger)nextTick(()=>focusWithRetry(()=>triggerRef.value))
 }
 function setOpen(value,source='api',nativeEvent){
   const next=Boolean(value)
@@ -507,7 +509,10 @@ function scrollToActive(){
     if(top<viewportRef.value.scrollTop)viewportRef.value.scrollTop=top
     else if(bottom>viewportRef.value.scrollTop+viewportHeight.value)viewportRef.value.scrollTop=bottom-viewportHeight.value
   }
-  nextTick(()=>{if(typeof document!=='undefined')document.getElementById(itemId(activeIndex.value))?.scrollIntoView?.({block:'nearest'})})
+  nextTick(()=>{
+    if(typeof document==='undefined')return
+    scrollElementWithin(document.getElementById(itemId(activeIndex.value)),viewportRef.value)
+  })
   return true
 }
 function moveActive(delta){activeIndex.value=enabledIndex(activeIndex.value,delta);scrollToActive()}
@@ -639,7 +644,7 @@ defineExpose({
     <span v-if="loading" class="ui-tree-select-loading" role="status" :aria-label="resolvedLoadingText"><slot name="loading"><span class="spinner ui-tree-select-spinner"/></slot></span>
     <button v-else-if="clearable&&hasValue&&!disabled&&!readonly" type="button" class="ui-tree-select-clear" :aria-label="t('tree.clear')" :aria-controls="controlId" @mousedown.prevent @click="clearFromControl"><slot name="clear-icon"><AppIcon name="close" :size="12"/></slot></button>
     <Teleport to="body" :disabled="!appendToBody">
-      <Transition name="select-menu">
+      <Transition name="select-portal">
         <div v-if="resolvedOpen" v-bind="portalThemeAttrs" class="ui-tree-select-portal" :style="portalThemeStyle" :role="appendToBody?'region':undefined" :aria-label="appendToBody?`${resolvedAriaLabel||resolvedPlaceholder} popup`:undefined" @focusin="handleFocusIn" @focusout="handleFocusOut" @keydown="onKeydown">
           <div ref="panelRef" class="ui-tree-menu ui-tree-select-menu" :class="{'ui-floating-panel':appendToBody}" :style="panelStyle" :data-placement="appendToBody?actualPlacement:(dropUp?'top-start':'bottom-start')" :dir="direction" :aria-busy="loading||undefined">
             <label v-if="searchable" class="ui-tree-select-search"><slot name="search-prefix"><AppIcon name="search" :size="14"/></slot><input ref="searchInputRef" :value="query" type="search" autocomplete="off" :placeholder="resolvedSearchPlaceholder" :aria-label="resolvedSearchPlaceholder" :aria-controls="treeId" :aria-activedescendant="activeDescendant" @input="onSearchInput" @compositionstart="composing=true" @compositionend="onCompositionEnd" @keydown.stop="onKeydown"/></label>

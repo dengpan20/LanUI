@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.71.0] - 2026-08-23
+
+### Added
+
+- Production `UiCascader` contracts for controlled/default path values, popup and active-path state, domain-field mapping, local/IME path search, lazy node loading, AbortSignal cancellation, stale-result protection and retry.
+- Single, multiple, cascade and strict modes with selection limits, removable/collapsed tags, native form participation, reset/required semantics, complete keyboard/RTL navigation, 14 composable Slots and 16 structured events.
+- Synchronized component-center, one-page HTML and standalone-consumer examples plus deterministic unit, visual, Axe, type, installed-tarball, SSR and Chromium/Firefox/WebKit interaction evidence.
+
+### Changed
+
+- Existing Cascader usage remains compatible while controlled state, `emitPath`, `changeOnSelect`, path formatting and public instance operations become explicit and typed.
+- Select, MultiSelect, TreeSelect and Cascader now share viewport-bounded active-option scrolling, no-scroll focus restoration and fade-only Portal transitions so fixed floating coordinates remain stable.
+- Release gates advance to 48 visual baselines, 65 zero-violation Axe scenarios, 70 interactions per browser and 93 negative type assertions. Public coverage remains 91 components and advances to 470 locale keys, 1,485 Props, 498 Events and 308 Slots.
+- Measured P75 ceilings remain absolute and bounded: package JS `865000 / 315000` B raw/gzip, package CSS `765000 / 161000` B, root CSS `265000 / 41000` B, largest component CSS `68000 / 10200` B and standalone JS/CSS raw `855000 / 270000` B.
+
 ## [1.70.0] - 2026-08-22
 
 ### Added

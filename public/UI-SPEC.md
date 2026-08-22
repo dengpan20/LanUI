@@ -1272,3 +1272,13 @@ Arrow, Home, End, Enter, Space, Escape, Tab and Typeahead implement tree navigat
 FormItem context, collision-aware Portal theme scope, prefix/suffix/arrow/tag/value/search/node/icon/loading/error/empty/footer Slots, structured events and exposed focus/open/value/expand/load methods complete the contract. Component center, static HTML, standalone consumer, generated API, isolated CSS, root/subpath declarations, deterministic SSR and installed-tarball verification exercise the same surface.
 
 P74 retains 91 public components and advances to 462 locale keys with generated coverage of 1,449 Props, 485 Events and 294 Slots. Release gates require 47 visual baselines, 65 zero-violation Axe scenarios, 69 interactions per Chromium/Firefox/WebKit engine, 89 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 88. Maturity P75: production cascader controls
+
+`UiCascader` is the hierarchy-path selector for administrative forms. It owns path identity rather than display strings and provides controlled or default value, popup and active-path state. Domain data adapts through `fieldNames`; search includes full ancestor paths and respects IME; lazy branches receive AbortSignal-aware load contexts with cancellation, retry, cache and stale-result protection.
+
+Single and multiple modes define `emitPath`, cascade versus `checkStrictly`, `changeOnSelect`, selection limits, collapsed tags and close behavior explicitly. Visible labels follow `showAllLevels` and the shared separator. Native form submission, required/reset behavior and FormItem feedback use the same resolved value contract.
+
+Keyboard behavior covers Arrow, Home, End, Enter, Space, Escape, Tab and Typeahead. Horizontal drill and back reverse in RTL, active rows scroll only within their option viewport, focus restoration avoids page movement and Portal transitions do not transform fixed-position panels. Loading, error, empty, readonly, disabled and invalid remain distinct semantic states.
+
+P75 retains 91 public components and advances to 470 locale keys with generated coverage of 1,485 Props, 498 Events and 308 Slots. Release gates require 48 visual baselines, 65 zero-violation Axe scenarios, 70 interactions per Chromium/Firefox/WebKit engine, 93 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

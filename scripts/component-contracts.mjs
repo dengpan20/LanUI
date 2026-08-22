@@ -49,7 +49,7 @@ const required={
   'UiTree.vue':['role="tree"','role="treeitem"','aria-activedescendant','aria-checked','checkStrictly','AbortController','ResizeObserver','load-error','useDirection'],
   'UiCommandPalette.vue':['role="dialog"','role="combobox"','role="listbox"','aria-activedescendant','AbortController','requestSequence','load-error','data-error','openOverlay','isTopOverlay','focusWithRetry','useDirection'],
   'UiColorPicker.vue':['role="dialog"','role="slider"','aria-valuetext','pointerdown','formatColor','getContrastRatio','useFloatingPosition','useDirection','uiFormItemContext'],
-  'UiCascader.vue':['ui-cascader-column','aria-selected','aria-activedescendant','ArrowRight','ArrowLeft'],
+  'UiCascader.vue':['data-ui-cascader','defaultValue','update:open','update:activePath','fieldNames','searchable','loadData','AbortController','load-error','multiple','checkStrictly','emitPath','maxCount','minCount','ui-cascader-native','onFormReset','aria-multiselectable','aria-activedescendant','ArrowRight','ArrowLeft','useTeleportThemeScope','useFloatingPosition','defineExpose'],
   'UiTransfer.vue':['moveRight','moveLeft'],
   'UiMenu.vue':['role="menu"','role="menuitem"','ArrowDown','ArrowRight'],
   'UiCollapse.vue':['data-ui-collapse','aria-expanded','aria-controls','role="region"','defaultValue','enforceOpenKeys','beforeToggle','destroyOnHide','useReducedMotion','ArrowDown','toggle-blocked','after-open','defineExpose'],
