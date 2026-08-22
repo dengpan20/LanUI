@@ -44,6 +44,9 @@ const visualDropdownItems=[{type:'heading',label:'Workspace actions'},{key:'edit
 const visualCollapseOpen=ref(['contract','evidence'])
 const visualCollapseAccordion=ref('keyboard')
 const visualButtonPressed=ref(true)
+const visualInputValue=ref('Release Candidate 165')
+const visualInputPassword=ref('LanUI-2026')
+const visualInputPasswordVisible=ref(false)
 const visualCollapseItems=[{key:'contract',label:'Public component contract',content:'Root and subpath exports align Props, Emits, Slots and methods.',extra:'Required'},{key:'keyboard',label:'Keyboard and semantics',content:'Arrow, Home and End skip disabled headings.',extra:'WCAG'},{key:'evidence',label:'Release evidence',content:'Unit, visual, Axe, browser and package gates protect consumers.',extra:'Verified'},{key:'locked',label:'Restricted policy',content:'This panel is unavailable.',disabled:true}]
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
@@ -373,6 +376,15 @@ const tableRows=[
         <section><h3>Native composition</h3><div class="visual-button-native"><UiButton href="#release-api" target="_blank" icon="external" icon-position="end" variant="text">API reference</UiButton><UiButton block shape="round" type="submit" form="visual-release-form" name="intent" value="publish">Publish all changes</UiButton></div></section>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">button / anchor / form</UiTag><UiTag color="green">pending / duplicate guard</UiTag><UiTag color="orange">RTL / reduced motion / SSR</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='input'" title="Production text inputs" subtitle="Native form semantics, IME-safe editing, formatting and complete operational states" title-tag="h2" class="visual-table-card visual-input-showcase">
+      <div class="visual-input-grid" data-input-state-contract="native form ime formatter parser modifiers clear escape password controlled addons count loading invalid readonly disabled slots api rtl ssr">
+        <UiFormItem label="Release name" required help="IME-safe model updates · Enter event · Escape clear"><UiInput v-model.trim="visualInputValue" icon="edit" clearable clear-on-escape select-on-focus show-count :maxlength="28" name="releaseName" autocomplete="off"/></UiFormItem>
+        <UiFormItem label="Controlled secret" help="Visibility remains controlled by the consumer"><UiInput v-model="visualInputPassword" v-model:password-visible="visualInputPasswordVisible" type="password" icon="lock" password-toggle autocomplete="current-password"/></UiFormItem>
+        <UiFormItem label="Package endpoint" help="Parser normalizes the editable draft"><UiInput model-value="release-center" :formatter="value=>String(value).toLowerCase()" :parser="value=>value.trim().replace(/\s+/g,'-')"><template #prepend>https://</template><template #suffix>stable</template><template #append>.lanui.dev</template></UiInput></UiFormItem>
+        <div class="visual-input-state-field"><strong>Operational states</strong><div class="visual-input-states"><UiInput model-value="Synchronizing" loading aria-label="Loading release alias"/><UiInput model-value="duplicate-alias" invalid aria-label="Invalid release alias"/><UiInput model-value="SYSTEM-165" readonly aria-label="Read-only system identifier"/><UiInput model-value="Unavailable" disabled aria-label="Disabled input"/></div><span class="field-error">The release alias is already in use</span></div>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">native / IME / model modifiers</UiTag><UiTag color="green">formatter / parser / slots</UiTag><UiTag color="orange">ARIA / RTL / SSR / API</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='card'" title="Production content containers" subtitle="Variants, loading, selection and structured regions" title-tag="h2" class="visual-table-card visual-card-showcase">
       <div class="card-showcase-grid" data-card-state-contract="sizes variants cover header subtitle actions body footer hover interactive selected disabled loading link keyboard rtl reduced-motion ssr">

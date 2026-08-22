@@ -1,5 +1,20 @@
 # Lan UI · 企业后台 Design System
 
+## P69 成熟文本输入
+
+`UiInput` 在兼容 `v-model / type / placeholder / icon / clearable / passwordToggle / disabled / readonly / invalid` 基础用法的同时，补齐原生表单属性、IME 组合输入去重、Formatter/Parser、Trim/Number/Lazy 修饰符、受控密码显隐、Prepend/Append/Affix/Action Slots、字符计数、Esc 清除、Loading 以及公开实例方法。所有更新携带稳定来源元数据，并与 FormItem、ARIA、RTL、强制颜色、SSR、根入口和组件子路径类型保持一致。
+
+```vue
+<UiInput
+  v-model.trim="releaseAlias"
+  clearable
+  clear-on-escape
+  show-count
+  :maxlength="24"
+  @enter="publishRelease"
+/>
+```
+
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## P68 成熟按钮动作

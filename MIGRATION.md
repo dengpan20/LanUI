@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.65 input compatibility
+
+There are no breaking changes. Existing `<UiInput v-model="value" clearable />`, password, disabled, readonly and invalid usage remains valid:
+
+```vue
+<UiInput v-model.trim="alias" clearable clear-on-escape show-count :maxlength="24" />
+```
+
+- Native `name`, `form`, autocomplete, inputmode, pattern, min/max/step, length, required and autofocus attributes are now explicit typed Props and still reach the native Input.
+- Composition updates suppress intermediate IME input and the browser's duplicate post-composition event. `input`, `change`, `clear`, `enter`, focus and blur expose stable source/value/previous metadata.
+- `formatter` controls rest presentation and `parser` controls public values; `trim`, `number` and `lazy` model modifiers compose with both. Parser errors preserve the controlled value and emit structured invalid metadata.
+- Password visibility may be uncontrolled through `defaultPasswordVisible` or controlled through `passwordVisible / update:passwordVisible`. Clear and password actions preserve input focus.
+- Prefix, suffix, prepend, append, clear-icon, password-icon and Loading Slots are additive. Count and FormItem help/error IDs merge through `aria-describedby`; root/subpath declarations, SSR and exposed focus/blur/select/clear/setValue/togglePassword controls remain synchronized.
+
 ## 1.64 button compatibility
 
 There are no breaking changes. Existing `<UiButton variant="primary" size="md" icon="check">...</UiButton>`, `loading`, `disabled` and native `type` usage remains valid:

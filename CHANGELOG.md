@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.65.0] - 2026-08-22
+
+### Added
+
+- Production `UiInput` contract with native form attributes, IME-safe composition, formatter/parser pipelines, Vue model modifiers, controlled password visibility, addon/affix/action Slots, count, Escape clear, Loading and imperative controls.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `v-model`, `type`, `placeholder`, `icon`, `clearable`, `passwordToggle`, disabled, readonly and invalid usage remains compatible while event metadata, FormItem linkage, ARIA, forced colors and RTL-safe technical addons are now first-class.
+- Release gates advance to 42 visual baselines, 60 Axe scenarios, 64 interactions per browser and 71 negative type assertions while retaining 445 locale keys. Generated API coverage advances to 1,276 Props, 417 Events and 236 Slots.
+
 ## [1.64.0] - 2026-08-22
 
 ### Added

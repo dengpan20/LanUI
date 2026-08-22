@@ -107,6 +107,12 @@ const buttonPressed=ref(false)
 const buttonOutput=ref('ready:0')
 let buttonActionRuns=0
 async function runButtonAction(){buttonActionRuns+=1;await new Promise(resolve=>setTimeout(resolve,720));return{revision:'P68',runs:buttonActionRuns}}
+const inputRef=ref(null)
+const inputValue=ref('release draft')
+const inputPassword=ref('LanUI-2026')
+const inputPasswordVisible=ref(false)
+const inputOutput=ref('ready:release draft')
+function changeInput(value,meta){inputOutput.value=`change:${meta.source}:${String(value)}`}
 const tagChecked=ref(false)
 const tagVisible=ref(true)
 const tagOutput=ref('ready')
@@ -686,6 +692,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         </div>
         <i id="button-release-target"/>
         <output class="interaction-output" data-testid="button-output">{{ buttonOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-input-case" data-input-state-contract="native ime formatter parser clear escape password controlled focus api rtl">
+        <h2>Input IME, parsing, clear and controlled password contract</h2>
+        <div class="interaction-input-grid">
+          <UiFormItem label="Release alias" required help="Composition commits once; Escape clears"><UiInput id="interaction-input" ref="inputRef" v-model.trim="inputValue" clearable clear-on-escape show-count :maxlength="24" name="releaseAlias" @input="(value,meta)=>inputOutput=`input:${meta.source}:${String(value)}`" @change="changeInput" @clear="(value,meta)=>inputOutput=`clear:${meta.source}:${String(value)}`" @enter="(value,_event,meta)=>inputOutput=`enter:${meta.source}:${String(value)}`"/></UiFormItem>
+          <UiFormItem label="Controlled secret" help="Consumer owns visibility"><UiInput id="interaction-input-password" v-model="inputPassword" v-model:password-visible="inputPasswordVisible" type="password" password-toggle @password-visibility-change="(value,meta)=>inputOutput=`password:${meta.source}:${value}`"/></UiFormItem>
+          <UiFormItem label="Package endpoint" help="Formatter and parser preserve the public value"><UiInput id="interaction-input-parser" model-value="release-center" :formatter="value=>String(value).toUpperCase()" :parser="value=>value.trim().toLowerCase().replace(/\s+/g,'-')" @change="changeInput"><template #prepend>pkg://</template><template #append>.stable</template></UiInput></UiFormItem>
+          <div class="interaction-input-actions"><UiButton id="interaction-input-set-api" size="sm" variant="outline" @click="inputRef.setValue('api-release','fixture-api')">Set by API</UiButton><UiButton id="interaction-input-focus-api" size="sm" variant="text" @click="inputRef.focus()">Focus by API</UiButton></div>
+        </div>
+        <output class="interaction-output" data-testid="input-output">{{ inputOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-tag-case" data-tag-state-contract="selection close link keyboard disabled">
         <h2>Tag selection, close, link and keyboard contract</h2>

@@ -90,6 +90,10 @@ const standaloneCardSelected=ref(false)
 const standaloneButtonPressed=ref(false)
 const standaloneButtonState=ref('ready')
 async function runStandaloneButtonAction(){await new Promise(resolve=>setTimeout(resolve,420));return{revision:'P68'}}
+const standaloneInput=ref('release-center')
+const standalonePassword=ref('LanUI-2026')
+const standalonePasswordVisible=ref(false)
+const standaloneInputState=ref('ready')
 const standaloneBreadcrumbExpanded=ref(false)
 const standaloneBreadcrumbItems=[{key:'consumer',label:'Consumer',href:'#consumer',icon:'home'},{key:'workspace',label:'Workspace',href:'#workspace'},{key:'packages',label:'Packages',href:'#packages'},{key:'components',label:'Components',href:'#components'},{key:'breadcrumb',label:'Breadcrumb',href:'#breadcrumb'},{key:'contract',label:'Release contract'}]
 const standaloneTagChecked=ref(false)
@@ -127,11 +131,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.64.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.65.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-164-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-165-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -226,6 +230,15 @@ const rows = computed(() => [
 
     <UiCard data-button-state-contract title="Consumer production actions" subtitle="Native button, secure link and async action contracts from the packed dependency">
       <div style="display:grid;gap:14px"><div style="display:flex;gap:10px;flex-wrap:wrap"><UiButton icon="plus">Create release</UiButton><UiButton icon="download" icon-position="end" variant="outline">Export</UiButton><UiButton icon="more" shape="circle" aria-label="More release actions" variant="outline"/><UiButton shape="round" variant="secondary" :pressed="standaloneButtonPressed" @click="standaloneButtonPressed=!standaloneButtonPressed">{{ standaloneButtonPressed?'Pinned':'Pin evidence' }}</UiButton><UiButton href="#standalone-api" target="_blank" variant="text">Package API</UiButton></div><UiButton :action="runStandaloneButtonAction" block shape="round" loading-text="Publishing" @action-start="standaloneButtonState='pending · duplicate guard'" @action-success="standaloneButtonState=`success · ${$event.revision}`">Publish consumer release</UiButton><code>{{ standaloneButtonState }}</code></div>
+    </UiCard>
+    <UiCard data-input-state-contract title="Consumer production inputs" subtitle="Native form, IME, parser, controlled password and complete state contracts from the packed dependency">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
+        <UiFormItem label="Release alias" required help="IME-safe · Enter · Escape clear · count"><UiInput v-model.trim="standaloneInput" icon="edit" clearable clear-on-escape show-count :maxlength="24" name="releaseAlias" autocomplete="off" @enter="(value,_event,meta)=>standaloneInputState=`${meta.source} · ${value}`"/></UiFormItem>
+        <UiFormItem label="Controlled secret" help="Visibility belongs to the consumer model"><UiInput v-model="standalonePassword" v-model:password-visible="standalonePasswordVisible" type="password" icon="lock" password-toggle autocomplete="current-password" @password-visibility-change="(value,meta)=>standaloneInputState=`${meta.source} · visible ${value}`"/></UiFormItem>
+        <UiFormItem label="Package endpoint" help="Formatter / parser and addon slots"><UiInput model-value="release-center" :formatter="value=>String(value).toUpperCase()" :parser="value=>value.trim().toLowerCase().replace(/\s+/g,'-')"><template #prepend>pkg://</template><template #append>.stable</template></UiInput></UiFormItem>
+        <UiFormItem label="Operational states" error="Alias already exists"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiInput model-value="Synchronizing" loading aria-label="Loading alias"/><UiInput model-value="duplicate" invalid aria-label="Invalid alias"/><UiInput model-value="SYSTEM-165" readonly aria-label="Read-only identifier"/><UiInput model-value="Unavailable" disabled aria-label="Disabled alias"/></div></UiFormItem>
+      </div>
+      <template #footer><code>{{ standaloneInputState }} · {{ standaloneInput }} · password {{ standalonePasswordVisible?'visible':'hidden' }}</code></template>
     </UiCard>
     <UiCard data-card-state-contract title="Consumer release workspace" subtitle="Interactive UiCard contract from the packed dependency" variant="elevated" shadow="sm" hoverable interactive :selected="standaloneCardSelected" @activate="standaloneCardSelected=!standaloneCardSelected">
       <p style="margin:0;color:var(--text-secondary)">Pointer, Enter and Space share one typed activation event; focus, selection and disabled states stay visible.</p>
@@ -349,7 +362,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.64.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.65.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>

@@ -113,7 +113,7 @@ const tourSteps=[
   {target:'#component-tour-preview',title:'预览真实状态',description:'用例覆盖默认、键盘、加载、空状态与错误状态。',placement:'bottom'},
   {target:'#component-tour-api',title:'检查组件契约',description:'继续查看自动生成的 Props、Events 与 Slots 文档。',placement:'bottom-end'},
 ]
-const customerName=ref('');const customerType=ref('');const searchableType=ref('');const passwordDemo=ref('LanUI2026');const notes=ref('');const toastPlacement=ref('top-center')
+const customerName=ref('');const customerType=ref('');const searchableType=ref('');const passwordDemo=ref('LanUI2026');const passwordVisible=ref(false);const tenantDomain=ref('release-center');const inputContractState=ref('等待输入');const notes=ref('');const toastPlacement=ref('top-center')
 const tooltipDemoOpen=ref(false);const tooltipState=ref('等待 Tooltip 交互');const popoverState=ref('等待 Popover 交互')
 const cityDemo=ref('');const strictCityDemo=ref('shanghai');const remoteProjectDemo=ref('')
 const cityOptions=[
@@ -243,13 +243,13 @@ async function loadFrenchLocale(){
 const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有面板均使用标题按钮与关联 Region；Arrow、Home、End 可在标题间移动焦点。',extra:'WCAG'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。',extra:'异步检查'},{key:'locked',label:'已锁定规范',content:'停用项目不会进入键盘导航。',disabled:true}]
 async function validateCollapseToggle(item,open){if(item.key==='release'&&open){collapseState.value='正在校验发布面板…';await new Promise(resolve=>setTimeout(resolve,420))}return true}
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.64.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · Button 原生按钮/链接/表单语义、异步动作与重复触发锁、图标位置、形状、加载与按下状态、插槽、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Input P69 · Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.65.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · Input 原生表单属性、IME 合成、格式化/解析、v-model 修饰符、密码受控状态、前后附加内容、字符计数、命令式 API、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.64.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.65.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-164-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-165-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -406,11 +406,11 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
         <section id="forms" class="card doc-section">
           <header class="doc-section-header"><h2>表单控件</h2><p>统一基础控件、托管校验、动态数组与 Schema 编排的尺寸、焦点、条件显隐、错误、只读和键盘行为，并同步到所有业务页面。</p></header>
           <div class="demo-block form-showcase">
-            <div class="form-demo-section"><div class="form-demo-title"><strong>基础输入</strong><span>Input</span></div><div class="form-demo-content form-row">
-              <label class="field"><span class="field-label required">客户名称</span><UiInput v-model="customerName" icon="user" clearable placeholder="请输入客户名称"/><span class="field-help">支持前缀图标与一键清除</span></label>
-              <label class="field"><span class="field-label">登录密码</span><UiInput v-model="passwordDemo" type="password" icon="lock" password-toggle/><span class="field-help">密码显示/隐藏切换</span></label>
-              <label class="field"><span class="field-label">错误状态</span><UiInput model-value="invalid@email" icon="alert" invalid/><span class="field-error"><AppIcon name="alert" :size="12"/>请输入有效的企业邮箱</span></label>
-              <label class="field"><span class="field-label">只读 / 禁用</span><div class="form-inline-pair"><UiInput model-value="系统生成编号" aria-label="只读系统编号" readonly/><UiInput model-value="不可编辑" aria-label="禁用输入框" disabled/></div></label>
+            <div class="form-demo-section" data-input-state-contract="native form ime formatter parser modifiers clear password controlled addons count loading invalid readonly disabled slots api rtl ssr"><div class="form-demo-title"><strong>成熟输入</strong><span>UiInput · P69</span></div><div class="form-demo-content form-row">
+              <label class="field"><span class="field-label required">客户名称</span><UiInput v-model.trim="customerName" icon="user" clearable clear-on-escape select-on-focus show-count :maxlength="24" placeholder="请输入客户名称" @enter="value=>inputContractState=`Enter · ${value||'空值'}`"/><span class="field-help">IME 输入、字符计数、Esc 清除与 Enter 事件</span></label>
+              <label class="field"><span class="field-label">受控密码</span><UiInput v-model="passwordDemo" v-model:password-visible="passwordVisible" type="password" icon="lock" password-toggle @password-visibility-change="(value,meta)=>inputContractState=`密码 ${value?'可见':'隐藏'} · ${meta.source}`"/><span class="field-help">显示状态可受控，并维持输入焦点</span></label>
+              <label class="field"><span class="field-label">格式化与附加内容</span><UiInput v-model="tenantDomain" :formatter="value=>String(value).toLowerCase()" :parser="value=>value.trim().replace(/\s+/g,'-')" select-on-focus @change="(value,meta)=>inputContractState=`域名 ${value} · ${meta.source}`"><template #prepend>https://</template><template #append>.lanui.dev</template></UiInput><span class="field-help">Formatter / Parser 与 Prepend / Append Slots</span></label>
+              <label class="field"><span class="field-label">完整状态</span><div class="form-inline-pair"><UiInput model-value="正在查询" aria-label="加载状态输入框" loading/><UiInput model-value="invalid@email" aria-label="错误状态输入框" invalid/><UiInput model-value="系统编号" aria-label="只读系统编号" readonly/><UiInput model-value="不可编辑" aria-label="禁用输入框" disabled/></div><output class="field-help" aria-live="polite">{{ inputContractState }}</output></label>
             </div></div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>下拉选择</strong><span>Select</span></div><div class="form-demo-content form-row">
               <label class="field"><span class="field-label">基础选择</span><UiSelect v-model="customerType" :options="['企业客户','渠道客户','战略客户']" clearable placeholder="请选择客户类型"/><span class="field-help">箭头旋转、清除和上下方向自适应</span></label>
@@ -577,7 +577,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.64.0 发布二维码" caption="扫码打开 1.64.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.65.0 发布二维码" caption="扫码打开 1.65.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -590,7 +590,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.64.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.65.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>
@@ -918,5 +918,3 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
     </div>
   </div>
 </template>
-
-\n

@@ -1203,3 +1203,14 @@ P67 retains 89 public components while advancing to 445 locale keys and generate
 - Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API, deterministic SSR and installed-tarball verification exercise the same contract.
 
 P68 retains 89 public components and 445 locale keys while generated coverage advances to 1,255 Props, 409 Events and 229 Slots. Release gates require 41 visual baselines, 59 zero-violation Axe scenarios, 63 interactions per Chromium/Firefox/WebKit engine, 69 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 82. Maturity P69: production text inputs
+
+- `UiInput` keeps existing model, type, placeholder, icon, size, clearable, password-toggle, disabled, readonly and invalid usage while adding typed native form attributes, autofocus/select-on-focus, count, loading, Escape clear and configurable clear values.
+- IME composition suppresses intermediate updates and deduplicates only the browser event matching the committed composition value. Input, change, clear, Enter, focus, blur, invalid, composition and password events publish stable source/value/previous metadata.
+- Formatter controls the resting display; Parser controls the public value. Trim, Number and Lazy model modifiers compose with both, parser failures preserve consumer state, and blur restores formatted presentation.
+- Password visibility supports controlled and uncontrolled ownership. Prefix, suffix, prepend, append, clear-icon, password-icon and Loading Slots remain orthogonal; action priority prevents overlapping Loading/password/clear controls.
+- FormItem label, help, error and required context merge with consumer ARIA IDs. Count is announced and described, native constraints remain on the actual Input, disabled/readonly/loading suppress mutation, and public focus/blur/select/clear/setValue/togglePassword methods avoid private DOM access.
+- Logical geometry, isolated LTR rendering for technical addons, RTL, Reduced Motion, forced colors and deterministic SSR share one contract. Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API and installed-tarball verification remain synchronized.
+
+P69 retains 89 public components and 445 locale keys while generated coverage advances to 1,276 Props, 417 Events and 236 Slots. Release gates require 42 visual baselines, 60 zero-violation Axe scenarios, 64 interactions per Chromium/Firefox/WebKit engine, 71 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

@@ -1171,6 +1171,44 @@ const allCases = [
     },
   },
   {
+    name:'input-ime-password-clear-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const input=page.locator('#interaction-input')
+      await input.scrollIntoViewIfNeeded()
+      const root=input.locator('xpath=../..')
+      assert.equal(await root.getAttribute('data-ui-input'),'')
+      assert.equal(await root.getAttribute('data-state'),'ready')
+      assert.equal(await input.getAttribute('name'),'releaseAlias')
+      assert.equal(await input.getAttribute('aria-required'),'true')
+      await input.focus()
+      await input.dispatchEvent('compositionstart',{data:'发'})
+      await input.evaluate(node=>{node.value='发布';node.dispatchEvent(new InputEvent('input',{bubbles:true,data:'发布',inputType:'insertCompositionText',isComposing:true}))})
+      await expectText(page,'input-output','ready:release draft')
+      await input.dispatchEvent('compositionend',{data:'发布'})
+      await input.evaluate(node=>node.dispatchEvent(new InputEvent('input',{bubbles:true,data:'发布',inputType:'insertText'})))
+      await expectText(page,'input-output','input:composition:发布')
+      await input.press('Enter')
+      await expectText(page,'input-output','enter:enter:发布')
+      await input.press('Escape')
+      await expectText(page,'input-output','clear:escape:')
+      assert.equal(await input.inputValue(),'')
+      const password=page.locator('#interaction-input-password')
+      const passwordRoot=password.locator('xpath=../..')
+      const toggle=passwordRoot.getByRole('button')
+      assert.equal(await password.getAttribute('type'),'password')
+      assert.equal(await toggle.getAttribute('aria-pressed'),'false')
+      await toggle.click()
+      await expectText(page,'input-output','password:control:true')
+      assert.equal(await password.getAttribute('type'),'text')
+      assert.equal(await toggle.getAttribute('aria-pressed'),'true')
+      await page.locator('#interaction-input-set-api').click()
+      await expectText(page,'input-output','change:fixture-api:api-release')
+      await page.locator('#interaction-input-focus-api').click()
+      await expectFocused(page,input)
+    },
+  },
+  {
     name:'tag-selection-close-link-keyboard',
     query:'direction=ltr',
     run:async page=>{

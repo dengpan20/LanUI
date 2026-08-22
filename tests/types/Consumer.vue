@@ -105,7 +105,9 @@ function sort(payload:UiTableSortChange) {
     <template #default="{ validate, validateField, reset, resetFields, errors, validating, dirty }">
       <UiFormItem label="Name" name="name">
         <template #default="{ controlId, invalid }">
-          <UiInput :id="controlId" v-model="model.name" :invalid="invalid" />
+          <UiInput :id="controlId" v-model="model.name" :invalid="invalid" type="search" input-mode="search" clearable clear-on-escape show-count :maxlength="32" @enter="(value,event,meta)=>`${value}:${event.key}:${meta.source}`" @change="(_value,meta)=>meta.previous">
+            <template #prepend>https://</template><template #prefix>tenant</template><template #suffix>.test</template><template #clear-icon>×</template>
+          </UiInput>
         </template>
       </UiFormItem>
       <UiFormItem label="Contacts" name="contacts" :rules="[{type:'array',min:1}]" group>

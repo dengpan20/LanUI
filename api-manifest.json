@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.64.0",
+  "version": "1.65.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -517,8 +517,14 @@
       "UiImageTransform",
       "UiInput",
       "UiInputEmits",
+      "UiInputInstance",
+      "UiInputInvalidMeta",
+      "UiInputMeta",
+      "UiInputMode",
+      "UiInputModelModifiers",
       "UiInputProps",
       "UiInputSlots",
+      "UiInputSource",
       "UiInputTag",
       "UiInputTagChangeMeta",
       "UiInputTagContext",
@@ -529,6 +535,8 @@
       "UiInputTagInvalidReason",
       "UiInputTagProps",
       "UiInputTagSlots",
+      "UiInputType",
+      "UiInputValue",
       "UiKeyValueChangeMeta",
       "UiKeyValueEditor",
       "UiKeyValueEditorEmits",
@@ -11097,22 +11105,110 @@
       "subpath": "./components/UiInput",
       "propsType": "UiInputProps",
       "props": [
+        "ariaLabel",
+        "autocomplete",
+        "autofocus",
+        "clearOnEscape",
+        "clearValue",
         "clearable",
+        "defaultPasswordVisible",
         "disabled",
+        "form",
+        "formatter",
         "icon",
+        "inputMode",
         "invalid",
         "loading",
+        "max",
         "maxlength",
+        "min",
+        "minlength",
+        "modelModifiers",
         "modelValue",
+        "name",
+        "parser",
         "passwordToggle",
+        "passwordVisible",
+        "pattern",
         "placeholder",
         "readonly",
+        "required",
+        "selectOnFocus",
+        "showCount",
         "size",
+        "step",
         "type"
       ],
       "propDetails": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autocomplete",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearOnEscape",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearValue",
+          "required": false,
+          "type": "UiInputValue",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "clearable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultPasswordVisible",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -11136,9 +11232,36 @@
           }
         },
         {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "formatter",
+          "required": false,
+          "type": "(value:UiInputValue)=>string|number|null|undefined",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
           "name": "icon",
           "required": false,
           "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "inputMode",
+          "required": false,
+          "type": "UiInputMode",
           "runtimeTypes": [
             "String"
           ],
@@ -11169,6 +11292,13 @@
           }
         },
         {
+          "name": "max",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [],
+          "default": null
+        },
+        {
           "name": "maxlength",
           "required": false,
           "type": "string|number",
@@ -11176,10 +11306,60 @@
           "default": null
         },
         {
-          "name": "modelValue",
+          "name": "min",
           "required": false,
           "type": "string|number",
           "runtimeTypes": [],
+          "default": null
+        },
+        {
+          "name": "minlength",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [],
+          "default": null
+        },
+        {
+          "name": "modelModifiers",
+          "required": false,
+          "type": "UiInputModelModifiers",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiInputValue",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "parser",
+          "required": false,
+          "type": "(value:string)=>UiInputValue",
+          "runtimeTypes": [
+            "Function"
+          ],
           "default": null
         },
         {
@@ -11193,6 +11373,27 @@
             "kind": "implicit",
             "value": "false"
           }
+        },
+        {
+          "name": "passwordVisible",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "pattern",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
         },
         {
           "name": "placeholder",
@@ -11216,6 +11417,42 @@
           }
         },
         {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "selectOnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "showCount",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "size",
           "required": false,
           "type": "ComponentSize",
@@ -11228,9 +11465,16 @@
           }
         },
         {
+          "name": "step",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [],
+          "default": null
+        },
+        {
           "name": "type",
           "required": false,
-          "type": "string",
+          "type": "UiInputType",
           "runtimeTypes": [
             "String"
           ],
@@ -11243,41 +11487,133 @@
       "emitsType": "UiInputEmits",
       "emits": [
         "blur",
+        "change",
         "clear",
+        "composition-end",
+        "composition-start",
+        "enter",
         "focus",
         "input",
-        "update:modelValue"
+        "invalid",
+        "keydown",
+        "password-visibility-change",
+        "update:modelValue",
+        "update:passwordVisible"
       ],
       "emitDetails": [
         {
           "name": "blur",
           "required": true,
-          "type": "(event:FocusEvent)=>void"
+          "type": "(event:FocusEvent,meta:UiInputMeta)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:UiInputValue,meta:UiInputMeta)=>void"
         },
         {
           "name": "clear",
           "required": true,
-          "type": "()=>void"
+          "type": "(value:UiInputValue,meta:UiInputMeta)=>void"
+        },
+        {
+          "name": "composition-end",
+          "required": true,
+          "type": "(value:UiInputValue,event:CompositionEvent)=>void"
+        },
+        {
+          "name": "composition-start",
+          "required": true,
+          "type": "(event:CompositionEvent)=>void"
+        },
+        {
+          "name": "enter",
+          "required": true,
+          "type": "(value:UiInputValue,event:KeyboardEvent,meta:UiInputMeta)=>void"
         },
         {
           "name": "focus",
           "required": true,
-          "type": "(event:FocusEvent)=>void"
+          "type": "(event:FocusEvent,meta:UiInputMeta)=>void"
         },
         {
           "name": "input",
           "required": true,
-          "type": "(value:string)=>void"
+          "type": "(value:UiInputValue,meta:UiInputMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(meta:UiInputInvalidMeta)=>void"
+        },
+        {
+          "name": "keydown",
+          "required": true,
+          "type": "(event:KeyboardEvent)=>void"
+        },
+        {
+          "name": "password-visibility-change",
+          "required": true,
+          "type": "(value:boolean,meta:{source:UiInputSource;previous:boolean})=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
-          "type": "(value:string)=>void"
+          "type": "(value:UiInputValue)=>void"
+        },
+        {
+          "name": "update:passwordVisible",
+          "required": true,
+          "type": "(value:boolean)=>void"
         }
       ],
       "slotsType": "UiInputSlots",
-      "slots": [],
-      "slotDetails": [],
+      "slots": [
+        "append",
+        "clear-icon",
+        "loading",
+        "password-icon",
+        "prefix",
+        "prepend",
+        "suffix"
+      ],
+      "slotDetails": [
+        {
+          "name": "append",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "clear-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "password-icon",
+          "required": false,
+          "type": "(scope:{visible:boolean})=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "prepend",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ],
       "imports": {
         "root": "import { UiInput } from 'lan-ui-design-system'",
         "subpath": "import UiInput from 'lan-ui-design-system/components/UiInput'"

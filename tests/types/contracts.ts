@@ -131,6 +131,8 @@ import type { UiAffixEmits, UiAffixProps, UiAffixSlots } from 'lan-ui-design-sys
 import type { UiSplitterEmits, UiSplitterProps, UiSplitterSlots } from 'lan-ui-design-system/components/UiSplitter'
 import type {
   UiInputEmits,
+  UiInputInstance,
+  UiInputMeta,
   UiInputProps,
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
@@ -265,17 +267,33 @@ const typedMotion:MotionPreference=motionController.preference
 
 const inputProps: InstanceType<typeof UiInput>['$props'] = {
   modelValue: 'Lan UI',
+  type: 'search',
   clearable: true,
-  'onUpdate:modelValue': value => value.toUpperCase(),
+  showCount: true,
+  maxlength: 32,
+  inputMode: 'search',
+  formatter: value => String(value).toUpperCase(),
+  parser: value => value.trim(),
+  modelModifiers: { trim: true },
+  'onUpdate:modelValue': value => String(value).toUpperCase(),
   onFocus: event => event.preventDefault(),
 }
 const dropdownOffset: InstanceType<typeof UiDropdown>['$props']['offset'] = 8
 const inputEmit: InstanceType<typeof UiInput>['$emit'] = null as never
 inputEmit('update:modelValue', 'next')
-inputEmit('focus', new FocusEvent('focus'))
+const inputMeta:UiInputMeta={source:'input',value:'next',previous:'old',composing:false}
+inputEmit('focus', new FocusEvent('focus'),inputMeta)
+inputEmit('change','next',inputMeta)
+inputEmit('password-visibility-change',true,{source:'api',previous:false})
+const inputInstance:UiInputInstance=null as never
+inputInstance.focus();inputInstance.select();inputInstance.setValue('typed');inputInstance.clear();inputInstance.togglePassword()
 
-// @ts-expect-error UiInput model updates always emit the native string value.
+// @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
+// @ts-expect-error UiInput only supports text-like native input types.
+const invalidInputType:UiInputProps={type:'checkbox'}
+// @ts-expect-error UiInput input modes follow the native virtual-keyboard contract.
+const invalidInputMode:UiInputProps={inputMode:'alphabetic'}
 // @ts-expect-error Component sizes are limited to sm, md and lg.
 const invalidButton: InstanceType<typeof UiButton>['$props'] = { size: 'xl' }
 
@@ -367,8 +385,8 @@ const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 
 const subpathProps: UiInputProps = inputProps
-const subpathEmits: keyof UiInputEmits = 'update:modelValue'
-const subpathSlots: keyof UiInputSlots | 'none' = 'none'
+const subpathEmits: keyof UiInputEmits = 'composition-end'
+const subpathSlots: keyof UiInputSlots = 'password-icon'
 const inputParity: typeof SubpathInput = NamedSubpathInput
 const anchorProps:InstanceType<typeof UiAnchor>['$props']&UiAnchorProps={items:[{key:'overview',href:'#overview',title:'Overview',children:[{href:'#api',title:'API'}]}],modelValue:'overview',container:()=>document.body,offsetTop:72,bounds:8,affix:true,smooth:true,direction:'vertical',ariaLabel:'On this page'}
 const anchorEmit:InstanceType<typeof UiAnchor>['$emit']=null as never
@@ -817,4 +835,5 @@ void [timelineItems,timelineProps,timelineEmit,timelineSubpathParity,timelineNam
 void [tooltipProps,tooltipEmit,tooltipSubpathParity,tooltipNamedSubpathParity,tooltipSlots,tooltipInstance,invalidTooltipTrigger,invalidTooltipPlacement]
 void [dropdownItems,dropdownProps,dropdownOpenEmit,dropdownSelectEmit,dropdownActiveEmit,dropdownSubpathParity,dropdownNamedSubpathParity,dropdownSlots,dropdownInstance,invalidDropdownTrigger,invalidDropdownFocus]
 
+void [inputProps,inputMeta,inputInstance,invalidInputType,invalidInputMode]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)
