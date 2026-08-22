@@ -13,6 +13,7 @@ import {
   UiCarousel,
   UiColorPicker,
   UiCommandPalette,
+  UiCollapse,
   UiConfigProvider,
   UiCronEditor,
   UiKeyValueEditor,
@@ -104,6 +105,10 @@ const standaloneDropdownItems=[
   {divider:true},
   {key:'rollback',label:'Run rollback',danger:true},
 ]
+const standaloneCollapseOpen=ref(['contract'])
+const standaloneCollapseState=ref('ready')
+const standaloneCollapseItems=[{key:'contract',label:'Public contract',content:'Props, emits, slots and imperative methods are available from both root and component subpath imports.',extra:'Required'},{key:'keyboard',label:'Keyboard and ARIA',content:'Arrow, Home and End move between enabled heading buttons while each trigger remains linked to its Region.'},{key:'lifecycle',label:'Consumer lifecycle',content:'Lazy mount, destroy-on-hide and asynchronous guards are consumer-controlled.'},{key:'locked',label:'Restricted section',content:'Disabled sections are skipped.',disabled:true}]
+async function guardStandaloneCollapse(item,open){if(item.key==='lifecycle'&&open){standaloneCollapseState.value='checking policy';await new Promise(resolve=>setTimeout(resolve,260))}return true}
 const standaloneTimelineItems=[
   {key:'install',title:'Install package',description:'Root and subpath exports resolved.',time:'09:30',datetime:'2026-08-20T09:30:00+08:00',status:'success',icon:'check'},
   {key:'review',title:'Review contracts',description:'Types, styles and SSR remain aligned.',time:'11:20',datetime:'2026-08-20T11:20:00+08:00',status:'warning'},
@@ -119,11 +124,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.62.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.63.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-162-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-163-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -258,6 +263,11 @@ const rows = computed(() => [
       </div>
     </UiCard>
 
+    <UiCard data-collapse-state-contract title="Consumer disclosure sections" subtitle="Controlled state, lifecycle policy and accessible header navigation from the packed dependency">
+      <UiCollapse v-model="standaloneCollapseOpen" :items="standaloneCollapseItems" lazy loop :before-toggle="guardStandaloneCollapse" aria-label="Consumer release sections" @change="(_value,meta)=>standaloneCollapseState=`${meta.open?'open':'close'}:${meta.key}:${meta.source}`"><template #item-lifecycle="{content}"><div style="display:flex;align-items:flex-start;gap:10px"><UiTag color="green">Verified</UiTag><span>{{ content }}</span></div></template></UiCollapse>
+      <template #footer><UiTag color="blue">{{ standaloneCollapseOpen.join(' · ')||'all closed' }}</UiTag><span style="margin-inline-start:10px;color:var(--text-secondary)">{{ standaloneCollapseState }}</span></template>
+    </UiCard>
+
     <UiCard title="On-page navigation" subtitle="Anchor navigation inside a composable card" variant="outlined" shadow="none">
       <UiAnchor
         v-model="standaloneAnchor"
@@ -333,7 +343,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.62.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.63.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>

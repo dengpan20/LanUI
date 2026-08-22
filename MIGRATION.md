@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.63 collapse compatibility
+
+There are no breaking changes. Existing `<UiCollapse v-model="openKeys" :items="items">...</UiCollapse>`, `accordion` and `bordered` usage remains valid:
+
+```vue
+<UiCollapse v-model="openKeys" :items="sections" lazy :before-toggle="verifySection" />
+```
+
+- `modelValue` remains controlled; omitted models use `defaultValue`. Multiple mode returns an array and accordion mode returns a scalar key or an empty string when closed, preserving the existing scalar contract.
+- `collapsible=false` keeps one enabled accordion item open. `open`, `close`, `toggle`, `openAll`, `closeAll`, `setOpenKeys` and focus methods use the same normalized keys.
+- Arrow Up/Down, Home and End move among enabled heading buttons without changing disclosure state. `loop` controls boundary wrapping.
+- `beforeToggle` may resolve asynchronously; pending triggers expose `aria-busy`, duplicate toggles are suppressed, and rejected or thrown guards emit stable blocked/error metadata.
+- `lazy`, `destroyOnHide` and per-item `forceRender` define content lifetime. Heading/Region linkage, custom heading levels, Loading/Empty, sizes, Ghost, icon position, RTL, Reduced Motion, SSR and root/subpath declarations remain synchronized.
+
 ## 1.62 dropdown compatibility
 
 There are no breaking changes. Existing `<UiDropdown v-model="open" :items="items">...</UiDropdown>`, `placement`, `disabled`, `closeOnOutside` and Click behavior remain valid:

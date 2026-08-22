@@ -1181,3 +1181,14 @@ P65 retains 89 public components and 443 locale keys while generated coverage ad
 - Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API and installed-tarball verification all exercise the same public contract.
 
 P66 retains 89 public components and 443 locale keys while generated coverage advances to 1,215 Props, 398 Events and 219 Slots. Release gates require 39 visual baselines, 57 zero-violation Axe scenarios, 61 interactions per Chromium/Firefox/WebKit engine, 65 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 80. Maturity P67: production collapse and accordion
+
+- `UiCollapse` keeps existing items, controlled `modelValue`, accordion and bordered usage while adding `defaultValue`, normalized scalar/array state, field adapters and per-item overrides for identity, labels, content, extra content, disabled state, icon visibility, heading level and render lifetime.
+- Multiple panels may be independently open. Accordion mode enforces one panel, and `collapsible=false` prevents the last enabled item from closing. Update, change, toggle, before-change, blocked, error, focus and transition events expose stable item/key/index/source metadata.
+- Arrow Up/Down, Home and End move roving focus among enabled native heading buttons, with optional looping. Each trigger owns `aria-expanded`, `aria-controls` and pending state; every rendered panel is a labelled Region.
+- `beforeToggle` supports synchronous or asynchronous policy checks. Pending keys suppress duplicate requests and expose `aria-busy`; false results and thrown errors remain independently observable without corrupting controlled state.
+- Immediate render, lazy render, destroy-on-hide and per-item force-render policies compose with animated grid transitions, configurable duration and Reduced Motion. Sizes, bordered/Ghost surfaces, icon position, Loading, Empty, RTL and forced-colors remain orthogonal.
+- Header, content, extra, icon, Loading, Empty and keyed item Slots expose typed scopes. Root/subpath declarations and exposed open/close/toggle/bulk/focus methods stay aligned with component center, one-page HTML, standalone consumer, deterministic SSR, isolated CSS, generated API and installed-tarball verification.
+
+P67 retains 89 public components while advancing to 445 locale keys and generated coverage of 1,237 Props, 405 Events and 225 Slots. Release gates require 40 visual baselines, 58 zero-violation Axe scenarios, 62 interactions per Chromium/Firefox/WebKit engine, 67 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

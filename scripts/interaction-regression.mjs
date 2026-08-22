@@ -1356,6 +1356,41 @@ const allCases = [
     },
   },
   {
+    name:'collapse-keyboard-lifecycle-guard',
+    query:'direction=rtl',
+    run:async page=>{
+      const root=page.locator('#interaction-collapse')
+      await root.scrollIntoViewIfNeeded()
+      assert.equal(await root.getAttribute('data-ui-collapse'),'')
+      assert.equal(await root.getAttribute('aria-label'),'Interaction release sections')
+      assert.equal(await root.getByRole('region').count(),1)
+      const contract=root.getByRole('button',{name:/Public contract/})
+      const evidence=root.getByRole('button',{name:/Verification evidence/})
+      const rollback=root.getByRole('button',{name:/Rollback lifecycle/})
+      assert.equal(await contract.getAttribute('aria-expanded'),'true')
+      assert.equal(await contract.getAttribute('aria-controls'),await root.getByRole('region',{name:/Public contract/}).getAttribute('id'))
+      await contract.focus();await contract.press('ArrowDown')
+      await expectFocused(page,evidence)
+      await expectText(page,'collapse-output','focus:keyboard:evidence')
+      await evidence.press('Enter')
+      await expectText(page,'collapse-output','pending:evidence')
+      assert.equal(await root.getAttribute('aria-busy'),'true')
+      await expectText(page,'collapse-output','open:keyboard:evidence')
+      assert.equal(await evidence.getAttribute('aria-expanded'),'true')
+      assert.equal(await root.getByRole('region').count(),2)
+      await evidence.press('Enter')
+      await expectText(page,'collapse-output','close:keyboard:evidence')
+      assert.equal(await root.getByRole('region').count(),1)
+      await contract.focus();await contract.press('ArrowUp')
+      await expectFocused(page,rollback)
+      assert.equal(await root.getByRole('button',{name:/Restricted section/}).isDisabled(),true)
+      await page.locator('#collapse-open-all').click()
+      await page.waitForFunction(()=>[...document.querySelectorAll('#interaction-collapse .ui-collapse-item:not(.disabled)')].every(item=>item.dataset.open==='true'))
+      await page.locator('#collapse-close-all').click()
+      await page.waitForFunction(()=>document.querySelectorAll('#interaction-collapse [role="region"]').length===0)
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{

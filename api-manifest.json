@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.62.0",
+  "version": "1.63.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -359,9 +359,15 @@
       "UiColProps",
       "UiColSlots",
       "UiCollapse",
+      "UiCollapseChangeMeta",
       "UiCollapseEmits",
+      "UiCollapseField",
+      "UiCollapseIconPosition",
+      "UiCollapseInstance",
       "UiCollapseItem",
+      "UiCollapseItemScope",
       "UiCollapseProps",
+      "UiCollapseSize",
       "UiCollapseSlots",
       "UiColorPicker",
       "UiColorPickerChangeMeta",
@@ -4542,10 +4548,32 @@
       "propsType": "UiCollapseProps",
       "props": [
         "accordion",
+        "animated",
+        "ariaLabel",
+        "beforeToggle",
         "bordered",
+        "collapsible",
+        "contentField",
+        "defaultValue",
+        "destroyOnHide",
         "disabled",
+        "disabledField",
+        "duration",
+        "emptyText",
+        "expandIconPosition",
+        "extraField",
+        "ghost",
+        "headingLevel",
+        "itemKey",
         "items",
-        "modelValue"
+        "keyboard",
+        "labelField",
+        "lazy",
+        "loading",
+        "loadingCount",
+        "loop",
+        "modelValue",
+        "size"
       ],
       "propDetails": [
         {
@@ -4561,6 +4589,42 @@
           }
         },
         {
+          "name": "animated",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "beforeToggle",
+          "required": false,
+          "type": "(item:UiCollapseItem,open:boolean,meta:UiCollapseChangeMeta,event?:Event)=>boolean|Promise<boolean>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
           "name": "bordered",
           "required": false,
           "type": "boolean",
@@ -4570,6 +4634,57 @@
           "default": {
             "kind": "literal",
             "value": "true"
+          }
+        },
+        {
+          "name": "collapsible",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "contentField",
+          "required": false,
+          "type": "UiCollapseField",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"content\""
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "Key|Key[]",
+          "runtimeTypes": [
+            "Array",
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "destroyOnHide",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -4585,6 +4700,105 @@
           }
         },
         {
+          "name": "disabledField",
+          "required": false,
+          "type": "UiCollapseField",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"disabled\""
+          }
+        },
+        {
+          "name": "duration",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "200"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "expandIconPosition",
+          "required": false,
+          "type": "UiCollapseIconPosition",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"start\""
+          }
+        },
+        {
+          "name": "extraField",
+          "required": false,
+          "type": "UiCollapseField",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"extra\""
+          }
+        },
+        {
+          "name": "ghost",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "headingLevel",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "itemKey",
+          "required": false,
+          "type": "UiCollapseField",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"key\""
+          }
+        },
+        {
           "name": "items",
           "required": false,
           "type": "UiCollapseItem[]",
@@ -4597,6 +4811,79 @@
           }
         },
         {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "labelField",
+          "required": false,
+          "type": "UiCollapseField",
+          "runtimeTypes": [
+            "String",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"label\""
+          }
+        },
+        {
+          "name": "lazy",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "3"
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
           "type": "Key|Key[]",
@@ -4606,21 +4893,75 @@
             "Number"
           ],
           "default": {
-            "kind": "factory",
-            "value": "factory()"
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "UiCollapseSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
           }
         }
       ],
       "emitsType": "UiCollapseEmits",
       "emits": [
+        "after-close",
+        "after-open",
+        "before-change",
         "change",
+        "item-focus",
+        "toggle",
+        "toggle-blocked",
+        "toggle-error",
         "update:modelValue"
       ],
       "emitDetails": [
         {
+          "name": "after-close",
+          "required": true,
+          "type": "(meta:UiCollapseChangeMeta)=>void"
+        },
+        {
+          "name": "after-open",
+          "required": true,
+          "type": "(meta:UiCollapseChangeMeta)=>void"
+        },
+        {
+          "name": "before-change",
+          "required": true,
+          "type": "(meta:UiCollapseChangeMeta,event?:Event)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:Key|Key[])=>void"
+          "type": "(value:Key|Key[],meta:UiCollapseChangeMeta,event?:Event)=>void"
+        },
+        {
+          "name": "item-focus",
+          "required": true,
+          "type": "(meta:UiCollapseChangeMeta,event?:FocusEvent)=>void"
+        },
+        {
+          "name": "toggle",
+          "required": true,
+          "type": "(meta:UiCollapseChangeMeta,event?:Event)=>void"
+        },
+        {
+          "name": "toggle-blocked",
+          "required": true,
+          "type": "(meta:UiCollapseChangeMeta,event?:Event)=>void"
+        },
+        {
+          "name": "toggle-error",
+          "required": true,
+          "type": "(error:unknown,meta:UiCollapseChangeMeta,event?:Event)=>void"
         },
         {
           "name": "update:modelValue",
@@ -4630,13 +4971,49 @@
       ],
       "slotsType": "UiCollapseSlots",
       "slots": [
-        "item-*"
+        "content",
+        "empty",
+        "expand-icon",
+        "extra",
+        "header",
+        "item-*",
+        "loading"
       ],
       "slotDetails": [
         {
+          "name": "content",
+          "required": false,
+          "type": "(scope:UiCollapseItemScope)=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "expand-icon",
+          "required": false,
+          "type": "(scope:UiCollapseItemScope)=>VNodeChild"
+        },
+        {
+          "name": "extra",
+          "required": false,
+          "type": "(scope:UiCollapseItemScope)=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "(scope:UiCollapseItemScope)=>VNodeChild"
+        },
+        {
           "name": "item-*",
           "required": true,
-          "type": "((props:{item:UiCollapseItem})=>VNodeChild)|undefined"
+          "type": "((scope:UiCollapseItemScope)=>VNodeChild)|undefined"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{count:number})=>VNodeChild"
         }
       ],
       "imports": {

@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
+  UiCard, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -126,6 +126,11 @@ const dropdownOpen=ref(false)
 const dropdownActive=ref(-1)
 const dropdownOutput=ref('ready')
 const dropdownItems=[{type:'heading',label:'Release actions'},{key:'inspect',label:'Inspect package',description:'Review package exports'},{key:'archive',label:'Archive release',disabled:true},{divider:true},{key:'copy',label:'Copy release link',shortcut:'⌘ C'},{key:'pin',label:'Pin evidence',role:'menuitemcheckbox',checked:true},{key:'rollback',label:'Run rollback',danger:true}]
+const collapseRef=ref(null)
+const collapseOpen=ref(['contract'])
+const collapseOutput=ref('ready:contract')
+const collapseItems=[{key:'contract',label:'Public contract',content:'Root and subpath APIs are aligned.',extra:'Required'},{key:'locked',label:'Restricted section',content:'Unavailable',disabled:true},{key:'evidence',label:'Verification evidence',content:'Browser and package evidence passed.'},{key:'rollback',label:'Rollback lifecycle',content:'Restores the preserved baseline.'}]
+async function guardCollapse(item,open){if(item.key==='evidence'&&open){collapseOutput.value='pending:evidence';await new Promise(resolve=>setTimeout(resolve,120))}return true}
 const timelineItems=[
   {key:'audit',title:'Audit complete',description:'Tokens and API verified',time:'09:10',datetime:'2026-08-20T09:10:00+08:00',status:'success'},
   {key:'review',title:'Component review',description:'Keyboard and ARIA validation',time:'11:30',datetime:'2026-08-20T11:30:00+08:00',status:'primary'},
@@ -710,6 +715,11 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiButton id="dropdown-outside-target" variant="text">Dropdown outside target</UiButton>
           <output class="interaction-output" data-testid="dropdown-output">{{ dropdownOutput }}</output>
         </div>
+      </section>
+      <section class="interaction-case interaction-wide" data-collapse-state-contract="controlled multiple async-guard lazy destroy keyboard focus disabled aria-controls api">
+        <h2>Collapse state, lifecycle and keyboard contract</h2>
+        <div class="interaction-row"><UiButton id="collapse-open-all" variant="outline" @click="collapseRef.openAll('fixture-api')">Open all</UiButton><UiButton id="collapse-close-all" variant="text" @click="collapseRef.closeAll('fixture-api')">Close all</UiButton><output class="interaction-output" data-testid="collapse-output">{{ collapseOutput }}</output></div>
+        <UiCollapse id="interaction-collapse" ref="collapseRef" v-model="collapseOpen" :items="collapseItems" lazy destroy-on-hide loop :before-toggle="guardCollapse" :animated="false" aria-label="Interaction release sections" @change="(_value,meta)=>collapseOutput=`${meta.open?'open':'close'}:${meta.source}:${meta.key}`" @item-focus="meta=>collapseOutput=`focus:${meta.source}:${meta.key}`"/>
       </section>
       <section class="interaction-case interaction-wide interaction-steps-case" data-steps-state-contract="controlled navigation connectors keyboard disabled horizontal rtl home end">
         <h2>Steps navigation, keyboard and disabled contract</h2>

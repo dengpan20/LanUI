@@ -9,6 +9,7 @@ import {
   UiCarousel,
   UiAutoComplete,
   UiCommandPalette,
+  UiCollapse,
   UiColorPicker,
   UiCronEditor,
   UiKeyValueEditor,
@@ -89,6 +90,7 @@ import SubpathTimeline, { UiTimeline as NamedSubpathTimeline } from 'lan-ui-desi
 import SubpathTooltip, { UiTooltip as NamedSubpathTooltip } from 'lan-ui-design-system/components/UiTooltip'
 import SubpathPopover, { UiPopover as NamedSubpathPopover } from 'lan-ui-design-system/components/UiPopover'
 import SubpathDropdown, { UiDropdown as NamedSubpathDropdown } from 'lan-ui-design-system/components/UiDropdown'
+import SubpathCollapse, { UiCollapse as NamedSubpathCollapse } from 'lan-ui-design-system/components/UiCollapse'
 import SubpathCarousel, { UiCarousel as NamedSubpathCarousel } from 'lan-ui-design-system/components/UiCarousel'
 import SubpathImage, { UiImage as NamedSubpathImage } from 'lan-ui-design-system/components/UiImage'
 import SubpathList, { UiList as NamedSubpathList } from 'lan-ui-design-system/components/UiList'
@@ -146,6 +148,7 @@ import type { UiTimelineActivationMeta, UiTimelineEmits, UiTimelineInstance, UiT
 import type { UiTooltipEmits, UiTooltipInstance, UiTooltipOpenMeta, UiTooltipProps, UiTooltipSlots } from 'lan-ui-design-system/components/UiTooltip'
 import type { UiPopoverEmits, UiPopoverInstance, UiPopoverOpenMeta, UiPopoverProps, UiPopoverSlots } from 'lan-ui-design-system/components/UiPopover'
 import type { UiDropdownActiveMeta, UiDropdownEmits, UiDropdownInstance, UiDropdownItem, UiDropdownOpenMeta, UiDropdownProps, UiDropdownSelectMeta, UiDropdownSlots } from 'lan-ui-design-system/components/UiDropdown'
+import type { UiCollapseChangeMeta, UiCollapseEmits, UiCollapseInstance, UiCollapseItem, UiCollapseProps, UiCollapseSlots } from 'lan-ui-design-system/components/UiCollapse'
 import type { UiCarouselEmits, UiCarouselProps, UiCarouselSlots } from 'lan-ui-design-system/components/UiCarousel'
 import type { UiImageEmits, UiImageProps, UiImageSlots } from 'lan-ui-design-system/components/UiImage'
 import type { UiListEmits, UiListProps, UiListSlots } from 'lan-ui-design-system/components/UiList'
@@ -621,6 +624,15 @@ const dropdownNamedSubpathParity:typeof UiDropdown=NamedSubpathDropdown
 const dropdownSlots:UiDropdownSlots={trigger:scope=>String(scope.open&&scope.controls),default:scope=>String(scope.open&&scope.activeIndex),item:scope=>String(scope.item.label&&scope.select()),empty:()=>null}
 const dropdownInstance:UiDropdownInstance=null as never
 dropdownInstance.show('api',undefined,'first');dropdownInstance.hide('api');dropdownInstance.toggle('api');dropdownInstance.focusTrigger();dropdownInstance.focusItem(1);dropdownInstance.focusFirst();dropdownInstance.focusLast();dropdownInstance.select(1);dropdownInstance.updatePosition()
+const collapseItems:UiCollapseItem[]=[{key:'overview',label:'Overview',content:'Release overview',extra:'Required',forceRender:true},{key:'locked',label:'Locked',disabled:true},{id:'evidence',title:'Evidence',body:'Verification evidence'}]
+const collapseProps:InstanceType<typeof UiCollapse>['$props']&UiCollapseProps={items:collapseItems,itemKey:item=>item.key??item.id as string,labelField:item=>item.label??item.title,contentField:item=>item.content??item.body,extraField:'extra',disabledField:'disabled',modelValue:['overview'],defaultValue:[],accordion:false,collapsible:true,bordered:true,ghost:false,size:'lg',disabled:false,keyboard:true,loop:true,lazy:true,destroyOnHide:false,animated:true,duration:180,expandIconPosition:'end',headingLevel:2,beforeToggle:async(_item,_open,meta)=>meta.source!=='blocked',loading:false,loadingCount:3,emptyText:'No sections',ariaLabel:'Typed release sections'}
+const collapseChangeEmit:UiCollapseEmits['change']=(_value,meta,event)=>{const typed:UiCollapseChangeMeta=meta;event?.preventDefault();void [typed.key,typed.open,typed.source]}
+const collapseBlockedEmit:UiCollapseEmits['toggle-blocked']=meta=>{const typed:UiCollapseChangeMeta=meta;void typed.reason}
+const collapseSubpathParity:typeof UiCollapse=SubpathCollapse
+const collapseNamedSubpathParity:typeof UiCollapse=NamedSubpathCollapse
+const collapseSlots:UiCollapseSlots={header:scope=>String(scope.label),content:scope=>String(scope.content),extra:scope=>String(scope.extra), 'expand-icon':scope=>String(scope.open),loading:scope=>String(scope.count),empty:()=>null,'item-overview':scope=>String(scope.toggle('typed'))}
+const collapseInstance:UiCollapseInstance=null as never
+collapseInstance.open('overview');collapseInstance.close('overview');collapseInstance.toggle('overview');collapseInstance.openAll();collapseInstance.closeAll();collapseInstance.setOpenKeys(['overview']);collapseInstance.focusItem('overview');collapseInstance.focusFirst();collapseInstance.focusLast();collapseInstance.isOpen('overview')
 const qrCodeProps:InstanceType<typeof UiQRCode>['$props']&UiQRCodeProps={value:'https://example.com/release',size:180,level:'H',status:'expired',color:'#155EEF',margin:4,downloadable:true,downloadName:'release.svg'}
 const qrCodeEmit:UiQRCodeEmits['download']=payload=>{const svg:string=payload.svg;void svg}
 const qrCodeSubpathParity:typeof UiQRCode=SubpathQRCode
@@ -636,6 +648,12 @@ const iconNames:string[]=plugin.listIcons()
 
 // @ts-expect-error List selection modes are constrained to none, single or multiple.
 const invalidListSelection:UiListProps={selectionMode:'toggle'}
+
+// @ts-expect-error Collapse sizes use the shared sm, md or lg component scale.
+const invalidCollapseSize:UiCollapseProps={size:'xl'}
+
+// @ts-expect-error Collapse expand icons use logical start or end positions.
+const invalidCollapseIconPosition:UiCollapseProps={expandIconPosition:'left'}
 
 // @ts-expect-error OTP modes are constrained to numeric, alphanumeric or text.
 const invalidOtpMode:UiOtpInputProps={mode:'hex'}

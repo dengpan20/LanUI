@@ -9,6 +9,7 @@ import {
   UiCard,
   UiAutoComplete,
   UiCommandPalette,
+  UiCollapse,
   UiCronEditor,
   UiKeyValueEditor,
   UiPageHeader,
@@ -43,6 +44,7 @@ const gridPage = ref(1)
 const gridSelected = ref<Key[]>([])
 const activeTab = ref<Key>('summary')
 const stepsCurrent=ref(1)
+const collapseOpen=ref<Key[]>(['overview'])
 const breadcrumbExpanded=ref(false)
 const breadcrumbItems:UiBreadcrumbItem[]=[{key:'home',label:'Home',href:'#home',icon:'home'},{key:'workspace',label:'Workspace',href:'#workspace'},{key:'components',label:'Components',href:'#components'},{key:'breadcrumb',label:'Breadcrumb'}]
 const stepsItems:UiStepItem[]=[{key:'foundation',title:'Foundation',description:'Tokens'},{key:'components',title:'Components',subtitle:'8/12',description:'Contracts'},{key:'release',title:'Release',description:'Package'}]
@@ -94,6 +96,7 @@ function sort(payload:UiTableSortChange) {
 
 <template>
   <UiButton @click="open=true">Open</UiButton>
+  <UiCollapse v-model="collapseOpen" :items="[{key:'overview',label:'Overview',content:'Typed collapse content'}]" lazy loop aria-label="Typed release sections"><template #header="{label,open}">{{ label }} / {{ open }}</template><template #content="{content}">{{ content }}</template></UiCollapse>
   <UiModal v-model="open" title="Typed modal">
     Typed content
     <template #footer="{ close }"><UiButton @click="close">Close</UiButton></template>

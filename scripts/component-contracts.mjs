@@ -51,7 +51,7 @@ const required={
   'UiCascader.vue':['ui-cascader-column','aria-selected','aria-activedescendant','ArrowRight','ArrowLeft'],
   'UiTransfer.vue':['moveRight','moveLeft'],
   'UiMenu.vue':['role="menu"','role="menuitem"','ArrowDown','ArrowRight'],
-  'UiCollapse.vue':['aria-expanded','aria-controls','role="region"'],
+  'UiCollapse.vue':['data-ui-collapse','aria-expanded','aria-controls','role="region"','defaultValue','enforceOpenKeys','beforeToggle','destroyOnHide','useReducedMotion','ArrowDown','toggle-blocked','after-open','defineExpose'],
   'UiDescriptions.vue':['<dl','<dt>','<dd>'],
   'UiResult.vue':['status===\'error\'?\'alert\':\'status\'','ui-result-extra'],
   'UiStatusPage.vue':['statusPage.${props.status}.title','status === \'500\' ? \'alert\' : \'region\'','ui-status-page-actions','emit(\'retry\')','useDirection'],

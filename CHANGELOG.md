@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.63.0] - 2026-08-22
+
+### Added
+
+- Production `UiCollapse` contract with controlled and uncontrolled multiple panels, non-collapsible accordion behavior, field adapters, async guards, lazy/destroy/force-render lifecycles, keyboard roving focus, typed Slots and imperative controls.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `items`, `v-model`, `accordion` and `bordered` usage remains compatible while sizes, Ghost presentation, icon placement, Loading, Empty, Reduced Motion, RTL and structured event metadata are now first-class.
+- Release gates advance to 40 visual baselines, 58 Axe scenarios, 62 interactions per browser and 67 negative type assertions while retaining 445 locale keys. Generated API coverage advances to 1,237 Props, 405 Events and 225 Slots.
+
 ## [1.62.0] - 2026-08-22
 
 ### Added

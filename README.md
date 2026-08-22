@@ -2,6 +2,21 @@
 
 基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
+## P67 成熟折叠面板
+
+`UiCollapse` 在保留 `items / v-model / accordion / bordered` 基础用法的同时，补齐受控与非受控多项展开、不可全部收起的手风琴、字段适配、禁用跳过、Arrow/Home/End 标题导航、异步 `beforeToggle` 守卫以及稳定的变更元数据。内容可选择立即渲染、懒渲染、隐藏后销毁或强制保留，并统一支持尺寸、Ghost、图标位置、Loading、Empty、Reduced Motion、RTL、SSR 和实例方法。
+
+```vue
+<UiCollapse
+  v-model="openKeys"
+  :items="releaseSections"
+  lazy
+  loop
+  :before-toggle="verifySection"
+  @change="recordChange"
+/>
+```
+
 ## P66 成熟下拉菜单
 
 `UiDropdown` 在保留 `v-model / items / placement / disabled / closeOnOutside` 基础用法的同时，补齐 Click、Hover、Focus、Contextmenu、Manual 组合触发，受控/非受控打开与活动索引、可取消延时、方向键、Home/End/Page、增量 Typeahead、逻辑 Tab 延续、Escape/外部点击/选择关闭和焦点返回。菜单支持标题、分隔线、描述、快捷键、危险项、禁用项及 `menuitemcheckbox / menuitemradio`，并通过主题作用域 Portal、RTL 逻辑定位、碰撞翻转、SSR、类型和实例 API 保持消费端一致。

@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -41,6 +41,9 @@ const visualTooltipOpen=ref(true)
 const visualPopoverOpen=ref(true)
 const visualDropdownOpen=ref(true)
 const visualDropdownItems=[{type:'heading',label:'Workspace actions'},{key:'edit',label:'Edit profile',icon:'edit',description:'Update customer information'},{key:'copy',label:'Copy link',shortcut:'⌘ C'},{key:'pin',label:'Pin to top',role:'menuitemcheckbox',checked:true},{key:'archive',label:'Archive project',disabled:true},{divider:true},{key:'disable',label:'Disable account',danger:true}]
+const visualCollapseOpen=ref(['contract','evidence'])
+const visualCollapseAccordion=ref('keyboard')
+const visualCollapseItems=[{key:'contract',label:'Public component contract',content:'Root and component subpath exports expose aligned Props, Emits, Slots and imperative methods.',extra:'Required'},{key:'keyboard',label:'Keyboard and semantics',content:'Heading buttons link to named Regions; Arrow, Home and End skip disabled sections.',extra:'WCAG'},{key:'evidence',label:'Release evidence',content:'Unit, visual, Axe, browser, package and rollback gates protect consumers.',extra:'Verified'},{key:'locked',label:'Restricted policy',content:'This panel is unavailable.',disabled:true}]
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
   {key:'workspace',label:'Workspace',href:'#workspace'},
@@ -421,6 +424,14 @@ const tableRows=[
         <section><h3>Controlled · semantic menu</h3><div class="visual-dropdown-stage"><UiDropdown v-model="visualDropdownOpen" trigger="manual" :items="visualDropdownItems" placement="bottom-start" :append-to-body="false" :active-index="1"><template #trigger><UiButton id="visual-dropdown-controlled">Release actions</UiButton></template></UiDropdown></div></section>
         <section><h3>Trigger and state contracts</h3><div class="visual-row"><UiDropdown default-open :append-to-body="false" trigger="manual" :items="visualDropdownItems.slice(1,4)" placement="bottom-start"><template #trigger><UiButton variant="outline">Default open</UiButton></template></UiDropdown><UiDropdown loading default-open :append-to-body="false" trigger="manual" :items="visualDropdownItems.slice(1,3)"><template #trigger><UiButton variant="outline">Loading</UiButton></template></UiDropdown><UiDropdown disabled :items="visualDropdownItems"><template #trigger><UiButton disabled>Disabled</UiButton></template></UiDropdown></div></section>
       </div>
+    </UiCard>
+    <UiCard v-if="state==='collapse'" title="Accessible disclosure sections" subtitle="State, lifecycle, keyboard and appearance contracts" title-tag="h2" class="visual-table-card visual-collapse-showcase">
+      <div class="visual-collapse-grid" data-collapse-state-contract="controlled uncontrolled multiple accordion non-collapsible disabled lazy destroy motion sizes bordered ghost slots keyboard loading empty rtl ssr">
+        <section><h3>Multiple · controlled · bordered</h3><UiCollapse v-model="visualCollapseOpen" :items="visualCollapseItems" lazy loop aria-label="Release evidence sections"><template #item-evidence="{content}"><div class="visual-collapse-evidence"><UiTag color="green">Passed</UiTag><span>{{ content }}</span></div></template></UiCollapse></section>
+        <section><h3>Accordion · ghost · icon end</h3><UiCollapse v-model="visualCollapseAccordion" :items="visualCollapseItems.slice(0,3)" accordion :collapsible="false" ghost size="sm" expand-icon-position="end" aria-label="Release policy accordion"/></section>
+        <section><h3>Loading and empty</h3><UiCollapse loading :loading-count="3" size="sm" aria-label="Loading release sections"/><UiCollapse :items="[]" empty-text="No release sections" ghost :animated="false" aria-label="Empty release sections"/></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">controlled / accordion</UiTag><UiTag color="green">lazy / guard / reduced motion</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='typography'" title="Semantic release typography" title-tag="h2" class="visual-table-card visual-typography-showcase">
       <div class="visual-typography-grid"><div><UiTypography variant="title" :level="3" content="Release evidence" tone="primary"/><UiTypography content="Consistent semantic hierarchy for operational documents." tone="secondary" size="sm"/><div class="visual-row"><UiTypography content="RELEASE_7F4A" code copyable/><UiTypography content="Ctrl + Enter" keyboard/></div></div><div><UiTypography variant="paragraph" tone="secondary" :ellipsis="{rows:2,expandable:true}" copyable editable style="display:block;max-width:430px" content="Lan UI uses one accessible text primitive for long configuration notes, release evidence, copyable identifiers and keyboard-confirmed inline editing. The same behavior is available to every standalone consumer without page-specific wrappers or duplicated icon actions."/><UiTypography content="Validation completed" tone="success" strong/><UiTypography content="A required value is missing" tone="danger"/></div></div>
