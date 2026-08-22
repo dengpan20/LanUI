@@ -68,7 +68,7 @@ describe('Intl locale runtime',()=>{
     expect(wrapper.get('.ui-pagination-total').text()).toContain(nf.format(1234))
     expect(wrapper.get('.page-number.active').text()).toBe(new Intl.NumberFormat('ar-EG',{useGrouping:false}).format(1))
     expect(wrapper.get('.ui-progress-text').text()).toBe(new Intl.NumberFormat('ar-EG',{style:'percent',maximumFractionDigits:0}).format(.25))
-    expect(wrapper.findAll('.ui-transfer-panel header span').map(node=>node.text())).toEqual([`Items: ${nf.format(1)}`,`Items: ${nf.format(1)}`])
+    expect(wrapper.findAll('.ui-transfer-header>span').map(node=>node.text())).toEqual([`${nf.format(0)} selected / ${nf.format(1)} total`,`${nf.format(0)} selected / ${nf.format(1)} total`])
     expect(wrapper.get('.ui-upload-file-copy small').text()).toContain(`${new Intl.NumberFormat('ar-EG',{minimumFractionDigits:1,maximumFractionDigits:1}).format(1.5)} KB`)
   })
 

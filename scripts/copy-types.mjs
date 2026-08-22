@@ -38,6 +38,7 @@ const relatedComponentTypes={
   UiPageHeader:['UiPageHeaderBackMeta','UiPageHeaderBreadcrumbMeta','UiPageHeaderInstance','UiPageHeaderTitleTag'],
   UiTreeSelect:['UiTreeSelectChangeMeta','UiTreeSelectExpandMeta','UiTreeSelectFieldNames','UiTreeSelectInstance','UiTreeSelectInvalid','UiTreeSelectLoadContext','UiTreeSelectLoadError','UiTreeSelectLoadPayload','UiTreeSelectNodeInput','UiTreeSelectNodeScope','UiTreeSelectOpenMeta','UiTreeSelectPublicNode','UiTreeSelectSource'],
   UiCascader:['UiCascaderActivePathMeta','UiCascaderChangeMeta','UiCascaderFieldNames','UiCascaderInstance','UiCascaderInvalid','UiCascaderLoadContext','UiCascaderLoadError','UiCascaderLoadPayload','UiCascaderNodeInput','UiCascaderOpenMeta','UiCascaderPublicNode','UiCascaderSource','UiCascaderValue'],
+  UiTransfer:['UiTransferDirection','UiTransferFieldNames','UiTransferInstance','UiTransferInvalidMeta','UiTransferLimitMeta','UiTransferMoveMeta','UiTransferOptionScope','UiTransferPanelScope','UiTransferPublicOption','UiTransferSearchMeta','UiTransferSelectionMeta','UiTransferSource','UiTransferTargetOrder','UiTransferText'],
 }
 for (const name of components) {
   const typeNames=[`${name}Props`,`${name}Emits`,`${name}Slots`,...(relatedComponentTypes[name]||[])]

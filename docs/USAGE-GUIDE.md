@@ -296,6 +296,43 @@ async function submit() {
 
 组件 Props、事件元数据、Slots 和实例方法以[组件 API](../COMPONENT-API.md)为准。
 
+### 8.1 穿梭框与权限分配
+
+`UiTransfer` 同时支持目标值、双侧勾选和双侧搜索的受控状态。筛选后全选只影响当前可见且可用的记录，并保留被筛选隐藏的勾选项：
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { UiTransfer } from 'lan-ui-design-system'
+
+const permissions = ref(['token'])
+const selectedKeys = ref([])
+const searches = ref<[string, string]>(['', ''])
+const permissionOptions = [
+  { label: 'API access', value: 'api', description: 'Service integration' },
+  { label: 'Design tokens', value: 'token', description: 'Theme variables' },
+  { label: 'Billing admin', value: 'billing', disabled: true },
+]
+</script>
+
+<template>
+  <UiTransfer
+    v-model="permissions"
+    v-model:selected-keys="selectedKeys"
+    v-model:search-values="searches"
+    :options="permissionOptions"
+    searchable
+    :min-count="1"
+    :max-count="8"
+    target-order="original"
+    name="permissions"
+    required
+  />
+</template>
+```
+
+大数据集可设置 `listHeight`、`itemHeight`、`overscan` 和 `measure`；两侧面板使用虚拟列表。Enter 或 Alt+逻辑方向键移动已勾选项，Space 切换当前项，移动限制会通过 `limit` 和 `invalid` 事件返回结构化原因。
+
 ## 9. 服务式反馈
 
 在应用根部挂载 Host：

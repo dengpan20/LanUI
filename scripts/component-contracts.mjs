@@ -50,7 +50,7 @@ const required={
   'UiCommandPalette.vue':['role="dialog"','role="combobox"','role="listbox"','aria-activedescendant','AbortController','requestSequence','load-error','data-error','openOverlay','isTopOverlay','focusWithRetry','useDirection'],
   'UiColorPicker.vue':['role="dialog"','role="slider"','aria-valuetext','pointerdown','formatColor','getContrastRatio','useFloatingPosition','useDirection','uiFormItemContext'],
   'UiCascader.vue':['data-ui-cascader','defaultValue','update:open','update:activePath','fieldNames','searchable','loadData','AbortController','load-error','multiple','checkStrictly','emitPath','maxCount','minCount','ui-cascader-native','onFormReset','aria-multiselectable','aria-activedescendant','ArrowRight','ArrowLeft','useTeleportThemeScope','useFloatingPosition','defineExpose'],
-  'UiTransfer.vue':['moveRight','moveLeft'],
+  'UiTransfer.vue':['data-ui-transfer','defaultValue','selectedKeys','searchValues','fieldNames','filterOption','showSelectAll','oneWay','targetOrder','minCount','maxCount','UiVirtualList','ui-transfer-native','onFormReset','selection-mode="multiple"','active-index','compositionend','ArrowRight','ArrowLeft','defineExpose'],
   'UiMenu.vue':['role="menu"','role="menuitem"','ArrowDown','ArrowRight'],
   'UiCollapse.vue':['data-ui-collapse','aria-expanded','aria-controls','role="region"','defaultValue','enforceOpenKeys','beforeToggle','destroyOnHide','useReducedMotion','ArrowDown','toggle-blocked','after-open','defineExpose'],
   'UiDescriptions.vue':['<dl','<dt>','<dd>'],

@@ -1282,3 +1282,15 @@ Single and multiple modes define `emitPath`, cascade versus `checkStrictly`, `ch
 Keyboard behavior covers Arrow, Home, End, Enter, Space, Escape, Tab and Typeahead. Horizontal drill and back reverse in RTL, active rows scroll only within their option viewport, focus restoration avoids page movement and Portal transitions do not transform fixed-position panels. Loading, error, empty, readonly, disabled and invalid remain distinct semantic states.
 
 P75 retains 91 public components and advances to 470 locale keys with generated coverage of 1,485 Props, 498 Events and 308 Slots. Release gates require 48 visual baselines, 65 zero-violation Axe scenarios, 70 interactions per Chromium/Firefox/WebKit engine, 93 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 89. Maturity P76: production transfer controls
+
+`UiTransfer` is the two-panel assignment control for permissions, members and resources. Target values, selected keys and the pair of search strings may each be controlled or default-owned. Domain records adapt through `fieldNames`; identity uses `Object.is`; unknown target values stay visible; and disabled records remain stable across filtering and movement.
+
+Both panels use `UiVirtualList` with bounded height, overscan and optional measurement. Search covers labels, values, descriptions and keywords through a replaceable predicate, suppresses partial IME input, and keeps hidden filtered selections intact. Header select-all changes only visible enabled rows and reports structured selection metadata.
+
+Every movement shares minimum/maximum target constraints, one-way policy and explicit original/push/unshift ordering. Button, keyboard, clear, reset and exposed-API paths publish consistent previous, next, moved-key and source metadata. Arrow, Home, End and Space own active selection; Enter and Alt+logical-arrow move selected rows; logical movement remains correct in RTL and collapses to a readable mobile action row.
+
+Loading, error/retry, empty, readonly, disabled, invalid and focus states stay distinct per panel. Native multiple-value submission, required validation, FormItem linkage and reset synchronize with public state. Header/option/state/operation/footer Slots, root/subpath declarations, SSR, component-center, static HTML, standalone consumer and installed-tarball verification exercise the same contract.
+
+P76 retains 91 public components and advances to 477 locale keys with generated coverage of 1,518 Props, 511 Events and 321 Slots. Release gates require 49 visual baselines, 66 zero-violation Axe scenarios, 71 interactions per Chromium/Firefox/WebKit engine, 97 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

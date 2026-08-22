@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.71.0",
+  "version": "1.72.0",
   "private": false,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -161,7 +161,7 @@
     "test:performance": "node scripts/performance-regression.mjs",
     "visual:update": "node scripts/visual-regression.mjs --update",
     "test:package": "node scripts/test-package-exports.mjs && node scripts/css-boundary-contracts.mjs && node scripts/build-subpath-consumer.mjs && pnpm run test:release && pnpm run test:packed-consumer",
-    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=93')\"",
+    "test:types": "pnpm run build:lib && vue-tsc --project tests/types/tsconfig.json --noEmit && node -e \"console.log('TYPE_REGRESSION PASS fixtures=2 root=subpath props=pass emits=pass slots=pass negative=97')\"",
     "api:generate": "pnpm run build:lib && node scripts/api-manifest.mjs --write && node scripts/api-docs.mjs --write",
     "api:check": "node scripts/api-manifest.mjs && node scripts/api-docs.mjs",
     "docs:generate": "node scripts/api-docs.mjs --write",
@@ -176,7 +176,7 @@
     "pack:artifact": "node -e \"require('node:fs').mkdirSync('artifacts',{recursive:true})\" && pnpm run prepack && pnpm --config.ignore-scripts=true pack --out artifacts/lan-ui-design-system-%v.tgz",
     "prepublishOnly": "pnpm run ci",
     "test:runtime": "node scripts/runtime-compatibility.mjs",
-    "test:release": "node scripts/release-contracts.mjs --ref v1.71.0 --tag true",
+    "test:release": "node scripts/release-contracts.mjs --ref v1.72.0 --tag true",
     "test:compatibility": "pnpm run test:runtime && pnpm run test:unit && pnpm run build:lib && pnpm run test:packed-consumer"
   },
   "peerDependencies": {

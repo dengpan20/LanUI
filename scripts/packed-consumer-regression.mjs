@@ -163,6 +163,18 @@ console.log('PACKED_CASCADER_SSR PASS root=true subpath=true semantic=true nativ
 `)
 const cascaderSsrOutput=run(process.execPath,['ssr-cascader.mjs'],{cwd:consumerRoot})
 assert(cascaderSsrOutput.includes('PACKED_CASCADER_SSR PASS'),'Packed Cascader SSR smoke test failed')
+writeFileSync(join(consumerRoot,'ssr-transfer.mjs'),`import { createSSRApp, h } from 'vue'
+import { renderToString } from 'vue/server-renderer'
+import { UiTransfer } from 'lan-ui-design-system'
+import SubpathTransfer, { UiTransfer as NamedSubpathTransfer } from 'lan-ui-design-system/components/UiTransfer'
+if(SubpathTransfer!==NamedSubpathTransfer||UiTransfer!==NamedSubpathTransfer)throw new Error('Transfer root/subpath parity mismatch')
+const options=[{label:'API access',value:'api',description:'Service integration'},{label:'Design tokens',value:'token'}]
+const html=await renderToString(createSSRApp({render:()=>h(UiTransfer,{defaultValue:['token'],defaultSelectedKeys:['api'],options,searchable:true,minCount:1,maxCount:3,name:'permissions',required:true,ariaLabel:'Packed permissions'})}))
+if(!html.includes('data-ui-transfer')||!html.includes('ui-transfer-native')||!html.includes('role="listbox"')||!html.includes('multiple')||!html.includes('API access')||!html.includes('Design tokens'))throw new Error('Transfer SSR output mismatch')
+console.log('PACKED_TRANSFER_SSR PASS root=true subpath=true semantic=true native=true virtual=true')
+`)
+const transferSsrOutput=run(process.execPath,['ssr-transfer.mjs'],{cwd:consumerRoot})
+assert(transferSsrOutput.includes('PACKED_TRANSFER_SSR PASS'),'Packed Transfer SSR smoke test failed')
 
   writeFileSync(join(consumerRoot,'contracts.ts'),`import { UiAffix, UiAnchor, UiInput, UiInputTag, UiList, UiMentions, UiSplitter, UiTypography, type UiAffixMeta, type UiAffixProps, type UiAnchorItem, type UiAnchorProps, type UiInputTagProps, type UiListProps, type UiMentionsProps, type UiSplitterPanel, type UiSplitterProps, type UiTypographyProps, type UiTourStep, type UiWatermarkFont } from 'lan-ui-design-system'\nimport SubpathAffix from 'lan-ui-design-system/components/UiAffix'\nimport UiButton, { type UiButtonProps } from 'lan-ui-design-system/components/UiButton'\nimport SubpathInputTag from 'lan-ui-design-system/components/UiInputTag'
 import SubpathList from 'lan-ui-design-system/components/UiList'\nimport SubpathMentions from 'lan-ui-design-system/components/UiMentions'\nimport UiQueryBuilder, { type UiQueryBuilderProps, type UiQueryField, type UiQueryGroup } from 'lan-ui-design-system/components/UiQueryBuilder'\nimport SubpathSplitter from 'lan-ui-design-system/components/UiSplitter'\nimport SubpathTypography from 'lan-ui-design-system/components/UiTypography'\nimport UiTour, { type UiTourProps } from 'lan-ui-design-system/components/UiTour'\nimport UiWatermark, { type UiWatermarkProps } from 'lan-ui-design-system/components/UiWatermark'\nconst affixProps:UiAffixProps={position:'bottom',offset:12,target:()=>document.body}\nconst affixMeta:UiAffixMeta={affixed:true,position:'bottom',scrollTop:20,top:100,left:24,width:320}\nconst items:UiAnchorItem[]=[{title:'Overview',href:'#overview'}]\nconst anchorProps:UiAnchorProps={items,direction:'horizontal',affix:false}\nconst buttonProps:UiButtonProps={variant:'primary',size:'md'}
@@ -198,6 +210,16 @@ instance.focus();instance.show();instance.hide();instance.toggle();instance.clea
 const parity:typeof SubpathCascader=NamedSubpathCascader
 void [UiCascader,props,event,slot,instance,parity]
 `)
+  writeFileSync(join(consumerRoot,'transfer-contracts.ts'),`import { UiTransfer, type UiTransferEmits, type UiTransferInstance, type UiTransferProps, type UiTransferSlots } from 'lan-ui-design-system'
+import SubpathTransfer, { UiTransfer as NamedSubpathTransfer } from 'lan-ui-design-system/components/UiTransfer'
+const props:UiTransferProps={defaultValue:['token'],defaultSelectedKeys:['api'],defaultSearchValues:['',''],options:[{label:'API access',value:'api'},{label:'Design tokens',value:'token'}],searchable:true,targetOrder:'original',minCount:1,maxCount:3,name:'permissions',required:true}
+const event:keyof UiTransferEmits='selection-change'
+const slot:keyof UiTransferSlots='operation'
+const instance:UiTransferInstance=null as never
+instance.focus('left');instance.moveTo('right',['api']);instance.selectAll('left');instance.clearSearch('left');instance.scrollTo('right',0);instance.getSelectedKeys('right')
+const parity:typeof SubpathTransfer=NamedSubpathTransfer
+void [UiTransfer,props,event,slot,instance,parity]
+`)
   writeFileSync(join(consumerRoot,'carousel-contracts.ts'),`import { UiCarousel, type UiCarouselEmits, type UiCarouselInstance, type UiCarouselProps, type UiCarouselSlots } from 'lan-ui-design-system'\nimport SubpathCarousel, { UiCarousel as NamedSubpathCarousel } from 'lan-ui-design-system/components/UiCarousel'\nconst props:UiCarouselProps={items:[{key:'packed',content:'Packed carousel'}],effect:'fade',arrows:'always',indicators:'lines',swipe:true}\nconst emit:keyof UiCarouselEmits='drag-end'\nconst slot:keyof UiCarouselSlots='indicator'\nconst instance:UiCarouselInstance=null as never\ninstance.to(1,'api');instance.play();instance.pause();instance.getState()\nconst parity:typeof SubpathCarousel=NamedSubpathCarousel\nvoid [UiCarousel,props,emit,slot,instance,parity]\n`)
   writeFileSync(join(consumerRoot,'time-range-contracts.ts'),`import { UiTimeRangePicker, type UiTimeRangePickerEmits, type UiTimeRangePickerProps } from 'lan-ui-design-system'\nimport SubpathTimeRangePicker, { UiTimeRangePicker as NamedSubpathTimeRangePicker } from 'lan-ui-design-system/components/UiTimeRangePicker'\nconst props:UiTimeRangePickerProps={modelValue:['09:00','17:30'],valueType:'string',timeZone:'UTC',step:900,min:'08:00',max:'22:00',constrain:true}\nconst emit:keyof UiTimeRangePickerEmits='change'\nconst parity:typeof SubpathTimeRangePicker=NamedSubpathTimeRangePicker\nvoid [UiTimeRangePicker,props,emit,parity]\n`)
   writeFileSync(join(consumerRoot,'date-time-contracts.ts'),`import { UiDateTimePicker, UiDateTimeRangePicker, type UiDateTimePickerEmits, type UiDateTimePickerProps, type UiDateTimeRangePickerEmits, type UiDateTimeRangePickerProps } from 'lan-ui-design-system'\nimport SubpathDateTimePicker, { UiDateTimePicker as NamedSubpathDateTimePicker } from 'lan-ui-design-system/components/UiDateTimePicker'\nimport SubpathDateTimeRangePicker, { UiDateTimeRangePicker as NamedSubpathDateTimeRangePicker } from 'lan-ui-design-system/components/UiDateTimeRangePicker'\nconst single:UiDateTimePickerProps={modelValue:'2026-08-15T09:30',timeZone:'UTC',precision:'second',step:1}\nconst range:UiDateTimeRangePickerProps={modelValue:['2026-08-15T09:30','2026-08-15T17:30'],timeZone:'UTC',constrain:true,step:900}\nconst singleEvent:keyof UiDateTimePickerEmits='change'\nconst rangeEvent:keyof UiDateTimeRangePickerEmits='invalid'\nconst singleParity:typeof SubpathDateTimePicker=NamedSubpathDateTimePicker\nconst rangeParity:typeof SubpathDateTimeRangePicker=NamedSubpathDateTimeRangePicker\nvoid [UiDateTimePicker,UiDateTimeRangePicker,single,range,singleEvent,rangeEvent,singleParity,rangeParity]\n`)
@@ -214,7 +236,7 @@ void [UiCascader,props,event,slot,instance,parity]
   writeFileSync(join(consumerRoot,'tsconfig.json'),JSON.stringify({compilerOptions:{
   target:'ES2022',module:'NodeNext',moduleResolution:'NodeNext',lib:['ES2022','DOM'],strict:true,
   skipLibCheck:false,noEmit:true,types:[],
-  },include:['contracts.ts','button-contracts.ts','input-contracts.ts','textarea-contracts.ts','selection-contracts.ts','select-contracts.ts','multi-select-contracts.ts','tree-select-contracts.ts','cascader-contracts.ts','carousel-contracts.ts','time-range-contracts.ts','date-time-contracts.ts','qr-code-contracts.ts','barcode-contracts.ts','cron-editor-contracts.ts','key-value-editor-contracts.ts','page-header-contracts.ts','card-contracts.ts','tag-contracts.ts','timeline-contracts.ts','steps-contracts.ts','breadcrumb-contracts.ts']},null,2)+'\n')
+  },include:['contracts.ts','button-contracts.ts','input-contracts.ts','textarea-contracts.ts','selection-contracts.ts','select-contracts.ts','multi-select-contracts.ts','tree-select-contracts.ts','cascader-contracts.ts','transfer-contracts.ts','carousel-contracts.ts','time-range-contracts.ts','date-time-contracts.ts','qr-code-contracts.ts','barcode-contracts.ts','cron-editor-contracts.ts','key-value-editor-contracts.ts','page-header-contracts.ts','card-contracts.ts','tag-contracts.ts','timeline-contracts.ts','steps-contracts.ts','breadcrumb-contracts.ts']},null,2)+'\n')
 run(process.execPath,[resolve(root,'node_modules/typescript/bin/tsc'),'--project','tsconfig.json','--pretty','false'],{cwd:consumerRoot})
 
 writeFileSync(join(consumerRoot,'index.html'),'<div id="app"></div><script type="module" src="/main.js"></script>\n')

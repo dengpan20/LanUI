@@ -36,9 +36,20 @@ try{
   assert(await page.locator('#previewCascaderPanel').evaluate(element=>element.hidden),'Escape should close the Cascader panel')
   await page.locator('#previewCascaderClear').click()
   assert(await page.locator('#previewCascaderState').textContent()==='minimum 1 · invalid','The minimum-selection state should be visible')
+
+  await page.locator('#previewTransferLeftSearch').fill('键盘')
+  const transferOptions=page.locator('#previewTransferLeft [role="option"]')
+  assert(await transferOptions.count()===1,'Transfer search should return one keyboard resource')
+  await page.locator('#previewTransferLeft').focus()
+  await page.locator('#previewTransferLeft').press('Space')
+  await page.locator('#previewTransferLeft').press('Enter')
+  assert(await page.locator('#previewTransferNative option:checked').count()===2,'Transfer keyboard move should synchronize two native values')
+  await page.locator('#previewTransferRightAll').click()
+  await page.locator('#previewTransferLeftAction').click()
+  assert(await page.locator('#previewTransferState').textContent()==='minimum 1 · invalid','Transfer minimum constraint should reject removing all target values')
   assert(pageErrors.length===0,`Static preview emitted page errors: ${pageErrors.join(' | ')}`)
 
-  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 nativeSelected=1 escape=closed minimum=invalid')
+  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 keyboard=pass minimum=invalid')
 }finally{
   await browser?.close()
   await server.close()

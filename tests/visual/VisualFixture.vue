@@ -3,7 +3,7 @@ import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
-  UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
+  UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
@@ -62,6 +62,9 @@ const visualTreeSelectOptions=[
     {name:'Research archive',id:'research',detail:'Unavailable for this policy',locked:true},
   ]},
 ]
+const visualTransferValue=ref(['api','tokens'])
+const visualTransferSelected=ref(['keyboard','a11y'])
+const visualTransferOptions=[{label:'Component API',value:'api',description:'Props, events and slots'},{label:'Design tokens',value:'tokens',description:'Theme and density variables'},{label:'Keyboard contract',value:'keyboard',description:'Focus and movement behavior'},{label:'Accessibility evidence',value:'a11y',description:'WCAG 2.2 AA and Axe'},{label:'Release package',value:'release',description:'Tarball and verification record'},{label:'Legacy archive',value:'legacy',description:'Unavailable resource',disabled:true}]
 const visualChannels=ref(['email','inbox'])
 const visualPlan=ref('team')
 const visualPolicy=ref('enabled')
@@ -532,6 +535,12 @@ const tableRows=[
         <div class="visual-form visual-cascader-stage"><UiCascader aria-label="Delivery hierarchy" :model-value="[['engineering','frontend','admin'],['operations','release','stable']]" :options="[{label:'Engineering',value:'engineering',description:'Product delivery',children:[{label:'Frontend',value:'frontend',children:[{label:'Admin workspace',value:'admin',isLeaf:true},{label:'Mobile shell',value:'mobile',isLeaf:true}]}]},{label:'Operations',value:'operations',children:[{label:'Release',value:'release',children:[{label:'Stable lane',value:'stable',isLeaf:true},{label:'Preview lane',value:'preview',isLeaf:true}]}]}]" multiple searchable clearable :max-tag-count="1" :append-to-body="false" default-open><template #prefix>◇</template><template #footer="{options}">{{ options.length }} visible paths</template></UiCascader></div>
         <div class="visual-form"><UiCascader aria-label="Loading hierarchy" loading/><UiCascader aria-label="Invalid hierarchy" invalid/><UiCascader aria-label="Readonly hierarchy" :model-value="['engineering','frontend','admin']" readonly :options="[{label:'Engineering',value:'engineering',children:[{label:'Frontend',value:'frontend',children:[{label:'Admin workspace',value:'admin',isLeaf:true}]}]}]"/><UiCascader aria-label="Disabled hierarchy" disabled/></div>
         <div class="visual-time-range-summary"><UiTag color="blue">search / paths / tags</UiTag><UiTag color="green">lazy / form / Portal</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='transfer'" title="Production resource transfer" title-tag="h2" class="visual-table-card visual-transfer-showcase">
+      <div class="visual-stack" data-transfer-state-contract="controlled selection search mapping virtual limits states native form keyboard rtl slots api">
+        <UiTransfer v-model="visualTransferValue" v-model:selected-keys="visualTransferSelected" :options="visualTransferOptions" searchable :min-count="1" :max-count="4" :operations="['Assign','Return']" :list-height="184" aria-label="Release resource assignment"><template #footer="{direction,visible,total}">{{ direction }} · {{ visible }}/{{ total }} visible</template></UiTransfer>
+        <div class="visual-time-range-summary"><UiTag color="blue">search / select all / virtual</UiTag><UiTag color="green">native form / constraints</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
       </div>
     </UiCard>
     <UiCard v-if="state==='anchor'" title="Page anchor navigation" title-tag="h2" class="visual-table-card visual-anchor-showcase">

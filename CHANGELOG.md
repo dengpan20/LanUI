@@ -4,6 +4,21 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.72.0] - 2026-08-23
+
+### Added
+
+- Production `UiTransfer` contracts for controlled/default target values, selected keys and two-sided searches, configurable field names, local/IME filtering, visible enabled select-all and independent panel states.
+- Minimum/maximum target constraints, original/push/unshift ordering, one-way movement, virtualized panels, native multiple-value form submission, reset/required semantics, complete keyboard/RTL behavior, 13 Slots and 15 structured events.
+- Synchronized component-center, one-page HTML and standalone-consumer examples plus deterministic unit, visual, Axe, type, installed-tarball, SSR and Chromium/Firefox/WebKit interaction evidence.
+
+### Changed
+
+- Existing Transfer value/options usage remains compatible while value identity, hidden filtered selections, disabled records, loading/error/read-only guards and exposed movement/search/focus operations become explicit and typed.
+- Transfer active and selected rows use theme-safe contrast, both panels share the production VirtualList semantics, and compact mobile layouts rotate movement intent without losing logical RTL direction.
+- Release gates advance to 49 visual baselines, 66 zero-violation Axe scenarios, 71 interactions per browser and 97 negative type assertions. Public coverage remains 91 components and advances to 477 locale keys, 1,518 Props, 511 Events and 321 Slots.
+- Measured P76 ceilings remain absolute and bounded: package JS `880000 / 319000` B raw/gzip, package CSS `770000 / 162000` B, root CSS `270000 / 41500` B, largest component CSS `68000 / 10200` B and standalone JS/CSS raw `885000 / 272000` B.
+
 ## [1.71.0] - 2026-08-23
 
 ### Added

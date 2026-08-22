@@ -481,6 +481,43 @@ const allCases = [
     },
   },
   {
+    name:'transfer-production-search-limits-virtual-native-api',
+    run:async page=>{
+      const section=page.locator('.interaction-transfer-production-case')
+      const transfer=section.locator('#interaction-production-transfer')
+      const left=transfer.locator('.ui-transfer-panel[data-direction="left"]')
+      const right=transfer.locator('.ui-transfer-panel[data-direction="right"]')
+      const leftList=left.getByRole('listbox')
+      await left.locator('input').fill('API')
+      await expectText(page,'production-transfer-output','search:left:input:API')
+      assert.equal(await left.getByRole('option').count(),1)
+      await left.getByRole('option',{name:/API access/}).click()
+      await expectText(page,'production-transfer-output','selection:pointer:api')
+      await section.getByRole('button',{name:'Grant'}).click()
+      await expectText(page,'production-transfer-output','transfer:button:token,api')
+      assert.deepEqual(await transfer.locator('select[name="permissions"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['token','api'])
+      await left.locator('input').fill('Tenant')
+      await leftList.press('Space')
+      await leftList.press('Enter')
+      await expectText(page,'production-transfer-output','transfer:keyboard:token,api,tenant-1')
+      await leftList.press('ArrowDown')
+      await leftList.press('Space')
+      await leftList.press('Enter')
+      await expectText(page,'production-transfer-output','invalid:max')
+      await section.locator('#interaction-production-transfer-api').click()
+      await expectText(page,'production-transfer-output','transfer:fixture-api:token,audit')
+      await section.locator('#interaction-production-transfer-clear').click()
+      await expectText(page,'production-transfer-output','invalid:min')
+      await page.locator('#interaction-transfer-form').evaluate(form=>form.reset())
+      await expectText(page,'production-transfer-output','selection:reset:')
+      assert.deepEqual(await transfer.locator('select[name="permissions"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['token'])
+      await section.locator('#interaction-production-readonly-transfer-api').click()
+      await expectText(page,'production-transfer-output','invalid:readonly')
+      assert.equal(await transfer.getAttribute('data-state'),'ready')
+      assert.equal(await right.getByRole('option',{name:/Design tokens/}).count(),1)
+    },
+  },
+  {
     name:'selection-groups-limits-radio-switch-guard',
     run:async page=>{
       const section=page.locator('.interaction-selection-case')

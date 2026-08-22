@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.71.0",
+  "version": "1.72.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -911,9 +911,23 @@
       "UiTourSlots",
       "UiTourStep",
       "UiTransfer",
+      "UiTransferDirection",
       "UiTransferEmits",
+      "UiTransferFieldNames",
+      "UiTransferInstance",
+      "UiTransferInvalidMeta",
+      "UiTransferLimitMeta",
+      "UiTransferMoveMeta",
+      "UiTransferOptionScope",
+      "UiTransferPanelScope",
       "UiTransferProps",
+      "UiTransferPublicOption",
+      "UiTransferSearchMeta",
+      "UiTransferSelectionMeta",
       "UiTransferSlots",
+      "UiTransferSource",
+      "UiTransferTargetOrder",
+      "UiTransferText",
       "UiTree",
       "UiTreeCheckMeta",
       "UiTreeDataError",
@@ -25402,16 +25416,333 @@
       "subpath": "./components/UiTransfer",
       "propsType": "UiTransferProps",
       "props": [
+        "ariaLabel",
+        "autofocus",
+        "defaultSearchValues",
+        "defaultSelectedKeys",
+        "defaultValue",
+        "disabled",
+        "disabledKeys",
+        "emptyText",
+        "error",
+        "errorText",
+        "fieldNames",
+        "filterOption",
+        "form",
+        "invalid",
+        "itemHeight",
+        "listHeight",
+        "loading",
+        "loadingText",
+        "maxCount",
+        "measure",
+        "minCount",
         "modelValue",
+        "name",
+        "oneWay",
+        "operations",
         "options",
+        "overscan",
+        "readonly",
+        "required",
+        "searchPlaceholder",
+        "searchValues",
         "searchable",
+        "selectedKeys",
+        "showSelectAll",
+        "size",
+        "targetOrder",
         "titles"
       ],
       "propDetails": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultSearchValues",
+          "required": false,
+          "type": "[string,string]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultSelectedKeys",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabledKeys",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "UiTransferText",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "string|boolean|Error|Partial<Record<UiTransferDirection,string|boolean|Error>>",
+          "runtimeTypes": [
+            "String",
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "errorText",
+          "required": false,
+          "type": "UiTransferText",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "fieldNames",
+          "required": false,
+          "type": "UiTransferFieldNames",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "filterOption",
+          "required": false,
+          "type": "boolean|((query:string,option:UiTransferPublicOption,direction:UiTransferDirection)=>boolean)",
+          "runtimeTypes": [
+            "Boolean",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "itemHeight",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "32"
+          }
+        },
+        {
+          "name": "listHeight",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "196"
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean|Partial<Record<UiTransferDirection,boolean>>",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingText",
+          "required": false,
+          "type": "UiTransferText",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "maxCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "measure",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "minCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
           "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": null
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "oneWay",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "operations",
+          "required": false,
+          "type": "[string,string]",
           "runtimeTypes": [
             "Array"
           ],
@@ -25433,6 +25764,64 @@
           }
         },
         {
+          "name": "overscan",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "4"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "searchPlaceholder",
+          "required": false,
+          "type": "UiTransferText",
+          "runtimeTypes": [
+            "String",
+            "Array"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "searchValues",
+          "required": false,
+          "type": "[string,string]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": null
+        },
+        {
           "name": "searchable",
           "required": false,
           "type": "boolean",
@@ -25442,6 +25831,51 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "selectedKeys",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": null
+        },
+        {
+          "name": "showSelectAll",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "targetOrder",
+          "required": false,
+          "type": "UiTransferTargetOrder",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"push\""
           }
         },
         {
@@ -25459,24 +25893,182 @@
       ],
       "emitsType": "UiTransferEmits",
       "emits": [
+        "blur",
         "change",
-        "update:modelValue"
+        "clear",
+        "focus",
+        "input",
+        "invalid",
+        "limit",
+        "move",
+        "retry",
+        "search",
+        "select-all",
+        "selection-change",
+        "update:modelValue",
+        "update:searchValues",
+        "update:selectedKeys"
       ],
       "emitDetails": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(meta:{value:Key[];selectedKeys:Key[];nativeEvent:FocusEvent})=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:Key[])=>void"
+          "type": "(value:Key[],meta:UiTransferMoveMeta)=>void"
+        },
+        {
+          "name": "clear",
+          "required": true,
+          "type": "(value:Key[],meta:UiTransferMoveMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(meta:{direction:UiTransferDirection;nativeEvent:FocusEvent})=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:Key[],meta:UiTransferMoveMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(meta:UiTransferInvalidMeta)=>void"
+        },
+        {
+          "name": "limit",
+          "required": true,
+          "type": "(meta:UiTransferLimitMeta)=>void"
+        },
+        {
+          "name": "move",
+          "required": true,
+          "type": "(meta:UiTransferMoveMeta)=>void"
+        },
+        {
+          "name": "retry",
+          "required": true,
+          "type": "(direction:UiTransferDirection,meta:{query:string})=>void"
+        },
+        {
+          "name": "search",
+          "required": true,
+          "type": "(query:string,direction:UiTransferDirection,meta:UiTransferSearchMeta)=>void"
+        },
+        {
+          "name": "select-all",
+          "required": true,
+          "type": "(meta:UiTransferSelectionMeta&{selected:boolean;visibleKeys:Key[]})=>void"
+        },
+        {
+          "name": "selection-change",
+          "required": true,
+          "type": "(value:Key[],meta:UiTransferSelectionMeta)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
           "type": "(value:Key[])=>void"
+        },
+        {
+          "name": "update:searchValues",
+          "required": true,
+          "type": "(value:[string,string])=>void"
+        },
+        {
+          "name": "update:selectedKeys",
+          "required": true,
+          "type": "(value:Key[])=>void"
         }
       ],
       "slotsType": "UiTransferSlots",
-      "slots": [],
-      "slotDetails": [],
+      "slots": [
+        "empty",
+        "error",
+        "footer",
+        "header",
+        "left-footer",
+        "left-header",
+        "left-option",
+        "loading",
+        "operation",
+        "option",
+        "right-footer",
+        "right-header",
+        "right-option"
+      ],
+      "slotDetails": [
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{direction:UiTransferDirection;query:string})=>VNodeChild"
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{direction:UiTransferDirection;error:unknown;retry:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:UiTransferPanelScope)=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "(scope:UiTransferPanelScope)=>VNodeChild"
+        },
+        {
+          "name": "left-footer",
+          "required": false,
+          "type": "(scope:UiTransferPanelScope)=>VNodeChild"
+        },
+        {
+          "name": "left-header",
+          "required": false,
+          "type": "(scope:UiTransferPanelScope)=>VNodeChild"
+        },
+        {
+          "name": "left-option",
+          "required": false,
+          "type": "(scope:UiTransferOptionScope)=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{direction:UiTransferDirection})=>VNodeChild"
+        },
+        {
+          "name": "operation",
+          "required": false,
+          "type": "(scope:{direction:UiTransferDirection;disabled:boolean;count:number;move:(source?:UiTransferSource,event?:Event)=>unknown})=>VNodeChild"
+        },
+        {
+          "name": "option",
+          "required": false,
+          "type": "(scope:UiTransferOptionScope)=>VNodeChild"
+        },
+        {
+          "name": "right-footer",
+          "required": false,
+          "type": "(scope:UiTransferPanelScope)=>VNodeChild"
+        },
+        {
+          "name": "right-header",
+          "required": false,
+          "type": "(scope:UiTransferPanelScope)=>VNodeChild"
+        },
+        {
+          "name": "right-option",
+          "required": false,
+          "type": "(scope:UiTransferOptionScope)=>VNodeChild"
+        }
+      ],
       "imports": {
         "root": "import { UiTransfer } from 'lan-ui-design-system'",
         "subpath": "import UiTransfer from 'lan-ui-design-system/components/UiTransfer'"

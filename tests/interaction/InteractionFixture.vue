@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
+  UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiUpload,
   UiTree, UiTreeSelect, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -48,6 +48,19 @@ const productionCascaderOptions=[
 ]
 const productionLazyCascaderOptions=[{label:'Remote regions',value:'remote-regions',isLeaf:false}]
 async function loadProductionCascader(node,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,70);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return node.value==='remote-regions'?[{label:'Remote site',value:'remote-site',isLeaf:true}]:[]}
+const productionTransferRef=ref(null)
+const productionReadonlyTransferRef=ref(null)
+const productionTransferValue=ref(['token'])
+const productionTransferSelected=ref([])
+const productionTransferSearch=ref(['',''])
+const productionTransferOutput=ref('ready')
+const productionTransferOptions=[
+  {label:'API access',value:'api',description:'Service integration'},
+  {label:'Design tokens',value:'token',description:'Theme variables'},
+  {label:'Audit log',value:'audit',description:'Read-only evidence'},
+  {label:'Billing admin',value:'billing',description:'Locked permission',disabled:true},
+  ...Array.from({length:80},(_,index)=>({label:`Tenant ${String(index+1).padStart(2,'0')}`,value:`tenant-${index+1}`,description:'Virtualized permission'})),
+]
 const anchorValue=ref('fixture-anchor-overview')
 const anchorItems=[{key:'fixture-anchor-overview',href:'#fixture-anchor-overview',title:'Overview'},{key:'fixture-anchor-disabled',href:'#fixture-anchor-disabled',title:'Disabled',disabled:true},{key:'fixture-anchor-api',href:'#fixture-anchor-api',title:'API contract'},{key:'fixture-anchor-release',href:'#fixture-anchor-release',title:'Release'}]
 const officeCity = ref('')
@@ -750,6 +763,20 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-row"><UiButton id="interaction-production-cascader-api" size="sm" variant="outline" @click="productionCascaderRef.select(['experience','design'],'fixture-api')">Select by API</UiButton><UiButton id="interaction-production-cascader-close-api" size="sm" variant="text" @click="productionCascaderRef.hide('fixture-api')">Close by API</UiButton></div>
         </div>
         <output class="interaction-output" data-testid="production-cascader-output">{{ productionCascaderOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-transfer-production-case" data-transfer-state-contract="controlled uncontrolled mapping search ime select-all disabled min max order one-way loading error retry native reset keyboard virtual rtl ssr slots api">
+        <h2>Transfer production contract</h2>
+        <form id="interaction-transfer-form">
+          <UiFormItem label="Workspace permissions" required help="Search, visible select-all, limits, virtual list, native form and exposed API">
+            <UiTransfer id="interaction-production-transfer" ref="productionTransferRef" v-model="productionTransferValue" v-model:selected-keys="productionTransferSelected" v-model:search-values="productionTransferSearch" :default-value="['token']" :options="productionTransferOptions" searchable :min-count="1" :max-count="3" name="permissions" required :list-height="176" :item-height="36" :overscan="3" :operations="['Grant','Revoke']" @change="(value,meta)=>productionTransferOutput=`transfer:${meta.source}:${value.join(',')}`" @selection-change="(value,meta)=>{if(!String(meta.source).includes(':move'))productionTransferOutput=`selection:${meta.source}:${value.join(',')}`}" @search="(query,direction,meta)=>productionTransferOutput=`search:${direction}:${meta.source}:${query}`" @limit="meta=>productionTransferOutput=`limit:${meta.reason}:${meta.attempted}`" @invalid="meta=>productionTransferOutput=`invalid:${meta.reason}`">
+              <template #footer="{visible,total}">{{ visible }} / {{ total }}</template>
+            </UiTransfer>
+          </UiFormItem>
+        </form>
+        <div class="interaction-row"><UiButton id="interaction-production-transfer-api" size="sm" variant="outline" @click="productionTransferRef.setValue(['token','audit'],'fixture-api')">Set by API</UiButton><UiButton id="interaction-production-transfer-clear" size="sm" variant="text" @click="productionTransferRef.clear('fixture-clear')">Clear</UiButton></div>
+        <UiTransfer id="interaction-production-readonly-transfer" ref="productionReadonlyTransferRef" :model-value="['token']" :selected-keys="['api']" :options="productionTransferOptions.slice(0,4)" readonly @invalid="meta=>productionTransferOutput=`invalid:${meta.reason}`"/>
+        <UiButton id="interaction-production-readonly-transfer-api" size="sm" variant="text" @click="productionReadonlyTransferRef.setValue(['token','api'],'fixture-api')">Exercise read-only guard</UiButton>
+        <output class="interaction-output" data-testid="production-transfer-output">{{ productionTransferOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-selection-case" data-selection-state-contract="checkbox group array min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
         <h2>Selection controls production contract</h2>

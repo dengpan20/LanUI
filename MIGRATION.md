@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.72 transfer compatibility
+
+There are no breaking changes. Existing `<UiTransfer v-model="value" :options="options" />` usage remains valid:
+
+```vue
+<UiTransfer v-model="permissions" :options="permissionOptions" searchable :min-count="1" :max-count="8" />
+```
+
+- `modelValue`, `selectedKeys` and `searchValues` are controlled when supplied; their default counterparts own internal state otherwise. Values de-duplicate with `Object.is`, field mappings adapt domain records, and unknown target values remain visible and form-submittable.
+- Two-sided filtering covers label, value, description and keywords or delegates to `filterOption`; IME suppresses partial search events. Select-all only changes visible enabled rows and preserves hidden filtered selections.
+- `minCount`, `maxCount`, disabled records, `oneWay` and `targetOrder` guard or order button, keyboard, clear and exposed-API moves through one structured pipeline.
+- Both panels use `UiVirtualList`; Arrow, Home, End, Space, Enter and Alt+logical-arrow selection/movement remain viewport bounded and RTL aware. Loading, error/retry, empty, readonly, disabled and invalid states remain distinct.
+- Named controls submit a native multiple select, required validation focuses the visible control, and form reset restores declared value, selection and search defaults. FormItem, forced colors, SSR, root/subpath types, 13 Slots, 15 events and exposed focus/value/selection/search/scroll operations remain synchronized.
+
 ## 1.71 cascader compatibility
 
 There are no breaking changes. Existing `<UiCascader v-model="path" :options="options" />` usage remains valid:

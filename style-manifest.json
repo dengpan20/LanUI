@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.71.0",
+  "version": "1.72.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 262145,
-    "rules": 2056,
+    "bytes": 268983,
+    "rules": 2102,
     "source": "component-union"
   },
   "core": {
@@ -520,8 +520,8 @@
     {
       "name": "UiTransfer",
       "subpath": "./styles/UiTransfer.css",
-      "bytes": 7368,
-      "rules": 69
+      "bytes": 12932,
+      "rules": 103
     },
     {
       "name": "UiTree",

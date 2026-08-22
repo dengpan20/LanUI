@@ -35,11 +35,12 @@ import {
   UiTree,
   UiTreeSelect,
   UiTour,
+  UiTransfer,
   UiUpload,
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -81,6 +82,11 @@ const commands:UiCommandPaletteCommand[] = [{key:'dashboard',label:'Open dashboa
 const resources = [{label:'Workspace',value:'workspace',children:[{label:'Dashboard',value:'dashboard'}]}]
 const selectedTeams=ref<Key[]>(['dashboard'])
 const selectedPaths=ref<Key[][]>([['workspace','dashboard']])
+const transferRef=ref<UiTransferInstance>()
+const transferredPermissions=ref<Key[]>(['token'])
+const selectedPermissionKeys=ref<Key[]>(['api'])
+const permissionSearch=ref<[string,string]>(['',''])
+const permissionOptions=[{label:'API access',value:'api',description:'Service integration'},{label:'Design tokens',value:'token',description:'Theme variables'}]
 const columns:UiTableColumn[] = [{ key:'name', label:'Name', sortable:true }]
 const rows = [{ id:1, name:'Lan UI' }]
 const tabs:UiTabsItem[] = [{ label:'Summary', value:'summary' }]
@@ -165,6 +171,12 @@ function sort(payload:UiTableSortChange) {
     <template #option="{node,selected,active}">{{ node?.label }} / {{ selected }} / {{ active }}</template>
     <template #footer="{options,activePath}">{{ options.length }} / {{ activePath.length }}</template>
   </UiCascader>
+  <UiTransfer ref="transferRef" v-model="transferredPermissions" v-model:selected-keys="selectedPermissionKeys" v-model:search-values="permissionSearch" :options="permissionOptions" searchable :min-count="1" :max-count="3" target-order="original" name="permissions" required @change="(_value,meta)=>meta.movedKeys" @selection-change="(_value,meta)=>meta.addedKeys" @search="(_query,direction,meta)=>`${direction}:${meta.previous}`" @limit="meta=>meta.attempted" @invalid="meta=>meta.reason">
+    <template #option="{option,selected}">{{ option.label }} / {{ selected }}</template>
+    <template #header="{title,visible,total}">{{ title }} / {{ visible }} / {{ total }}</template>
+    <template #operation="{direction,move}"><UiButton @click="move('typed')">{{ direction }}</UiButton></template>
+    <template #footer="{selectedCount}">{{ selectedCount }}</template>
+  </UiTransfer>
   <UiCommandPalette v-model="commandOpen" v-model:query="commandQuery" :commands="commands">
     <template #trigger="{ open }"><UiButton @click="open">Commands</UiButton></template>
     <template #command="{ command, active }">{{ command.label }} / {{ active }}</template>

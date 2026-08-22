@@ -63,6 +63,7 @@ import {
   UiTypography,
   UiTree,
   UiTreeSelect,
+  UiTransfer,
   UiUpload,
   UiWatermark,
   toast,
@@ -126,6 +127,11 @@ const standaloneCascaderOptions=[{label:'Engineering',value:'engineering',descri
 const standaloneAsyncCascaderOptions=[{label:'Remote regions',value:'remote-regions',description:'Lazy tenant topology',isLeaf:false}]
 const standaloneRemoteCascader=ref([])
 async function loadStandaloneCascader(node,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,240);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});if(node.value==='remote-regions')return [{label:'Asia Pacific',value:'apac',isLeaf:false},{label:'Europe',value:'europe',isLeaf:false}];if(node.value==='apac')return [{label:'Singapore',value:'singapore',isLeaf:true},{label:'Tokyo',value:'tokyo',isLeaf:true}];if(node.value==='europe')return [{label:'Frankfurt',value:'frankfurt',isLeaf:true}];return []}
+const standaloneTransfer=ref(['api','tokens'])
+const standaloneTransferSelected=ref(['keyboard'])
+const standaloneTransferSearch=ref(['',''])
+const standaloneTransferState=ref('ready')
+const standaloneTransferOptions=[{label:'Component API',value:'api',description:'Props, events and slots',keywords:['contract']},{label:'Design tokens',value:'tokens',description:'Theme and density variables',keywords:['style']},{label:'Keyboard contract',value:'keyboard',description:'Focus and movement behavior',keywords:['a11y']},{label:'Release evidence',value:'release',description:'CI and package verification',keywords:['workflow']},{label:'Legacy archive',value:'legacy',disabled:true},...Array.from({length:120},(_,index)=>({label:`Tenant resource ${index+1}`,value:`resource-${index+1}`,description:index%2?'Policy assignment':'Workspace configuration',keywords:['tenant']}))]
 const standaloneChannels=ref(['email'])
 const standalonePlan=ref('team')
 const standalonePolicy=ref('enabled')
@@ -318,6 +324,10 @@ const rows = computed(() => [
         <UiFormItem label="Remote hierarchy" help="AbortSignal · race guard · cached children · retry"><UiCascader v-model="standaloneRemoteCascader" :options="standaloneAsyncCascaderOptions" :load-data="loadStandaloneCascader" searchable clearable placeholder="Expand remote regions" @change="(value,_paths,meta)=>standaloneCascaderState=`lazy ${meta.source} · ${value.join(' / ')}`"/></UiFormItem>
       </div>
       <template #footer><code>{{ standaloneCascaderState }} · {{ standaloneCascader.join(' / ') }} · {{ standaloneCascaderMultiple.length }} paths</code></template>
+    </UiCard>
+    <UiCard data-transfer-state-contract title="Consumer production transfer" subtitle="Controlled values and selection, search, virtualized panels, constraints, native forms, keyboard navigation and typed instance methods from the packed dependency">
+      <UiFormItem label="Assigned resources" required help="Space selects · Enter or Alt + Arrow moves · visible select-all preserves filtered selections"><UiTransfer v-model="standaloneTransfer" v-model:selected-keys="standaloneTransferSelected" v-model:search-values="standaloneTransferSearch" :options="standaloneTransferOptions" searchable :min-count="1" :max-count="6" :operations="['Assign','Return']" name="assignedResources" required :list-height="192" @change="(value,meta)=>standaloneTransferState=`${meta.source} ${meta.direction} · ${value.length}`" @selection-change="(value,meta)=>standaloneTransferState=`${meta.direction} selected · ${value.length}`"><template #footer="{direction,visible,total}">{{ direction }} · {{ visible }}/{{ total }} visible</template></UiTransfer></UiFormItem>
+      <template #footer><code>{{ standaloneTransferState }} · {{ standaloneTransfer.join(', ') }} · selected {{ standaloneTransferSelected.length }}</code></template>
     </UiCard>
     <UiCard data-selection-state-contract title="Consumer production selection controls" subtitle="Native form semantics, typed groups, constraints and guarded switches from the packed dependency">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">
