@@ -6,6 +6,8 @@ import {
   UiButton,
   UiCalendar,
   UiCard,
+  UiCheckbox,
+  UiCheckboxGroup,
   UiCarousel,
   UiAutoComplete,
   UiCommandPalette,
@@ -35,12 +37,15 @@ import {
   UiPopover,
   UiQueryBuilder,
   UiQRCode,
+  UiRadio,
+  UiRadioGroup,
   UiRate,
   UiStatistic,
   UiStatusPage,
   UiSlider,
   UiSplitter,
   UiSteps,
+  UiSwitch,
   UiTypography,
   UiTable,
   UiTabs,
@@ -81,6 +86,11 @@ import SubpathSplitter, { UiSplitter as NamedSubpathSplitter } from 'lan-ui-desi
 import SubpathAnchor, { UiAnchor as NamedSubpathAnchor } from 'lan-ui-design-system/components/UiAnchor'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
 import SubpathTextarea, { UiTextarea as NamedSubpathTextarea } from 'lan-ui-design-system/components/UiTextarea'
+import SubpathCheckbox, { UiCheckbox as NamedSubpathCheckbox } from 'lan-ui-design-system/components/UiCheckbox'
+import SubpathCheckboxGroup, { UiCheckboxGroup as NamedSubpathCheckboxGroup } from 'lan-ui-design-system/components/UiCheckboxGroup'
+import SubpathRadio, { UiRadio as NamedSubpathRadio } from 'lan-ui-design-system/components/UiRadio'
+import SubpathRadioGroup, { UiRadioGroup as NamedSubpathRadioGroup } from 'lan-ui-design-system/components/UiRadioGroup'
+import SubpathSwitch, { UiSwitch as NamedSubpathSwitch } from 'lan-ui-design-system/components/UiSwitch'
 import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
@@ -139,6 +149,11 @@ import type {
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
 import type { UiTextareaEmits, UiTextareaInstance, UiTextareaMeta, UiTextareaProps, UiTextareaResizeMeta, UiTextareaSlots } from 'lan-ui-design-system/components/UiTextarea'
+import type { UiCheckboxEmits, UiCheckboxInstance, UiCheckboxProps, UiCheckboxSlots } from 'lan-ui-design-system/components/UiCheckbox'
+import type { UiCheckboxGroupEmits, UiCheckboxGroupInstance, UiCheckboxGroupProps, UiCheckboxGroupSlots, UiCheckboxOption, UiSelectionChangeMeta, UiSelectionInvalid, UiSelectionValue } from 'lan-ui-design-system/components/UiCheckboxGroup'
+import type { UiRadioEmits, UiRadioInstance, UiRadioProps, UiRadioSlots } from 'lan-ui-design-system/components/UiRadio'
+import type { UiRadioGroupEmits, UiRadioGroupInstance, UiRadioGroupProps, UiRadioGroupSlots, UiRadioOption } from 'lan-ui-design-system/components/UiRadioGroup'
+import type { UiSwitchChangeMeta, UiSwitchEmits, UiSwitchInstance, UiSwitchProps, UiSwitchSlots } from 'lan-ui-design-system/components/UiSwitch'
 import type { UiButtonActivationMeta, UiButtonEmits, UiButtonInstance, UiButtonProps, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
@@ -302,6 +317,51 @@ const textareaSubpathParity:typeof SubpathTextarea=NamedSubpathTextarea
 const textareaEvent:keyof UiTextareaEmits='composition-end'
 const textareaSlot:keyof UiTextareaSlots='footer'
 
+const checkboxValues:UiSelectionValue[]=['email',7,true]
+const checkboxOptions:UiCheckboxOption[]=[{label:'Email',value:'email',description:'Release notifications'},{label:'SMS',value:'sms',disabled:true}]
+const checkboxProps:InstanceType<typeof UiCheckbox>['$props']&UiCheckboxProps={modelValue:['email'],value:'email',label:'Email',description:'Release notifications',size:'lg',labelPlacement:'end',readonly:false,loading:false,indeterminate:false,invalid:false,required:true,name:'channels',form:'release',ariaLabel:'Email notifications'}
+const checkboxEmit:InstanceType<typeof UiCheckbox>['$emit']=null as never
+const selectionMeta:UiSelectionChangeMeta<UiSelectionValue[]>={source:'api',value:'email',checked:true,previous:[],next:['email'],group:true}
+const selectionInvalid:UiSelectionInvalid={reason:'max',source:'pointer',value:'sms',current:['email'],max:1}
+checkboxEmit('change',['email'],selectionMeta)
+const checkboxInstance:UiCheckboxInstance=null as never
+checkboxInstance.focus();checkboxInstance.blur();checkboxInstance.toggle();checkboxInstance.setChecked(true)
+const checkboxEvent:keyof UiCheckboxEmits='invalid'
+const checkboxSlot:keyof UiCheckboxSlots='indicator'
+const checkboxParity:typeof SubpathCheckbox=NamedSubpathCheckbox
+const checkboxGroupProps:InstanceType<typeof UiCheckboxGroup>['$props']&UiCheckboxGroupProps={defaultValue:['email'],options:checkboxOptions,label:'Notification channels',direction:'vertical',size:'md',name:'channels',min:1,max:2,required:true,ariaLabel:'Notification channels'}
+const checkboxGroupInstance:UiCheckboxGroupInstance=null as never
+checkboxGroupInstance.focus();checkboxGroupInstance.blur();checkboxGroupInstance.toggle('sms');checkboxGroupInstance.setValue(['email']);checkboxGroupInstance.selectAll();checkboxGroupInstance.clear()
+const checkboxGroupEvent:keyof UiCheckboxGroupEmits='limit'
+const checkboxGroupSlot:keyof UiCheckboxGroupSlots='option'
+const checkboxGroupParity:typeof SubpathCheckboxGroup=NamedSubpathCheckboxGroup
+
+const radioOptions:UiRadioOption[]=[{label:'Stable',value:'stable'},{label:'Canary',value:'canary',readonly:true}]
+const radioProps:InstanceType<typeof UiRadio>['$props']&UiRadioProps={modelValue:'stable',value:'stable',label:'Stable',description:'Production ring',name:'ring',size:'sm',labelPlacement:'start',required:true,ariaLabel:'Stable ring'}
+const radioEmit:InstanceType<typeof UiRadio>['$emit']=null as never
+radioEmit('change','stable',{source:'keyboard',value:'stable',checked:true,previous:undefined,next:'stable',group:false})
+const radioInstance:UiRadioInstance=null as never
+radioInstance.focus();radioInstance.blur();radioInstance.select('api')
+const radioEvent:keyof UiRadioEmits='input'
+const radioSlot:keyof UiRadioSlots='description'
+const radioParity:typeof SubpathRadio=NamedSubpathRadio
+const radioGroupProps:InstanceType<typeof UiRadioGroup>['$props']&UiRadioGroupProps={defaultValue:'stable',options:radioOptions,label:'Release ring',direction:'horizontal',size:'lg',name:'ring',required:true,keyboard:true,loop:false,ariaLabel:'Release ring'}
+const radioGroupInstance:UiRadioGroupInstance=null as never
+radioGroupInstance.focus();radioGroupInstance.blur();radioGroupInstance.select('canary','api')
+const radioGroupEvent:keyof UiRadioGroupEmits='change'
+const radioGroupSlot:keyof UiRadioGroupSlots='option'
+const radioGroupParity:typeof SubpathRadioGroup=NamedSubpathRadioGroup
+
+const switchProps:InstanceType<typeof UiSwitch>['$props']&UiSwitchProps={modelValue:'enabled',activeValue:'enabled',inactiveValue:'disabled',size:'lg',name:'policy',form:'release',submitValue:'approved',checkedText:'Enabled',uncheckedText:'Disabled',required:true,ariaLabel:'Release policy',beforeChange:async(_value,meta)=>meta.source!=='blocked'}
+const switchMeta:UiSwitchChangeMeta={source:'api',checked:true,previous:'disabled',next:'enabled'}
+const switchEmit:InstanceType<typeof UiSwitch>['$emit']=null as never
+switchEmit('before-change','enabled',switchMeta)
+const switchInstance:UiSwitchInstance=null as never
+switchInstance.focus();switchInstance.blur();switchInstance.toggle();switchInstance.setChecked(false)
+const switchEvent:keyof UiSwitchEmits='invalid'
+const switchSlot:keyof UiSwitchSlots='checked-text'
+const switchParity:typeof SubpathSwitch=NamedSubpathSwitch
+
 // @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
 // @ts-expect-error UiInput only supports text-like native input types.
@@ -312,6 +372,14 @@ const invalidInputMode:UiInputProps={inputMode:'alphabetic'}
 const invalidTextareaResize:UiTextareaProps={resize:'diagonal'}
 // @ts-expect-error UiTextarea submit modes are explicit keyboard contracts.
 const invalidTextareaSubmit:UiTextareaProps={submitOnEnter:'shift'}
+// @ts-expect-error Checkbox label placement is constrained to start or end.
+const invalidCheckboxPlacement:UiCheckboxProps={labelPlacement:'top'}
+// @ts-expect-error Checkbox groups use horizontal or vertical layout directions.
+const invalidCheckboxGroupDirection:UiCheckboxGroupProps={direction:'diagonal'}
+// @ts-expect-error Radio group keyboard behavior is a boolean feature flag.
+const invalidRadioGroupKeyboard:UiRadioGroupProps={keyboard:'automatic'}
+// @ts-expect-error Switch guards resolve to boolean or void, synchronously or asynchronously.
+const invalidSwitchGuard:UiSwitchProps={beforeChange:()=> 'allow'}
 // @ts-expect-error Component sizes are limited to sm, md and lg.
 const invalidButton: InstanceType<typeof UiButton>['$props'] = { size: 'xl' }
 
@@ -854,4 +922,5 @@ void [tooltipProps,tooltipEmit,tooltipSubpathParity,tooltipNamedSubpathParity,to
 void [dropdownItems,dropdownProps,dropdownOpenEmit,dropdownSelectEmit,dropdownActiveEmit,dropdownSubpathParity,dropdownNamedSubpathParity,dropdownSlots,dropdownInstance,invalidDropdownTrigger,invalidDropdownFocus]
 
 void [inputProps,inputMeta,inputInstance,invalidInputType,invalidInputMode,textareaProps,textareaEmit,textareaMeta,textareaResize,textareaInstance,textareaSubpathParity,textareaEvent,textareaSlot,invalidTextareaResize,invalidTextareaSubmit]
+void [checkboxValues,checkboxOptions,checkboxProps,checkboxEmit,selectionMeta,selectionInvalid,checkboxInstance,checkboxEvent,checkboxSlot,checkboxParity,checkboxGroupProps,checkboxGroupInstance,checkboxGroupEvent,checkboxGroupSlot,checkboxGroupParity,radioOptions,radioProps,radioEmit,radioInstance,radioEvent,radioSlot,radioParity,radioGroupProps,radioGroupInstance,radioGroupEvent,radioGroupSlot,radioGroupParity,switchProps,switchMeta,switchEmit,switchInstance,switchEvent,switchSlot,switchParity,invalidCheckboxPlacement,invalidCheckboxGroupDirection,invalidRadioGroupKeyboard,invalidSwitchGuard]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

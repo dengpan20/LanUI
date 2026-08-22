@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
+  UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -23,6 +23,13 @@ const confirmResult = ref('idle')
 const page = ref(1)
 const pageSize = ref(10)
 const enabled = ref(false)
+const selectionChannels=ref(['email'])
+const selectionPlan=ref('team')
+const selectionPolicy=ref('enabled')
+const selectionOutput=ref('ready:email:team:enabled')
+const selectionChannelOptions=[{label:'Email',value:'email'},{label:'SMS',value:'sms'},{label:'Inbox',value:'inbox'},{label:'Locked',value:'locked',disabled:true}]
+const selectionPlanOptions=[{label:'Starter',value:'starter'},{label:'Team',value:'team'},{label:'Enterprise',value:'enterprise',disabled:true}]
+async function guardSelectionPolicy(value){selectionOutput.value=`guard:checking:${value}`;await new Promise(resolve=>setTimeout(resolve,90));return true}
 const quantity = ref(12.5)
 const volume = ref(40)
 const priceRange = ref([20,80])
@@ -667,6 +674,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #footer><nav aria-label="Page header sections"><a href="#page-header-overview">Overview</a></nav></template>
         </UiPageHeader>
         <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-selection-case" data-selection-state-contract="checkbox group array min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
+        <h2>Selection controls production contract</h2>
+        <div class="interaction-grid">
+          <UiCheckboxGroup v-model="selectionChannels" :options="selectionChannelOptions" label="Notification channels" name="channels" :min="1" :max="2" @change="(_value,meta)=>selectionOutput=`checkbox:${meta.value}:${meta.checked}:${selectionChannels.join(',')}`" @limit="meta=>selectionOutput=`limit:${meta.reason}:${selectionChannels.join(',')}`"/>
+          <UiRadioGroup v-model="selectionPlan" :options="selectionPlanOptions" label="Workspace plan" name="plan" @change="(value,meta)=>selectionOutput=`radio:${meta.source}:${value}`"/>
+          <div class="interaction-stack"><UiSwitch v-model="selectionPolicy" active-value="enabled" inactive-value="paused" name="releasePolicy" checked-text="Automatic release" unchecked-text="Release paused" aria-label="Release policy" :before-change="guardSelectionPolicy" @change="value=>selectionOutput=`switch:${value}`"/><div class="interaction-row"><UiCheckbox :model-value="false" indeterminate label="Mixed selection"/><UiCheckbox :model-value="false" readonly label="Read-only selection"/><UiRadio model-value="a" value="b" invalid label="Invalid radio"/></div></div>
+        </div>
+        <output class="interaction-output" data-testid="selection-output">{{ selectionOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-breadcrumb-case" data-breadcrumb-state-contract="collapse controlled keyboard focus link callback disabled current api rtl">
         <h2>Breadcrumb collapse, navigation and focus contract</h2>

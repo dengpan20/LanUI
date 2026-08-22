@@ -11,12 +11,14 @@ describe('compact table checkbox',()=>{
     const wrapper=mount(UiCheckbox,{props:{modelValue:false,size:'sm',label:'Select record',ariaLabel:'Select record'}})
     expect(wrapper.classes()).toEqual(expect.arrayContaining(['ui-checkbox','size-sm']))
     expect(wrapper.get('input').attributes('aria-label')).toBe('Select record')
-    expect(wrapper.get('span').text()).toBe('Select record')
+    expect(wrapper.get('.ui-selection-label').text()).toBe('Select record')
+    expect(wrapper.get('.ui-checkbox-indicator').exists()).toBe(true)
   })
 
   it('does not render an empty label gap for icon-only table usage',()=>{
     const wrapper=mount(UiCheckbox,{props:{modelValue:false,size:'sm',ariaLabel:'Select row'}})
-    expect(wrapper.find('span').exists()).toBe(false)
+    expect(wrapper.find('.ui-selection-copy').exists()).toBe(false)
+    expect(wrapper.find('.ui-checkbox-indicator').exists()).toBe(true)
     expect(wrapper.get('input').attributes('aria-label')).toBe('Select row')
   })
 
@@ -36,7 +38,7 @@ describe('compact table checkbox',()=>{
     const table=fs.readFileSync('src/components/UiTable.vue','utf8')
     const styles=fs.readFileSync('styles.css','utf8')
     expect(table).toContain('<UiCheckbox class="ui-table-checkbox" size="sm"')
-    expect(styles).toContain('.ui-checkbox.size-sm input { width: 14px; height: 14px;')
+    expect(styles).toContain('.ui-checkbox.size-sm .ui-checkbox-indicator, .ui-radio.size-sm .ui-radio-indicator { width: 14px; height: 14px;')
     expect(styles).toContain('.ui-table-select-column > input[type="checkbox"] { width: 14px; min-width: 14px; max-width: 14px; height: 14px; min-height: 14px; max-height: 14px;')
     expect(styles).not.toContain('.ui-table-select-column input { width:24px; height:24px;')
   })

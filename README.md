@@ -1,5 +1,20 @@
 # Lan UI · 企业后台 Design System
 
+## P71 成熟选择控件
+
+`UiCheckbox / UiCheckboxGroup / UiRadio / UiRadioGroup / UiSwitch` 形成统一选择体系：支持受控与非受控值、布尔/字符串/数字映射、原生表单提交、分组标签与描述、最少/最多选择约束、RTL 逻辑键盘导航、Readonly/Loading/Invalid 状态和稳定事件元数据。Switch 进一步支持同步或异步 `beforeChange` 守卫及重复触发锁；全部组件同步提供实例 API、ARIA、强制颜色、SSR、根入口和独立子路径类型。
+
+```vue
+<UiCheckboxGroup v-model="channels" :options="channelOptions" :min="1" :max="3" />
+<UiRadioGroup v-model="ring" :options="ringOptions" />
+<UiSwitch
+  v-model="policy"
+  active-value="enabled"
+  inactive-value="disabled"
+  :before-change="confirmPolicy"
+/>
+```
+
 ## P70 成熟多行文本输入
 
 `UiTextarea` 在兼容 `v-model / placeholder / rows / maxlength / showCount / resize / disabled / readonly / invalid` 基础用法的同时，补齐原生表单属性、IME 组合输入去重、自动高度、Formatter/Parser、Trim/Lazy 修饰符、Esc 清除、Loading、键盘提交、Prefix/Suffix/Footer/Count Slots 与公开实例方法。所有状态与事件携带稳定来源元数据，并与 FormItem、ARIA、RTL、强制颜色、SSR、根入口及组件子路径类型保持一致。
@@ -31,7 +46,7 @@
 />
 ```
 
-基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、89 个可复用组件、交互规范、完整后台示例和独立消费项目。
+基于 Vue 3 + Vite 的企业后台设计系统，包含设计 Token、91 个可复用组件、交互规范、完整后台示例和独立消费项目。
 
 ## P68 成熟按钮动作
 

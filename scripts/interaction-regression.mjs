@@ -335,6 +335,44 @@ const allCases = [
     },
   },
   {
+    name:'selection-groups-limits-radio-switch-guard',
+    run:async page=>{
+      const section=page.locator('.interaction-selection-case')
+      const channels=section.getByRole('group',{name:'Notification channels'})
+      const email=channels.getByRole('checkbox',{name:'Email'})
+      const sms=channels.getByRole('checkbox',{name:'SMS'})
+      const inbox=channels.getByRole('checkbox',{name:'Inbox'})
+      assert.equal(await email.isChecked(),true)
+      await sms.click()
+      await expectText(page,'selection-output','checkbox:sms:true:email,sms')
+      await inbox.click()
+      await expectText(page,'selection-output','limit:max:email,sms')
+      assert.equal(await inbox.isChecked(),false)
+      await email.click()
+      await expectText(page,'selection-output','checkbox:email:false:sms')
+      await sms.click()
+      await expectText(page,'selection-output','limit:min:sms')
+      assert.equal(await sms.isChecked(),true)
+      const plans=section.getByRole('radiogroup',{name:'Workspace plan'})
+      const team=plans.getByRole('radio',{name:'Team'})
+      await team.focus();await page.keyboard.press('ArrowLeft')
+      await expectText(page,'selection-output','radio:keyboard:starter')
+      assert.equal(await plans.getByRole('radio',{name:'Starter'}).isChecked(),true)
+      const toggle=section.getByRole('switch',{name:'Release policy'})
+      await toggle.click()
+      assert.equal(await toggle.getAttribute('aria-busy'),'true')
+      await expectText(page,'selection-output','guard:checking:paused')
+      await expectText(page,'selection-output','switch:paused')
+      assert.equal(await toggle.getAttribute('aria-checked'),'false')
+      assert.equal(await section.locator('input[type="hidden"][name="releasePolicy"]').count(),0)
+      assert.equal(await section.getByRole('checkbox',{name:'Mixed selection'}).getAttribute('aria-checked'),'mixed')
+      const readonly=section.getByRole('checkbox',{name:'Read-only selection'})
+      assert.equal(await readonly.getAttribute('aria-readonly'),'true')
+      await readonly.click()
+      assert.equal(await readonly.isChecked(),false)
+    },
+  },
+  {
     name: 'upload-validation-remove',
     run: async page => {
       const section=page.locator('.interaction-case').filter({hasText:'Upload validation contract'})
@@ -1527,7 +1565,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),89)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),91)
     },
   },
 ]

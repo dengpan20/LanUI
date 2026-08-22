@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.66.0",
+  "version": "1.67.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -20,7 +20,7 @@
       "id": "forms",
       "label": "数据录入",
       "description": "输入、选择、键值配置、日期时间、定时计划、条件编排、表单编排和文件上传。",
-      "count": 33
+      "count": 35
     },
     {
       "id": "data",
@@ -3112,7 +3112,34 @@
           "runtimeTypes": [
             "String"
           ],
-          "default": null
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
         },
         {
           "name": "disabled",
@@ -3127,7 +3154,45 @@
           }
         },
         {
+          "name": "falseValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "indeterminate",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -3145,18 +3210,83 @@
           "runtimeTypes": [
             "String"
           ],
-          "default": null
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "labelPlacement",
+          "required": false,
+          "type": "'start'|'end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"end\""
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
         },
         {
           "name": "modelValue",
           "required": false,
-          "type": "boolean|Key[]",
+          "type": "UiSelectionValue|UiSelectionValue[]",
           "runtimeTypes": [
             "Boolean",
+            "String",
+            "Number",
             "Array"
           ],
           "default": {
             "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
             "value": "false"
           }
         },
@@ -3169,13 +3299,27 @@
           ],
           "default": {
             "kind": "literal",
-            "value": "\"md\""
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "trueValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
           }
         },
         {
           "name": "value",
           "required": false,
-          "type": "Key|boolean",
+          "type": "UiSelectionValue",
           "runtimeTypes": [
             "String",
             "Number",
@@ -3190,14 +3334,34 @@
       "emitsType": "UiCheckboxEmits",
       "emits": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSelectionChangeMeta)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:boolean|Key[])=>void"
+          "type": "(value:UiSelectionValue|UiSelectionValue[],meta:UiSelectionChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSelectionChangeMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:UiSelectionValue|UiSelectionValue[],meta:UiSelectionChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSelectionInvalid)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
-          "type": "(value:boolean|Key[])=>void"
+          "type": "(value:UiSelectionValue|UiSelectionValue[])=>void"
         }
       ],
       "slotsType": "UiCheckboxSlots",
@@ -3206,6 +3370,260 @@
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "indicator",
+          "required": false,
+          "type": "(scope:{checked:boolean;indeterminate:boolean;loading:boolean})=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiCheckboxGroup",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiCheckboxGroup",
+      "imports": {
+        "root": "import { UiCheckboxGroup } from 'lan-ui-design-system'",
+        "subpath": "import UiCheckboxGroup from 'lan-ui-design-system/components/UiCheckboxGroup'"
+      },
+      "propsType": "UiCheckboxGroupProps",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "UiSelectionValue[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "'horizontal'|'vertical'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "label",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "max",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "min",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiSelectionValue[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "options",
+          "required": false,
+          "type": "Array<UiCheckboxOption|UiSelectionValue>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        }
+      ],
+      "emitsType": "UiCheckboxGroupEmits",
+      "emits": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{value:UiSelectionValue[]})=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:UiSelectionValue[],meta:UiSelectionChangeMeta<UiSelectionValue[]>)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{value:UiSelectionValue[]})=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSelectionInvalid)=>void"
+        },
+        {
+          "name": "limit",
+          "required": true,
+          "type": "(payload:UiSelectionInvalid)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:UiSelectionValue[])=>void"
+        }
+      ],
+      "slotsType": "UiCheckboxGroupSlots",
+      "slots": [
+        {
+          "name": "default",
+          "required": false,
+          "type": "(scope:{value:UiSelectionValue[];toggle:UiCheckboxGroupInstance['toggle'];disabled:boolean;readonly:boolean})=>VNodeChild"
+        },
+        {
+          "name": "label",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "option",
+          "required": false,
+          "type": "(scope:{option:UiCheckboxOption;index:number;checked:boolean})=>VNodeChild"
         }
       ]
     },
@@ -13791,7 +14209,55 @@
       "propsType": "UiRadioProps",
       "props": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -13815,11 +14281,30 @@
           }
         },
         {
+          "name": "labelPlacement",
+          "required": false,
+          "type": "'start'|'end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"end\""
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
-          "type": "Key|boolean",
-          "runtimeTypes": [],
-          "default": null
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
         },
         {
           "name": "name",
@@ -13834,24 +14319,87 @@
           }
         },
         {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "value",
           "required": false,
-          "type": "Key|boolean",
-          "runtimeTypes": [],
-          "default": null
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
         }
       ],
       "emitsType": "UiRadioEmits",
       "emits": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSelectionChangeMeta<UiSelectionValue>)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:Key|boolean)=>void"
+          "type": "(value:UiSelectionValue,meta:UiSelectionChangeMeta<UiSelectionValue>)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSelectionChangeMeta<UiSelectionValue>)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:UiSelectionValue,meta:UiSelectionChangeMeta<UiSelectionValue>)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSelectionInvalid)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
-          "type": "(value:Key|boolean)=>void"
+          "type": "(value:UiSelectionValue)=>void"
         }
       ],
       "slotsType": "UiRadioSlots",
@@ -13860,6 +14408,252 @@
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        },
+        {
+          "name": "description",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "indicator",
+          "required": false,
+          "type": "(scope:{checked:boolean})=>VNodeChild"
+        }
+      ]
+    },
+    {
+      "name": "UiRadioGroup",
+      "category": "forms",
+      "categoryLabel": "数据录入",
+      "subpath": "./components/UiRadioGroup",
+      "imports": {
+        "root": "import { UiRadioGroup } from 'lan-ui-design-system'",
+        "subpath": "import UiRadioGroup from 'lan-ui-design-system/components/UiRadioGroup'"
+      },
+      "propsType": "UiRadioGroupProps",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "'horizontal'|'vertical'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "label",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "loop",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "modelValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "options",
+          "required": false,
+          "type": "Array<UiRadioOption|UiSelectionValue>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        }
+      ],
+      "emitsType": "UiRadioGroupEmits",
+      "emits": [
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{value:UiSelectionValue|undefined})=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:UiSelectionValue,meta:UiSelectionChangeMeta<UiSelectionValue>)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{value:UiSelectionValue|undefined})=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:UiSelectionValue,meta:UiSelectionChangeMeta<UiSelectionValue>)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSelectionInvalid)=>void"
+        },
+        {
+          "name": "update:modelValue",
+          "required": true,
+          "type": "(value:UiSelectionValue)=>void"
+        }
+      ],
+      "slotsType": "UiRadioGroupSlots",
+      "slots": [
+        {
+          "name": "default",
+          "required": false,
+          "type": "(scope:{value:UiSelectionValue|undefined;select:UiRadioGroupInstance['select'];disabled:boolean;readonly:boolean})=>VNodeChild"
+        },
+        {
+          "name": "label",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "option",
+          "required": false,
+          "type": "(scope:{option:UiRadioOption;index:number;checked:boolean})=>VNodeChild"
         }
       ]
     },
@@ -15893,6 +16687,20 @@
       "propsType": "UiSwitchProps",
       "props": [
         {
+          "name": "activeValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "Boolean",
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
           "name": "ariaLabel",
           "required": false,
           "type": "string",
@@ -15902,6 +16710,30 @@
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "beforeChange",
+          "required": false,
+          "type": "(value:UiSelectionValue,meta:UiSwitchChangeMeta,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -15929,6 +16761,44 @@
           }
         },
         {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "inactiveValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "Boolean",
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "loading",
           "required": false,
           "type": "boolean",
@@ -15942,6 +16812,44 @@
         },
         {
           "name": "modelValue",
+          "required": false,
+          "type": "UiSelectionValue",
+          "runtimeTypes": [
+            "Boolean",
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "required",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -15965,6 +16873,19 @@
           }
         },
         {
+          "name": "submitValue",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "uncheckedText",
           "required": false,
           "type": "string",
@@ -15980,18 +16901,69 @@
       "emitsType": "UiSwitchEmits",
       "emits": [
         {
+          "name": "before-change",
+          "required": true,
+          "type": "(value:UiSelectionValue,meta:UiSwitchChangeMeta)=>void"
+        },
+        {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSwitchChangeMeta)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:boolean)=>void"
+          "type": "(value:UiSelectionValue,meta:UiSwitchChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSwitchChangeMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:UiSelectionValue,meta:UiSwitchChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSelectionInvalid)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
-          "type": "(value:boolean)=>void"
+          "type": "(value:UiSelectionValue)=>void"
         }
       ],
       "slotsType": "UiSwitchSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "checked-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "checked-text",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "unchecked-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "unchecked-text",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiTable",

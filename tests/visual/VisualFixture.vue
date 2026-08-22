@@ -2,7 +2,7 @@
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
-  UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
+  UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
@@ -48,6 +48,11 @@ const visualInputValue=ref('Release Candidate 166')
 const visualInputPassword=ref('LanUI-2026')
 const visualInputPasswordVisible=ref(false)
 const visualTextareaValue=ref('Multiline release notes grow from three to six rows while preserving native form semantics.')
+const visualChannels=ref(['email','inbox'])
+const visualPlan=ref('team')
+const visualPolicy=ref('enabled')
+const visualChannelOptions=[{label:'Email',value:'email',description:'Release and review results'},{label:'SMS',value:'sms',description:'Critical alerts only'},{label:'Inbox',value:'inbox'},{label:'Locked policy',value:'locked',disabled:true}]
+const visualPlanOptions=[{label:'Starter',value:'starter',description:'Single workspace'},{label:'Team',value:'team',description:'Shared release workspace'},{label:'Enterprise',value:'enterprise',disabled:true}]
 const visualCollapseItems=[{key:'contract',label:'Public component contract',content:'Root and subpath exports align Props, Emits, Slots and methods.',extra:'Required'},{key:'keyboard',label:'Keyboard and semantics',content:'Arrow, Home and End skip disabled headings.',extra:'WCAG'},{key:'evidence',label:'Release evidence',content:'Unit, visual, Axe, browser and package gates protect consumers.',extra:'Verified'},{key:'locked',label:'Restricted policy',content:'This panel is unavailable.',disabled:true}]
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
@@ -104,7 +109,7 @@ const visualKeyValues=ref([
 ])
 const visualCarouselItems=[
   {key:'foundations',eyebrow:'FOUNDATIONS',title:'Shared visual language',description:'Semantic color, typography, spacing and motion tokens keep every product surface coherent.',metric:'359 locale keys'},
-  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'89 public components'},
+  {key:'components',eyebrow:'COMPONENTS',title:'Accessible by default',description:'Typed state, keyboard navigation, RTL behavior and reduced-motion support ship as one reusable contract.',metric:'91 public components'},
   {key:'delivery',eyebrow:'DELIVERY',title:'Verified before release',description:'Unit, visual, Axe, interaction, package and performance gates protect downstream consumers.',metric:'5 CI jobs'},
 ]
 const visualMentionOptions=[
@@ -395,6 +400,14 @@ const tableRows=[
         <div class="visual-textarea-state-field"><strong>Operational states</strong><div class="visual-textarea-states"><UiTextarea model-value="Synchronizing" loading :rows="2" aria-label="Loading release notes"/><UiTextarea model-value="Needs policy review" invalid :rows="2" aria-label="Invalid release notes"/><UiTextarea model-value="Audit evidence" readonly :rows="2" aria-label="Read-only release notes"/><UiTextarea model-value="Policy locked" disabled :rows="2" aria-label="Disabled release notes"/></div><span class="field-error">The release notes require policy review</span></div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">autosize / manual resize</UiTag><UiTag color="green">IME / parser / typed submit</UiTag><UiTag color="orange">ARIA / RTL / SSR / API</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='selection'" title="Production selection controls" subtitle="Native inputs, typed groups, constraints, value mapping and complete operational states" title-tag="h2" class="visual-table-card visual-selection-showcase">
+      <div class="visual-selection-grid" data-selection-state-contract="checkbox group boolean array true-value false-value min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
+        <section><UiCheckboxGroup v-model="visualChannels" :options="visualChannelOptions" label="Notification channels" name="channels" direction="vertical" :min="1" :max="3" required/><div class="visual-selection-sizes"><UiCheckbox size="sm" :model-value="true" label="Small selected"/><UiCheckbox :model-value="false" indeterminate label="Medium mixed"/><UiCheckbox size="lg" :model-value="false" invalid label="Large invalid"/></div></section>
+        <section><UiRadioGroup v-model="visualPlan" :options="visualPlanOptions" label="Workspace plan" name="plan" direction="vertical" required/><div class="visual-selection-sizes"><UiRadio size="sm" model-value="a" value="a" label="Small selected"/><UiRadio model-value="a" value="b" readonly label="Medium read only"/><UiRadio size="lg" model-value="a" value="b" invalid label="Large invalid"/></div></section>
+        <section class="visual-switch-contract"><strong>Switch values and states</strong><div class="visual-switch-list"><UiSwitch v-model="visualPolicy" active-value="enabled" inactive-value="paused" name="releasePolicy" checked-text="Automatic release" unchecked-text="Release paused"/><UiSwitch size="sm" :model-value="true" checked-text="Small"/><UiSwitch size="lg" :model-value="false" unchecked-text="Large"/><UiSwitch :model-value="true" loading aria-label="Synchronizing policy"/><UiSwitch :model-value="false" readonly aria-label="Read-only policy"/><UiSwitch :model-value="false" invalid aria-label="Invalid policy"/><UiSwitch :model-value="false" disabled aria-label="Disabled policy"/></div></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">native form / groups / limits</UiTag><UiTag color="green">keyboard / async guard / values</UiTag><UiTag color="orange">ARIA / RTL / SSR / API</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='card'" title="Production content containers" subtitle="Variants, loading, selection and structured regions" title-tag="h2" class="visual-table-card visual-card-showcase">
       <div class="card-showcase-grid" data-card-state-contract="sizes variants cover header subtitle actions body footer hover interactive selected disabled loading link keyboard rtl reduced-motion ssr">

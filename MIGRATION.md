@@ -1,5 +1,20 @@
 # Lan UI migration and compatibility policy
 
+## 1.67 selection-control compatibility
+
+There are no breaking changes. Existing `<UiCheckbox v-model="enabled" />`, `<UiRadio v-model="choice" value="stable" />` and `<UiSwitch v-model="enabled" />` usage remains valid:
+
+```vue
+<UiCheckboxGroup v-model="channels" :options="channelOptions" :min="1" :max="3" />
+<UiRadioGroup v-model="ring" :options="ringOptions" />
+<UiSwitch v-model="policy" active-value="enabled" inactive-value="disabled" :before-change="confirmPolicy" />
+```
+
+- Checkbox supports Boolean or mapped scalar values, array membership with `Object.is`, native name/form/autofocus attributes, descriptions, indeterminate state and group composition. Group min/max rejections publish structured `limit` and `invalid` payloads without mutating controlled state.
+- Radio groups generate one stable native name, expose controlled or default values, skip disabled records during Arrow/Home/End navigation and map horizontal arrows logically in RTL. Readonly options remain discoverable without activating.
+- Switch accepts Boolean, String or Number active/inactive values. A checked named Switch contributes a hidden form value; `submitValue` customizes it. Synchronous or asynchronous `beforeChange` guards lock duplicate requests and publish guard or guard-error metadata.
+- Label, description and indicator/text Slots are additive. FormItem IDs, required/invalid state, ARIA labels/descriptions, forced colors, SSR, root/subpath declarations and exposed focus/blur/toggle/select methods remain synchronized.
+
 ## 1.66 textarea compatibility
 
 There are no breaking changes. Existing `<UiTextarea v-model="value" :rows="4" show-count />`, disabled, readonly and invalid usage remains valid:

@@ -37,7 +37,9 @@ import UiFormItem from '../components/UiFormItem.vue'
 import UiFormList from '../components/UiFormList.vue'
 import UiSchemaForm from '../components/UiSchemaForm.vue'
 import UiCheckbox from '../components/UiCheckbox.vue'
+import UiCheckboxGroup from '../components/UiCheckboxGroup.vue'
 import UiRadio from '../components/UiRadio.vue'
+import UiRadioGroup from '../components/UiRadioGroup.vue'
 import UiSwitch from '../components/UiSwitch.vue'
 import UiTooltip from '../components/UiTooltip.vue'
 import UiPopover from '../components/UiPopover.vue'
@@ -97,7 +99,7 @@ const emit=defineEmits(['notify','open-modal','open-drawer','open-notification']
 const reducedMotion=useReducedMotion()
 const toc=[['tokens','Design Tokens'],['typography','字体与间距'],['layout','布局规范'],['buttons','Button 按钮'],['forms','表单控件'],['data','数据展示'],['maturity','通用补充'],['configuration','全局配置'],['floating','悬浮按钮'],['feedback','反馈与浮层'],['states','交互状态']]
 const anchorItems=toc.map(([key,title])=>({key,href:`#${key}`,title}))
-const current=ref('tokens');const switchOn=ref(true);const demoTab=ref('概览');const buttonPressed=ref(false);const buttonActionState=ref('等待异步操作');const invalid=ref(false)
+const current=ref('tokens');const demoTab=ref('概览');const buttonPressed=ref(false);const buttonActionState=ref('等待异步操作');const invalid=ref(false)
 const cardSelected=ref(false)
 const tagChecked=ref(false);const tagVisible=ref(true);const tagState=ref('等待标签交互')
 const timelineSelection=ref('review');const timelineState=ref('等待时间轴交互')
@@ -149,7 +151,11 @@ const parseCurrency=text=>String(text).replace(/[\u00a5,\s]/g,'')
 const demoDate=ref('2026-08-11');const calendarDemo=ref('2026-08-12');const calendarRangeDemo=ref(['2026-08-10','2026-08-16']);const demoTime=ref('09:30');const demoTimeRange=ref(['09:00','17:30']);const demoDateTime=ref('2026-08-11T14:30');const demoDateTimeRange=ref(['2026-08-11T09:00','2026-08-11T18:00']);const zonedInstant=ref(new Date('2026-08-11T06:30:00.000Z'));const demoTimeZone=ref('Asia/Shanghai');const demoFiles=ref([{id:'release-guide',name:'lan-ui-upload-guide.pdf',size:186368,status:'success',percent:100,response:{url:'/uploads/lan-ui-upload-guide.pdf'}}])
 const zonedPreview=computed(()=>formatDateValue(zonedInstant.value,{mode:'datetime',timeZone:'UTC',precision:'second'}))
 const demoPage=ref(3);const demoPageSize=ref(10);const floatDemoOpen=ref(false)
-const checkboxDemo=ref(['邮件通知']);const radioDemo=ref('标准版');const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false);const dropdownActiveIndex=ref(-1);const dropdownState=ref('等待 Dropdown 交互')
+const checkboxDemo=ref(['email']);const radioDemo=ref('standard');const selectionState=ref('选择控件已就绪');const switchPolicy=ref('enabled')
+const checkboxGroupOptions=[{label:'邮件通知',value:'email',description:'发布与审核结果'},{label:'短信通知',value:'sms',description:'高优先级告警'},{label:'站内通知',value:'inbox'},{label:'策略锁定',value:'locked',disabled:true}]
+const radioGroupOptions=[{label:'标准版',value:'standard',description:'适合小型工作区'},{label:'高级版',value:'pro',description:'完整协作能力'},{label:'企业版',value:'enterprise',disabled:true}]
+async function guardSwitchChange(value){selectionState.value=`正在校验 ${value}`;await new Promise(resolve=>setTimeout(resolve,260));selectionState.value=`策略已切换为 ${value}`;return true}
+const popoverDemoOpen=ref(false);const dropdownDemoOpen=ref(false);const dropdownActiveIndex=ref(-1);const dropdownState=ref('等待 Dropdown 交互')
 const dropdownShowcaseItems=[
   {type:'heading',label:'工作区操作'},
   {key:'edit',label:'编辑资料',icon:'edit',description:'更新客户基础信息'},
@@ -240,16 +246,16 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:89},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:91},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有面板均使用标题按钮与关联 Region；Arrow、Home、End 可在标题间移动焦点。',extra:'WCAG'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。',extra:'异步检查'},{key:'locked',label:'已锁定规范',content:'停用项目不会进入键盘导航。',disabled:true}]
 async function validateCollapseToggle(item,open){if(item.key==='release'&&open){collapseState.value='正在校验发布面板…';await new Promise(resolve=>setTimeout(resolve,420))}return true}
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Textarea P70 · Input P69 · Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.66.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'89 个公开组件 · Textarea 原生表单属性、IME 合成、自动高度、格式化/解析、v-model 修饰符、键盘提交、前后缀与页脚、字符计数、命令式 API、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'Selection Controls P71 · Textarea P70 · Input P69 · Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59 · PageHeader P58'},{key:'version',label:'版本',value:'1.67.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-22'},{key:'coverage',label:'覆盖范围',value:'91 个公开组件 · Checkbox / CheckboxGroup / Radio / RadioGroup / Switch 受控与非受控值、原生表单、分组约束、键盘导航、异步守卫、命令式 API、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
-const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.66.0?revision=${qrRevision.value}`)
+const qrStatus=ref('expired');const qrRevision=ref(1);const qrValue=computed(()=>`https://lan-ui.example/release/1.67.0?revision=${qrRevision.value}`)
 function refreshQrCode(){qrRevision.value+=1;qrStatus.value='active';toast.success('二维码已刷新')}
-const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-166-R${barcodeRevision.value}`)
+const barcodeStatus=ref('expired');const barcodeRevision=ref(1);const barcodeValue=computed(()=>`LAN-UI-167-R${barcodeRevision.value}`)
 function refreshBarcode(){barcodeRevision.value+=1;barcodeStatus.value='active';toast.success('条形码已刷新')}
 const carouselItems=[
   {key:'contract',eyebrow:'Component contract',title:'统一运行时与类型接口',description:'Props、Events、Slots、SSR 与组件子路径保持一致。',start:'#1d4ed8',end:'#0891b2'},
@@ -498,7 +504,12 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
               <UiFormItem label="完整状态" error="发布说明包含未通过审核的内容"><div class="form-inline-pair"><UiTextarea model-value="正在同步" loading :rows="2" aria-label="加载状态多行输入"/><UiTextarea model-value="需要修正" invalid :rows="2" aria-label="错误状态多行输入"/><UiTextarea model-value="审计记录" readonly :rows="2" aria-label="只读多行输入"/><UiTextarea model-value="策略锁定" disabled :rows="2" aria-label="禁用多行输入"/></div><output class="field-help" aria-live="polite">{{ textareaContractState }}</output></UiFormItem>
             </div></div>
             <div class="form-demo-section"><div class="form-demo-title"><strong>生产级上传队列</strong><span>UiUpload · async queue / progress / cancel / retry</span></div><div class="form-demo-content"><UiUpload v-model="demoFiles" accept=".pdf,.doc,.docx,.png,.jpg" multiple :max-size="10" :max-count="5" :concurrency="2" :request="uploadDemoRequest" :before-upload="async file=>file" :before-remove="async()=>true" @success="emit('notify',`${$event.file.name} 上传完成`)" @upload-error="emit('notify',`${$event.file.name}：${$event.file.error}`,'error')" @error="emit('notify',$event,'error')"/><div class="field-help upload-help">支持受控队列、并发调度、真实进度、取消、失败重试、异步前置校验与移除守卫；选择文件名包含 error 的文件可体验失败隔离。</div></div></div>
-            <div class="form-demo-section"><div class="form-demo-title"><strong>选择控件</strong><span>Checkbox / Radio / Switch</span></div><div class="form-demo-content"><div class="selection-component-grid"><UiFormItem label="复选框组" group help="支持 Boolean、Array 与半选状态"><div class="demo-row"><UiCheckbox v-model="checkboxDemo" value="邮件通知">邮件通知</UiCheckbox><UiCheckbox v-model="checkboxDemo" value="短信通知">短信通知</UiCheckbox><UiCheckbox :model-value="false" indeterminate>部分选择</UiCheckbox><UiCheckbox :model-value="false" disabled>禁用</UiCheckbox></div></UiFormItem><UiFormItem label="单选组" group><div class="demo-row"><UiRadio v-model="radioDemo" value="标准版" name="plan">标准版</UiRadio><UiRadio v-model="radioDemo" value="高级版" name="plan">高级版</UiRadio><UiRadio v-model="radioDemo" value="企业版" name="plan" disabled>企业版</UiRadio></div></UiFormItem><UiFormItem label="开关" group><div class="demo-row"><UiSwitch v-model="switchOn" aria-label="通知开关"/><span class="muted">{{ switchOn?'通知已开启':'通知已关闭' }}</span><UiSwitch :model-value="true" loading aria-label="加载中的通知开关"/><UiSwitch :model-value="false" disabled aria-label="禁用通知开关"/></div></UiFormItem></div></div></div>
+            <div class="form-demo-section" data-selection-state-contract="checkbox group boolean array true-value false-value min max indeterminate radio keyboard switch guard loading form aria rtl ssr"><div class="form-demo-title"><strong>成熟选择控件</strong><span>Checkbox / CheckboxGroup / Radio / RadioGroup / Switch · P71</span></div><div class="form-demo-content"><div class="selection-component-grid">
+              <UiFormItem label="通知渠道" group required help="组级 v-model；至少 1 项、最多 2 项；限制会产生结构化事件"><UiCheckboxGroup v-model="checkboxDemo" :options="checkboxGroupOptions" name="channels" :min="1" :max="2" @change="(_value,meta)=>selectionState=`${meta.value} · ${meta.checked?'选中':'取消'}`" @limit="meta=>selectionState=`触发 ${meta.reason} 限制`"/></UiFormItem>
+              <UiFormItem label="工作区套餐" group help="共享原生 name，浏览器方向键移动并选择可用项"><UiRadioGroup v-model="radioDemo" :options="radioGroupOptions" name="plan" @change="value=>selectionState=`套餐 ${value}`"/></UiFormItem>
+              <UiFormItem label="发布策略" group help="自定义激活值、表单提交、可见文案与异步 beforeChange"><div class="demo-row"><UiSwitch v-model="switchPolicy" active-value="enabled" inactive-value="paused" name="releasePolicy" checked-text="自动发布" unchecked-text="暂停发布" :before-change="guardSwitchChange"/><UiSwitch :model-value="true" loading aria-label="正在同步策略"/><UiSwitch :model-value="false" readonly aria-label="只读策略"/><UiSwitch :model-value="false" invalid aria-label="无效策略"/></div></UiFormItem>
+              <UiFormItem label="单控件状态" group><div class="demo-row"><UiCheckbox :model-value="true" label="已选"/><UiCheckbox :model-value="false" indeterminate label="半选"/><UiCheckbox :model-value="false" loading label="加载"/><UiCheckbox :model-value="false" readonly label="只读"/><UiRadio :model-value="'a'" value="a" label="已选"/><UiRadio :model-value="'a'" value="b" invalid label="错误"/></div></UiFormItem>
+            </div><output class="preview-note" aria-live="polite">{{ selectionState }} · {{ checkboxDemo.join(', ') }} · {{ radioDemo }} · {{ switchPolicy }}</output></div></div>
             <div class="form-demo-section">
               <div class="form-demo-title"><strong>表单校验与动态字段</strong><span>nested paths / dependencies / conditional rules / FormList</span></div>
               <div class="form-demo-content">
@@ -582,7 +593,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="qr-code-showcase" data-qr-code-state-contract="active loading expired scanned invalid refresh download svg ecc icon ssr">
               <div class="qr-code-showcase-primary">
                 <span class="demo-label">UiQRCode · 真实编码与导出</span>
-                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.66.0 发布二维码" caption="扫码打开 1.66.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
+                <UiQRCode :value="qrValue" :status="qrStatus" level="H" color="#155EEF" :size="184" downloadable download-name="lan-ui-release.svg" label="Lan UI 1.67.0 发布二维码" caption="扫码打开 1.67.0 发布记录" @refresh="refreshQrCode" @download="toast.success('SVG 二维码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="qrStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="qrStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="qrStatus='active'">恢复</UiButton></div>
                 <code>{{ qrStatus }} · revision {{ qrRevision }} · ECC H</code>
               </div>
@@ -595,7 +606,7 @@ const colors=[['Brand 600','#2563EB'],['Brand 500','#3B82F6'],['Brand 50','#EFF6
             <div class="barcode-showcase" data-barcode-state-contract="code128 code39 ean upc itf msi codabar pharmacode auto active loading expired scanned invalid refresh download svg ssr">
               <div class="barcode-showcase-primary">
                 <span class="demo-label">UiBarcode · 真实编码与导出</span>
-                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.66.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
+                <UiBarcode :value="barcodeValue" :status="barcodeStatus" format="CODE128" color="#155EEF" :width="2" :height="82" downloadable download-name="lan-ui-asset.svg" label="Lan UI 1.67.0 资产条形码" caption="资产标签 · CODE128" @refresh="refreshBarcode" @download="toast.success('SVG 条形码已下载')"/>
                 <div class="button-row"><UiButton size="sm" variant="outline" @click="barcodeStatus='loading'">加载中</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='expired'">已过期</UiButton><UiButton size="sm" variant="outline" @click="barcodeStatus='scanned'">已扫描</UiButton><UiButton size="sm" variant="text" @click="barcodeStatus='active'">恢复</UiButton></div>
                 <code>{{ barcodeStatus }} · revision {{ barcodeRevision }} · CODE128</code>
               </div>

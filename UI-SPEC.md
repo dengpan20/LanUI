@@ -1226,3 +1226,13 @@ P69 retains 89 public components and 445 locale keys while generated coverage ad
 - Logical geometry, RTL, Reduced Motion, forced colors and deterministic SSR share one contract. Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API and installed-tarball verification remain synchronized.
 
 P70 retains 89 public components and 445 locale keys while generated coverage advances to 1,298 Props, 425 Events and 242 Slots. Release gates require 43 visual baselines, 61 zero-violation Axe scenarios, 65 interactions per Chromium/Firefox/WebKit engine, 73 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 84. Maturity P71: production selection controls
+
+`UiCheckbox`, `UiCheckboxGroup`, `UiRadio`, `UiRadioGroup` and `UiSwitch` share one selection-value vocabulary across Boolean, String and Number values. Checkbox supports mapped scalar values, array membership using `Object.is`, indeterminate presentation and composed group children. CheckboxGroup supports controlled or default arrays, declarative options, minimum and maximum selections, deterministic limit payloads and select-all/clear commands.
+
+RadioGroup generates a stable native name and applies explicit Arrow, Home and End navigation with disabled-option skipping, configurable looping and logical RTL horizontal behavior. Readonly records retain discoverability while blocking activation. Switch maps arbitrary active/inactive values, contributes a checked hidden form value and supports synchronous or asynchronous `beforeChange` guards with pending state and duplicate-request locking.
+
+All five controls integrate with FormItem IDs, labels, descriptions, required and invalid state. They provide explicit sizes, Disabled/Readonly/Loading/Focused/Checked states, structured source metadata, custom indicator/text Slots, public focus/blur/value actions, forced-colors presentation, SSR, root/subpath declarations and native form semantics. Group-level required semantics avoid marking every child as independently required.
+
+P71 exposes 91 public components and generated coverage of 1,356 Props, 450 Events and 257 Slots. Release gates require 44 visual baselines, 62 zero-violation Axe scenarios, 66 interactions per Chromium/Firefox/WebKit engine, 77 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

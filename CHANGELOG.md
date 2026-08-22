@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.67.0] - 2026-08-22
+
+### Added
+
+- Production `UiCheckboxGroup` and `UiRadioGroup` components with controlled/uncontrolled values, option rendering or composed children, stable native names, group labels, FormItem linkage, min/max selection constraints and complete imperative controls.
+- Selection-control examples across the component center, one-page HTML and standalone package consumer, plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- `UiCheckbox`, `UiRadio` and `UiSwitch` now provide scalar or array value mapping, native form participation, descriptions, sizes, label placement, Loading/Readonly/Invalid states, structured event metadata, exposed focus/value actions, forced-colors styling and RTL-safe presentation.
+- Radio groups implement Arrow/Home/End navigation with disabled-option skipping and logical RTL behavior; Checkbox groups enforce minimum/maximum selections; Switch supports arbitrary active/inactive values, hidden-form submission and synchronous/asynchronous `beforeChange` guards with duplicate-activation locking.
+- Release gates advance to 44 visual baselines, 62 Axe scenarios, 66 interactions per browser and 77 negative type assertions. Public coverage advances to 91 components, 1,356 Props, 450 Events and 257 Slots.
+
 ## [1.66.0] - 2026-08-22
 
 ### Added

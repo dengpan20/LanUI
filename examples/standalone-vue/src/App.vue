@@ -11,6 +11,8 @@ import {
   UiCalendar,
   UiCard,
   UiCarousel,
+  UiCheckbox,
+  UiCheckboxGroup,
   UiColorPicker,
   UiCommandPalette,
   UiCollapse,
@@ -39,6 +41,8 @@ import {
   UiPageHeader,
   UiQueryBuilder,
   UiQRCode,
+  UiRadio,
+  UiRadioGroup,
   UiRate,
   UiSelect,
   UiSegmented,
@@ -46,6 +50,7 @@ import {
   UiSplitter,
   UiStatistic,
   UiSteps,
+  UiSwitch,
   UiTable,
   UiTag,
   UiTimeline,
@@ -97,6 +102,13 @@ const standalonePasswordVisible=ref(false)
 const standaloneInputState=ref('ready')
 const standaloneTextarea=ref('Standalone consumers can compose multiline release notes with autosize, IME-safe updates and typed submit events.')
 const standaloneTextareaState=ref('ready')
+const standaloneChannels=ref(['email'])
+const standalonePlan=ref('team')
+const standalonePolicy=ref('enabled')
+const standaloneSelectionState=ref('ready')
+const standaloneChannelOptions=[{label:'Email',value:'email',description:'Release results'},{label:'SMS',value:'sms',description:'Critical alerts'},{label:'Inbox',value:'inbox'},{label:'Locked',value:'locked',disabled:true}]
+const standalonePlanOptions=[{label:'Starter',value:'starter'},{label:'Team',value:'team',description:'Shared release workspace'},{label:'Enterprise',value:'enterprise',disabled:true}]
+async function guardStandalonePolicy(value){standaloneSelectionState.value=`checking ${value}`;await new Promise(resolve=>setTimeout(resolve,220));standaloneSelectionState.value=`accepted ${value}`;return true}
 const standaloneBreadcrumbExpanded=ref(false)
 const standaloneBreadcrumbItems=[{key:'consumer',label:'Consumer',href:'#consumer',icon:'home'},{key:'workspace',label:'Workspace',href:'#workspace'},{key:'packages',label:'Packages',href:'#packages'},{key:'components',label:'Components',href:'#components'},{key:'breadcrumb',label:'Breadcrumb',href:'#breadcrumb'},{key:'contract',label:'Release contract'}]
 const standaloneTagChecked=ref(false)
@@ -134,11 +146,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.66.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.67.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-166-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-167-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -250,6 +262,14 @@ const rows = computed(() => [
         <UiFormItem label="Operational states" error="Release policy requires an update"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiTextarea model-value="Synchronizing" loading :rows="2" aria-label="Loading release notes"/><UiTextarea model-value="Needs review" invalid :rows="2" aria-label="Invalid release notes"/><UiTextarea model-value="Audit evidence" readonly :rows="2" aria-label="Read-only release notes"/><UiTextarea model-value="Policy locked" disabled :rows="2" aria-label="Disabled release notes"/></div></UiFormItem>
       </div>
       <template #footer><code>{{ standaloneTextareaState }} · {{ standaloneTextarea.length }} chars</code></template>
+    </UiCard>
+    <UiCard data-selection-state-contract title="Consumer production selection controls" subtitle="Native form semantics, typed groups, constraints and guarded switches from the packed dependency">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">
+        <UiFormItem label="Notification channels" group required help="Choose 1–2 channels"><UiCheckboxGroup v-model="standaloneChannels" :options="standaloneChannelOptions" name="channels" direction="vertical" :min="1" :max="2" @change="(_value,meta)=>standaloneSelectionState=`${meta.value} · ${meta.checked?'checked':'unchecked'}`" @limit="meta=>standaloneSelectionState=`${meta.reason} limit`"/></UiFormItem>
+        <UiFormItem label="Workspace plan" group help="Arrow keys use the shared native radio name"><UiRadioGroup v-model="standalonePlan" :options="standalonePlanOptions" name="plan"/></UiFormItem>
+        <UiFormItem label="Release policy" group help="Async guard and non-Boolean values"><div style="display:grid;gap:10px;justify-items:start"><UiSwitch v-model="standalonePolicy" active-value="enabled" inactive-value="paused" name="releasePolicy" checked-text="Automatic" unchecked-text="Paused" :before-change="guardStandalonePolicy"/><div style="display:flex;gap:12px;flex-wrap:wrap"><UiCheckbox :model-value="false" indeterminate label="Mixed"/><UiCheckbox :model-value="false" readonly label="Read only"/><UiRadio :model-value="'ready'" value="review" invalid label="Needs review"/></div></div></UiFormItem>
+      </div>
+      <template #footer><code>{{ standaloneSelectionState }} · {{ standaloneChannels.join(',') }} · {{ standalonePlan }} · {{ standalonePolicy }}</code></template>
     </UiCard>
     <UiCard data-card-state-contract title="Consumer release workspace" subtitle="Interactive UiCard contract from the packed dependency" variant="elevated" shadow="sm" hoverable interactive :selected="standaloneCardSelected" @activate="standaloneCardSelected=!standaloneCardSelected">
       <p style="margin:0;color:var(--text-secondary)">Pointer, Enter and Space share one typed activation event; focus, selection and disabled states stay visible.</p>
@@ -373,7 +393,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.66.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.67.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>
