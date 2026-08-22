@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.66.0] - 2026-08-22
+
+### Added
+
+- Production `UiTextarea` contract with native form attributes, IME-safe composition, formatter/parser pipelines, Vue model modifiers, bounded autosize, configurable manual resize, keyboard submit, affix/footer/count Slots, Escape clear, Loading and imperative controls.
+- Component-center, one-page HTML and standalone-consumer examples plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing `v-model`, `placeholder`, `rows`, `maxlength`, `showCount`, `resize`, disabled, readonly and invalid usage remains compatible while event metadata, FormItem linkage, ARIA, forced colors and RTL-safe affixes are now first-class.
+- Release gates advance to 43 visual baselines, 61 Axe scenarios, 65 interactions per browser and 73 negative type assertions while retaining 89 public components and 445 locale keys. Generated API coverage advances to 1,298 Props, 425 Events and 242 Slots.
+
 ## [1.65.0] - 2026-08-22
 
 ### Added

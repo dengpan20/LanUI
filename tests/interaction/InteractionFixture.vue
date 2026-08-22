@@ -6,7 +6,7 @@ import {
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -113,6 +113,11 @@ const inputPassword=ref('LanUI-2026')
 const inputPasswordVisible=ref(false)
 const inputOutput=ref('ready:release draft')
 function changeInput(value,meta){inputOutput.value=`change:${meta.source}:${String(value)}`}
+const textareaRef=ref(null)
+const textareaValue=ref('release draft')
+const textareaParserValue=ref('release notes')
+const textareaOutput=ref('ready:release draft')
+function changeTextarea(value,meta){textareaOutput.value=`change:${meta.source}:${String(value)}`}
 const tagChecked=ref(false)
 const tagVisible=ref(true)
 const tagOutput=ref('ready')
@@ -702,6 +707,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-input-actions"><UiButton id="interaction-input-set-api" size="sm" variant="outline" @click="inputRef.setValue('api-release','fixture-api')">Set by API</UiButton><UiButton id="interaction-input-focus-api" size="sm" variant="text" @click="inputRef.focus()">Focus by API</UiButton></div>
         </div>
         <output class="interaction-output" data-testid="input-output">{{ inputOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-textarea-case" data-textarea-state-contract="native ime formatter parser autosize clear escape submit focus api rtl">
+        <h2>Textarea IME, autosize, parser, clear and keyboard-submit contract</h2>
+        <div class="interaction-textarea-grid">
+          <UiFormItem label="Release notes" required help="Composition commits once; Ctrl / Command + Enter submits"><UiTextarea id="interaction-textarea" ref="textareaRef" v-model.trim="textareaValue" :auto-size="{minRows:3,maxRows:5}" clearable clear-on-escape show-count :maxlength="120" name="releaseNotes" submit-on-enter="ctrl-or-meta" @input="(value,meta)=>textareaOutput=`input:${meta.source}:${String(value)}`" @change="changeTextarea" @clear="(value,meta)=>textareaOutput=`clear:${meta.source}:${String(value)}`" @submit="(value,_event,meta)=>textareaOutput=`submit:${meta.source}:${String(value)}`"><template #prefix>¶</template><template #footer="{count}">Autosaved · {{ count }}</template></UiTextarea></UiFormItem>
+          <UiFormItem label="Formatted template" help="Focus restores the model; blur commits the parsed value"><UiTextarea id="interaction-textarea-parser" v-model="textareaParserValue" :formatter="value=>String(value).toUpperCase()" :parser="value=>value.trim().toLowerCase()" select-on-focus :rows="3" @change="changeTextarea"><template #suffix>MD</template></UiTextarea></UiFormItem>
+          <UiFormItem label="Locked state"><UiTextarea id="interaction-textarea-locked" model-value="audit evidence" clearable readonly :rows="2"/></UiFormItem>
+          <div class="interaction-textarea-actions"><UiButton id="interaction-textarea-set-api" size="sm" variant="outline" @click="textareaRef.setValue('api notes','fixture-api')">Set by API</UiButton><UiButton id="interaction-textarea-resize-api" size="sm" variant="outline" @click="textareaRef.resize('fixture-api')">Resize by API</UiButton><UiButton id="interaction-textarea-focus-api" size="sm" variant="text" @click="textareaRef.focus()">Focus by API</UiButton></div>
+        </div>
+        <output class="interaction-output" data-testid="textarea-output">{{ textareaOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-tag-case" data-tag-state-contract="selection close link keyboard disabled">
         <h2>Tag selection, close, link and keyboard contract</h2>

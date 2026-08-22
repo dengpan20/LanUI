@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.65.0",
+  "version": "1.66.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -16740,6 +16740,85 @@
       "propsType": "UiTextareaProps",
       "props": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autoSize",
+          "required": false,
+          "type": "boolean|UiTextareaAutoSize",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "autocomplete",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearOnEscape",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearValue",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "clearable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "disabled",
           "required": false,
           "type": "boolean",
@@ -16752,7 +16831,46 @@
           }
         },
         {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "formatter",
+          "required": false,
+          "type": "(value:string)=>string",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "inputMode",
+          "required": false,
+          "type": "UiInputMode",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
           "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loading",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -16771,11 +16889,51 @@
           "default": null
         },
         {
+          "name": "minlength",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [],
+          "default": null
+        },
+        {
+          "name": "modelModifiers",
+          "required": false,
+          "type": "UiTextareaModelModifiers",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
           "type": "string",
           "runtimeTypes": [
             "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "parser",
+          "required": false,
+          "type": "(value:string)=>string",
+          "runtimeTypes": [
+            "Function"
           ],
           "default": null
         },
@@ -16801,6 +16959,30 @@
           }
         },
         {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "resize",
+          "required": false,
+          "type": "UiTextareaResize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"vertical\""
+          }
+        },
+        {
           "name": "rows",
           "required": false,
           "type": "number",
@@ -16810,6 +16992,18 @@
           "default": {
             "kind": "literal",
             "value": "3"
+          }
+        },
+        {
+          "name": "selectOnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -16823,6 +17017,53 @@
             "kind": "implicit",
             "value": "false"
           }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "spellcheck",
+          "required": false,
+          "type": "boolean|'true'|'false'",
+          "runtimeTypes": [
+            "Boolean",
+            "String"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "submitOnEnter",
+          "required": false,
+          "type": "boolean|UiTextareaSubmitMode",
+          "runtimeTypes": [
+            "Boolean",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "wrap",
+          "required": false,
+          "type": "'hard'|'soft'|'off'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
         }
       ],
       "emitsType": "UiTextareaEmits",
@@ -16830,17 +17071,57 @@
         {
           "name": "blur",
           "required": true,
-          "type": "(event:FocusEvent)=>void"
+          "type": "(event:FocusEvent,meta:UiTextareaMeta)=>void"
+        },
+        {
+          "name": "change",
+          "required": true,
+          "type": "(value:string,meta:UiTextareaMeta)=>void"
+        },
+        {
+          "name": "clear",
+          "required": true,
+          "type": "(value:string,meta:UiTextareaMeta)=>void"
+        },
+        {
+          "name": "composition-end",
+          "required": true,
+          "type": "(value:string,event:CompositionEvent)=>void"
+        },
+        {
+          "name": "composition-start",
+          "required": true,
+          "type": "(event:CompositionEvent)=>void"
         },
         {
           "name": "focus",
           "required": true,
-          "type": "(event:FocusEvent)=>void"
+          "type": "(event:FocusEvent,meta:UiTextareaMeta)=>void"
         },
         {
           "name": "input",
           "required": true,
-          "type": "(value:string)=>void"
+          "type": "(value:string,meta:UiTextareaMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(meta:UiTextareaInvalidMeta)=>void"
+        },
+        {
+          "name": "keydown",
+          "required": true,
+          "type": "(event:KeyboardEvent)=>void"
+        },
+        {
+          "name": "resize",
+          "required": true,
+          "type": "(meta:UiTextareaResizeMeta)=>void"
+        },
+        {
+          "name": "submit",
+          "required": true,
+          "type": "(value:string,event:KeyboardEvent,meta:UiTextareaMeta)=>void"
         },
         {
           "name": "update:modelValue",
@@ -16849,7 +17130,38 @@
         }
       ],
       "slotsType": "UiTextareaSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "clear-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "count",
+          "required": false,
+          "type": "(scope:{value:string;count:number;maxlength:number|undefined})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:{value:string;count:number;maxlength:number|undefined;resize:(source?:string)=>boolean})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(scope:{value:string;focused:boolean})=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(scope:{value:string;focused:boolean})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiTimeline",

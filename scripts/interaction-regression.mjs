@@ -1209,6 +1209,50 @@ const allCases = [
     },
   },
   {
+    name:'textarea-ime-autosize-submit-clear-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const textarea=page.locator('#interaction-textarea')
+      await textarea.scrollIntoViewIfNeeded()
+      const root=textarea.locator('xpath=../..')
+      assert.equal(await root.getAttribute('data-ui-textarea'),'')
+      assert.equal(await root.getAttribute('data-state'),'ready')
+      assert.equal(await textarea.getAttribute('name'),'releaseNotes')
+      assert.equal(await textarea.getAttribute('aria-required'),'true')
+      const initialHeight=Number.parseFloat(await textarea.evaluate(node=>node.style.height))
+      assert.ok(initialHeight>0)
+      await textarea.focus()
+      await textarea.dispatchEvent('compositionstart',{data:'发'})
+      await textarea.evaluate(node=>{node.value='发布说明';node.dispatchEvent(new InputEvent('input',{bubbles:true,data:'发布说明',inputType:'insertCompositionText',isComposing:true}))})
+      await expectText(page,'textarea-output','ready:release draft')
+      await textarea.dispatchEvent('compositionend',{data:'发布说明'})
+      await textarea.evaluate(node=>node.dispatchEvent(new InputEvent('input',{bubbles:true,data:'发布说明',inputType:'insertText'})))
+      await expectText(page,'textarea-output','input:composition:发布说明')
+      await textarea.fill('发布说明\n第一行\n第二行\n第三行\n第四行')
+      const grownHeight=Number.parseFloat(await textarea.evaluate(node=>node.style.height))
+      assert.ok(grownHeight>=initialHeight)
+      await textarea.press('Control+Enter')
+      await expectText(page,'textarea-output','submit:submit:发布说明\n第一行\n第二行\n第三行\n第四行')
+      await textarea.press('Escape')
+      await expectText(page,'textarea-output','clear:escape:')
+      assert.equal(await textarea.inputValue(),'')
+      const parser=page.locator('#interaction-textarea-parser')
+      assert.equal(await parser.inputValue(),'RELEASE NOTES')
+      await parser.focus()
+      assert.equal(await parser.inputValue(),'release notes')
+      await parser.fill('  PUBLISHED NOTES  ')
+      await parser.blur()
+      await expectText(page,'textarea-output','change:change:published notes')
+      assert.equal(await parser.inputValue(),'PUBLISHED NOTES')
+      assert.equal(await page.locator('#interaction-textarea-locked').getAttribute('readonly'),'')
+      await page.locator('#interaction-textarea-set-api').click()
+      await expectText(page,'textarea-output','change:fixture-api:api notes')
+      await page.locator('#interaction-textarea-resize-api').click()
+      await page.locator('#interaction-textarea-focus-api').click()
+      await expectFocused(page,textarea)
+    },
+  },
+  {
     name:'tag-selection-close-link-keyboard',
     query:'direction=ltr',
     run:async page=>{
@@ -1495,7 +1539,7 @@ async function expectText(page, testId, expected) {
   const target = page.getByTestId(testId)
   await target.waitFor()
   await page.waitForFunction(([selector, value]) => document.querySelector(selector)?.textContent?.trim() === value, [`[data-testid="${testId}"]`, expected])
-  assert.equal((await target.innerText()).trim(), expected)
+  assert.equal((await target.textContent()).trim(), expected)
 }
 
 async function expectTextContains(page, testId, expected) {

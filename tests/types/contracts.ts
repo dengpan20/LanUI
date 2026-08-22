@@ -23,6 +23,7 @@ import {
   UiFormList,
   UiSchemaForm,
   UiInput,
+  UiTextarea,
   UiInputTag,
   UiIcon,
   UiImage,
@@ -79,6 +80,7 @@ import SubpathAffix, { UiAffix as NamedSubpathAffix } from 'lan-ui-design-system
 import SubpathSplitter, { UiSplitter as NamedSubpathSplitter } from 'lan-ui-design-system/components/UiSplitter'
 import SubpathAnchor, { UiAnchor as NamedSubpathAnchor } from 'lan-ui-design-system/components/UiAnchor'
 import SubpathInput, { UiInput as NamedSubpathInput } from 'lan-ui-design-system/components/UiInput'
+import SubpathTextarea, { UiTextarea as NamedSubpathTextarea } from 'lan-ui-design-system/components/UiTextarea'
 import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
@@ -136,6 +138,7 @@ import type {
   UiInputProps,
   UiInputSlots,
 } from 'lan-ui-design-system/components/UiInput'
+import type { UiTextareaEmits, UiTextareaInstance, UiTextareaMeta, UiTextareaProps, UiTextareaResizeMeta, UiTextareaSlots } from 'lan-ui-design-system/components/UiTextarea'
 import type { UiButtonActivationMeta, UiButtonEmits, UiButtonInstance, UiButtonProps, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
@@ -288,12 +291,27 @@ inputEmit('password-visibility-change',true,{source:'api',previous:false})
 const inputInstance:UiInputInstance=null as never
 inputInstance.focus();inputInstance.select();inputInstance.setValue('typed');inputInstance.clear();inputInstance.togglePassword()
 
+const textareaProps:InstanceType<typeof UiTextarea>['$props']&UiTextareaProps={modelValue:'Release notes',rows:3,minlength:4,maxlength:240,showCount:true,size:'lg',resize:'vertical',autoSize:{minRows:2,maxRows:6},clearable:true,clearOnEscape:true,clearValue:'Template',loading:false,name:'notes',form:'release',autocomplete:'off',inputMode:'text',wrap:'soft',required:true,autofocus:false,selectOnFocus:true,spellcheck:true,formatter:value=>`[${value}]`,parser:value=>value.replace(/[\[\]]/g,''),modelModifiers:{lazy:true,trim:true},ariaLabel:'Release notes',submitOnEnter:'ctrl-or-meta'}
+const textareaEmit:InstanceType<typeof UiTextarea>['$emit']=null as never
+const textareaMeta:UiTextareaMeta={source:'input',value:'next',previous:'old',composing:false}
+const textareaResize:UiTextareaResizeMeta={source:'content',height:120,scrollHeight:144,minRows:2,maxRows:5,overflow:'auto'}
+textareaEmit('update:modelValue','next');textareaEmit('input','next',textareaMeta);textareaEmit('submit','next',new KeyboardEvent('keydown'),textareaMeta);textareaEmit('resize',textareaResize)
+const textareaInstance:UiTextareaInstance=null as never
+textareaInstance.focus();textareaInstance.select();textareaInstance.setValue('typed');textareaInstance.clear();textareaInstance.resize();textareaInstance.blur()
+const textareaSubpathParity:typeof SubpathTextarea=NamedSubpathTextarea
+const textareaEvent:keyof UiTextareaEmits='composition-end'
+const textareaSlot:keyof UiTextareaSlots='footer'
+
 // @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
 // @ts-expect-error UiInput only supports text-like native input types.
 const invalidInputType:UiInputProps={type:'checkbox'}
 // @ts-expect-error UiInput input modes follow the native virtual-keyboard contract.
 const invalidInputMode:UiInputProps={inputMode:'alphabetic'}
+// @ts-expect-error UiTextarea resize follows native CSS resize values.
+const invalidTextareaResize:UiTextareaProps={resize:'diagonal'}
+// @ts-expect-error UiTextarea submit modes are explicit keyboard contracts.
+const invalidTextareaSubmit:UiTextareaProps={submitOnEnter:'shift'}
 // @ts-expect-error Component sizes are limited to sm, md and lg.
 const invalidButton: InstanceType<typeof UiButton>['$props'] = { size: 'xl' }
 
@@ -835,5 +853,5 @@ void [timelineItems,timelineProps,timelineEmit,timelineSubpathParity,timelineNam
 void [tooltipProps,tooltipEmit,tooltipSubpathParity,tooltipNamedSubpathParity,tooltipSlots,tooltipInstance,invalidTooltipTrigger,invalidTooltipPlacement]
 void [dropdownItems,dropdownProps,dropdownOpenEmit,dropdownSelectEmit,dropdownActiveEmit,dropdownSubpathParity,dropdownNamedSubpathParity,dropdownSlots,dropdownInstance,invalidDropdownTrigger,invalidDropdownFocus]
 
-void [inputProps,inputMeta,inputInstance,invalidInputType,invalidInputMode]
+void [inputProps,inputMeta,inputInstance,invalidInputType,invalidInputMode,textareaProps,textareaEmit,textareaMeta,textareaResize,textareaInstance,textareaSubpathParity,textareaEvent,textareaSlot,invalidTextareaResize,invalidTextareaSubmit]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

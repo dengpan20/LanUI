@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.65.0",
+  "version": "1.66.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 231500,
-    "rules": 1816,
+    "bytes": 233658,
+    "rules": 1838,
     "source": "component-union"
   },
   "core": {
@@ -376,8 +376,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 51204,
-      "rules": 407
+      "bytes": 53362,
+      "rules": 429
     },
     {
       "name": "UiSegmented",
@@ -466,8 +466,8 @@
     {
       "name": "UiTextarea",
       "subpath": "./styles/UiTextarea.css",
-      "bytes": 974,
-      "rules": 8
+      "bytes": 3381,
+      "rules": 32
     },
     {
       "name": "UiTimePicker",

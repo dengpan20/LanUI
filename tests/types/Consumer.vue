@@ -20,6 +20,7 @@ import {
   UiFormList,
   UiSchemaForm,
   UiInput,
+  UiTextarea,
   UiImage,
   UiModal,
   UiRate,
@@ -36,7 +37,7 @@ import {
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -62,6 +63,8 @@ const brandColor = ref('#1677FFCC')
 const serviceRating = ref(3.5)
 const releaseCron=ref('0 9 * * 1-5')
 const requestHeaders=ref([{id:'authorization',key:'Authorization',value:'Bearer TOKEN',enabled:true}])
+const releaseNotes=ref('Typed multiline release notes')
+const textareaRef=ref<UiTextareaInstance>()
 const releaseRange = ref(['2026-08-10','2026-08-16'])
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
@@ -123,6 +126,7 @@ function sort(payload:UiTableSortChange) {
       </UiFormItem>
       <UiFormItem label="Confirm" name="confirm" :dependencies="['password']" :rules="[{validator:(value,current)=>value===current.password||'Mismatch'}]"><UiInput v-model="model.confirm" /></UiFormItem>
       <UiFormItem label="Office"><UiAutoComplete v-model="office" :options="[{label:'Hangzhou',value:'hangzhou'}]" /></UiFormItem>
+      <UiFormItem label="Release notes"><UiTextarea ref="textareaRef" v-model="releaseNotes" :auto-size="{minRows:2,maxRows:6}" clearable clear-on-escape show-count :maxlength="240" submit-on-enter="ctrl-or-meta" @submit="(_value,_event,meta)=>meta.source" @resize="meta=>meta.height"><template #prefix>¶</template><template #footer="{count,resize}"><button type="button" @click="resize('typed')">Resize {{ count }}</button></template></UiTextarea></UiFormItem>
       <UiButton @click="validate()">Validate</UiButton>
       <UiButton :loading="validating" @click="validateField('name')">Validate name {{ errors.length }}/{{ dirty }}</UiButton>
       <UiButton @click="resetFields('name')">Reset name</UiButton>

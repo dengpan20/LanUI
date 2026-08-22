@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.66 textarea compatibility
+
+There are no breaking changes. Existing `<UiTextarea v-model="value" :rows="4" show-count />`, disabled, readonly and invalid usage remains valid:
+
+```vue
+<UiTextarea v-model.trim="notes" :auto-size="{ minRows: 3, maxRows: 8 }" clearable submit-on-enter="ctrl-or-meta" />
+```
+
+- Native `name`, `form`, autocomplete, inputmode, wrap, length, required, autofocus and spellcheck attributes are explicit typed Props and still reach the native Textarea.
+- Composition updates suppress intermediate IME input and only deduplicate the browser event matching the committed value. Input, change, clear, submit, focus, blur, invalid, composition and resize events expose stable source/value/previous metadata.
+- `formatter` controls resting presentation and `parser` controls public values; `trim` and `lazy` model modifiers compose with both. Parser failures preserve the consumer value and emit structured invalid metadata.
+- `autoSize` accepts a Boolean or bounded `{ minRows, maxRows }`; it measures content after controlled updates and exposes `resize()`. `resize` still enables native manual resizing when autosize is off.
+- Prefix, suffix, clear-icon, Loading, footer and count Slots are additive. Count and FormItem help/error IDs merge through `aria-describedby`; root/subpath declarations, SSR and exposed focus/blur/select/clear/setValue/resize controls remain synchronized.
+
 ## 1.65 input compatibility
 
 There are no breaking changes. Existing `<UiInput v-model="value" clearable />`, password, disabled, readonly and invalid usage remains valid:

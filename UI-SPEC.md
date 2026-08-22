@@ -1214,3 +1214,15 @@ P68 retains 89 public components and 445 locale keys while generated coverage ad
 - Logical geometry, isolated LTR rendering for technical addons, RTL, Reduced Motion, forced colors and deterministic SSR share one contract. Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API and installed-tarball verification remain synchronized.
 
 P69 retains 89 public components and 445 locale keys while generated coverage advances to 1,276 Props, 417 Events and 236 Slots. Release gates require 42 visual baselines, 60 zero-violation Axe scenarios, 64 interactions per Chromium/Firefox/WebKit engine, 71 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 83. Maturity P70: production textareas
+
+- `UiTextarea` keeps existing model, placeholder, rows, maxlength, count, size, resize, disabled, readonly and invalid usage while adding typed native form attributes, autofocus/select-on-focus, Loading, Escape clear and configurable clear values.
+- IME composition suppresses intermediate updates and deduplicates only the browser input matching the committed composition value. Input, change, clear, submit, focus, blur, invalid, composition and resize events publish stable source/value/previous metadata.
+- Formatter controls the resting display; Parser controls the public value. Trim and Lazy model modifiers compose with both, parser failures preserve consumer state, and blur restores formatted presentation.
+- Boolean or bounded `{ minRows, maxRows }` autosize measures the native control after content and layout changes. Native vertical, horizontal, both and disabled resize policies remain available when autosize is off.
+- Plain Enter, Ctrl+Enter, Meta+Enter, Ctrl-or-Meta and Ctrl+Meta submission modes are explicit. Clear and submit paths respect disabled, readonly, Loading and IME states without introducing duplicate model updates.
+- Prefix, suffix, clear-icon, Loading, footer and count Slots remain orthogonal. FormItem label, help, error and required context merge with consumer ARIA IDs; public focus/blur/select/clear/setValue/resize methods avoid private DOM access.
+- Logical geometry, RTL, Reduced Motion, forced colors and deterministic SSR share one contract. Component center, one-page HTML, standalone consumer, root/subpath declarations, isolated CSS, generated API and installed-tarball verification remain synchronized.
+
+P70 retains 89 public components and 445 locale keys while generated coverage advances to 1,298 Props, 425 Events and 242 Slots. Release gates require 43 visual baselines, 61 zero-violation Axe scenarios, 65 interactions per Chromium/Firefox/WebKit engine, 73 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

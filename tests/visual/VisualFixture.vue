@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiSegmented,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -44,9 +44,10 @@ const visualDropdownItems=[{type:'heading',label:'Workspace actions'},{key:'edit
 const visualCollapseOpen=ref(['contract','evidence'])
 const visualCollapseAccordion=ref('keyboard')
 const visualButtonPressed=ref(true)
-const visualInputValue=ref('Release Candidate 165')
+const visualInputValue=ref('Release Candidate 166')
 const visualInputPassword=ref('LanUI-2026')
 const visualInputPasswordVisible=ref(false)
+const visualTextareaValue=ref('Multiline release notes grow from three to six rows while preserving native form semantics.')
 const visualCollapseItems=[{key:'contract',label:'Public component contract',content:'Root and subpath exports align Props, Emits, Slots and methods.',extra:'Required'},{key:'keyboard',label:'Keyboard and semantics',content:'Arrow, Home and End skip disabled headings.',extra:'WCAG'},{key:'evidence',label:'Release evidence',content:'Unit, visual, Axe, browser and package gates protect consumers.',extra:'Verified'},{key:'locked',label:'Restricted policy',content:'This panel is unavailable.',disabled:true}]
 const visualBreadcrumbItems=[
   {key:'home',label:'Home',href:'#home',icon:'home'},
@@ -382,9 +383,18 @@ const tableRows=[
         <UiFormItem label="Release name" required help="IME-safe model updates · Enter event · Escape clear"><UiInput v-model.trim="visualInputValue" icon="edit" clearable clear-on-escape select-on-focus show-count :maxlength="28" name="releaseName" autocomplete="off"/></UiFormItem>
         <UiFormItem label="Controlled secret" help="Visibility remains controlled by the consumer"><UiInput v-model="visualInputPassword" v-model:password-visible="visualInputPasswordVisible" type="password" icon="lock" password-toggle autocomplete="current-password"/></UiFormItem>
         <UiFormItem label="Package endpoint" help="Parser normalizes the editable draft"><UiInput model-value="release-center" :formatter="value=>String(value).toLowerCase()" :parser="value=>value.trim().replace(/\s+/g,'-')"><template #prepend>https://</template><template #suffix>stable</template><template #append>.lanui.dev</template></UiInput></UiFormItem>
-        <div class="visual-input-state-field"><strong>Operational states</strong><div class="visual-input-states"><UiInput model-value="Synchronizing" loading aria-label="Loading release alias"/><UiInput model-value="duplicate-alias" invalid aria-label="Invalid release alias"/><UiInput model-value="SYSTEM-165" readonly aria-label="Read-only system identifier"/><UiInput model-value="Unavailable" disabled aria-label="Disabled input"/></div><span class="field-error">The release alias is already in use</span></div>
+        <div class="visual-input-state-field"><strong>Operational states</strong><div class="visual-input-states"><UiInput model-value="Synchronizing" loading aria-label="Loading release alias"/><UiInput model-value="duplicate-alias" invalid aria-label="Invalid release alias"/><UiInput model-value="SYSTEM-166" readonly aria-label="Read-only system identifier"/><UiInput model-value="Unavailable" disabled aria-label="Disabled input"/></div><span class="field-error">The release alias is already in use</span></div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">native / IME / model modifiers</UiTag><UiTag color="green">formatter / parser / slots</UiTag><UiTag color="orange">ARIA / RTL / SSR / API</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='textarea'" title="Production multiline inputs" subtitle="Autosize, IME-safe editing, keyboard submit and complete operational states" title-tag="h2" class="visual-table-card visual-textarea-showcase">
+      <div class="visual-textarea-grid" data-textarea-state-contract="native form ime formatter parser modifiers autosize resize clear count submit loading invalid readonly disabled slots api rtl ssr">
+        <UiFormItem label="Release notes" required help="Autosize 3–6 rows · Ctrl / Command + Enter submits"><UiTextarea v-model.trim="visualTextareaValue" :auto-size="{minRows:3,maxRows:6}" clearable clear-on-escape show-count :maxlength="180" name="releaseNotes" submit-on-enter="ctrl-or-meta"><template #prefix>¶</template><template #footer="{count}">Draft autosaved · {{ count }} characters</template></UiTextarea></UiFormItem>
+        <UiFormItem label="Formatted template" help="Focus restores the editable value; blur formats the resting view"><UiTextarea model-value="release notes" :formatter="value=>String(value).toUpperCase()" :parser="value=>value.trim().toLowerCase()" select-on-focus :rows="3"><template #suffix>MD</template></UiTextarea></UiFormItem>
+        <UiFormItem label="Size and resize policy" group><div class="visual-textarea-sizes"><UiTextarea size="sm" model-value="Small · fixed" :rows="2" resize="none" aria-label="Small fixed textarea"/><UiTextarea model-value="Medium · vertical" :rows="2" resize="vertical" aria-label="Medium vertical textarea"/><UiTextarea size="lg" model-value="Large · horizontal" :rows="2" resize="horizontal" aria-label="Large horizontal textarea"/></div></UiFormItem>
+        <div class="visual-textarea-state-field"><strong>Operational states</strong><div class="visual-textarea-states"><UiTextarea model-value="Synchronizing" loading :rows="2" aria-label="Loading release notes"/><UiTextarea model-value="Needs policy review" invalid :rows="2" aria-label="Invalid release notes"/><UiTextarea model-value="Audit evidence" readonly :rows="2" aria-label="Read-only release notes"/><UiTextarea model-value="Policy locked" disabled :rows="2" aria-label="Disabled release notes"/></div><span class="field-error">The release notes require policy review</span></div>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">autosize / manual resize</UiTag><UiTag color="green">IME / parser / typed submit</UiTag><UiTag color="orange">ARIA / RTL / SSR / API</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='card'" title="Production content containers" subtitle="Variants, loading, selection and structured regions" title-tag="h2" class="visual-table-card visual-card-showcase">
       <div class="card-showcase-grid" data-card-state-contract="sizes variants cover header subtitle actions body footer hover interactive selected disabled loading link keyboard rtl reduced-motion ssr">

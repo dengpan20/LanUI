@@ -14,6 +14,7 @@ mkdirSync(componentTypes, { recursive: true })
 const relatedComponentTypes={
   UiButton:['UiButtonActivationMeta','UiButtonIconPosition','UiButtonInstance','UiButtonShape','UiButtonVariant'],
   UiInput:['UiInputInstance','UiInputInvalidMeta','UiInputMeta','UiInputMode','UiInputModelModifiers','UiInputSource','UiInputType','UiInputValue'],
+  UiTextarea:['UiTextareaAutoSize','UiTextareaInstance','UiTextareaInvalidMeta','UiTextareaMeta','UiTextareaModelModifiers','UiTextareaResize','UiTextareaResizeMeta','UiTextareaSource','UiTextareaSubmitMode'],
   UiCollapse:['UiCollapseChangeMeta','UiCollapseField','UiCollapseIconPosition','UiCollapseInstance','UiCollapseItem','UiCollapseItemScope','UiCollapseSize'],
   UiBreadcrumb:['UiBreadcrumbExpandMeta','UiBreadcrumbInstance','UiBreadcrumbItem','UiBreadcrumbNavigateMeta','UiBreadcrumbRecord'],
   UiSteps:['UiStepItem','UiStepStatus','UiStepsChangeMeta','UiStepsDirection','UiStepsField','UiStepsInstance','UiStepsItemScope','UiStepsRecordScope','UiStepsType'],

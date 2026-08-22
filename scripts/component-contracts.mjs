@@ -27,7 +27,7 @@ const required={
   'UiImage.vue':['role="dialog"','aria-modal="true"','openOverlay','isTopOverlay','focusWithRetry(returnFocus)','previewList','fallback','zoomOnWheel','pointerdown','useDirection','image.preview'],
   'UiVirtualList.vue':["selectionMode==='none'?'list':'listbox'",'aria-activedescendant','aria-setsize','ResizeObserver','scrollToIndex','resetAfterIndex','range-change','selectionMode','typeaheadSearch'],
   'UiList.vue':["selectionMode==='none'?'list':'listbox'",'aria-activedescendant','aria-setsize','ResizeObserver','typeaheadSearch','UiPagination','page-change','page-size-change','defineExpose'],
-  'UiTextarea.vue':['uiFormItemContext','aria-labelledby','aria-describedby','aria-invalid'],
+  'UiTextarea.vue':['uiFormItemContext','aria-labelledby','aria-describedby','aria-invalid','composition-start','data-ui-textarea','autoSize','submitOnEnter','defineExpose'],
   'UiUpload.vue':['AbortController','beforeUpload','beforeRemove','concurrency','onProgress','activeTokens','releaseToken','upload-error','disabled || !file.raw','aria-busy','defineExpose'],
   'UiTour.vue':['target-missing','activeMask','coordinates','scrollIntoView','useReducedMotion','useTeleportThemeScope','openOverlay','isTopOverlay','aria-modal','defineExpose'],
   'UiWatermark.vue':['MutationObserver','devicePixelRatio','drawImage','fillText','image-error','image-load','data-ui-watermark-layer','aria-hidden','defineExpose'],

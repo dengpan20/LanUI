@@ -1,5 +1,21 @@
 # Lan UI · 企业后台 Design System
 
+## P70 成熟多行文本输入
+
+`UiTextarea` 在兼容 `v-model / placeholder / rows / maxlength / showCount / resize / disabled / readonly / invalid` 基础用法的同时，补齐原生表单属性、IME 组合输入去重、自动高度、Formatter/Parser、Trim/Lazy 修饰符、Esc 清除、Loading、键盘提交、Prefix/Suffix/Footer/Count Slots 与公开实例方法。所有状态与事件携带稳定来源元数据，并与 FormItem、ARIA、RTL、强制颜色、SSR、根入口及组件子路径类型保持一致。
+
+```vue
+<UiTextarea
+  v-model.trim="releaseNotes"
+  :auto-size="{ minRows: 3, maxRows: 8 }"
+  clearable
+  show-count
+  :maxlength="500"
+  submit-on-enter="ctrl-or-meta"
+  @submit="publishNotes"
+/>
+```
+
 ## P69 成熟文本输入
 
 `UiInput` 在兼容 `v-model / type / placeholder / icon / clearable / passwordToggle / disabled / readonly / invalid` 基础用法的同时，补齐原生表单属性、IME 组合输入去重、Formatter/Parser、Trim/Number/Lazy 修饰符、受控密码显隐、Prepend/Append/Affix/Action Slots、字符计数、Esc 清除、Loading 以及公开实例方法。所有更新携带稳定来源元数据，并与 FormItem、ARIA、RTL、强制颜色、SSR、根入口和组件子路径类型保持一致。
