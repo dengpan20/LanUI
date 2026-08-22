@@ -13,6 +13,12 @@ import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 defineProps({ direction: { type: String, default: 'ltr' }, state: { type: String, default: 'base' } })
 
 const region = ref('')
+const productionSelectRef=ref(null)
+const productionSelectValue=ref('')
+const productionRemoteSelect=ref('')
+const productionSelectOutput=ref('ready')
+const productionSelectOptions=[{label:'East cluster',value:'east',description:'Shanghai and Hangzhou',keywords:['hangzhou']},{label:'South cluster',value:'south',disabled:true},{label:'Global cluster',value:'global',description:'Cross-time-zone delivery',keywords:['overseas']}]
+async function fetchProductionSelect(query,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,80);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return [{label:'Stable lane',value:'stable',description:'Verified release'},{label:'Next lane',value:'next',description:'Preview release'}].filter(option=>!query||option.label.toLowerCase().includes(query.toLowerCase()))}
 const anchorValue=ref('fixture-anchor-overview')
 const anchorItems=[{key:'fixture-anchor-overview',href:'#fixture-anchor-overview',title:'Overview'},{key:'fixture-anchor-disabled',href:'#fixture-anchor-disabled',title:'Disabled',disabled:true},{key:'fixture-anchor-api',href:'#fixture-anchor-api',title:'API contract'},{key:'fixture-anchor-release',href:'#fixture-anchor-release',title:'Release'}]
 const officeCity = ref('')
@@ -676,6 +682,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
       </section>
 
+      <section class="interaction-case interaction-wide interaction-select-production-case" data-select-state-contract="controlled uncontrolled native form reset search ime remote abort race cache loading error readonly disabled keyboard typeahead rtl ssr slots api">
+        <h2>Select production contract</h2>
+        <div class="interaction-grid">
+          <UiFormItem label="Release cluster" required help="Search, keyboard, native form and public API"><UiSelect id="interaction-production-select" ref="productionSelectRef" v-model="productionSelectValue" :options="productionSelectOptions" name="releaseCluster" required searchable clearable :append-to-body="false" @change="(value,meta)=>productionSelectOutput=`select:${meta.source}:${value}`" @clear="(value,meta)=>productionSelectOutput=`clear:${meta.source}:${value}`"/></UiFormItem>
+          <UiFormItem label="Remote release lane" help="Debounce, abort, race and cache"><UiSelect id="interaction-production-remote-select" v-model="productionRemoteSelect" searchable clearable :remote-method="fetchProductionSelect" :remote-debounce="0" :remote-min-chars="1" :append-to-body="false" @change="(value,meta)=>productionSelectOutput=`remote:${meta.source}:${value}`"/></UiFormItem>
+          <UiFormItem label="Read only"><UiSelect id="interaction-production-readonly-select" model-value="locked" :options="[{label:'Locked',value:'locked'}]" readonly :append-to-body="false" @invalid="meta=>productionSelectOutput=`invalid:${meta.reason}`"/></UiFormItem>
+          <div class="interaction-row"><UiButton id="interaction-production-select-api" size="sm" variant="outline" @click="productionSelectRef.setValue('east','fixture-api')">Select by API</UiButton></div>
+        </div>
+        <output class="interaction-output" data-testid="production-select-output">{{ productionSelectOutput }}</output>
+      </section>
       <section class="interaction-case interaction-wide interaction-selection-case" data-selection-state-contract="checkbox group array min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
         <h2>Selection controls production contract</h2>
         <div class="interaction-grid">

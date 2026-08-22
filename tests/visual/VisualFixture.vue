@@ -48,6 +48,8 @@ const visualInputValue=ref('Release Candidate 166')
 const visualInputPassword=ref('LanUI-2026')
 const visualInputPasswordVisible=ref(false)
 const visualTextareaValue=ref('Multiline release notes grow from three to six rows while preserving native form semantics.')
+const visualSelectValue=ref('east')
+const visualSelectOptions=[{name:'East release cluster',id:'east',detail:'Shanghai and Hangzhou',terms:['east','hangzhou']},{name:'South release cluster',id:'south',detail:'Unavailable for this policy',locked:true},{name:'Global release cluster',id:'global',detail:'Cross-time-zone delivery',terms:['global','overseas']}]
 const visualChannels=ref(['email','inbox'])
 const visualPlan=ref('team')
 const visualPolicy=ref('enabled')
@@ -400,6 +402,13 @@ const tableRows=[
         <div class="visual-textarea-state-field"><strong>Operational states</strong><div class="visual-textarea-states"><UiTextarea model-value="Synchronizing" loading :rows="2" aria-label="Loading release notes"/><UiTextarea model-value="Needs policy review" invalid :rows="2" aria-label="Invalid release notes"/><UiTextarea model-value="Audit evidence" readonly :rows="2" aria-label="Read-only release notes"/><UiTextarea model-value="Policy locked" disabled :rows="2" aria-label="Disabled release notes"/></div><span class="field-error">The release notes require policy review</span></div>
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">autosize / manual resize</UiTag><UiTag color="green">IME / parser / typed submit</UiTag><UiTag color="orange">ARIA / RTL / SSR / API</UiTag></div>
+    </UiCard>
+    <UiCard v-if="state==='select'" title="Production select controls" subtitle="Controlled state, native forms, local and remote search, keyboard and complete operational states" title-tag="h2" class="visual-table-card visual-select-showcase">
+      <div class="visual-select-grid" data-select-state-contract="controlled uncontrolled native form reset search ime remote abort race cache loading error readonly disabled keyboard typeahead rtl ssr slots api">
+        <section class="visual-select-stage"><h3>Searchable mapped options</h3><UiFormItem label="Release cluster" required help="Search labels, descriptions or keywords"><UiSelect v-model="visualSelectValue" :options="visualSelectOptions" :field-names="{label:'name',value:'id',description:'detail',keywords:'terms',disabled:'locked'}" name="releaseCluster" required searchable clearable default-open><template #prefix>◈</template><template #footer="{options}">{{ options.length }} available records</template></UiSelect></UiFormItem></section>
+        <section><h3>Sizes and operational states</h3><div class="visual-select-sizes"><UiSelect size="sm" model-value="Small" :options="['Small']" aria-label="Small select"/><UiSelect model-value="Medium" :options="['Medium']" aria-label="Medium select"/><UiSelect size="lg" model-value="Large" :options="['Large']" aria-label="Large select"/></div><div class="visual-select-states"><UiSelect model-value="Loading" :options="['Loading']" loading aria-label="Loading select"/><UiSelect invalid :options="['Required']" placeholder="Required value" aria-label="Invalid select"/><UiSelect model-value="Read only" :options="['Read only']" readonly aria-label="Read-only select"/><UiSelect model-value="Disabled" :options="['Disabled']" disabled aria-label="Disabled select"/></div></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">native form / controlled open</UiTag><UiTag color="green">search / remote race / cache</UiTag><UiTag color="orange">keyboard / ARIA / RTL / SSR / API</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='selection'" title="Production selection controls" subtitle="Native inputs, typed groups, constraints, value mapping and complete operational states" title-tag="h2" class="visual-table-card visual-selection-showcase">
       <div class="visual-selection-grid" data-selection-state-contract="checkbox group boolean array true-value false-value min max indeterminate radio keyboard switch guard loading form aria rtl ssr">

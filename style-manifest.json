@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.67.0",
+  "version": "1.68.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 238316,
-    "rules": 1868,
+    "bytes": 240310,
+    "rules": 1886,
     "source": "component-union"
   },
   "core": {
@@ -142,8 +142,8 @@
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 29286,
-      "rules": 238
+      "bytes": 31280,
+      "rules": 256
     },
     {
       "name": "UiDatePicker",
@@ -268,14 +268,14 @@
     {
       "name": "UiList",
       "subpath": "./styles/UiList.css",
-      "bytes": 14929,
-      "rules": 127
+      "bytes": 17172,
+      "rules": 147
     },
     {
       "name": "UiListToolbar",
       "subpath": "./styles/UiListToolbar.css",
-      "bytes": 6214,
-      "rules": 47
+      "bytes": 8457,
+      "rules": 67
     },
     {
       "name": "UiMentions",
@@ -298,8 +298,8 @@
     {
       "name": "UiMultiSelect",
       "subpath": "./styles/UiMultiSelect.css",
-      "bytes": 3081,
-      "rules": 23
+      "bytes": 2921,
+      "rules": 22
     },
     {
       "name": "UiNotification",
@@ -328,8 +328,8 @@
     {
       "name": "UiPagination",
       "subpath": "./styles/UiPagination.css",
-      "bytes": 5650,
-      "rules": 45
+      "bytes": 7893,
+      "rules": 65
     },
     {
       "name": "UiPopconfirm",
@@ -358,8 +358,8 @@
     {
       "name": "UiQueryBuilder",
       "subpath": "./styles/UiQueryBuilder.css",
-      "bytes": 34355,
-      "rules": 266
+      "bytes": 36349,
+      "rules": 284
     },
     {
       "name": "UiRadio",
@@ -388,8 +388,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 56727,
-      "rules": 454
+      "bytes": 58721,
+      "rules": 472
     },
     {
       "name": "UiSegmented",
@@ -400,8 +400,8 @@
     {
       "name": "UiSelect",
       "subpath": "./styles/UiSelect.css",
-      "bytes": 4095,
-      "rules": 29
+      "bytes": 6338,
+      "rules": 49
     },
     {
       "name": "UiSkeleton",

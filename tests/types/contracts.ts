@@ -40,6 +40,7 @@ import {
   UiRadio,
   UiRadioGroup,
   UiRate,
+  UiSelect,
   UiStatistic,
   UiStatusPage,
   UiSlider,
@@ -91,6 +92,7 @@ import SubpathCheckboxGroup, { UiCheckboxGroup as NamedSubpathCheckboxGroup } fr
 import SubpathRadio, { UiRadio as NamedSubpathRadio } from 'lan-ui-design-system/components/UiRadio'
 import SubpathRadioGroup, { UiRadioGroup as NamedSubpathRadioGroup } from 'lan-ui-design-system/components/UiRadioGroup'
 import SubpathSwitch, { UiSwitch as NamedSubpathSwitch } from 'lan-ui-design-system/components/UiSwitch'
+import SubpathSelect, { UiSelect as NamedSubpathSelect } from 'lan-ui-design-system/components/UiSelect'
 import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
@@ -154,6 +156,7 @@ import type { UiCheckboxGroupEmits, UiCheckboxGroupInstance, UiCheckboxGroupProp
 import type { UiRadioEmits, UiRadioInstance, UiRadioProps, UiRadioSlots } from 'lan-ui-design-system/components/UiRadio'
 import type { UiRadioGroupEmits, UiRadioGroupInstance, UiRadioGroupProps, UiRadioGroupSlots, UiRadioOption } from 'lan-ui-design-system/components/UiRadioGroup'
 import type { UiSwitchChangeMeta, UiSwitchEmits, UiSwitchInstance, UiSwitchProps, UiSwitchSlots } from 'lan-ui-design-system/components/UiSwitch'
+import type { SelectOption, UiSelectChangeMeta, UiSelectEmits, UiSelectInstance, UiSelectInvalidMeta, UiSelectOpenMeta, UiSelectProps, UiSelectSlots } from 'lan-ui-design-system/components/UiSelect'
 import type { UiButtonActivationMeta, UiButtonEmits, UiButtonInstance, UiButtonProps, UiButtonSlots } from 'lan-ui-design-system/components/UiButton'
 import type { UiInputTagEmits, UiInputTagProps, UiInputTagSlots } from 'lan-ui-design-system/components/UiInputTag'
 import type { UiQueryBuilderEmits, UiQueryBuilderInstance, UiQueryBuilderProps, UiQueryBuilderSlots, UiQueryField, UiQueryGroup, UiQueryOperator } from 'lan-ui-design-system/components/UiQueryBuilder'
@@ -362,6 +365,16 @@ const switchEvent:keyof UiSwitchEmits='invalid'
 const switchSlot:keyof UiSwitchSlots='checked-text'
 const switchParity:typeof SubpathSwitch=NamedSubpathSwitch
 
+const selectOptions:SelectOption[]=[{label:'East',value:'east',description:'Primary region',keywords:['hangzhou']},{label:'West',value:'west',disabled:true}]
+const selectProps:InstanceType<typeof UiSelect>['$props']&UiSelectProps={modelValue:'east',defaultValue:'west',open:true,defaultOpen:false,options:selectOptions,fieldNames:{label:'name',value:'id'},placeholder:'Choose region',size:'lg',readonly:false,loading:false,clearable:true,clearValue:'',searchable:true,filterOption:(query,option)=>option.label.includes(query),remoteMethod:async(_query,{signal})=>signal?.aborted?[]:selectOptions,remoteDebounce:120,remoteMinChars:1,remoteCache:true,loadingText:'Loading',errorText:'Failed',searchPlaceholder:'Search',closeOnSelect:true,placement:'bottom-end',appendToBody:true,name:'region',form:'release',required:true,autofocus:false,ariaLabel:'Region'}
+const selectChange:UiSelectEmits['change']=(_value,meta)=>{const typed:UiSelectChangeMeta=meta;void [typed.source,typed.option?.label]}
+const selectOpen:UiSelectEmits['open-change']=(_open,meta)=>{const typed:UiSelectOpenMeta=meta;void typed.query}
+const selectInvalid:UiSelectEmits['invalid']=payload=>{const typed:UiSelectInvalidMeta=payload;void typed.reason}
+const selectInstance:UiSelectInstance=null as never
+selectInstance.focus();selectInstance.blur();selectInstance.show('api');selectInstance.hide('api');selectInstance.toggle('api');selectInstance.select('east','api');selectInstance.setValue('west','api');selectInstance.clear('api');selectInstance.reload('east',{useCache:false});selectInstance.scrollToActive()
+const selectSlot:UiSelectSlots={prefix:scope=>String(scope.value),value:scope=>scope.label,arrow:scope=>String(scope.open),option:scope=>scope.option.label,empty:scope=>scope.query,error:scope=>String(scope.retry()),footer:scope=>String(scope.options.length)}
+const selectParity:typeof SubpathSelect=NamedSubpathSelect
+
 // @ts-expect-error UiInput model updates emit string or number values.
 inputEmit('update:modelValue', true)
 // @ts-expect-error UiInput only supports text-like native input types.
@@ -380,6 +393,14 @@ const invalidCheckboxGroupDirection:UiCheckboxGroupProps={direction:'diagonal'}
 const invalidRadioGroupKeyboard:UiRadioGroupProps={keyboard:'automatic'}
 // @ts-expect-error Switch guards resolve to boolean or void, synchronously or asynchronously.
 const invalidSwitchGuard:UiSwitchProps={beforeChange:()=> 'allow'}
+// @ts-expect-error Select placement uses logical top/bottom start/end anchors.
+const invalidSelectPlacement:UiSelectProps={placement:'center'}
+// @ts-expect-error Select field mappings point to record field names.
+const invalidSelectField:UiSelectProps={fieldNames:{value:2}}
+// @ts-expect-error Select filters resolve to booleans.
+const invalidSelectFilter:UiSelectProps={filterOption:()=> 'match'}
+// @ts-expect-error Remote select methods resolve to option arrays.
+const invalidSelectRemote:UiSelectProps={remoteMethod:async()=>({label:'East',value:'east'})}
 // @ts-expect-error Component sizes are limited to sm, md and lg.
 const invalidButton: InstanceType<typeof UiButton>['$props'] = { size: 'xl' }
 
@@ -923,4 +944,5 @@ void [dropdownItems,dropdownProps,dropdownOpenEmit,dropdownSelectEmit,dropdownAc
 
 void [inputProps,inputMeta,inputInstance,invalidInputType,invalidInputMode,textareaProps,textareaEmit,textareaMeta,textareaResize,textareaInstance,textareaSubpathParity,textareaEvent,textareaSlot,invalidTextareaResize,invalidTextareaSubmit]
 void [checkboxValues,checkboxOptions,checkboxProps,checkboxEmit,selectionMeta,selectionInvalid,checkboxInstance,checkboxEvent,checkboxSlot,checkboxParity,checkboxGroupProps,checkboxGroupInstance,checkboxGroupEvent,checkboxGroupSlot,checkboxGroupParity,radioOptions,radioProps,radioEmit,radioInstance,radioEvent,radioSlot,radioParity,radioGroupProps,radioGroupInstance,radioGroupEvent,radioGroupSlot,radioGroupParity,switchProps,switchMeta,switchEmit,switchInstance,switchEvent,switchSlot,switchParity,invalidCheckboxPlacement,invalidCheckboxGroupDirection,invalidRadioGroupKeyboard,invalidSwitchGuard]
+void [selectOptions,selectProps,selectChange,selectOpen,selectInvalid,selectInstance,selectSlot,selectParity,invalidSelectPlacement,invalidSelectField,invalidSelectFilter,invalidSelectRemote]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

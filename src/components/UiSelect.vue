@@ -1,58 +1,179 @@
 <script setup>
-import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, useAttrs, useId, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, toRef, useAttrs, useId, useSlots, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import { useFloatingPosition } from './floatingPosition.js'
 import { useComponentSize, useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 import { useTeleportThemeScope } from '../theme-scope.js'
-defineOptions({ inheritAttrs: false })
+
+defineOptions({ inheritAttrs:false })
+
+const props=defineProps({
+  modelValue:[String,Number],
+  defaultValue:[String,Number],
+  open:{type:Boolean,default:undefined},
+  defaultOpen:Boolean,
+  options:{type:Array,default:()=>[]},
+  fieldNames:{type:Object,default:()=>({})},
+  placeholder:{type:String,default:''},
+  size:{type:String,default:''},
+  disabled:Boolean,
+  readonly:Boolean,
+  invalid:Boolean,
+  loading:Boolean,
+  clearable:Boolean,
+  clearValue:{type:[String,Number],default:''},
+  searchable:Boolean,
+  filterOption:{type:[Boolean,Function],default:true},
+  remoteMethod:Function,
+  remoteDebounce:{type:Number,default:200},
+  remoteMinChars:{type:Number,default:0},
+  remoteCache:{type:Boolean,default:true},
+  emptyText:{type:String,default:''},
+  loadingText:{type:String,default:''},
+  errorText:{type:String,default:''},
+  searchPlaceholder:{type:String,default:''},
+  closeOnSelect:{type:Boolean,default:true},
+  placement:{type:String,default:'bottom-start',validator:value=>['top-start','top-end','bottom-start','bottom-end'].includes(value)},
+  appendToBody:{type:Boolean,default:true},
+  name:String,
+  form:String,
+  required:Boolean,
+  autofocus:Boolean,
+  ariaLabel:String,
+})
+const emit=defineEmits([
+  'update:modelValue','update:open','input','change','select','clear','search','open-change',
+  'focus','blur','load-error','invalid',
+])
+const attrs=useAttrs()
+const slots=useSlots()
+const formItem=inject('uiFormItemContext',null)
+const uid=useId()
+const rootRef=ref(null)
+const triggerRef=ref(null)
+const panelRef=ref(null)
+const searchInputRef=ref(null)
+const nativeRef=ref(null)
+const internalValue=ref(props.modelValue===undefined?props.defaultValue:props.modelValue)
+const internalOpen=ref(props.defaultOpen)
+const activeIndex=ref(-1)
+const query=ref('')
+const focused=ref(false)
+const composing=ref(false)
+const remoteLoading=ref(false)
+const remoteError=ref(null)
+const remoteOptions=ref([])
+const selectedMemory=ref(null)
+const dropUp=ref(false)
+let debounceTimer=null
+let requestController=null
+let requestSequence=0
+let typeaheadTimer=null
+let typeahead=''
+let resetForm=null
+const requestCache=new Map()
 
 const {portalThemeAttrs,portalThemeStyle}=useTeleportThemeScope()
-const props = defineProps({
-  modelValue: [String, Number], options: { type: Array, default: () => [] }, placeholder: { type: String, default: '' },
-  size: { type: String, default: '' }, disabled: Boolean, invalid: Boolean, clearable: Boolean, searchable: Boolean,
-  emptyText: { type: String, default: '' },
-  placement: { type: String, default: 'bottom-start', validator: value => ['top-start','top-end','bottom-start','bottom-end'].includes(value) },
-  appendToBody: { type: Boolean, default: true },
-})
-const emit = defineEmits(['update:modelValue', 'change', 'clear', 'open-change'])
-const attrs = useAttrs()
-const formItem = inject('uiFormItemContext', null)
-const uid = useId()
-const root = ref(null)
-const panelRef = ref(null)
-const searchInput = ref(null)
-const open = ref(false)
-const dropUp = ref(false)
-const activeIndex = ref(-1)
-const query = ref('')
-const listboxId = `ui-select-list-${uid}`
-const normalized = computed(() => props.options.map(option => typeof option === 'object' ? option : { label: option, value: option }))
-const filtered = computed(() => normalized.value.filter(option => !query.value || String(option.label).toLowerCase().includes(query.value.toLowerCase())))
-const selected = computed(() => normalized.value.find(option => option.value === props.modelValue))
-const controlId = computed(() => attrs.id || formItem?.controlId?.value)
-const labelledby = computed(() => attrs['aria-labelledby'] || (attrs['aria-label'] ? undefined : formItem?.labelId?.value))
-const describedby = computed(() => attrs['aria-describedby'] || formItem?.describedby?.value || undefined)
-const resolvedInvalid = computed(() => props.invalid || formItem?.invalid?.value || false)
-const resolvedSize=useComponentSize(toRef(props,'size'))
 const config=useLanUiConfig()
 const direction=useDirection()
 const {t}=useLocale()
+const resolvedSize=useComponentSize(toRef(props,'size'))
+const resolvedValue=computed(()=>props.modelValue===undefined?internalValue.value:props.modelValue)
+const isControlledOpen=computed(()=>props.open!==undefined)
+const resolvedOpen=computed(()=>isControlledOpen.value?props.open:internalOpen.value)
+const resolvedLoading=computed(()=>props.loading||remoteLoading.value)
+const resolvedInvalid=computed(()=>props.invalid||formItem?.invalid?.value||false)
+const resolvedRequired=computed(()=>props.required||formItem?.required?.value||false)
 const resolvedPlaceholder=computed(()=>props.placeholder||t('select.placeholder'))
 const resolvedEmptyText=computed(()=>props.emptyText||t('select.empty'))
-const controlAttrs = computed(() => Object.fromEntries(Object.entries(attrs).filter(([key]) => !['class','style'].includes(key))))
-const optionId = index => `ui-select-option-${uid}-${index}`
-const activeDescendant = computed(() => open.value && activeIndex.value >= 0 ? optionId(activeIndex.value) : undefined)
+const resolvedLoadingText=computed(()=>props.loadingText||t('select.loading'))
+const resolvedErrorText=computed(()=>props.errorText||t('select.error'))
+const resolvedSearchPlaceholder=computed(()=>props.searchPlaceholder||t('select.search'))
+const controlId=computed(()=>attrs.id||formItem?.controlId?.value||`ui-select-${uid}`)
+const listboxId=`ui-select-list-${uid}`
+const labelledby=computed(()=>attrs['aria-labelledby']||(attrs['aria-label']||props.ariaLabel?undefined:formItem?.labelId?.value))
+const describedby=computed(()=>attrs['aria-describedby']||formItem?.describedby?.value||undefined)
+const resolvedAriaLabel=computed(()=>props.ariaLabel||attrs['aria-label']||undefined)
+const fieldMap=computed(()=>({
+  label:props.fieldNames.label||'label',
+  value:props.fieldNames.value||'value',
+  disabled:props.fieldNames.disabled||'disabled',
+  description:props.fieldNames.description||'description',
+  keywords:props.fieldNames.keywords||'keywords',
+}))
+const passthroughAttrs=computed(()=>Object.fromEntries(Object.entries(attrs).filter(([key])=>![
+  'id','class','style','name','form','required','autofocus','disabled','readonly','aria-label','aria-labelledby',
+  'aria-describedby','aria-invalid','aria-busy','aria-required','role','tabindex',
+].includes(key))))
+const state=computed(()=>props.disabled?'disabled':props.readonly?'readonly':resolvedLoading.value?'loading':remoteError.value?'error':resolvedInvalid.value?'invalid':resolvedOpen.value?'open':focused.value?'focused':'ready')
+
+function normalizeOption(option,index,source='local'){
+  if(option&&typeof option==='object'){
+    const fields=fieldMap.value
+    const value=option[fields.value]??option[fields.label]??''
+    const keywords=option[fields.keywords]
+    return {
+      raw:option,
+      key:option.key??value,
+      label:String(option[fields.label]??value??''),
+      value,
+      disabled:Boolean(option[fields.disabled]),
+      description:option[fields.description]==null?'':String(option[fields.description]),
+      keywords:Array.isArray(keywords)?keywords:keywords==null?[]:[keywords],
+      source,index,
+    }
+  }
+  return {raw:option,key:option,label:String(option??''),value:option,disabled:false,description:'',keywords:[],source,index}
+}
+const localOptions=computed(()=>props.options.map((option,index)=>normalizeOption(option,index,'local')))
+const normalizedRemoteOptions=computed(()=>remoteOptions.value.map((option,index)=>normalizeOption(option,index,'remote')))
+const sourceOptions=computed(()=>props.remoteMethod?normalizedRemoteOptions.value:localOptions.value)
+
+function valuesEqual(left,right){return Object.is(left,right)}
+function matches(option,text){
+  if(props.filterOption===false)return true
+  if(typeof props.filterOption==='function'){
+    try{return props.filterOption(String(text),publicOption(option),option.index)!==false}
+    catch(error){emitInvalid('filter-error','filter',{error,query:String(text)});return false}
+  }
+  const needle=String(text??'').trim().toLocaleLowerCase()
+  if(!needle)return true
+  return [option.label,option.value,option.description,...option.keywords]
+    .map(value=>String(value??'').toLocaleLowerCase())
+    .some(value=>value.includes(needle))
+}
+const filteredOptions=computed(()=>{
+  if(props.remoteMethod)return sourceOptions.value
+  if(!props.searchable||!query.value)return sourceOptions.value
+  return sourceOptions.value.filter(option=>matches(option,query.value))
+})
+const selectedOption=computed(()=>{
+  const value=resolvedValue.value
+  const found=[...localOptions.value,...normalizedRemoteOptions.value].find(option=>valuesEqual(option.value,value))
+  if(found)return found
+  if(selectedMemory.value&&valuesEqual(selectedMemory.value.value,value))return selectedMemory.value
+  return null
+})
+const hasValue=computed(()=>Boolean(selectedOption.value)||(
+  resolvedValue.value!==undefined&&resolvedValue.value!==null&&!valuesEqual(resolvedValue.value,props.clearValue)
+))
+const displayLabel=computed(()=>selectedOption.value?.label??(hasValue.value?String(resolvedValue.value):''))
+const hasPrefix=computed(()=>Boolean(slots.prefix))
+const hasSuffix=computed(()=>Boolean(slots.suffix))
+const hasActions=computed(()=>Boolean(resolvedLoading.value||(props.clearable&&hasValue.value&&!props.disabled&&!props.readonly)))
+const optionId=index=>`${listboxId}-option-${index}`
+const activeDescendant=computed(()=>resolvedOpen.value&&activeIndex.value>=0&&filteredOptions.value[activeIndex.value]?optionId(activeIndex.value):undefined)
+const menuWidth=computed(()=>`${Math.max(120,rootRef.value?.getBoundingClientRect().width||0)}px`)
 const resolvedPlacement=computed(()=>{
   if(direction.value!=='rtl')return props.placement
   if(props.placement.endsWith('-start'))return props.placement.replace(/-start$/,'-end')
   if(props.placement.endsWith('-end'))return props.placement.replace(/-end$/,'-start')
   return props.placement
 })
-const menuWidth=computed(()=>`${Math.max(120,root.value?.getBoundingClientRect().width||0)}px`)
 const {floatingStyle,resolvedPlacement:actualPlacement,update:updatePosition}=useFloatingPosition({
-  triggerRef:root,
+  triggerRef:rootRef,
   panelRef,
-  open:computed(()=>open.value&&props.appendToBody),
+  open:computed(()=>resolvedOpen.value&&props.appendToBody),
   placement:resolvedPlacement,
   offset:6,
   zIndex:computed(()=>config.value.zIndex+55),
@@ -60,76 +181,335 @@ const {floatingStyle,resolvedPlacement:actualPlacement,update:updatePosition}=us
 const panelStyle=computed(()=>props.appendToBody?{...floatingStyle.value,width:menuWidth.value,minWidth:menuWidth.value}:undefined)
 const opensUp=computed(()=>props.appendToBody?actualPlacement.value.startsWith('top'):dropUp.value)
 
-function enabledIndex(start, delta) {
-  if (!filtered.value.length) return -1
-  let index = start
-  for (let count = 0; count < filtered.value.length; count += 1) {
-    index = (index + delta + filtered.value.length) % filtered.value.length
-    if (!filtered.value[index]?.disabled) return index
+function publicOption(option){
+  if(!option)return undefined
+  return {key:option.key,label:option.label,value:option.value,disabled:option.disabled,description:option.description,keywords:[...option.keywords],raw:option.raw}
+}
+function openMeta(source,previous,nativeEvent){return {source,previous,query:query.value,nativeEvent}}
+function emitInvalid(reason,source,extra={}){
+  const payload={reason,source,value:resolvedValue.value,query:query.value,...extra}
+  emit('invalid',payload)
+  return false
+}
+function enabledIndex(start,delta){
+  const options=filteredOptions.value
+  if(!options.length)return -1
+  let index=start
+  for(let count=0;count<options.length;count+=1){
+    index=(index+delta+options.length)%options.length
+    if(!options[index]?.disabled)return index
   }
   return -1
 }
-function setOpen(value) {
-  if (props.disabled) return
-  open.value = value
-  emit('open-change', value)
-  if (value) {
-    const rect = root.value?.getBoundingClientRect()
-    dropUp.value = props.placement.startsWith('top') || (!!rect && !props.placement.startsWith('top') && innerHeight - rect.bottom < 240 && rect.top > 240)
-    const selectedIndex = filtered.value.findIndex(option => option.value === props.modelValue && !option.disabled)
-    activeIndex.value = selectedIndex >= 0 ? selectedIndex : enabledIndex(-1, 1)
-    nextTick(()=>{
-      updatePosition()
-      if (props.searchable) searchInput.value?.focus()
-    })
-  } else query.value = ''
+function selectedIndex(){return filteredOptions.value.findIndex(option=>valuesEqual(option.value,resolvedValue.value)&&!option.disabled)}
+function resetActive(){
+  const index=selectedIndex()
+  activeIndex.value=index>=0?index:enabledIndex(-1,1)
+  nextTick(()=>{updatePosition();scrollToActive()})
 }
-function toggle() { setOpen(!open.value) }
-function select(option) {
-  if (!option || option.disabled) return
-  emit('update:modelValue', option.value); emit('change', option.value); setOpen(false)
+function prepareOpen(){
+  const rect=rootRef.value?.getBoundingClientRect()
+  const viewportHeight=typeof innerHeight==='number'?innerHeight:0
+  dropUp.value=props.placement.startsWith('top')||Boolean(rect&&viewportHeight-rect.bottom<240&&rect.top>240)
+  resetActive()
+  if(props.remoteMethod)reload(query.value,{source:'open',useCache:true})
+  nextTick(()=>{if(props.searchable)searchInputRef.value?.focus();else triggerRef.value?.focus()})
 }
-function clear(event) { event?.stopPropagation(); emit('update:modelValue', ''); emit('clear'); query.value = '' }
-function onKeydown(event) {
-  if (props.disabled) return
-  if (!open.value && ['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) { event.preventDefault(); setOpen(true); return }
-  if (!open.value) return
-  if (event.key === 'Escape' || event.key === 'Tab') { setOpen(false); return }
-  if (event.key === 'ArrowDown') { event.preventDefault(); activeIndex.value = enabledIndex(activeIndex.value, 1) }
-  else if (event.key === 'ArrowUp') { event.preventDefault(); activeIndex.value = enabledIndex(activeIndex.value, -1) }
-  else if (event.key === 'Home') { event.preventDefault(); activeIndex.value = enabledIndex(-1, 1) }
-  else if (event.key === 'End') { event.preventDefault(); activeIndex.value = enabledIndex(0, -1) }
-  else if (event.key === 'Enter' && filtered.value[activeIndex.value]) { event.preventDefault(); select(filtered.value[activeIndex.value]) }
+function cleanupClose({focusTrigger=false}={}){
+  activeIndex.value=-1
+  if(props.searchable&&query.value){query.value='';emit('search','',{source:'close'});if(!props.remoteMethod)nextTick(updatePosition)}
+  if(focusTrigger)nextTick(()=>triggerRef.value?.focus())
 }
-function closeOutside(event) {
-  if (root.value && !root.value.contains(event.target) && !panelRef.value?.contains(event.target)) setOpen(false)
+function setOpen(value,source='api',nativeEvent){
+  const next=Boolean(value)
+  if(next&&(props.disabled||props.readonly))return emitInvalid(props.disabled?'disabled':'readonly',source,{nativeEvent})
+  const previous=resolvedOpen.value
+  if(previous===next)return false
+  if(!isControlledOpen.value){
+    internalOpen.value=next
+    if(next)prepareOpen()
+    else cleanupClose({focusTrigger:source==='escape'||source==='select'})
+  }
+  emit('update:open',next)
+  emit('open-change',next,openMeta(source,previous,nativeEvent))
+  return true
 }
-watch(filtered, list => {
-  if (activeIndex.value >= list.length || list[activeIndex.value]?.disabled) activeIndex.value = enabledIndex(-1, 1)
-  if(open.value)nextTick(updatePosition)
+function toggleOpen(source='api',nativeEvent){return setOpen(!resolvedOpen.value,source,nativeEvent)}
+function dispatchNativeChange(){
+  if(typeof Event!=='function'||!nativeRef.value)return
+  nativeRef.value.dispatchEvent(new Event('input',{bubbles:true}))
+  nativeRef.value.dispatchEvent(new Event('change',{bubbles:true}))
+}
+function commitValue(value,source='api',option,index=-1,nativeEvent){
+  if(props.disabled)return emitInvalid('disabled',source,{nativeEvent})
+  if(props.readonly)return emitInvalid('readonly',source,{nativeEvent})
+  if(resolvedLoading.value)return emitInvalid('loading',source,{nativeEvent})
+  if(option?.disabled)return emitInvalid('option-disabled',source,{option:publicOption(option),nativeEvent})
+  const previous=resolvedValue.value
+  const meta={source,previous,next:value,option:publicOption(option),index,nativeEvent}
+  if(option)selectedMemory.value=option
+  if(props.modelValue===undefined)internalValue.value=value
+  if(!valuesEqual(value,previous)){
+    emit('update:modelValue',value)
+    emit('input',value,meta)
+    emit('change',value,meta)
+    nextTick(dispatchNativeChange)
+  }
+  return meta
+}
+function selectOption(option,index=activeIndex.value,source='api',nativeEvent){
+  if(!option)return emitInvalid('unknown-option',source,{nativeEvent})
+  const meta=commitValue(option.value,source,option,index,nativeEvent)
+  if(meta===false)return false
+  emit('select',publicOption(option),meta)
+  if(props.closeOnSelect)setOpen(false,'select',nativeEvent)
+  else nextTick(()=>props.searchable?searchInputRef.value?.focus():triggerRef.value?.focus())
+  return meta
+}
+function select(valueOrOption,source='api',nativeEvent){
+  const value=valueOrOption&&typeof valueOrOption==='object'
+    ?valueOrOption[fieldMap.value.value]??valueOrOption.value
+    :valueOrOption
+  const option=[...localOptions.value,...normalizedRemoteOptions.value].find(item=>valuesEqual(item.value,value))
+  if(!option)return emitInvalid('unknown-option',source,{requested:value,nativeEvent})
+  const index=filteredOptions.value.findIndex(item=>valuesEqual(item.value,value))
+  return selectOption(option,index,source,nativeEvent)
+}
+function setValue(value,source='api'){return select(value,source)}
+function clear(source='clear',nativeEvent){
+  if(props.disabled)return emitInvalid('disabled',source,{nativeEvent})
+  if(props.readonly)return emitInvalid('readonly',source,{nativeEvent})
+  if(resolvedLoading.value)return emitInvalid('loading',source,{nativeEvent})
+  if(!hasValue.value)return false
+  const previous=resolvedValue.value
+  const value=props.clearValue
+  const meta={source,previous,next:value,option:undefined,index:-1,nativeEvent}
+  selectedMemory.value=null
+  if(props.modelValue===undefined)internalValue.value=value
+  emit('update:modelValue',value)
+  emit('input',value,meta)
+  emit('change',value,meta)
+  emit('clear',value,meta)
+  query.value=''
+  nextTick(()=>{dispatchNativeChange();triggerRef.value?.focus()})
+  return meta
+}
+function clearFromControl(event){event.preventDefault();event.stopPropagation();clear('clear',event)}
+
+function clearDebounce(){if(debounceTimer){clearTimeout(debounceTimer);debounceTimer=null}}
+function abortRequest(){requestController?.abort();requestController=null;remoteLoading.value=false}
+async function loadRemote(text,{source='search',useCache=true}={}){
+  if(!props.remoteMethod)return []
+  const normalizedQuery=String(text??'')
+  emit('search',normalizedQuery,{source})
+  if(normalizedQuery.length<Math.max(0,props.remoteMinChars)){
+    abortRequest();remoteOptions.value=[];remoteError.value=null;resetActive();return []
+  }
+  if(useCache&&props.remoteCache&&requestCache.has(normalizedQuery)){
+    abortRequest();remoteOptions.value=requestCache.get(normalizedQuery);remoteError.value=null;resetActive();return normalizedRemoteOptions.value.map(publicOption)
+  }
+  abortRequest()
+  const sequence=++requestSequence
+  requestController=typeof AbortController==='undefined'?null:new AbortController()
+  remoteLoading.value=true
+  remoteError.value=null
+  try{
+    const result=await props.remoteMethod(normalizedQuery,{signal:requestController?.signal})
+    if(sequence!==requestSequence||requestController?.signal.aborted)return []
+    const next=Array.isArray(result)?result:[]
+    remoteOptions.value=next
+    if(props.remoteCache)requestCache.set(normalizedQuery,next)
+    resetActive()
+    return normalizedRemoteOptions.value.map(publicOption)
+  }catch(error){
+    if(sequence!==requestSequence||error?.name==='AbortError'||requestController?.signal.aborted)return []
+    remoteOptions.value=[]
+    remoteError.value=error
+    emit('load-error',{error,query:normalizedQuery,source})
+    emitInvalid('remote-error',source,{error,query:normalizedQuery})
+    resetActive()
+    return []
+  }finally{
+    if(sequence===requestSequence){remoteLoading.value=false;requestController=null}
+  }
+}
+function scheduleRemote(text,source='search'){
+  clearDebounce()
+  if(!props.remoteMethod){emit('search',String(text??''),{source});resetActive();return}
+  const delay=Math.max(0,Number.isFinite(props.remoteDebounce)?props.remoteDebounce:200)
+  if(!delay){void loadRemote(text,{source});return}
+  debounceTimer=setTimeout(()=>{debounceTimer=null;void loadRemote(text,{source})},delay)
+}
+function reload(text=query.value,{source='api',useCache=false}={}){
+  clearDebounce()
+  if(!props.remoteMethod){resetActive();return Promise.resolve(filteredOptions.value.map(publicOption))}
+  return loadRemote(text,{source,useCache})
+}
+function onSearchInput(event){
+  query.value=event.target.value
+  if(composing.value||event.isComposing)return
+  scheduleRemote(query.value,'input')
+}
+function onCompositionEnd(event){
+  composing.value=false
+  query.value=event.target.value
+  scheduleRemote(query.value,'composition')
+}
+function closeOutside(event){
+  if(rootRef.value?.contains(event.target)||panelRef.value?.contains(event.target))return
+  setOpen(false,'outside',event)
+}
+function scrollToActive(){
+  if(activeIndex.value<0||typeof document==='undefined')return false
+  const element=document.getElementById(optionId(activeIndex.value))
+  element?.scrollIntoView?.({block:'nearest'})
+  return Boolean(element)
+}
+function moveActive(delta){activeIndex.value=enabledIndex(activeIndex.value,delta);nextTick(scrollToActive)}
+function moveBoundary(end=false){activeIndex.value=enabledIndex(end?0:-1,end?-1:1);nextTick(scrollToActive)}
+function findTypeahead(text){
+  const needle=text.toLocaleLowerCase()
+  const options=filteredOptions.value
+  if(!needle||!options.length)return
+  const start=Math.max(activeIndex.value,0)
+  for(let offset=1;offset<=options.length;offset+=1){
+    const index=(start+offset)%options.length
+    if(!options[index].disabled&&options[index].label.toLocaleLowerCase().startsWith(needle)){activeIndex.value=index;nextTick(scrollToActive);return}
+  }
+}
+function handleTypeahead(event){
+  if(props.searchable||event.ctrlKey||event.metaKey||event.altKey||event.key.length!==1)return false
+  typeahead+=event.key
+  if(typeaheadTimer)clearTimeout(typeaheadTimer)
+  typeaheadTimer=setTimeout(()=>{typeahead='';typeaheadTimer=null},500)
+  if(!resolvedOpen.value)setOpen(true,'typeahead',event)
+  findTypeahead(typeahead)
+  return true
+}
+function onKeydown(event){
+  if(props.disabled)return
+  if(props.readonly){
+    if(['ArrowDown','ArrowUp','Enter',' '].includes(event.key)){event.preventDefault();emitInvalid('readonly','keyboard',{nativeEvent:event})}
+    return
+  }
+  if(event.isComposing||event.keyCode===229)return
+  if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+    event.preventDefault()
+    if(!resolvedOpen.value)setOpen(true,'keyboard',event)
+    else moveActive(event.key==='ArrowDown'?1:-1)
+  }else if(event.key==='Home'&&resolvedOpen.value){event.preventDefault();moveBoundary(false)}
+  else if(event.key==='End'&&resolvedOpen.value){event.preventDefault();moveBoundary(true)}
+  else if((event.key==='Enter'||event.key===' ')&&!props.searchable){
+    event.preventDefault()
+    if(!resolvedOpen.value)setOpen(true,'keyboard',event)
+    else if(activeIndex.value>=0)selectOption(filteredOptions.value[activeIndex.value],activeIndex.value,'keyboard',event)
+  }else if(event.key==='Enter'&&resolvedOpen.value){
+    if(activeIndex.value>=0){event.preventDefault();selectOption(filteredOptions.value[activeIndex.value],activeIndex.value,'keyboard',event)}
+  }else if(event.key==='Escape'&&resolvedOpen.value){event.preventDefault();setOpen(false,'escape',event)}
+  else if(event.key==='Tab'&&resolvedOpen.value)setOpen(false,'tab',event)
+  else handleTypeahead(event)
+}
+function handleFocusIn(event){
+  if(focused.value)return
+  focused.value=true
+  emit('focus',event,{value:resolvedValue.value,query:query.value})
+}
+function handleFocusOut(event){
+  setTimeout(()=>{
+    const active=typeof document==='undefined'?null:document.activeElement
+    if(rootRef.value?.contains(active)||panelRef.value?.contains(active))return
+    if(!focused.value)return
+    focused.value=false
+    emit('blur',event,{value:resolvedValue.value,query:query.value})
+  },0)
+}
+function focus(options){if(props.disabled)return false;triggerRef.value?.focus(options);return Boolean(triggerRef.value)}
+function blur(){searchInputRef.value?.blur();triggerRef.value?.blur();return Boolean(triggerRef.value)}
+function show(source='api'){return setOpen(true,source)}
+function hide(source='api'){return setOpen(false,source)}
+function onNativeInvalid(event){emitInvalid('required','native',{nativeEvent:event});nextTick(()=>focus())}
+function onFormReset(){
+  const previous=resolvedValue.value
+  const value=props.defaultValue===undefined?props.clearValue:props.defaultValue
+  if(props.modelValue===undefined)internalValue.value=value
+  const meta={source:'reset',previous,next:value,option:undefined,index:-1,nativeEvent:undefined}
+  emit('update:modelValue',value);emit('input',value,meta);emit('change',value,meta)
+  selectedMemory.value=null;setOpen(false,'reset')
+}
+
+watch(()=>props.modelValue,value=>{
+  if(value!==undefined)internalValue.value=value
+  const option=[...localOptions.value,...normalizedRemoteOptions.value].find(item=>valuesEqual(item.value,value))
+  if(option)selectedMemory.value=option
 })
-onMounted(() => document.addEventListener('pointerdown', closeOutside))
-onBeforeUnmount(() => document.removeEventListener('pointerdown', closeOutside))
+watch(localOptions,options=>{
+  const option=options.find(item=>valuesEqual(item.value,resolvedValue.value))
+  if(option)selectedMemory.value=option
+  if(resolvedOpen.value)resetActive()
+})
+watch(filteredOptions,()=>{if(resolvedOpen.value)resetActive()})
+watch(()=>props.open,(value,previous)=>{
+  if(value===undefined||value===previous)return
+  if(value)prepareOpen()
+  else cleanupClose()
+})
+watch(()=>props.remoteMethod,()=>{clearDebounce();abortRequest();requestSequence+=1;requestCache.clear();remoteOptions.value=[];remoteError.value=null})
+
+onMounted(()=>{
+  document.addEventListener('pointerdown',closeOutside)
+  resetForm=nativeRef.value?.form||null
+  resetForm?.addEventListener('reset',onFormReset)
+  if(props.autofocus)nextTick(()=>focus())
+  if(resolvedOpen.value)prepareOpen()
+})
+onBeforeUnmount(()=>{
+  document.removeEventListener('pointerdown',closeOutside)
+  resetForm?.removeEventListener('reset',onFormReset)
+  clearDebounce();abortRequest()
+  if(typeaheadTimer)clearTimeout(typeaheadTimer)
+})
+
+defineExpose({
+  root:rootRef,trigger:triggerRef,panel:panelRef,native:nativeRef,
+  value:resolvedValue,open:resolvedOpen,query,loading:resolvedLoading,activeIndex,
+  focus,blur,show,hide,toggle:toggleOpen,clear,select,setValue,reload,scrollToActive,
+})
 </script>
 
 <template>
-  <div ref="root" class="ui-select" :class="[`size-${resolvedSize}`,attrs.class,{open,'drop-up':opensUp,disabled,invalid:resolvedInvalid,clearable}]" :style="attrs.style" @keydown="onKeydown">
-    <button v-bind="controlAttrs" :id="controlId" type="button" class="ui-select-trigger" :disabled="disabled" role="combobox" aria-haspopup="listbox" :aria-expanded="open" :aria-controls="open?listboxId:undefined" :aria-activedescendant="activeDescendant" :aria-labelledby="labelledby" :aria-describedby="describedby" :aria-invalid="resolvedInvalid || undefined" @click="toggle">
-      <span class="ui-select-value" :class="{placeholder:!selected}">{{ selected?.label || resolvedPlaceholder }}</span>
-      <span class="ui-select-arrow" aria-hidden="true"><AppIcon name="chevronDown" :size="15" /></span>
+  <div ref="rootRef" class="ui-select" :class="[`size-${resolvedSize}`,attrs.class,{open:resolvedOpen,'drop-up':opensUp,disabled,readonly,loading:resolvedLoading,invalid:resolvedInvalid,clearable,'has-prefix':hasPrefix,'has-suffix':hasSuffix,'has-actions':hasActions}]" :style="attrs.style" data-ui-select :data-state="state" @focusin="handleFocusIn" @focusout="handleFocusOut" @keydown="onKeydown">
+    <select v-if="name||resolvedRequired" ref="nativeRef" class="ui-select-native" :name="name" :form="form" :required="resolvedRequired" :disabled="disabled" :value="String(resolvedValue??'')" tabindex="-1" aria-hidden="true" @invalid="onNativeInvalid">
+      <option value=""/>
+      <option v-for="option in localOptions" :key="`native-${String(option.key)}`" :value="String(option.value)">{{ option.label }}</option>
+      <option v-if="hasValue&&!localOptions.some(option=>valuesEqual(option.value,resolvedValue))" :value="String(resolvedValue)">{{ displayLabel }}</option>
+    </select>
+    <button v-bind="passthroughAttrs" :id="controlId" ref="triggerRef" type="button" class="ui-select-trigger" :disabled="disabled" role="combobox" aria-haspopup="listbox" :aria-expanded="resolvedOpen" :aria-controls="resolvedOpen&&!resolvedLoading&&!remoteError?listboxId:undefined" :aria-activedescendant="!searchable?activeDescendant:undefined" :aria-autocomplete="searchable?'list':undefined" :aria-label="resolvedAriaLabel" :aria-labelledby="labelledby" :aria-describedby="describedby" :aria-invalid="resolvedInvalid||undefined" :aria-required="resolvedRequired||undefined" :aria-readonly="readonly||undefined" :aria-busy="resolvedLoading||undefined" @click="toggleOpen('pointer',$event)">
+      <span v-if="hasPrefix" class="ui-select-affix ui-select-prefix"><slot name="prefix" :option="publicOption(selectedOption)" :value="resolvedValue"/></span>
+      <span class="ui-select-value" :class="{placeholder:!hasValue}"><slot name="value" :option="publicOption(selectedOption)" :value="resolvedValue" :label="displayLabel" :placeholder="resolvedPlaceholder">{{ hasValue?displayLabel:resolvedPlaceholder }}</slot></span>
+      <span v-if="hasSuffix" class="ui-select-affix ui-select-suffix"><slot name="suffix" :option="publicOption(selectedOption)" :value="resolvedValue"/></span>
+      <span class="ui-select-arrow" aria-hidden="true"><slot name="arrow" :open="resolvedOpen"><AppIcon name="chevronDown" :size="15"/></slot></span>
     </button>
-    <button v-if="clearable && selected && !disabled" type="button" class="ui-select-clear" :aria-label="t('select.clear')" :aria-controls="controlId" @click="clear"><AppIcon name="close" :size="12" /></button>
+    <span v-if="resolvedLoading" class="ui-select-loading" role="status" :aria-label="resolvedLoadingText"><slot name="loading"><span class="spinner ui-select-spinner"/></slot></span>
+    <button v-else-if="clearable&&hasValue&&!disabled&&!readonly" type="button" class="ui-select-clear" :aria-label="t('select.clear')" :aria-controls="controlId" @mousedown.prevent @click="clearFromControl"><slot name="clear-icon"><AppIcon name="close" :size="12"/></slot></button>
     <Teleport to="body" :disabled="!appendToBody">
       <Transition name="select-menu">
-        <div v-if="open" v-bind="portalThemeAttrs" class="ui-select-portal" :style="portalThemeStyle" :role="appendToBody?'region':undefined" :aria-labelledby="appendToBody&&labelledby?labelledby:undefined" :aria-label="appendToBody&&!labelledby?resolvedPlaceholder:undefined">
-          <div :id="listboxId" ref="panelRef" class="ui-select-menu" :class="{'ui-floating-panel':appendToBody}" :style="panelStyle" :data-placement="appendToBody?actualPlacement:(dropUp?'top-start':'bottom-start')" :dir="direction" role="listbox" :aria-labelledby="labelledby">
-            <div v-if="searchable" class="ui-select-search"><AppIcon name="search" :size="14"/><input ref="searchInput" v-model="query" :placeholder="t('select.search')" :aria-label="t('select.search')" :aria-controls="listboxId" :aria-activedescendant="activeDescendant" @keydown.stop="onKeydown"/></div>
-            <div class="ui-select-options">
-              <button v-for="(option,index) in filtered" :id="optionId(index)" :key="option.value" type="button" class="ui-select-option" :class="{selected:option.value===modelValue,active:index===activeIndex}" role="option" :aria-selected="option.value===modelValue" :disabled="option.disabled" @mouseenter="!option.disabled&&(activeIndex=index)" @click="select(option)">
-                <span>{{ option.label }}</span><AppIcon v-if="option.value===modelValue" name="check" :size="14" />
-              </button>
-              <div v-if="!filtered.length" class="ui-select-empty"><AppIcon name="search" :size="18"/><span>{{ resolvedEmptyText }}</span></div>
+        <div v-if="resolvedOpen" v-bind="portalThemeAttrs" class="ui-select-portal" :style="portalThemeStyle" :role="appendToBody?'region':undefined" :aria-label="appendToBody?`${resolvedAriaLabel||resolvedPlaceholder} popup`:undefined" @focusin="handleFocusIn" @focusout="handleFocusOut" @keydown="onKeydown">
+          <div ref="panelRef" class="ui-select-menu" :class="{'ui-floating-panel':appendToBody}" :style="panelStyle" :data-placement="appendToBody?actualPlacement:(dropUp?'top-start':'bottom-start')" :dir="direction" :aria-busy="resolvedLoading||undefined">
+            <label v-if="searchable" class="ui-select-search"><AppIcon name="search" :size="14"/><input ref="searchInputRef" :value="query" type="search" autocomplete="off" :placeholder="resolvedSearchPlaceholder" :aria-label="resolvedSearchPlaceholder" :aria-controls="!resolvedLoading&&!remoteError?listboxId:undefined" :aria-activedescendant="activeDescendant" @input="onSearchInput" @compositionstart="composing=true" @compositionend="onCompositionEnd"/></label>
+            <div v-if="resolvedLoading" class="ui-select-state ui-select-loading-state" role="status" aria-live="polite"><slot name="loading"><span class="spinner ui-select-spinner"/><span>{{ resolvedLoadingText }}</span></slot></div>
+            <div v-else-if="remoteError" class="ui-select-state ui-select-error" role="alert"><slot name="error" :error="remoteError" :retry="reload"><AppIcon name="warning" :size="18"/><span>{{ resolvedErrorText }}</span><button type="button" @click="reload(query)">{{ t('select.retry') }}</button></slot></div>
+            <div v-else :id="listboxId" class="ui-select-options" role="listbox" :aria-label="resolvedAriaLabel||resolvedPlaceholder">
+              <template v-if="filteredOptions.length">
+                <div v-for="(option,index) in filteredOptions" :id="optionId(index)" :key="`${option.source}-${typeof option.key}-${String(option.key)}-${option.index}`" class="ui-select-option" :class="{selected:valuesEqual(option.value,resolvedValue),active:index===activeIndex,disabled:option.disabled}" role="option" :aria-selected="valuesEqual(option.value,resolvedValue)" :aria-disabled="option.disabled||undefined" @pointerdown.prevent @mouseenter="!option.disabled&&(activeIndex=index)" @click="selectOption(option,index,'pointer',$event)">
+                  <slot name="option" :option="publicOption(option)" :index="index" :selected="valuesEqual(option.value,resolvedValue)" :active="index===activeIndex">
+                    <span class="ui-select-option-copy"><span class="ui-select-option-label">{{ option.label }}</span><span v-if="option.description" class="ui-select-option-description">{{ option.description }}</span></span>
+                    <AppIcon v-if="valuesEqual(option.value,resolvedValue)" name="check" :size="14"/>
+                  </slot>
+                </div>
+              </template>
+              <div v-else class="ui-select-state ui-select-empty" role="option" aria-selected="false" aria-disabled="true"><slot name="empty" :query="query"><AppIcon name="search" :size="18"/><span>{{ resolvedEmptyText }}</span></slot></div>
             </div>
+            <div v-if="$slots.footer" class="ui-select-footer"><slot name="footer" :query="query" :options="filteredOptions.map(publicOption)" :reload="reload"/></div>
           </div>
         </div>
       </Transition>

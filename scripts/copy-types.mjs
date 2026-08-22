@@ -20,6 +20,7 @@ const relatedComponentTypes={
   UiRadio:['UiRadioInstance','UiRadioOption','UiSelectionChangeMeta','UiSelectionInvalid','UiSelectionSource','UiSelectionValue'],
   UiRadioGroup:['UiRadioGroupInstance','UiRadioOption','UiSelectionChangeMeta','UiSelectionInvalid','UiSelectionSource','UiSelectionValue'],
   UiSwitch:['UiSelectionInvalid','UiSelectionSource','UiSelectionValue','UiSwitchChangeMeta','UiSwitchInstance'],
+  UiSelect:['SelectOption','SelectOptionInput','UiSelectChangeMeta','UiSelectFieldNames','UiSelectFilter','UiSelectFocusMeta','UiSelectInstance','UiSelectInvalidMeta','UiSelectOpenMeta','UiSelectRemoteContext','UiSelectRemoteMethod','UiSelectSearchMeta','UiSelectSource'],
   UiCollapse:['UiCollapseChangeMeta','UiCollapseField','UiCollapseIconPosition','UiCollapseInstance','UiCollapseItem','UiCollapseItemScope','UiCollapseSize'],
   UiBreadcrumb:['UiBreadcrumbExpandMeta','UiBreadcrumbInstance','UiBreadcrumbItem','UiBreadcrumbNavigateMeta','UiBreadcrumbRecord'],
   UiSteps:['UiStepItem','UiStepStatus','UiStepsChangeMeta','UiStepsDirection','UiStepsField','UiStepsInstance','UiStepsItemScope','UiStepsRecordScope','UiStepsType'],

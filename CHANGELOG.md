@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.68.0] - 2026-08-22
+
+### Added
+
+- Production `UiSelect` contracts for controlled/default values and popup state, object-field mapping, description/keyword search, IME, remote debounce, AbortSignal cancellation, stale-response protection, caching, retry, native forms and imperative controls.
+- Select examples across the component center, one-page HTML and standalone package consumer, plus deterministic SSR, unit, visual, zero-violation Axe, negative type, installed-tarball and Chromium/Firefox/WebKit interaction coverage.
+
+### Changed
+
+- Existing single-select usage remains compatible while keyboard navigation, Typeahead, disabled-option skipping, Portal theme scope, RTL placement, Loading/Error/Empty/Readonly states, structured metadata and ten Slots become first-class contracts.
+- Popup ownership now separates the searchable combobox input from the semantic listbox and applies a named Portal region, preserving required ARIA ownership and verified text contrast in dark RTL themes.
+- Release gates advance to 45 visual baselines, 63 Axe scenarios, 67 interactions per browser and 81 negative type assertions. Public coverage remains 91 components and advances to 452 locale keys, 1,377 Props, 458 Events and 267 Slots.
+
 ## [1.67.0] - 2026-08-22
 
 ### Added

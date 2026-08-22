@@ -39,7 +39,7 @@ const required={
   'UiDateTimePicker.vue':['mode="datetime"','ui-date-time-picker','update:modelValue','time-zone'],
   'UiTimePicker.vue':['mode="time"','value-type','time-zone','update:modelValue'],
   'UiSwitch.vue':['data-ui-switch','aria-labelledby','role="switch"','aria-busy','activeValue','beforeChange','guard-error','defineExpose'],
-  'UiSelect.vue':['useId()','aria-activedescendant','aria-controls','ArrowDown','Home','End'],
+  'UiSelect.vue':['data-ui-select','useId()','fieldNames','remoteMethod','requestSequence','ui-select-native','aria-activedescendant','aria-controls','ArrowDown','Home','End','defineExpose'],
   'UiModal.vue':['openOverlay','isTopOverlay','captureFocusOrigin','focusWithRetry(returnFocus)','useId','isClient'],
   'UiPopconfirm.vue':['beforeConfirm','loading','focusWithRetry','role="alertdialog"'],
   'UiDataGrid.vue':["mode==='server'",'processedRows','searchDebounce','state-change','request','UiListToolbar','UiPagination','defineExpose'],

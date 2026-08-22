@@ -1236,3 +1236,13 @@ RadioGroup generates a stable native name and applies explicit Arrow, Home and E
 All five controls integrate with FormItem IDs, labels, descriptions, required and invalid state. They provide explicit sizes, Disabled/Readonly/Loading/Focused/Checked states, structured source metadata, custom indicator/text Slots, public focus/blur/value actions, forced-colors presentation, SSR, root/subpath declarations and native form semantics. Group-level required semantics avoid marking every child as independently required.
 
 P71 exposes 91 public components and generated coverage of 1,356 Props, 450 Events and 257 Slots. Release gates require 44 visual baselines, 62 zero-violation Axe scenarios, 66 interactions per Chromium/Firefox/WebKit engine, 77 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 85. Maturity P72: production select controls
+
+`UiSelect` preserves its existing single-value, options, placeholder, size, disabled, invalid and clearable surface while adding controlled or default values and popup state. String/Number options and object records normalize through configurable label, value, disabled, description and keyword fields plus stable record keys; identity comparisons use `Object.is` so selected values remain deterministic.
+
+Search covers labels, descriptions and keywords through a replaceable predicate, suppresses intermediate IME updates and keeps the active descendant synchronized. Remote search adds configurable debounce and minimum-query thresholds, AbortSignal cancellation, monotonically ordered race protection, opt-in caching, Loading/Error/Empty states and explicit retry. Consumer-provided remote functions retain ownership of transport and data policy.
+
+Arrow, Home, End, Enter, Escape, Tab and non-search Typeahead share disabled-option skipping and logical RTL placement. Native form submission, required validation and form reset synchronize with public values. FormItem context, Portal theme scope, collision-aware placement, descriptions, prefix/value/suffix/arrow/loading/clear/error/option/empty/footer Slots, structured event metadata and exposed focus/open/value/reload methods complete the integration contract.
+
+P72 retains 91 public components and advances to 452 locale keys with generated coverage of 1,377 Props, 458 Events and 267 Slots. Release gates require 45 visual baselines, 63 zero-violation Axe scenarios, 67 interactions per Chromium/Firefox/WebKit engine, 81 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

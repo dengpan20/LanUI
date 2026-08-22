@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.68 select compatibility
+
+There are no breaking changes. Existing `<UiSelect v-model="value" :options="options" clearable />`, disabled and invalid usage remains valid:
+
+```vue
+<UiSelect v-model="cluster" :options="clusters" searchable :remote-method="searchClusters" />
+```
+
+- `modelValue` and `open` are controlled when supplied; `defaultValue` and `defaultOpen` own internal state otherwise. Value identity uses `Object.is`, and field names adapt label, value, disabled, description, keywords and stable keys without rewriting domain records.
+- Search covers labels, descriptions and keywords or delegates to `filterOption`; IME suppresses partial composition. Remote methods receive `{ signal }` and compose with debounce, minimum query length, AbortSignal cancellation, stale-response suppression, cache and retry.
+- Arrow keys, Home/End, Enter, Escape, Tab and non-search Typeahead skip disabled options. Pointer, keyboard, clear, reset, native and API paths publish structured source/previous/next metadata.
+- Named selects participate in native submission; required validation focuses the visible combobox, and form reset restores the declared default. Loading, Empty, Error, Readonly and Disabled behaviors remain distinct.
+- Prefix, value, suffix, arrow, loading, clear-icon, error, option, empty and footer Slots are additive. FormItem linkage, Portal theme scope, RTL, forced colors, SSR, root/subpath declarations and exposed focus/blur/show/hide/toggle/clear/select/setValue/reload controls remain synchronized.
+
 ## 1.67 selection-control compatibility
 
 There are no breaking changes. Existing `<UiCheckbox v-model="enabled" />`, `<UiRadio v-model="choice" value="stable" />` and `<UiSwitch v-model="enabled" />` usage remains valid:

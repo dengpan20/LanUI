@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.67.0",
+  "version": "1.68.0",
   "description": "Deterministic runtime, stylesheet, consumer-build and publishable-tarball budgets with previous-release improvement gates for Lan UI.",
   "baseline": {
     "version": "1.4.0",
@@ -17,19 +17,19 @@
     }
   },
   "budgets": {
-    "packageJsRaw": 790000,
-    "packageJsGzip": 292000,
-    "packageCssRaw": 690000,
+    "packageJsRaw": 805000,
+    "packageJsGzip": 298000,
+    "packageCssRaw": 695000,
     "packageCssGzip": 150000,
     "largestChunkRaw": 74000,
     "largestChunkGzip": 14500,
     "rootCssRaw": 245000,
     "rootCssGzip": 39000,
-    "largestComponentCssRaw": 58000,
-    "largestComponentCssGzip": 8800,
+    "largestComponentCssRaw": 59500,
+    "largestComponentCssGzip": 9000,
     "subpathConsumerJsRaw": 100000,
     "subpathConsumerCssRaw": 10200,
-    "standaloneExampleJsRaw": 760000,
+    "standaloneExampleJsRaw": 770000,
     "standaloneExampleCssRaw": 245000,
     "themeSubpathJsRaw": 12000,
     "themeSubpathJsGzip": 4200,
@@ -38,8 +38,8 @@
   },
   "distributionBudgets": {
     "packedFiles": 410,
-    "packedTarballRaw": 550000,
-    "packedUnpackedRaw": 3250000
+    "packedTarballRaw": 580000,
+    "packedUnpackedRaw": 3350000
   },
   "releaseBaseline": {
     "version": "1.28.0",
@@ -59,16 +59,16 @@
       "rootCssRaw": 850
     },
     "enhancementAllowance": {
-      "packageJsRaw": 85000,
-      "packageJsGzip": 28000,
-      "packageCssRaw": 107000,
-      "packageCssGzip": 21000,
-      "rootCssRaw": 37000,
-      "rootCssGzip": 5600,
-      "subpathConsumerJsRaw": 6500,
+      "packageJsRaw": 100000,
+      "packageJsGzip": 32000,
+      "packageCssRaw": 124000,
+      "packageCssGzip": 24000,
+      "rootCssRaw": 39000,
+      "rootCssGzip": 6000,
+      "subpathConsumerJsRaw": 6750,
       "subpathConsumerCssRaw": 1600,
-      "standaloneExampleJsRaw": 105000,
-      "standaloneExampleCssRaw": 38000
+      "standaloneExampleJsRaw": 122000,
+      "standaloneExampleCssRaw": 40000
     },
     "metrics": {
       "packageJsRaw": 467295,

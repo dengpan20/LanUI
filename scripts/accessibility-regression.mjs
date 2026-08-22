@@ -13,7 +13,7 @@ const cases=[
   {name:'light-ltr-default',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default'},
   {name:'dark-rtl-compact',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact'},
   {name:'light-ltr-mobile',viewport:{width:390,height:1600},query:'theme=light&direction=ltr&density=default'},
-  {name:'select-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('combobox').first().click();await page.locator('.ui-select-menu[role="listbox"]').waitFor()}},
+  {name:'select-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('combobox').first().click();await page.locator('.ui-select-menu [role="listbox"]').waitFor()}},
   {name:'autocomplete-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default',prepare:async page=>{await page.getByRole('combobox',{name:'Office city'}).click();await page.getByRole('listbox',{name:'Suggestions'}).waitFor()}},
   {name:'modal-open',viewport:{width:1280,height:1100},query:'theme=light&direction=ltr&density=default&state=modal',ready:'[role="dialog"][aria-modal="true"]'},
   {name:'drawer-rtl-open',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=drawer',ready:'[role="dialog"][aria-modal="true"]'},
@@ -71,6 +71,7 @@ const cases=[
   {name:'button-contract',viewport:{width:1280,height:1000},query:'theme=dark&direction=rtl&density=compact&state=button',ready:'.visual-button-showcase [data-button-state-contract]'},
   {name:'input-contract',viewport:{width:1280,height:1000},query:'theme=dark&direction=rtl&density=compact&state=input',ready:'.visual-input-showcase [data-input-state-contract]'},
   {name:'textarea-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=textarea',ready:'.visual-textarea-showcase [data-textarea-state-contract]'},
+  {name:'select-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=select',ready:'.visual-select-showcase [data-select-state-contract]'},
   {name:'selection-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=selection',ready:'.visual-selection-showcase [data-selection-state-contract]'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases

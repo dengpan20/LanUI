@@ -28,7 +28,7 @@ describe('select and mobile table layout regressions',()=>{
     expect(panel.style.position).toBe('fixed')
     expect(panel.style.width).toBe('220px')
     expect(panel.style.minWidth).toBe('220px')
-    expect(select.get('[role="combobox"]').attributes('aria-controls')).toBe(panel.id)
+    expect(select.get('[role="combobox"]').attributes('aria-controls')).toBe(panel.querySelector('[role="listbox"]').id)
 
     panel.querySelector('.ui-select-option').dispatchEvent(new Event('pointerdown',{bubbles:true}))
     panel.querySelector('.ui-select-option').click()

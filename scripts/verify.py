@@ -37,7 +37,7 @@ required = [
     "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/otp-input-p47.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/watermark-p42.spec.js", "tests/affix-p43.spec.js", "tests/splitter-p44.spec.js", "tests/typography-p45.spec.js", "tests/list-p46.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/visual/baselines/win32/watermark-document.png", "tests/visual/baselines/win32/affix-container.png", "tests/visual/baselines/win32/splitter-workspace.png", "tests/visual/baselines/win32/typography-contract.png", "tests/visual/baselines/win32/list-contract.png", "tests/visual/baselines/win32/otp-input-contract.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
     "tests/mentions-p48.spec.js", "tests/visual/baselines/win32/mentions-contract.png", "tests/input-tag-p49.spec.js", "tests/visual/baselines/win32/input-tag-contract.png", "tests/query-builder-p50.spec.js", "tests/visual/baselines/win32/query-builder-contract.png", "tests/carousel-p51.spec.js", "tests/visual/baselines/win32/carousel-contract.png", "tests/time-range-p52.spec.js", "tests/visual/baselines/win32/time-range-contract.png", "tests/date-time-p53.spec.js", "tests/visual/baselines/win32/date-time-contract.png", "tests/qr-code-p54.spec.js", "tests/visual/baselines/win32/qr-code-contract.png", "tests/barcode-p55.spec.js", "tests/visual/baselines/win32/barcode-contract.png", "tests/cron-editor-p56.spec.js", "tests/visual/baselines/win32/cron-editor-contract.png", "tests/key-value-editor-p57.spec.js", "tests/visual/baselines/win32/key-value-editor-contract.png", "tests/page-header-p58.spec.js", "tests/visual/baselines/win32/page-header-contract.png", "tests/card-p59.spec.js", "tests/visual/baselines/win32/card-contract.png", "tests/tag-p60.spec.js", "tests/visual/baselines/win32/tag-contract.png", "tests/timeline-p61.spec.js", "tests/visual/baselines/win32/timeline-contract.png", "tests/steps-p62.spec.js", "tests/visual/baselines/win32/steps-contract.png", "tests/breadcrumb-p63.spec.js", "tests/visual/baselines/win32/breadcrumb-contract.png", "tests/tooltip-p64.spec.js", "tests/visual/baselines/win32/tooltip-contract.png", "tests/popover-p65.spec.js", "tests/visual/baselines/win32/popover-contract.png", "tests/dropdown-p66.spec.js", "tests/visual/baselines/win32/dropdown-contract.png", "tests/collapse-p67.spec.js", "tests/visual/baselines/win32/collapse-contract.png", "scripts/build_p68_artifacts.py", "scripts/build_p69_artifacts.py", "scripts/build_p70_artifacts.py", "tests/input-p69.spec.js", "tests/textarea-p70.spec.js", "tests/visual/baselines/win32/input-contract.png", "tests/visual/baselines/win32/textarea-contract.png",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
-    "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue", "scripts/build_p71_artifacts.py", "tests/selection-p71.spec.js", "tests/visual/baselines/win32/selection-contract.png",
+    "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue", "scripts/build_p71_artifacts.py", "tests/selection-p71.spec.js", "tests/visual/baselines/win32/selection-contract.png", "scripts/build_p72_artifacts.py", "tests/select-p72.spec.js", "tests/visual/baselines/win32/select-contract.png",
 ]
 
 failures = []
@@ -317,8 +317,10 @@ if 'role="listbox"' not in preview or 'role="option"' not in preview:
 if "</i>" in preview.replace('<i class="status-dot"></i>', ""):
     failures.append("preview:orphan-icon-close")
 
-vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in (ROOT / "src").rglob("*.vue"))
-if "<select" in vue_sources:
+vue_source_paths = list((ROOT / "src").rglob("*.vue"))
+vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in vue_source_paths)
+non_select_vue_sources = "\n".join(path.read_text(encoding="utf-8") for path in vue_source_paths if path.name != "UiSelect.vue")
+if "<select" in non_select_vue_sources or 'class="ui-select-native"' not in (ROOT / "src/components/UiSelect.vue").read_text(encoding="utf-8"):
     failures.append("form:native-select")
 for component in ["UiInput", "UiNumberInput", "UiSlider", "UiAutoComplete", "UiSelect", "UiTextarea", "UiSchemaForm"]:
     if component not in vue_sources:
@@ -473,7 +475,7 @@ behavior_markers = {
     "formitem": ["useId()", "provide('uiFormItemContext'", "controlId", "describedby", "group"],
     "formlist": ["useId()", "entries", "canAdd", "canRemove", "function add", "function remove", "function move", "defineExpose"],
     "schemaform": ["normalizeSchema", "visibleFields", "resolveComponent", "field-change", "schema-error", "defineExpose"],
-    "select": ["useId()", "aria-activedescendant", "aria-controls", "ArrowDown", "Home", "End"],
+    "select": ["data-ui-select", "useId()", "fieldNames", "remoteMethod", "requestSequence", "ui-select-native", "aria-activedescendant", "aria-controls", "ArrowDown", "Home", "End", "defineExpose"],
     "tabs": ['role="tablist"', 'role="tab"', "ArrowRight", "Home", "End"],
     "form": ["provide('uiFormContext'", "async function validate", "defineExpose"],
     "datagrid": ["mode==='server'", "processedRows", "searchDebounce", "state-change", "request", "UiListToolbar", "UiPagination", "defineExpose"],
@@ -632,7 +634,7 @@ for marker, source in [
         failures.append(f"p36:motion-runtime:{marker}")
 if "Adaptive motion preferences (P36)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P36: adaptive motion preference runtime" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p36:documentation")
-if any(marker not in preview for marker in ["V1.67.0", "previewMotionSwitch", "data-ui-motion-preference"]):
+if any(marker not in preview for marker in ["V1.68.0", "previewMotionSwitch", "data-ui-motion-preference"]):
     failures.append("p36:showcase-version")
 if "test:motion" not in package.get("scripts", {}).get("prepack", "") or "./motion" not in package.get("exports", {}):
     failures.append("p36:package-gate")
@@ -667,7 +669,7 @@ if "Scroll-aware anchor navigation and route boundaries (P38)" not in (ROOT / "R
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.67.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.68.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -675,14 +677,14 @@ if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens
     failures.append("p39:token-style-export")
 if not {"README.md", "LICENSE"}.issubset(set(package.get("files", []))) or "Permission is hereby granted" not in license_text:
     failures.append("p39:license-packlist")
-for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===91", "PACKED_SELECTION_SSR PASS", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "PACKED_KEY_VALUE_EDITOR_SSR PASS", "PACKED_PAGE_HEADER_SSR PASS", "PACKED_CARD_SSR PASS", "PACKED_TAG_SSR PASS", "PACKED_TIMELINE_SSR PASS", "PACKED_STEPS_SSR PASS", "PACKED_BREADCRUMB_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
+for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===91", "PACKED_SELECTION_SSR PASS", "PACKED_SELECT_SSR PASS", "select-contracts.ts", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "PACKED_KEY_VALUE_EDITOR_SSR PASS", "PACKED_PAGE_HEADER_SSR PASS", "PACKED_CARD_SSR PASS", "PACKED_TAG_SSR PASS", "PACKED_TIMELINE_SSR PASS", "PACKED_STEPS_SSR PASS", "PACKED_BREADCRUMB_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
     if marker not in packed_consumer:
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 410, "packedTarballRaw": 550000, "packedUnpackedRaw": 3250000}:
+if distribution_budgets != {"packedFiles": 410, "packedTarballRaw": 580000, "packedUnpackedRaw": 3350000}:
     failures.append("p39:distribution-budgets")
-if "Selection Controls P71" not in components_page or "1.67.0" not in components_page or "V1.67.0" not in preview:
+if "Select P72" not in components_page or "1.68.0" not in components_page or "V1.68.0" not in preview:
     failures.append("p39:showcase-version")
 if "Publishable package and external installation (P39)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p39:documentation")
@@ -721,7 +723,7 @@ for marker in ["MutationObserver", "devicePixelRatio", "imageCrossOrigin", "buil
 if "UiWatermark" not in components_page or 'id="watermark"' not in preview or "previewWatermarkObserver" not in preview or "UiWatermark" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p42:showcase-consumers")
 login_page = (ROOT / "src/pages/LoginPage.vue").read_text(encoding="utf-8")
-if "V1.67.0" not in app or "V1.67.0" not in login_page or "badge:91" not in components_page or "<td>Watermark</td>" not in components_page:
+if "V1.68.0" not in app or "V1.68.0" not in login_page or "badge:91" not in components_page or "<td>Watermark</td>" not in components_page:
     failures.append("p42:showcase-version-and-state-matrix")
 if "Resilient document watermark (P42)" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p42:documentation")
@@ -1157,6 +1159,21 @@ if "selection-groups-limits-radio-switch-guard" not in (ROOT / "scripts/interact
 if "P71 成熟选择控件" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P71: production selection controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p71:documentation")
 
+select_source = (ROOT / "src/components/UiSelect.vue").read_text(encoding="utf-8")
+for marker in ["defaultValue", "defaultOpen", "fieldNames", "filterOption", "remoteMethod", "remoteDebounce", "AbortController", "requestSequence", "remoteCache", "ui-select-native", "onFormReset", "handleTypeahead", "useTeleportThemeScope", "defineExpose"]:
+    if marker not in select_source:
+        failures.append(f"p72:select-runtime:{marker}")
+if any(marker not in components_page for marker in ["UiSelect · P72", "data-select-state-contract", "selectFieldOptions", "fetchRegionOptions", "selectContractState"]):
+    failures.append("p72:component-center")
+if any(marker not in preview for marker in ["UiSelect P72", "data-select-state-contract", "previewSelectNative", "previewSelectSearch", "syncPreviewSelectActive"]):
+    failures.append("p72:static-preview")
+if any(marker not in standalone_source for marker in ["UiSelect", "standaloneSelectOptions", "fetchStandaloneSelect", "data-select-state-contract"]):
+    failures.append("p72:standalone-consumer")
+if "select-production-search-native-keyboard-api" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "select-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "select-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
+    failures.append("p72:state-and-interaction")
+if "P72 成熟下拉选择" not in (ROOT / "README.md").read_text(encoding="utf-8") or "Maturity P72: production select controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p72:documentation")
+
 if "localStorage.getItem('lan-font')" not in app or "dataset.font" not in app:
     failures.append("app:font-persistence")
 if (ROOT / "UI-SPEC.md").read_bytes() != (ROOT / "public/UI-SPEC.md").read_bytes():
@@ -1209,7 +1226,7 @@ for script_name, script_source in [("visual", visual_script), ("accessibility", 
 for marker in ["axe.run", "wcag22aa", "best-practice", "violations", "incomplete", "autocomplete-open", "multi-select-open", "tree-select-open", "tree-enterprise", "cascader-open", "command-palette-open", "color-picker-open", "calendar-focused", "image-focused", "image-preview-open", "virtual-list-focused", "data-grid-focused", "data-grid-columns-open", "status-page-500", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme-dark", "scoped-theme-portal", "scoped-motion-preferences", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "button-contract", "input-contract", "modal-open", "drawer-rtl-open"]:
     if marker not in accessibility_script:
         failures.append(f"accessibility:browser:{marker}")
-if accessibility_script.count("{name:") < 60:
+if accessibility_script.count("{name:") < 63:
     failures.append("accessibility:case-count")
 interaction_script = (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8")
 if "resolveBrowserNavigationTimeout" not in interaction_script:
@@ -1217,7 +1234,7 @@ if "resolveBrowserNavigationTimeout" not in interaction_script:
 for marker in ["color-picker-keyboard", "command-palette-keyboard", "tree-enterprise-keyboard", "autocomplete-keyboard", "select-keyboard", "number-input-keyboard", "slider-keyboard", "rate-keyboard", "statistic-live-update", "calendar-range-keyboard", "image-preview-keyboard", "tabs-rtl-keyboard", "modal-focus-trap-restore", "nested-overlay-stack", "popconfirm-cancel-confirm", "pagination-switch", "upload-validation-remove", "upload-queue-lifecycle", "table-state-contract", "form-validation-focus", "managed-form-nested-summary-server-error", "schema-form-conditional-orchestration", "schema-form-repeatable-list", "menu-directional-keyboard", "virtual-list-keyboard", "data-grid-client-contract", "data-grid-columns-keyboard", "status-page-actions", "scoped-theme-system", "scoped-theme-portal", "scoped-motion-system", "anchor-scroll-keyboard", "api-reference-discovery", "watermark-mutation-recovery", "affix-container-lifecycle", "splitter-keyboard-pointer-rtl", "typography-copy-edit-expand", "list-selection-actions-pagination-rtl", "otp-input-autofill-keyboard-rtl", "mentions-caret-keyboard-multi-trigger-rtl", "input-tag-tokenize-edit-remove-rtl", "query-builder-recursive-keyboard-evaluate", "carousel-keyboard-swipe-playback", "time-range-value-validation-focus", "date-time-value-range-focus", "barcode-lifecycle-refresh", "cron-editor-preset-validation-preview", "key-value-editor-edit-import-reorder-validation", "page-header-back-breadcrumb-composition", "card-pointer-keyboard-selection-nested-action", "tag-selection-close-link-keyboard", "timeline-selection-keyboard-link-disabled", "steps-navigation-keyboard-disabled-rtl", "breadcrumb-collapse-navigation-focus-rtl", "tooltip-trigger-dismissal", "popover-focus-dismissal", "dropdown-menu-keyboard-typeahead", "button-async-native-focus-rtl", "input-ime-password-clear-rtl", "reducedMotion: 'reduce'", "chromium", "firefox", "webkit", "INTERACTION_BROWSER PASS", "INTERACTION_REGRESSION PASS"]:
     if marker not in interaction_script:
         failures.append(f"interaction:browser:{marker}")
-if interaction_script.count("name: '") + interaction_script.count("name:'") < 64:
+if interaction_script.count("name: '") + interaction_script.count("name:'") < 67:
     failures.append("interaction:case-count")
 focus_source = (ROOT / "src/components/focusUtils.js").read_text(encoding="utf-8")
 p8_test = (ROOT / "tests/maturity-p8.spec.js").read_text(encoding="utf-8")
@@ -1236,8 +1253,8 @@ if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or 
     failures.append("performance:p33-release-baseline")
 if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10200, "packageJsGzip": 4100, "packageCssRaw": 6050, "packageCssGzip": 1100, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10500, "standaloneExampleCssRaw": 875, "subpathConsumerCssRaw": 2, "rootCssRaw": 850}:
     failures.append("performance:p59-additive-component-policy")
-if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 85000, 'packageJsGzip': 28000, 'packageCssRaw': 107000, 'packageCssGzip': 21000, 'rootCssRaw': 37000, 'rootCssGzip': 5600, 'subpathConsumerJsRaw': 6500, 'subpathConsumerCssRaw': 1600, 'standaloneExampleJsRaw': 105000, 'standaloneExampleCssRaw': 38000}:
-    failures.append("performance:p71-bounded-component-enhancement-policy")
+if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 100000, 'packageJsGzip': 32000, 'packageCssRaw': 124000, 'packageCssGzip': 24000, 'rootCssRaw': 39000, 'rootCssGzip': 6000, 'subpathConsumerJsRaw': 6750, 'subpathConsumerCssRaw': 1600, 'standaloneExampleJsRaw': 122000, 'standaloneExampleCssRaw': 40000}:
+    failures.append("performance:p72-bounded-component-enhancement-policy")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
 for export_name in ["./performance-budgets", "./performance-budgets.json"]:
@@ -1363,3 +1380,4 @@ print("- maturity-p68=ui-button,native-button+anchor+form,async-action+duplicate
 print("- maturity-p69=ui-input,native-form+ime,formatter+parser+modifiers,controlled-password,addons+affixes+count+clear+loading,aria+rtl+ssr+types,42-visual,60-axe,64-interactions-per-browser,71-negative-types")
 print("- maturity-p70=ui-textarea,native-form+ime,formatter+parser+modifiers,autosize+resize,affixes+footer+count+clear+loading+submit,aria+rtl+ssr+types,43-visual,61-axe,65-interactions-per-browser,73-negative-types")
 print("- maturity-p71=checkbox+radio+switch,controlled+uncontrolled,groups+constraints,native-form+async-guard,keyboard+rtl+ssr+types,44-visual,62-axe,66-interactions-per-browser,77-negative-types")
+print("- maturity-p72=ui-select,controlled+uncontrolled,value+open,field-mapping,local+remote-search,abort+race+cache,native-form+reset,keyboard+typeahead,portal+rtl+ssr+types,45-visual,63-axe,67-interactions-per-browser,81-negative-types")

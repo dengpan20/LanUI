@@ -1,5 +1,23 @@
 # Lan UI · 企业后台 Design System
 
+## P72 成熟下拉选择
+
+`UiSelect` 在兼容既有 `v-model / options / placeholder / size / disabled / invalid / clearable` 用法的同时，补齐受控与非受控值及展开状态、字段映射、本地检索、IME、远程防抖与 AbortSignal 竞态保护、查询缓存、失败重试、原生表单与重置。方向键、Home/End、Enter、Escape、Tab 和 Typeahead 共用禁用项跳过规则；Loading/Error/Empty/Readonly 状态、10 个 Slots、结构化事件及实例 API 同步覆盖 Portal、RTL、强制颜色、SSR、根入口和独立子路径类型。
+
+```vue
+<UiSelect
+  v-model="cluster"
+  v-model:open="clusterOpen"
+  :options="clusters"
+  :field-names="{ label: 'name', value: 'id', description: 'detail' }"
+  searchable
+  clearable
+  name="cluster"
+  required
+  :remote-method="searchClusters"
+/>
+```
+
 ## P71 成熟选择控件
 
 `UiCheckbox / UiCheckboxGroup / UiRadio / UiRadioGroup / UiSwitch` 形成统一选择体系：支持受控与非受控值、布尔/字符串/数字映射、原生表单提交、分组标签与描述、最少/最多选择约束、RTL 逻辑键盘导航、Readonly/Loading/Invalid 状态和稳定事件元数据。Switch 进一步支持同步或异步 `beforeChange` 守卫及重复触发锁；全部组件同步提供实例 API、ARIA、强制颜色、SSR、根入口和独立子路径类型。

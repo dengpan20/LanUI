@@ -115,7 +115,7 @@ const allCases = [
       const trigger = page.getByRole('combobox', { name: 'Region' })
       await trigger.focus()
       await page.keyboard.press('ArrowDown')
-      await page.locator('.ui-select-menu[role="listbox"]').waitFor()
+      await page.locator('.ui-select-menu [role="listbox"]').waitFor()
       assert.equal(await trigger.getAttribute('aria-expanded'), 'true')
       await page.keyboard.press('ArrowDown')
       await page.keyboard.press('Enter')
@@ -332,6 +332,42 @@ const allCases = [
       await page.keyboard.press('Space')
       await expectText(page, 'switch-output', 'enabled')
       assert.equal(await toggle.getAttribute('aria-checked'), 'true')
+    },
+  },
+  {
+    name:'select-production-search-native-keyboard-api',
+    run:async page=>{
+      const section=page.locator('.interaction-select-production-case')
+      const trigger=section.locator('#interaction-production-select')
+      const select=trigger.locator('..')
+      await trigger.click()
+      const search=select.locator('.ui-select-search input')
+      await search.fill('global')
+      assert.equal(await select.getByRole('option').count(),1)
+      await page.keyboard.press('Enter')
+      await expectText(page,'production-select-output','select:keyboard:global')
+      assert.equal(await select.locator('select[name="releaseCluster"]').inputValue(),'global')
+      await select.locator('.ui-select-clear').click()
+      await expectText(page,'production-select-output','clear:clear:')
+      await trigger.focus()
+      await page.keyboard.press('ArrowDown')
+      await select.locator('[role="listbox"]').waitFor()
+      await page.keyboard.press('End')
+      assert.match(await select.locator('[role="option"].active').innerText(),/Global cluster/)
+      await page.keyboard.press('Enter')
+      await expectText(page,'production-select-output','select:keyboard:global')
+      await section.locator('#interaction-production-select-api').click()
+      await expectText(page,'production-select-output','select:fixture-api:east')
+      await section.locator('#interaction-production-readonly-select').click()
+      await expectText(page,'production-select-output','invalid:readonly')
+      const remoteTrigger=section.locator('#interaction-production-remote-select')
+      const remote=remoteTrigger.locator('..')
+      await remoteTrigger.click()
+      await remote.locator('.ui-select-search input').fill('next')
+      const remoteOption=remote.getByRole('option',{name:/Next lane/})
+      await remoteOption.waitFor()
+      await remoteOption.click()
+      await expectText(page,'production-select-output','remote:pointer:next')
     },
   },
   {

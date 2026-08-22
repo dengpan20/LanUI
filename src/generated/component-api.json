@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.67.0",
+  "version": "1.68.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -15237,6 +15237,40 @@
           }
         },
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearValue",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "clearable",
           "required": false,
           "type": "boolean",
@@ -15247,6 +15281,37 @@
             "kind": "implicit",
             "value": "false"
           }
+        },
+        {
+          "name": "closeOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [],
+          "default": null
         },
         {
           "name": "disabled",
@@ -15273,6 +15338,52 @@
           }
         },
         {
+          "name": "errorText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "fieldNames",
+          "required": false,
+          "type": "UiSelectFieldNames",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "filterOption",
+          "required": false,
+          "type": "boolean|UiSelectFilter",
+          "runtimeTypes": [
+            "Boolean",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
           "name": "invalid",
           "required": false,
           "type": "boolean",
@@ -15285,11 +15396,56 @@
           }
         },
         {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
           "type": "Key",
           "runtimeTypes": [],
           "default": null
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "open",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
         },
         {
           "name": "options",
@@ -15328,6 +15484,87 @@
           }
         },
         {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "remoteCache",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "remoteDebounce",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "200"
+          }
+        },
+        {
+          "name": "remoteMethod",
+          "required": false,
+          "type": "UiSelectRemoteMethod",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "remoteMinChars",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "searchPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "searchable",
           "required": false,
           "type": "boolean",
@@ -15355,28 +15592,119 @@
       "emitsType": "UiSelectEmits",
       "emits": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSelectFocusMeta)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:Key)=>void"
+          "type": "(value:Key,meta:UiSelectChangeMeta)=>void"
         },
         {
           "name": "clear",
           "required": true,
-          "type": "()=>void"
+          "type": "(value:Key,meta:UiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiSelectFocusMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:Key,meta:UiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiSelectInvalidMeta)=>void"
+        },
+        {
+          "name": "load-error",
+          "required": true,
+          "type": "(payload:{error:unknown;query:string;source:UiSelectSource})=>void"
         },
         {
           "name": "open-change",
           "required": true,
-          "type": "(open:boolean)=>void"
+          "type": "(open:boolean,meta:UiSelectOpenMeta)=>void"
+        },
+        {
+          "name": "search",
+          "required": true,
+          "type": "(query:string,meta:UiSelectSearchMeta)=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(option:SelectOption,meta:UiSelectChangeMeta)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
           "type": "(value:Key)=>void"
+        },
+        {
+          "name": "update:open",
+          "required": true,
+          "type": "(open:boolean)=>void"
         }
       ],
       "slotsType": "UiSelectSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "arrow",
+          "required": false,
+          "type": "(scope:{open:boolean})=>VNodeChild"
+        },
+        {
+          "name": "clear-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{query:string})=>VNodeChild"
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{error:unknown;retry:UiSelectInstance['reload']})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:{query:string;options:SelectOption[];reload:UiSelectInstance['reload']})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "option",
+          "required": false,
+          "type": "(scope:{option:SelectOption;index:number;selected:boolean;active:boolean})=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(scope:{option?:SelectOption;value:Key|undefined})=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(scope:{option?:SelectOption;value:Key|undefined})=>VNodeChild"
+        },
+        {
+          "name": "value",
+          "required": false,
+          "type": "(scope:{option?:SelectOption;value:Key|undefined;label:string;placeholder:string})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiSkeleton",

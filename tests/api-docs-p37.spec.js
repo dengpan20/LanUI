@@ -64,6 +64,10 @@ describe('P37 generated component API documentation',()=>{
     expect(timeline.props).toEqual(expect.arrayContaining(['items','itemKey','modelValue','defaultValue','selectable','interactive','orientation','placement','timePosition','line','pending','loading','ariaLabel']))
     expect(timeline.emits).toEqual(['activate','change','item-click','item-focus','update:modelValue'])
     expect(timeline.slots).toEqual(['description','dot','empty','item','opposite','pending','time','title'])
+    const select=manifest.components.find(component=>component.name==='UiSelect')
+    expect(select.props).toEqual(expect.arrayContaining(['modelValue','defaultValue','open','defaultOpen','options','fieldNames','searchable','filterOption','remoteMethod','remoteDebounce','remoteMinChars','remoteCache','clearable','placement','appendToBody','name','form','required','ariaLabel']))
+    expect(select.emits).toEqual(['blur','change','clear','focus','input','invalid','load-error','open-change','search','select','update:modelValue','update:open'])
+    expect(select.slots).toEqual(['arrow','clear-icon','empty','error','footer','loading','option','prefix','suffix','value'])
   })
 
   it('covers every component exactly once across stable documentation categories',()=>{
