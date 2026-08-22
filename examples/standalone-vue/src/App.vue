@@ -35,6 +35,7 @@ import {
   UiImage,
   UiList,
   UiMentions,
+  UiMultiSelect,
   UiNumberInput,
   UiOtpInput,
   UiPopover,
@@ -107,6 +108,9 @@ const standaloneRemoteSelect=ref('')
 const standaloneSelectState=ref('ready')
 const standaloneSelectOptions=[{name:'East cluster',id:'east',detail:'Shanghai and Hangzhou',terms:['east','shanghai','hangzhou']},{name:'South cluster',id:'south',detail:'Shenzhen and Guangzhou',terms:['south','shenzhen'],locked:true},{name:'Global cluster',id:'global',detail:'Cross-time-zone delivery',terms:['global','overseas']}]
 async function fetchStandaloneSelect(query,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,260);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return [{label:'Release stable',value:'stable',description:'Verified package lane'},{label:'Release next',value:'next',description:'Preview package lane'}].filter(option=>!query||option.label.toLowerCase().includes(query.toLowerCase()))}
+const standaloneMultiSelect=ref(['east','global'])
+const standaloneRemoteMultiSelect=ref([])
+const standaloneMultiSelectState=ref('ready')
 const standaloneChannels=ref(['email'])
 const standalonePlan=ref('team')
 const standalonePolicy=ref('enabled')
@@ -151,11 +155,11 @@ const standaloneCapabilities=ref(['Vue 3','Typed API','SSR'])
 const standaloneCarouselIndex=ref(0)
 const standaloneQrStatus=ref('expired')
 const standaloneQrRevision=ref(1)
-const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.68.0?revision=${standaloneQrRevision.value}`)
+const standaloneQrValue=computed(()=>`https://consumer.example/releases/1.69.0?revision=${standaloneQrRevision.value}`)
 function refreshStandaloneQr(){standaloneQrRevision.value+=1;standaloneQrStatus.value='active';toast.success('Release QR refreshed')}
 const standaloneBarcodeStatus=ref('expired')
 const standaloneBarcodeRevision=ref(1)
-const standaloneBarcodeValue=computed(()=>`LAN-UI-168-R${standaloneBarcodeRevision.value}`)
+const standaloneBarcodeValue=computed(()=>`LAN-UI-169-R${standaloneBarcodeRevision.value}`)
 function refreshStandaloneBarcode(){standaloneBarcodeRevision.value+=1;standaloneBarcodeStatus.value='active';toast.success('Asset barcode refreshed')}
 const standaloneCron=ref('0 9 * * 1-5')
 const standaloneHeaders=ref([{id:'accept',key:'Accept',value:'application/json',enabled:true},{id:'trace',key:'X-Trace-Id',value:'consumer-42',enabled:true}])
@@ -275,6 +279,14 @@ const rows = computed(() => [
         <UiFormItem label="Operational states" group><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiSelect model-value="east" :options="[{label:'Loading',value:'east'}]" loading aria-label="Loading select"/><UiSelect invalid :options="['Required']" aria-label="Invalid select"/><UiSelect model-value="Locked" :options="['Locked']" readonly aria-label="Readonly select"/><UiSelect model-value="Unavailable" :options="['Unavailable']" disabled aria-label="Disabled select"/></div></UiFormItem>
       </div>
       <template #footer><code>{{ standaloneSelectState }} · {{ standaloneSelect }} · {{ standaloneRemoteSelect||'remote empty' }}</code></template>
+    </UiCard>
+    <UiCard data-multi-select-state-contract title="Consumer production multi-selects" subtitle="Value arrays, constraints, tags, native multiple forms and resilient remote search from the packed dependency">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+        <UiFormItem label="Delivery regions" required help="Mapped records · visible select-all · maximum three"><UiMultiSelect v-model="standaloneMultiSelect" :options="standaloneSelectOptions" :field-names="{label:'name',value:'id',description:'detail',keywords:'terms',disabled:'locked'}" searchable clearable show-select-all :max-count="3" :max-tag-count="2" name="deliveryRegions" required @change="(values,meta)=>standaloneMultiSelectState=`${meta.source} · ${values.join(',')}`"><template #prefix>◇</template><template #footer="{options}">{{ options.length }} visible records</template></UiMultiSelect></UiFormItem>
+        <UiFormItem label="Remote release groups" help="Debounce · abort · race guard · cache · retry"><UiMultiSelect v-model="standaloneRemoteMultiSelect" searchable clearable :remote-method="fetchStandaloneSelect" :remote-debounce="180" :remote-min-chars="1" placeholder="Search release groups" @change="(values,meta)=>standaloneMultiSelectState=`remote ${meta.source} · ${values.join(',')}`"/></UiFormItem>
+        <UiFormItem label="Operational states" group><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><UiMultiSelect :model-value="['east']" :options="standaloneSelectOptions" loading aria-label="Loading multi select"/><UiMultiSelect invalid :options="standaloneSelectOptions" aria-label="Invalid multi select"/><UiMultiSelect :model-value="['east']" :options="standaloneSelectOptions" readonly aria-label="Readonly multi select"/><UiMultiSelect :model-value="['east']" :options="standaloneSelectOptions" disabled aria-label="Disabled multi select"/></div></UiFormItem>
+      </div>
+      <template #footer><code>{{ standaloneMultiSelectState }} · {{ standaloneMultiSelect.join(',') }} · {{ standaloneRemoteMultiSelect.join(',')||'remote empty' }}</code></template>
     </UiCard>
     <UiCard data-selection-state-contract title="Consumer production selection controls" subtitle="Native form semantics, typed groups, constraints and guarded switches from the packed dependency">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">
@@ -406,7 +418,7 @@ const rows = computed(() => [
 
     <UiCard title="Release QR code">
       <div style="display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:24px">
-        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.68.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
+        <UiQRCode :value="standaloneQrValue" :status="standaloneQrStatus" level="H" color="#7C3AED" :size="176" downloadable download-name="consumer-release.svg" label="Consumer release QR code" caption="Release 1.69.0" @refresh="refreshStandaloneQr" @download="toast.success('Release QR downloaded')"/>
         <div style="display:grid;gap:12px;color:var(--text-secondary);font-size:13px;line-height:1.65"><strong style="color:var(--text-primary)">Typed package component</strong><span>Real SVG encoding, ECC H, expiry refresh, download and SSR are consumed directly from the package root.</span><div style="display:flex;gap:8px;flex-wrap:wrap"><UiButton size="sm" variant="outline" @click="standaloneQrStatus='expired'">Expire</UiButton><UiButton size="sm" variant="outline" @click="standaloneQrStatus='scanned'">Mark scanned</UiButton><UiButton size="sm" variant="text" @click="standaloneQrStatus='active'">Reset</UiButton></div><code>{{ standaloneQrStatus }} · revision {{ standaloneQrRevision }}</code></div>
       </div>
     </UiCard>

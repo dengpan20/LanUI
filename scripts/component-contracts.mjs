@@ -44,7 +44,7 @@ const required={
   'UiPopconfirm.vue':['beforeConfirm','loading','focusWithRetry','role="alertdialog"'],
   'UiDataGrid.vue':["mode==='server'",'processedRows','searchDebounce','state-change','request','UiListToolbar','UiPagination','defineExpose'],
   'UiTable.vue':['filter-change','column-resize','virtualRange','aria-sort','import UiCheckbox','size="sm"'],
-  'UiMultiSelect.vue':['aria-multiselectable="true"','aria-activedescendant','ArrowDown','Home','End'],
+  'UiMultiSelect.vue':['data-ui-multi-select','defaultValue','update:open','fieldNames','remoteMethod','AbortController','requestSequence','remoteCache','maxCount','minCount','showSelectAll','removeOnBackspace','aria-multiselectable="true"','aria-activedescendant','ArrowDown','Home','End','Backspace','ui-multi-select-native','onFormReset','useTeleportThemeScope','useFloatingPosition','defineExpose'],
   'UiTreeSelect.vue':['role="tree"','aria-level','aria-activedescendant','ArrowRight','ArrowLeft'],
   'UiTree.vue':['role="tree"','role="treeitem"','aria-activedescendant','aria-checked','checkStrictly','AbortController','ResizeObserver','load-error','useDirection'],
   'UiCommandPalette.vue':['role="dialog"','role="combobox"','role="listbox"','aria-activedescendant','AbortController','requestSequence','load-error','data-error','openOverlay','isTopOverlay','focusWithRetry','useDirection'],

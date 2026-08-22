@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.68.0",
+  "version": "1.69.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 240310,
-    "rules": 1886,
+    "bytes": 247705,
+    "rules": 1946,
     "source": "component-union"
   },
   "core": {
@@ -298,8 +298,8 @@
     {
       "name": "UiMultiSelect",
       "subpath": "./styles/UiMultiSelect.css",
-      "bytes": 2921,
-      "rules": 22
+      "bytes": 10779,
+      "rules": 86
     },
     {
       "name": "UiNotification",
@@ -358,8 +358,8 @@
     {
       "name": "UiQueryBuilder",
       "subpath": "./styles/UiQueryBuilder.css",
-      "bytes": 36349,
-      "rules": 284
+      "bytes": 43628,
+      "rules": 344
     },
     {
       "name": "UiRadio",
@@ -388,8 +388,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 58721,
-      "rules": 472
+      "bytes": 66000,
+      "rules": 532
     },
     {
       "name": "UiSegmented",

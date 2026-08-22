@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.68.0",
+  "version": "1.69.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -12004,7 +12004,170 @@
       "propsType": "UiMultiSelectProps",
       "props": [
         {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "autofocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "clearSearchOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "clearable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "closeOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
           "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "emptyText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "errorText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "fieldNames",
+          "required": false,
+          "type": "UiSelectFieldNames",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "filterOption",
+          "required": false,
+          "type": "boolean|UiMultiSelectFilter",
+          "runtimeTypes": [
+            "Boolean",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "form",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "hideSelected",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -12028,6 +12191,42 @@
           }
         },
         {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loadingText",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "maxCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
           "name": "maxTagCount",
           "required": false,
           "type": "number",
@@ -12040,15 +12239,45 @@
           }
         },
         {
+          "name": "minCount",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
           "name": "modelValue",
           "required": false,
           "type": "Key[]",
           "runtimeTypes": [
             "Array"
           ],
+          "default": null
+        },
+        {
+          "name": "name",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": null
+        },
+        {
+          "name": "open",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
           "default": {
-            "kind": "factory",
-            "value": "factory()"
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -12076,6 +12305,111 @@
           }
         },
         {
+          "name": "placement",
+          "required": false,
+          "type": "'top-start'|'top-end'|'bottom-start'|'bottom-end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom-start\""
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "remoteCache",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "remoteDebounce",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "200"
+          }
+        },
+        {
+          "name": "remoteMethod",
+          "required": false,
+          "type": "UiMultiSelectRemoteMethod",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "remoteMinChars",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "removeOnBackspace",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "required",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "searchPlaceholder",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "searchable",
           "required": false,
           "type": "boolean",
@@ -12086,28 +12420,183 @@
             "kind": "implicit",
             "value": "false"
           }
+        },
+        {
+          "name": "showSelectAll",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "ComponentSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
         }
       ],
       "emitsType": "UiMultiSelectEmits",
       "emits": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiMultiSelectFocusMeta)=>void"
+        },
+        {
           "name": "change",
           "required": true,
-          "type": "(value:Key[])=>void"
+          "type": "(value:Key[],meta:UiMultiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "clear",
+          "required": true,
+          "type": "(value:Key[],meta:UiMultiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "deselect",
+          "required": true,
+          "type": "(option:SelectOption,meta:UiMultiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiMultiSelectFocusMeta)=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(value:Key[],meta:UiMultiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiMultiSelectInvalidMeta)=>void"
+        },
+        {
+          "name": "load-error",
+          "required": true,
+          "type": "(payload:{error:unknown;query:string;source:UiMultiSelectSource})=>void"
+        },
+        {
+          "name": "max",
+          "required": true,
+          "type": "(payload:UiMultiSelectMaxMeta)=>void"
         },
         {
           "name": "open-change",
           "required": true,
-          "type": "(open:boolean)=>void"
+          "type": "(open:boolean,meta:UiMultiSelectOpenMeta)=>void"
+        },
+        {
+          "name": "remove",
+          "required": true,
+          "type": "(option:SelectOption,meta:UiMultiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "search",
+          "required": true,
+          "type": "(query:string,meta:UiMultiSelectSearchMeta)=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(option:SelectOption,meta:UiMultiSelectChangeMeta)=>void"
+        },
+        {
+          "name": "select-all",
+          "required": true,
+          "type": "(selected:boolean,value:Key[],meta:UiMultiSelectChangeMeta)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
           "type": "(value:Key[])=>void"
+        },
+        {
+          "name": "update:open",
+          "required": true,
+          "type": "(open:boolean)=>void"
         }
       ],
       "slotsType": "UiMultiSelectSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "arrow",
+          "required": false,
+          "type": "(scope:{open:boolean})=>VNodeChild"
+        },
+        {
+          "name": "clear-icon",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{query:string})=>VNodeChild"
+        },
+        {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{error:unknown;retry:UiMultiSelectInstance['reload']})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:{query:string;options:SelectOption[];values:Key[];reload:UiMultiSelectInstance['reload']})=>VNodeChild"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "option",
+          "required": false,
+          "type": "(scope:{option:SelectOption;index:number;selected:boolean;active:boolean;disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "overflow-tag",
+          "required": false,
+          "type": "(scope:{count:number;options:SelectOption[]})=>VNodeChild"
+        },
+        {
+          "name": "placeholder",
+          "required": false,
+          "type": "()=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(scope:{values:Key[];options:SelectOption[]})=>VNodeChild"
+        },
+        {
+          "name": "select-all",
+          "required": false,
+          "type": "(scope:{selected:boolean;toggle:UiMultiSelectInstance['toggleSelectAll']})=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(scope:{values:Key[];options:SelectOption[]})=>VNodeChild"
+        },
+        {
+          "name": "tag",
+          "required": false,
+          "type": "(scope:{option:SelectOption;remove:(event:Event)=>void})=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiNumberInput",

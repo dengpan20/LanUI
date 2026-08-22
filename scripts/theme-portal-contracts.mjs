@@ -22,6 +22,6 @@ const scopeSource=readFileSync(resolve(root,'src/theme-scope.js'),'utf8')
 const providerSource=readFileSync(resolve(componentRoot,'UiConfigProvider.vue'),'utf8')
 for(const required of ["Symbol.for('lan-ui-teleport-theme-scope')",'data-ui-teleport-scope','data-ui-resolved-appearance','portalThemeStyle'])if(!scopeSource.includes(required))failures.push(`theme-scope.js: missing ${required}`)
 for(const required of ['provide(lanUiTeleportScopeKey,teleportScope)','resolvedAppearance:resolvedAppearance.value',"'--ui-overlay-base':config.value.zIndex",'...themeStyle.value'])if(!providerSource.includes(required))failures.push(`UiConfigProvider.vue: missing ${required}`)
-if(records.length!==15||teleportCount!==15)failures.push(`expected 15 current Teleport components, received components=${records.length} teleports=${teleportCount}`)
+if(records.length!==16||teleportCount!==16)failures.push(`expected 16 current Teleport components, received components=${records.length} teleports=${teleportCount}`)
 if(failures.length){console.error(`THEME_PORTAL_CONTRACT FAIL\n- ${failures.join('\n- ')}`);process.exit(1)}
 console.log(`THEME_PORTAL_CONTRACT PASS components=${records.length} teleports=${teleportCount} scope=appearance+tokens+locale+size+density+direction`)

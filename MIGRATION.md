@@ -1,5 +1,19 @@
 # Lan UI migration and compatibility policy
 
+## 1.69 multi-select compatibility
+
+There are no breaking changes. Existing `<UiMultiSelect v-model="values" :options="options" searchable />` usage remains valid:
+
+```vue
+<UiMultiSelect v-model="regions" :options="regions" searchable clearable show-select-all :max-count="4" />
+```
+
+- `modelValue` and `open` are controlled when supplied; `defaultValue` and `defaultOpen` own internal state otherwise. Arrays are de-duplicated with `Object.is`, preserve consumer order and retain labels for remote selections.
+- Field mapping, label/description/keyword filtering and IME behavior match `UiSelect`. Remote methods receive `{ signal }` and support debounce, minimum query length, cancellation, stale-response suppression, cache and retry.
+- `minCount` and `maxCount` guard every pointer, keyboard, tag, clear, select-all and API mutation. `hideSelected`, `showSelectAll`, `maxTagCount`, `closeOnSelect`, `clearSearchOnSelect` and Backspace removal remain opt-in or compatibility-preserving.
+- Named controls submit a native multiple select, required validation focuses the visible combobox and form reset restores the declared default array. Loading, Error, Empty, Readonly and Disabled states remain distinct.
+- Prefix, tag, overflow-tag, placeholder, suffix, arrow, loading, clear-icon, error, select-all, option, empty and footer Slots are additive. Portal theme scope, RTL, forced colors, SSR, root/subpath declarations and exposed focus/blur/show/hide/toggle/select/remove/clear/setValue/select-all/reload controls remain synchronized.
+
 ## 1.68 select compatibility
 
 There are no breaking changes. Existing `<UiSelect v-model="value" :options="options" clearable />`, disabled and invalid usage remains valid:

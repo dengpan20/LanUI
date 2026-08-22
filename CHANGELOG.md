@@ -4,6 +4,20 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.69.0] - 2026-08-22
+
+### Added
+
+- Production `UiMultiSelect` contracts for controlled/default value arrays and popup state, field mapping, description/keyword search, IME, remote debounce, AbortSignal cancellation, race protection, caching, retry, native multiple-value forms and imperative controls.
+- Selection limits, select-all, hidden-selected filtering, removable and collapsed tags, Backspace removal, local/remote examples and deterministic SSR, unit, visual, Axe, negative-type, packed-consumer and three-browser interaction coverage.
+
+### Changed
+
+- Existing multiple-select usage remains compatible while value identity now uses `Object.is`, duplicate values normalize deterministically, disabled options remain immutable, and minimum/maximum constraints publish structured limit and invalid metadata.
+- Search input and semantic listbox ownership are separated inside a named Portal region; loading, error and empty states no longer impersonate a listbox, while RTL placement and dark-theme contrast follow the shared Select foundation.
+- Release gates advance to 46 visual baselines, 64 Axe scenarios, 68 interactions per browser and 85 negative type assertions. Public coverage remains 91 components and advances to 458 locale keys, 1,408 Props, 471 Events and 280 Slots.
+- Measured P73 ceilings remain absolute and bounded: package JS `820000 / 303000` B raw/gzip, package CSS `735000 / 158000` B, root CSS `255000 / 40000` B, largest component CSS `68000 / 10200` B and standalone JS/CSS raw `795000 / 255000` B; tarball file and compressed-size ceilings remain unchanged.
+
 ## [1.68.0] - 2026-08-22
 
 ### Added

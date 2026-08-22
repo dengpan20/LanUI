@@ -72,6 +72,7 @@ const cases=[
   {name:'input-contract',viewport:{width:1280,height:1000},query:'theme=dark&direction=rtl&density=compact&state=input',ready:'.visual-input-showcase [data-input-state-contract]'},
   {name:'textarea-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=textarea',ready:'.visual-textarea-showcase [data-textarea-state-contract]'},
   {name:'select-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=select',ready:'.visual-select-showcase [data-select-state-contract]'},
+  {name:'multi-select-contract',viewport:{width:1280,height:1150},query:'theme=dark&direction=rtl&density=compact&state=multi-select',ready:'.visual-multi-select-showcase [data-multi-select-state-contract]'},
   {name:'selection-contract',viewport:{width:1280,height:1100},query:'theme=dark&direction=rtl&density=compact&state=selection',ready:'.visual-selection-showcase [data-selection-state-contract]'},
 ]
 const selectedCases=requestedCases.length?cases.filter(item=>requestedCases.includes(item.name)):cases

@@ -371,6 +371,46 @@ const allCases = [
     },
   },
   {
+    name:'multi-select-production-array-limits-search-native-api',
+    run:async page=>{
+      const section=page.locator('.interaction-multi-select-production-case')
+      const trigger=section.locator('#interaction-production-multi-select')
+      const multi=trigger.locator('..')
+      await trigger.click()
+      const search=multi.locator('.ui-multi-search input')
+      await search.fill('global')
+      assert.equal(await multi.getByRole('option').count(),1)
+      await page.keyboard.press('Enter')
+      await expectText(page,'production-multi-select-output','multi:keyboard:east,global')
+      assert.deepEqual(await multi.locator('select[name="releaseClusters"]').evaluate(element=>[...element.selectedOptions].map(option=>option.value)),['east','global'])
+      assert.equal(await multi.getByRole('option',{name:/North cluster/}).getAttribute('aria-disabled'),'true')
+      await section.locator('#interaction-production-multi-select-api').click()
+      await expectText(page,'production-multi-select-output','max:2:east,global')
+      await multi.locator('.ui-multi-tag button').first().click()
+      await expectText(page,'production-multi-select-output','remove:tag:east')
+      await section.locator('#interaction-production-multi-select-api').click()
+      await expectText(page,'production-multi-select-output','multi:fixture-api:global,north')
+      await trigger.focus()
+      await page.keyboard.press('Backspace')
+      await expectText(page,'production-multi-select-output','remove:backspace:north')
+      if(await multi.locator('.ui-multi-select-all').count()===0)await trigger.click()
+      await multi.locator('.ui-multi-select-all').click()
+      await expectText(page,'production-multi-select-output','all:true:global,east')
+      await section.locator('#interaction-production-multi-select-close-api').click({force:true})
+      assert.equal(await trigger.getAttribute('aria-expanded'),'false')
+      await section.locator('#interaction-production-readonly-multi-select').click()
+      await expectText(page,'production-multi-select-output','invalid:readonly')
+      const remoteTrigger=section.locator('#interaction-production-remote-multi-select')
+      const remote=remoteTrigger.locator('..')
+      await remoteTrigger.click()
+      await remote.locator('.ui-multi-search input').fill('next')
+      const remoteOption=remote.getByRole('option',{name:/Next lane/})
+      await remoteOption.waitFor()
+      await remoteOption.click()
+      await expectText(page,'production-multi-select-output','remote:pointer:next')
+    },
+  },
+  {
     name:'selection-groups-limits-radio-switch-guard',
     run:async page=>{
       const section=page.locator('.interaction-selection-case')

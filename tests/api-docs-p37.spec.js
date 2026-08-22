@@ -68,6 +68,10 @@ describe('P37 generated component API documentation',()=>{
     expect(select.props).toEqual(expect.arrayContaining(['modelValue','defaultValue','open','defaultOpen','options','fieldNames','searchable','filterOption','remoteMethod','remoteDebounce','remoteMinChars','remoteCache','clearable','placement','appendToBody','name','form','required','ariaLabel']))
     expect(select.emits).toEqual(['blur','change','clear','focus','input','invalid','load-error','open-change','search','select','update:modelValue','update:open'])
     expect(select.slots).toEqual(['arrow','clear-icon','empty','error','footer','loading','option','prefix','suffix','value'])
+    const multiSelect=manifest.components.find(component=>component.name==='UiMultiSelect')
+    expect(multiSelect.props).toEqual(expect.arrayContaining(['modelValue','defaultValue','open','defaultOpen','options','fieldNames','searchable','filterOption','remoteMethod','remoteDebounce','remoteMinChars','remoteCache','maxTagCount','maxCount','minCount','hideSelected','showSelectAll','closeOnSelect','removeOnBackspace','appendToBody','name','form','required','ariaLabel']))
+    expect(multiSelect.emits).toEqual(['blur','change','clear','deselect','focus','input','invalid','load-error','max','open-change','remove','search','select','select-all','update:modelValue','update:open'])
+    expect(multiSelect.slots).toEqual(['arrow','clear-icon','empty','error','footer','loading','option','overflow-tag','placeholder','prefix','select-all','suffix','tag'])
   })
 
   it('covers every component exactly once across stable documentation categories',()=>{
@@ -94,6 +98,9 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain("import { UiSteps } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiTimeline } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiButton } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiMultiSelect } from 'lan-ui-design-system'")
+    expect(markdown).toContain('#### Events · `UiMultiSelectEmits`')
+    expect(markdown).toContain('#### Slots · `UiMultiSelectSlots`')
     expect(markdown).toContain('#### Events · `UiButtonEmits`')
     expect(markdown).toContain('#### Slots · `UiButtonSlots`')
   })

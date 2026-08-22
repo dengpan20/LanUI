@@ -1246,3 +1246,15 @@ Search covers labels, descriptions and keywords through a replaceable predicate,
 Arrow, Home, End, Enter, Escape, Tab and non-search Typeahead share disabled-option skipping and logical RTL placement. Native form submission, required validation and form reset synchronize with public values. FormItem context, Portal theme scope, collision-aware placement, descriptions, prefix/value/suffix/arrow/loading/clear/error/option/empty/footer Slots, structured event metadata and exposed focus/open/value/reload methods complete the integration contract.
 
 P72 retains 91 public components and advances to 452 locale keys with generated coverage of 1,377 Props, 458 Events and 267 Slots. Release gates require 45 visual baselines, 63 zero-violation Axe scenarios, 67 interactions per Chromium/Firefox/WebKit engine, 81 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 86. Maturity P73: production multi-select controls
+
+`UiMultiSelect` preserves its existing array model, options, searchable, disabled, invalid and collapsed-tag surface while adding controlled/default value arrays and popup state. Values de-duplicate with `Object.is` and preserve model order; record fields adapt label, value, disabled, description and keywords without rewriting domain data, while selected-memory keeps remote labels stable across searches.
+
+Local search covers labels, values, descriptions and keywords through a replaceable predicate. Remote search adds debounce and minimum-query thresholds, AbortSignal cancellation, monotonically ordered race protection, caching, Loading/Error/Empty states and explicit retry. Search composition, active descendants and option visibility remain synchronized without partial remote requests.
+
+Arrow, Home, End, Enter, Escape, Tab, Typeahead and Backspace share disabled-option skipping and selection constraints. `minCount` and `maxCount` apply to pointer, keyboard, tags, clear, select-all and API paths; select-all only targets visible enabled records. Native multiple-value submission, required validation and form reset synchronize with public arrays.
+
+FormItem context, Portal theme scope, collision-aware RTL placement, tag collapsing, prefix/tag/overflow/placeholder/suffix/arrow/loading/clear/error/select-all/option/empty/footer Slots, structured events and exposed focus/open/value/reload operations complete the integration contract.
+
+P73 retains 91 public components and advances to 458 locale keys with generated coverage of 1,408 Props, 471 Events and 280 Slots. Release gates require 46 visual baselines, 64 zero-violation Axe scenarios, 68 interactions per Chromium/Firefox/WebKit engine, 85 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

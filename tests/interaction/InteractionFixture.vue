@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
-  UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
+  UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiUpload,
   UiTree, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
@@ -19,6 +19,11 @@ const productionRemoteSelect=ref('')
 const productionSelectOutput=ref('ready')
 const productionSelectOptions=[{label:'East cluster',value:'east',description:'Shanghai and Hangzhou',keywords:['hangzhou']},{label:'South cluster',value:'south',disabled:true},{label:'Global cluster',value:'global',description:'Cross-time-zone delivery',keywords:['overseas']}]
 async function fetchProductionSelect(query,{signal}){await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,80);signal?.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})});return [{label:'Stable lane',value:'stable',description:'Verified release'},{label:'Next lane',value:'next',description:'Preview release'}].filter(option=>!query||option.label.toLowerCase().includes(query.toLowerCase()))}
+const productionMultiSelectRef=ref(null)
+const productionMultiSelectValue=ref(['east'])
+const productionRemoteMultiSelect=ref([])
+const productionMultiSelectOutput=ref('ready')
+const productionMultiSelectOptions=[{label:'East cluster',value:'east',description:'Shanghai and Hangzhou',keywords:['hangzhou']},{label:'South cluster',value:'south',disabled:true},{label:'North cluster',value:'north',description:'Beijing and Tianjin'},{label:'Global cluster',value:'global',description:'Cross-time-zone delivery',keywords:['overseas']}]
 const anchorValue=ref('fixture-anchor-overview')
 const anchorItems=[{key:'fixture-anchor-overview',href:'#fixture-anchor-overview',title:'Overview'},{key:'fixture-anchor-disabled',href:'#fixture-anchor-disabled',title:'Disabled',disabled:true},{key:'fixture-anchor-api',href:'#fixture-anchor-api',title:'API contract'},{key:'fixture-anchor-release',href:'#fixture-anchor-release',title:'Release'}]
 const officeCity = ref('')
@@ -691,6 +696,16 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-row"><UiButton id="interaction-production-select-api" size="sm" variant="outline" @click="productionSelectRef.setValue('east','fixture-api')">Select by API</UiButton></div>
         </div>
         <output class="interaction-output" data-testid="production-select-output">{{ productionSelectOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-multi-select-production-case" data-multi-select-state-contract="controlled uncontrolled arrays native multiple reset search ime remote abort race cache min max select all tags backspace readonly keyboard rtl ssr slots api">
+        <h2>MultiSelect production contract</h2>
+        <div class="interaction-grid">
+          <UiFormItem label="Release clusters" required help="Search, limits, tags, native multiple form and API"><UiMultiSelect id="interaction-production-multi-select" ref="productionMultiSelectRef" v-model="productionMultiSelectValue" :options="productionMultiSelectOptions" name="releaseClusters" required searchable clearable show-select-all :min-count="1" :max-count="2" :append-to-body="false" @change="(values,meta)=>productionMultiSelectOutput=`multi:${meta.source}:${values.join(',')}`" @remove="(option,meta)=>productionMultiSelectOutput=`remove:${meta.source}:${option.value}`" @select-all="(selected,values)=>productionMultiSelectOutput=`all:${selected}:${values.join(',')}`" @max="meta=>productionMultiSelectOutput=`max:${meta.maxCount}:${meta.value.join(',')}`"/></UiFormItem>
+          <UiFormItem label="Remote release groups" help="Debounce, abort, race and cache"><UiMultiSelect id="interaction-production-remote-multi-select" v-model="productionRemoteMultiSelect" searchable clearable :remote-method="fetchProductionSelect" :remote-debounce="0" :remote-min-chars="1" :append-to-body="false" @change="(values,meta)=>productionMultiSelectOutput=`remote:${meta.source}:${values.join(',')}`"/></UiFormItem>
+          <UiFormItem label="Read only"><UiMultiSelect id="interaction-production-readonly-multi-select" :model-value="['locked']" :options="[{label:'Locked',value:'locked'}]" readonly :append-to-body="false" @invalid="meta=>productionMultiSelectOutput=`invalid:${meta.reason}`"/></UiFormItem>
+<div class="interaction-row"><UiButton id="interaction-production-multi-select-api" size="sm" variant="outline" @click="productionMultiSelectRef.select('north','fixture-api')">Select by API</UiButton><UiButton id="interaction-production-multi-select-close-api" size="sm" variant="text" @click="productionMultiSelectRef.hide('fixture-api')">Close by API</UiButton></div>
+        </div>
+        <output class="interaction-output" data-testid="production-multi-select-output">{{ productionMultiSelectOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-selection-case" data-selection-state-contract="checkbox group array min max indeterminate radio keyboard switch guard loading form aria rtl ssr">
         <h2>Selection controls production contract</h2>
