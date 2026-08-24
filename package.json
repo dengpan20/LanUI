@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.75.0",
+  "version": "1.75.1",
   "private": false,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -176,7 +176,7 @@
     "pack:artifact": "node -e \"require('node:fs').mkdirSync('artifacts',{recursive:true})\" && pnpm run prepack && pnpm --config.ignore-scripts=true pack --out artifacts/lan-ui-design-system-%v.tgz",
     "prepublishOnly": "pnpm run ci",
     "test:runtime": "node scripts/runtime-compatibility.mjs",
-    "test:release": "node scripts/release-contracts.mjs --ref v1.75.0 --tag true",
+    "test:release": "node scripts/release-contracts.mjs --ref v1.75.1 --tag true",
     "test:compatibility": "pnpm run test:runtime && pnpm run test:unit && pnpm run build:lib && pnpm run test:packed-consumer"
   },
   "peerDependencies": {

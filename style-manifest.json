@@ -1,16 +1,16 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.75.0",
+  "version": "1.75.1",
   "root": {
     "subpath": "./style.css",
-    "bytes": 280538,
-    "rules": 2191,
+    "bytes": 280621,
+    "rules": 2192,
     "source": "component-union"
   },
   "core": {
     "subpath": "./styles/core.css",
-    "bytes": 6087
+    "bytes": 6126
   },
   "components": [
     {
@@ -142,8 +142,8 @@
     {
       "name": "UiDataGrid",
       "subpath": "./styles/UiDataGrid.css",
-      "bytes": 39942,
-      "rules": 322
+      "bytes": 40045,
+      "rules": 323
     },
     {
       "name": "UiDatePicker",
@@ -268,13 +268,13 @@
     {
       "name": "UiList",
       "subpath": "./styles/UiList.css",
-      "bytes": 23941,
+      "bytes": 23946,
       "rules": 200
     },
     {
       "name": "UiListToolbar",
       "subpath": "./styles/UiListToolbar.css",
-      "bytes": 8457,
+      "bytes": 8462,
       "rules": 67
     },
     {
@@ -328,7 +328,7 @@
     {
       "name": "UiPagination",
       "subpath": "./styles/UiPagination.css",
-      "bytes": 14582,
+      "bytes": 14587,
       "rules": 117
     },
     {
@@ -358,7 +358,7 @@
     {
       "name": "UiQueryBuilder",
       "subpath": "./styles/UiQueryBuilder.css",
-      "bytes": 55421,
+      "bytes": 55426,
       "rules": 439
     },
     {
@@ -388,7 +388,7 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 77793,
+      "bytes": 77798,
       "rules": 627
     },
     {
@@ -400,7 +400,7 @@
     {
       "name": "UiSelect",
       "subpath": "./styles/UiSelect.css",
-      "bytes": 6338,
+      "bytes": 6343,
       "rules": 49
     },
     {
@@ -460,8 +460,8 @@
     {
       "name": "UiTable",
       "subpath": "./styles/UiTable.css",
-      "bytes": 15319,
-      "rules": 124
+      "bytes": 15417,
+      "rules": 125
     },
     {
       "name": "UiTabs",
@@ -520,7 +520,7 @@
     {
       "name": "UiTransfer",
       "subpath": "./styles/UiTransfer.css",
-      "bytes": 12932,
+      "bytes": 12873,
       "rules": 103
     },
     {
@@ -550,7 +550,7 @@
     {
       "name": "UiVirtualList",
       "subpath": "./styles/UiVirtualList.css",
-      "bytes": 4645,
+      "bytes": 4624,
       "rules": 41
     },
     {

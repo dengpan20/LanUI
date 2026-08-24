@@ -64,7 +64,7 @@ const visualTreeSelectOptions=[
 ]
 const visualTransferValue=ref(['api','tokens'])
 const visualTransferSelected=ref(['keyboard','a11y'])
-const visualTransferOptions=[{label:'Component API',value:'api',description:'Props, events and slots'},{label:'Design tokens',value:'tokens',description:'Theme and density variables'},{label:'Keyboard contract',value:'keyboard',description:'Focus and movement behavior'},{label:'Accessibility evidence',value:'a11y',description:'WCAG 2.2 AA and Axe'},{label:'Release package',value:'release',description:'Tarball and verification record'},{label:'Legacy archive',value:'legacy',description:'Unavailable resource',disabled:true}]
+const visualTransferOptions=[{label:'Component API',value:'api'},{label:'Design tokens',value:'tokens',description:'Theme and density variables'},{label:'Keyboard contract',value:'keyboard',description:'Focus and movement behavior'},{label:'Accessibility evidence',value:'a11y',description:'WCAG 2.2 AA and Axe'},{label:'Release package',value:'release',description:'Tarball and verification record'},{label:'Legacy archive',value:'legacy',description:'Unavailable resource',disabled:true}]
 const visualTableSelected=ref(['table-1','table-3'])
 const visualTableExpanded=ref(['table-1'])
 const visualTableCurrent=ref('table-3')

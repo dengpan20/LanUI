@@ -126,6 +126,8 @@
 [data-font="wenkai"] { --font-sans: var(--font-wenkai); }
 
 [data-theme="dark"] {
+  --brand-50: #1e3a5f;
+  --brand-700: #93c5fd;
   --brand-text: #93c5fd;
   --success-50: #0d2f29;
   --success-700: #6ee7b7;

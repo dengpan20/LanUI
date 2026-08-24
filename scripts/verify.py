@@ -669,7 +669,7 @@ if "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.75.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.75.1" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -1307,9 +1307,28 @@ if any(marker not in packed_consumer for marker in ["PACKED_DATE_PICKER_SSR PASS
 if "Maturity P79: production date picker controls" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p79:documentation")
 
+transfer_source = (ROOT / "src/components/UiTransfer.vue").read_text(encoding="utf-8")
+table_checkbox_test = (ROOT / "tests/table-checkbox-p36.spec.js").read_text(encoding="utf-8")
+transfer_test = (ROOT / "tests/transfer-p76.spec.js").read_text(encoding="utf-8")
+visual_fixture = (ROOT / "tests/visual/VisualFixture.vue").read_text(encoding="utf-8")
+if any(marker not in transfer_source for marker in ["resolvedItemHeight", "optionItemHeight", ":item-size=\"optionItemHeight\"", ":estimated-item-size=\"resolvedItemHeight\""]):
+    failures.append("p80:transfer-variable-heights")
+if any(marker not in styles for marker in ["var(--brand-50)", "var(--brand-500)", "var(--brand-600)", "var(--focus-ring)", "align-items: center;", "margin-top: 0;"]):
+    failures.append("p80:selection-tokens-or-table-alignment")
+if any(alias in styles for alias in ["var(--brand-primary)", "var(--brand-soft)", "var(--brand-ring)"]):
+    failures.append("p80:undefined-selection-token")
+if "mixed row heights" not in transfer_test or "centered around the indicator" not in table_checkbox_test:
+    failures.append("p80:focused-tests")
+if "{label:'Component API',value:'api'}" not in visual_fixture or "description:'Theme and density variables'" not in visual_fixture:
+    failures.append("p80:visual-mixed-transfer-fixture")
+if "--brand-50: #1e3a5f" not in tokens or "--brand-700: #93c5fd" not in tokens:
+    failures.append("p80:dark-token-contrast")
+if "Maturity P80: selection-list visual integrity" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p80:documentation")
+
 readme_current = (ROOT / "README.md").read_text(encoding="utf-8")
 usage_guide = (ROOT / "docs/USAGE-GUIDE.md").read_text(encoding="utf-8")
-for marker in ["v1.75.0", "91 个组件、1,623 个 Props、558 个 Events 和 349 个 Slots", "P79 成熟日期选择器", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
+for marker in ["v1.75.1", "91 个组件、1,623 个 Props、558 个 Events 和 349 个 Slots", "P79 成熟日期选择器", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
     if marker not in readme_current:
         failures.append(f"docs:concise-readme:{marker}")
 for marker in ["整库接入", "按需接入", "主题与 Token", "国际化", "工程验证"]:

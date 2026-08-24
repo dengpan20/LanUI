@@ -106,6 +106,8 @@ export const lightThemeTokens=Object.freeze({
   "ease-emphasized": "cubic-bezier(.2, .8, .2, 1)"
 })
 export const darkThemeOverrides=Object.freeze({
+  "brand-50": "#1e3a5f",
+  "brand-700": "#93c5fd",
   "brand-text": "#93c5fd",
   "success-50": "#0d2f29",
   "success-700": "#6ee7b7",

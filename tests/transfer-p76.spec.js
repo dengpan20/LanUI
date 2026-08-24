@@ -1,4 +1,5 @@
 // @vitest-environment happy-dom
+import fs from 'node:fs'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { renderToString } from 'vue/server-renderer'
@@ -33,6 +34,46 @@ describe('UiTransfer P76 production contract',()=>{
     expect(wrapper.emitted('update:modelValue')[0][0]).toEqual(['design','frontend'])
     expect(wrapper.findAll('[data-direction="right"] .ui-transfer-option-copy>span').map(node=>node.text())).toEqual(['产品设计'])
     expect(wrapper.find('[data-direction="left"] .ui-virtual-list-item.is-selected').exists()).toBe(true)
+  })
+
+  it('keeps described virtual rows separated and paints selected checks with defined theme tokens',()=>{
+    const wrapper=mount(UiTransfer,{props:{options,defaultSelectedKeys:['frontend'],itemHeight:32}})
+    const rows=wrapper.findAll('[data-direction="left"] .ui-virtual-list-item')
+    expect(rows.slice(0,3).map(row=>row.attributes('style'))).toEqual([
+      expect.stringContaining('height: 44px'),
+      expect.stringMatching(/translateY\(44px\).*height: 44px/),
+      expect.stringMatching(/translateY\(88px\).*height: 44px/),
+    ])
+    expect(rows[0].classes()).toContain('is-selected')
+    expect(rows[0].find('.ui-transfer-check [data-ui-icon]').exists()).toBe(true)
+    const styles=fs.readFileSync('styles.css','utf8')
+    expect(styles).toContain('.ui-transfer-list .is-selected .ui-transfer-check{border-color:var(--brand-600);background:var(--brand-600)}')
+    expect(styles).not.toMatch(/ui-transfer[^\n]*var\(--brand-(?:primary|soft)\)/)
+  })
+
+  it('uses mixed row heights without changing the public itemHeight lower bound',()=>{
+    const mixed=[
+      {label:'Plain row',value:'plain'},
+      {label:'Described row',value:'described',description:'Second line'},
+      {label:'Another plain row',value:'plain-2'},
+    ]
+    const wrapper=mount(UiTransfer,{props:{options:mixed,itemHeight:20}})
+    const rows=wrapper.findAll('[data-direction="left"] .ui-virtual-list-item')
+    expect(rows.map(row=>row.attributes('style'))).toEqual([
+      expect.stringMatching(/translateY\(0px\).*height: 24px/),
+      expect.stringMatching(/translateY\(24px\).*height: 44px/),
+      expect.stringMatching(/translateY\(68px\).*height: 24px/),
+    ])
+    expect(wrapper.find('[data-direction="left"] .ui-virtual-list-content').attributes('style')).toContain('height: 92px')
+  })
+
+  it('keeps measured mode on the same estimated offsets while allowing ResizeObserver measurement',()=>{
+    const wrapper=mount(UiTransfer,{props:{options,itemHeight:28,measure:true}})
+    const rows=wrapper.findAll('[data-direction="left"] .ui-virtual-list-item')
+    expect(rows[0].attributes('style')).toContain('min-height: 44px')
+    expect(rows[0].attributes('style')).not.toMatch(/(?:^|;)\s*height:\s*44px/)
+    expect(rows[1].attributes('style')).toContain('translateY(44px)')
+    expect(wrapper.find('[data-direction="left"] .ui-virtual-list-content').attributes('style')).toContain('height: 160px')
   })
 
   it('maps domain fields, filters descriptions and keywords, and defers IME search events',async()=>{

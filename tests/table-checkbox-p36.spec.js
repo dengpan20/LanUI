@@ -34,11 +34,26 @@ describe('compact table checkbox',()=>{
     expect(wrapper.emitted('update:selectedRows')?.at(-1)).toEqual([[1,2]])
   })
 
+  it('keeps compact header and row hit areas centered around the indicator',()=>{
+    const wrapper=mount(UiTable,{props:{columns:[{key:'name',label:'Name'}],rows:[{id:1,name:'Alpha'}],selectable:true,density:'compact'}})
+    const headerCell=wrapper.get('thead .ui-table-select-column')
+    const rowCell=wrapper.get('tbody .ui-table-select-column')
+    for(const cell of [headerCell,rowCell]){
+      const checkbox=cell.get('.ui-table-checkbox')
+      expect(checkbox.classes()).toContain('size-sm')
+      expect(checkbox.get('.ui-checkbox-indicator').exists()).toBe(true)
+      expect(checkbox.get('input').attributes('aria-label')).toBeTruthy()
+    }
+    expect(wrapper.get('.ui-table-wrap').classes()).toContain('density-compact')
+  })
+
   it('keeps the visual size compact and removes the legacy 24px override',()=>{
     const table=fs.readFileSync('src/components/UiTable.vue','utf8')
     const styles=fs.readFileSync('styles.css','utf8')
     expect(table).toContain('<UiCheckbox class="ui-table-checkbox" size="sm"')
     expect(styles).toContain('.ui-checkbox.size-sm .ui-checkbox-indicator, .ui-radio.size-sm .ui-radio-indicator { width: 14px; height: 14px;')
+    expect(styles).toContain('.ui-table-select-column .ui-table-checkbox { min-width: 24px; min-height: 28px; align-items: center; justify-content: center; gap: 0; }')
+    expect(styles).toContain('.ui-table-select-column .ui-table-checkbox .ui-checkbox-indicator { margin-top: 0; }')
     expect(styles).toContain('.ui-table-select-column > input[type="checkbox"] { width: 14px; min-width: 14px; max-width: 14px; height: 14px; min-height: 14px; max-height: 14px;')
     expect(styles).not.toContain('.ui-table-select-column input { width:24px; height:24px;')
   })

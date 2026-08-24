@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.75.1] - 2026-08-24
+
+### Fixed
+
+- `UiTransfer` now computes stable per-record virtual heights for plain and description rows, preserving `itemHeight` lower bounds and measured-mode offsets without overlap.
+- `UiVirtualList` and `UiTransfer` selection, active, hover and focus states now use defined `brand-50`, `brand-500`, `brand-600`, `brand-text` and `focus-ring` tokens only.
+- Compact `UiTable` select-all and row checkboxes keep their 24×28 interaction area and center the indicator with no inherited top margin.
+
+### Quality
+
+- Added deterministic mixed-height, measured virtual-row and compact table checkbox contract coverage while preserving the 91-component, 495-locale public surface.
+
 ## [1.75.0] - 2026-08-24
 
 ### Added

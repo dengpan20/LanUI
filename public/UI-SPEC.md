@@ -1334,3 +1334,13 @@ ArrowDown opens the panel, Escape and outside interaction close it, and the nest
 Presets, custom header/cell/year/footer/preset rendering, today and clear actions, panel placement and width, native fallback, focus restoration and instance methods form the composition contract. Component center, static HTML, standalone consumer, generated API, isolated CSS and packed SSR/type consumers exercise the same behavior.
 
 P79 retains 91 public components and advances to 495 locale keys with generated coverage of 1,623 Props, 558 Events and 349 Slots. Release gates require 52 visual baselines, 69 zero-violation Axe scenarios, 74 interactions per Chromium/Firefox/WebKit engine, 111 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 93. Maturity P80: selection-list visual integrity
+
+`UiTransfer` passes a stable item-height function into `UiVirtualList`: plain records use the configured `itemHeight` with a 24px floor, while records with descriptions use at least 44px. Virtual offsets and spacer height are the cumulative sum of those estimates, so mixed rows remain separated during scrolling; measured mode retains those estimates as minimum heights while `ResizeObserver` refines actual rows.
+
+`UiVirtualList` and `UiTransfer` selection, active, hover, selected-check and focus-visible states use only defined `brand-50`, `brand-500`, `brand-600`, `brand-text` and `focus-ring` tokens. Forced-colors outlines, RTL active borders, dark theme contrast and reduced-motion transitions remain inherited from the shared state language without changing public Props, Events, Slots or instance methods.
+
+Compact `UiTable` select-all and row selection cells keep a minimum 24×28 interaction area. The project `UiCheckbox` indicator is explicitly centered on both axes and resets its shared 2px top margin to zero in the selection column, preserving keyboard focus and indeterminate semantics in LTR, RTL, light, dark and forced-colors themes.
+
+P80 retains 91 public components and 495 locale keys with generated coverage of 1,623 Props, 558 Events and 349 Slots. Release gates retain 52 visual baselines, 69 zero-violation Axe scenarios, 74 interactions per Chromium/Firefox/WebKit engine, 111 negative type assertions, an isolated tarball consumer and the existing 18 absolute performance ceilings.
