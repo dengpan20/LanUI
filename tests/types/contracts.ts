@@ -18,6 +18,7 @@ import {
   UiKeyValueEditor,
   UiPageHeader,
   UiPagination,
+  UiDatePicker,
   UiDateRangePicker,
   UiDateTimePicker,
   UiDateTimeRangePicker,
@@ -131,6 +132,7 @@ import SubpathCronEditor, { UiCronEditor as NamedSubpathCronEditor } from 'lan-u
 import SubpathKeyValueEditor, { UiKeyValueEditor as NamedSubpathKeyValueEditor } from 'lan-ui-design-system/components/UiKeyValueEditor'
 import SubpathPageHeader, { UiPageHeader as NamedSubpathPageHeader } from 'lan-ui-design-system/components/UiPageHeader'
 import SubpathPagination, { UiPagination as NamedSubpathPagination } from 'lan-ui-design-system/components/UiPagination'
+import SubpathDatePicker, { UiDatePicker as NamedSubpathDatePicker } from 'lan-ui-design-system/components/UiDatePicker'
 import SubpathQRCode, { UiQRCode as NamedSubpathQRCode } from 'lan-ui-design-system/components/UiQRCode'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
@@ -216,6 +218,7 @@ import type { UiDateTimeRangePickerEmits, UiDateTimeRangePickerProps, UiDateTime
 import type { UiKeyValueEditorEmits, UiKeyValueEditorInstance, UiKeyValueEditorProps, UiKeyValueEditorSlots, UiKeyValueItem } from 'lan-ui-design-system/components/UiKeyValueEditor'
 import type { UiPageHeaderEmits, UiPageHeaderInstance, UiPageHeaderProps, UiPageHeaderSlots } from 'lan-ui-design-system/components/UiPageHeader'
 import type { UiPaginationChangeMeta, UiPaginationEmits, UiPaginationInstance, UiPaginationInvalid, UiPaginationProps, UiPaginationSlots } from 'lan-ui-design-system/components/UiPagination'
+import type { UiDatePickerChangeMeta, UiDatePickerEmits, UiDatePickerInstance, UiDatePickerPreset, UiDatePickerProps, UiDatePickerSlots } from 'lan-ui-design-system/components/UiDatePicker'
 import type {
   UiDateRangeChange,
   UiDataGridChange,
@@ -609,6 +612,16 @@ calendarEmit('view-change',{value:'2026-09-01',previous:'2026-08-01',source:'key
 const calendarSubpathParity:typeof SubpathCalendar=NamedSubpathCalendar
 const calendarEvent:keyof UiCalendarEmits='panel-change'
 const calendarSlot:keyof UiCalendarSlots='cell'
+const datePickerPresets:UiDatePickerPreset[]=[{key:'release',label:'Release day',value:'2026-08-24'},{label:'Next review',value:({now})=>new Date(now.getTime()+86400000)}]
+const datePickerProps:InstanceType<typeof UiDatePicker>['$props']&UiDatePickerProps={modelValue:'2026-08-24',defaultValue:'2026-08-20',open:false,defaultOpen:false,viewDate:'2026-08-01',defaultViewDate:'2026-07-01',mode:'date',valueType:'string',timeZone:'UTC',min:'2026-08-01',max:'2026-09-30',presets:datePickerPresets,placement:'bottom-start',appendToBody:false,closeOnSelect:true,openOnArrowDown:true,showWeekNumbers:true,beforeChange:async meta=>meta.source!=='blocked'}
+const datePickerEmit:InstanceType<typeof UiDatePicker>['$emit']=null as never
+datePickerEmit('change','2026-08-24',{source:'calendar',value:'2026-08-24',previous:'2026-08-20',raw:'2026-08-24'})
+datePickerEmit('open-change',true,{open:true,previous:false,source:'keyboard',placement:'bottom-start'})
+const datePickerChange:UiDatePickerChangeMeta={source:'preset',value:'2026-08-24',previous:null,raw:'2026-08-24',preset:datePickerPresets[0]}
+const datePickerInstance:UiDatePickerInstance={} as UiDatePickerInstance
+const datePickerSubpathParity:typeof SubpathDatePicker=NamedSubpathDatePicker
+const datePickerEvent:keyof UiDatePickerEmits='guard-error'
+const datePickerSlot:keyof UiDatePickerSlots='preset'
 const imageProps:InstanceType<typeof UiImage>['$props']&UiImageProps={src:'/thumb.jpg',alt:'Typed image',fallback:'/fallback.jpg',width:320,height:'180px',aspectRatio:'16/9',fit:'contain',loading:'lazy',decoding:'async',preview:true,previewList:['/a.jpg','/b.jpg'],previewIndex:1,minScale:.5,maxScale:4,scaleStep:.25,zoomOnWheel:true,teleportTo:document.body}
 const imageEmit:InstanceType<typeof UiImage>['$emit']=null as never
 imageEmit('preview-change',{index:1,src:'/b.jpg',source:'keyboard'})
@@ -1002,6 +1015,16 @@ const invalidRateSize:UiRateProps={size:'xl'}
 const invalidStatisticLive:UiStatisticProps={live:'on'}
 // @ts-expect-error Calendar selection mode is constrained to single, multiple or range.
 const invalidCalendarMode:UiCalendarProps={selectionMode:'week'}
+// @ts-expect-error DatePicker mode is constrained to date, time or datetime.
+const invalidDatePickerMode:UiDatePickerProps={mode:'week'}
+// @ts-expect-error DatePicker output type is constrained to string, date or timestamp.
+const invalidDatePickerValueType:UiDatePickerProps={valueType:'iso'}
+// @ts-expect-error DatePicker panel placement uses the floating placement contract.
+const invalidDatePickerPlacement:UiDatePickerProps={placement:'center'}
+// @ts-expect-error DatePicker first day is automatic or a weekday index.
+const invalidDatePickerFirstDay:UiDatePickerProps={firstDayOfWeek:7}
+// @ts-expect-error DatePicker presets require a label and date value.
+const invalidDatePickerPreset:UiDatePickerProps={presets:[{label:'Broken'}]}
 // @ts-expect-error Image fitting follows the native object-fit contract.
 const invalidImageFit:UiImageProps={fit:'stretch'}
 // @ts-expect-error Virtual list selection is constrained to none, single or multiple.

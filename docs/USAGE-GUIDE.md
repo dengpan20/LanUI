@@ -17,6 +17,7 @@
 - [11. 工程验证](#11-工程验证)
 - [12. 升级与排错](#12-升级与排错)
 - [13. 生产级表格](#13-生产级表格)
+- [14. 生产级日期选择器](#14-生产级日期选择器)
 
 ## 1. 环境与安装
 
@@ -542,3 +543,28 @@ const widths = ref<Record<string, number>>({ name: 220 })
 - 固定高度数据可开启 `virtual`；存在展开行时组件会暂停虚拟化，避免动态行高破坏定位。
 - 行键应稳定且唯一。缺失或重复键会触发 `invalid`，便于在开发与监控中发现数据契约问题。
 - 使用 `UiDataGrid` 组合搜索、列管理和分页时，选择、展开、当前行与列宽仍复用同一套 `UiTable` 契约。
+
+## 14. 生产级日期选择器
+
+日期模式默认组合 `UiCalendar` 与 `UiPopover`，同时保持原生输入值、表单兼容与日期适配器。常规业务建议受控日期值，只有跨组件协调面板或月份时再受控 `open` / `viewDate`：
+
+```vue
+<UiDatePicker
+  v-model="releaseDate"
+  v-model:open="releaseCalendarOpen"
+  v-model:view-date="releaseCalendarView"
+  min="2026-08-01"
+  max="2026-09-30"
+  :disabled-date="date => [0, 6].includes(date.getUTCDay())"
+  :presets="releasePresets"
+  :before-change="guardReleaseDate"
+  show-week-numbers
+/>
+```
+
+- `defaultValue`、`defaultOpen`、`defaultViewDate` 提供非受控初值；对应受控 Props 优先。
+- `beforeChange` 与 `beforeOpenChange` 可返回 Promise；等待期间组件锁定重复操作并通过 `invalid` / `guard-error` 给出结构化结果。
+- `min`、`max` 与 `disabledDate` 同时应用于键盘、预设、面板和实例 API。
+- `panel=false` 保留原生日期选择；`mode=time|datetime` 始终使用原生输入作为渐进增强回退。
+- `appendToBody` / `teleportTo` 适配复杂容器；面板继承主题、方向和动效配置。
+- 输入框使用 ArrowDown 打开，日历支持方向键、Home/End、PageUp/PageDown、Enter/Space，Escape 关闭并恢复焦点。

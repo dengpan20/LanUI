@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.74.0",
+  "version": "1.75.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 278240,
-    "rules": 2171,
+    "bytes": 280538,
+    "rules": 2191,
     "source": "component-union"
   },
   "core": {
@@ -148,8 +148,8 @@
     {
       "name": "UiDatePicker",
       "subpath": "./styles/UiDatePicker.css",
-      "bytes": 2186,
-      "rules": 16
+      "bytes": 13979,
+      "rules": 111
     },
     {
       "name": "UiDateRangePicker",
@@ -160,8 +160,8 @@
     {
       "name": "UiDateTimePicker",
       "subpath": "./styles/UiDateTimePicker.css",
-      "bytes": 2232,
-      "rules": 17
+      "bytes": 14025,
+      "rules": 112
     },
     {
       "name": "UiDateTimeRangePicker",
@@ -358,8 +358,8 @@
     {
       "name": "UiQueryBuilder",
       "subpath": "./styles/UiQueryBuilder.css",
-      "bytes": 43628,
-      "rules": 344
+      "bytes": 55421,
+      "rules": 439
     },
     {
       "name": "UiRadio",
@@ -388,8 +388,8 @@
     {
       "name": "UiSchemaForm",
       "subpath": "./styles/UiSchemaForm.css",
-      "bytes": 66000,
-      "rules": 532
+      "bytes": 77793,
+      "rules": 627
     },
     {
       "name": "UiSegmented",
@@ -484,8 +484,8 @@
     {
       "name": "UiTimePicker",
       "subpath": "./styles/UiTimePicker.css",
-      "bytes": 2186,
-      "rules": 16
+      "bytes": 13979,
+      "rules": 111
     },
     {
       "name": "UiTimeRangePicker",

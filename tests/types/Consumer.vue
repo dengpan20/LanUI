@@ -6,6 +6,7 @@ import {
   UiBreadcrumb,
   UiButton,
   UiCalendar,
+  UiDatePicker,
   UiCard,
   UiCascader,
   UiAutoComplete,
@@ -41,7 +42,7 @@ import {
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiPaginationInstance, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableInstance, UiTableSelectionMeta, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { DateValue, Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiDatePickerChangeMeta, UiDatePickerInstance, UiDatePickerOpenMeta, UiDatePickerPreset, UiPaginationInstance, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableInstance, UiTableSelectionMeta, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -70,6 +71,13 @@ const requestHeaders=ref([{id:'authorization',key:'Authorization',value:'Bearer 
 const releaseNotes=ref('Typed multiline release notes')
 const textareaRef=ref<UiTextareaInstance>()
 const releaseRange = ref(['2026-08-10','2026-08-16'])
+const releaseDate=ref('2026-08-24')
+const releaseDateOpen=ref(false)
+const releaseDateView=ref('2026-08-01')
+const releaseDateRef=ref<UiDatePickerInstance>()
+const releaseDatePresets:UiDatePickerPreset[]=[{key:'release',label:'Release',value:'2026-08-24'}]
+function onReleaseDateChange(_value:DateValue,meta:UiDatePickerChangeMeta){return meta.source}
+function onReleaseDateOpen(_open:boolean,meta:UiDatePickerOpenMeta){return meta.source}
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
 const tourOpen=ref(false)
@@ -211,6 +219,12 @@ function tableSelection(_value:Key[],meta:UiTableSelectionMeta){ activeTab.value
     <template #cell="{ date, selected, range }">{{ date }}/{{ selected }}/{{ range.inRange }}</template>
     <template #footer="{ today, clear }"><UiButton @click="today">Today</UiButton><UiButton @click="clear()">Clear</UiButton></template>
   </UiCalendar>
+  <UiDatePicker ref="releaseDateRef" v-model="releaseDate" v-model:open="releaseDateOpen" v-model:view-date="releaseDateView" :presets="releaseDatePresets" min="2026-08-01" max="2026-09-30" show-week-numbers :disabled-date="date=>date.getUTCDay()===0" :before-change="async meta=>meta.source!=='blocked'" @change="onReleaseDateChange" @open-change="onReleaseDateOpen">
+    <template #prefix="{open}">{{ open ? 'Open' : 'Closed' }}</template>
+    <template #cell="{date,selected}">{{ date }}/{{ selected }}</template>
+    <template #preset="{preset,select}"><button type="button" @click="select()">{{ preset.label }}</button></template>
+    <template #footer="{today,clear,close}"><button type="button" @click="today">Today</button><button type="button" @click="clear()">Clear</button><button type="button" @click="close()">Close</button></template>
+  </UiDatePicker>
   <UiImage v-model:preview-open="imagePreviewOpen" v-model:preview-index="imagePreviewIndex" src="/typed-thumb.jpg" alt="Typed gallery" preview :preview-list="['/typed-a.jpg','/typed-b.jpg']">
     <template #error="{ retry }"><UiButton @click="retry">Retry</UiButton></template>
     <template #caption="{ index, src }">{{ index }} / {{ src }}</template>

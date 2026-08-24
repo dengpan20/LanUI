@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.75.0] - 2026-08-24
+
+### Added
+
+- Production `UiDatePicker` calendar panel composed from `UiCalendar` and `UiPopover`, with controlled/default value, open and view state; min/max/custom-disabled constraints; presets; optional today/clear actions; and native time/datetime fallback.
+- Synchronous and asynchronous value/open guards, pending and invalid diagnostics, structured change/open/view/preset/focus events, 10 slots, instance methods, keyboard/RTL/Portal/SSR behavior and expanded root/subpath TypeScript contracts.
+- Component center, static preview, standalone consumer, visual/Axe/interaction fixtures and packed-tarball SSR/type/isolated-CSS consumers now exercise the production DatePicker contract.
+
+### Quality
+
+- Release gates advance to 52 visual baselines, 69 zero-violation Axe scenarios, 74 interactions per browser and 111 negative type assertions. Public coverage remains 91 components and advances to 495 locale keys, 1,623 Props, 558 Events and 349 Slots.
+- Measured P79 ceilings remain absolute and bounded: package JS `950000 / 342000` B raw/gzip, package CSS `875000 / 178000` B, root CSS `290000 / 44000` B, largest component CSS `79000 / 11800` B and standalone JS/CSS raw `950000 / 292000` B. The frozen 1.28 comparison receives explicit DatePicker composition allowance for Calendar and Popover runtime/style dependencies.
+
 ## [1.74.0] - 2026-08-24
 
 ### Added

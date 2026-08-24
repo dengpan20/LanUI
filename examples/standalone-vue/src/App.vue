@@ -20,6 +20,7 @@ import {
   UiConfigProvider,
   UiCronEditor,
   UiKeyValueEditor,
+  UiDatePicker,
   UiDateRangePicker,
   UiDateTimePicker,
   UiDateTimeRangePicker,
@@ -220,6 +221,11 @@ const brandColor = ref('#1677FFCC')
 const rollout = ref([25,75])
 const serviceRating = ref(4.5)
 const releaseWindow = ref(['2026-08-10','2026-08-16'])
+const releaseDate=ref('2026-08-24')
+const releaseDateOpen=ref(false)
+const releaseDateView=ref('2026-08-01')
+const releaseDateState=ref('ready')
+const releaseDatePresets=[{key:'release',label:'Release',value:'2026-08-24'},{key:'review',label:'Review',value:'2026-09-08'}]
 const releaseFiles=ref([{id:'release-manifest',name:'release-manifest.json',size:2048,status:'success',percent:100}])
 function releaseUploadRequest({file,signal,onProgress}){return new Promise((resolve,reject)=>{let percent=0;const timer=setInterval(()=>{percent+=25;onProgress(percent);if(percent>=100){clearInterval(timer);resolve({path:`/releases/${file?.name}`})}},100);signal.addEventListener('abort',()=>{clearInterval(timer);reject(new DOMException('Aborted','AbortError'))},{once:true})})}
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><rect width="640" height="420" rx="28" fill="${from}"/><path d="M0 360 175 190l112 102 103-82 250 210H0Z" fill="${to}" opacity=".55"/><text x="38" y="66" fill="white" font-size="28">${label}</text></svg>`)}`
@@ -544,6 +550,11 @@ const rows = computed(() => [
     </UiCard>
 
     <UiCard title="交付进度"><UiSteps v-model="deliveryStep" :items="steps" type="navigation" linear aria-label="独立项目交付步骤" @change="(_value,meta)=>toast.info(`步骤已切换 · ${meta.source}`)" /></UiCard>
+
+    <UiCard title="Production DatePicker · P79" data-date-picker-state-contract="controlled default open view calendar constraints disabled-date presets guard keyboard rtl portal ssr slots api native-fallback">
+      <UiDatePicker v-model="releaseDate" v-model:open="releaseDateOpen" v-model:view-date="releaseDateView" :presets="releaseDatePresets" min="2026-08-01" max="2026-09-30" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" :before-change="async meta=>meta.value!=='2026-08-13'" @change="(value,meta)=>releaseDateState=`${value} · ${meta.source}`" />
+      <p class="field-help">{{ releaseDateState }} · controlled value/open/view and async guard</p>
+    </UiCard>
 
     <UiCard title="Release calendar">
       <UiCalendar v-model="releaseWindow" selection-mode="range" view-date="2026-08-01" today="2026-08-12" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" />

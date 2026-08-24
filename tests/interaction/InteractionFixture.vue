@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDatePicker, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiUpload,
   UiTree, UiTreeSelect, UiStatistic,
   UiColorPicker,
@@ -103,6 +103,13 @@ const statisticValue = ref(1000)
 const statisticTrend = ref(5)
 const statisticLoading = ref(false)
 const calendarRange = ref(['2026-08-10','2026-08-16'])
+const productionDatePickerRef=ref(null)
+const productionDatePickerValue=ref('2026-08-24')
+const productionDatePickerOpen=ref(false)
+const productionDatePickerView=ref('2026-08-01')
+const productionDatePickerOutput=ref('ready:2026-08-24')
+const productionDatePickerPresets=[{key:'release',label:'Release day',value:'2026-08-24'},{key:'guarded',label:'Guarded day',value:'2026-08-13'}]
+async function guardProductionDatePicker(meta){productionDatePickerOutput.value=`guard:${meta.source}:${meta.value}`;await new Promise(resolve=>setTimeout(resolve,45));return meta.value!=='2026-08-13'}
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
 const imageFixture=(label,color)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320"><rect width="480" height="320" rx="24" fill="${color}"/><text x="28" y="58" fill="white" font-family="Arial" font-size="26" font-weight="700">${label}</text></svg>`)}`
@@ -739,6 +746,15 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <template #footer><nav aria-label="Page header sections"><a href="#page-header-overview">Overview</a></nav></template>
         </UiPageHeader>
         <output class="interaction-output" data-testid="page-header-output">{{ pageHeaderOutput }}</output>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-date-picker-production-case" data-date-picker-state-contract="controlled default open view calendar constraints disabled-date presets guard keyboard rtl portal ssr slots api native-fallback">
+        <h2>DatePicker production calendar, presets, guard and API contract</h2>
+        <div class="interaction-stack">
+          <UiDatePicker id="interaction-production-date-picker" ref="productionDatePickerRef" v-model="productionDatePickerValue" v-model:open="productionDatePickerOpen" v-model:view-date="productionDatePickerView" :presets="productionDatePickerPresets" min="2026-08-01" max="2026-09-30" :append-to-body="false" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" :before-change="guardProductionDatePicker" aria-label="Production release date" @change="(value,meta)=>productionDatePickerOutput=`change:${meta.source}:${value}`" @open-change="(open,meta)=>productionDatePickerOutput=`open:${meta.source}:${open}`" @invalid="meta=>productionDatePickerOutput=`invalid:${meta.code}:${meta.source||meta.kind||'unknown'}`" />
+          <div class="interaction-row"><UiButton id="interaction-production-date-picker-api" size="sm" variant="outline" @click="productionDatePickerRef.select('2026-09-08','api')">Select by API</UiButton><UiButton id="interaction-production-date-picker-clear" size="sm" variant="outline" @click="productionDatePickerRef.clear('api')">Clear by API</UiButton></div>
+          <output class="interaction-output" data-testid="production-date-picker-output">{{ productionDatePickerOutput }} / {{ productionDatePickerValue }} / {{ productionDatePickerOpen?'open':'closed' }} / {{ productionDatePickerView }}</output>
+        </div>
       </section>
 
       <section class="interaction-case interaction-wide interaction-pagination-production-case">

@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
-  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
+  UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
   UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
@@ -573,6 +573,12 @@ const tableRows=[
       <div class="visual-stack" data-table-state-contract="controlled uncontrolled selection expansion current row-policy async-guard nested-values sorting filters resize-pointer-keyboard virtual keyboard rtl ssr slots api datagrid-sync">
         <UiTable v-model:selected-rows="visualTableSelected" v-model:expanded-rows="visualTableExpanded" v-model:current-row-key="visualTableCurrent" v-model:column-widths="visualTableWidths" v-model:sort-key="visualTableSortKey" v-model:sort-order="visualTableSortOrder" v-model:filters="visualTableFilters" :columns="visualTableColumns" :rows="visualTableRows" row-key="id" selectable select-on-row-click expandable highlight-current-row striped bordered resizable sticky-header :is-row-selectable="row=>row.id!=='table-4'" aria-label="Release verification records"><template #header-name="{column}"><span>{{ column.label }} · P78</span></template><template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':value==='Review'?'orange':'gray'">{{ value }}</UiTag></template><template #expanded="{row}"><div class="visual-table-detail"><strong>{{ row.name }}</strong><span>{{ row.detail }}</span></div></template></UiTable>
         <div class="visual-time-range-summary"><UiTag color="blue">selection / expansion / current</UiTag><UiTag color="green">sort / filters / resize</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='date-picker'" title="Production date picker" subtitle="Controlled value, panel, presets, constraints and keyboard calendar" title-tag="h2" class="visual-table-card visual-date-picker-showcase">
+      <div class="visual-stack" data-date-picker-state-contract="controlled default open view calendar constraints disabled-date presets guard keyboard rtl portal ssr slots api native-fallback">
+        <UiDatePicker model-value="2026-08-24" default-open view-date="2026-08-01" :append-to-body="false" :presets="[{key:'release',label:'Release',value:'2026-08-24'},{key:'review',label:'Review',value:'2026-09-08'}]" min="2026-08-01" max="2026-09-30" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" aria-label="Release date" />
+        <div class="visual-time-range-summary"><UiTag color="blue">controlled / presets / guard</UiTag><UiTag color="green">calendar / constraints / ARIA</UiTag><UiTag color="orange">keyboard / RTL / SSR</UiTag></div>
       </div>
     </UiCard>
     <UiCard v-if="state==='anchor'" title="Page anchor navigation" title-tag="h2" class="visual-table-card visual-anchor-showcase">

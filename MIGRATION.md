@@ -1,5 +1,22 @@
 # Lan UI migration and compatibility policy
 
+## 1.75 DatePicker compatibility
+
+There are no breaking changes. Existing `UiDatePicker` date, time and datetime usage remains valid. Date mode now uses an accessible calendar popover by default; set `:panel="false"` to retain a native date control. Existing `v-model` continues to work, while applications may progressively adopt `v-model:open`, `v-model:view-date`, `presets`, `disabled-date`, `before-change` and `before-open-change`.
+
+```vue
+<UiDatePicker
+  v-model="releaseDate"
+  v-model:open="calendarOpen"
+  v-model:view-date="calendarView"
+  :presets="[{ label: '发布日', value: '2026-09-08' }]"
+  min="2026-08-01"
+  max="2026-09-30"
+  :before-change="validateReleaseDate"
+  show-week-numbers
+/>
+```
+
 ## 1.74 table compatibility
 
 There are no breaking changes. Existing `<UiTable :columns="columns" :rows="rows" />` usage remains valid:

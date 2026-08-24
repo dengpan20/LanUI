@@ -82,7 +82,11 @@ function clearTimer(name){
   if(name==='show'&&showTimer){clearTimeout(showTimer);showTimer=0}
   if(name==='hide'&&hideTimer){clearTimeout(hideTimer);hideTimer=0}
 }
-function triggerElement(){return triggerRef.value?.querySelector('button,[href],input,select,textarea,summary,[role="button"],[tabindex]')||triggerRef.value}
+function triggerElement(){
+  const explicit=triggerRef.value?.querySelector('[data-ui-popover-trigger]')
+  if(explicit?.getAttribute('data-ui-popover-trigger')==='false')return null
+  return explicit||triggerRef.value?.querySelector('button,[href],input,select,textarea,summary,[role="button"],[tabindex]')||triggerRef.value
+}
 function restoreAttribute(element,name,value){if(value===null)element.removeAttribute(name);else element.setAttribute(name,value)}
 function restoreTriggerAttributes(){
   if(!annotatedTrigger||!originalTriggerAttributes)return
@@ -93,14 +97,14 @@ function restoreTriggerAttributes(){
 function syncTrigger(){
   if(typeof document==='undefined')return
   const element=triggerElement()
-  if(!element)return
+  if(!element){restoreTriggerAttributes();return}
   if(annotatedTrigger&&annotatedTrigger!==element)restoreTriggerAttributes()
   if(!annotatedTrigger){
     annotatedTrigger=element
     originalTriggerAttributes=Object.fromEntries(['aria-expanded','aria-controls','aria-haspopup','aria-disabled'].map(name=>[name,element.getAttribute(name)]))
   }
   element.setAttribute('aria-expanded',String(visible.value))
-  const controls=[originalTriggerAttributes['aria-controls'],visible.value?id.value:''].filter(Boolean).join(' ')
+  const controls=[...new Set([originalTriggerAttributes['aria-controls'],visible.value?id.value:''].filter(Boolean).flatMap(value=>value.split(/\s+/)).filter(Boolean))].join(' ')
   restoreAttribute(element,'aria-controls',controls||null)
   const popupRole=['menu','listbox','tree','grid','dialog'].includes(props.role)?props.role:'dialog'
   element.setAttribute('aria-haspopup',popupRole)

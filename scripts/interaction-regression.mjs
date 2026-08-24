@@ -404,6 +404,32 @@ const allCases = [
     },
   },
   {
+    name:'date-picker-production-calendar-presets-guards-keyboard-api-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const section=page.locator('.interaction-date-picker-production-case')
+      const input=section.locator('#interaction-production-date-picker')
+      await input.focus()
+      await page.keyboard.press('ArrowDown')
+      const panel=section.getByRole('dialog',{name:'Date picker calendar'})
+      await panel.waitFor()
+      assert.equal(await section.locator('.calendar-action').getAttribute('aria-expanded'),'true')
+      await panel.locator('.ui-calendar-day[data-date="2026-08-25"]').click()
+      await expectText(page,'production-date-picker-output','open:selection:false / 2026-08-25 / closed / 2026-08-01')
+      await input.focus()
+      await page.keyboard.press('ArrowDown')
+      await section.getByRole('button',{name:'Guarded day'}).click()
+      await expectText(page,'production-date-picker-output','invalid:guard-rejected:preset / 2026-08-25 / open / 2026-08-01')
+      await page.keyboard.press('Escape')
+      await expectText(page,'production-date-picker-output','open:escape:false / 2026-08-25 / closed / 2026-08-01')
+      await section.locator('#interaction-production-date-picker-api').click()
+      await expectText(page,'production-date-picker-output','change:api:2026-09-08 / 2026-09-08 / closed / 2026-08-01')
+      await section.locator('#interaction-production-date-picker-clear').click()
+      await expectTextContains(page,'production-date-picker-output','change:api:')
+      assert.equal(await section.locator('.calendar-action').getAttribute('aria-haspopup'),'dialog')
+    },
+  },
+  {
     name:'select-production-search-native-keyboard-api',
     run:async page=>{
       const section=page.locator('.interaction-select-production-case')

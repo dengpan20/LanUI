@@ -1322,3 +1322,15 @@ Fixed-height row virtualization bounds rendered records and exposed scroll/focus
 `UiDataGrid` forwards mature selection, expansion, current-row, width, row-policy and structured event contracts. Component center, static HTML, standalone consumer, generated API, isolated CSS, deterministic SSR and installed-tarball verification exercise the same public behavior.
 
 P78 retains 91 public components and advances to 492 locale keys with generated coverage of 1,594 Props, 546 Events and 339 Slots. Release gates require 51 visual baselines, 68 zero-violation Axe scenarios, 73 interactions per Chromium/Firefox/WebKit engine, 106 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 92. Maturity P79: production date picker controls
+
+`UiDatePicker` keeps the established native input and date-adapter contract while date mode composes `UiCalendar` inside `UiPopover`. Value, open state and calendar view each support controlled and default-owned operation; `Date`, string and timestamp outputs, local/UTC/IANA zones and DST disambiguation remain aligned with the shared date utilities.
+
+Date constraints are enforced through a single mutation pipeline for typed/native input, calendar cells, presets and the public instance API. Minimum, maximum and `disabledDate` decisions publish stable invalid codes. `beforeChange` and `beforeOpenChange` accept synchronous or asynchronous decisions, serialize duplicates during pending work and distinguish rejection from thrown guard errors.
+
+ArrowDown opens the panel, Escape and outside interaction close it, and the nested calendar provides roving day focus and complete month/year navigation. Trigger, dialog, disabled-day and selection semantics remain inspectable in LTR/RTL, forced colors, reduced motion, SSR and teleported theme scopes. Readonly permits inspection without mutation; disabled and loading block interaction.
+
+Presets, custom header/cell/year/footer/preset rendering, today and clear actions, panel placement and width, native fallback, focus restoration and instance methods form the composition contract. Component center, static HTML, standalone consumer, generated API, isolated CSS and packed SSR/type consumers exercise the same behavior.
+
+P79 retains 91 public components and advances to 495 locale keys with generated coverage of 1,623 Props, 558 Events and 349 Slots. Release gates require 52 visual baselines, 69 zero-violation Axe scenarios, 74 interactions per Chromium/Firefox/WebKit engine, 111 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

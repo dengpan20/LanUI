@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.74.0",
+  "version": "1.75.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -437,9 +437,19 @@
       "UiDataGridState",
       "UiDateInvalid",
       "UiDatePicker",
+      "UiDatePickerChangeMeta",
+      "UiDatePickerComponent",
+      "UiDatePickerEmitFn",
       "UiDatePickerEmits",
+      "UiDatePickerFocusMeta",
+      "UiDatePickerInstance",
+      "UiDatePickerInvalid",
+      "UiDatePickerOpenMeta",
+      "UiDatePickerPreset",
       "UiDatePickerProps",
       "UiDatePickerSlots",
+      "UiDatePickerSource",
+      "UiDatePickerState",
       "UiDateRangeChange",
       "UiDateRangeFocusPayload",
       "UiDateRangeInvalid",
@@ -7750,24 +7760,95 @@
       "subpath": "./components/UiDatePicker",
       "propsType": "UiDatePickerProps",
       "props": [
+        "appendToBody",
+        "ariaLabel",
+        "beforeChange",
+        "beforeOpenChange",
         "clearable",
+        "closeOnSelect",
+        "defaultOpen",
+        "defaultValue",
+        "defaultViewDate",
         "disabled",
+        "disabledDate",
         "disambiguation",
+        "editable",
+        "firstDayOfWeek",
+        "fixedWeeks",
         "icon",
         "invalid",
+        "loading",
         "max",
         "min",
         "mode",
         "modelValue",
+        "open",
+        "openOnArrowDown",
+        "openOnClick",
+        "openOnFocus",
+        "panel",
+        "panelWidth",
         "placeholder",
+        "placement",
         "precision",
+        "presets",
+        "readonly",
         "referenceDate",
+        "showOutsideDays",
+        "showPanelClear",
+        "showToday",
+        "showWeekNumbers",
         "size",
         "step",
+        "teleportTo",
         "timeZone",
-        "valueType"
+        "valueType",
+        "viewDate",
+        "weekdayFormat"
       ],
       "propDetails": [
+        {
+          "name": "appendToBody",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "beforeChange",
+          "required": false,
+          "type": "(meta:UiDatePickerChangeMeta)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "beforeOpenChange",
+          "required": false,
+          "type": "(meta:UiDatePickerOpenMeta)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
         {
           "name": "clearable",
           "required": false,
@@ -7778,6 +7859,58 @@
           "default": {
             "kind": "literal",
             "value": "true"
+          }
+        },
+        {
+          "name": "closeOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "defaultValue",
+          "required": false,
+          "type": "DateValue",
+          "runtimeTypes": [
+            "String",
+            "Date",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "defaultViewDate",
+          "required": false,
+          "type": "DateInput",
+          "runtimeTypes": [
+            "String",
+            "Date",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
           }
         },
         {
@@ -7793,6 +7926,15 @@
           }
         },
         {
+          "name": "disabledDate",
+          "required": false,
+          "type": "(date:Date,context:UiCalendarDisabledContext)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
           "name": "disambiguation",
           "required": false,
           "type": "DateDisambiguation",
@@ -7802,6 +7944,43 @@
           "default": {
             "kind": "literal",
             "value": "\"compatible\""
+          }
+        },
+        {
+          "name": "editable",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "firstDayOfWeek",
+          "required": false,
+          "type": "'auto'|0|1|2|3|4|5|6",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"auto\""
+          }
+        },
+        {
+          "name": "fixedWeeks",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
           }
         },
         {
@@ -7818,6 +7997,18 @@
         },
         {
           "name": "invalid",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "loading",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -7878,8 +8069,81 @@
             "Number"
           ],
           "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "open",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "openOnArrowDown",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
             "kind": "literal",
-            "value": "\"\""
+            "value": "true"
+          }
+        },
+        {
+          "name": "openOnClick",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "openOnFocus",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "panel",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "panelWidth",
+          "required": false,
+          "type": "string|number",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "360"
           }
         },
         {
@@ -7895,6 +8159,18 @@
           }
         },
         {
+          "name": "placement",
+          "required": false,
+          "type": "Placement",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom-start\""
+          }
+        },
+        {
           "name": "precision",
           "required": false,
           "type": "DatePrecision",
@@ -7904,6 +8180,30 @@
           "default": {
             "kind": "literal",
             "value": "\"minute\""
+          }
+        },
+        {
+          "name": "presets",
+          "required": false,
+          "type": "Array<UiDatePickerPreset|DateInput>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -7918,6 +8218,54 @@
           "default": {
             "kind": "undefined",
             "value": "undefined"
+          }
+        },
+        {
+          "name": "showOutsideDays",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showPanelClear",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showToday",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "showWeekNumbers",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -7946,6 +8294,19 @@
           }
         },
         {
+          "name": "teleportTo",
+          "required": false,
+          "type": "string|Element",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"body\""
+          }
+        },
+        {
           "name": "timeZone",
           "required": false,
           "type": "'local'|'UTC'|string",
@@ -7968,6 +8329,32 @@
             "kind": "literal",
             "value": "\"auto\""
           }
+        },
+        {
+          "name": "viewDate",
+          "required": false,
+          "type": "DateInput",
+          "runtimeTypes": [
+            "String",
+            "Date",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "weekdayFormat",
+          "required": false,
+          "type": "'narrow'|'short'|'long'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"short\""
+          }
         }
       ],
       "emitsType": "UiDatePickerEmits",
@@ -7975,45 +8362,179 @@
         "blur",
         "change",
         "clear",
+        "close",
         "focus",
+        "guard-error",
+        "input",
         "invalid",
-        "update:modelValue"
+        "keydown",
+        "open",
+        "open-change",
+        "panel-change",
+        "preset-select",
+        "select",
+        "update:modelValue",
+        "update:open",
+        "update:viewDate",
+        "view-change"
       ],
       "emitDetails": [
         {
           "name": "blur",
           "required": true,
-          "type": "(event:FocusEvent)=>void"
+          "type": "(event:FocusEvent,meta:UiDatePickerFocusMeta)=>void"
         },
         {
           "name": "change",
           "required": true,
-          "type": "(value:DateValue)=>void"
+          "type": "(value:DateValue,meta:UiDatePickerChangeMeta)=>void"
         },
         {
           "name": "clear",
           "required": true,
-          "type": "()=>void"
+          "type": "(meta:UiDatePickerChangeMeta)=>void"
+        },
+        {
+          "name": "close",
+          "required": true,
+          "type": "(meta:UiDatePickerOpenMeta)=>void"
         },
         {
           "name": "focus",
           "required": true,
-          "type": "(event:FocusEvent)=>void"
+          "type": "(event:FocusEvent,meta:UiDatePickerFocusMeta)=>void"
+        },
+        {
+          "name": "guard-error",
+          "required": true,
+          "type": "(error:unknown,meta:{kind:string;source?:UiDatePickerSource;value?:DateValue})=>void"
+        },
+        {
+          "name": "input",
+          "required": true,
+          "type": "(raw:string,meta:{source:'input';raw:string;event:Event})=>void"
         },
         {
           "name": "invalid",
           "required": true,
-          "type": "(payload:UiDateInvalid)=>void"
+          "type": "(payload:UiDatePickerInvalid)=>void"
+        },
+        {
+          "name": "keydown",
+          "required": true,
+          "type": "(event:KeyboardEvent,meta:{open:boolean;value:DateValue})=>void"
+        },
+        {
+          "name": "open",
+          "required": true,
+          "type": "(meta:UiDatePickerOpenMeta)=>void"
+        },
+        {
+          "name": "open-change",
+          "required": true,
+          "type": "(value:boolean,meta:UiDatePickerOpenMeta)=>void"
+        },
+        {
+          "name": "panel-change",
+          "required": true,
+          "type": "(panel:CalendarPanel)=>void"
+        },
+        {
+          "name": "preset-select",
+          "required": true,
+          "type": "(preset:UiDatePickerPreset,meta:UiDatePickerChangeMeta)=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(value:DateValue,meta:UiDatePickerChangeMeta)=>void"
         },
         {
           "name": "update:modelValue",
           "required": true,
           "type": "(value:DateValue)=>void"
+        },
+        {
+          "name": "update:open",
+          "required": true,
+          "type": "(value:boolean)=>void"
+        },
+        {
+          "name": "update:viewDate",
+          "required": true,
+          "type": "(value:DateInput)=>void"
+        },
+        {
+          "name": "view-change",
+          "required": true,
+          "type": "(meta:UiCalendarViewChange)=>void"
         }
       ],
       "slotsType": "UiDatePickerSlots",
-      "slots": [],
-      "slotDetails": [],
+      "slots": [
+        "cell",
+        "clear",
+        "footer",
+        "header",
+        "panel",
+        "prefix",
+        "preset",
+        "suffix",
+        "toggle",
+        "year"
+      ],
+      "slotDetails": [
+        {
+          "name": "cell",
+          "required": false,
+          "type": "(scope:UiCalendarCell)=>VNodeChild"
+        },
+        {
+          "name": "clear",
+          "required": false,
+          "type": "(scope:{clear:UiDatePickerInstance['clear'];pending:boolean})=>VNodeChild"
+        },
+        {
+          "name": "footer",
+          "required": false,
+          "type": "(scope:{today:()=>void;clear:(source?:string)=>void;close:UiDatePickerInstance['hide']})=>VNodeChild"
+        },
+        {
+          "name": "header",
+          "required": false,
+          "type": "(scope:{label:string;viewDate:string;panel:CalendarPanel;previous:()=>void;next:()=>void;setPanel:(panel:CalendarPanel)=>void})=>VNodeChild"
+        },
+        {
+          "name": "panel",
+          "required": false,
+          "type": "(scope:{value:DateValue;viewDate:DateInput;select:UiDatePickerInstance['select'];close:UiDatePickerInstance['hide'];setViewDate:UiDatePickerInstance['setViewDate']})=>VNodeChild"
+        },
+        {
+          "name": "prefix",
+          "required": false,
+          "type": "(scope:{open:boolean;value:DateValue})=>VNodeChild"
+        },
+        {
+          "name": "preset",
+          "required": false,
+          "type": "(scope:{preset:UiDatePickerPreset;select:(event?:Event)=>unknown})=>VNodeChild"
+        },
+        {
+          "name": "suffix",
+          "required": false,
+          "type": "(scope:{open:boolean;value:DateValue})=>VNodeChild"
+        },
+        {
+          "name": "toggle",
+          "required": false,
+          "type": "(scope:{open:boolean;toggle:UiDatePickerInstance['toggle'];pending:boolean})=>VNodeChild"
+        },
+        {
+          "name": "year",
+          "required": false,
+          "type": "(scope:{year:number;selected:boolean})=>VNodeChild"
+        }
+      ],
       "imports": {
         "root": "import { UiDatePicker } from 'lan-ui-design-system'",
         "subpath": "import UiDatePicker from 'lan-ui-design-system/components/UiDatePicker'"
