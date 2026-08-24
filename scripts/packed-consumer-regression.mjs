@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, wri
 import { dirname, join, resolve, sep } from 'node:path'
 import { build } from 'vite'
 import { formatReleaseReport, validateRelease } from './release-contracts.mjs'
+import { normalizeTgz } from './normalize-tgz.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const sourceManifest=JSON.parse(readFileSync(join(root,'package.json'),'utf8'))
@@ -62,6 +63,8 @@ mkdirSync(extractedRoot,{recursive:true})
 const packOutput=runPnpm(['--config.ignore-scripts=true','pack','--out',tarball,'--json'])
 const pack= parsePackJson(packOutput)
 assert(existsSync(tarball),'Packed tarball was not written')
+const normalizedPack=normalizeTgz(tarball)
+assert(normalizedPack.afterOs===3,'Packed tarball gzip OS byte normalization failed')
 const packedFiles=new Set((pack.files||[]).map(file=>file.path.replaceAll('\\','/')))
 const required=[
   'package.json','README.md','LICENSE','CHANGELOG.md','COMPONENT-API.md','api-manifest.json',
@@ -370,6 +373,8 @@ assert(builtCss.includes('--brand-600'),'Packed browser build omitted token CSS'
 const unpackedBytes=collectFiles(join(extractedRoot,'package')).reduce((sum,path)=>sum+statSync(path).size,0)
 const tarballBytes=statSync(tarball).size
 runPnpm(['--config.ignore-scripts=true','pack','--out',reproductionTarball,'--json'])
+const normalizedReproduction=normalizeTgz(reproductionTarball)
+assert(normalizedReproduction.afterOs===3,'Reproduction tarball gzip OS byte normalization failed')
 const digest=sha256(tarball)
 assert(sha256(reproductionTarball)===digest,'Repeated package archives are not byte-for-byte reproducible')
 assert(componentNames.length===91,'Public component count mismatch')

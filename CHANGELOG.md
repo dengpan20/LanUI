@@ -4,6 +4,19 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.76.0] - 2026-08-24
+
+### Added
+
+- `UiDateRangePicker` now provides controlled and uncontrolled range value, open and calendar-view state, a real `UiPopover` + `UiCalendar` range panel for date mode, native time/datetime adapters, presets, constraints, async guards, structured metadata, slots and instance operations.
+- `UiTimeRangePicker` and `UiDateTimeRangePicker` expose the same range API while retaining reliable native controls and SSR-safe behavior.
+- Added range-specific locale, TypeScript, visual, accessibility, preview and interaction contracts.
+- The generated public surface now records 91 components, 503 locale keys, 1,713 Props, 594 Events and 391 Slots.
+
+### Performance
+
+- The complete range family adds measured runtime/style and generated-contract output. The narrow P81 allowances are recorded in `performance-budgets.json` from the canonical prepack measurement (`packageCssRaw=900837B`, `packageCssGzip=182246B`, `packedUnpackedRaw=3946896B`) with headroom retained; no unrelated budget was changed.
+
 ## [1.75.1] - 2026-08-24
 
 ### Fixed

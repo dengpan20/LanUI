@@ -133,6 +133,7 @@ import SubpathKeyValueEditor, { UiKeyValueEditor as NamedSubpathKeyValueEditor }
 import SubpathPageHeader, { UiPageHeader as NamedSubpathPageHeader } from 'lan-ui-design-system/components/UiPageHeader'
 import SubpathPagination, { UiPagination as NamedSubpathPagination } from 'lan-ui-design-system/components/UiPagination'
 import SubpathDatePicker, { UiDatePicker as NamedSubpathDatePicker } from 'lan-ui-design-system/components/UiDatePicker'
+import SubpathDateRangePicker, { UiDateRangePicker as NamedSubpathDateRangePicker } from 'lan-ui-design-system/components/UiDateRangePicker'
 import SubpathQRCode, { UiQRCode as NamedSubpathQRCode } from 'lan-ui-design-system/components/UiQRCode'
 import SubpathSlider, { UiSlider as NamedSubpathSlider } from 'lan-ui-design-system/components/UiSlider'
 import SubpathRate, { UiRate as NamedSubpathRate } from 'lan-ui-design-system/components/UiRate'
@@ -221,6 +222,10 @@ import type { UiPaginationChangeMeta, UiPaginationEmits, UiPaginationInstance, U
 import type { UiDatePickerChangeMeta, UiDatePickerEmits, UiDatePickerInstance, UiDatePickerPreset, UiDatePickerProps, UiDatePickerSlots } from 'lan-ui-design-system/components/UiDatePicker'
 import type {
   UiDateRangeChange,
+  UiDateRangePickerEmits,
+  UiDateRangePickerInstance,
+  UiDateRangePickerProps,
+  UiDateRangePickerSlots,
   UiDataGridChange,
   UiTableColumn,
   UiTableSortChange,
@@ -753,6 +758,13 @@ const colorContrast:number|null=getContrastRatio(formattedColor,'#FFFFFF')
 const colorSubpathParity:typeof parseColor=parseSubpathColor
 const colorFormat:ColorFormat='hsl'
 const dateContract: UiDateRangeChange = dateChange
+const dateRangeProps:InstanceType<typeof UiDateRangePicker>['$props']&UiDateRangePickerProps={modelValue:['2026-08-10','2026-08-16'],defaultOpen:true,viewDate:'2026-08-01',presets:[{key:'release',label:'Release',value:['2026-08-20','2026-08-24']}],beforeChange:async meta=>{const complete:boolean=meta.complete;void complete;return true},closeOnComplete:true}
+const dateRangeEmit:UiDateRangePickerEmits['change']=payload=>{const valid:boolean=payload.valid;const source=payload.source;void [valid,source]}
+const dateRangeSlot:UiDateRangePickerSlots={panel:scope=>String(scope.viewDate),calendar:()=> 'calendar',cell:scope=>String(scope.date)}
+const dateRangeInstance:UiDateRangePickerInstance=null as never
+dateRangeInstance.focus();dateRangeInstance.select(['2026-08-10','2026-08-16'],'api');dateRangeInstance.setViewDate('2026-08-01');dateRangeInstance.clear('api')
+const dateRangeSubpathParity:typeof UiDateRangePicker=SubpathDateRangePicker
+const dateRangeNamedSubpathParity:typeof UiDateRangePicker=NamedSubpathDateRangePicker
 const dateOptions:DateValueOptions={mode:'datetime',valueType:'date',timeZone:'Asia/Shanghai',disambiguation:'reject',precision:'second'}
 const zonedDate:Date|null=dateValueToDate('2026-08-12T09:30',dateOptions)
 const formattedDate:string=formatDateValue(zonedDate||0,{mode:'datetime',timeZone:'UTC'})
@@ -951,6 +963,8 @@ const invalidTimeRangeValueType:UiTimeRangePickerProps={valueType:'moment'}
 const invalidDateTimeValueType:UiDateTimePickerProps={valueType:'moment'}
 // @ts-expect-error Date-time range endpoints use date inputs rather than arbitrary records.
 const invalidDateTimeRangeMin:UiDateTimeRangePickerProps={min:{year:2026}}
+// @ts-expect-error Date range placement uses a supported floating placement.
+const invalidDateRangePlacement:UiDateRangePickerProps={placement:'center'}
 // @ts-expect-error Barcode formats are constrained to JsBarcode scanner-ready symbologies.
 const invalidBarcodeFormat:UiBarcodeProps={format:'PDF417'}
 // @ts-expect-error Barcode lifecycle status is constrained to active, loading, expired or scanned.

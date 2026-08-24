@@ -14,7 +14,7 @@
 
 Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同时提供组件库、设计 Token、主题与国际化运行时、组件 API 文档，以及可直接运行的后台示例，适合 ERP、CRM、运营平台、数据后台和 AI 工作台等中后台产品。
 
-当前版本为 **v1.75.1**，公共 API 覆盖 **91 个组件、1,623 个 Props、558 个 Events 和 349 个 Slots**。
+当前版本为 **v1.76.0**，公共 API 覆盖 **91 个组件、1,713 个 Props、594 个 Events 和 391 个 Slots**。
 
 ## 为什么选择 Lan UI
 
@@ -33,6 +33,8 @@ Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同�
 **P79 成熟日期选择器**：`UiDatePicker` 以 `UiCalendar` + `UiPopover` 组合为日期模式提供受控/默认值、面板与视图状态、最小/最大/自定义禁用、预设、同步/异步守卫、键盘/RTL/Portal/SSR、10 个 Slots 和实例 API；时间与日期时间模式继续保留原生输入回退。
 
 **P80 选择界面视觉完整性**：`UiTransfer` 为普通与带描述选项提供稳定的逐项虚拟高度与累计偏移，选中/活动/焦点状态统一使用已定义 Token；`UiTable` 紧凑选择列保持至少 24×28 命中区并让表头、数据行勾选框垂直居中。
+
+**P81 成熟日期范围选择器**：`UiDateRangePicker` 在日期模式使用真实 `UiPopover` + `UiCalendar` 范围面板，支持受控/默认值、打开与视图状态、两步预览/完成、预设、约束、同步/异步守卫、组合 Slots、实例 API、RTL、Portal、SSR 与无障碍语义；`UiTimeRangePicker` 与 `UiDateTimeRangePicker` 保持原生双输入适配器。
 
 ```vue
 <UiTable v-model:selected-rows="selected" v-model:expanded-rows="expanded" :columns="columns" :rows="rows" selectable expandable resizable />

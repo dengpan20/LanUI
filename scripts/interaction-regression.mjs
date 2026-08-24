@@ -430,6 +430,31 @@ const allCases = [
     },
   },
   {
+    name:'date-range-picker-production-preview-complete-escape-api',
+    run:async page=>{
+      const section=page.locator('.interaction-date-range-production-case')
+      const range=section.getByRole('group',{name:'Production release window'})
+      const start=range.locator('input').first()
+      await start.focus()
+      await page.keyboard.press('ArrowDown')
+      const panel=section.getByRole('dialog',{name:'Date picker calendar'})
+      await panel.waitFor()
+      assert.equal(await range.locator('.calendar-action').getAttribute('aria-expanded'),'true')
+      await panel.locator('.ui-calendar-day[data-date="2026-08-20"]').click()
+      await expectText(page,'production-date-range-output','change:calendar:false:2026-08-20 / 2026-08-20 / open / 2026-08-01')
+      assert.equal(await range.getAttribute('data-state'),'open')
+      await panel.locator('.ui-calendar-day[data-date="2026-08-24"]').click()
+      await expectText(page,'production-date-range-output','change:calendar:true:2026-08-20:2026-08-24 / 2026-08-20:2026-08-24 / closed / 2026-08-01')
+      assert.equal(await range.getAttribute('data-state'),'closed')
+      await start.focus();await page.keyboard.press('ArrowDown');await panel.waitFor();await page.keyboard.press('Escape')
+      assert.equal(await range.getAttribute('data-state'),'closed')
+      await section.locator('#interaction-production-date-range-api').click()
+      await expectText(page,'production-date-range-output','change:api:true:2026-08-20:2026-08-24 / 2026-08-20:2026-08-24 / closed / 2026-08-01')
+      await section.locator('#interaction-production-date-range-clear').click()
+      await expectTextContains(page,'production-date-range-output','change:api:true:')
+    },
+  },
+  {
     name:'select-production-search-native-keyboard-api',
     run:async page=>{
       const section=page.locator('.interaction-select-production-case')

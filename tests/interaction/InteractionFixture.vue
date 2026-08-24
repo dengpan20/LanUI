@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import {
-  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDatePicker, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
+  UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiUpload,
   UiTree, UiTreeSelect, UiStatistic,
   UiColorPicker,
@@ -110,6 +110,11 @@ const productionDatePickerView=ref('2026-08-01')
 const productionDatePickerOutput=ref('ready:2026-08-24')
 const productionDatePickerPresets=[{key:'release',label:'Release day',value:'2026-08-24'},{key:'guarded',label:'Guarded day',value:'2026-08-13'}]
 async function guardProductionDatePicker(meta){productionDatePickerOutput.value=`guard:${meta.source}:${meta.value}`;await new Promise(resolve=>setTimeout(resolve,45));return meta.value!=='2026-08-13'}
+const productionDateRangeRef=ref(null)
+const productionDateRangeValue=ref(['2026-08-10','2026-08-16'])
+const productionDateRangeOpen=ref(false)
+const productionDateRangeView=ref('2026-08-01')
+const productionDateRangeOutput=ref('ready:2026-08-10:2026-08-16')
 const imagePreviewOpen = ref(false)
 const imagePreviewIndex = ref(0)
 const imageFixture=(label,color)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320"><rect width="480" height="320" rx="24" fill="${color}"/><text x="28" y="58" fill="white" font-family="Arial" font-size="26" font-weight="700">${label}</text></svg>`)}`
@@ -251,9 +256,11 @@ const carouselIndex=ref(0)
 const carouselOutput=ref('ready:0')
 const timeRangeValue=ref(['09:00','17:30'])
 const timeRangeOutput=ref('ready:09:00-17:30')
+const timeRangeChangeOutput=ref('')
 const dateTimeValue=ref('2026-08-15T09:30')
 const dateTimeRangeValue=ref(['2026-08-15T09:30','2026-08-15T17:30'])
 const dateTimeOutput=ref('ready:2026-08-15T09:30')
+const dateTimeRangeChangeOutput=ref('')
 const qrCodeStatus=ref('expired')
 const qrCodeRevision=ref(1)
 const qrCodeOutput=ref('ready:expired:1')
@@ -707,14 +714,14 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
       </section>
       <section class="interaction-case interaction-wide interaction-time-range-case">
         <h2>Time range value, constraint and validation contract</h2>
-        <UiTimeRangePicker v-model="timeRangeValue" :constrain="false" :step="900" min="08:00" max="22:00" aria-label="Interaction service window" @change="payload=>timeRangeOutput=`change:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`" @invalid="payload=>timeRangeOutput=`invalid:${payload.code}`" @focus="payload=>timeRangeOutput=`focus:${payload.index}`" @clear="timeRangeOutput='clear'" />
-        <output class="interaction-output" data-testid="time-range-output">{{ timeRangeOutput }}</output>
+        <UiTimeRangePicker v-model="timeRangeValue" :constrain="false" :step="900" min="08:00" max="22:00" aria-label="Interaction service window" @change="payload=>{timeRangeChangeOutput=`change:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`;if(payload.valid)timeRangeOutput=timeRangeChangeOutput}" @invalid="payload=>timeRangeOutput=`invalid:${payload.code}`" @focus="payload=>timeRangeOutput=`focus:${payload.index}`" @clear="timeRangeOutput='clear'" />
+        <output class="interaction-output" data-testid="time-range-output">{{ timeRangeOutput }}</output><output class="sr-only" data-testid="time-range-change-output">{{ timeRangeChangeOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-date-time-case">
         <h2>Date-time value, range ordering and focus contract</h2>
         <div class="interaction-date-time-grid">
           <UiDateTimePicker v-model="dateTimeValue" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" aria-label="Interaction release starts" @change="value=>dateTimeOutput=`single:${value}`" @focus="dateTimeOutput='single-focus'" />
-          <UiDateTimeRangePicker v-model="dateTimeRangeValue" :constrain="false" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" start-placeholder="Window starts" end-placeholder="Window ends" aria-label="Interaction release window" @change="payload=>dateTimeOutput=`range:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`" @invalid="payload=>dateTimeOutput=`invalid:${payload.code}`" @focus="payload=>dateTimeOutput=`range-focus:${payload.index}`" @clear="dateTimeOutput='range-clear'" />
+          <UiDateTimeRangePicker v-model="dateTimeRangeValue" :constrain="false" :step="900" min="2026-08-15T08:00" max="2026-08-31T20:00" start-placeholder="Window starts" end-placeholder="Window ends" aria-label="Interaction release window" @change="payload=>{dateTimeRangeChangeOutput=`range:${payload.valid}:${payload.value[0]||'empty'}:${payload.value[1]||'empty'}`;if(payload.valid)dateTimeOutput=dateTimeRangeChangeOutput}" @invalid="payload=>dateTimeOutput=`invalid:${payload.code}`" @focus="payload=>dateTimeOutput=`range-focus:${payload.index}`" @clear="dateTimeOutput='range-clear'" />
         </div>
         <output class="interaction-output" data-testid="date-time-output">{{ dateTimeOutput }}</output>
       </section>
@@ -754,6 +761,15 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiDatePicker id="interaction-production-date-picker" ref="productionDatePickerRef" v-model="productionDatePickerValue" v-model:open="productionDatePickerOpen" v-model:view-date="productionDatePickerView" :presets="productionDatePickerPresets" min="2026-08-01" max="2026-09-30" :append-to-body="false" show-week-numbers :disabled-date="date=>[0,6].includes(date.getUTCDay())" :before-change="guardProductionDatePicker" aria-label="Production release date" @change="(value,meta)=>productionDatePickerOutput=`change:${meta.source}:${value}`" @open-change="(open,meta)=>productionDatePickerOutput=`open:${meta.source}:${open}`" @invalid="meta=>productionDatePickerOutput=`invalid:${meta.code}:${meta.source||meta.kind||'unknown'}`" />
           <div class="interaction-row"><UiButton id="interaction-production-date-picker-api" size="sm" variant="outline" @click="productionDatePickerRef.select('2026-09-08','api')">Select by API</UiButton><UiButton id="interaction-production-date-picker-clear" size="sm" variant="outline" @click="productionDatePickerRef.clear('api')">Clear by API</UiButton></div>
           <output class="interaction-output" data-testid="production-date-picker-output">{{ productionDatePickerOutput }} / {{ productionDatePickerValue }} / {{ productionDatePickerOpen?'open':'closed' }} / {{ productionDatePickerView }}</output>
+        </div>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-date-range-production-case" data-date-range-picker-state-contract="controlled default open view range-preview range-complete constraints presets escape clear rtl dark ssr">
+        <h2>DateRangePicker production range panel, preview, guard and API contract</h2>
+        <div class="interaction-stack">
+          <UiDateRangePicker ref="productionDateRangeRef" v-model="productionDateRangeValue" v-model:open="productionDateRangeOpen" v-model:view-date="productionDateRangeView" default-view-date="2026-08-01" :append-to-body="false" :presets="[{key:'release',label:'Release window',value:['2026-08-20','2026-08-24']}]" aria-label="Production release window" @change="(payload)=>productionDateRangeOutput=`change:${payload.source}:${payload.complete}:${payload.value.join(':')}`" />
+          <div class="interaction-row"><UiButton id="interaction-production-date-range-api" size="sm" variant="outline" @click="productionDateRangeRef.select(['2026-08-20','2026-08-24'],'api')">Select by API</UiButton><UiButton id="interaction-production-date-range-clear" size="sm" variant="outline" @click="productionDateRangeRef.clear('api')">Clear by API</UiButton></div>
+          <output class="interaction-output" data-testid="production-date-range-output">{{ productionDateRangeOutput }} / {{ productionDateRangeValue.join(':') }} / {{ productionDateRangeOpen?'open':'closed' }} / {{ productionDateRangeView }}</output>
         </div>
       </section>
 

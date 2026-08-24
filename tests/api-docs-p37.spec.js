@@ -46,8 +46,13 @@ describe('P37 generated component API documentation',()=>{
     expect(carousel.slots).toEqual(['empty','indicator','item','next-icon','previous-icon'])
     const timeRange=manifest.components.find(component=>component.name==='UiTimeRangePicker')
     expect(timeRange.props).toEqual(expect.arrayContaining(['modelValue','valueType','timeZone','step','min','max','constrain']))
-    expect(timeRange.emits).toEqual(['blur','change','clear','focus','invalid','update:modelValue'])
-    expect(timeRange.slots).toEqual([])
+    const rangeEmits=['blur','change','clear','close','focus','guard-error','input','invalid','keydown','open','open-change','panel-change','preset-select','select','update:modelValue','update:open','update:viewDate','view-change']
+    const rangeSlots=['calendar','cell','clear','endInput','footer','header','panel','prefix','preset','separator','startInput','suffix','toggle','year']
+    expect(timeRange.emits).toEqual(rangeEmits)
+    expect(timeRange.slots).toEqual(rangeSlots)
+    const dateTimeRange=manifest.components.find(component=>component.name==='UiDateTimeRangePicker')
+    expect(dateTimeRange.emits).toEqual(rangeEmits)
+    expect(dateTimeRange.slots).toEqual(rangeSlots)
     const card=manifest.components.find(component=>component.name==='UiCard')
     expect(card.props).toEqual(expect.arrayContaining(['as','subtitle','variant','shadow','interactive','selected','disabled','loading','href','ariaLabel']))
     expect(card.emits).toEqual(['activate','click'])

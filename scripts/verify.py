@@ -669,7 +669,7 @@ if "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.75.1" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.76.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -682,7 +682,7 @@ for marker in ["--ignore-workspace", "--offline", "packedManifest.private===fals
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 412, "packedTarballRaw": 630000, "packedUnpackedRaw": 3820000}:
+if distribution_budgets != {"packedFiles": 412, "packedTarballRaw": 630000, "packedUnpackedRaw": 3970000}:
     failures.append("p39:distribution-budgets")
 if "MultiSelect P73" not in components_page or "1.71.0" not in components_page or "V1.71.0" not in preview:
     failures.append("p39:showcase-version")
@@ -835,7 +835,7 @@ if "Maturity P51: accessible content carousel" not in (ROOT / "UI-SPEC.md").read
 time_range_source = (ROOT / "src/components/UiTimeRangePicker.vue").read_text(encoding="utf-8")
 date_range_source = (ROOT / "src/components/UiDateRangePicker.vue").read_text(encoding="utf-8")
 schema_form_source = (ROOT / "src/components/UiSchemaForm.vue").read_text(encoding="utf-8")
-for marker in ["mode=\"time\"", "value-type", "time-zone", "constrain", "update:model-value", "emit('invalid'"]:
+for marker in ["mode=\"time\"", "valueType", "timeZone", "constrain", "update:modelValue", "@invalid=\"onInvalid\""]:
     if marker not in time_range_source:
         failures.append(f"p52:time-range-runtime:{marker}")
 for marker in ["date.startTime", "date.endTime", "date.timeRangeLabel", "rangeLabel"]:
@@ -856,7 +856,7 @@ date_time_range_source = (ROOT / "src/components/UiDateTimeRangePicker.vue").rea
 for marker in ['mode="datetime"', "ui-date-time-picker", "value-type", "time-zone", "update:model-value"]:
     if marker not in date_time_source:
         failures.append(f"p53:date-time-runtime:{marker}")
-for marker in ['mode="datetime"', "ui-date-time-range-picker", "constrain", "emit('invalid'", "update:model-value"]:
+for marker in ['mode="datetime"', "ui-date-time-range-picker", "constrain", "@invalid=\"onInvalid\"", "update:modelValue"]:
     if marker not in date_time_range_source:
         failures.append(f"p53:date-time-range-runtime:{marker}")
 standalone_source = (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8")
@@ -1328,7 +1328,7 @@ if "Maturity P80: selection-list visual integrity" not in (ROOT / "UI-SPEC.md").
 
 readme_current = (ROOT / "README.md").read_text(encoding="utf-8")
 usage_guide = (ROOT / "docs/USAGE-GUIDE.md").read_text(encoding="utf-8")
-for marker in ["v1.75.1", "91 个组件、1,623 个 Props、558 个 Events 和 349 个 Slots", "P79 成熟日期选择器", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
+for marker in ["v1.76.0", "91 个组件、1,713 个 Props、594 个 Events 和 391 个 Slots", "P81 成熟日期范围选择器", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
     if marker not in readme_current:
         failures.append(f"docs:concise-readme:{marker}")
 for marker in ["整库接入", "按需接入", "主题与 Token", "国际化", "工程验证"]:
@@ -1413,7 +1413,7 @@ if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or 
     failures.append("performance:p33-release-baseline")
 if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10200, "packageJsGzip": 4100, "packageCssRaw": 6050, "packageCssGzip": 1100, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10500, "standaloneExampleCssRaw": 875, "subpathConsumerCssRaw": 2, "rootCssRaw": 850}:
     failures.append("performance:p59-additive-component-policy")
-if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 239000, 'packageJsGzip': 75000, 'packageCssRaw': 301000, 'packageCssGzip': 52000, 'rootCssRaw': 80000, 'rootCssGzip': 11000, 'largestComponentCssRaw': 13000, 'largestComponentCssGzip': 3000, 'subpathConsumerJsRaw': 10000, 'subpathConsumerCssRaw': 2100, 'standaloneExampleJsRaw': 290000, 'standaloneExampleCssRaw': 81000}:
+if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 254000, 'packageJsGzip': 78000, 'packageCssRaw': 335000, 'packageCssGzip': 56000, 'rootCssRaw': 81000, 'rootCssGzip': 11000, 'largestComponentCssRaw': 14000, 'largestComponentCssGzip': 3000, 'subpathConsumerJsRaw': 10000, 'subpathConsumerCssRaw': 2100, 'standaloneExampleJsRaw': 308000, 'standaloneExampleCssRaw': 82000}:
     failures.append("performance:p79-bounded-component-enhancement-policy")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")

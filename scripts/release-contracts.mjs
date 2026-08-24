@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { basename, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { assertCanonicalTgz } from './normalize-tgz.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 
@@ -55,6 +56,7 @@ export function validateRelease({ref,tag=false,artifact,writeChecksum=true}={}){
   if(artifact){
     const absolute=resolve(artifact)
     assert(existsSync(absolute),`Release artifact is missing: ${absolute}`)
+    assertCanonicalTgz(absolute)
     const expectedName=`lan-ui-design-system-${version}.tgz`
     assert(basename(absolute)===expectedName,`Artifact name must be ${expectedName}`)
     const entries=run('tar',['-tzf',absolute]).split(/\r?\n/).filter(Boolean).map(entry=>entry.replace(/\/$/,''))

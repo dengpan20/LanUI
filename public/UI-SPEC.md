@@ -1,5 +1,9 @@
 # Lan UI Design System V1
 
+## P81 · Date range family（P81 成熟日期范围选择器）
+
+`UiDateRangePicker` composes `UiPopover` and `UiCalendar` in date mode with a two-step range draft: the first date remains open for preview, and the second valid endpoint atomically emits a structured change and closes when `closeOnComplete` is enabled. `modelValue/defaultValue`, `open/defaultOpen`, and `viewDate/defaultViewDate` preserve controlled and uncontrolled use; native time and datetime wrappers intentionally retain native input semantics without popup ARIA. Constraints, presets, async guards, slots, instance methods, RTL, Portal theme scope and SSR all share the date adapter and locale tokens.
+
 ## 1. 设计定位
 
 基于参考截图反向提炼的 **Clean Enterprise / Light Blue Admin** 设计语言：浅灰页面背景、白色内容卡片、品牌蓝强调、轻边框、小圆角、弱阴影与紧凑型排版。目标场景为 ERP、CRM、数据后台、运营后台与 AI 工作台。

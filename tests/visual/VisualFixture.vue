@@ -419,6 +419,12 @@ const tableRows=[
       </div>
       <div class="visual-time-range-summary"><UiTag color="blue">button / anchor / form</UiTag><UiTag color="green">pending / duplicate guard</UiTag><UiTag color="orange">RTL / reduced motion / SSR</UiTag></div>
     </UiCard>
+    <UiCard v-if="state==='date-range'" title="Production date range picker" subtitle="Pending preview, complete range, presets and native adapters" title-tag="h2" class="visual-table-card visual-date-range-showcase">
+      <div class="visual-stack" data-date-range-state-contract="controlled default open view range-preview range-complete presets constraints async-guard rtl dark forced-colors reduced-motion ssr">
+        <div class="visual-form"><UiDateRangePicker :model-value="['2026-08-20']" default-open default-view-date="2026-08-01" :append-to-body="false" :presets="[{key:'release',label:'Release window',value:['2026-08-20','2026-08-24']}]" aria-label="Pending release window"/><UiDateRangePicker :model-value="['2026-08-20','2026-08-24']" view-date="2026-08-01" :append-to-body="false" :presets="[{key:'week',label:'This week',value:['2026-08-10','2026-08-16']}]" aria-label="Complete release window"/></div>
+        <div class="visual-time-range-summary"><UiTag color="blue">start pending / hover preview</UiTag><UiTag color="green">range complete / preset</UiTag><UiTag color="orange">RTL / dark / focus / SSR</UiTag></div>
+      </div>
+    </UiCard>
     <UiCard v-if="state==='input'" title="Production text inputs" subtitle="Native form semantics, IME-safe editing, formatting and complete operational states" title-tag="h2" class="visual-table-card visual-input-showcase">
       <div class="visual-input-grid" data-input-state-contract="native form ime formatter parser modifiers clear escape password controlled addons count loading invalid readonly disabled slots api rtl ssr">
         <UiFormItem label="Release name" required help="IME-safe model updates · Enter event · Escape clear"><UiInput v-model.trim="visualInputValue" icon="edit" clearable clear-on-escape select-on-focus show-count :maxlength="28" name="releaseName" autocomplete="off"/></UiFormItem>

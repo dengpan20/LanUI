@@ -209,6 +209,8 @@ const standaloneTourSteps=[
 ]
 const standaloneTheme={'brand-600':'#7C3AED','brand-text':'#A78BFA'}
 const deliveryRange = ref(['2026-08-01','2026-08-11'])
+const deliveryRangeOpen = ref(false)
+const deliveryRangeView = ref('2026-08-01')
 const serviceWindow = ref(['09:00','18:00'])
 const standaloneAnchor = ref('#standalone-overview')
 const standaloneAnchorItems = [
@@ -594,7 +596,7 @@ const rows = computed(() => [
       <UiSegmented v-model="motion" :options="[{label:'Full motion',value:'full'},{label:'Reduced',value:'reduced'},{label:'System motion',value:'system'}]" />
       <UiConfigProvider :locale="locale" :direction="direction" :appearance="appearance" :motion="motion" :theme="appearance==='dark'?standaloneTheme:{'brand-600':'#2563EB'}" size="sm" density="compact">
         <div style="margin-top:16px;display:grid;gap:12px">
-          <UiDateRangePicker v-model="deliveryRange" />
+          <UiDateRangePicker v-model="deliveryRange" v-model:open="deliveryRangeOpen" v-model:view-date="deliveryRangeView" :presets="[{key:'month',label:'本月',value:['2026-08-01','2026-08-31']}]" data-date-range-state-contract="controlled default open view preset" />
           <UiDateTimePicker v-model="standalonePublishAt" :step="900" aria-label="Standalone publish time" />
           <UiDateTimeRangePicker v-model="standaloneReleaseWindow" :step="900" aria-label="Standalone release window" />
           <UiTimeRangePicker v-model="serviceWindow" :step="900" min="08:00" max="22:00" />

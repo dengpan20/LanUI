@@ -1,6 +1,6 @@
 {
   "name": "lan-ui-design-system",
-  "version": "1.75.1",
+  "version": "1.76.0",
   "private": false,
   "description": "Vue 3 Clean Enterprise Design System and interactive admin showcase",
   "keywords": [
@@ -173,10 +173,10 @@
     "ci": "pnpm run tokens && pnpm run check",
     "prepack": "pnpm run tokens && pnpm run test:locale && pnpm run test:color && pnpm run test:date && pnpm run test:icons && pnpm run test:theme && pnpm run test:motion && pnpm run test:types && pnpm run api:check && pnpm run test:package && pnpm run build:example && pnpm run test:preview && pnpm run test:performance",
     "test:packed-consumer": "node scripts/packed-consumer-regression.mjs",
-    "pack:artifact": "node -e \"require('node:fs').mkdirSync('artifacts',{recursive:true})\" && pnpm run prepack && pnpm --config.ignore-scripts=true pack --out artifacts/lan-ui-design-system-%v.tgz",
+    "pack:artifact": "node -e \"require('node:fs').mkdirSync('artifacts',{recursive:true})\" && pnpm run prepack && pnpm --config.ignore-scripts=true pack --out artifacts/lan-ui-design-system-1.76.0.tgz && node scripts/normalize-tgz.mjs",
     "prepublishOnly": "pnpm run ci",
     "test:runtime": "node scripts/runtime-compatibility.mjs",
-    "test:release": "node scripts/release-contracts.mjs --ref v1.75.1 --tag true",
+    "test:release": "node scripts/release-contracts.mjs --ref v1.76.0 --tag true",
     "test:compatibility": "pnpm run test:runtime && pnpm run test:unit && pnpm run build:lib && pnpm run test:packed-consumer"
   },
   "peerDependencies": {
