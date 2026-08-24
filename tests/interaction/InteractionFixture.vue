@@ -75,6 +75,18 @@ const productionPaginationPage=ref(50)
 const productionPaginationSize=ref(20)
 const productionPaginationOutput=ref('ready:50:20')
 async function guardProductionPagination(meta){await new Promise(resolve=>setTimeout(resolve,45));return meta.page!==13}
+const productionTableRef=ref(null)
+const productionTableSelected=ref(['table-1'])
+const productionTableExpanded=ref([])
+const productionTableCurrent=ref('table-1')
+const productionTableWidths=ref({name:208})
+const productionTableSortKey=ref('')
+const productionTableSortOrder=ref('')
+const productionTableFilters=ref({})
+const productionTableOutput=ref('ready:table-1')
+const productionTableColumns=[{key:'name',label:'Evidence',sortable:true,resizable:true},{key:'owner.name',dataKey:'owner.name',label:'Owner',resizable:true},{key:'status',label:'Status',filterable:true,filterOptions:[{label:'Ready',value:'Ready'},{label:'Review',value:'Review'},{label:'Blocked',value:'Blocked',disabled:true}]},{key:'coverage',label:'Coverage',formatter:value=>`${value}%`,resizable:true}]
+const productionTableRows=[{id:'table-1',name:'Component API',owner:{name:'Lin'},status:'Ready',coverage:100,detail:'60 props · 29 events · 13 slots'},{id:'table-2',name:'Keyboard evidence',owner:{name:'Chen'},status:'Review',coverage:96,detail:'Roving focus and filters'},{id:'table-3',name:'Guarded release',owner:{name:'Wang'},status:'Ready',coverage:100,detail:'Async selection is rejected'},{id:'table-4',name:'Locked archive',owner:{name:'Zhao'},status:'Blocked',coverage:82,detail:'Row policy disables selection'}]
+async function guardProductionTableSelect(meta){await new Promise(resolve=>setTimeout(resolve,45));return meta.key!=='table-3'}
 const enabled = ref(false)
 const selectionChannels=ref(['email'])
 const selectionPlan=ref('team')
@@ -736,6 +748,13 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <UiButton id="production-pagination-api-next" size="sm" variant="outline" @click="productionPaginationRef?.next('api')">API next</UiButton>
           <output class="interaction-output" data-testid="pagination-production-output">{{ productionPaginationOutput }}</output>
         </div>
+      </section>
+
+      <section class="interaction-case interaction-wide interaction-table-production-case" data-table-state-contract="controlled uncontrolled selection expansion current row-policy async-guard nested-values sorting filters resize-pointer-keyboard virtual keyboard rtl ssr slots api datagrid-sync">
+        <h2>Table production state, keyboard and API contract</h2>
+        <UiTable id="interaction-production-table" ref="productionTableRef" v-model:selected-rows="productionTableSelected" v-model:expanded-rows="productionTableExpanded" v-model:current-row-key="productionTableCurrent" v-model:column-widths="productionTableWidths" v-model:sort-key="productionTableSortKey" v-model:sort-order="productionTableSortOrder" v-model:filters="productionTableFilters" :columns="productionTableColumns" :rows="productionTableRows" row-key="id" selectable select-on-row-click expandable highlight-current-row striped bordered resizable :is-row-selectable="row=>row.id!=='table-4'" :before-select="guardProductionTableSelect" aria-label="Production table evidence" @selection-change="(keys,meta)=>productionTableOutput=`selection:${meta.source}:${keys.join(',')}`" @expand-change="(keys,meta)=>productionTableOutput=`expand:${meta.source}:${keys.join(',')}`" @current-change="(key,meta)=>productionTableOutput=`current:${meta.source}:${key}`" @filter-change="(_filters,meta)=>productionTableOutput=`filter:${meta.source}:${meta.value??'all'}`" @column-resize="meta=>productionTableOutput=`resize:${meta.source}:${meta.key}:${meta.width??'auto'}`" @invalid="meta=>productionTableOutput=`invalid:${meta.reason}:${meta.kind}`"><template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':value==='Review'?'orange':'red'">{{ value }}</UiTag></template><template #expanded="{row}"><div>{{ row.detail }}</div></template></UiTable>
+        <div class="interaction-row"><UiButton id="interaction-production-table-api-width" size="sm" variant="outline" @click="productionTableRef.setColumnWidth('name',256,'fixture-api')">Set width by API</UiButton><UiButton id="interaction-production-table-api-select" size="sm" variant="outline" @click="productionTableRef.selectRow('table-3',true,'fixture-api')">Exercise async guard</UiButton></div>
+        <output class="interaction-output" data-testid="production-table-output">{{ productionTableOutput }}</output>
       </section>
 
       <section class="interaction-case interaction-wide interaction-select-production-case" data-select-state-contract="controlled uncontrolled native form reset search ime remote abort race cache loading error readonly disabled keyboard typeahead rtl ssr slots api">

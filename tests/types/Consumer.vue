@@ -41,7 +41,7 @@ import {
   UiVirtualList,
   UiWatermark,
 } from 'lan-ui-design-system'
-import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiPaginationInstance, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
+import type { Key, UiBreadcrumbItem, UiCommandPaletteCommand, UiPaginationInstance, UiSchemaFormNode, UiStepItem, UiTableColumn, UiTableInstance, UiTableSelectionMeta, UiTableSortChange, UiTabsItem, UiTextareaInstance, UiTimelineItem, UiTourStep, UiTransferInstance, UiUploadFile, UiUploadInstance, UiUploadRequestContext, UiWatermarkFont } from 'lan-ui-design-system'
 
 const open = ref(false)
 const gridQuery = ref('')
@@ -85,6 +85,8 @@ const selectedTeams=ref<Key[]>(['dashboard'])
 const selectedPaths=ref<Key[][]>([['workspace','dashboard']])
 const transferRef=ref<UiTransferInstance>()
 const paginationRef=ref<UiPaginationInstance>()
+const tableRef=ref<UiTableInstance>()
+const tableSelected=ref<Key[]>([1])
 const releasePage=ref(4)
 const releasePageSize=ref(20)
 const transferredPermissions=ref<Key[]>(['token'])
@@ -109,6 +111,7 @@ function submit(value:Record<string, unknown>, event:SubmitEvent) {
 function sort(payload:UiTableSortChange) {
   activeTab.value = payload.key
 }
+function tableSelection(_value:Key[],meta:UiTableSelectionMeta){ activeTab.value=meta.source }
 </script>
 
 <template>
@@ -156,8 +159,10 @@ function sort(payload:UiTableSortChange) {
     <template #cell-name="{ value, rowIndex }">{{ value }} / {{ rowIndex }}</template>
     <template #footer="{ total, state }">{{ total }} / {{ state.page }}</template>
   </UiDataGrid>
-  <UiTable :columns="columns" :rows="rows" @sort-change="sort">
-    <template #cell-name="{ value, column, rowIndex }">{{ column.label }}: {{ value }} / {{ rowIndex }}</template>
+  <UiTable ref="tableRef" v-model:selected-rows="tableSelected" :columns="columns" :rows="rows" selectable expandable highlight-current-row select-on-row-click resizable :default-column-widths="{name:180}" @sort-change="sort" @selection-change="tableSelection">
+    <template #header-name="{ column, sortOrder }">{{ column.label }} / {{ sortOrder }}</template>
+    <template #cell-name="{ value, column, rowIndex, keyValue, selected }">{{ column.label }}: {{ value }} / {{ rowIndex }} / {{ keyValue }} / {{ selected }}</template>
+    <template #expanded="{ row, collapse }"><button type="button" @click="collapse">{{ row.name }}</button></template>
   </UiTable>
   <UiTabs v-model="activeTab" :items="tabs">
     <template #panel-summary="{ item }">{{ typeof item === 'object' ? item.label : item }}</template>

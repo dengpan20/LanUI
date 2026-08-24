@@ -55,9 +55,16 @@ try{
   assert((await page.locator('#previewPaginationTotal').textContent())?.includes('显示 1–50 条'),'Pagination size changes should reset the static preview to page one')
   await page.locator('#previewPaginationNext').click()
   assert((await page.locator('#previewPaginationState').textContent())?.includes('第 2 / 26 页 · next'),'Pagination next should publish the normalized page state')
+  const staticTableRows=page.locator('#previewTableBody .preview-data-row')
+  await staticTableRows.nth(0).focus()
+  await staticTableRows.nth(0).press('ArrowDown')
+  assert(await staticTableRows.nth(1).evaluate(element=>element.classList.contains('current')&&element.tabIndex===0),'Table ArrowDown should move the roving current row')
+  await staticTableRows.nth(1).press('Space')
+  assert(await staticTableRows.nth(1).locator('.preview-row-check').isChecked(),'Table Space should toggle row selection')
+  assert((await page.locator('#previewTableState').textContent())?.includes('CUS-02 · keyboard'),'Table keyboard selection should publish the current row state')
   assert(pageErrors.length===0,`Static preview emitted page errors: ${pageErrors.join(' | ')}`)
 
-  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 keyboard=pass minimum=invalid')
+  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 tableKeyboard=current+selected keyboard=pass minimum=invalid')
 }finally{
   await browser?.close()
   await server.close()

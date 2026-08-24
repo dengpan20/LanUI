@@ -105,6 +105,7 @@ import SubpathTransfer, { UiTransfer as NamedSubpathTransfer } from 'lan-ui-desi
 import SubpathButton, { UiButton as NamedSubpathButton } from 'lan-ui-design-system/components/UiButton'
 import SubpathInputTag, { UiInputTag as NamedSubpathInputTag } from 'lan-ui-design-system/components/UiInputTag'
 import SubpathDataGrid, { UiDataGrid as NamedSubpathDataGrid } from 'lan-ui-design-system/components/UiDataGrid'
+import SubpathTable, { UiTable as NamedSubpathTable } from 'lan-ui-design-system/components/UiTable'
 import SubpathCalendar, { UiCalendar as NamedSubpathCalendar } from 'lan-ui-design-system/components/UiCalendar'
 import SubpathCard, { UiCard as NamedSubpathCard } from 'lan-ui-design-system/components/UiCard'
 import SubpathBreadcrumb, { UiBreadcrumb as NamedSubpathBreadcrumb } from 'lan-ui-design-system/components/UiBreadcrumb'
@@ -220,6 +221,10 @@ import type {
   UiDataGridChange,
   UiTableColumn,
   UiTableSortChange,
+  UiTableEmits,
+  UiTableInstance,
+  UiTableProps,
+  UiTableSlots,
   LanUiLocale,
   LocaleRegistry,
   DateValueOptions,
@@ -578,6 +583,14 @@ const watermarkEvent:keyof UiWatermarkEmits='image-error'
 const watermarkSlot:keyof UiWatermarkSlots='default'
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
+interface TypedTableRow { id:number; name:string; meta:{status:'ready'|'blocked'}; score:number }
+const typedTableColumns:UiTableColumn<TypedTableRow>[]=[{key:'name',label:'Name',sortable:true,resizable:true},{key:'meta.status',label:'Status',formatter:(value,row)=>`${row.name}:${value}`}]
+const tableProps:UiTableProps<TypedTableRow>={columns:typedTableColumns,rows:[{id:1,name:'Build',meta:{status:'ready'},score:98}],rowKey:row=>row.id,defaultSelectedRows:[1],defaultExpandedRows:[1],selectable:true,selectionMode:'multiple',isRowSelectable:row=>row.score>0,beforeSelect:meta=>meta.selectedRows.length<10,selectOnRowClick:true,expandable:true,isRowExpandable:row=>row.meta.status==='ready',beforeExpand:meta=>meta.row.id>0,highlightCurrentRow:true,defaultCurrentRowKey:1,keyboard:true,defaultSortKey:'name',defaultSortOrder:'asc',sortOrders:['asc','desc',''],defaultFilters:{'meta.status':'ready'},defaultColumnWidths:{name:180},resizable:true,minColumnWidth:80,striped:true,bordered:true,tableLayout:'fixed',ariaLabel:'Typed builds'}
+const tableEmit:UiTableEmits<TypedTableRow>['selection-change']=(value,meta)=>{value.includes(meta.key??0)}
+const tableSlot:keyof UiTableSlots<TypedTableRow>='filter-option'
+const tableInstance:UiTableInstance<TypedTableRow>=null as never
+tableInstance.selectRow(1);tableInstance.expandRow(1);tableInstance.setCurrentRow(1);tableInstance.setColumnWidth('name',200);tableInstance.resetColumnWidth('name');tableInstance.focusRow(1);tableInstance.scrollToRow(1);tableInstance.getState()
+const tableSubpathParity:typeof SubpathTable=NamedSubpathTable
 
 const subpathProps: UiInputProps = inputProps
 const subpathEmits: keyof UiInputEmits = 'composition-end'
@@ -1035,6 +1048,16 @@ const invalidPaginationSize:UiPaginationProps={size:'xl'}
 const invalidPaginationFormatter:UiPaginationProps={totalFormatter:()=>({text:'invalid'})}
 // @ts-expect-error Pagination page labels must be presentable scalar content.
 const invalidPaginationLabel:UiPaginationProps={pageAriaLabel:()=>true}
+// @ts-expect-error Table selection is constrained to single or multiple ownership.
+const invalidTableSelection:UiTableProps={selectionMode:'range'}
+// @ts-expect-error Table sort cycles use ascending, descending or unsorted values.
+const invalidTableSortOrders:UiTableProps={sortOrders:['up']}
+// @ts-expect-error Table layout follows the native auto or fixed contract.
+const invalidTableLayout:UiTableProps={tableLayout:'responsive'}
+// @ts-expect-error Row keys resolve to stable string or number identities.
+const invalidTableRowKey:UiTableProps<TypedTableRow>={rowKey:()=>true}
+// @ts-expect-error Column widths are numeric CSS pixel values.
+tableInstance.setColumnWidth('name','wide')
 
 void [pageHeaderProps,pageHeaderEmit,pageHeaderSubpathParity,pageHeaderNamedSubpathParity,pageHeaderSlot,pageHeaderInstance,invalidPageHeaderTitleTag,invalidPageHeaderSize,keyValueItems,keyValueEditorProps,keyValueEditorEmit,keyValueEditorSubpathParity,keyValueEditorNamedSubpathParity,keyValueEditorSlot,keyValueEditorInstance,invalidKeyValueSize,invalidKeyValueImport,cronPresets,cronEditorProps,cronEditorEmit,cronEditorSubpathParity,cronEditorNamedSubpathParity,cronEditorSlot,cronEditorInstance,invalidCronTimeZone,invalidCronPreviewCount,barcodeProps,barcodeEmit,barcodeSubpathParity,barcodeNamedSubpathParity,barcodeSlot,barcodeInstance,invalidBarcodeFormat,invalidBarcodeStatus,queryBuilderProps,queryBuilderEmit,queryBuilderInstance,queryBuilderSubpathParity,queryBuilderEvent,queryBuilderSlot,invalidQueryOperatorArity,carouselProps,carouselEmit,carouselInstance,carouselSubpathParity,carouselEvent,carouselSlot,invalidCarouselEffect,timeRangeProps,timeRangeEmit,timeRangeSubpathParity,timeRangeNamedSubpathParity,timeRangeSlot,invalidTimeRangeValueType,dateTimeProps,dateTimeEmit,dateTimeSubpathParity,dateTimeNamedSubpathParity,dateTimeSlot,dateTimeRangeProps,dateTimeRangeEmit,dateTimeRangeSubpathParity,dateTimeRangeNamedSubpathParity,dateTimeRangeSlot,invalidDateTimeValueType,invalidDateTimeRangeMin,qrCodeProps,qrCodeEmit,qrCodeSubpathParity,qrCodeNamedSubpathParity,qrCodeSlot,qrCodeInstance,invalidQrCodeLevel,invalidQrCodeStatus]
 void [breadcrumbItems,breadcrumbProps,breadcrumbEmit,breadcrumbExpandEmit,breadcrumbSubpathParity,breadcrumbNamedSubpathParity,breadcrumbSlots,breadcrumbInstance,invalidBreadcrumbSeparatorMode,invalidBreadcrumbSize]
@@ -1053,4 +1076,5 @@ void [multiSelectProps,multiSelectChange,multiSelectInvalid,multiSelectMax,multi
 void [treeSelectOptions,treeSelectProps,treeSelectChange,treeSelectExpand,treeSelectInvalid,treeSelectInstance,treeSelectSlot,treeSelectParity,invalidTreeSelectPlacement,invalidTreeSelectField,invalidTreeSelectFilter,invalidTreeSelectLoader]
 void [transferOptions,transferProps,transferChange,transferSelection,transferSearch,transferLimit,transferInvalid,transferInstance,transferSlot,transferParity,invalidTransferOrder,invalidTransferSize,invalidTransferSearch]
 void [paginationProps,paginationChange,paginationInvalid,paginationInstance,paginationSlot,paginationParity,invalidPaginationBehavior,invalidPaginationSize,invalidPaginationFormatter,invalidPaginationLabel]
+void [typedTableColumns,tableProps,tableEmit,tableSlot,tableInstance,tableSubpathParity,invalidTableSelection,invalidTableSortOrders,invalidTableLayout,invalidTableRowKey]
 console.log(inputTagProps,inputTagEmit,inputTagInstance,inputTagSubpathParity,inputTagEvent,inputTagSlot,invalidInputTagSize,listProps, listEmit, listInstance, listSubpathParity, listEvent, listSlot, invalidListSelection, typographyProps, typographyEmit, typographyInstance, typographySubpathParity, typographyEvent, typographySlot, invalidTypographyVariant, splitterProps, splitterEmit, splitterMeta, splitterInstance, splitterSubpathParity, splitterEvent, splitterSlot, invalidSplitterDirection, affixProps, affixEmit, affixMeta, affixInstance, affixSubpathParity, affixEvent, affixSlot, invalidAffixPosition, dataGridProps, dataGridEmit, dataGridRequest, dataGridSubpathParity, dataGridEvent, dataGridSlot, invalidDataGridMode, plugin, localeTools, localeRegistry, localizedCount, localizedDate, fallbackNames, registeredLocale, loadedLocale, registeredNames, isolatedPlugin, feedbackParity, injectedFeedback, tenantTheme, themeController, themeSubpathParity, themeDefinitionParity, typedAppearance, motionController, motionSubpathParity, typedMotion, invalidMotionPreference, invalidAnchorDirection, invalidTourPlacement, invalidWatermarkCrossOrigin, anchorProps, anchorEmit, anchorSubpathParity, anchorEvent, anchorSlot, invalidThemeAppearance, invalidThemeDefinition, dropdownOffset, invalidButton, modalFooter, tableCell, tabPanel, sortChange, column, subpathProps, subpathEmits, subpathSlots, inputParity, calendarProps, calendarEmit, calendarSubpathParity, calendarEvent, calendarSlot, invalidCalendarMode, imageProps, imageEmit, imageSubpathParity, imageEvent, imageSlot, invalidImageFit, virtualListProps, virtualListEmit, virtualListSubpathParity, virtualListEvent, virtualListSlot, invalidVirtualSelection, statusPageProps, statusPageEmit, statusPageSubpathParity, statusPageEvent, statusPageSlot, autoCompleteProps, autoCompleteEmit, autoCompleteSubpathParity, autoCompleteEvent, autoCompleteSlot, invalidAutoCompleteMatch, numberInputProps, numberInputEmit, numberInputSubpathParity, numberInputEvent, numberInputSlot, sliderProps, sliderEmit, sliderSubpathParity, sliderEvent, sliderSlot, rateProps, rateEmit, rateSubpathParity, rateEvent, rateSlot, invalidRateSize, statisticProps, statisticEmit, statisticSubpathParity, statisticEvent, statisticSlot, invalidStatisticLive, treeProps, treeEmit, treeSubpathParity, treeEvent, treeSlot, commandPaletteProps, commandPaletteEmit, commandPaletteSubpathParity, commandPaletteEvent, commandPaletteSlot, colorPickerProps, colorPickerEmit, colorPickerSubpathParity, colorPickerEvent, colorPickerSlot, parsedColor, formattedColor, colorContrast, colorSubpathParity, colorFormat, invalidColorFormat, invalidCommandHotkeys, invalidTreeValue, invalidSliderTooltip, invalidNumberControls, dateContract, dateOptions, zonedDate, formattedDate, dateSubpathParity, dateDisambiguation, timePickerProps, invalidDateValueType, iconDefinition, iconRegistry, iconRegistryParity, iconProps, iconNames, invalidIconFlip, invalidSchemaList, uploadProps, uploadEmit, uploadInstance, uploadSubpathParity, uploadEvent, uploadSlot, invalidUploadConcurrency, tourProps, tourEmit, tourInstance, tourSubpathParity, tourEvent, tourSlot, watermarkProps, watermarkEmit, watermarkInstance, watermarkSubpathParity, watermarkEvent, watermarkSlot)

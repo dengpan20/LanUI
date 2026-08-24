@@ -363,6 +363,47 @@ const allCases = [
     },
   },
   {
+    name:'table-production-selection-expansion-filter-resize-keyboard-api-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const section=page.locator('.interaction-table-production-case')
+      const table=section.getByRole('table',{name:'Production table evidence'})
+      const rows=table.locator('tbody .ui-table-row')
+      await rows.nth(0).focus()
+      await page.keyboard.press('ArrowDown')
+      await expectFocused(page,rows.nth(1))
+      await page.keyboard.press('Space')
+      await expectText(page,'production-table-output','selection:keyboard:table-1,table-2')
+      await page.keyboard.press('Enter')
+      await expectText(page,'production-table-output','expand:keyboard:table-2')
+      assert.equal(await rows.nth(1).getAttribute('aria-current'),'true')
+      assert.equal(await rows.nth(1).getAttribute('aria-selected'),'true')
+
+      const filter=table.getByRole('button',{name:'Filter Status'})
+      await filter.focus()
+      await page.keyboard.press('Enter')
+      const menu=table.getByRole('menu',{name:'Status filter options'})
+      await menu.waitFor()
+      await expectFocused(page,menu.getByRole('menuitemradio',{name:'All'}))
+      await page.keyboard.press('ArrowDown')
+      await page.keyboard.press('ArrowDown')
+      await expectFocused(page,menu.getByRole('menuitemradio',{name:'Review'}))
+      await page.keyboard.press('Enter')
+      await expectText(page,'production-table-output','filter:keyboard:Review')
+      await expectFocused(page,filter)
+
+      const separator=table.getByRole('separator',{name:'Resize Evidence column'})
+      await separator.focus()
+      await page.keyboard.press('ArrowLeft')
+      await expectText(page,'production-table-output','resize:keyboard:name:216')
+      await section.locator('#interaction-production-table-api-width').click()
+      await expectText(page,'production-table-output','resize:fixture-api:name:256')
+      await section.locator('#interaction-production-table-api-select').click()
+      await expectText(page,'production-table-output','invalid:guard-rejected:selection')
+      assert.deepEqual(await table.locator('tbody .ui-table-row.selected').evaluateAll(nodes=>nodes.map(node=>node.dataset.rowKey)),['table-1','table-2'])
+    },
+  },
+  {
     name:'select-production-search-native-keyboard-api',
     run:async page=>{
       const section=page.locator('.interaction-select-production-case')

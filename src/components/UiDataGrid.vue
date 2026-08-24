@@ -22,14 +22,31 @@ const props=defineProps({
   sortOrder:{type:String,default:''},
   selectedRows:{type:Array,default:()=>[]},
   expandedRows:{type:Array,default:()=>[]},
+  currentRowKey:{type:[String,Number],default:undefined},
+  columnWidths:{type:Object,default:undefined},
   density:{type:String,default:'default'},
   visibleColumns:{type:Array,default:()=>[]},
   selectable:Boolean,
+  selectionMode:{type:String,default:'multiple'},
+  isRowSelectable:Function,
+  beforeSelect:Function,
+  selectOnRowClick:Boolean,
   expandable:Boolean,
+  isRowExpandable:Function,
+  beforeExpand:Function,
+  expandOnRowClick:Boolean,
+  highlightCurrentRow:Boolean,
+  keyboard:{type:Boolean,default:true},
+  disabled:Boolean,
+  readonly:Boolean,
+  striped:Boolean,
+  bordered:Boolean,
+  hover:{type:Boolean,default:true},
   loading:Boolean,
   error:{type:String,default:''},
   stickyHeader:Boolean,
   resizable:Boolean,
+  minColumnWidth:{type:Number,default:72},
   maxHeight:{type:[String,Number],default:''},
   virtual:Boolean,
   rowHeight:{type:Number,default:44},
@@ -58,8 +75,9 @@ const props=defineProps({
 })
 const emit=defineEmits([
   'update:page','update:pageSize','update:query','update:filters','update:sortKey','update:sortOrder',
-  'update:selectedRows','update:expandedRows','update:density','update:visibleColumns',
-  'state-change','request','search','refresh','retry','row-click','column-resize','reset',
+  'update:selectedRows','update:expandedRows','update:currentRowKey','update:columnWidths','update:density','update:visibleColumns',
+  'state-change','request','search','refresh','retry','row-click','row-dblclick','row-contextmenu','row-keydown',
+  'cell-click','selection-change','expand-change','current-change','column-resize','reset',
 ])
 const slots=useSlots()
 const {t,locale}=useLocale()
@@ -172,7 +190,7 @@ defineExpose({getState,refresh,retry,reset,clearFilters})
       <slot name="toolbar-actions" :state="getState()" :refresh="refresh" :reset="reset"/>
     </UiListToolbar>
     <div v-if="$slots.filters" class="ui-data-grid-filters"><slot name="filters" :filters="filters" :clear="clearFilters" :state="getState()"/></div>
-    <UiTable :columns="gridColumns" :rows="displayedRows" :row-key="rowKey" :selected-rows="selectedRows" :expanded-rows="expandedRows" :selectable="selectable" :expandable="expandable" :loading="loading" :error="error" :sort-key="sortKey" :sort-order="sortOrder" :density="density" :sticky-header="stickyHeader" :empty-title="emptyTitle" :empty-text="emptyText" :loading-rows="loadingRows" :filters="filters" :resizable="resizable" :max-height="maxHeight" :virtual="virtual" :row-height="rowHeight" :viewport-height="viewportHeight" :overscan="overscan" @update:selected-rows="emit('update:selectedRows',$event)" @update:expanded-rows="emit('update:expandedRows',$event)" @sort-change="updateSort" @filter-change="updateFilters" @column-resize="emit('column-resize',$event)" @row-click="emit('row-click',$event)" @retry="retry">
+    <UiTable :columns="gridColumns" :rows="displayedRows" :row-key="rowKey" :selected-rows="selectedRows" :expanded-rows="expandedRows" :current-row-key="currentRowKey" :column-widths="columnWidths" :selectable="selectable" :selection-mode="selectionMode" :is-row-selectable="isRowSelectable" :before-select="beforeSelect" :select-on-row-click="selectOnRowClick" :expandable="expandable" :is-row-expandable="isRowExpandable" :before-expand="beforeExpand" :expand-on-row-click="expandOnRowClick" :highlight-current-row="highlightCurrentRow" :keyboard="keyboard" :disabled="disabled" :readonly="readonly" :striped="striped" :bordered="bordered" :hover="hover" :loading="loading" :error="error" :sort-key="sortKey" :sort-order="sortOrder" :density="density" :sticky-header="stickyHeader" :empty-title="emptyTitle" :empty-text="emptyText" :loading-rows="loadingRows" :filters="filters" :resizable="resizable" :min-column-width="minColumnWidth" :max-height="maxHeight" :virtual="virtual" :row-height="rowHeight" :viewport-height="viewportHeight" :overscan="overscan" @update:selected-rows="emit('update:selectedRows',$event)" @update:expanded-rows="emit('update:expandedRows',$event)" @update:current-row-key="emit('update:currentRowKey',$event)" @update:column-widths="emit('update:columnWidths',$event)" @selection-change="(...args)=>emit('selection-change',...args)" @expand-change="(...args)=>emit('expand-change',...args)" @current-change="(...args)=>emit('current-change',...args)" @sort-change="updateSort" @filter-change="updateFilters" @column-resize="emit('column-resize',$event)" @row-click="(...args)=>emit('row-click',...args)" @row-dblclick="(...args)=>emit('row-dblclick',...args)" @row-contextmenu="(...args)=>emit('row-contextmenu',...args)" @row-keydown="(...args)=>emit('row-keydown',...args)" @cell-click="(...args)=>emit('cell-click',...args)" @retry="retry">
       <template #caption><slot name="caption">{{ caption||t('dataGrid.caption') }}</slot></template>
       <template v-for="column in slottedColumns" :key="column.key" #[`cell-${column.key}`]="scope"><slot :name="`cell-${column.key}`" v-bind="scope"/></template>
       <template v-if="$slots.expanded" #expanded="scope"><slot name="expanded" v-bind="scope"/></template>

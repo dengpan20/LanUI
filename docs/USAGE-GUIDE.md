@@ -16,6 +16,7 @@
 - [10. TypeScript 与 API 查询](#10-typescript-与-api-查询)
 - [11. 工程验证](#11-工程验证)
 - [12. 升级与排错](#12-升级与排错)
+- [13. 生产级表格](#13-生产级表格)
 
 ## 1. 环境与安装
 
@@ -484,3 +485,60 @@ import 'lan-ui-design-system/styles/UiButton.css'
 ### 升级后类型或行为发生变化
 
 先核对[版本说明](../CHANGELOG.md)和[迁移指南](../MIGRATION.md)，然后运行消费项目的类型检查、单元测试与关键交互回归。
+
+## 13. 生产级表格
+
+基础表格保留最小声明，复杂列表再按需开启状态：
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { UiTable, type UiTableColumn } from 'lan-ui-design-system'
+import 'lan-ui-design-system/styles/UiTable.css'
+
+interface ReleaseRow {
+  id: string
+  name: string
+  owner: { name: string }
+  status: 'Ready' | 'Review'
+}
+
+const columns: UiTableColumn<ReleaseRow>[] = [
+  { key: 'name', label: '发布证据', sortable: true, resizable: true },
+  { key: 'owner.name', dataKey: 'owner.name', label: '负责人' },
+  { key: 'status', label: '状态', filterable: true, filterOptions: ['Ready', 'Review'] },
+]
+const rows: ReleaseRow[] = [
+  { id: 'REL-01', name: '组件 API', owner: { name: 'Lin' }, status: 'Ready' },
+]
+const selected = ref<string[]>([])
+const expanded = ref<string[]>([])
+const current = ref<string>()
+const widths = ref<Record<string, number>>({ name: 220 })
+</script>
+
+<template>
+  <UiTable
+    v-model:selected-rows="selected"
+    v-model:expanded-rows="expanded"
+    v-model:current-row-key="current"
+    v-model:column-widths="widths"
+    :columns="columns"
+    :rows="rows"
+    row-key="id"
+    selectable select-on-row-click expandable highlight-current-row
+    striped bordered resizable
+    aria-label="发布证据列表"
+  >
+    <template #expanded="{ row }">{{ row.name }} 的详细证据</template>
+  </UiTable>
+</template>
+```
+
+建议保持以下边界：
+
+- 客户端或服务端排序/筛选由业务数据层决定；`UiTable` 负责状态、交互与结构化事件，不隐式改写 `rows`。
+- 行级权限使用 `isRowSelectable` / `isRowExpandable`，异步审批使用 `beforeSelect` / `beforeExpand` / `beforeSort`。
+- 固定高度数据可开启 `virtual`；存在展开行时组件会暂停虚拟化，避免动态行高破坏定位。
+- 行键应稳定且唯一。缺失或重复键会触发 `invalid`，便于在开发与监控中发现数据契约问题。
+- 使用 `UiDataGrid` 组合搜索、列管理和分页时，选择、展开、当前行与列宽仍复用同一套 `UiTable` 契约。

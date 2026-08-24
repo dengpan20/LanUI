@@ -1,127 +1,203 @@
 <script setup>
-import { computed, onBeforeUnmount, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useAttrs, useId, useSlots, watch } from 'vue'
 import AppIcon from './AppIcon.vue'
 import UiCheckbox from './UiCheckbox.vue'
 import { useDirection, useLanUiConfig, useLocale } from '../config-runtime.js'
 
+defineOptions({ inheritAttrs:false })
+
 const props = defineProps({
-  columns: { type: Array, default: () => [] },
-  rows: { type: Array, default: () => [] },
-  rowKey: { type: String, default: 'id' },
-  selectedRows: { type: Array, default: () => [] },
-  expandedRows: { type: Array, default: () => [] },
-  selectable: Boolean,
-  expandable: Boolean,
-  loading: Boolean,
-  error: { type: String, default: '' },
-  sortKey: { type: String, default: '' },
-  sortOrder: { type: String, default: '' },
-  density: { type: String, default: '' },
-  stickyHeader: Boolean,
-  emptyTitle: { type: String, default: '' },
-  emptyText: { type: String, default: '' },
-  loadingRows: { type: Number, default: 5 },
-  filters: { type: Object, default: () => ({}) },
-  resizable: Boolean,
-  maxHeight: { type: [String, Number], default: '' },
-  virtual: Boolean,
-  rowHeight: { type: Number, default: 44 },
-  viewportHeight: { type: Number, default: 400 },
-  overscan: { type: Number, default: 4 },
+  columns:{type:Array,default:()=>[]}, rows:{type:Array,default:()=>[]}, rowKey:{type:[String,Function],default:'id'},
+  selectedRows:{type:Array,default:undefined}, defaultSelectedRows:{type:Array,default:()=>[]},
+  expandedRows:{type:Array,default:undefined}, defaultExpandedRows:{type:Array,default:()=>[]},
+  selectable:Boolean, selectionMode:{type:String,default:'multiple',validator:value=>['multiple','single'].includes(value)},
+  isRowSelectable:Function, beforeSelect:Function, selectOnRowClick:Boolean, preserveSelection:{type:Boolean,default:true},
+  expandable:Boolean, isRowExpandable:Function, beforeExpand:Function, expandOnRowClick:Boolean,
+  currentRowKey:{type:[String,Number],default:undefined}, defaultCurrentRowKey:{type:[String,Number],default:undefined},
+  highlightCurrentRow:Boolean, keyboard:{type:Boolean,default:true}, disabled:Boolean, readonly:Boolean,
+  loading:Boolean, error:{type:[String,Error],default:''},
+  sortKey:{type:String,default:undefined}, defaultSortKey:{type:String,default:''},
+  sortOrder:{type:String,default:undefined,validator:value=>value===undefined||['','asc','desc'].includes(value)},
+  defaultSortOrder:{type:String,default:'',validator:value=>['','asc','desc'].includes(value)},
+  sortOrders:{type:Array,default:()=>['asc','desc','']}, beforeSort:Function,
+  density:{type:String,default:''}, stickyHeader:Boolean, emptyTitle:{type:String,default:''}, emptyText:{type:String,default:''},
+  loadingRows:{type:Number,default:5}, filters:{type:Object,default:undefined}, defaultFilters:{type:Object,default:()=>({})},
+  filterOpenKey:{type:String,default:undefined}, defaultFilterOpenKey:{type:String,default:''}, closeFilterOnSelect:{type:Boolean,default:true},
+  columnWidths:{type:Object,default:undefined}, defaultColumnWidths:{type:Object,default:()=>({})},
+  resizable:Boolean, minColumnWidth:{type:Number,default:72}, maxHeight:{type:[String,Number],default:''},
+  virtual:Boolean, rowHeight:{type:Number,default:44}, viewportHeight:{type:Number,default:400}, overscan:{type:Number,default:4},
+  rowClass:{type:[String,Array,Object,Function],default:''}, rowStyle:{type:[Object,Array,Function],default:undefined},
+  cellClass:Function, cellStyle:Function, striped:Boolean, bordered:Boolean, hover:{type:Boolean,default:true},
+  tableLayout:{type:String,default:'auto',validator:value=>['auto','fixed'].includes(value)}, caption:{type:String,default:''}, ariaLabel:{type:String,default:''},
 })
-const emit = defineEmits(['update:selectedRows','update:expandedRows','update:sortKey','update:sortOrder','update:filters','sort-change','filter-change','column-resize','row-click','retry'])
-const filterOpen=ref('');const widths=ref({});const scrollTop=ref(0);let resizeCleanup=null
-const config=useLanUiConfig();const direction=useDirection();const {t}=useLocale();const resolvedDensity=computed(()=>props.density||config.value.density||'default');const resolvedEmptyTitle=computed(()=>props.emptyTitle||t('empty.title'));const resolvedEmptyText=computed(()=>props.emptyText||t('empty.description'))
+const emit = defineEmits([
+  'update:selectedRows','update:expandedRows','update:sortKey','update:sortOrder','update:filters',
+  'update:filterOpenKey','update:columnWidths','update:currentRowKey','selection-change','select','select-all',
+  'expand-change','sort-change','filter-change','filter-open-change','column-resize-start','column-resize',
+  'column-resize-end','current-change','row-click','row-dblclick','row-contextmenu','row-keydown','cell-click',
+  'header-click','retry','invalid','focus','blur',
+])
 
-const visibleColumns = computed(() => props.columns.filter(column => !column.hidden))
-const columnCount = computed(() => visibleColumns.value.length + (props.selectable ? 1 : 0) + (props.expandable ? 1 : 0))
-const rowIds = computed(() => props.rows.map(row => row[props.rowKey]))
-const allSelected = computed(() => rowIds.value.length > 0 && rowIds.value.every(id => props.selectedRows.includes(id)))
-const partlySelected = computed(() => !allSelected.value && rowIds.value.some(id => props.selectedRows.includes(id)))
-const virtualRange=computed(()=>{if(!props.virtual)return{start:0,end:props.rows.length};const start=Math.max(0,Math.floor(scrollTop.value/props.rowHeight)-props.overscan);const count=Math.ceil(props.viewportHeight/props.rowHeight)+props.overscan*2;return{start,end:Math.min(props.rows.length,start+count)}})
-const renderedRows=computed(()=>props.rows.slice(virtualRange.value.start,virtualRange.value.end).map((row,index)=>({row,rowIndex:virtualRange.value.start+index})))
-const topSpace=computed(()=>props.virtual?virtualRange.value.start*props.rowHeight:0);const bottomSpace=computed(()=>props.virtual?(props.rows.length-virtualRange.value.end)*props.rowHeight:0)
+const attrs=useAttrs(), slots=useSlots(), uid=useId().replace(/[^a-zA-Z0-9_-]/g,'')
+const config=useLanUiConfig(), direction=useDirection(), {t,formatNumber}=useLocale()
+const rootRef=ref(null), tableRef=ref(null), rowRefs=new Map(), filterRefs=new Map()
+const internalSelected=ref(uniqueKeys(props.defaultSelectedRows)), internalExpanded=ref(uniqueKeys(props.defaultExpandedRows))
+const internalSortKey=ref(props.defaultSortKey), internalSortOrder=ref(normalizeSortOrder(props.defaultSortOrder))
+const internalFilters=ref({...props.defaultFilters}), internalFilterOpen=ref(props.defaultFilterOpenKey)
+const internalWidths=ref(normalizeWidths(props.defaultColumnWidths)), draftWidths=ref({}), internalCurrent=ref(props.defaultCurrentRowKey)
+const activeIndex=ref(0), scrollTop=ref(0), selectionPending=ref(false), expansionPending=ref(false), sortPending=ref(false), selectionRevision=ref(0)
+let resizeCleanup=null
 
-function columnStyle(column) {
-  return {
-    width: widths.value[column.key] ? `${widths.value[column.key]}px` : column.width || undefined,
-    minWidth: column.minWidth || undefined,
-    maxWidth: column.maxWidth || undefined,
-    textAlign: column.align || undefined,
-    insetInlineStart: column.start ?? undefined,
-    insetInlineEnd: column.end ?? undefined,
-    left: column.left ?? undefined,
-    right: column.right ?? undefined,
-  }
+function isPromise(value){return Boolean(value&&typeof value.then==='function')}
+function sameKey(left,right){return Object.is(left,right)}
+function includesKey(values,key){return values.some(value=>sameKey(value,key))}
+function uniqueKeys(values){const result=[];for(const value of Array.isArray(values)?values:[])if(!includesKey(result,value))result.push(value);return result}
+function normalizeSortOrder(value){return value==='asc'||value==='desc'?value:''}
+function normalizedPositive(value,fallback,min=1){const number=Number(value);return Number.isFinite(number)?Math.max(min,Math.trunc(number)):fallback}
+function styleLength(value){return typeof value==='number'?`${value}px`:value||undefined}
+function normalizeWidths(value){const result={};for(const [key,width] of Object.entries(value||{})){const number=Number(width);if(Number.isFinite(number))result[key]=Math.max(normalizedPositive(props.minColumnWidth,72),Math.round(number))}return result}
+function eventSafe(event){return event&&typeof event==='object'&&typeof event.preventDefault==='function'?event:undefined}
+function interactiveTarget(target){return Boolean(target?.closest?.('button,a,input,select,textarea,[role="button"],[role="menu"],[role="separator"]'))}
+function readPath(value,path){return String(path).split('.').reduce((current,part)=>current==null?undefined:current[part],value)}
+function rowId(row,index){let value;try{value=typeof props.rowKey==='function'?props.rowKey(row,index):readPath(row,props.rowKey)}catch{return `__row_${index}`};return value===undefined||value===null?`__row_${index}`:value}
+function safePredicate(predicate,row,index,fallback){try{return typeof predicate==='function'?Boolean(predicate(row,index)):fallback}catch{return false}}
+function keyToken(key,index){return `${String(key).replace(/[^a-zA-Z0-9_-]/g,'_')}-${index}`}
+function columnValue(row,column,index){try{return typeof column.value==='function'?column.value(row,index,column):readPath(row,column.dataKey??column.key)}catch{return undefined}}
+function displayValue(row,column,index){const value=columnValue(row,column,index);try{return typeof column.formatter==='function'?column.formatter(value,row,index,column):value}catch{return value}}
+function callPresentation(value,context,fallback){if(typeof value!=='function')return value||fallback;try{return value(context)}catch{return fallback}}
+
+const resolvedDensity=computed(()=>props.density||config.value.density||'default')
+const resolvedEmptyTitle=computed(()=>props.emptyTitle||t('empty.title')), resolvedEmptyText=computed(()=>props.emptyText||t('empty.description'))
+const resolvedError=computed(()=>props.error instanceof Error?props.error.message:String(props.error||''))
+const resolvedSelected=computed(()=>uniqueKeys(props.selectedRows===undefined?internalSelected.value:props.selectedRows))
+const resolvedExpanded=computed(()=>uniqueKeys(props.expandedRows===undefined?internalExpanded.value:props.expandedRows))
+const resolvedSortKey=computed(()=>props.sortKey===undefined?internalSortKey.value:props.sortKey)
+const resolvedSortOrder=computed(()=>normalizeSortOrder(props.sortOrder===undefined?internalSortOrder.value:props.sortOrder))
+const resolvedFilters=computed(()=>props.filters===undefined?internalFilters.value:props.filters||{})
+const resolvedFilterOpen=computed(()=>props.filterOpenKey===undefined?internalFilterOpen.value:props.filterOpenKey||'')
+const resolvedWidths=computed(()=>({...internalWidths.value,...(props.columnWidths||{}),...draftWidths.value}))
+const resolvedCurrent=computed(()=>props.currentRowKey===undefined?internalCurrent.value:props.currentRowKey)
+const visibleColumns=computed(()=>props.columns.filter(column=>!column.hidden))
+const columnCount=computed(()=>visibleColumns.value.length+(props.selectable?1:0)+(props.expandable?1:0))
+const records=computed(()=>props.rows.map((row,index)=>({row,index,key:rowId(row,index),domKey:keyToken(rowId(row,index),index),selectable:props.selectable&&safePredicate(props.isRowSelectable,row,index,true),expandable:props.expandable&&safePredicate(props.isRowExpandable,row,index,true)})))
+const dataIssues=computed(()=>{const seen=[],issues=[];for(const record of records.value){if(String(record.key).startsWith('__row_'))issues.push({reason:'missing-row-key',index:record.index,key:record.key});else if(includesKey(seen,record.key))issues.push({reason:'duplicate-row-key',index:record.index,key:record.key});else seen.push(record.key)}return issues})
+const selectableRecords=computed(()=>records.value.filter(record=>record.selectable)), selectableKeys=computed(()=>selectableRecords.value.map(record=>record.key))
+const allSelected=computed(()=>props.selectionMode==='multiple'&&selectableKeys.value.length>0&&selectableKeys.value.every(key=>includesKey(resolvedSelected.value,key)))
+const partlySelected=computed(()=>props.selectionMode==='multiple'&&!allSelected.value&&selectableKeys.value.some(key=>includesKey(resolvedSelected.value,key)))
+const virtualEnabled=computed(()=>props.virtual&&!records.value.some(record=>includesKey(resolvedExpanded.value,record.key)))
+const normalizedRowHeight=computed(()=>normalizedPositive(props.rowHeight,44,20)), normalizedViewport=computed(()=>normalizedPositive(props.viewportHeight,400,80)), normalizedOverscan=computed(()=>normalizedPositive(props.overscan,4,0))
+const virtualRange=computed(()=>{if(!virtualEnabled.value)return{start:0,end:records.value.length};const start=Math.max(0,Math.floor(scrollTop.value/normalizedRowHeight.value)-normalizedOverscan.value),count=Math.ceil(normalizedViewport.value/normalizedRowHeight.value)+normalizedOverscan.value*2;return{start,end:Math.min(records.value.length,start+count)}})
+const renderedRows=computed(()=>records.value.slice(virtualRange.value.start,virtualRange.value.end)), topSpace=computed(()=>virtualEnabled.value?virtualRange.value.start*normalizedRowHeight.value:0), bottomSpace=computed(()=>virtualEnabled.value?(records.value.length-virtualRange.value.end)*normalizedRowHeight.value:0)
+const blocked=computed(()=>props.disabled||props.readonly||props.loading), selectionBlocked=computed(()=>blocked.value||selectionPending.value), expansionBlocked=computed(()=>blocked.value||expansionPending.value), sortBlocked=computed(()=>blocked.value||sortPending.value)
+const selectionAnnouncement=computed(()=>t('table.selectedCount',{count:formatNumber(resolvedSelected.value.length)}))
+const passthroughAttrs=computed(()=>Object.fromEntries(Object.entries(attrs).filter(([key])=>!['class','style','aria-label'].includes(key))))
+
+function invalid(reason,source='api',extra={}){const payload={reason,source,...extra};emit('invalid',payload);return payload}
+function restoreGuardedControl(kind){if(kind==='selection')selectionRevision.value+=1}
+function guarded(kind,guard,meta,apply,event){
+  if(typeof guard!=='function')return apply()
+  let verdict;try{verdict=guard(meta,eventSafe(event))}catch(error){restoreGuardedControl(kind);invalid('guard-error',meta.source,{kind,error,value:meta});return false}
+  if(!isPromise(verdict)){if(verdict===false){restoreGuardedControl(kind);invalid('guard-rejected',meta.source,{kind,value:meta});return false};return apply()}
+  const pending=kind==='selection'?selectionPending:kind==='expansion'?expansionPending:sortPending;pending.value=true
+  return Promise.resolve(verdict).then(value=>{if(value===false){restoreGuardedControl(kind);invalid('guard-rejected',meta.source,{kind,value:meta});return false};return apply()}).catch(error=>{restoreGuardedControl(kind);invalid('guard-error',meta.source,{kind,error,value:meta});return false}).finally(()=>{pending.value=false})
 }
-function fixedClasses(column){return {'fixed-start':column.fixed==='start','fixed-end':column.fixed==='end','fixed-left':column.fixed==='left','fixed-right':column.fixed==='right'}}
-function setFilter(column,value){const next={...props.filters};if(value===''||value===undefined)delete next[column.key];else next[column.key]=value;emit('update:filters',next);emit('filter-change',next);filterOpen.value=''}
-function beginResize(event,column){event.preventDefault();event.stopPropagation();const startX=event.clientX;const startWidth=event.currentTarget.parentElement.getBoundingClientRect().width;const move=moveEvent=>{const delta=(moveEvent.clientX-startX)*(direction.value==='rtl'?-1:1);widths.value={...widths.value,[column.key]:Math.max(72,startWidth+delta)}};const up=()=>{document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);emit('column-resize',{key:column.key,width:widths.value[column.key]});resizeCleanup=null};document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);resizeCleanup=up}
-onBeforeUnmount(()=>resizeCleanup?.())
-function rowId(row) { return row[props.rowKey] }
-function toggleAll() {
-  const outside = props.selectedRows.filter(id => !rowIds.value.includes(id))
-  emit('update:selectedRows', allSelected.value ? outside : [...new Set([...outside, ...rowIds.value])])
-}
-function toggleRow(row) {
-  const id = rowId(row)
-  emit('update:selectedRows', props.selectedRows.includes(id) ? props.selectedRows.filter(value => value !== id) : [...props.selectedRows, id])
-}
-function toggleExpanded(row) {
-  const id = rowId(row)
-  emit('update:expandedRows', props.expandedRows.includes(id) ? props.expandedRows.filter(value => value !== id) : [...props.expandedRows, id])
-}
-function sort(column) {
-  if (!column.sortable) return
-  const same = props.sortKey === column.key
-  const nextOrder = same && props.sortOrder === 'asc' ? 'desc' : same && props.sortOrder === 'desc' ? '' : 'asc'
-  const nextKey = nextOrder ? column.key : ''
-  emit('update:sortKey', nextKey)
-  emit('update:sortOrder', nextOrder)
-  emit('sort-change', { key: nextKey, order: nextOrder })
-}
+function setSelected(next,meta){const previous=[...resolvedSelected.value],normalized=uniqueKeys(next);if(props.selectedRows===undefined)internalSelected.value=normalized;emit('update:selectedRows',normalized);const detail={...meta,previous,selectedRows:normalized};emit('selection-change',normalized,detail);emit(meta.all?'select-all':'select',normalized,detail);return detail}
+function toggleRow(record,event,source='pointer',force){if(selectionBlocked.value||!record.selectable){invalid(selectionBlocked.value?'blocked':'row-disabled',source,{kind:'selection',key:record.key,row:record.row});return false};const selected=force===undefined?!includesKey(resolvedSelected.value,record.key):Boolean(force),next=selected?(props.selectionMode==='single'?[record.key]:uniqueKeys([...resolvedSelected.value,record.key])):resolvedSelected.value.filter(key=>!sameKey(key,record.key)),meta={source,key:record.key,row:record.row,rowIndex:record.index,selected,all:false,event:eventSafe(event)};return guarded('selection',props.beforeSelect,{...meta,previous:[...resolvedSelected.value],selectedRows:next},()=>setSelected(next,meta),event)}
+function toggleAll(event,source='pointer',force){if(selectionBlocked.value||props.selectionMode!=='multiple'){invalid('blocked',source,{kind:'selection'});return false};const selected=force===undefined?!allSelected.value:Boolean(force),outside=props.preserveSelection?resolvedSelected.value.filter(key=>!includesKey(selectableKeys.value,key)):[],next=selected?uniqueKeys([...outside,...selectableKeys.value]):outside,meta={source,selected,all:true,keys:[...selectableKeys.value],event:eventSafe(event)};return guarded('selection',props.beforeSelect,{...meta,previous:[...resolvedSelected.value],selectedRows:next},()=>setSelected(next,meta),event)}
+function clearSelection(source='api'){if(selectionBlocked.value){invalid('blocked',source,{kind:'selection'});return false};if(!resolvedSelected.value.length)return false;const keys=[...resolvedSelected.value],meta={source,selected:false,all:true,keys};return guarded('selection',props.beforeSelect,{...meta,previous:keys,selectedRows:[]},()=>setSelected([],meta))}
+function selectAll(source='api'){return toggleAll(undefined,source,true)}
+function selectRow(key,selected=true,source='api'){const record=records.value.find(item=>sameKey(item.key,key));if(!record){invalid('unknown-row-key',source,{kind:'selection',key});return false};return toggleRow(record,undefined,source,selected)}
+function setExpanded(next,meta){const previous=[...resolvedExpanded.value],normalized=uniqueKeys(next);if(props.expandedRows===undefined)internalExpanded.value=normalized;emit('update:expandedRows',normalized);const detail={...meta,previous,expandedRows:normalized};emit('expand-change',normalized,detail);return detail}
+function toggleExpanded(record,event,source='pointer',force){if(expansionBlocked.value||!record.expandable){invalid(expansionBlocked.value?'blocked':'row-disabled',source,{kind:'expansion',key:record.key,row:record.row});return false};const expanded=force===undefined?!includesKey(resolvedExpanded.value,record.key):Boolean(force),next=expanded?uniqueKeys([...resolvedExpanded.value,record.key]):resolvedExpanded.value.filter(key=>!sameKey(key,record.key)),meta={source,key:record.key,row:record.row,rowIndex:record.index,expanded,event:eventSafe(event)};return guarded('expansion',props.beforeExpand,{...meta,previous:[...resolvedExpanded.value],expandedRows:next},()=>setExpanded(next,meta),event)}
+function expandRow(key,expanded=true,source='api'){const record=records.value.find(item=>sameKey(item.key,key));if(!record){invalid('unknown-row-key',source,{kind:'expansion',key});return false};return toggleExpanded(record,undefined,source,expanded)}
+function setCurrentRow(key,source='api',event){const record=records.value.find(item=>sameKey(item.key,key));if(!record){invalid('unknown-row-key',source,{kind:'current',key});return false};const previous=resolvedCurrent.value;if(sameKey(previous,key))return{source,key,row:record.row,rowIndex:record.index,previous,event:eventSafe(event)};if(props.currentRowKey===undefined)internalCurrent.value=key;emit('update:currentRowKey',key);const meta={source,key,row:record.row,rowIndex:record.index,previous,event:eventSafe(event)};emit('current-change',key,meta);return meta}
+function normalizedSortOrders(){const result=[];for(const value of props.sortOrders){const order=normalizeSortOrder(value);if(!result.includes(order))result.push(order)}return result.length?result:['asc','desc','']}
+function applySort(key,order,meta){const previousKey=resolvedSortKey.value,previousOrder=resolvedSortOrder.value;if(props.sortKey===undefined)internalSortKey.value=key;if(props.sortOrder===undefined)internalSortOrder.value=order;emit('update:sortKey',key);emit('update:sortOrder',order);const detail={...meta,key,order,previousKey,previousOrder};emit('sort-change',detail);return detail}
+function sort(column,event,source='pointer',requestedOrder){if(!column.sortable||sortBlocked.value){if(sortBlocked.value)invalid('blocked',source,{kind:'sort',key:column.key});return false};const orders=normalizedSortOrders(),current=resolvedSortKey.value===column.key?resolvedSortOrder.value:'',nextOrder=requestedOrder===undefined?orders[(orders.indexOf(current)+1+orders.length)%orders.length]:normalizeSortOrder(requestedOrder),key=nextOrder?column.key:'',meta={source,column,key,order:nextOrder,event:eventSafe(event),previousKey:resolvedSortKey.value,previousOrder:resolvedSortOrder.value};return guarded('sort',props.beforeSort,meta,()=>applySort(key,nextOrder,meta),event)}
+function setFilterOpen(key,source='api',event){const next=key||'',previous=resolvedFilterOpen.value;if(next&&blocked.value){invalid('blocked',source,{kind:'filter-open',key:next});return false};if(next===previous)return false;if(props.filterOpenKey===undefined)internalFilterOpen.value=next;emit('update:filterOpenKey',next);emit('filter-open-change',next,{source,previous,event:eventSafe(event)});if(!next&&source==='keyboard')nextTick(()=>filterRefs.get(previous)?.focus({preventScroll:true}));return true}
+function filterMenuItems(key){if(typeof document==='undefined')return[];const menu=document.getElementById(filterId({key}));return menu?[...menu.querySelectorAll('button[role^="menuitem"]:not(:disabled)')]:[]}
+function focusFilterItem(key,index=0){const items=filterMenuItems(key);if(!items.length)return false;items[Math.max(0,Math.min(items.length-1,index))]?.focus({preventScroll:true});return true}
+function toggleFilterMenu(column,event){const source=event?.detail===0?'keyboard':'pointer',opening=resolvedFilterOpen.value!==column.key,changed=setFilterOpen(opening?column.key:'',source,event);if(changed&&opening&&source==='keyboard')nextTick(()=>focusFilterItem(column.key));return changed}
+function onFilterMenuKeydown(event,column){const items=filterMenuItems(column.key),current=items.indexOf(document.activeElement);if(event.key==='Escape'){event.preventDefault();event.stopPropagation();setFilterOpen('','keyboard',event);return}let target=-1;if(event.key==='ArrowDown')target=current<0?0:(current+1)%items.length;else if(event.key==='ArrowUp')target=current<0?items.length-1:(current-1+items.length)%items.length;else if(event.key==='Home')target=0;else if(event.key==='End')target=items.length-1;if(target>=0&&items.length){event.preventDefault();event.stopPropagation();items[target].focus({preventScroll:true})}}
+function setFilter(column,value,event,source='pointer'){if(blocked.value){invalid('blocked',source,{kind:'filter',key:column.key});return false};const next={...resolvedFilters.value};if(value===''||value===undefined)delete next[column.key];else next[column.key]=value;if(props.filters===undefined)internalFilters.value=next;emit('update:filters',next);emit('filter-change',next,{source,key:column.key,value,event:eventSafe(event)});if(props.closeFilterOnSelect)setFilterOpen('',source,event);return next}
+function clearFilters(source='api'){if(blocked.value){invalid('blocked',source,{kind:'filter'});return false};if(!Object.keys(resolvedFilters.value).length)return false;if(props.filters===undefined)internalFilters.value={};emit('update:filters',{});emit('filter-change',{}, {source,key:'',value:undefined});return true}
+function filterId(column){return `ui-table-filter-${uid}-${String(column.key).replace(/[^a-zA-Z0-9_-]/g,'_')}`}
+function filterValue(option){return typeof option==='object'&&option!==null?option.value:option}
+function filterLabel(option){return typeof option==='object'&&option!==null?option.label:option}
+function filterDisabled(option){return Boolean(typeof option==='object'&&option!==null&&option.disabled)}
+function selectFilterOption(column,value,event){return setFilter(column,value,event,event?.detail===0?'keyboard':'pointer')}
+
+function widthFor(column){const number=Number(resolvedWidths.value[column.key]);return Number.isFinite(number)?number:undefined}
+function columnStyle(column){const width=widthFor(column);return{width:styleLength(width??column.width),minWidth:styleLength(column.minWidth),maxWidth:styleLength(column.maxWidth),textAlign:column.align||undefined,insetInlineStart:styleLength(column.start),insetInlineEnd:styleLength(column.end),left:styleLength(column.left),right:styleLength(column.right)}}
+function fixedClasses(column){return{'fixed-start':column.fixed==='start','fixed-end':column.fixed==='end','fixed-left':column.fixed==='left','fixed-right':column.fixed==='right'}}
+function applyColumnWidth(column,width,source='api',event,previous){const normalized=Math.max(normalizedPositive(props.minColumnWidth,72),Math.round(Number(width)||0)),next={...resolvedWidths.value,[column.key]:normalized};delete draftWidths.value[column.key];if(props.columnWidths===undefined)internalWidths.value=next;emit('update:columnWidths',next);const meta={key:column.key,column,width:normalized,previous:previous??widthFor(column)??normalized,source,event:eventSafe(event)};emit('column-resize',meta);emit('column-resize-end',meta);return meta}
+function beginResize(event,column){if(!props.resizable||column.resizable===false||blocked.value)return;event.preventDefault();event.stopPropagation();resizeCleanup?.();const startX=event.clientX,startWidth=event.currentTarget.parentElement.getBoundingClientRect().width,meta={key:column.key,column,width:startWidth,previous:startWidth,source:'pointer',event:eventSafe(event)};emit('column-resize-start',meta);const move=moveEvent=>{const delta=(moveEvent.clientX-startX)*(direction.value==='rtl'?-1:1);draftWidths.value={...draftWidths.value,[column.key]:Math.max(normalizedPositive(props.minColumnWidth,72),Math.round(startWidth+delta))}};const up=upEvent=>{document.removeEventListener('pointermove',move);document.removeEventListener('pointerup',up);applyColumnWidth(column,draftWidths.value[column.key]??startWidth,'pointer',upEvent,startWidth);resizeCleanup=null};document.addEventListener('pointermove',move);document.addEventListener('pointerup',up);resizeCleanup=up}
+function resizeByKeyboard(event,column){if(blocked.value)return;const decrease=direction.value==='rtl'?'ArrowRight':'ArrowLeft',increase=direction.value==='rtl'?'ArrowLeft':'ArrowRight';if(event.key!=='Home'&&event.key!==decrease&&event.key!==increase)return;event.preventDefault();event.stopPropagation();const previous=widthFor(column)??event.currentTarget.parentElement.getBoundingClientRect().width,step=event.shiftKey?1:8,width=event.key==='Home'?normalizedPositive(props.minColumnWidth,72):previous+(event.key===increase?step:-step);emit('column-resize-start',{key:column.key,column,width:previous,previous,source:'keyboard',event});applyColumnWidth(column,width,'keyboard',event,previous)}
+function resetColumnWidth(columnOrKey,source='api',event){if(blocked.value){invalid('blocked',source,{kind:'resize',key:typeof columnOrKey==='object'?columnOrKey?.key:columnOrKey});return false};const column=typeof columnOrKey==='object'?columnOrKey:visibleColumns.value.find(item=>item.key===columnOrKey);if(!column){invalid('unknown-column-key',source,{kind:'resize',key:columnOrKey});return false};const previous=widthFor(column),next={...resolvedWidths.value};delete next[column.key];delete draftWidths.value[column.key];if(props.columnWidths===undefined)internalWidths.value=next;emit('update:columnWidths',next);const meta={key:column.key,column,width:undefined,previous,source,event:eventSafe(event)};emit('column-resize',meta);emit('column-resize-end',meta);return meta}
+function setColumnWidth(key,width,source='api'){if(blocked.value){invalid('blocked',source,{kind:'resize',key});return false};const column=visibleColumns.value.find(item=>item.key===key);if(!column){invalid('unknown-column-key',source,{kind:'resize',key});return false};return applyColumnWidth(column,width,source)}
+
+function setRowRef(element,record){if(element)rowRefs.set(record.domKey,element);else rowRefs.delete(record.domKey)}
+function focusRecord(record,options={preventScroll:true}){const element=rowRefs.get(record.domKey);if(!element)return false;element.focus(options);return typeof document!=='undefined'&&document.activeElement===element}
+function focusRow(keyOrIndex,options){const index=typeof keyOrIndex==='number'&&Number.isInteger(keyOrIndex)&&keyOrIndex>=0&&keyOrIndex<records.value.length?keyOrIndex:records.value.findIndex(record=>sameKey(record.key,keyOrIndex));if(index<0)return false;activeIndex.value=index;if(virtualEnabled.value&&(index<virtualRange.value.start||index>=virtualRange.value.end)){scrollToRow(index,'auto');return nextTick(()=>focusRecord(records.value[index],options))};return focusRecord(records.value[index],options)}
+function scrollToRow(keyOrIndex,align='nearest'){const index=typeof keyOrIndex==='number'&&Number.isInteger(keyOrIndex)&&keyOrIndex>=0&&keyOrIndex<records.value.length?keyOrIndex:records.value.findIndex(record=>sameKey(record.key,keyOrIndex));if(index<0||!rootRef.value)return false;if(virtualEnabled.value){const top=index*normalizedRowHeight.value;rootRef.value.scrollTo?.({top:align==='center'?Math.max(0,top-normalizedViewport.value/2):top,behavior:'auto'});if(!rootRef.value.scrollTo)rootRef.value.scrollTop=top;scrollTop.value=rootRef.value.scrollTop}else rowRefs.get(records.value[index].domKey)?.scrollIntoView?.({block:align,inline:'nearest'});return true}
+function moveFocus(index){const target=Math.max(0,Math.min(records.value.length-1,index));activeIndex.value=target;if(!focusRow(target))nextTick(()=>focusRow(target))}
+function rowMeta(record,source,event,column){return{source,key:record.key,row:record.row,rowIndex:record.index,column,event:eventSafe(event)}}
+function onRowFocus(record,event){activeIndex.value=record.index;if(!rootRef.value?.contains(event.relatedTarget))emit('focus',event,{key:record.key,row:record.row,rowIndex:record.index})}
+function onFocusOut(event){if(!rootRef.value?.contains(event.relatedTarget))emit('blur',event,{key:resolvedCurrent.value})}
+function onRowClick(record,event){const meta=rowMeta(record,'pointer',event);emit('row-click',record.row,meta,event);if(!interactiveTarget(event.target)){if(props.highlightCurrentRow||props.currentRowKey!==undefined||props.defaultCurrentRowKey!==undefined)setCurrentRow(record.key,'pointer',event);if(props.selectOnRowClick&&record.selectable)toggleRow(record,event,'row');if(props.expandOnRowClick&&record.expandable)toggleExpanded(record,event,'row')}}
+function onRowKeydown(record,event){const meta=rowMeta(record,'keyboard',event);emit('row-keydown',event,meta);if(!props.keyboard||blocked.value||interactiveTarget(event.target)&&event.target!==event.currentTarget)return;if(event.key==='ArrowDown'){event.preventDefault();moveFocus(record.index+1)}else if(event.key==='ArrowUp'){event.preventDefault();moveFocus(record.index-1)}else if(event.key==='Home'){event.preventDefault();moveFocus(0)}else if(event.key==='End'){event.preventDefault();moveFocus(records.value.length-1)}else if(event.key===' '&&record.selectable){event.preventDefault();toggleRow(record,event,'keyboard')}else if(event.key==='Enter'){event.preventDefault();setCurrentRow(record.key,'keyboard',event);if(props.expandable&&record.expandable)toggleExpanded(record,event,'keyboard')}else if(event.key===(direction.value==='rtl'?'ArrowLeft':'ArrowRight')&&record.expandable&&!includesKey(resolvedExpanded.value,record.key)){event.preventDefault();toggleExpanded(record,event,'keyboard',true)}else if(event.key===(direction.value==='rtl'?'ArrowRight':'ArrowLeft')&&record.expandable&&includesKey(resolvedExpanded.value,record.key)){event.preventDefault();toggleExpanded(record,event,'keyboard',false)}else if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='a'&&props.selectable&&props.selectionMode==='multiple'){event.preventDefault();toggleAll(event,'keyboard')}}
+function onCellClick(record,column,event){emit('cell-click',record.row,columnValue(record.row,column,record.index),rowMeta(record,'pointer',event,column),event)}
+function onHeaderClick(column,event){emit('header-click',column,{source:'pointer',key:column.key,event:eventSafe(event)},event)}
+function rowClasses(record){return callPresentation(props.rowClass,{row:record.row,rowIndex:record.index,key:record.key,selected:includesKey(resolvedSelected.value,record.key),expanded:includesKey(resolvedExpanded.value,record.key),current:sameKey(resolvedCurrent.value,record.key)},'')}
+function rowStyles(record){return callPresentation(props.rowStyle,{row:record.row,rowIndex:record.index,key:record.key},undefined)}
+function cellClasses(record,column){return callPresentation(props.cellClass,{row:record.row,rowIndex:record.index,column,value:columnValue(record.row,column,record.index)},'')}
+function cellStyles(record,column){return callPresentation(props.cellStyle,{row:record.row,rowIndex:record.index,column,value:columnValue(record.row,column,record.index)},undefined)}
+function getState(){return{selectedRows:[...resolvedSelected.value],expandedRows:[...resolvedExpanded.value],sortKey:resolvedSortKey.value,sortOrder:resolvedSortOrder.value,filters:{...resolvedFilters.value},filterOpenKey:resolvedFilterOpen.value,columnWidths:{...resolvedWidths.value},currentRowKey:resolvedCurrent.value,pending:{selection:selectionPending.value,expansion:expansionPending.value,sort:sortPending.value},virtualRange:{...virtualRange.value}}}
+function onDocumentPointer(event){if(resolvedFilterOpen.value&&rootRef.value&&!rootRef.value.contains(event.target))setFilterOpen('','outside',event)}
+function onRootKeydown(event){if(event.key==='Escape'&&resolvedFilterOpen.value){event.preventDefault();setFilterOpen('','keyboard',event)}}
+
+watch(dataIssues,issues=>{for(const issue of issues)invalid(issue.reason,'data',issue)},{immediate:true})
+watch(()=>records.value.length,length=>{activeIndex.value=Math.max(0,Math.min(activeIndex.value,Math.max(0,length-1)))})
+onMounted(()=>document.addEventListener('pointerdown',onDocumentPointer))
+onBeforeUnmount(()=>{resizeCleanup?.();document.removeEventListener('pointerdown',onDocumentPointer)})
+
+defineExpose({root:rootRef,table:tableRef,selectedRows:resolvedSelected,expandedRows:resolvedExpanded,currentRowKey:resolvedCurrent,pending:{selection:selectionPending,expansion:expansionPending,sort:sortPending},getState,selectRow,toggleAll,selectAll,clearSelection,expandRow,setCurrentRow,sort,setFilter,clearFilters,setFilterOpen,focusRow,scrollToRow,setColumnWidth,resetColumnWidth})
 </script>
 
 <template>
-  <div class="ui-table-wrap" :class="[`density-${resolvedDensity}`,{'has-sticky-header':stickyHeader,'is-virtual':virtual}]" :style="{maxHeight:maxHeight?(typeof maxHeight==='number'?`${maxHeight}px`:maxHeight):virtual?`${viewportHeight}px`:undefined}" @scroll="scrollTop=$event.currentTarget.scrollTop">
-    <table class="ui-table">
-      <caption class="sr-only"><slot name="caption">{{ t('table.caption') }}</slot></caption>
-      <thead>
-        <tr>
-          <th v-if="expandable" class="ui-table-control-column" :aria-label="t('table.expandColumn')"/>
-          <th v-if="selectable" class="ui-table-control-column ui-table-select-column">
-            <UiCheckbox class="ui-table-checkbox" size="sm" :model-value="allSelected" :indeterminate="partlySelected" :aria-label="t('table.selectAll')" @click.stop @change="toggleAll"/>
-          </th>
-          <th v-for="column in visibleColumns" :key="column.key" :class="[{sortable:column.sortable,...fixedClasses(column)},column.headerClass]" :style="columnStyle(column)" :aria-sort="sortKey===column.key?(sortOrder==='asc'?'ascending':sortOrder==='desc'?'descending':'none'):undefined">
-            <div class="ui-table-header-content"><button v-if="column.sortable" type="button" class="ui-table-sort" @click="sort(column)"><span>{{ column.label }}</span><span class="ui-table-sort-icon" :class="{active:sortKey===column.key}"><AppIcon :name="sortKey===column.key&&sortOrder==='desc'?'arrowDown':'arrowUp'" :size="12"/></span></button><span v-else>{{ column.label }}</span><span v-if="column.filterable" class="ui-table-filter-wrap"><button type="button" class="ui-table-filter" :class="{active:filters[column.key]!==undefined}" :aria-label="t('table.filter',{label:column.label})" :aria-expanded="filterOpen===column.key" @click.stop="filterOpen=filterOpen===column.key?'':column.key"><AppIcon name="filter" :size="12"/></button><span v-if="filterOpen===column.key" class="ui-table-filter-menu"><button type="button" :class="{active:filters[column.key]===undefined}" @click="setFilter(column,'')">{{ t('common.all') }}</button><button v-for="option in column.filterOptions||[]" :key="typeof option==='object'?option.value:option" type="button" :class="{active:filters[column.key]===(typeof option==='object'?option.value:option)}" @click="setFilter(column,typeof option==='object'?option.value:option)">{{ typeof option==='object'?option.label:option }}</button></span></span></div><span v-if="resizable&&column.resizable!==false" class="ui-table-resize" role="separator" aria-orientation="vertical" :aria-label="t('table.resize',{label:column.label})" @pointerdown="beginResize($event,column)"/>
-          </th>
-        </tr>
-      </thead>
-      <tbody v-if="loading" aria-busy="true">
-        <tr v-for="index in loadingRows" :key="`loading-${index}`" class="ui-table-loading-row">
-          <td v-if="expandable"><span class="skeleton ui-table-skeleton square"/></td>
-          <td v-if="selectable"><span class="skeleton ui-table-skeleton check"/></td>
-          <td v-for="column in visibleColumns" :key="column.key"><span class="skeleton ui-table-skeleton" :style="{width:`${48+(index*17+column.key.length*7)%42}%`}"/></td>
-        </tr>
-      </tbody>
-      <tbody v-else-if="error" class="ui-table-state-body">
-        <tr class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><div class="ui-table-state is-error"><span class="empty-icon"><AppIcon name="alert" :size="24"/></span><strong>{{ t('table.errorTitle') }}</strong><p>{{ error }}</p><button type="button" class="btn btn-outline btn-sm" @click="emit('retry')"><AppIcon name="refresh" :size="13"/>{{ t('common.reload') }}</button></div></td></tr>
-      </tbody>
-      <tbody v-else-if="!rows.length" class="ui-table-state-body">
-        <tr class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><div class="ui-table-state"><span class="empty-icon"><AppIcon name="search" :size="24"/></span><strong>{{ resolvedEmptyTitle }}</strong><p>{{ resolvedEmptyText }}</p><slot name="empty-action"/></div></td></tr>
-      </tbody>
+  <div ref="rootRef" v-bind="passthroughAttrs" class="ui-table-wrap" :class="[`density-${resolvedDensity}`,{'has-sticky-header':stickyHeader,'is-virtual':virtualEnabled,'is-disabled':disabled,'is-readonly':readonly,'is-loading':loading||selectionPending||expansionPending||sortPending,'is-striped':striped,'is-bordered':bordered,'has-hover':hover,'has-current-row':highlightCurrentRow},attrs.class]" :style="[{maxHeight:maxHeight?styleLength(maxHeight):virtualEnabled?`${normalizedViewport}px`:undefined},attrs.style]" :aria-busy="loading||selectionPending||expansionPending||sortPending||undefined" :aria-disabled="disabled||undefined" :aria-readonly="readonly||undefined" data-ui-table @scroll="scrollTop=$event.currentTarget.scrollTop" @keydown="onRootKeydown" @focusout="onFocusOut">
+    <table ref="tableRef" class="ui-table" :style="{tableLayout}" :aria-label="ariaLabel||attrs['aria-label']||undefined" :aria-rowcount="records.length+1" :aria-colcount="columnCount">
+      <caption class="sr-only"><slot name="caption">{{ caption||t('table.caption') }}</slot></caption>
+      <thead><tr>
+        <th v-if="expandable" scope="col" class="ui-table-control-column"><span class="sr-only">{{ t('table.expandColumn') }}</span></th>
+        <th v-if="selectable" scope="col" class="ui-table-control-column ui-table-select-column"><slot name="select-all" :all-selected="allSelected" :indeterminate="partlySelected" :selected-rows="resolvedSelected" :toggle-all="toggleAll" :disabled="selectionBlocked"><UiCheckbox v-if="selectionMode==='multiple'" :key="`all-${selectionRevision}`" class="ui-table-checkbox" size="sm" :model-value="allSelected" :indeterminate="partlySelected" :disabled="selectionBlocked||!selectableRecords.length" :aria-label="t(allSelected?'table.deselectAll':'table.selectAll')" @click.stop @change="toggleAll($event,'checkbox')"/></slot></th>
+        <th v-for="column in visibleColumns" :key="column.key" scope="col" :class="[{sortable:column.sortable,...fixedClasses(column)},column.headerClass]" :style="columnStyle(column)" :aria-sort="resolvedSortKey===column.key?(resolvedSortOrder==='asc'?'ascending':resolvedSortOrder==='desc'?'descending':'none'):undefined" @click="onHeaderClick(column,$event)">
+          <div class="ui-table-header-content">
+            <button v-if="column.sortable" type="button" class="ui-table-sort" :disabled="sortBlocked" @click="sort(column,$event,'pointer')"><slot :name="`header-${column.key}`" :column="column" :sort-key="resolvedSortKey" :sort-order="resolvedSortOrder" :sort="sort"><span>{{ column.label }}</span></slot><span class="ui-table-sort-icon" :class="{active:resolvedSortKey===column.key}" aria-hidden="true"><AppIcon :name="resolvedSortKey===column.key&&resolvedSortOrder==='desc'?'arrowDown':'arrowUp'" :size="12"/></span></button>
+            <slot v-else :name="`header-${column.key}`" :column="column" :sort-key="resolvedSortKey" :sort-order="resolvedSortOrder" :sort="sort"><span>{{ column.label }}</span></slot>
+            <span v-if="column.filterable" class="ui-table-filter-wrap"><button :ref="element=>element?filterRefs.set(column.key,element):filterRefs.delete(column.key)" type="button" class="ui-table-filter" :class="{active:resolvedFilters[column.key]!==undefined}" :disabled="blocked" :aria-label="t('table.filter',{label:column.label})" :aria-controls="filterId(column)" :aria-expanded="resolvedFilterOpen===column.key" aria-haspopup="menu" @click.stop="toggleFilterMenu(column,$event)"><AppIcon name="filter" :size="12"/></button>
+              <span v-if="resolvedFilterOpen===column.key" :id="filterId(column)" class="ui-table-filter-menu" role="menu" :aria-label="t('table.filterMenu',{label:column.label})" @click.stop @keydown="onFilterMenuKeydown($event,column)"><slot name="filter" :column="column" :value="resolvedFilters[column.key]" :filters="resolvedFilters" :select="value=>setFilter(column,value,undefined,'slot')" :close="()=>setFilterOpen('','slot')"><button type="button" role="menuitemradio" :aria-checked="resolvedFilters[column.key]===undefined" :class="{active:resolvedFilters[column.key]===undefined}" @click="selectFilterOption(column,'',$event)">{{ t('common.all') }}</button><button v-for="option in column.filterOptions||[]" :key="String(filterValue(option))" type="button" role="menuitemradio" :disabled="filterDisabled(option)" :aria-checked="Object.is(resolvedFilters[column.key],filterValue(option))" :class="{active:Object.is(resolvedFilters[column.key],filterValue(option))}" @click="selectFilterOption(column,filterValue(option),$event)"><slot name="filter-option" :column="column" :option="option" :value="filterValue(option)" :selected="Object.is(resolvedFilters[column.key],filterValue(option))">{{ filterLabel(option) }}</slot></button></slot></span>
+            </span>
+          </div>
+          <span v-if="resizable&&column.resizable!==false" class="ui-table-resize" role="separator" aria-orientation="vertical" tabindex="0" :aria-label="t('table.resize',{label:column.label})" :aria-valuemin="normalizedPositive(minColumnWidth,72)" :aria-valuenow="Math.round(widthFor(column)||Number(column.width)||normalizedPositive(minColumnWidth,72))" @pointerdown="beginResize($event,column)" @keydown="resizeByKeyboard($event,column)" @dblclick="resetColumnWidth(column,'pointer',$event)"/>
+        </th>
+      </tr></thead>
+      <tbody v-if="loading" aria-busy="true"><tr v-if="slots.loading" class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><slot name="loading" :columns="visibleColumns" :rows="loadingRows"/></td></tr><tr v-for="index in slots.loading?0:Math.max(1,loadingRows)" :key="`loading-${index}`" class="ui-table-loading-row"><td v-if="expandable"><span class="skeleton ui-table-skeleton square"/></td><td v-if="selectable"><span class="skeleton ui-table-skeleton check"/></td><td v-for="column in visibleColumns" :key="column.key"><span class="skeleton ui-table-skeleton" :style="{width:`${48+(index*17+String(column.key).length*7)%42}%`}"/></td></tr></tbody>
+      <tbody v-else-if="resolvedError" class="ui-table-state-body"><tr class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><slot name="error" :error="error" :retry="()=>emit('retry')"><div class="ui-table-state is-error"><span class="empty-icon"><AppIcon name="alert" :size="24"/></span><strong>{{ t('table.errorTitle') }}</strong><p>{{ resolvedError }}</p><button type="button" class="btn btn-outline btn-sm" @click="emit('retry')"><AppIcon name="refresh" :size="13"/>{{ t('common.reload') }}</button></div></slot></td></tr></tbody>
+      <tbody v-else-if="!records.length" class="ui-table-state-body"><tr class="ui-table-state-row"><td class="ui-table-state-cell" :colspan="columnCount"><slot name="empty" :title="resolvedEmptyTitle" :description="resolvedEmptyText"><div class="ui-table-state"><span class="empty-icon"><AppIcon name="search" :size="24"/></span><strong>{{ resolvedEmptyTitle }}</strong><p>{{ resolvedEmptyText }}</p><slot name="empty-action"/></div></slot></td></tr></tbody>
       <tbody v-else>
-        <tr v-if="topSpace" class="ui-table-virtual-space"><td :colspan="columnCount" :style="{height:`${topSpace}px`}"/></tr>
-        <template v-for="entry in renderedRows" :key="rowId(entry.row)">
-          <tr class="ui-table-row" :class="{selected:selectedRows.includes(rowId(entry.row)),expanded:expandedRows.includes(rowId(entry.row))}" @click="emit('row-click',entry.row)">
-            <td v-if="expandable" class="ui-table-control-column"><button type="button" class="ui-table-expand" :class="{open:expandedRows.includes(rowId(entry.row))}" :aria-label="t(expandedRows.includes(rowId(entry.row))?'table.collapse':'table.expand',{id:rowId(entry.row)})" @click.stop="toggleExpanded(entry.row)"><AppIcon class="ui-directional-icon" name="chevronRight" :size="14"/></button></td>
-            <td v-if="selectable" class="ui-table-control-column ui-table-select-column"><UiCheckbox class="ui-table-checkbox" size="sm" :model-value="selectedRows.includes(rowId(entry.row))" :aria-label="t('table.select',{id:rowId(entry.row)})" @click.stop @change="toggleRow(entry.row)"/></td>
-            <td v-for="column in visibleColumns" :key="column.key" :class="[column.class,fixedClasses(column)]" :style="columnStyle(column)" :data-label="column.label"><slot :name="`cell-${column.key}`" :row="entry.row" :value="entry.row[column.key]" :column="column" :row-index="entry.rowIndex">{{ entry.row[column.key] }}</slot></td>
+        <tr v-if="topSpace" class="ui-table-virtual-space" aria-hidden="true"><td :colspan="columnCount" :style="{height:`${topSpace}px`}"/></tr>
+        <template v-for="record in renderedRows" :key="record.domKey">
+          <tr :ref="element=>setRowRef(element,record)" class="ui-table-row" :class="[{selected:includesKey(resolvedSelected,record.key),expanded:includesKey(resolvedExpanded,record.key),current:sameKey(resolvedCurrent,record.key),'is-disabled':!record.selectable&&selectable},rowClasses(record)]" :style="rowStyles(record)" :tabindex="keyboard&&record.index===activeIndex&&!disabled?0:-1" :aria-rowindex="record.index+2" :aria-selected="selectable?includesKey(resolvedSelected,record.key):undefined" :aria-current="sameKey(resolvedCurrent,record.key)?'true':undefined" :data-row-key="String(record.key)" @click="onRowClick(record,$event)" @dblclick="emit('row-dblclick',record.row,rowMeta(record,'pointer',$event),$event)" @contextmenu="emit('row-contextmenu',record.row,rowMeta(record,'pointer',$event),$event)" @keydown="onRowKeydown(record,$event)" @focus="onRowFocus(record,$event)">
+            <td v-if="expandable" class="ui-table-control-column"><slot name="expand" :row="record.row" :row-index="record.index" :key-value="record.key" :expanded="includesKey(resolvedExpanded,record.key)" :disabled="expansionBlocked||!record.expandable" :toggle="event=>toggleExpanded(record,event,'slot')"><button type="button" class="ui-table-expand" :class="{open:includesKey(resolvedExpanded,record.key)}" :disabled="expansionBlocked||!record.expandable" :aria-expanded="includesKey(resolvedExpanded,record.key)" :aria-label="t(includesKey(resolvedExpanded,record.key)?'table.collapse':'table.expand',{id:record.key})" @click.stop="toggleExpanded(record,$event,'pointer')"><AppIcon class="ui-directional-icon" name="chevronRight" :size="14"/></button></slot></td>
+             <td v-if="selectable" class="ui-table-control-column ui-table-select-column"><slot name="selection" :row="record.row" :row-index="record.index" :key-value="record.key" :selected="includesKey(resolvedSelected,record.key)" :disabled="selectionBlocked||!record.selectable" :toggle="event=>toggleRow(record,event,'slot')"><UiCheckbox class="ui-table-checkbox" size="sm" :key="`${record.domKey}-${selectionRevision}`" :model-value="includesKey(resolvedSelected,record.key)" :disabled="selectionBlocked||!record.selectable" :aria-label="t(includesKey(resolvedSelected,record.key)?'table.deselect':'table.select',{id:record.key})" @click.stop @change="toggleRow(record,$event,'checkbox')"/></slot></td>
+            <td v-for="column in visibleColumns" :key="column.key" :class="[column.class,fixedClasses(column),cellClasses(record,column)]" :style="[columnStyle(column),cellStyles(record,column)]" :data-label="column.label" @click="onCellClick(record,column,$event)"><slot :name="`cell-${column.key}`" :row="record.row" :value="columnValue(record.row,column,record.index)" :display-value="displayValue(record.row,column,record.index)" :column="column" :row-index="record.index" :key-value="record.key" :selected="includesKey(resolvedSelected,record.key)" :expanded="includesKey(resolvedExpanded,record.key)" :current="sameKey(resolvedCurrent,record.key)" :toggle-select="event=>toggleRow(record,event,'slot')" :toggle-expand="event=>toggleExpanded(record,event,'slot')">{{ displayValue(record.row,column,record.index) }}</slot></td>
           </tr>
-          <tr v-if="expandable && expandedRows.includes(rowId(entry.row))" class="ui-table-expanded-row"><td :colspan="columnCount"><slot name="expanded" :row="entry.row"><pre>{{ entry.row }}</pre></slot></td></tr>
+          <tr v-if="expandable&&includesKey(resolvedExpanded,record.key)" class="ui-table-expanded-row"><td :colspan="columnCount"><slot name="expanded" :row="record.row" :row-index="record.index" :key-value="record.key" :collapse="event=>toggleExpanded(record,event,'slot',false)"><pre>{{ record.row }}</pre></slot></td></tr>
         </template>
-        <tr v-if="bottomSpace" class="ui-table-virtual-space"><td :colspan="columnCount" :style="{height:`${bottomSpace}px`}"/></tr>
+        <tr v-if="bottomSpace" class="ui-table-virtual-space" aria-hidden="true"><td :colspan="columnCount" :style="{height:`${bottomSpace}px`}"/></tr>
       </tbody>
     </table>
+    <span v-if="selectable" class="sr-only" aria-live="polite">{{ selectionAnnouncement }}</span>
   </div>
 </template>

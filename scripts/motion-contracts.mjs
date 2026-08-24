@@ -66,7 +66,7 @@ const [css,provider,form,scope,plugin]=await Promise.all([
   readFile(new URL('../src/theme-scope.js',import.meta.url),'utf8'),
   readFile(new URL('../src/plugin.js',import.meta.url),'utf8'),
 ])
-assert.equal((css.match(/prefers-reduced-motion/g)||[]).length,8)
+assert.equal((css.match(/prefers-reduced-motion/g)||[]).length,9)
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-carousel-track'))
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-barcode-spinner'))
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-cron-preset'))
@@ -74,6 +74,7 @@ assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-key-value-row'
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-tree-trigger'))
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-cascader-trigger'))
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-pagination .page-number'))
+assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-table-row'))
 for(const marker of [':root:not([data-ui-motion])','[data-ui-motion="full"]','[data-ui-motion="reduced"]','--motion-time','--motion-count','--motion-scroll'])assert.ok(css.includes(marker),`missing ${marker}`)
 assert.equal((css.match(/animation\s*:[^;{}]*\binfinite\b/g)||[]).length,0)
 for(const declaration of css.matchAll(/(?:animation|transition)\s*:\s*([^;{}]+)/g))assert.ok(declaration[1].includes('var(--motion-time'),`unscoped duration: ${declaration[0]}`)

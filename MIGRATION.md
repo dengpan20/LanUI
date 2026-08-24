@@ -1,5 +1,27 @@
 # Lan UI migration and compatibility policy
 
+## 1.74 table compatibility
+
+There are no breaking changes. Existing `<UiTable :columns="columns" :rows="rows" />` usage remains valid:
+
+```vue
+<UiTable
+  v-model:selected-rows="selected"
+  v-model:expanded-rows="expanded"
+  v-model:current-row-key="current"
+  v-model:column-widths="widths"
+  :columns="columns"
+  :rows="rows"
+  selectable expandable resizable
+/>
+```
+
+- Selection, expansion, current row, sorting, filters, open filter and column widths may be controlled or default-owned. Row identity accepts a nested path or callback; column values accept nested `dataKey`, callbacks and formatters.
+- `isRowSelectable` / `isRowExpandable` define row policy. `beforeSelect`, `beforeExpand` and `beforeSort` may approve synchronously or asynchronously; pending work locks duplicate mutations and publishes structured rejection/error metadata.
+- Row click behavior is opt-in. Roving Arrow/Home/End focus, Space selection, Enter current/expand, logical expansion arrows and Ctrl/Command+A remain available without intercepting nested controls.
+- Filter menus restore focus and support Arrow/Home/End/Escape. Resizers expose semantic separators for pointer, keyboard and reset. Virtualization is bounded and suspends while expanded content changes row height.
+- Caption/state/dynamic header/dynamic cell and control Slots remain additive. `UiDataGrid` forwards mature selection, expansion, current-row and width contracts. Root/subpath declarations, isolated styles, SSR and installed-package evidence remain synchronized.
+
 ## 1.73 pagination compatibility
 
 There are no breaking changes. Existing `<UiPagination :page="page" :page-size="pageSize" :total="total" />` usage remains valid:

@@ -65,6 +65,25 @@ const visualTreeSelectOptions=[
 const visualTransferValue=ref(['api','tokens'])
 const visualTransferSelected=ref(['keyboard','a11y'])
 const visualTransferOptions=[{label:'Component API',value:'api',description:'Props, events and slots'},{label:'Design tokens',value:'tokens',description:'Theme and density variables'},{label:'Keyboard contract',value:'keyboard',description:'Focus and movement behavior'},{label:'Accessibility evidence',value:'a11y',description:'WCAG 2.2 AA and Axe'},{label:'Release package',value:'release',description:'Tarball and verification record'},{label:'Legacy archive',value:'legacy',description:'Unavailable resource',disabled:true}]
+const visualTableSelected=ref(['table-1','table-3'])
+const visualTableExpanded=ref(['table-1'])
+const visualTableCurrent=ref('table-3')
+const visualTableWidths=ref({name:224})
+const visualTableSortKey=ref('name')
+const visualTableSortOrder=ref('asc')
+const visualTableFilters=ref({status:'Ready'})
+const visualTableColumns=[
+  {key:'name',label:'Release evidence',sortable:true,resizable:true},
+  {key:'owner.name',dataKey:'owner.name',label:'Owner',resizable:true},
+  {key:'status',label:'Status',filterable:true,filterOptions:[{label:'Ready',value:'Ready'},{label:'Review',value:'Review'},{label:'Blocked',value:'Blocked',disabled:true}]},
+  {key:'coverage',label:'Coverage',formatter:value=>`${value}%`,resizable:true},
+]
+const visualTableRows=[
+  {id:'table-1',name:'Component API contract',owner:{name:'Lin'},status:'Ready',coverage:100,detail:'60 props · 29 events · 13 slots'},
+  {id:'table-2',name:'Keyboard and ARIA evidence',owner:{name:'Chen'},status:'Review',coverage:96,detail:'Roving focus · filters · resizing'},
+  {id:'table-3',name:'Consumer package verification',owner:{name:'Wang'},status:'Ready',coverage:100,detail:'Root and subpath imports verified'},
+  {id:'table-4',name:'Legacy compatibility audit',owner:{name:'Zhao'},status:'Blocked',coverage:82,detail:'Selection is unavailable for this row'},
+]
 const visualChannels=ref(['email','inbox'])
 const visualPlan=ref('team')
 const visualPolicy=ref('enabled')
@@ -548,6 +567,12 @@ const tableRows=[
         <UiPagination :page="50" :page-size="20" :total="1286" :page-size-options="[10,20,50,100]" :pager-count="7" show-first-last show-quick-jumper page-size-change-behavior="preserve-item" aria-label="Release evidence pages"><template #total="{start,end,total}"><span><strong>{{ start }}–{{ end }}</strong> of {{ total }} release records</span></template></UiPagination>
         <div class="visual-form"><UiPagination :default-page="4" :default-page-size="20" :total="286" simple compact aria-label="Simple release pages"/><UiPagination :page="2" :total="86" readonly compact :show-size-changer="false" aria-label="Readonly release pages"/><UiPagination :page="2" :total="86" loading compact :show-size-changer="false" aria-label="Loading release pages"/></div>
         <div class="visual-time-range-summary"><UiTag color="blue">window / quick jump / sizes</UiTag><UiTag color="green">controlled / guarded / responsive</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='table'" title="Production data table" subtitle="Controlled state, row policy, keyboard navigation and resilient data presentation" title-tag="h2" class="visual-table-card visual-table-showcase">
+      <div class="visual-stack" data-table-state-contract="controlled uncontrolled selection expansion current row-policy async-guard nested-values sorting filters resize-pointer-keyboard virtual keyboard rtl ssr slots api datagrid-sync">
+        <UiTable v-model:selected-rows="visualTableSelected" v-model:expanded-rows="visualTableExpanded" v-model:current-row-key="visualTableCurrent" v-model:column-widths="visualTableWidths" v-model:sort-key="visualTableSortKey" v-model:sort-order="visualTableSortOrder" v-model:filters="visualTableFilters" :columns="visualTableColumns" :rows="visualTableRows" row-key="id" selectable select-on-row-click expandable highlight-current-row striped bordered resizable sticky-header :is-row-selectable="row=>row.id!=='table-4'" aria-label="Release verification records"><template #header-name="{column}"><span>{{ column.label }} · P78</span></template><template #cell-status="{value}"><UiTag :color="value==='Ready'?'green':value==='Review'?'orange':'gray'">{{ value }}</UiTag></template><template #expanded="{row}"><div class="visual-table-detail"><strong>{{ row.name }}</strong><span>{{ row.detail }}</span></div></template></UiTable>
+        <div class="visual-time-range-summary"><UiTag color="blue">selection / expansion / current</UiTag><UiTag color="green">sort / filters / resize</UiTag><UiTag color="orange">keyboard / ARIA / RTL</UiTag></div>
       </div>
     </UiCard>
     <UiCard v-if="state==='anchor'" title="Page anchor navigation" title-tag="h2" class="visual-table-card visual-anchor-showcase">

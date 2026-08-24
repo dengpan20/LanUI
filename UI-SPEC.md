@@ -1306,3 +1306,19 @@ Synchronous or asynchronous `beforeChange` guards serialize mutations, expose pe
 Compact, simple and container-observed responsive layouts preserve the navigation landmark from desktop tables to narrow panels. Total, size-changer, direction, page, ellipsis and quick-jumper Slots plus exposed navigation, size and focus methods complete the composition contract. Component center, static HTML, standalone consumer, generated API, isolated CSS, deterministic SSR and installed-tarball verification exercise the same surface.
 
 P77 retains 91 public components and advances to 488 locale keys with generated coverage of 1,540 Props, 518 Events and 330 Slots. Release gates require 50 visual baselines, 67 zero-violation Axe scenarios, 72 interactions per Chromium/Firefox/WebKit engine, 101 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.
+
+## 91. Maturity P78: production table controls
+
+`UiTable` owns record presentation without implicitly mutating or reordering consumer data. Selection, expansion, current row, sorting, filters, open filter and column widths may each be controlled or default-owned. Row identity accepts a nested path or callback; column values accept nested `dataKey`, callbacks and formatters. Missing and duplicate row keys publish deterministic diagnostics rather than silently destabilizing rendering.
+
+Multiple and single selection share the same value pipeline. Page-preserving select-all, disabled-row policy, click-to-select and click-to-expand remain independently configurable. `beforeSelect`, `beforeExpand` and `beforeSort` may resolve synchronously or asynchronously; pending work serializes duplicate mutations, restores guarded native controls and distinguishes rejected, failed, row-disabled and blocked outcomes.
+
+Roving row focus uses Arrow Up/Down, Home and End. Space selects, Enter establishes current context and expands, logical horizontal arrows expand or collapse in LTR/RTL, and Ctrl/Command+A selects eligible rows. Nested interactive controls retain their own keyboard behavior. Current and selected rows expose distinct semantics; focus, disabled, readonly, loading, striped, bordered, hover, forced-color and reduced-motion states remain testable.
+
+Filter triggers own accessible menus with Arrow, Home, End and Escape focus movement, disabled-option skipping, outside dismissal and trigger restoration. Column separators support pointer drag, logical keyboard increments, fine adjustment, minimum width and reset. Structured start/change/end metadata and controlled width maps keep persisted layouts deterministic.
+
+Fixed-height row virtualization bounds rendered records and exposed scroll/focus operations; it suspends while expanded content introduces dynamic row height. Loading, error/retry, empty and custom state Slots remain table-valid. Caption, selection, expansion, filter, option, state, dynamic header and dynamic cell Slots complete the composition surface.
+
+`UiDataGrid` forwards mature selection, expansion, current-row, width, row-policy and structured event contracts. Component center, static HTML, standalone consumer, generated API, isolated CSS, deterministic SSR and installed-tarball verification exercise the same public behavior.
+
+P78 retains 91 public components and advances to 492 locale keys with generated coverage of 1,594 Props, 546 Events and 339 Slots. Release gates require 51 visual baselines, 68 zero-violation Axe scenarios, 73 interactions per Chromium/Firefox/WebKit engine, 106 negative type assertions, an isolated tarball consumer and 18 absolute performance ceilings.

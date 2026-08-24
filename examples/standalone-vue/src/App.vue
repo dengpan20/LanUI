@@ -248,10 +248,11 @@ const steps = [
   { key:'build', title: '独立构建', subtitle:'待处理', description: '输出生产文件' },
 ]
 const columns = [
-  { key: 'module', label: '模块' },
-  { key: 'component', label: '使用组件' },
-  { key: 'status', label: '状态', width: 110 },
+  { key: 'module', label: '模块', sortable:true },
+  { key: 'component', label: '使用组件', resizable:true },
+  { key: 'status', label: '状态', width: 110, filterable:true, filterOptions:['已装配','已生成','待生成'] },
 ]
+const standaloneTableSelected=ref([1]);const standaloneTableExpanded=ref([]);const standaloneTableCurrent=ref(1);const standaloneTableWidths=ref({component:220});const standaloneTableState=ref('Production table ready')
 const rows = computed(() => [
   { id: 1, module: '身份入口', component: 'UiInput / UiButton', status: '已装配' },
   { id: 2, module: '项目进度', component: 'UiSteps', status: '已装配' },
@@ -563,10 +564,13 @@ const rows = computed(() => [
       </div>
     </UiCard>
 
-    <UiCard title="组件装配结果">
-      <UiTable :columns="columns" :rows="rows" row-key="id">
+    <UiCard data-table-state-contract="controlled selection expansion current row-policy sorting filters resize-keyboard keyboard rtl ssr slots api" title="组件装配结果">
+      <UiTable v-model:selected-rows="standaloneTableSelected" v-model:expanded-rows="standaloneTableExpanded" v-model:current-row-key="standaloneTableCurrent" v-model:column-widths="standaloneTableWidths" :columns="columns" :rows="rows" row-key="id" selectable select-on-row-click expandable highlight-current-row striped bordered resizable :is-row-selectable="row=>row.id!==2" aria-label="Standalone assembly results" @selection-change="(_value,meta)=>standaloneTableState=`${meta.source} · ${meta.selectedRows.length} selected`" @column-resize="meta=>standaloneTableState=`${meta.key} · ${meta.width}px`">
+        <template #header-module="{column,sortOrder}">{{ column.label }} · {{ sortOrder||'none' }}</template>
         <template #cell-status="{ value }"><UiTag :type="value === '待生成' ? 'orange' : 'green'">{{ value }}</UiTag></template>
+        <template #expanded="{row}"><div style="padding:12px">{{ row.module }} uses {{ row.component }}</div></template>
       </UiTable>
+      <template #footer>{{ standaloneTableState }} · current {{ standaloneTableCurrent }}</template>
     </UiCard>
     <UiCard title="资源权限树">
       <UiTree v-model="selectedResource" v-model:checked-keys="checkedResources" :data="resourceTree" :default-expanded-keys="['operations','settings']" checkable show-line bordered aria-label="独立项目资源权限" />

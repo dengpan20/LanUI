@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.73.0",
+  "version": "1.74.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -840,12 +840,27 @@
       "UiSwitchProps",
       "UiSwitchSlots",
       "UiTable",
+      "UiTableActionResult",
+      "UiTableClassValue",
       "UiTableColumn",
       "UiTableColumnResize",
+      "UiTableComponent",
+      "UiTableEmitFn",
       "UiTableEmits",
+      "UiTableExpansionMeta",
+      "UiTableFilterChange",
+      "UiTableInstance",
+      "UiTableInvalid",
       "UiTableProps",
+      "UiTableRowContext",
+      "UiTableRowMeta",
+      "UiTableSelectionMeta",
+      "UiTableSlotRowScope",
       "UiTableSlots",
       "UiTableSortChange",
+      "UiTableSource",
+      "UiTableState",
+      "UiTableStyleValue",
       "UiTabs",
       "UiTabsEmits",
       "UiTabsItem",
@@ -8858,20 +8873,33 @@
       "props": [
         "ariaLabel",
         "autoRequest",
+        "beforeExpand",
+        "beforeSelect",
+        "bordered",
         "caption",
+        "columnWidths",
         "columns",
         "compactPagination",
+        "currentRowKey",
         "density",
+        "disabled",
         "emptyText",
         "emptyTitle",
         "error",
+        "expandOnRowClick",
         "expandable",
         "expandedRows",
         "filterMethod",
         "filters",
+        "highlightCurrentRow",
+        "hover",
+        "isRowExpandable",
+        "isRowSelectable",
+        "keyboard",
         "loading",
         "loadingRows",
         "maxHeight",
+        "minColumnWidth",
         "mode",
         "overscan",
         "page",
@@ -8879,6 +8907,7 @@
         "pageSizeOptions",
         "query",
         "queryFields",
+        "readonly",
         "resizable",
         "rowHeight",
         "rowKey",
@@ -8886,8 +8915,10 @@
         "searchDebounce",
         "searchMethod",
         "searchPlaceholder",
+        "selectOnRowClick",
         "selectable",
         "selectedRows",
+        "selectionMode",
         "showColumns",
         "showDensity",
         "showPagination",
@@ -8900,6 +8931,7 @@
         "sortMethod",
         "sortOrder",
         "stickyHeader",
+        "striped",
         "total",
         "viewportHeight",
         "virtual",
@@ -8931,6 +8963,36 @@
           }
         },
         {
+          "name": "beforeExpand",
+          "required": false,
+          "type": "(meta:UiTableExpansionMeta<Row>,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "beforeSelect",
+          "required": false,
+          "type": "(meta:UiTableSelectionMeta<Row>,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "caption",
           "required": false,
           "type": "string",
@@ -8943,9 +9005,21 @@
           }
         },
         {
+          "name": "columnWidths",
+          "required": false,
+          "type": "Record<string,number>",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "columns",
           "required": false,
-          "type": "UiTableColumn[]",
+          "type": "UiTableColumn<Row>[]",
           "runtimeTypes": [
             "Array"
           ],
@@ -8967,6 +9041,19 @@
           }
         },
         {
+          "name": "currentRowKey",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "density",
           "required": false,
           "type": "'compact'|'default'|'comfortable'",
@@ -8976,6 +9063,18 @@
           "default": {
             "kind": "literal",
             "value": "\"default\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -9012,6 +9111,18 @@
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "expandOnRowClick",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -9063,6 +9174,60 @@
           }
         },
         {
+          "name": "highlightCurrentRow",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "hover",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "isRowExpandable",
+          "required": false,
+          "type": "(row:Row,index:number)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "isRowSelectable",
+          "required": false,
+          "type": "(row:Row,index:number)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
           "name": "loading",
           "required": false,
           "type": "boolean",
@@ -9097,6 +9262,18 @@
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "minColumnWidth",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "72"
           }
         },
         {
@@ -9184,6 +9361,18 @@
           }
         },
         {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "resizable",
           "required": false,
           "type": "boolean",
@@ -9268,6 +9457,18 @@
           }
         },
         {
+          "name": "selectOnRowClick",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "selectable",
           "required": false,
           "type": "boolean",
@@ -9289,6 +9490,18 @@
           "default": {
             "kind": "factory",
             "value": "factory()"
+          }
+        },
+        {
+          "name": "selectionMode",
+          "required": false,
+          "type": "'multiple'|'single'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"multiple\""
           }
         },
         {
@@ -9436,6 +9649,18 @@
           }
         },
         {
+          "name": "striped",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "total",
           "required": false,
           "type": "number",
@@ -9486,14 +9711,23 @@
       ],
       "emitsType": "UiDataGridEmits",
       "emits": [
+        "cell-click",
         "column-resize",
+        "current-change",
+        "expand-change",
         "refresh",
         "request",
         "reset",
         "retry",
         "row-click",
+        "row-contextmenu",
+        "row-dblclick",
+        "row-keydown",
         "search",
+        "selection-change",
         "state-change",
+        "update:columnWidths",
+        "update:currentRowKey",
         "update:density",
         "update:expandedRows",
         "update:filters",
@@ -9507,9 +9741,24 @@
       ],
       "emitDetails": [
         {
+          "name": "cell-click",
+          "required": true,
+          "type": "(row:Row,value:unknown,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
           "name": "column-resize",
           "required": true,
-          "type": "(payload:UiTableColumnResize)=>void"
+          "type": "(payload:UiTableColumnResize<Row>)=>void"
+        },
+        {
+          "name": "current-change",
+          "required": true,
+          "type": "(value:Key,meta:UiTableRowMeta<Row>)=>void"
+        },
+        {
+          "name": "expand-change",
+          "required": true,
+          "type": "(value:Key[],meta:UiTableExpansionMeta<Row>)=>void"
         },
         {
           "name": "refresh",
@@ -9534,7 +9783,22 @@
         {
           "name": "row-click",
           "required": true,
-          "type": "(row:Record<string,unknown>)=>void"
+          "type": "(row:Row,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
+          "name": "row-contextmenu",
+          "required": true,
+          "type": "(row:Row,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
+          "name": "row-dblclick",
+          "required": true,
+          "type": "(row:Row,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
+          "name": "row-keydown",
+          "required": true,
+          "type": "(event:KeyboardEvent,meta:UiTableRowMeta<Row>)=>void"
         },
         {
           "name": "search",
@@ -9542,9 +9806,24 @@
           "type": "(query:string)=>void"
         },
         {
+          "name": "selection-change",
+          "required": true,
+          "type": "(value:Key[],meta:UiTableSelectionMeta<Row>)=>void"
+        },
+        {
           "name": "state-change",
           "required": true,
           "type": "(payload:UiDataGridChange)=>void"
+        },
+        {
+          "name": "update:columnWidths",
+          "required": true,
+          "type": "(value:Record<string,number>)=>void"
+        },
+        {
+          "name": "update:currentRowKey",
+          "required": true,
+          "type": "(value:Key)=>void"
         },
         {
           "name": "update:density",
@@ -22316,41 +22595,293 @@
       "subpath": "./components/UiTable",
       "propsType": "UiTableProps",
       "props": [
+        "ariaLabel",
+        "beforeExpand",
+        "beforeSelect",
+        "beforeSort",
+        "bordered",
+        "caption",
+        "cellClass",
+        "cellStyle",
+        "closeFilterOnSelect",
+        "columnWidths",
         "columns",
+        "currentRowKey",
+        "defaultColumnWidths",
+        "defaultCurrentRowKey",
+        "defaultExpandedRows",
+        "defaultFilterOpenKey",
+        "defaultFilters",
+        "defaultSelectedRows",
+        "defaultSortKey",
+        "defaultSortOrder",
         "density",
+        "disabled",
         "emptyText",
         "emptyTitle",
         "error",
+        "expandOnRowClick",
         "expandable",
         "expandedRows",
+        "filterOpenKey",
         "filters",
+        "highlightCurrentRow",
+        "hover",
+        "isRowExpandable",
+        "isRowSelectable",
+        "keyboard",
         "loading",
         "loadingRows",
         "maxHeight",
+        "minColumnWidth",
         "overscan",
+        "preserveSelection",
+        "readonly",
         "resizable",
+        "rowClass",
         "rowHeight",
         "rowKey",
+        "rowStyle",
         "rows",
+        "selectOnRowClick",
         "selectable",
         "selectedRows",
+        "selectionMode",
         "sortKey",
         "sortOrder",
+        "sortOrders",
         "stickyHeader",
+        "striped",
+        "tableLayout",
         "viewportHeight",
         "virtual"
       ],
       "propDetails": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "beforeExpand",
+          "required": false,
+          "type": "(meta:UiTableExpansionMeta<Row>,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "beforeSelect",
+          "required": false,
+          "type": "(meta:UiTableSelectionMeta<Row>,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "beforeSort",
+          "required": false,
+          "type": "(meta:UiTableSortChange<Row>,event?:Event)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "bordered",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "caption",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "cellClass",
+          "required": false,
+          "type": "(context:UiTableRowContext<Row>&{column:UiTableColumn<Row>;value:unknown})=>UiTableClassValue",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "cellStyle",
+          "required": false,
+          "type": "(context:UiTableRowContext<Row>&{column:UiTableColumn<Row>;value:unknown})=>UiTableStyleValue",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "closeFilterOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "columnWidths",
+          "required": false,
+          "type": "Record<string,number>",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "columns",
           "required": false,
-          "type": "UiTableColumn[]",
+          "type": "UiTableColumn<Row>[]",
           "runtimeTypes": [
             "Array"
           ],
           "default": {
             "kind": "factory",
             "value": "factory()"
+          }
+        },
+        {
+          "name": "currentRowKey",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "defaultColumnWidths",
+          "required": false,
+          "type": "Record<string,number>",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultCurrentRowKey",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "defaultExpandedRows",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultFilterOpenKey",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "defaultFilters",
+          "required": false,
+          "type": "Record<string,unknown>",
+          "runtimeTypes": [
+            "Object"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultSelectedRows",
+          "required": false,
+          "type": "Key[]",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
+          }
+        },
+        {
+          "name": "defaultSortKey",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "defaultSortOrder",
+          "required": false,
+          "type": "''|'asc'|'desc'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
           }
         },
         {
@@ -22363,6 +22894,18 @@
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -22392,13 +22935,26 @@
         {
           "name": "error",
           "required": false,
-          "type": "string",
+          "type": "string|Error",
           "runtimeTypes": [
-            "String"
+            "String",
+            "Error"
           ],
           "default": {
             "kind": "literal",
             "value": "\"\""
+          }
+        },
+        {
+          "name": "expandOnRowClick",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -22421,8 +22977,20 @@
             "Array"
           ],
           "default": {
-            "kind": "factory",
-            "value": "factory()"
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "filterOpenKey",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -22433,8 +23001,62 @@
             "Object"
           ],
           "default": {
-            "kind": "factory",
-            "value": "factory()"
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "highlightCurrentRow",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "hover",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "isRowExpandable",
+          "required": false,
+          "type": "(row:Row,index:number)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "isRowSelectable",
+          "required": false,
+          "type": "(row:Row,index:number)=>boolean",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": null
+        },
+        {
+          "name": "keyboard",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
           }
         },
         {
@@ -22475,6 +23097,18 @@
           }
         },
         {
+          "name": "minColumnWidth",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "72"
+          }
+        },
+        {
           "name": "overscan",
           "required": false,
           "type": "number",
@@ -22487,6 +23121,30 @@
           }
         },
         {
+          "name": "preserveSelection",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "readonly",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
           "name": "resizable",
           "required": false,
           "type": "boolean",
@@ -22496,6 +23154,21 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "rowClass",
+          "required": false,
+          "type": "UiTableClassValue|((context:UiTableRowContext<Row>&{selected:boolean;expanded:boolean;current:boolean})=>UiTableClassValue)",
+          "runtimeTypes": [
+            "String",
+            "Array",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
           }
         },
         {
@@ -22513,13 +23186,28 @@
         {
           "name": "rowKey",
           "required": false,
-          "type": "string",
+          "type": "string|((row:Row,index:number)=>Key)",
           "runtimeTypes": [
-            "String"
+            "String",
+            "Function"
           ],
           "default": {
             "kind": "literal",
             "value": "\"id\""
+          }
+        },
+        {
+          "name": "rowStyle",
+          "required": false,
+          "type": "UiTableStyleValue|((context:UiTableRowContext<Row>)=>UiTableStyleValue)",
+          "runtimeTypes": [
+            "Object",
+            "Array",
+            "Function"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -22532,6 +23220,18 @@
           "default": {
             "kind": "factory",
             "value": "factory()"
+          }
+        },
+        {
+          "name": "selectOnRowClick",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
           }
         },
         {
@@ -22554,8 +23254,20 @@
             "Array"
           ],
           "default": {
-            "kind": "factory",
-            "value": "factory()"
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "selectionMode",
+          "required": false,
+          "type": "'multiple'|'single'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"multiple\""
           }
         },
         {
@@ -22566,8 +23278,8 @@
             "String"
           ],
           "default": {
-            "kind": "literal",
-            "value": "\"\""
+            "kind": "undefined",
+            "value": "undefined"
           }
         },
         {
@@ -22578,8 +23290,20 @@
             "String"
           ],
           "default": {
-            "kind": "literal",
-            "value": "\"\""
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "sortOrders",
+          "required": false,
+          "type": "Array<''|'asc'|'desc'>",
+          "runtimeTypes": [
+            "Array"
+          ],
+          "default": {
+            "kind": "factory",
+            "value": "factory()"
           }
         },
         {
@@ -22592,6 +23316,30 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "striped",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "tableLayout",
+          "required": false,
+          "type": "'auto'|'fixed'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"auto\""
           }
         },
         {
@@ -22621,12 +23369,31 @@
       ],
       "emitsType": "UiTableEmits",
       "emits": [
+        "blur",
+        "cell-click",
         "column-resize",
+        "column-resize-end",
+        "column-resize-start",
+        "current-change",
+        "expand-change",
         "filter-change",
+        "filter-open-change",
+        "focus",
+        "header-click",
+        "invalid",
         "retry",
         "row-click",
+        "row-contextmenu",
+        "row-dblclick",
+        "row-keydown",
+        "select",
+        "select-all",
+        "selection-change",
         "sort-change",
+        "update:columnWidths",
+        "update:currentRowKey",
         "update:expandedRows",
+        "update:filterOpenKey",
         "update:filters",
         "update:selectedRows",
         "update:sortKey",
@@ -22634,14 +23401,64 @@
       ],
       "emitDetails": [
         {
+          "name": "blur",
+          "required": true,
+          "type": "(event:FocusEvent,meta:{key?:Key})=>void"
+        },
+        {
+          "name": "cell-click",
+          "required": true,
+          "type": "(row:Row,value:unknown,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
           "name": "column-resize",
           "required": true,
-          "type": "(payload:UiTableColumnResize)=>void"
+          "type": "(payload:UiTableColumnResize<Row>)=>void"
+        },
+        {
+          "name": "column-resize-end",
+          "required": true,
+          "type": "(payload:UiTableColumnResize<Row>)=>void"
+        },
+        {
+          "name": "column-resize-start",
+          "required": true,
+          "type": "(payload:UiTableColumnResize<Row>)=>void"
+        },
+        {
+          "name": "current-change",
+          "required": true,
+          "type": "(value:Key,meta:UiTableRowMeta<Row>)=>void"
+        },
+        {
+          "name": "expand-change",
+          "required": true,
+          "type": "(value:Key[],meta:UiTableExpansionMeta<Row>)=>void"
         },
         {
           "name": "filter-change",
           "required": true,
-          "type": "(value:Record<string,unknown>)=>void"
+          "type": "(value:Record<string,unknown>,meta:UiTableFilterChange)=>void"
+        },
+        {
+          "name": "filter-open-change",
+          "required": true,
+          "type": "(value:string,meta:{source:UiTableSource;previous:string;event?:Event})=>void"
+        },
+        {
+          "name": "focus",
+          "required": true,
+          "type": "(event:FocusEvent,meta:UiTableRowContext<Row>)=>void"
+        },
+        {
+          "name": "header-click",
+          "required": true,
+          "type": "(column:UiTableColumn<Row>,meta:{source:UiTableSource;key:string;event?:Event},event:MouseEvent)=>void"
+        },
+        {
+          "name": "invalid",
+          "required": true,
+          "type": "(payload:UiTableInvalid)=>void"
         },
         {
           "name": "retry",
@@ -22651,17 +23468,62 @@
         {
           "name": "row-click",
           "required": true,
-          "type": "(row:Record<string,unknown>)=>void"
+          "type": "(row:Row,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
+          "name": "row-contextmenu",
+          "required": true,
+          "type": "(row:Row,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
+          "name": "row-dblclick",
+          "required": true,
+          "type": "(row:Row,meta:UiTableRowMeta<Row>,event:MouseEvent)=>void"
+        },
+        {
+          "name": "row-keydown",
+          "required": true,
+          "type": "(event:KeyboardEvent,meta:UiTableRowMeta<Row>)=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(value:Key[],meta:UiTableSelectionMeta<Row>)=>void"
+        },
+        {
+          "name": "select-all",
+          "required": true,
+          "type": "(value:Key[],meta:UiTableSelectionMeta<Row>)=>void"
+        },
+        {
+          "name": "selection-change",
+          "required": true,
+          "type": "(value:Key[],meta:UiTableSelectionMeta<Row>)=>void"
         },
         {
           "name": "sort-change",
           "required": true,
-          "type": "(payload:UiTableSortChange)=>void"
+          "type": "(payload:UiTableSortChange<Row>)=>void"
+        },
+        {
+          "name": "update:columnWidths",
+          "required": true,
+          "type": "(value:Record<string,number>)=>void"
+        },
+        {
+          "name": "update:currentRowKey",
+          "required": true,
+          "type": "(value:Key)=>void"
         },
         {
           "name": "update:expandedRows",
           "required": true,
           "type": "(value:Key[])=>void"
+        },
+        {
+          "name": "update:filterOpenKey",
+          "required": true,
+          "type": "(value:string)=>void"
         },
         {
           "name": "update:filters",
@@ -22688,8 +23550,17 @@
       "slots": [
         "caption",
         "cell-*",
+        "empty",
         "empty-action",
-        "expanded"
+        "error",
+        "expand",
+        "expanded",
+        "filter",
+        "filter-option",
+        "header-*",
+        "loading",
+        "select-all",
+        "selection"
       ],
       "slotDetails": [
         {
@@ -22700,7 +23571,12 @@
         {
           "name": "cell-*",
           "required": true,
-          "type": "((props:{row:Record<string,unknown>;value:unknown;column:UiTableColumn;rowIndex:number})=>VNodeChild)|undefined"
+          "type": "((scope:UiTableSlotRowScope<Row>&{value:unknown;displayValue:unknown;column:UiTableColumn<Row>;selected:boolean;expanded:boolean;current:boolean;toggleSelect:(event?:Event)=>unknown;toggleExpand:(event?:Event)=>unknown})=>VNodeChild)|undefined"
+        },
+        {
+          "name": "empty",
+          "required": false,
+          "type": "(scope:{title:string;description:string})=>VNodeChild"
         },
         {
           "name": "empty-action",
@@ -22708,9 +23584,49 @@
           "type": "()=>VNodeChild"
         },
         {
+          "name": "error",
+          "required": false,
+          "type": "(scope:{error:string|Error;retry:()=>void})=>VNodeChild"
+        },
+        {
+          "name": "expand",
+          "required": false,
+          "type": "(scope:UiTableSlotRowScope<Row>&{expanded:boolean;disabled:boolean;toggle:(event?:Event)=>unknown})=>VNodeChild"
+        },
+        {
           "name": "expanded",
           "required": false,
-          "type": "(props:{row:Record<string,unknown>})=>VNodeChild"
+          "type": "(scope:UiTableSlotRowScope<Row>&{collapse:(event?:Event)=>unknown})=>VNodeChild"
+        },
+        {
+          "name": "filter",
+          "required": false,
+          "type": "(scope:{column:UiTableColumn<Row>;value:unknown;filters:Record<string,unknown>;select:(value:unknown)=>unknown;close:()=>unknown})=>VNodeChild"
+        },
+        {
+          "name": "filter-option",
+          "required": false,
+          "type": "(scope:{column:UiTableColumn<Row>;option:SelectOptionInput;value:unknown;selected:boolean})=>VNodeChild"
+        },
+        {
+          "name": "header-*",
+          "required": true,
+          "type": "((scope:{column:UiTableColumn<Row>;sortKey:string;sortOrder:''|'asc'|'desc';sort:UiTableInstance<Row>['sort']})=>VNodeChild)|undefined"
+        },
+        {
+          "name": "loading",
+          "required": false,
+          "type": "(scope:{columns:UiTableColumn<Row>[];rows:number})=>VNodeChild"
+        },
+        {
+          "name": "select-all",
+          "required": false,
+          "type": "(scope:{allSelected:boolean;indeterminate:boolean;selectedRows:Key[];toggleAll:UiTableInstance<Row>['toggleAll'];disabled:boolean})=>VNodeChild"
+        },
+        {
+          "name": "selection",
+          "required": false,
+          "type": "(scope:UiTableSlotRowScope<Row>&{selected:boolean;disabled:boolean;toggle:(event?:Event)=>unknown})=>VNodeChild"
         }
       ],
       "imports": {

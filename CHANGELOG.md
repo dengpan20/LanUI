@@ -4,6 +4,22 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.74.0] - 2026-08-24
+
+### Added
+
+- Production `UiTable` contracts for controlled/default selection, expansion, current row, sorting, filters, open filter, and column-width state, with stable nested row/value access and duplicate/missing-key diagnostics.
+- Multiple/single selection, row-level selectable/expandable policies, synchronous or asynchronous selection/expansion/sort guards, pointer and keyboard column resizing, virtual rows, current-row highlighting, and structured row/cell/header metadata.
+- Roving row focus, logical LTR/RTL expansion keys, Ctrl/Command+A selection, accessible filter-menu focus navigation and restoration, semantic current/selected state, 13 Slots, 29 events, and 13 public state/focus/mutation operations.
+- Synchronized `UiDataGrid`, component-center, one-page HTML and standalone-consumer examples plus deterministic unit, visual, Axe, type, installed-tarball, SSR and Chromium/Firefox/WebKit interaction evidence.
+
+### Changed
+
+- Existing columns, rows, sorting, filtering, selection, expansion, loading/error/empty states and dynamic `header-*` / `cell-*` Slots remain compatible while state ownership and mutation metadata become explicit.
+- Selected rows now use theme-safe surface mixing, disabled rows retain measured contrast, expanded rows suspend fixed-height virtualization, and readonly/disabled/loading guards apply consistently to instance mutations.
+- Release gates advance to 51 visual baselines, 68 zero-violation Axe scenarios, 73 interactions per browser and 106 negative type assertions. Public coverage remains 91 components and advances to 492 locale keys, 1,594 Props, 546 Events and 339 Slots.
+- Measured P78 ceilings remain absolute and bounded: package JS `930000 / 334000` B raw/gzip, package CSS `805000 / 166000` B, root CSS `280000 / 42500` B, largest component CSS `68000 / 10200` B and standalone JS/CSS raw `930000 / 282000` B.
+
 ## [1.73.0] - 2026-08-23
 
 ### Added
