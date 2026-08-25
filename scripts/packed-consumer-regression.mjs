@@ -32,10 +32,15 @@ function run(command,args,{cwd=root,env={}}={}){
 }
 function runPnpm(args,options={}){
   const pnpm=process.env.npm_execpath
-  if(pnpm&&/pnpm/i.test(pnpm)&&existsSync(pnpm))return run(process.execPath,[pnpm,...args],options)
+  if(pnpm&&/pnpm/i.test(pnpm)&&existsSync(pnpm)){
+    if(/\.mjs$/i.test(pnpm))return run(process.execPath,[pnpm,...args],options)
+    const quote=value=>/\s|["&|<>^]/.test(String(value))?`"${String(value).replaceAll('"','\\"')}"`:String(value)
+    return run(process.env.ComSpec||'cmd.exe',['/d','/s','/c',[pnpm,...args].map(quote).join(' ')],options)
+  }
   const bundledPnpm=resolve(dirname(process.execPath),'..','node_modules','pnpm','bin','pnpm.mjs')
   if(existsSync(bundledPnpm))return run(process.execPath,[bundledPnpm,...args],options)
-  return run(process.platform==='win32'?'pnpm.cmd':'pnpm',args,options)
+  if(process.platform==='win32')return run(process.env.ComSpec||'cmd.exe',['/d','/s','/c',['pnpm.cmd',...args].map(value=>String(value)).join(' ')],options)
+  return run('pnpm',args,options)
 }
 function parsePackJson(output){
   const start=output.indexOf('{')
@@ -377,7 +382,7 @@ const normalizedReproduction=normalizeTgz(reproductionTarball)
 assert(normalizedReproduction.afterOs===3,'Reproduction tarball gzip OS byte normalization failed')
 const digest=sha256(tarball)
 assert(sha256(reproductionTarball)===digest,'Repeated package archives are not byte-for-byte reproducible')
-assert(componentNames.length===91,'Public component count mismatch')
+assert(componentNames.length===92,'Public component count mismatch')
 assert(packedFiles.size<=distributionBudgets.packedFiles,`Packed files ${packedFiles.size} exceed ${distributionBudgets.packedFiles}`)
 assert(tarballBytes<=distributionBudgets.packedTarballRaw,`Packed tarball ${tarballBytes}B exceeds ${distributionBudgets.packedTarballRaw}B`)
 assert(unpackedBytes<=distributionBudgets.packedUnpackedRaw,`Unpacked package ${unpackedBytes}B exceeds ${distributionBudgets.packedUnpackedRaw}B`)

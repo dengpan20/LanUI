@@ -86,7 +86,7 @@ if api_manifest.get("package") != package.get("name") or api_manifest.get("versi
 if api_manifest.get("publicSubpaths") != sorted(exports):
     failures.append("api-manifest:subpaths")
 manifest_components = api_manifest.get("components", [])
-if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 720 or len(manifest_components) != 91:
+if api_manifest.get("schemaVersion") != 3 or len(api_manifest.get("root", {}).get("typeExports", [])) < 720 or len(manifest_components) != 92:
     failures.append(f"api-manifest:components:{len(manifest_components)}")
 for component in manifest_components:
     name = component.get("name")
@@ -99,14 +99,14 @@ if component_api != generated_component_api or component_api.get("version") != p
     failures.append("p37:generated-api-parity")
 api_categories = component_api.get("categories", [])
 api_components = component_api.get("components", [])
-if len(api_categories) != 6 or len(api_components) != 91 or sum(item.get("count", 0) for item in api_categories) != 91 or len({item.get("name") for item in api_components}) != 91:
+if len(api_categories) != 6 or len(api_components) != 92 or sum(item.get("count", 0) for item in api_categories) != 92 or len({item.get("name") for item in api_components}) != 92:
     failures.append("p37:generated-api-coverage")
 
 style_manifest = json.loads((ROOT / "style-manifest.json").read_text(encoding="utf-8"))
 style_components = style_manifest.get("components", [])
 if style_manifest.get("package") != package.get("name") or style_manifest.get("version") != package.get("version"):
     failures.append("style-manifest:package-version")
-if len(style_components) != 91 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
+if len(style_components) != 92 or any(not item.get("bytes") or not item.get("rules") for item in style_components):
     failures.append(f"style-manifest:components:{len(style_components)}")
 if style_manifest.get("core", {}).get("subpath") != "./styles/core.css" or not style_manifest.get("core", {}).get("bytes"):
     failures.append("style-manifest:core")
@@ -598,7 +598,7 @@ for marker, source in [
 ]:
     if marker not in source:
         failures.append(f"p35:portal-runtime:{marker}")
-if len(teleport_sources) != 18 or any("useTeleportThemeScope" not in source or 'v-bind="portalThemeAttrs"' not in source for source in teleport_sources.values()):
+if len(teleport_sources) != 20 or any("useTeleportThemeScope" not in source or 'v-bind="portalThemeAttrs"' not in source for source in teleport_sources.values()):
     failures.append(f"p35:teleport-coverage:{len(teleport_sources)}")
 if "Maturity P35: scoped Teleport theme inheritance" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p35:documentation")
@@ -669,7 +669,7 @@ if "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.76.0" or package.get("private") is not False or package.get("license") != "MIT":
+if package.get("version") != "1.77.0" or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
@@ -677,12 +677,12 @@ if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens
     failures.append("p39:token-style-export")
 if not {"README.md", "LICENSE"}.issubset(set(package.get("files", []))) or "Permission is hereby granted" not in license_text:
     failures.append("p39:license-packlist")
-for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===91", "PACKED_SELECTION_SSR PASS", "PACKED_SELECT_SSR PASS", "select-contracts.ts", "PACKED_MULTI_SELECT_SSR PASS", "multi-select-contracts.ts", "PACKED_TREE_SELECT_SSR PASS", "tree-select-contracts.ts", "PACKED_CASCADER_SSR PASS", "cascader-contracts.ts", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "PACKED_KEY_VALUE_EDITOR_SSR PASS", "PACKED_PAGE_HEADER_SSR PASS", "PACKED_CARD_SSR PASS", "PACKED_TAG_SSR PASS", "PACKED_TIMELINE_SSR PASS", "PACKED_STEPS_SSR PASS", "PACKED_BREADCRUMB_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
+for marker in ["--ignore-workspace", "--offline", "packedManifest.private===false", "renderToString", "typescript/bin/tsc", "internals=absent", "componentNames.length===92", "PACKED_SELECTION_SSR PASS", "PACKED_SELECT_SSR PASS", "select-contracts.ts", "PACKED_MULTI_SELECT_SSR PASS", "multi-select-contracts.ts", "PACKED_TREE_SELECT_SSR PASS", "tree-select-contracts.ts", "PACKED_CASCADER_SSR PASS", "cascader-contracts.ts", "PACKED_CAROUSEL_SSR PASS", "PACKED_TIME_RANGE_SSR PASS", "PACKED_DATE_TIME_SSR PASS", "PACKED_QR_CODE_SSR PASS", "PACKED_BARCODE_SSR PASS", "PACKED_KEY_VALUE_EDITOR_SSR PASS", "PACKED_PAGE_HEADER_SSR PASS", "PACKED_CARD_SSR PASS", "PACKED_TAG_SSR PASS", "PACKED_TIMELINE_SSR PASS", "PACKED_STEPS_SSR PASS", "PACKED_BREADCRUMB_SSR PASS", "allowedTopLevel", "reproducible=pass", "allowList=pass"]:
     if marker not in packed_consumer:
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 412, "packedTarballRaw": 630000, "packedUnpackedRaw": 3970000}:
+if distribution_budgets != {"packedFiles": 415, "packedTarballRaw": 639000, "packedUnpackedRaw": 4029000}:
     failures.append("p39:distribution-budgets")
 if "MultiSelect P73" not in components_page or "1.71.0" not in components_page or "V1.71.0" not in preview:
     failures.append("p39:showcase-version")
@@ -696,7 +696,7 @@ release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="
 for marker in ["20.19.0", "22.12.0", "LAN_UI_EXPECTED_NODE", "RUNTIME_COMPATIBILITY PASS"]:
     if marker not in runtime_contract and marker not in ci_workflow:
         failures.append(f"p40:runtime-matrix:{marker}")
-for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===91", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
+for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===92", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
     if marker not in release_contract and marker not in release_workflow:
         failures.append(f"p40:release-contract:{marker}")
 if package.get("scripts", {}).get("test:runtime") != "node scripts/runtime-compatibility.mjs" or "test:release" not in package.get("scripts", {}).get("test:package", ""):
@@ -723,7 +723,7 @@ for marker in ["MutationObserver", "devicePixelRatio", "imageCrossOrigin", "buil
 if "UiWatermark" not in components_page or 'id="watermark"' not in preview or "previewWatermarkObserver" not in preview or "UiWatermark" not in (ROOT / "examples/standalone-vue/src/App.vue").read_text(encoding="utf-8"):
     failures.append("p42:showcase-consumers")
 login_page = (ROOT / "src/pages/LoginPage.vue").read_text(encoding="utf-8")
-if "V1.71.0" not in app or "V1.71.0" not in login_page or "badge:91" not in components_page or "<td>Watermark</td>" not in components_page:
+if "V1.71.0" not in app or "V1.71.0" not in login_page or "badge:92" not in components_page or "<td>Watermark</td>" not in components_page:
     failures.append("p42:showcase-version-and-state-matrix")
 if "Maturity P42: resilient document watermark" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p42:documentation")
@@ -1326,9 +1326,32 @@ if "--brand-50: #1e3a5f" not in tokens or "--brand-700: #93c5fd" not in tokens:
 if "Maturity P80: selection-list visual integrity" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p80:documentation")
 
+float_button_source = (ROOT / "src/components/UiFloatButton.vue").read_text(encoding="utf-8")
+float_group_source = (ROOT / "src/components/UiFloatButtonGroup.vue").read_text(encoding="utf-8")
+for marker in ["shape", "badgeMax", "backTop", "scrollTarget", "visible-change", "back-top", "UiTooltip", "useReducedMotion", "defineExpose"]:
+    if marker not in float_button_source:
+        failures.append(f"p82:float-button-runtime:{marker}")
+for marker in ["beforeOpenChange", "closeOnEscape", "register", "ArrowDown", "Home", "focusFirst", "aria-controls", "guard-error", "defineExpose"]:
+    if marker not in float_group_source:
+        failures.append(f"p82:float-group-runtime:{marker}")
+if any(marker not in components_page for marker in ["UiFloatButton", "UiFloatButtonGroup", "P82"]):
+    failures.append("p82:component-center")
+if any(marker not in preview for marker in ["previewFloatGroup", "previewFloatActions", "previewBackTop", "previewFloatState"]):
+    failures.append("p82:static-preview")
+if any(marker not in standalone_source for marker in ["UiFloatButton", "UiFloatButtonGroup"]):
+    failures.append("p82:standalone-consumer")
+if "float-button-group-backtop-keyboard-rtl" not in (ROOT / "scripts/interaction-regression.mjs").read_text(encoding="utf-8") or "float-button-contract" not in (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8") or "float-button-contract" not in (ROOT / "scripts/accessibility-regression.mjs").read_text(encoding="utf-8"):
+    failures.append("p82:state-and-interaction")
+if any(marker not in (ROOT / "tests/types/contracts.ts").read_text(encoding="utf-8") for marker in ["UiFloatButtonProps", "UiFloatButtonGroupProps", "UiFloatButtonGroupInstance", "invalidFloatShape"]):
+    failures.append("p82:type-contract")
+if any(marker not in (ROOT / "tests/float-button-p82.spec.js").read_text(encoding="utf-8") for marker in ["back-top target cleanup", "guard serialization", "SSR"]):
+    failures.append("p82:focused-tests")
+if "Maturity P82: floating action family" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8") and "P82 悬浮操作组件族" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
+    failures.append("p82:documentation")
+
 readme_current = (ROOT / "README.md").read_text(encoding="utf-8")
 usage_guide = (ROOT / "docs/USAGE-GUIDE.md").read_text(encoding="utf-8")
-for marker in ["v1.76.0", "91 个组件、1,713 个 Props、594 个 Events 和 391 个 Slots", "P81 成熟日期范围选择器", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
+for marker in ["v1.77.0", "92 个组件、1,759 个 Props、604 个 Events 和 397 个 Slots", "P82 悬浮操作组件族", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
     if marker not in readme_current:
         failures.append(f"docs:concise-readme:{marker}")
 for marker in ["整库接入", "按需接入", "主题与 Token", "国际化", "工程验证"]:
@@ -1413,7 +1436,7 @@ if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or 
     failures.append("performance:p33-release-baseline")
 if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10200, "packageJsGzip": 4100, "packageCssRaw": 6050, "packageCssGzip": 1100, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10500, "standaloneExampleCssRaw": 875, "subpathConsumerCssRaw": 2, "rootCssRaw": 850}:
     failures.append("performance:p59-additive-component-policy")
-if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 254000, 'packageJsGzip': 78000, 'packageCssRaw': 335000, 'packageCssGzip': 56000, 'rootCssRaw': 81000, 'rootCssGzip': 11000, 'largestComponentCssRaw': 14000, 'largestComponentCssGzip': 3000, 'subpathConsumerJsRaw': 10000, 'subpathConsumerCssRaw': 2100, 'standaloneExampleJsRaw': 308000, 'standaloneExampleCssRaw': 82000}:
+if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 259600, 'packageJsGzip': 79800, 'packageCssRaw': 341000, 'packageCssGzip': 58000, 'rootCssRaw': 83300, 'rootCssGzip': 11600, 'largestComponentCssRaw': 14000, 'largestComponentCssGzip': 3000, 'subpathConsumerJsRaw': 10000, 'subpathConsumerCssRaw': 2100, 'standaloneExampleJsRaw': 308000, 'standaloneExampleCssRaw': 84000}:
     failures.append("performance:p79-bounded-component-enhancement-policy")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
@@ -1437,13 +1460,13 @@ for rel in ["lan-ui.js","lan-ui.css","lan-ui.d.ts"]:
 if dist_lib.exists():
     component_js=list((dist_lib / "components").glob("Ui*.js"))
     component_types=list((dist_lib / "components").glob("Ui*.d.ts"))
-    if len(component_js) != 91 or len(component_types) != 91:
+    if len(component_js) != 92 or len(component_types) != 92:
         failures.append(f"dist-lib:component-subpaths:{len(component_js)}:{len(component_types)}")
     for rel in ["color.js","color.d.ts","config.js","config.d.ts","date.js","date.d.ts","feedback.js","feedback.d.ts","icons.js","icons.d.ts","plugin.js","plugin.d.ts","theme.js","theme.d.ts","motion.js","motion.d.ts"]:
         if not (dist_lib / rel).is_file():
             failures.append(f"dist-lib:subpath:{rel}")
     style_files = list((dist_lib / "styles").glob("Ui*.css"))
-    if len(style_files) != 91 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
+    if len(style_files) != 92 or not (dist_lib / "styles/core.css").is_file() or not (dist_lib / "styles/manifest.json").is_file():
         failures.append(f"dist-lib:component-styles:{len(style_files)}")
 
 if failures:

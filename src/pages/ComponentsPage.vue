@@ -31,6 +31,7 @@ import UiTimeRangePicker from '../components/UiTimeRangePicker.vue'
 import UiPagination from '../components/UiPagination.vue'
 import UiUpload from '../components/UiUpload.vue'
 import UiFloatButton from '../components/UiFloatButton.vue'
+import UiFloatButtonGroup from '../components/UiFloatButtonGroup.vue'
 import UiTable from '../components/UiTable.vue'
 import UiListToolbar from '../components/UiListToolbar.vue'
 import UiFormItem from '../components/UiFormItem.vue'
@@ -256,10 +257,10 @@ async function loadFrenchLocale(){
   registryLocale.value='fr';registryLoading.value=false
   registryStatus.value=`已注册 ${localeRegistryDemo.list().length} 个语言包 · 并发请求自动去重`
 }
-const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:91},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
+const menuItems=[{key:'overview',label:'项目总览',icon:'home'},{key:'resources',label:'资源管理',icon:'layers',children:[{key:'components',label:'组件清单',badge:92},{key:'tokens',label:'设计 Token'}]},{key:'disabled',label:'已停用入口',icon:'file',disabled:true}]
 const collapseItems=[{key:'guideline',label:'使用规范',content:'优先复用现有组件和语义 Token，业务层只负责组合，不复制基础交互。',extra:'必读'},{key:'accessibility',label:'无障碍要求',content:'所有面板均使用标题按钮与关联 Region；Arrow、Home、End 可在标题间移动焦点。',extra:'WCAG'},{key:'release',label:'发布流程',content:'变更需要经过单测、契约、构建和业务页面回归。',extra:'异步检查'},{key:'locked',label:'已锁定规范',content:'停用项目不会进入键盘导航。',disabled:true}]
 async function validateCollapseToggle(item,open){if(item.key==='release'&&open){collapseState.value='正在校验发布面板…';await new Promise(resolve=>setTimeout(resolve,420))}return true}
-const descriptionItems=[{key:'name',label:'本轮能力',value:'Cascader P75 · TreeSelect P74 · MultiSelect P73 · Select P72 · Selection Controls P71 · Textarea P70 · Input P69 · Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59'},{key:'version',label:'版本',value:'1.71.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-23'},{key:'coverage',label:'覆盖范围',value:'91 个公开组件 · UiCascader 受控与非受控值/展开路径、字段映射、路径搜索、IME、AbortSignal 懒加载、失败重试与竞态保护、单选/多选/严格模式、选择上下限、折叠标签、原生表单、完整键盘、Portal、命令式 API、ARIA、RTL、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
+const descriptionItems=[{key:'name',label:'本轮能力',value:'FloatButton P82 · DateRangePicker P81 · Cascader P75 · TreeSelect P74 · MultiSelect P73 · Select P72 · Selection Controls P71 · Textarea P70 · Input P69 · Button P68 · Collapse P67 · Dropdown P66 · Popover P65 · Tooltip P64 · Breadcrumb P63 · Steps P62 · Timeline P61 · Tag P60 · Card P59'},{key:'version',label:'版本',value:'1.77.0'},{key:'status',label:'状态',value:'稳定'},{key:'owner',label:'负责团队',value:'设计系统组'},{key:'updated',label:'更新日期',value:'2026-08-25'},{key:'coverage',label:'覆盖范围',value:'92 个公开组件 · UiFloatButton 原生按钮/链接、提示、徽标溢出、Back-to-top、受控可见性与实例 API；UiFloatButtonGroup 异步守卫、动作注册、键盘焦点、RTL、Portal、SSR、类型、视觉、无障碍、跨浏览器及隔离 tarball 消费回归'}]
 const demoImage=(label,from,to)=>`data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${from}"/><stop offset="1" stop-color="${to}"/></linearGradient></defs><rect width="640" height="420" rx="28" fill="url(#g)"/><circle cx="500" cy="90" r="96" fill="white" opacity=".12"/><path d="M0 345 170 190l110 92 92-76 268 214H0Z" fill="white" opacity=".18"/><text x="38" y="64" fill="white" font-family="Arial,sans-serif" font-size="26" font-weight="700">${label}</text><text x="38" y="96" fill="white" opacity=".78" font-family="Arial,sans-serif" font-size="15">Lan UI · release gallery</text></svg>`)}`
 const imageGallery=[demoImage('Design audit','#2563eb','#0f766e'),demoImage('Component review','#7c3aed','#db2777'),demoImage('Release ready','#0f766e','#ca8a04')]
 const carouselRef=ref(null);const carouselIndex=ref(0);const carouselEffect=ref('slide');const carouselAutoplay=ref(false);const carouselStatus=ref('等待交互')
@@ -853,7 +854,7 @@ import UiButton from 'lan-ui-design-system/components/UiButton'</code></pre>
             </div>
             <div class="float-demo-stage">
               <div class="float-demo-copy"><strong>可展开按钮组</strong><p>一次只展示一个主入口，点击后沿纵向展开相关动作，再次点击或按 Esc 收起。</p></div>
-              <div class="float-demo-group" :class="{open:floatDemoOpen}"><UiFloatButton v-if="floatDemoOpen" icon="upload" label="上传文件"/><UiFloatButton v-if="floatDemoOpen" icon="info" label="帮助中心"/><UiFloatButton icon="plus" label="展开快捷操作" variant="primary" :active="floatDemoOpen" @click="floatDemoOpen=!floatDemoOpen"/></div>
+              <UiFloatButtonGroup trigger-label="快捷操作" aria-label="组件示例快捷操作" placement="top" @select="emit('notify','快捷操作已选择')"><UiFloatButton icon="upload" label="上传文件" action-key="upload"/><UiFloatButton icon="info" label="帮助中心" action-key="help"/><UiFloatButton icon="arrowUp" label="返回顶部" back-top action-key="top"/></UiFloatButtonGroup>
             </div>
           </div>
         </section>

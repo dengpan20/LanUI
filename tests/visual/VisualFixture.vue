@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -424,6 +424,24 @@ const tableRows=[
         <div class="visual-form"><UiDateRangePicker :model-value="['2026-08-20']" default-open default-view-date="2026-08-01" :append-to-body="false" :presets="[{key:'release',label:'Release window',value:['2026-08-20','2026-08-24']}]" aria-label="Pending release window"/><UiDateRangePicker :model-value="['2026-08-20','2026-08-24']" view-date="2026-08-01" :append-to-body="false" :presets="[{key:'week',label:'This week',value:['2026-08-10','2026-08-16']}]" aria-label="Complete release window"/></div>
         <div class="visual-time-range-summary"><UiTag color="blue">start pending / hover preview</UiTag><UiTag color="green">range complete / preset</UiTag><UiTag color="orange">RTL / dark / focus / SSR</UiTag></div>
       </div>
+    </UiCard>
+    <UiCard v-if="state==='float-button'" title="Production floating actions" subtitle="Accessible standalone actions, speed dial and back-to-top behavior" title-tag="h2" class="visual-table-card visual-float-button-showcase">
+      <div class="visual-float-button-grid" data-float-button-state-contract="standalone link badge loading backtop group focus keyboard rtl dark reduced-motion ssr">
+        <section><h3>Standalone states</h3><div class="visual-row">
+          <UiFloatButton :teleport-to="false" icon="plus" label="Create task" variant="primary" tooltip="Create task" action-key="create" />
+          <UiFloatButton :teleport-to="false" icon="bell" label="Notifications" badge="120" :badge-max="9" action-key="notifications" />
+          <UiFloatButton :teleport-to="false" icon="download" label="Loading" loading />
+          <UiFloatButton :teleport-to="false" icon="arrowUp" label="Back to top" back-top :default-visible="true" action-key="top" />
+          <UiFloatButton :teleport-to="false" href="#reports" icon="file" label="Reports" />
+          <UiFloatButton :teleport-to="false" disabled icon="lock" label="Disabled" />
+        </div></section>
+        <section><h3>Speed dial</h3><UiFloatButtonGroup :teleport-to="false" default-open :fixed="false" placement="top" trigger-label="Quick actions" aria-label="Quick actions">
+          <UiFloatButton :teleport-to="false" icon="plus" label="New task" action-key="new" />
+          <UiFloatButton :teleport-to="false" icon="bell" label="Notifications" action-key="notifications" />
+          <UiFloatButton :teleport-to="false" icon="settings" label="Settings" action-key="settings" />
+        </UiFloatButtonGroup></section>
+      </div>
+      <div class="visual-time-range-summary"><UiTag color="blue">native / link / badge</UiTag><UiTag color="green">speed dial / keyboard</UiTag><UiTag color="orange">RTL / dark / reduced motion / SSR</UiTag></div>
     </UiCard>
     <UiCard v-if="state==='input'" title="Production text inputs" subtitle="Native form semantics, IME-safe editing, formatting and complete operational states" title-tag="h2" class="visual-table-card visual-input-showcase">
       <div class="visual-input-grid" data-input-state-contract="native form ime formatter parser modifiers clear escape password controlled addons count loading invalid readonly disabled slots api rtl ssr">

@@ -16,7 +16,7 @@ afterEach(()=>{while(mounted.length)mounted.pop().unmount();history.replaceState
 describe('P37 generated component API documentation',()=>{
   it('publishes schema 3 signature and runtime default details for every component',()=>{
     expect(manifest.schemaVersion).toBe(3)
-    expect(manifest.components).toHaveLength(91)
+    expect(manifest.components).toHaveLength(92)
     for(const component of manifest.components){
       expect(component.propDetails.map(item=>item.name)).toEqual(component.props)
       expect(component.emitDetails.map(item=>item.name)).toEqual(component.emits)
@@ -53,6 +53,14 @@ describe('P37 generated component API documentation',()=>{
     const dateTimeRange=manifest.components.find(component=>component.name==='UiDateTimeRangePicker')
     expect(dateTimeRange.emits).toEqual(rangeEmits)
     expect(dateTimeRange.slots).toEqual(rangeSlots)
+    const floatGroup=manifest.components.find(component=>component.name==='UiFloatButtonGroup')
+    expect(floatGroup.props).toEqual(expect.arrayContaining(['open','defaultOpen','trigger','placement','beforeOpenChange','closeOnEscape','closeOnOutside','teleportTo']))
+    expect(floatGroup.emits).toEqual(['close','guard-error','open','open-change','select','update:open'])
+    expect(floatGroup.slots).toEqual(['default','trigger'])
+    const floatButton=manifest.components.find(component=>component.name==='UiFloatButton')
+    expect(floatButton.props).toEqual(expect.arrayContaining(['shape','size','loading','href','visible','defaultVisible','backTop','scrollTarget','teleportTo']))
+    expect(floatButton.emits).toEqual(['action','back-top','click','visible-change'])
+    expect(floatButton.slots).toEqual(['badge','default','icon','tooltip'])
     const card=manifest.components.find(component=>component.name==='UiCard')
     expect(card.props).toEqual(expect.arrayContaining(['as','subtitle','variant','shadow','interactive','selected','disabled','loading','href','ariaLabel']))
     expect(card.emits).toEqual(['activate','click'])
@@ -83,8 +91,8 @@ describe('P37 generated component API documentation',()=>{
     expect(docs).toEqual(publicDocs)
     expect(docs.schemaVersion).toBe(1)
     expect(docs.categories).toHaveLength(6)
-    expect(docs.categories.reduce((sum,category)=>sum+category.count,0)).toBe(91)
-    expect(new Set(docs.components.map(component=>component.name)).size).toBe(91)
+    expect(docs.categories.reduce((sum,category)=>sum+category.count,0)).toBe(92)
+    expect(new Set(docs.components.map(component=>component.name)).size).toBe(92)
     expect(docs.components.every(component=>docs.categories.some(category=>category.id===component.category))).toBe(true)
   })
 
@@ -104,6 +112,7 @@ describe('P37 generated component API documentation',()=>{
     expect(markdown).toContain("import { UiTimeline } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiButton } from 'lan-ui-design-system'")
     expect(markdown).toContain("import { UiMultiSelect } from 'lan-ui-design-system'")
+    expect(markdown).toContain("import { UiFloatButtonGroup } from 'lan-ui-design-system'")
     expect(markdown).toContain('#### Events · `UiMultiSelectEmits`')
     expect(markdown).toContain('#### Slots · `UiMultiSelectSlots`')
     expect(markdown).toContain('#### Events · `UiButtonEmits`')

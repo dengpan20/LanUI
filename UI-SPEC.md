@@ -1,5 +1,9 @@
 # Lan UI Design System V1
 
+## P82 · Floating action family（P82 悬浮操作组件族）
+
+`UiFloatButton` provides native button/link semantics, accessible tooltip and badge content, loading/disabled states, controlled visibility and a target-aware Back-to-top action. `UiFloatButtonGroup` composes registered child actions into a click/hover speed dial with async guards, roving keyboard focus, Escape restoration, outside dismissal, logical RTL placement and theme-preserving fixed positioning. Both components remain SSR-safe and expose the documented root/subpath types and instance APIs.
+
 ## P81 · Date range family（P81 成熟日期范围选择器）
 
 `UiDateRangePicker` composes `UiPopover` and `UiCalendar` in date mode with a two-step range draft: the first date remains open for preview, and the second valid endpoint atomically emits a structured change and closes when `closeOnComplete` is enabled. `modelValue/defaultValue`, `open/defaultOpen`, and `viewDate/defaultViewDate` preserve controlled and uncontrolled use; native time and datetime wrappers intentionally retain native input semantics without popup ARIA. Constraints, presets, async guards, slots, instance methods, RTL, Portal theme scope and SSR all share the date adapter and locale tokens.
@@ -153,6 +157,7 @@
 ### FloatButton
 - 固定于右下安全边距，主按钮使用品牌色，辅助按钮使用 Surface；Tooltip 在 Hover/Focus 时出现。
 - 可展开按钮组沿纵向展开，点击主按钮或按 `Esc` 收起；返回顶部使用平滑滚动。
+- `UiFloatButton` 默认保留在调用方 DOM；只有显式传入 `teleportTo` 才建立 Portal。`UiFloatButtonGroup` 拥有其动作区的 Portal，组内子按钮不会再次 teleport；需要 inline 组时传入 `teleportTo=false`。
 - 避免覆盖分页、表格行操作、移动端底部导航和系统级反馈。
 
 ## 8. 治理

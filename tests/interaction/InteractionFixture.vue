@@ -6,7 +6,7 @@ import {
   UiTree, UiTreeSelect, UiStatistic,
   UiColorPicker,
   UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiFloatButton, UiFloatButtonGroup, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -191,6 +191,10 @@ const buttonPressed=ref(false)
 const buttonOutput=ref('ready:0')
 let buttonActionRuns=0
 async function runButtonAction(){buttonActionRuns+=1;await new Promise(resolve=>setTimeout(resolve,720));return{revision:'P68',runs:buttonActionRuns}}
+const floatGroupRef=ref(null)
+const floatOutput=ref('ready:closed')
+const floatBackTopVisible=ref(true)
+async function guardFloatOpen(open){await new Promise(resolve=>setTimeout(resolve,20));return open!==false}
 const inputRef=ref(null)
 const inputValue=ref('release draft')
 const inputPassword=ref('LanUI-2026')
@@ -881,6 +885,21 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         </div>
         <i id="button-release-target"/>
         <output class="interaction-output" data-testid="button-output">{{ buttonOutput }}</output>
+      </section>
+      <section class="interaction-case interaction-wide interaction-float-button-case" data-float-button-state-contract="standalone controlled default group guard selection keyboard focus escape link disabled loading backtop rtl">
+        <h2>Floating actions, speed dial and back-to-top contract</h2>
+        <div class="interaction-row">
+          <UiFloatButton :teleport-to="false" icon="plus" label="Create floating task" action-key="create" @action="meta=>floatOutput=`action:${meta.source}:${meta.key}`" />
+          <UiFloatButton :teleport-to="false" href="#float-release-target" icon="file" label="Floating release docs" />
+          <UiFloatButton :teleport-to="false" icon="download" label="Loading floating action" loading />
+          <UiFloatButton :teleport-to="false" icon="arrowUp" label="Back to top" back-top :visible="floatBackTopVisible" @back-top="meta=>floatOutput=`back-top:${meta.source}`" />
+          <UiFloatButtonGroup :teleport-to="false" ref="floatGroupRef" aria-label="Interaction quick actions" :before-open-change="guardFloatOpen" @open-change="(open,meta)=>floatOutput=`open:${meta.source}:${open}`" @select="meta=>floatOutput=`select:${meta.source}:${meta.key}`">
+            <UiFloatButton :teleport-to="false" icon="plus" label="New floating task" action-key="new" />
+            <UiFloatButton :teleport-to="false" icon="settings" label="Floating settings" action-key="settings" />
+          </UiFloatButtonGroup>
+        </div>
+        <i id="float-release-target" />
+        <output class="interaction-output" data-testid="float-button-output">{{ floatOutput }}</output>
       </section>
       <section class="interaction-case interaction-wide interaction-input-case" data-input-state-contract="native ime formatter parser clear escape password controlled focus api rtl">
         <h2>Input IME, parsing, clear and controlled password contract</h2>

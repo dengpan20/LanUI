@@ -25,6 +25,8 @@ import {
   UiDataGrid,
   UiDropdown,
   UiForm,
+  UiFloatButton,
+  UiFloatButtonGroup,
   UiFormList,
   UiSchemaForm,
   UiInput,
@@ -146,6 +148,8 @@ import SubpathSchemaForm, { UiSchemaForm as NamedSubpathSchemaForm } from 'lan-u
 import SubpathUpload, { UiUpload as NamedSubpathUpload } from 'lan-ui-design-system/components/UiUpload'
 import SubpathTour, { UiTour as NamedSubpathTour } from 'lan-ui-design-system/components/UiTour'
 import SubpathWatermark, { UiWatermark as NamedSubpathWatermark } from 'lan-ui-design-system/components/UiWatermark'
+import SubpathFloatButton, { UiFloatButton as NamedSubpathFloatButton } from 'lan-ui-design-system/components/UiFloatButton'
+import SubpathFloatButtonGroup, { UiFloatButtonGroup as NamedSubpathFloatButtonGroup } from 'lan-ui-design-system/components/UiFloatButtonGroup'
 import SubpathTypography, { UiTypography as NamedSubpathTypography } from 'lan-ui-design-system/components/UiTypography'
 import SubpathTimeRangePicker, { UiTimeRangePicker as NamedSubpathTimeRangePicker } from 'lan-ui-design-system/components/UiTimeRangePicker'
 import SubpathDateTimePicker, { UiDateTimePicker as NamedSubpathDateTimePicker } from 'lan-ui-design-system/components/UiDateTimePicker'
@@ -212,6 +216,8 @@ import type { UiSchemaFormEmits, UiSchemaFormProps, UiSchemaFormSlots } from 'la
 import type { UiUploadEmits, UiUploadProps, UiUploadSlots } from 'lan-ui-design-system/components/UiUpload'
 import type { UiTourEmits, UiTourProps, UiTourSlots } from 'lan-ui-design-system/components/UiTour'
 import type { UiWatermarkEmits, UiWatermarkProps, UiWatermarkSlots } from 'lan-ui-design-system/components/UiWatermark'
+import type { UiFloatButtonEmits, UiFloatButtonInstance, UiFloatButtonProps, UiFloatButtonSlots } from 'lan-ui-design-system/components/UiFloatButton'
+import type { UiFloatButtonGroupEmits, UiFloatButtonGroupInstance, UiFloatButtonGroupProps, UiFloatButtonGroupSlots } from 'lan-ui-design-system/components/UiFloatButtonGroup'
 import type { UiTypographyEmits, UiTypographyProps, UiTypographySlots } from 'lan-ui-design-system/components/UiTypography'
 import type { UiTimeRangePickerEmits, UiTimeRangePickerProps, UiTimeRangePickerSlots } from 'lan-ui-design-system/components/UiTimeRangePicker'
 import type { UiDateTimePickerEmits, UiDateTimePickerProps, UiDateTimePickerSlots } from 'lan-ui-design-system/components/UiDateTimePicker'
@@ -589,6 +595,28 @@ watermarkInstance.update('api')
 const watermarkSubpathParity:typeof SubpathWatermark=NamedSubpathWatermark
 const watermarkEvent:keyof UiWatermarkEmits='image-error'
 const watermarkSlot:keyof UiWatermarkSlots='default'
+const floatButtonProps:InstanceType<typeof UiFloatButton>['$props']&UiFloatButtonProps={icon:'plus',label:'New task',variant:'primary',shape:'circle',size:'lg',tooltip:'Create',badge:12,badgeMax:9,badgeAriaLabel:'12 notifications',loading:false,href:'/new',target:'_blank',rel:'noopener',nativeType:'button',ariaLabel:'Create task',actionKey:'create',visible:true,defaultVisible:true,backTop:true,visibilityHeight:160,scrollTarget:'window',smooth:true,fixed:true,offsetInline:24,offsetBlock:24,zIndex:100,teleportTo:'body'}
+const floatButtonEmit:UiFloatButtonEmits['action']=(meta)=>String(meta.key)
+const floatButtonInstance:UiFloatButtonInstance=null as never
+floatButtonInstance.focus();floatButtonInstance.scrollToTop();floatButtonInstance.getState()
+const floatButtonSlot:UiFloatButtonSlots={default:scope=>scope.label,icon:scope=>scope.size,tooltip:scope=>String(scope.open),badge:scope=>scope.value}
+const floatButtonSubpathParity:typeof UiFloatButton=SubpathFloatButton
+const floatButtonNamedSubpathParity:typeof UiFloatButton=NamedSubpathFloatButton
+const floatGroupProps:InstanceType<typeof UiFloatButtonGroup>['$props']&UiFloatButtonGroupProps={open:false,defaultOpen:true,trigger:'hover',placement:'inline-end',shape:'circle',size:'md',variant:'primary',disabled:false,closeOnSelect:true,closeOnEscape:true,closeOnOutside:true,beforeOpenChange:async(value,meta)=>Boolean(value||meta.source),openDelay:80,closeDelay:100,triggerIcon:'plus',triggerLabel:'Actions',ariaLabel:'Actions',fixed:true,offsetInline:16,offsetBlock:20,zIndex:120,teleportTo:'body'}
+const floatGroupEmit:UiFloatButtonGroupEmits['open-change']=(open,meta)=>{return `${open}:${meta.source}`}
+const floatGroupInstance:UiFloatButtonGroupInstance=null as never
+floatGroupInstance.show('api');floatGroupInstance.focusFirst();floatGroupInstance.getState()
+const floatGroupSlot:UiFloatButtonGroupSlots={default:scope=>String(scope.open),trigger:scope=>scope.controls}
+const floatGroupSubpathParity:typeof UiFloatButtonGroup=SubpathFloatButtonGroup
+const floatGroupNamedSubpathParity:typeof UiFloatButtonGroup=NamedSubpathFloatButtonGroup
+// @ts-expect-error FloatButton shapes are intentionally limited to circle or square.
+const invalidFloatShape:UiFloatButtonProps={shape:'round'}
+// @ts-expect-error FloatButtonGroup placement uses logical inline-start/end or top/bottom.
+const invalidFloatPlacement:UiFloatButtonGroupProps={placement:'left'}
+// @ts-expect-error Badge overflow limit is numeric.
+const invalidFloatBadgeMax:UiFloatButtonProps={badgeMax:'many'}
+// @ts-expect-error Group trigger only supports click or hover.
+const invalidFloatTrigger:UiFloatButtonGroupProps={trigger:'focus'}
 const sortChange: UiTableSortChange = { key: 'name', order: 'asc' }
 const column: UiTableColumn = { key: 'name', label: 'Name', fixed: 'start', sortable: true }
 interface TypedTableRow { id:number; name:string; meta:{status:'ready'|'blocked'}; score:number }

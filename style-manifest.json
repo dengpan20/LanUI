@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.76.0",
+  "version": "1.77.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 282148,
-    "rules": 2204,
+    "bytes": 285479,
+    "rules": 2232,
     "source": "component-union"
   },
   "core": {
@@ -130,8 +130,8 @@
     {
       "name": "UiConfigProvider",
       "subpath": "./styles/UiConfigProvider.css",
-      "bytes": 1707,
-      "rules": 7
+      "bytes": 1942,
+      "rules": 8
     },
     {
       "name": "UiCronEditor",
@@ -202,8 +202,14 @@
     {
       "name": "UiFloatButton",
       "subpath": "./styles/UiFloatButton.css",
-      "bytes": 1858,
-      "rules": 9
+      "bytes": 6844,
+      "rules": 51
+    },
+    {
+      "name": "UiFloatButtonGroup",
+      "subpath": "./styles/UiFloatButtonGroup.css",
+      "bytes": 4298,
+      "rules": 33
     },
     {
       "name": "UiForm",

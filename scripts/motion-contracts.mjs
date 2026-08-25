@@ -66,7 +66,7 @@ const [css,provider,form,scope,plugin]=await Promise.all([
   readFile(new URL('../src/theme-scope.js',import.meta.url),'utf8'),
   readFile(new URL('../src/plugin.js',import.meta.url),'utf8'),
 ])
-assert.equal((css.match(/prefers-reduced-motion/g)||[]).length,9)
+assert.equal((css.match(/prefers-reduced-motion/g)||[]).length,10)
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-carousel-track'))
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-barcode-spinner'))
 assert.ok(css.includes('@media(prefers-reduced-motion:reduce){.ui-cron-preset'))

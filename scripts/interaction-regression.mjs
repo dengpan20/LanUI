@@ -1854,6 +1854,25 @@ const allCases = [
     },
   },
   {
+    name:'float-button-group-backtop-keyboard-rtl',
+    query:'direction=rtl',
+    run:async page=>{
+      const section=page.locator('.interaction-float-button-case')
+      const trigger=section.getByRole('button',{name:'Interaction quick actions'})
+      await trigger.click()
+      await expectText(page,'float-button-output','open:click:true')
+      const action=section.getByRole('button',{name:'New floating task'})
+      await action.click()
+      await expectText(page,'float-button-output','select:pointer:new')
+      await trigger.click();await trigger.press('ArrowDown');await expectFocused(page,action)
+      await page.keyboard.press('Escape');await expectFocused(page,trigger)
+      const backTop=section.getByRole('button',{name:'Back to top'})
+      await backTop.click();await expectText(page,'float-button-output','back-top:back-top')
+      assert.equal(await section.getByRole('link',{name:'Floating release docs'}).count(),1)
+      assert.equal(await section.getByRole('button',{name:'Loading floating action'}).getAttribute('aria-busy'),'true')
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -1868,7 +1887,7 @@ const allCases = [
       await propRow.waitFor()
       assert.match(await propRow.innerText(),/boolean.*true/is)
       await search.fill('')
-      assert.equal(await page.locator('.api-reference-index nav button').count(),91)
+      assert.equal(await page.locator('.api-reference-index nav button').count(),92)
     },
   },
 ]

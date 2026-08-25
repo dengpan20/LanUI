@@ -4,6 +4,8 @@ import UiPageHeader from '../components/UiPageHeader.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 import MetricCard from '../components/MetricCard.vue'
 import UiCard from '../components/UiCard.vue'
+import UiFloatButton from '../components/UiFloatButton.vue'
+import UiFloatButtonGroup from '../components/UiFloatButtonGroup.vue'
 defineEmits(['notify','navigate'])
 
 const quick = [
@@ -34,5 +36,6 @@ const activities = [
       <UiCard title="我的待办"><template #action><button class="card-action" @click="$emit('navigate','/data')">查看全部</button></template><div class="table-wrap"><table class="data-table"><thead><tr><th>待办事项</th><th>业务模块</th><th>优先级</th><th>截止时间</th><th>操作</th></tr></thead><tbody><tr><td><span class="cell-title">审批华东区域采购申请</span></td><td>采购管理</td><td><span class="tag tag-red">紧急</span></td><td>今天 14:00</td><td><button class="btn btn-text btn-sm" @click="$emit('notify','已进入审批')">处理</button></td></tr><tr><td><span class="cell-title">确认 Q3 销售目标拆解</span></td><td>目标管理</td><td><span class="tag tag-orange">较高</span></td><td>今天 18:00</td><td><button class="btn btn-text btn-sm" @click="$emit('notify','已进入确认')">处理</button></td></tr><tr><td><span class="cell-title">更新重点客户跟进记录</span></td><td>客户管理</td><td><span class="tag tag-blue">普通</span></td><td>明天 12:00</td><td><button class="btn btn-text btn-sm" @click="$emit('notify','已打开客户记录')">处理</button></td></tr></tbody></table></div></UiCard>
       <UiCard title="团队动态"><template #action><button class="card-action" @click="$emit('notify','动态已刷新')"><AppIcon name="refresh" :size="14"/></button></template><div><div v-for="a in activities" :key="a[1]" class="activity-item"><UiAvatar :name="a[0]" :color="a[3]" size="sm"/><div class="activity-copy"><strong>{{ a[0] }}</strong> {{ a[1] }}<span class="activity-time">{{ a[2] }}</span></div></div></div></UiCard>
     </div>
+  <UiFloatButtonGroup trigger-label="工作台快捷操作" aria-label="工作台快捷操作" placement="top" @select="$emit('notify','工作台操作已打开')"><UiFloatButton icon="plus" label="新建订单" action-key="order"/><UiFloatButton icon="bell" label="查看通知" action-key="notice"/><UiFloatButton icon="arrowUp" label="返回顶部" back-top action-key="top"/></UiFloatButtonGroup>
   </div>
 </template>

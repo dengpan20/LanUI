@@ -12,6 +12,8 @@ const components = [...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].ma
 const componentTypes = resolve(root, 'dist-lib/components')
 mkdirSync(componentTypes, { recursive: true })
 const relatedComponentTypes={
+  UiFloatButton:['UiFloatButtonActionMeta','UiFloatButtonBackTopMeta','UiFloatButtonInstance','UiFloatButtonShape','UiFloatButtonSize','UiFloatButtonState','UiFloatButtonVisibilityMeta'],
+  UiFloatButtonGroup:['UiFloatButtonGroupInstance','UiFloatButtonGroupOpenMeta','UiFloatButtonGroupState'],
   UiButton:['UiButtonActivationMeta','UiButtonIconPosition','UiButtonInstance','UiButtonShape','UiButtonVariant'],
   UiInput:['UiInputInstance','UiInputInvalidMeta','UiInputMeta','UiInputMode','UiInputModelModifiers','UiInputSource','UiInputType','UiInputValue'],
   UiTextarea:['UiTextareaAutoSize','UiTextareaInstance','UiTextareaInvalidMeta','UiTextareaMeta','UiTextareaModelModifiers','UiTextareaResize','UiTextareaResizeMeta','UiTextareaSource','UiTextareaSubmitMode'],

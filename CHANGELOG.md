@@ -4,6 +4,18 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.77.0] - 2026-08-25
+
+### Added
+
+- `UiFloatButton` now supports accessible tooltip/badge slots, native links and buttons, loading/disabled states, controlled visibility, Back-to-top targets, reduced motion, structured action metadata and an imperative instance API.
+- Added `UiFloatButtonGroup` with click/hover triggers, async open guards, child registration, selection lifecycle, roving keyboard focus, Escape restoration, outside dismissal, RTL placement and root/subpath TypeScript contracts.
+- Added locale, visual, Axe, interaction, SSR, preview, standalone and package-consumer coverage for the floating action family.
+
+### Performance
+
+- Reuses the existing tooltip, motion, token and focus infrastructure. Canonical P82 prepack measured `packageJsRaw=959006B`, `packageJsGzip=342331B`, `packageCssRaw=913845B`, `packageCssGzip=185014B`, `standaloneExampleJsRaw=951398B`, packed `635167B/415 files` and unpacked `4020384B`; directly affected caps carry measured headroom below 1.5%, while all 18 metrics and the 14-metric release delta guard remain enforced.
+
 ## [1.76.0] - 2026-08-24
 
 ### Added

@@ -4,7 +4,7 @@
 
 **面向企业后台的 Vue 3 设计系统与组件框架**
 
-91 个可复用组件 · TypeScript 类型 · 主题与国际化 · 可访问性与跨浏览器回归 · MIT License
+92 个可复用组件 · TypeScript 类型 · 主题与国际化 · 可访问性与跨浏览器回归 · MIT License
 
 [快速开始](#快速开始) · [安装说明](#安装说明) · [界面预览](#界面预览) · [文档导航](#文档导航)
 
@@ -14,7 +14,7 @@
 
 Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同时提供组件库、设计 Token、主题与国际化运行时、组件 API 文档，以及可直接运行的后台示例，适合 ERP、CRM、运营平台、数据后台和 AI 工作台等中后台产品。
 
-当前版本为 **v1.76.0**，公共 API 覆盖 **91 个组件、1,713 个 Props、594 个 Events 和 391 个 Slots**。
+当前版本为 **v1.77.0**，公共 API 覆盖 **92 个组件、1,759 个 Props、604 个 Events 和 397 个 Slots**。
 
 ## 为什么选择 Lan UI
 
@@ -35,6 +35,8 @@ Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同�
 **P80 选择界面视觉完整性**：`UiTransfer` 为普通与带描述选项提供稳定的逐项虚拟高度与累计偏移，选中/活动/焦点状态统一使用已定义 Token；`UiTable` 紧凑选择列保持至少 24×28 命中区并让表头、数据行勾选框垂直居中。
 
 **P81 成熟日期范围选择器**：`UiDateRangePicker` 在日期模式使用真实 `UiPopover` + `UiCalendar` 范围面板，支持受控/默认值、打开与视图状态、两步预览/完成、预设、约束、同步/异步守卫、组合 Slots、实例 API、RTL、Portal、SSR 与无障碍语义；`UiTimeRangePicker` 与 `UiDateTimeRangePicker` 保持原生双输入适配器。
+
+**P82 悬浮操作组件族**：`UiFloatButton` 支持原生按钮/链接、提示、徽标溢出、加载与禁用、受控可见性、Back-to-top、目标滚动与实例 API；默认保持调用方 DOM，显式 `teleportTo` 才建立 Portal。新增 `UiFloatButtonGroup` 提供点击/悬停 Speed Dial、异步打开守卫、动作注册、方向键/Home/End、Escape 焦点恢复、RTL、Portal 主题与 SSR 安全语义；组内子按钮由 Group 拥有 Portal，不会重复 teleport。
 
 ```vue
 <UiTable v-model:selected-rows="selected" v-model:expanded-rows="expanded" :columns="columns" :rows="rows" selectable expandable resizable />
@@ -143,7 +145,7 @@ README 只保留项目介绍、界面预览、快速开始和安装入口。版�
 | 我想了解 | 文档 | 内容 |
 |---|---|---|
 | 从安装到主题、语言与反馈服务 | [详细使用教程](https://github.com/dengpan20/LanUI/blob/main/docs/USAGE-GUIDE.md) | 全局/按需接入、配置、主题、Locale、反馈服务、工程命令 |
-| 每个组件有哪些 Props / Events / Slots | [组件 API](./COMPONENT-API.md) | 91 个组件的生成式 API 参考与导入方式 |
+| 每个组件有哪些 Props / Events / Slots | [组件 API](./COMPONENT-API.md) | 92 个组件的生成式 API 参考与导入方式 |
 | 设计语言与交互规则 | [设计规范](./UI-SPEC.md) | Token、排版、布局、组件状态、动效与无障碍规范 |
 | 每个版本改了什么 | [版本说明](./CHANGELOG.md) | 按 SemVer 维护的新增、变更与修复记录 |
 | 升级时需要调整什么 | [迁移指南](./MIGRATION.md) | 破坏性变更、兼容策略与版本迁移步骤 |

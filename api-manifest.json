@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "package": "lan-ui-design-system",
-  "version": "1.76.0",
+  "version": "1.77.0",
   "moduleFormat": "esm",
   "root": {
     "runtimeExports": [
@@ -45,6 +45,7 @@
       "UiDropdown",
       "UiEmpty",
       "UiFloatButton",
+      "UiFloatButtonGroup",
       "UiForm",
       "UiFormItem",
       "UiFormList",
@@ -507,9 +508,27 @@
       "UiEmptyProps",
       "UiEmptySlots",
       "UiFloatButton",
+      "UiFloatButtonActionMeta",
+      "UiFloatButtonActionSource",
+      "UiFloatButtonBackTopMeta",
       "UiFloatButtonEmits",
+      "UiFloatButtonGroup",
+      "UiFloatButtonGroupEmits",
+      "UiFloatButtonGroupInstance",
+      "UiFloatButtonGroupOpenMeta",
+      "UiFloatButtonGroupProps",
+      "UiFloatButtonGroupSlots",
+      "UiFloatButtonGroupState",
+      "UiFloatButtonGroupTriggerAttrs",
+      "UiFloatButtonGroupTriggerScope",
+      "UiFloatButtonInstance",
       "UiFloatButtonProps",
+      "UiFloatButtonScrollTarget",
+      "UiFloatButtonShape",
+      "UiFloatButtonSize",
       "UiFloatButtonSlots",
+      "UiFloatButtonState",
+      "UiFloatButtonVisibilityMeta",
       "UiForm",
       "UiFormEmits",
       "UiFormFieldState",
@@ -12410,16 +12429,77 @@
       "subpath": "./components/UiFloatButton",
       "propsType": "UiFloatButtonProps",
       "props": [
+        "actionKey",
         "active",
+        "ariaLabel",
+        "backTop",
         "badge",
+        "badgeAriaLabel",
+        "badgeMax",
+        "defaultVisible",
         "disabled",
+        "fixed",
+        "href",
         "icon",
         "label",
-        "variant"
+        "loading",
+        "nativeType",
+        "offsetBlock",
+        "offsetInline",
+        "rel",
+        "scrollTarget",
+        "shape",
+        "size",
+        "smooth",
+        "target",
+        "teleportTo",
+        "tooltip",
+        "tooltipPlacement",
+        "variant",
+        "visibilityHeight",
+        "visible",
+        "zIndex"
       ],
       "propDetails": [
         {
+          "name": "actionKey",
+          "required": false,
+          "type": "Key",
+          "runtimeTypes": [
+            "String",
+            "Number"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
           "name": "active",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "backTop",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -12444,6 +12524,42 @@
           }
         },
         {
+          "name": "badgeAriaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "badgeMax",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "99"
+          }
+        },
+        {
+          "name": "defaultVisible",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
           "name": "disabled",
           "required": false,
           "type": "boolean",
@@ -12453,6 +12569,30 @@
           "default": {
             "kind": "implicit",
             "value": "false"
+          }
+        },
+        {
+          "name": "fixed",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "href",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
           }
         },
         {
@@ -12480,6 +12620,557 @@
           }
         },
         {
+          "name": "loading",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "nativeType",
+          "required": false,
+          "type": "'button'|'submit'|'reset'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"button\""
+          }
+        },
+        {
+          "name": "offsetBlock",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "24"
+          }
+        },
+        {
+          "name": "offsetInline",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "24"
+          }
+        },
+        {
+          "name": "rel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "scrollTarget",
+          "required": false,
+          "type": "UiFloatButtonScrollTarget",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "shape",
+          "required": false,
+          "type": "UiFloatButtonShape",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "UiFloatButtonSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "smooth",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "target",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "teleportTo",
+          "required": false,
+          "type": "string|Element|false",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "tooltip",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "tooltipPlacement",
+          "required": false,
+          "type": "Placement",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"top\""
+          }
+        },
+        {
+          "name": "variant",
+          "required": false,
+          "type": "'default'|'primary'|'danger'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "visibilityHeight",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "200"
+          }
+        },
+        {
+          "name": "visible",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "100"
+          }
+        }
+      ],
+      "emitsType": "UiFloatButtonEmits",
+      "emits": [
+        "action",
+        "back-top",
+        "click",
+        "visible-change"
+      ],
+      "emitDetails": [
+        {
+          "name": "action",
+          "required": true,
+          "type": "(meta:UiFloatButtonActionMeta)=>void"
+        },
+        {
+          "name": "back-top",
+          "required": true,
+          "type": "(meta:UiFloatButtonBackTopMeta)=>void"
+        },
+        {
+          "name": "click",
+          "required": true,
+          "type": "(event:MouseEvent)=>void"
+        },
+        {
+          "name": "visible-change",
+          "required": true,
+          "type": "(visible:boolean,meta:UiFloatButtonVisibilityMeta)=>void"
+        }
+      ],
+      "slotsType": "UiFloatButtonSlots",
+      "slots": [
+        "badge",
+        "default",
+        "icon",
+        "tooltip"
+      ],
+      "slotDetails": [
+        {
+          "name": "badge",
+          "required": false,
+          "type": "(scope:{value:string;label:string})=>VNodeChild"
+        },
+        {
+          "name": "default",
+          "required": false,
+          "type": "(scope:{label:string})=>VNodeChild"
+        },
+        {
+          "name": "icon",
+          "required": false,
+          "type": "(scope:{size:UiFloatButtonSize})=>VNodeChild"
+        },
+        {
+          "name": "tooltip",
+          "required": false,
+          "type": "(scope:{open:boolean})=>VNodeChild"
+        }
+      ],
+      "imports": {
+        "root": "import { UiFloatButton } from 'lan-ui-design-system'",
+        "subpath": "import UiFloatButton from 'lan-ui-design-system/components/UiFloatButton'"
+      },
+      "runtimeExports": [
+        "UiFloatButton",
+        "default"
+      ]
+    },
+    {
+      "name": "UiFloatButtonGroup",
+      "subpath": "./components/UiFloatButtonGroup",
+      "propsType": "UiFloatButtonGroupProps",
+      "props": [
+        "ariaLabel",
+        "beforeOpenChange",
+        "closeDelay",
+        "closeOnEscape",
+        "closeOnOutside",
+        "closeOnSelect",
+        "defaultOpen",
+        "disabled",
+        "fixed",
+        "offsetBlock",
+        "offsetInline",
+        "open",
+        "openDelay",
+        "placement",
+        "shape",
+        "size",
+        "teleportTo",
+        "trigger",
+        "triggerIcon",
+        "triggerLabel",
+        "variant",
+        "zIndex"
+      ],
+      "propDetails": [
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "beforeOpenChange",
+          "required": false,
+          "type": "(open:boolean,meta:UiFloatButtonGroupOpenMeta)=>boolean|void|Promise<boolean|void>",
+          "runtimeTypes": [
+            "Function"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "null"
+          }
+        },
+        {
+          "name": "closeDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "100"
+          }
+        },
+        {
+          "name": "closeOnEscape",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnOutside",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "closeOnSelect",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "defaultOpen",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "disabled",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "fixed",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "true"
+          }
+        },
+        {
+          "name": "offsetBlock",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "24"
+          }
+        },
+        {
+          "name": "offsetInline",
+          "required": false,
+          "type": "number|string",
+          "runtimeTypes": [
+            "Number",
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "24"
+          }
+        },
+        {
+          "name": "open",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "openDelay",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "type": "'top'|'bottom'|'inline-start'|'inline-end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"bottom\""
+          }
+        },
+        {
+          "name": "shape",
+          "required": false,
+          "type": "UiFloatButtonShape",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"circle\""
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "UiFloatButtonSize",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"md\""
+          }
+        },
+        {
+          "name": "teleportTo",
+          "required": false,
+          "type": "string|Element|false",
+          "runtimeTypes": [
+            "String",
+            "Object",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"body\""
+          }
+        },
+        {
+          "name": "trigger",
+          "required": false,
+          "type": "'click'|'hover'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"click\""
+          }
+        },
+        {
+          "name": "triggerIcon",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"plus\""
+          }
+        },
+        {
+          "name": "triggerLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "variant",
           "required": false,
           "type": "'default'|'primary'|'danger'",
@@ -12488,22 +13179,86 @@
           ],
           "default": {
             "kind": "literal",
-            "value": "\"default\""
+            "value": "\"primary\""
+          }
+        },
+        {
+          "name": "zIndex",
+          "required": false,
+          "type": "number",
+          "runtimeTypes": [
+            "Number"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "100"
           }
         }
       ],
-      "emitsType": "UiFloatButtonEmits",
-      "emits": [],
-      "emitDetails": [],
-      "slotsType": "UiFloatButtonSlots",
-      "slots": [],
-      "slotDetails": [],
+      "emitsType": "UiFloatButtonGroupEmits",
+      "emits": [
+        "close",
+        "guard-error",
+        "open",
+        "open-change",
+        "select",
+        "update:open"
+      ],
+      "emitDetails": [
+        {
+          "name": "close",
+          "required": true,
+          "type": "(meta:UiFloatButtonGroupOpenMeta)=>void"
+        },
+        {
+          "name": "guard-error",
+          "required": true,
+          "type": "(error:unknown,meta:UiFloatButtonGroupOpenMeta)=>void"
+        },
+        {
+          "name": "open",
+          "required": true,
+          "type": "(meta:UiFloatButtonGroupOpenMeta)=>void"
+        },
+        {
+          "name": "open-change",
+          "required": true,
+          "type": "(open:boolean,meta:UiFloatButtonGroupOpenMeta)=>void"
+        },
+        {
+          "name": "select",
+          "required": true,
+          "type": "(meta:UiFloatButtonActionMeta)=>void"
+        },
+        {
+          "name": "update:open",
+          "required": true,
+          "type": "(open:boolean)=>void"
+        }
+      ],
+      "slotsType": "UiFloatButtonGroupSlots",
+      "slots": [
+        "default",
+        "trigger"
+      ],
+      "slotDetails": [
+        {
+          "name": "default",
+          "required": false,
+          "type": "(scope:{open:boolean;pending:boolean;show:UiFloatButtonGroupInstance['show'];hide:UiFloatButtonGroupInstance['hide'];toggle:UiFloatButtonGroupInstance['toggle']})=>VNodeChild"
+        },
+        {
+          "name": "trigger",
+          "required": false,
+          "type": "(scope:UiFloatButtonGroupTriggerScope)=>VNodeChild"
+        }
+      ],
       "imports": {
-        "root": "import { UiFloatButton } from 'lan-ui-design-system'",
-        "subpath": "import UiFloatButton from 'lan-ui-design-system/components/UiFloatButton'"
+        "root": "import { UiFloatButtonGroup } from 'lan-ui-design-system'",
+        "subpath": "import UiFloatButtonGroup from 'lan-ui-design-system/components/UiFloatButtonGroup'"
       },
       "runtimeExports": [
-        "UiFloatButton",
+        "UiFloatButtonGroup",
         "default"
       ]
     },

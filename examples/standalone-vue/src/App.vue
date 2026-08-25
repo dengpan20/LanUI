@@ -29,6 +29,8 @@ import {
   UiForm,
   UiFormItem,
   UiFormList,
+  UiFloatButton,
+  UiFloatButtonGroup,
   UiSchemaForm,
   UiInput,
   UiTextarea,
@@ -606,7 +608,6 @@ const rows = computed(() => [
         </div>
       </UiConfigProvider>
     </UiCard>
-    <UiTour v-model="standaloneTourOpen" v-model:current="standaloneTourCurrent" :steps="standaloneTourSteps" aria-label="Standalone application tour" />
-    <UiToastHost />
+    <UiFloatButtonGroup trigger-label="Quick actions" aria-label="Standalone quick actions" placement="top" @select="meta=>toast.success(`Quick action: ${meta.key||'Action selected'}`)"><UiFloatButton icon="plus" label="New task" action-key="new"/><UiFloatButton icon="bell" label="Notifications" badge="12" :badge-max="9" action-key="notifications"/><UiFloatButton icon="arrowUp" label="Back to top" back-top action-key="top"/></UiFloatButtonGroup>    <UiToastHost />
   </main>
 </template>
