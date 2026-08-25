@@ -1,10 +1,11 @@
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve, sep } from 'node:path'
+import { join, resolve, sep } from 'node:path'
 import { build } from 'vite'
 import { formatReleaseReport, validateRelease } from './release-contracts.mjs'
 import { normalizeTgz } from './normalize-tgz.mjs'
+import { packedFilesFromTree, resolvePnpmRunner } from './pnpm-runner.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const sourceManifest=JSON.parse(readFileSync(join(root,'package.json'),'utf8'))
@@ -31,23 +32,12 @@ function run(command,args,{cwd=root,env={}}={}){
   return `${result.stdout||''}${result.stderr||''}`.trim()
 }
 function runPnpm(args,options={}){
-  const pnpm=process.env.npm_execpath
-  if(pnpm&&/pnpm/i.test(pnpm)&&existsSync(pnpm)){
-    if(/\.mjs$/i.test(pnpm))return run(process.execPath,[pnpm,...args],options)
+  const runner=resolvePnpmRunner()
+  if(runner.kind==='cmd'){
     const quote=value=>/\s|["&|<>^]/.test(String(value))?`"${String(value).replaceAll('"','\\"')}"`:String(value)
-    return run(process.env.ComSpec||'cmd.exe',['/d','/s','/c',[pnpm,...args].map(quote).join(' ')],options)
+    return run(runner.command,[...runner.prefix,[runner.target,...args].map(quote).join(' ')],options)
   }
-  const bundledPnpm=resolve(dirname(process.execPath),'..','node_modules','pnpm','bin','pnpm.mjs')
-  if(existsSync(bundledPnpm))return run(process.execPath,[bundledPnpm,...args],options)
-  if(process.platform==='win32')return run(process.env.ComSpec||'cmd.exe',['/d','/s','/c',['pnpm.cmd',...args].map(value=>String(value)).join(' ')],options)
-  return run('pnpm',args,options)
-}
-function parsePackJson(output){
-  const start=output.indexOf('{')
-  const end=output.lastIndexOf('}')
-  assert(start>=0&&end>start,`pnpm pack did not return JSON: ${output}`)
-  const parsed=JSON.parse(output.slice(start,end+1))
-  return Array.isArray(parsed)?parsed[0]:parsed
+  return run(runner.command,[...runner.prefix,...args],options)
 }
 function collectFiles(folder){
   const result=[]
@@ -65,12 +55,12 @@ mkdirSync(packageRoot,{recursive:true})
 mkdirSync(consumerRoot,{recursive:true})
 mkdirSync(extractedRoot,{recursive:true})
 
-const packOutput=runPnpm(['--config.ignore-scripts=true','pack','--out',tarball,'--json'])
-const pack= parsePackJson(packOutput)
+runPnpm(['--config.ignore-scripts=true','pack','--out',tarball])
 assert(existsSync(tarball),'Packed tarball was not written')
 const normalizedPack=normalizeTgz(tarball)
 assert(normalizedPack.afterOs===3,'Packed tarball gzip OS byte normalization failed')
-const packedFiles=new Set((pack.files||[]).map(file=>file.path.replaceAll('\\','/')))
+run('tar',['-xzf',tarball,'-C',extractedRoot])
+const packedFiles=packedFilesFromTree(join(extractedRoot,'package'),collectFiles)
 const required=[
   'package.json','README.md','LICENSE','CHANGELOG.md','COMPONENT-API.md','api-manifest.json',
   'design-tokens.json','tokens.css','dist-lib/lan-ui.js','dist-lib/lan-ui.d.ts',
@@ -85,7 +75,6 @@ for(const name of componentNames){
 const allowedTopLevel=new Set(['package.json','README.md','LICENSE','CHANGELOG.md','MIGRATION.md','COMPONENT-API.md','api-manifest.json','style-manifest.json','performance-budgets.json','design-tokens.json','tokens.css','public/component-api.json'])
 for(const path of packedFiles)assert(path.startsWith('dist-lib/')||allowedTopLevel.has(path),`File is outside the package allow-list: ${path}`)
 
-run('tar',['-xzf',tarball,'-C',extractedRoot])
 const packedManifest=JSON.parse(readFileSync(join(extractedRoot,'package','package.json'),'utf8'))
 assert(packedManifest.name===sourceManifest.name&&packedManifest.version===sourceManifest.version,'Packed identity mismatch')
 assert(packedManifest.private===false,'Packed package must be publishable')
@@ -377,7 +366,7 @@ assert(builtCss.includes('--brand-600'),'Packed browser build omitted token CSS'
 
 const unpackedBytes=collectFiles(join(extractedRoot,'package')).reduce((sum,path)=>sum+statSync(path).size,0)
 const tarballBytes=statSync(tarball).size
-runPnpm(['--config.ignore-scripts=true','pack','--out',reproductionTarball,'--json'])
+runPnpm(['--config.ignore-scripts=true','pack','--out',reproductionTarball])
 const normalizedReproduction=normalizeTgz(reproductionTarball)
 assert(normalizedReproduction.afterOs===3,'Reproduction tarball gzip OS byte normalization failed')
 const digest=sha256(tarball)
