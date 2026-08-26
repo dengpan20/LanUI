@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiUpload,
-  UiTree, UiTreeSelect, UiStatistic, enUS,
+  UiAvatar, UiTree, UiTreeSelect, UiStatistic, enUS,
   UiColorPicker,
   UiCommandPalette,
   UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiFloatButton, UiFloatButtonGroup, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSkeleton, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider,
@@ -200,6 +200,17 @@ const layoutDirection=ref('ltr')
 const layoutOutput=ref('ready')
 const skeletonLoading=ref(true)
 const skeletonOutput=ref('loading')
+const interactionAvatarRef=ref(null)
+const avatarPrimarySrc=ref('')
+const avatarFallbackSrc="/__avatar-fallback-pending.svg"
+const avatarOutput=ref('loading:primary:false')
+const avatarEvents=ref([])
+function startAvatarPrimary(){avatarPrimarySrc.value="/__avatar-primary-pending.svg"}
+function avatarStateOutput(prefix,meta){const state=interactionAvatarRef.value?.getState();const value=`${prefix}:${state?.status}:${state?.usingFallback}:${meta?.fallback?'fallback':'primary'}`;avatarOutput.value=value;avatarEvents.value.push(value)}
+function avatarLoad(event,meta){avatarStateOutput('load',meta)}
+function avatarError(event,meta){avatarStateOutput('error',meta)}
+function avatarFallback(meta){avatarStateOutput('fallback',{...meta,fallback:true})}
+function avatarRetry(meta){avatarStateOutput('retry',meta)}
 async function guardFloatOpen(open){await new Promise(resolve=>setTimeout(resolve,20));return open!==false}
 const inputRef=ref(null)
 const inputValue=ref('release draft')
@@ -913,7 +924,7 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <UiLayout :dir="layoutDirection" :gap="{ xs: 4, md: 8 }"><UiGrid id="interaction-layout-grid" :columns="layoutColumns" :mode="layoutMode" :gap="{ xs: 4, md: 8 }"><UiCol v-for="label in ['one','two','three','four']" :key="label" :span="1"><UiCard variant="filled" :title="label" /></UiCol></UiGrid><UiSpace separator="·" aria-label="Layout order"><span>one</span><span>two</span><span>three</span></UiSpace><UiDivider decorative /></UiLayout>
         <output class="interaction-output" data-testid="layout-output">{{ layoutOutput }}</output>
       </section>
-    <section v-if="state==='skeleton'" class="interaction-case interaction-wide interaction-skeleton-case" data-skeleton-state-contract="loading content toggle aria rows widths slots ssr">
+      <section v-if="state==='skeleton'" class="interaction-case interaction-wide interaction-skeleton-case" data-skeleton-state-contract="loading content toggle aria rows widths slots ssr">
       <h2>Skeleton loading/content transition contract</h2>
       <div class="interaction-row"><UiButton id="interaction-skeleton-toggle" size="sm" @click="skeletonLoading=!skeletonLoading;skeletonOutput=skeletonLoading?'loading':'content'">Toggle loading</UiButton><UiSkeleton :loading="skeletonLoading" rows="2" title avatar aria-label="Loading release evidence"><template #default><strong data-testid="skeleton-loaded-content">Loaded release evidence</strong></template></UiSkeleton></div>
       <output class="interaction-output" data-testid="skeleton-output">{{ skeletonOutput }} / {{ skeletonLoading?'loading':'content' }}</output>
@@ -927,6 +938,17 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
           <div class="interaction-input-actions"><UiButton id="interaction-input-set-api" size="sm" variant="outline" @click="inputRef.setValue('api-release','fixture-api')">Set by API</UiButton><UiButton id="interaction-input-focus-api" size="sm" variant="text" @click="inputRef.focus()">Focus by API</UiButton></div>
         </div>
         <output class="interaction-output" data-testid="input-output">{{ inputOutput }}</output>
+      </section>
+      <section v-if="state==='avatar'" class="interaction-case interaction-wide interaction-avatar-case" data-avatar-state-contract="initials loading fallback retry events aria slots ssr">
+        <h2>Avatar image fallback and retry contract</h2>
+        <div class="interaction-row">
+          <UiAvatar id="interaction-avatar" ref="interactionAvatarRef" :src="avatarPrimarySrc" :fallback-src="avatarFallbackSrc" name="Admin User" aria-label="Interaction avatar" @load="avatarLoad" @error="avatarError" @fallback="avatarFallback" @retry="avatarRetry" />
+          <UiAvatar id="interaction-avatar-initials" name="👩‍💻 Team" shape="square" size="40px" />
+          <UiButton id="interaction-avatar-start" size="sm" variant="outline" @click="startAvatarPrimary">Load primary</UiButton>
+          <UiButton id="interaction-avatar-retry" size="sm" variant="outline" @click="interactionAvatarRef?.retry()">Retry primary</UiButton>
+          <output class="interaction-output" data-testid="avatar-output">{{ avatarOutput }}</output>
+          <output class="interaction-output" data-testid="avatar-events">{{ avatarEvents.join(' | ') }}</output>
+        </div>
       </section>
       <section class="interaction-case interaction-wide interaction-textarea-case" data-textarea-state-contract="native ime formatter parser autosize clear escape submit focus api rtl">
         <h2>Textarea IME, autosize, parser, clear and keyboard-submit contract</h2>

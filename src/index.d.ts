@@ -167,7 +167,15 @@ export interface UiAnchorProps { items?:UiAnchorItem[]; modelValue?:Key; contain
 export interface UiAutoCompleteOption { label:string; value:Key; disabled?:boolean; keywords?:string[]; description?:string }
 export interface UiAutoCompleteFetchContext { signal?:AbortSignal }
 export interface UiAutoCompleteProps { modelValue?:Key; options?:Array<UiAutoCompleteOption|Key>; fetchSuggestions?:(query:string,context:UiAutoCompleteFetchContext)=>Array<UiAutoCompleteOption|Key>|Promise<Array<UiAutoCompleteOption|Key>>; debounce?:number; minChars?:number; placeholder?:string; size?:ComponentSize; disabled?:boolean; readonly?:boolean; invalid?:boolean; clearable?:boolean; allowCustom?:boolean; openOnFocus?:boolean; highlightFirst?:boolean; matchMode?:'contains'|'startsWith'; emptyText?:string; loadingText?:string; placement?:'top-start'|'top-end'|'bottom-start'|'bottom-end'; appendToBody?:boolean; cache?:boolean }
-export interface UiAvatarProps { src?:string; alt?:string; name?:string; size?:ComponentSize|number|string; color?:'blue'|'green'|'orange'|'purple'|'gray'|string; square?:boolean }
+export type UiAvatarShape = 'circle'|'square'
+export type UiAvatarStatus = 'idle'|'loading'|'loaded'|'error'
+export type UiAvatarWidth = ComponentSize|number|string
+export interface UiAvatarState { initials:string; status:UiAvatarStatus; label:string; usingFallback:boolean; src:string; loading:boolean }
+export interface UiAvatarLoadMeta { src:string; fallback:boolean; failedSrc?:string }
+export interface UiAvatarFallbackMeta { failedSrc:string; fallbackSrc:string; source:'error' }
+export interface UiAvatarRetryMeta { src:string; fallbackSrc:string; usingFallback:boolean }
+export interface UiAvatarProps { src?:string; alt?:string; name?:string; size?:UiAvatarWidth; color?:'blue'|'green'|'orange'|'purple'|'gray'|string; square?:boolean; shape?:UiAvatarShape; initials?:string; fallbackSrc?:string; fit?:ImageFit; loading?:'eager'|'lazy'; decoding?:'sync'|'async'|'auto'; crossorigin?:''|'anonymous'|'use-credentials'; referrerpolicy?:string; draggable?:boolean; ariaLabel?:string; decorative?:boolean }
+export interface UiAvatarInstance { getElement:()=>HTMLElement|null; getImage:()=>HTMLImageElement|null; getState:()=>Readonly<UiAvatarState>; retry:()=>boolean }
 export interface UiBadgeProps { value?:Key; max?:number; dot?:boolean; status?:'danger'|'success'|'warning'|'info'; show?:boolean }
 export interface UiBreadcrumbItem { key?:Key; label:string; icon?:string; href?:string; to?:string; target?:string; rel?:string; current?:boolean; disabled?:boolean; onClick?:(event?:MouseEvent,meta?:UiBreadcrumbNavigateMeta)=>void; [key:string]:unknown }
 export interface UiBreadcrumbRecord<Item=UiBreadcrumbItem|string> { item:Item; index:number; key:Key; label:string; href:string; icon:string; disabled:boolean; explicitCurrent:boolean; current:boolean; target:string; rel:string; onClick:((event?:MouseEvent,meta?:UiBreadcrumbNavigateMeta<Item>)=>void)|null; domKey:string }
@@ -631,7 +639,7 @@ export type UiAlertEmits = { close:()=>void }
 export type UiAffixEmits = { change:(affixed:boolean,meta:UiAffixMeta)=>void; scroll:(meta:UiAffixMeta)=>void; error:(meta:UiAffixError)=>void }
 export type UiAnchorEmits = { 'update:modelValue':(value:Key)=>void; change:(value:Key,item:UiAnchorItem,meta:UiAnchorChangeMeta)=>void; click:(item:UiAnchorItem,event:MouseEvent)=>void; 'scroll-start':(item:UiAnchorItem)=>void; 'scroll-end':(item:UiAnchorItem)=>void }
 export type UiAutoCompleteEmits = { 'update:modelValue':(value:Key)=>void; input:(value:string)=>void; change:(value:Key,meta:UiAutoCompleteChangeMeta)=>void; select:(option:UiAutoCompleteOption)=>void; search:(query:string)=>void; 'open-change':(open:boolean)=>void; clear:()=>void; focus:(event:FocusEvent)=>void; blur:(event:FocusEvent)=>void; 'load-error':(payload:UiAutoCompleteLoadError)=>void }
-export type UiAvatarEmits = {}
+export type UiAvatarEmits = { load:(event:Event,meta:UiAvatarLoadMeta)=>void; error:(event:Event,meta:UiAvatarLoadMeta)=>void; fallback:(meta:UiAvatarFallbackMeta)=>void; retry:(meta:UiAvatarRetryMeta)=>void }
 export type UiBadgeEmits = {}
 export type UiBreadcrumbEmits<Item=UiBreadcrumbItem|string> = { navigate:(item:Item,meta:UiBreadcrumbNavigateMeta<Item>,event?:MouseEvent)=>void; 'item-click':(item:Item,meta:UiBreadcrumbNavigateMeta<Item>,event?:MouseEvent)=>void; 'item-focus':(meta:UiBreadcrumbNavigateMeta<Item>,event:FocusEvent)=>void; 'update:expanded':(expanded:boolean)=>void; 'expand-change':(expanded:boolean,meta:UiBreadcrumbExpandMeta,event?:MouseEvent)=>void }
 export type UiButtonEmits = { click:(event:MouseEvent,meta:UiButtonActivationMeta)=>void; 'action-start':(meta:UiButtonActivationMeta,event:MouseEvent)=>void; 'action-success':(result:unknown,meta:UiButtonActivationMeta,event:MouseEvent)=>void; 'action-error':(error:unknown,meta:UiButtonActivationMeta,event:MouseEvent)=>void }
@@ -737,7 +745,8 @@ export type UiAlertSlots = { default?:()=>VNodeChild }
 export type UiAffixSlots = { default?:()=>VNodeChild }
 export type UiAnchorSlots = { item?:(scope:{item:UiAnchorItem;active:boolean;level:number})=>VNodeChild }
 export type UiAutoCompleteSlots = { option?:(scope:{option:UiAutoCompleteOption;index:number;active:boolean;selected:boolean;segments:Array<{text:string;match:boolean}>})=>VNodeChild; loading?:()=>VNodeChild; error?:(scope:{error:unknown})=>VNodeChild; empty?:()=>VNodeChild }
-export type UiAvatarSlots = { default?:()=>VNodeChild }
+export type UiAvatarSlotScope = { initials:string; status:UiAvatarStatus; label:string; usingFallback:boolean; retry:()=>boolean }
+export type UiAvatarSlots = { default?:(scope:UiAvatarSlotScope)=>VNodeChild; fallback?:(scope:UiAvatarSlotScope)=>VNodeChild; placeholder?:(scope:UiAvatarSlotScope)=>VNodeChild }
 export type UiBadgeSlots = { default?:()=>VNodeChild }
 export type UiBreadcrumbSlots<Item=UiBreadcrumbItem|string> = { item?:(scope:UiBreadcrumbRecord<Item>&{navigate:(source?:string)=>UiBreadcrumbNavigateMeta<Item>|false})=>VNodeChild; icon?:(scope:UiBreadcrumbRecord<Item>)=>VNodeChild; separator?:(scope:{index:number;from?:Item;to?:Item})=>VNodeChild; overflow?:(scope:{items:Item[];count:number;expand:(expanded:boolean,source?:string,event?:MouseEvent)=>UiBreadcrumbExpandMeta})=>VNodeChild; loading?:(scope:{count:number})=>VNodeChild; empty?:()=>VNodeChild }
 export type UiButtonSlots = { default?:()=>VNodeChild; icon?:(scope:{position:UiButtonIconPosition;size:number|string})=>VNodeChild; loading?:(scope:{pending:boolean;size:ComponentSize})=>VNodeChild; prefix?:(scope:{pending:boolean;disabled:boolean})=>VNodeChild; suffix?:(scope:{pending:boolean;disabled:boolean})=>VNodeChild }

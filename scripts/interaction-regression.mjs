@@ -1913,6 +1913,21 @@ const allCases = [
     },
   },
   {
+    name:'avatar-image-fallback-retry',
+    query:'direction=ltr&state=avatar',
+    run:async page=>{
+      const section=page.locator('.interaction-avatar-case');
+      const avatar=page.locator('#interaction-avatar');await avatar.waitFor();assert.equal(await avatar.getAttribute('role'),'img');assert.equal(await avatar.getAttribute('aria-label'),'Interaction avatar');await section.locator('#interaction-avatar-start').click();
+      const image=avatar.locator('img');await image.waitFor({state:'attached'});assert.equal(await image.getAttribute('alt'),'');const primarySrc=await image.getAttribute('src');const oldPrimary=await image.elementHandle();const overlayGeometry=await image.evaluate(async node=>{const root=node.parentElement;node.dispatchEvent(new Event('error'));await new Promise(resolve=>requestAnimationFrame(resolve));const image=root?.querySelector('.ui-avatar-image'),placeholder=root?.querySelector('.ui-avatar-placeholder');if(!root||!image||!placeholder)throw new Error('loading overlay nodes were not rendered after error transition');const imageStyle=getComputedStyle(image),placeholderStyle=getComputedStyle(placeholder),imageRect=image.getBoundingClientRect(),placeholderRect=placeholder.getBoundingClientRect();const left=Math.max(imageRect.left,placeholderRect.left),right=Math.min(imageRect.right,placeholderRect.right),top=Math.max(imageRect.top,placeholderRect.top),bottom=Math.min(imageRect.bottom,placeholderRect.bottom);return {imageRow:imageStyle.gridRowStart,imageColumn:imageStyle.gridColumnStart,placeholderRow:placeholderStyle.gridRowStart,placeholderColumn:placeholderStyle.gridColumnStart,placeholderWidth:placeholderRect.width,placeholderHeight:placeholderRect.height,intersection:Math.max(0,right-left)*Math.max(0,bottom-top)}});await page.waitForFunction(()=>document.querySelector('[data-testid="avatar-events"]')?.textContent?.includes('fallback:'));assert.equal(overlayGeometry.imageRow,'1');assert.equal(overlayGeometry.imageColumn,'1');assert.equal(overlayGeometry.placeholderRow,'1');assert.equal(overlayGeometry.placeholderColumn,'1');assert(overlayGeometry.placeholderWidth>0&&overlayGeometry.placeholderHeight>0,'loading placeholder must be visible');assert(overlayGeometry.intersection>0,'loading image and placeholder must occupy the same avatar box');assert.notEqual(await avatar.locator('img').getAttribute('src'),primarySrc);
+      const fallback=await avatar.locator('img').elementHandle();const beforeStale=await page.getByTestId('avatar-events').textContent();await oldPrimary.evaluate(node=>{node.dispatchEvent(new Event('error'));node.dispatchEvent(new Event('load'))});await page.waitForTimeout(25);assert.equal((await page.getByTestId('avatar-events').textContent()).trim(),beforeStale);
+      await avatar.locator('img').evaluate(node=>node.dispatchEvent(new Event('load')));await page.waitForFunction(()=>document.querySelector('[data-testid="avatar-events"]')?.textContent?.includes('load:loaded:true:fallback'));
+      await page.locator('#interaction-avatar-retry').click();await page.waitForFunction(()=>document.querySelector('[data-testid="avatar-events"]')?.textContent?.includes('retry:loading:false:primary'));assert.equal(await avatar.locator('img').getAttribute('src'),primarySrc);
+      const beforeFallbackStale=await page.getByTestId('avatar-events').textContent();await fallback?.evaluate(node=>{node.dispatchEvent(new Event('error'));node.dispatchEvent(new Event('load'))});await page.waitForTimeout(25);assert.equal((await page.getByTestId('avatar-events').textContent()).trim(),beforeFallbackStale);
+      await avatar.locator('img').evaluate(node=>node.dispatchEvent(new Event('load')));await page.waitForFunction(()=>document.querySelector('[data-testid="avatar-events"]')?.textContent?.includes('load:loaded:false:primary'));
+      assert.equal(await avatar.locator('img').count(),1);assert.equal(await avatar.locator('.ui-avatar-fallback').count(),0);assert.equal(await page.locator('#interaction-avatar-initials').innerText(),'👩‍💻T');
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -1966,11 +1981,18 @@ let primaryError
 try {
   for(const browserName of browserNames){
     const browser=await launchBrowserReady(browserName,{warmupUrl:`${origin}/interaction-regression.html?direction=ltr`,readySelector:'body[data-interaction-ready="true"]',viewport:{width:1280,height:1100}})
-    const browserResults=[]
-    try{
+      const browserResults=[]
+      try{
       for (const item of cases) {
         const started = performance.now()
         const context = await browser.newContext({ viewport: { width: 1280, height: 1100 }, locale: 'en-US', reducedMotion: 'reduce' })
+        const releaseAvatarRoutes=[]
+        if(item.name==='avatar-image-fallback-retry'){
+          const avatarSvg=fill=>`<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="${fill}"/></svg>`
+          const holdAvatarRequest=async route=>await new Promise(resolve=>releaseAvatarRoutes.push(async()=>{try{await route.fulfill({status:200,contentType:'image/svg+xml',body:avatarSvg(route.request().url().includes('fallback')?'#10b981':'#2563eb')})}finally{resolve()}}))
+          await context.route('**/__avatar-primary-pending.svg',holdAvatarRequest)
+          await context.route('**/__avatar-fallback-pending.svg',holdAvatarRequest)
+        }
         let page
         try {
           page = await createFixturePage(context,`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`,{timeout:navigationTimeout,readySelector:'body[data-interaction-ready="true"]'})
@@ -1985,6 +2007,7 @@ try {
           console.error(`INTERACTION FAIL browser=${browserName} case=${item.name} duration=${durationMs}ms`)
           console.error(error.stack || error)
         } finally {
+          for(const release of releaseAvatarRoutes.splice(0))await release()
           const cleanupError=await closeBrowserResource(context,`interaction-context:${item.name}`)
           if(cleanupError){failures+=1;console.error(cleanupError.stack||cleanupError)}
         }

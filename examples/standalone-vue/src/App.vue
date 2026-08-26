@@ -4,6 +4,7 @@ import {
   UiAlert,
   UiAffix,
   UiAnchor,
+  UiAvatar,
   UiAutoComplete,
   UiBarcode,
   UiBreadcrumb,
@@ -296,7 +297,7 @@ const rows = computed(() => [
       </UiLayout>
     </UiCard>
     <UiCard data-skeleton-state-contract title="Consumer loading/content" subtitle="The standalone package keeps one stable placeholder/content region.">
-      <UiSkeleton :loading="!standaloneCardSelected" :rows="2" avatar title round aria-label="Loading consumer data"><template #default><strong>Consumer data ready</strong></template></UiSkeleton>
+      <div class="standalone-avatar-contract"><UiAvatar name="Standalone User" initials="SU" size="40px" color="var(--brand-600)" aria-label="Standalone user avatar"/><UiSkeleton :loading="!standaloneCardSelected" :rows="2" avatar title round aria-label="Loading consumer data"><template #default><strong>Consumer data ready</strong></template></UiSkeleton></div>
     </UiCard>
 
     <UiCard data-breadcrumb-state-contract title="Consumer navigation path" subtitle="Semantic, collapsible and typed UiBreadcrumb from the packed dependency">

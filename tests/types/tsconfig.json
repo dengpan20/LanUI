@@ -9,5 +9,5 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": []
   },
-    "include": ["./contracts.ts", "./Consumer.vue", "./LayoutP83.vue", "./SkeletonP84.vue"]
+    "include": ["./contracts.ts", "./Consumer.vue", "./LayoutP83.vue", "./SkeletonP84.vue", "./AvatarP85.vue"]
 }

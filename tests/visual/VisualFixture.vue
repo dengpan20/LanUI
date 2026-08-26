@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSkeleton, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider, enUS,
+  UiAvatar, UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSkeleton, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider, enUS,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -443,6 +443,14 @@ const tableRows=[
         <UiSkeleton rows="3" avatar title round aria-label="Loading release evidence" />
         <UiSkeleton :rows="2" :row-widths="[0,'64%']" :avatar-size="32" avatar-shape="square" :animated="false" />
         <UiSkeleton :loading="false"><div class="visual-skeleton-loaded"><strong>Release evidence loaded</strong><span>Content replaces the placeholder without duplicate DOM.</span></div></UiSkeleton>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='avatar'" title="Avatar image and fallback contract" subtitle="Grapheme-safe initials, deterministic image fallback, custom dimensions and accessible labels" title-tag="h2" class="visual-table-card visual-avatar-showcase">
+      <div class="visual-avatar-grid" data-avatar-state-contract="initials unicode custom-size custom-color shape loading fallback retry decorative dark rtl compact ssr">
+        <UiAvatar name="Admin User" aria-label="Admin User avatar" />
+        <UiAvatar name="👩‍💻 Team" shape="square" size="48px" color="var(--brand-600)" initials="👩‍💻T" />
+        <UiAvatar src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Crect width='64' height='64' fill='%2310b981'/%3E%3C/svg%3E" fallback-src="missing-avatar.svg" name="Loaded user" loading="eager" />
+        <UiAvatar name="Private" decorative color="gray" /><UiAvatar name="Fallback" src="missing-avatar.svg" fallback-src="missing-avatar-2.svg" color="purple"><template #fallback="{initials}"><strong>{{ initials }}</strong></template></UiAvatar>
       </div>
     </UiCard>
     <UiCard v-if="state==='float-button'" title="Production floating actions" subtitle="Accessible standalone actions, speed dial and back-to-top behavior" title-tag="h2" class="visual-table-card visual-float-button-showcase">

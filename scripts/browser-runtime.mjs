@@ -5,6 +5,11 @@ import { chromium, firefox, webkit } from 'playwright'
 import { build, createServer } from 'vite'
 
 const browserTypes={chromium,firefox,webkit}
+const UNSAFE_BROWSER_PORTS=new Set([1,7,9,11,13,15,17,19,20,21,22,23,25,37,42,43,53,77,79,87,95,101,102,103,104,109,110,111,113,115,117,119,123,135,139,143,179,389,427,465,512,513,514,515,526,530,531,532,540,556,563,587,601,636,993,995,2049,3659,4045,5060,5061,6000,6566,6665,6666,6667,6668,6669,6697,10080])
+export function isUnsafeBrowserPort(port){
+  const value=Number(port)
+  return UNSAFE_BROWSER_PORTS.has(value)
+}
 
 export function resolveBrowserType(engine='chromium'){
   const browserType=browserTypes[engine]
@@ -229,12 +234,20 @@ export async function startFixtureServer(root){
   const stageTimeout=resolveBrowserStageTimeout()
   let server
   try{
-    server=await withBrowserTimeout(()=>createServer({root,logLevel:'error',server:{host:'127.0.0.1',port:0}}),stageTimeout,'server-create')
-    await withBrowserTimeout(()=>server.listen(),stageTimeout,'server-listen')
-    const address=server.httpServer.address()
-    const port=typeof address==='object'&&address?address.port:4173
-    console.log(`BROWSER_SERVER_READY port=${port} timeoutMs=${stageTimeout}`)
-    return {server,origin:`http://127.0.0.1:${port}`}
+    for(let attempt=1;attempt<=8;attempt+=1){
+      server=await withBrowserTimeout(()=>createServer({root,logLevel:'error',server:{host:'127.0.0.1',port:0}}),stageTimeout,'server-create')
+      await withBrowserTimeout(()=>server.listen(),stageTimeout,'server-listen')
+      const address=server.httpServer.address()
+      const port=typeof address==='object'&&address?address.port:4173
+      if(!isUnsafeBrowserPort(port)){
+        console.log(`BROWSER_SERVER_READY port=${port} timeoutMs=${stageTimeout}`)
+        return {server,origin:`http://127.0.0.1:${port}`}
+      }
+      console.log(`BROWSER_SERVER_RETRY_UNSAFE_PORT port=${port} attempt=${attempt}/8`)
+      await withBrowserTimeout(()=>server.close(),stageTimeout,'server-close-unsafe-port')
+      server=null
+    }
+    throw new Error('BROWSER_SERVER_UNSAFE_PORTS exhausted safe candidates')
   }catch(error){
     const cleanupError=await closeBrowserResource(server,'fixture-server')
     throw combineBrowserErrors(error,cleanupError?[cleanupError]:[],'fixture server')
@@ -278,7 +291,7 @@ export async function startStaticFixtureServer(root,{entry='interaction-regressi
     const entry=resolvePath(outputDir,entryName)
     if(!existsSync(entry))throw new Error(`fixture build did not produce ${entry}`)
     console.log(`BROWSER_FIXTURE_BUILD PASS entry=${entryName} bytes=${statSync(entry).size}`)
-    httpServer=createHttpServer((request,response)=>{
+    const requestHandler=(request,response)=>{
       try{
         const pathname=new URL(request.url||'/',`http://${request.headers.host||'localhost'}`).pathname
         const requested=pathname==='/'?`/${entryName}`:pathname
@@ -289,12 +302,21 @@ export async function startStaticFixtureServer(root,{entry='interaction-regressi
         response.writeHead(200,{'content-type':staticMimeTypes[extname(target).toLowerCase()]||'application/octet-stream','cache-control':'no-store'})
         createReadStream(target).pipe(response)
       }catch(error){response.writeHead(500);response.end(String(error?.message||error))}
-    })
-    await withBrowserTimeout(()=>new Promise((resolvePromise,reject)=>{
-      httpServer.once('error',reject)
-      httpServer.listen({host:'127.0.0.1',port:0},resolvePromise)
-    }),stageTimeout,'static-server-listen')
-    const port=httpServer.address().port
+    }
+    let port=0
+    for(let attempt=1;attempt<=8;attempt+=1){
+      httpServer=createHttpServer(requestHandler)
+      await withBrowserTimeout(()=>new Promise((resolvePromise,reject)=>{
+        httpServer.once('error',reject)
+        httpServer.listen({host:'127.0.0.1',port:0},resolvePromise)
+      }),stageTimeout,'static-server-listen')
+      port=httpServer.address().port
+      if(!isUnsafeBrowserPort(port))break
+      console.log(`BROWSER_STATIC_SERVER_RETRY_UNSAFE_PORT port=${port} attempt=${attempt}/8`)
+      await closeNodeHttpServer(httpServer,{timeout:stageTimeout})
+      httpServer=null
+    }
+    if(!httpServer||isUnsafeBrowserPort(port))throw new Error('BROWSER_STATIC_SERVER_UNSAFE_PORTS exhausted safe candidates')
     console.log(`BROWSER_STATIC_SERVER_READY port=${port} entry=${entryName}`)
     const server={
       close:async()=>{

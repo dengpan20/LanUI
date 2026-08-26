@@ -1,5 +1,6 @@
 * { animation: none !important; caret-color: transparent !important; transition: none !important; }
 .visual-skeleton-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}.visual-skeleton-grid>.ui-skeleton{min-width:0;padding:18px;border:1px solid var(--border-default);border-radius:10px;background:var(--bg-surface)}.visual-skeleton-loaded{display:grid;gap:6px;color:var(--text-secondary);font-size:12px;line-height:1.5}.visual-skeleton-loaded strong{color:var(--text-primary)}
+.visual-avatar-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;align-items:center;padding:24px;border:1px solid var(--border-default);border-radius:10px;background:var(--bg-surface)}.visual-avatar-grid>.ui-avatar{justify-self:center}
 @media (max-width:720px){.visual-skeleton-grid{grid-template-columns:minmax(0,1fr)}}
 html,body,#visual-app { min-height: 100%; }
 body { margin: 0; padding: 24px; background: var(--bg-page); }

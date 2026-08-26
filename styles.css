@@ -1491,8 +1491,9 @@ button.ui-tag-main,.ui-tag-main[href] { cursor:pointer;outline:none; }
 .ui-tabs.orientation-vertical .ui-tabs-list { flex-direction: column; border-inline-end: 1px solid var(--border-subtle); border-bottom: 0; }
 .ui-tabs.orientation-vertical .ui-tab { width: 100%; border-inline-end: 2px solid transparent; border-bottom: 0; justify-content: flex-start; }
 .ui-tabs.orientation-vertical .ui-tab[aria-selected="true"] { border-inline-end-color: var(--brand-text); }
-.ui-avatar { width: 32px; height: 32px; display: inline-grid; place-items: center; overflow: hidden; border-radius: 50%; color: #fff; background: var(--brand-600); font-size: 12px; font-weight: 700; vertical-align: middle; }
-.ui-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ui-avatar { width: var(--ui-a-s,32px); height: var(--ui-a-s,32px); display: inline-grid; place-items: center; overflow: hidden; border-radius: 50%; color: #fff; background: var(--ui-a-c,var(--brand-600)); font-size: var(--ui-a-f,12px); font-weight: 700; }
+.ui-avatar img,.ui-avatar-image,.ui-avatar-placeholder,.ui-avatar-fallback { grid-area: 1 / 1; width: 100%; height: 100%; }
+.ui-avatar img,.ui-avatar-image { object-fit: var(--ui-a-fit,cover); }.ui-avatar-placeholder,.ui-avatar-fallback { display: grid; place-items: center; }.ui-avatar-placeholder-dot { width: 10px; height: 10px; border-radius: 50%; background: currentColor; }.ui-avatar.is-loading .ui-avatar-image { opacity: 0; }
 .ui-avatar.size-sm { width: 24px; height: 24px; font-size: 12px; }.ui-avatar.size-lg { width: 42px; height: 42px; font-size: 14px; }.ui-avatar.square { border-radius: 8px; }
 .ui-avatar.color-green { background:#10b981 }.ui-avatar.color-orange { background:#f59e0b }.ui-avatar.color-purple { background:#8b5cf6 }.ui-avatar.color-gray { background:#64748b }
 .ui-badge-wrap { position: relative; display: inline-flex; vertical-align: middle; }

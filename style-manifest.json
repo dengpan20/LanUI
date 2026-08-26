@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.79.0",
+  "version": "1.80.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 286154,
-    "rules": 2238,
+    "bytes": 286526,
+    "rules": 2242,
     "source": "component-union"
   },
   "core": {
@@ -40,8 +40,8 @@
     {
       "name": "UiAvatar",
       "subpath": "./styles/UiAvatar.css",
-      "bytes": 610,
-      "rules": 9
+      "bytes": 982,
+      "rules": 13
     },
     {
       "name": "UiBadge",

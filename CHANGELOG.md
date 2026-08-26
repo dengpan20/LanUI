@@ -4,6 +4,12 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.80.0] - 2026-08-26
+
+### Added
+
+- Expanded `UiAvatar` with grapheme-safe initials, safe custom dimensions/colors, image fallback/retry events, scoped placeholder/fallback slots, accessible labels and SSR-safe instance inspection.
+
 ## [1.79.0] - 2026-08-26
 
 ### Added

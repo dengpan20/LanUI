@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4181",
-    "build": "vite build"
+    "build": "vite build && node ../../scripts/minify-standalone-js.mjs && node ../../scripts/minifier-runtime-regression.mjs"
   },
   "dependencies": {
     "lan-ui-design-system": "workspace:*",
