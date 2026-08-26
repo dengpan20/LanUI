@@ -1,5 +1,6 @@
 import '../tokens.css'
 import '../styles.css'
+import './config.js'
 
 export * from './components.js'
 export * from './color.js'

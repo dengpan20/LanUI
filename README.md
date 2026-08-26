@@ -14,7 +14,7 @@
 
 Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同时提供组件库、设计 Token、主题与国际化运行时、组件 API 文档，以及可直接运行的后台示例，适合 ERP、CRM、运营平台、数据后台和 AI 工作台等中后台产品。
 
-当前版本为 **v1.77.0**，公共 API 覆盖 **92 个组件、1,759 个 Props、604 个 Events 和 397 个 Slots**。
+当前版本为 **v1.78.0**，公共 API 覆盖 **92 个组件、1,796 个 Props、604 个 Events 和 399 个 Slots**。
 
 ## 为什么选择 Lan UI
 
@@ -37,6 +37,8 @@ Lan UI 是一个基于 **Vue 3 + Vite** 的开源企业级设计系统。它同�
 **P81 成熟日期范围选择器**：`UiDateRangePicker` 在日期模式使用真实 `UiPopover` + `UiCalendar` 范围面板，支持受控/默认值、打开与视图状态、两步预览/完成、预设、约束、同步/异步守卫、组合 Slots、实例 API、RTL、Portal、SSR 与无障碍语义；`UiTimeRangePicker` 与 `UiDateTimeRangePicker` 保持原生双输入适配器。
 
 **P82 悬浮操作组件族**：`UiFloatButton` 支持原生按钮/链接、提示、徽标溢出、加载与禁用、受控可见性、Back-to-top、目标滚动与实例 API；默认保持调用方 DOM，显式 `teleportTo` 才建立 Portal。新增 `UiFloatButtonGroup` 提供点击/悬停 Speed Dial、异步打开守卫、动作注册、方向键/Home/End、Escape 焦点恢复、RTL、Portal 主题与 SSR 安全语义；组内子按钮由 Group 拥有 Portal，不会重复 teleport。
+
+**P83 响应式布局原语**：`UiLayout`、`UiGrid`、`UiCol`、`UiSpace` 与 `UiDivider` 保留既有标量默认值，并增加 SSR 安全的 xs/sm/md/lg/xl/xxl 响应式值、fixed/auto-fit/auto-fill 栅格、实际列偏移与溢出钳制、Fragment 安全分隔符、语义/装饰分隔线、逻辑 RTL、密度、实例状态与 `getRect()`。组件中心、Workbench、静态预览、独立示例、类型、视觉、Axe、三浏览器交互和打包消费均使用真实布局原语。
 
 ```vue
 <UiTable v-model:selected-rows="selected" v-model:expanded-rows="expanded" :columns="columns" :rows="rows" selectable expandable resizable />

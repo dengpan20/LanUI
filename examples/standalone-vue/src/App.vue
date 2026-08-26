@@ -37,6 +37,11 @@ import {
   UiInputTag,
   UiIcon,
   UiImage,
+  UiLayout,
+  UiGrid,
+  UiCol,
+  UiSpace,
+  UiDivider,
   UiList,
   UiMentions,
   UiMultiSelect,
@@ -276,6 +281,19 @@ const rows = computed(() => [
       <template #meta><UiIcon name="projectMark" :size="18" color="var(--brand-600)" aria-label="项目标识"/><span class="standalone-kicker">独立消费示例</span><UiTag color="blue">Vue 3 + Vite</UiTag></template>
       <template #actions><UiButton id="standalone-tour-trigger" size="sm" variant="outline" @click="standaloneTourCurrent=0;standaloneTourOpen=true">Product tour</UiButton></template>
     </UiPageHeader>
+    <UiCard title="Responsive layout primitives" subtitle="The packed consumer uses the five layout primitives directly; responsive values are CSS-driven and preserve DOM order.">
+      <UiLayout :gap="{ xs: 8, md: 16 }" direction="column" density="compact">
+        <UiGrid :columns="{ xs: 1, sm: 2, lg: 4 }" :gap="{ xs: 8, md: 12 }" mode="fixed" aria-label="Standalone layout grid">
+          <UiCol v-for="(label, index) in ['Overview', 'Schema', 'Release', 'Audit']" :key="label" :span="{ xs: 1, lg: 1 }" :offset="index === 1 ? { xs: 0, lg: 1 } : 0">
+            <UiCard variant="filled" :title="label" :subtitle="`Column ${index + 1}; DOM order is unchanged`" />
+          </UiCol>
+        </UiGrid>
+        <UiSpace :size="{ xs: 4, md: 8 }" separator="·" aria-label="Layout density samples">
+          <UiTag color="blue">Responsive</UiTag><UiTag color="green">RTL-safe</UiTag><UiTag color="gray">SSR-safe</UiTag>
+        </UiSpace>
+        <UiDivider label="Layout boundary" />
+      </UiLayout>
+    </UiCard>
 
     <UiCard data-breadcrumb-state-contract title="Consumer navigation path" subtitle="Semantic, collapsible and typed UiBreadcrumb from the packed dependency">
       <UiBreadcrumb v-model:expanded="standaloneBreadcrumbExpanded" :items="standaloneBreadcrumbItems" :max-items="4" :items-after-collapse="2" truncate aria-label="Consumer package location" @navigate="(_item,meta,event)=>{event?.preventDefault();toast.info(`${meta.label} · ${meta.source}`)}"/>

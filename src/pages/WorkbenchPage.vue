@@ -6,6 +6,11 @@ import MetricCard from '../components/MetricCard.vue'
 import UiCard from '../components/UiCard.vue'
 import UiFloatButton from '../components/UiFloatButton.vue'
 import UiFloatButtonGroup from '../components/UiFloatButtonGroup.vue'
+import UiLayout from '../components/UiLayout.vue'
+import UiGrid from '../components/UiGrid.vue'
+import UiCol from '../components/UiCol.vue'
+import UiSpace from '../components/UiSpace.vue'
+import UiDivider from '../components/UiDivider.vue'
 defineEmits(['notify','navigate'])
 
 const quick = [
@@ -23,6 +28,7 @@ const activities = [
 <template>
   <div class="page-container">
     <UiPageHeader title="我的工作台" description="集中处理待办、业务动态与常用功能" :breadcrumbs="[{label:'工作台',href:'#/workbench'},{label:'我的工作台'}]"><template #actions><button class="icon-btn outline" title="自定义工作台" @click="$emit('notify','工作台编辑模式已开启')"><AppIcon name="settings"/></button></template></UiPageHeader>
+    <UiLayout :gap="12" contained aria-label="工作台布局原语"><UiGrid :columns="{xs:1,md:4}" :gap="{xs:8,md:12}" mode="fixed"><UiCol :span="4"><UiSpace :size="6" :wrap="false"><span class="subtle">Responsive layout</span><UiDivider vertical decorative/></UiSpace></UiCol><UiCol :span="4"><span class="subtle">12 → 4 columns</span></UiCol><UiCol :span="4"><span class="subtle">RTL-safe logical gaps</span></UiCol></UiGrid></UiLayout>
     <div class="card welcome-card" style="margin-bottom:16px">
       <UiAvatar name="Admin User" size="lg"/><div class="welcome-copy"><h2>早上好，Admin User 👋</h2><p>今天是 2026 年 8 月 10 日，星期一。你有 <strong class="text-brand">6 项待办</strong>需要处理。</p></div>
       <div class="welcome-weather"><AppIcon name="sun" :size="30" class="weather-icon"/><div><strong>29°C</strong><div class="subtle" style="font-size:10px">上海 · 晴</div></div></div>

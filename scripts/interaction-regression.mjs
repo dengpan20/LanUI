@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { launchBrowser, navigateFixture, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
+import { closeBrowserResource, combineBrowserErrors, createFixturePage, launchBrowserReady, resolveBrowserNavigationTimeout, startFixtureServer, startStaticInteractionFixtureServer } from './browser-runtime.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const reportDir = resolve(root, '.verify/interaction', process.platform)
@@ -1873,6 +1873,35 @@ const allCases = [
     },
   },
   {
+    name:'layout-primitives-reflow-responsive-rtl',
+    query:'direction=ltr&state=layout',
+    run:async page=>{
+      const section=page.locator('.interaction-layout-case')
+      const grid=section.locator('#interaction-layout-grid')
+      await grid.waitFor()
+      assert.equal(await grid.locator('.ui-col').count(),4)
+      assert.equal(await grid.getAttribute('class').then(value=>value.includes('mode-fixed')),true)
+      const desktopRects=await grid.locator('.ui-col').evaluateAll(elements=>elements.map(element=>{const rect=element.getBoundingClientRect();return {left:Math.round(rect.left),right:Math.round(rect.right),width:Math.round(rect.width)}}))
+      assert.equal(new Set(desktopRects.map(rect=>rect.left)).size,4,'fixed four-column grid must auto-place offset=0 cells on distinct tracks')
+      assert(desktopRects.every(rect=>rect.width>0&&rect.right<=1280),'fixed grid cells must remain inside the desktop viewport')
+      await section.locator('#interaction-layout-columns').selectOption('8')
+      assert.equal(await grid.evaluate(node=>node.style.getPropertyValue('--grid-columns')),'8')
+      await section.locator('#interaction-layout-mode').selectOption('auto-fit')
+      assert.equal(await grid.getAttribute('class').then(value=>value.includes('mode-auto-fit')),true)
+      await section.locator('#interaction-layout-rtl').click()
+      await expectText(page,'layout-output','direction:rtl')
+      assert.equal(await section.locator('.ui-layout').getAttribute('dir'),'rtl')
+      const domOrder=await grid.locator('.ui-card').allTextContents()
+      assert.deepEqual(domOrder.map(value=>value.trim()),['one','two','three','four'])
+      await page.setViewportSize({width:390,height:1100})
+      assert((await page.evaluate(()=>document.documentElement.scrollWidth))<=390,'layout fixture must not create page-level horizontal overflow at 390px')
+      const mobileRects=await grid.locator('.ui-col').evaluateAll(elements=>elements.map(element=>{const rect=element.getBoundingClientRect();return {left:Math.round(rect.left),right:Math.round(rect.right),width:Math.round(rect.width)}}))
+      assert(mobileRects.every(rect=>rect.width>0&&rect.left>=0&&rect.right<=390),'responsive layout cells must be clamped to the mobile viewport')
+      assert.equal(await section.locator('.ui-space').getAttribute('aria-label'),'Layout order')
+      await page.setViewportSize({width:1280,height:1100})
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{
@@ -1916,21 +1945,24 @@ async function expectFocused(page, locator) {
   assert.equal(await locator.evaluate(node => node === document.activeElement), true)
 }
 
-const { server, origin } = await startFixtureServer(root)
+const debugDevFixture=process.env.LAN_UI_INTERACTION_FIXTURE_MODE==='dev'
+const useStaticFixture=!debugDevFixture
+console.log(`BROWSER_FIXTURE_MODE mode=${useStaticFixture?'static':'dev'} reason=${useStaticFixture?'authoritative-production-fixture':'explicit-debug-dev-fixture'}`)
+const { server, origin } = useStaticFixture ? await startStaticInteractionFixtureServer(root) : await startFixtureServer(root)
 let failures = 0
 const allResults = []
+let primaryError
 try {
   for(const browserName of browserNames){
-    const browser=await launchBrowser(browserName)
+    const browser=await launchBrowserReady(browserName,{warmupUrl:`${origin}/interaction-regression.html?direction=ltr`,readySelector:'body[data-interaction-ready="true"]',viewport:{width:1280,height:1100}})
     const browserResults=[]
     try{
       for (const item of cases) {
         const started = performance.now()
         const context = await browser.newContext({ viewport: { width: 1280, height: 1100 }, locale: 'en-US', reducedMotion: 'reduce' })
-        const page = await context.newPage()
+        let page
         try {
-          await navigateFixture(page,`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`,{timeout:navigationTimeout})
-          await page.waitForSelector('body[data-interaction-ready="true"]')
+          page = await createFixturePage(context,`${origin}/interaction-regression.html?${item.query || 'direction=ltr'}`,{timeout:navigationTimeout,readySelector:'body[data-interaction-ready="true"]'})
           await item.run(page)
           const durationMs = Math.round(performance.now() - started)
           browserResults.push({ browser:browserName, case: item.name, status: 'passed', durationMs })
@@ -1942,11 +1974,13 @@ try {
           console.error(`INTERACTION FAIL browser=${browserName} case=${item.name} duration=${durationMs}ms`)
           console.error(error.stack || error)
         } finally {
-          await context.close()
+          const cleanupError=await closeBrowserResource(context,`interaction-context:${item.name}`)
+          if(cleanupError){failures+=1;console.error(cleanupError.stack||cleanupError)}
         }
       }
     }finally{
-      await browser.close()
+      const cleanupError=await closeBrowserResource(browser,`interaction-browser:${browserName}`)
+      if(cleanupError)throw cleanupError
     }
     allResults.push(...browserResults)
     writeFileSync(resolve(reportDir, `${browserName}.json`), JSON.stringify({ platform: process.platform, browser:browserName, cases: browserResults }, null, 2) + '\n', 'utf8')
@@ -1955,6 +1989,12 @@ try {
   writeFileSync(resolve(reportDir, 'report.json'), JSON.stringify({ platform: process.platform, browsers:browserNames, cases: allResults }, null, 2) + '\n', 'utf8')
   if (failures) process.exitCode = 1
   else console.log(`INTERACTION_REGRESSION PASS browsers=${browserNames.length} cases=${allResults.length} platform=${process.platform}`)
+} catch(error) {
+  primaryError=error
 } finally {
-  await server.close()
+  const cleanupErrors=[]
+  const serverCleanup=await closeBrowserResource(server,'interaction-server')
+  if(serverCleanup)cleanupErrors.push(serverCleanup)
+  const combined=combineBrowserErrors(primaryError,cleanupErrors,'interaction regression')
+  if(combined)throw combined
 }

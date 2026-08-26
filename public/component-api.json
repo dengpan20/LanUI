@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "package": "lan-ui-design-system",
-  "version": "1.77.0",
+  "version": "1.78.0",
   "generatedFrom": "api-manifest.json",
   "categories": [
     {
@@ -4201,11 +4201,50 @@
       "propsType": "UiColProps",
       "props": [
         {
+          "name": "alignSelf",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutAlign|'auto'>",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"auto\""
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "hidden",
+          "required": false,
+          "type": "UiResponsiveValue<boolean>",
+          "runtimeTypes": [
+            "Boolean",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
           "name": "offset",
           "required": false,
-          "type": "number",
+          "type": "UiResponsiveValue<number>",
           "runtimeTypes": [
-            "Number"
+            "Number",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -4215,9 +4254,10 @@
         {
           "name": "order",
           "required": false,
-          "type": "number",
+          "type": "UiResponsiveValue<number>",
           "runtimeTypes": [
-            "Number"
+            "Number",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -4225,15 +4265,41 @@
           }
         },
         {
+          "name": "rowSpan",
+          "required": false,
+          "type": "UiResponsiveValue<number>",
+          "runtimeTypes": [
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1"
+          }
+        },
+        {
           "name": "span",
           "required": false,
-          "type": "number",
+          "type": "UiResponsiveValue<number>",
           "runtimeTypes": [
-            "Number"
+            "Number",
+            "Object"
           ],
           "default": {
             "kind": "literal",
             "value": "12"
+          }
+        },
+        {
+          "name": "tag",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"div\""
           }
         }
       ],
@@ -4244,7 +4310,7 @@
         {
           "name": "default",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{getState:UiColInstance['getState']})=>VNodeChild"
         }
       ]
     },
@@ -9263,7 +9329,43 @@
       "propsType": "UiDividerProps",
       "props": [
         {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "color",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "dashed",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "decorative",
           "required": false,
           "type": "boolean",
           "runtimeTypes": [
@@ -9287,6 +9389,82 @@
           }
         },
         {
+          "name": "labelPosition",
+          "required": false,
+          "type": "'start'|'center'|'end'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"center\""
+          }
+        },
+        {
+          "name": "margin",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "14"
+          }
+        },
+        {
+          "name": "orientation",
+          "required": false,
+          "type": "'horizontal'|'vertical'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"horizontal\""
+          }
+        },
+        {
+          "name": "tag",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"div\""
+          }
+        },
+        {
+          "name": "thickness",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "1"
+          }
+        },
+        {
+          "name": "variant",
+          "required": false,
+          "type": "'solid'|'dashed'|'dotted'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"solid\""
+          }
+        },
+        {
           "name": "vertical",
           "required": false,
           "type": "boolean",
@@ -9302,7 +9480,13 @@
       "emitsType": "UiDividerEmits",
       "emits": [],
       "slotsType": "UiDividerSlots",
-      "slots": []
+      "slots": [
+        {
+          "name": "label",
+          "required": false,
+          "type": "()=>VNodeChild"
+        }
+      ]
     },
     {
       "name": "UiDrawer",
@@ -11466,9 +11650,10 @@
         {
           "name": "align",
           "required": false,
-          "type": "'start'|'center'|'end'|'stretch'",
+          "type": "UiResponsiveValue<UiLayoutAlign>",
           "runtimeTypes": [
-            "String"
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -11476,12 +11661,51 @@
           }
         },
         {
-          "name": "columns",
+          "name": "ariaLabel",
           "required": false,
-          "type": "number|string",
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "autoFlow",
+          "required": false,
+          "type": "'row'|'column'|'dense'|'row dense'|'column dense'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"row\""
+          }
+        },
+        {
+          "name": "columnGap",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
           "runtimeTypes": [
             "Number",
-            "String"
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "columns",
+          "required": false,
+          "type": "UiResponsiveValue<number|string>",
+          "runtimeTypes": [
+            "Number",
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -11489,12 +11713,38 @@
           }
         },
         {
+          "name": "dense",
+          "required": false,
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "density",
+          "required": false,
+          "type": "UiLayoutDensity",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
+          }
+        },
+        {
           "name": "gap",
           "required": false,
-          "type": "number|string",
+          "type": "UiResponsiveValue<UiGapValue>",
           "runtimeTypes": [
             "Number",
-            "String"
+            "String",
+            "Array",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -11502,16 +11752,68 @@
           }
         },
         {
+          "name": "justify",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutJustify>",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"stretch\""
+          }
+        },
+        {
           "name": "min",
           "required": false,
-          "type": "number|string",
+          "type": "UiResponsiveValue<string|number>",
           "runtimeTypes": [
             "Number",
-            "String"
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
             "value": "0"
+          }
+        },
+        {
+          "name": "mode",
+          "required": false,
+          "type": "'fixed'|'auto-fit'|'auto-fill'",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "rowGap",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
+          "runtimeTypes": [
+            "Number",
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "tag",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"div\""
           }
         }
       ],
@@ -11522,7 +11824,7 @@
         {
           "name": "default",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{columns:UiResponsiveValue<number|string>;mode:'fixed'|'auto-fit'|'auto-fill';getState:UiGridInstance['getState']})=>VNodeChild"
         }
       ]
     },
@@ -13449,6 +13751,31 @@
       "propsType": "UiLayoutProps",
       "props": [
         {
+          "name": "align",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutAlign>",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"stretch\""
+          }
+        },
+        {
+          "name": "ariaLabel",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
           "name": "contained",
           "required": false,
           "type": "boolean",
@@ -13461,11 +13788,24 @@
           }
         },
         {
-          "name": "direction",
+          "name": "density",
           "required": false,
-          "type": "'horizontal'|'vertical'",
+          "type": "UiLayoutDensity",
           "runtimeTypes": [
             "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutDirection>",
+          "runtimeTypes": [
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -13475,10 +13815,66 @@
         {
           "name": "gap",
           "required": false,
-          "type": "string|number",
+          "type": "UiResponsiveValue<string|number>",
           "runtimeTypes": [
             "String",
-            "Number"
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "justify",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutJustify>",
+          "runtimeTypes": [
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"start\""
+          }
+        },
+        {
+          "name": "maxWidth",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "undefined",
+            "value": "undefined"
+          }
+        },
+        {
+          "name": "minHeight",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "0"
+          }
+        },
+        {
+          "name": "padding",
+          "required": false,
+          "type": "UiResponsiveValue<string|number>",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -13496,6 +13892,20 @@
             "kind": "literal",
             "value": "\"section\""
           }
+        },
+        {
+          "name": "wrap",
+          "required": false,
+          "type": "UiResponsiveValue<boolean|'wrap'|'nowrap'>",
+          "runtimeTypes": [
+            "Boolean",
+            "String",
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
         }
       ],
       "emitsType": "UiLayoutEmits",
@@ -13505,7 +13915,7 @@
         {
           "name": "default",
           "required": false,
-          "type": "()=>VNodeChild"
+          "type": "(scope:{root:Ref<HTMLElement|null>;getState:UiLayoutInstance['getState']})=>VNodeChild"
         }
       ]
     },
@@ -19735,9 +20145,10 @@
         {
           "name": "align",
           "required": false,
-          "type": "'start'|'center'|'end'|'stretch'",
+          "type": "UiResponsiveValue<UiLayoutAlign>",
           "runtimeTypes": [
-            "String"
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -19745,11 +20156,36 @@
           }
         },
         {
-          "name": "direction",
+          "name": "ariaLabel",
           "required": false,
-          "type": "'horizontal'|'vertical'",
+          "type": "string",
           "runtimeTypes": [
             "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"\""
+          }
+        },
+        {
+          "name": "density",
+          "required": false,
+          "type": "UiLayoutDensity",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"default\""
+          }
+        },
+        {
+          "name": "direction",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutDirection>",
+          "runtimeTypes": [
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -19757,12 +20193,52 @@
           }
         },
         {
-          "name": "size",
+          "name": "inline",
           "required": false,
-          "type": "string|number",
+          "type": "boolean",
+          "runtimeTypes": [
+            "Boolean"
+          ],
+          "default": {
+            "kind": "implicit",
+            "value": "false"
+          }
+        },
+        {
+          "name": "justify",
+          "required": false,
+          "type": "UiResponsiveValue<UiLayoutJustify>",
           "runtimeTypes": [
             "String",
-            "Number"
+            "Object"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"start\""
+          }
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "string|boolean",
+          "runtimeTypes": [
+            "String",
+            "Boolean"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "false"
+          }
+        },
+        {
+          "name": "size",
+          "required": false,
+          "type": "UiResponsiveValue<string|number|readonly [string|number,string|number]>",
+          "runtimeTypes": [
+            "String",
+            "Number",
+            "Array",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -19770,11 +20246,25 @@
           }
         },
         {
+          "name": "tag",
+          "required": false,
+          "type": "string",
+          "runtimeTypes": [
+            "String"
+          ],
+          "default": {
+            "kind": "literal",
+            "value": "\"div\""
+          }
+        },
+        {
           "name": "wrap",
           "required": false,
-          "type": "boolean",
+          "type": "UiResponsiveValue<boolean|'wrap'|'nowrap'>",
           "runtimeTypes": [
-            "Boolean"
+            "Boolean",
+            "String",
+            "Object"
           ],
           "default": {
             "kind": "literal",
@@ -19790,6 +20280,11 @@
           "name": "default",
           "required": false,
           "type": "()=>VNodeChild"
+        },
+        {
+          "name": "separator",
+          "required": false,
+          "type": "(scope:{index:number})=>VNodeChild"
         }
       ]
     },

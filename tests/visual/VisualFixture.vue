@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark,
+  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider, enUS,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -193,7 +193,7 @@ const tableRows=[
 </script>
 
 <template>
-  <UiConfigProvider id="visual-fixture" class="visual-fixture" tag="main" locale="en-US" :appearance="theme" :direction="direction" :density="density" :data-theme-case="theme">
+  <UiConfigProvider id="visual-fixture" class="visual-fixture" tag="main" :locale="enUS" :appearance="theme" :direction="direction" :density="density" :data-theme-case="theme">
     <ApiReferencePage v-if="state==='api-docs'" />
     <template v-else>
     <header class="visual-header">
@@ -423,6 +423,19 @@ const tableRows=[
       <div class="visual-stack" data-date-range-state-contract="controlled default open view range-preview range-complete presets constraints async-guard rtl dark forced-colors reduced-motion ssr">
         <div class="visual-form"><UiDateRangePicker :model-value="['2026-08-20']" default-open default-view-date="2026-08-01" :append-to-body="false" :presets="[{key:'release',label:'Release window',value:['2026-08-20','2026-08-24']}]" aria-label="Pending release window"/><UiDateRangePicker :model-value="['2026-08-20','2026-08-24']" view-date="2026-08-01" :append-to-body="false" :presets="[{key:'week',label:'This week',value:['2026-08-10','2026-08-16']}]" aria-label="Complete release window"/></div>
         <div class="visual-time-range-summary"><UiTag color="blue">start pending / hover preview</UiTag><UiTag color="green">range complete / preset</UiTag><UiTag color="orange">RTL / dark / focus / SSR</UiTag></div>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='layout'" title="Responsive layout primitives" subtitle="Real Grid, Col, Space and Divider contract across density, RTL and viewport states" title-tag="h2" class="visual-table-card visual-layout-showcase">
+      <div class="visual-layout-grid" data-layout-state-contract="responsive fixed auto-fit auto-fill actual-columns hidden order separator divider instance rtl dark compact ssr">
+        <UiLayout :gap="{ xs: 8, md: 16 }" :direction="{ xs: 'column', md: 'row' }" :density="density" :dir="direction">
+          <UiGrid :columns="{ xs: 1, sm: 2, md: 4 }" :gap="{ xs: 6, md: 10 }" mode="fixed" :density="density" aria-label="Responsive release grid">
+            <UiCol v-for="(label,index) in ['Overview','Contracts','Consumers','Evidence']" :key="label" :span="{ xs: 1, md: 1 }" :offset="index===1?{ xs: 0, md: 1 }:0" :order="index===3?{ xs: 4, md: 3 }:index">
+              <UiCard variant="filled" :title="label" :subtitle="'Grid item ' + (index+1)" />
+            </UiCol>
+          </UiGrid>
+          <UiSpace :size="{ xs: 4, md: 8 }" separator="·" aria-label="Layout state labels"><UiTag color="blue">Responsive</UiTag><UiTag color="green">DOM order</UiTag><UiTag color="orange">Logical RTL</UiTag></UiSpace>
+          <UiDivider label="Semantic boundary" />
+        </UiLayout>
       </div>
     </UiCard>
     <UiCard v-if="state==='float-button'" title="Production floating actions" subtitle="Accessible standalone actions, speed dial and back-to-top behavior" title-tag="h2" class="visual-table-card visual-float-button-showcase">

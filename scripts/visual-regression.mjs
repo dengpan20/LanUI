@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import pixelmatch from 'pixelmatch'
 import { PNG } from 'pngjs'
-import { launchBrowser, navigateFixture, resolveBrowserNavigationTimeout, startFixtureServer } from './browser-runtime.mjs'
+import { closeBrowserResource, combineBrowserErrors, createFixturePage, launchBrowserReady, resolveBrowserNavigationTimeout, startStaticFixtureServer } from './browser-runtime.mjs'
 
 const root=resolve(import.meta.dirname,'..')
 const update=process.argv.includes('--update')
@@ -60,6 +60,7 @@ const allCases=[
   {name:'date-picker-contract',viewport:{width:1280,height:920},query:'theme=dark&direction=rtl&density=compact&state=date-picker',ready:'.visual-date-picker-showcase [data-date-picker-state-contract]',capture:'viewport',prepare:async page=>{await page.locator('.visual-date-picker-showcase').evaluate(element=>element.scrollIntoView({block:'center'}));await page.locator('.visual-date-picker-showcase .ui-calendar-day[data-date="2026-08-24"]').waitFor();await page.waitForTimeout(120)},diffAllowance:.002},
   {name:'date-range-picker-contract',viewport:{width:1280,height:980},query:'theme=dark&direction=rtl&density=compact&state=date-range',ready:'.visual-date-range-showcase [data-date-range-state-contract]',capture:'viewport',prepare:async page=>{await page.locator('.visual-date-range-showcase').evaluate(element=>element.scrollIntoView({block:'center'}));await page.locator('.visual-date-range-showcase .ui-calendar-day[data-date="2026-08-24"]').waitFor();await page.waitForTimeout(120)},diffAllowance:.002},
   {name:'float-button-contract',viewport:{width:1280,height:900},query:'theme=dark&direction=rtl&density=compact&state=float-button',ready:'.visual-float-button-showcase [data-float-button-state-contract]',capture:'viewport',prepare:async page=>{await page.locator('.visual-float-button-showcase').evaluate(element=>element.scrollIntoView({block:'center'}));await page.waitForTimeout(120)},diffAllowance:.002},
+  {name:'layout-contract',viewport:{width:1280,height:1000},query:'theme=dark&direction=rtl&density=compact&state=layout',ready:'.visual-layout-showcase [data-layout-state-contract]',capture:'viewport',prepare:async page=>{await page.locator('.visual-layout-showcase').evaluate(element=>element.scrollIntoView({block:'center'}));await page.waitForTimeout(120)},diffAllowance:.002},
   {name:'selection-contract',viewport:{width:1280,height:1000},query:'theme=dark&direction=rtl&density=compact&state=selection',ready:'.visual-selection-showcase [data-selection-state-contract]',selector:'.visual-selection-showcase',diffAllowance:.002},
   {name:'card-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=card',ready:'.visual-card-showcase [data-card-state-contract]',selector:'.visual-card-showcase'},
   {name:'tag-contract',viewport:{width:1280,height:900},query:'theme=light&direction=ltr&density=default&state=tag',ready:'.visual-tag-showcase [data-tag-state-contract]',selector:'.visual-tag-showcase'},
@@ -75,16 +76,15 @@ const requestedCases=(process.argv.find(argument=>argument.startsWith('--case=')
 const cases=requestedCases.length?allCases.filter(item=>requestedCases.includes(item.name)):allCases
 if(requestedCases.length&&cases.length!==requestedCases.length)throw new Error(`Unknown visual case: ${requestedCases.filter(name=>!cases.some(item=>item.name===name)).join(', ')}`)
 
-const {server,origin}=await startFixtureServer(root)
+const {server,origin}=await startStaticFixtureServer(root,{entry:'visual-regression.html',outputDirName:'visual-fixture-dist'})
 let browser
+let primaryError
 try{
-  browser=await launchBrowser()
+  browser=await launchBrowserReady('chromium',{warmupUrl:`${origin}/visual-regression.html?theme=light&direction=ltr&density=default`,readySelector:'body[data-visual-ready="true"]',viewport:{width:1280,height:1100}})
   let failed=0
   for(const item of cases){
     const context=await browser.newContext({viewport:item.viewport,deviceScaleFactor:1,colorScheme:item.name.startsWith('dark')?'dark':'light',locale:'en-US',reducedMotion:'reduce'})
-    const page=await context.newPage()
-    await navigateFixture(page,`${origin}/visual-regression.html?${item.query}`,{timeout:navigationTimeout})
-    await page.waitForSelector('body[data-visual-ready="true"]')
+    const page=await createFixturePage(context,`${origin}/visual-regression.html?${item.query}`,{timeout:navigationTimeout,readySelector:`body[data-visual-ready="true"]`})
     if(item.ready)await page.waitForSelector(item.ready)
     await item.prepare?.(page)
     const image=item.capture==='viewport'?await page.screenshot({animations:'disabled'}):await page.locator(item.selector||'#visual-fixture').screenshot({animations:'disabled'})
@@ -95,7 +95,9 @@ try{
       if(!update)throw new Error(`Missing ${platform} baseline: ${baseline}; run pnpm run visual:update`)
       writeFileSync(baseline,image)
       console.log(`VISUAL UPDATE case=${item.name} bytes=${image.length}`)
-      await context.close();continue
+      const cleanupError=await closeBrowserResource(context,'visual-update-context')
+      if(cleanupError)throw cleanupError
+      continue
     }
     const expected=PNG.sync.read(readFileSync(baseline));const actual=PNG.sync.read(image)
     if(expected.width!==actual.width||expected.height!==actual.height)throw new Error(`Visual dimensions changed for ${item.name}: ${expected.width}x${expected.height} -> ${actual.width}x${actual.height}`)
@@ -106,11 +108,19 @@ try{
     if(pixels)writeFileSync(resolve(diffDir,`${item.name}.png`),PNG.sync.write(diff))
     if(ratio>effectiveMaxDiffRatio){failed+=1;console.error(`VISUAL FAIL case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} maxDiffRatio=${effectiveMaxDiffRatio}`)}
     else console.log(`VISUAL PASS case=${item.name} pixels=${pixels} ratio=${ratio.toFixed(6)} size=${actual.width}x${actual.height} maxDiffRatio=${effectiveMaxDiffRatio}`)
-    await context.close()
+    const cleanupError=await closeBrowserResource(context,`visual-context:${item.name}`)
+    if(cleanupError)throw cleanupError
   }
   if(failed)process.exitCode=1
   else console.log(`VISUAL_REGRESSION ${update?'UPDATED':'PASS'} cases=${cases.length} platform=${platform} maxDiffRatio=${maxDiffRatio}`)
+}catch(error){
+  primaryError=error
 }finally{
-  await browser?.close()
-  await server.close()
+  const cleanupErrors=[]
+  const browserCleanup=await closeBrowserResource(browser,'visual-browser')
+  if(browserCleanup)cleanupErrors.push(browserCleanup)
+  const serverCleanup=await closeBrowserResource(server,'visual-server')
+  if(serverCleanup)cleanupErrors.push(serverCleanup)
+  const combined=combineBrowserErrors(primaryError,cleanupErrors,'visual regression')
+  if(combined)throw combined
 }

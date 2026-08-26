@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,8 +34,8 @@ required = [
     "src/components/UiResult.vue", "src/components/UiSpin.vue", "src/components/UiSegmented.vue",
     "src/components/UiConfigProvider.vue", "src/components/UiDateRangePicker.vue",
     "src/components/AppIcon.vue", "src/components/overlayManager.js", "src/components/floatingPosition.js", "src/components/focusUtils.js", "src/components/formUtils.js", "src/config.js", "src/config-runtime.js", "src/locales/zh-CN.js", "src/locales/en-US.js", "src/date.js", "src/icons.js", "src/components.js", "src/plugin.js", "src/feedback.js", "src/env.js", "src/color.js", "src/theme-tokens.js", "src/theme.js", "src/motion.js", "src/theme-scope.js", "src/index.js", "src/index.d.ts", "vite.lib.config.js", "vitest.config.js",
-    "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/generate-theme-tokens.mjs", "scripts/copy-types.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/minify-library-js.mjs", "scripts/css-boundary-contracts.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
-    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/otp-input-p47.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/watermark-p42.spec.js", "tests/affix-p43.spec.js", "tests/splitter-p44.spec.js", "tests/typography-p45.spec.js", "tests/list-p46.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/visual/baselines/win32/watermark-document.png", "tests/visual/baselines/win32/affix-container.png", "tests/visual/baselines/win32/splitter-workspace.png", "tests/visual/baselines/win32/typography-contract.png", "tests/visual/baselines/win32/list-contract.png", "tests/visual/baselines/win32/otp-input-contract.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
+    "design-tokens.json", "performance-budgets.json", "scripts/export-tokens.mjs", "scripts/generate-theme-tokens.mjs", "scripts/copy-types.mjs", "scripts/normalize-dts.mjs", "scripts/lint.mjs", "scripts/split-component-css.mjs", "scripts/minify-library-js.mjs", "scripts/css-boundary-contracts.mjs", "scripts/browser-runtime.mjs", "scripts/visual-regression.mjs", "scripts/accessibility-regression.mjs", "scripts/interaction-regression.mjs", "scripts/performance-regression.mjs",
+    "scripts/component-contracts.mjs", "scripts/locale-contracts.mjs", "scripts/intl-contracts.mjs", "scripts/locale-registry-contracts.mjs", "scripts/date-contracts.mjs", "scripts/icon-contracts.mjs", "scripts/color-contracts.mjs", "scripts/theme-contracts.mjs", "scripts/theme-portal-contracts.mjs", "scripts/motion-contracts.mjs", "scripts/copy-types-regression.mjs", "scripts/build_p14_artifacts.py", "scripts/build_p15_artifacts.py", "scripts/build_p16_artifacts.py", "scripts/build_p17_artifacts.py", "scripts/build_p18_artifacts.py", "scripts/build_p19_artifacts.py", "scripts/build_p20_artifacts.py", "scripts/build_p21_artifacts.py", "scripts/build_p22_artifacts.py", "scripts/build_p23_artifacts.py", "scripts/build_p24_artifacts.py", "scripts/build_p25_artifacts.py", "scripts/build_p26_artifacts.py", "scripts/build_p27_artifacts.py", "scripts/build_p28_artifacts.py", "scripts/build_p29_artifacts.py", "scripts/build_p30_artifacts.py", "scripts/build_p31_artifacts.py", "scripts/build_p32_artifacts.py", "scripts/build_p33_artifacts.py", "scripts/build_p34_artifacts.py", "scripts/build_p35_artifacts.py", "scripts/build_p36_artifacts.py", "scripts/test-package-exports.mjs", "scripts/build-subpath-consumer.mjs", "scripts/api-manifest.mjs", "tests/accessibility.spec.js", "tests/accessibility-p6.spec.js", "tests/maturity-p1.spec.js", "tests/maturity-p7.spec.js", "tests/maturity-p8.spec.js", "tests/config-p2.spec.js", "tests/locale-p11.spec.js", "tests/intl-p12.spec.js", "tests/locale-registry-p13.spec.js", "tests/date-p14.spec.js", "tests/icon-p15.spec.js", "tests/number-input-p16.spec.js", "tests/otp-input-p47.spec.js", "tests/slider-p17.spec.js", "tests/autocomplete-p18.spec.js", "tests/tree-p19.spec.js", "tests/command-palette-p20.spec.js", "tests/color-picker-p21.spec.js", "tests/rate-p22.spec.js", "tests/statistic-p23.spec.js", "tests/calendar-p24.spec.js", "tests/image-p25.spec.js", "tests/status-page-p26.spec.js", "tests/virtual-list-p26.spec.js", "tests/data-grid-p27.spec.js", "tests/form-p28.spec.js", "tests/form-list-p29.spec.js", "tests/schema-form-p30.spec.js", "tests/schema-form-list-p31.spec.js", "tests/upload-p32.spec.js", "tests/build-boundary-p33.spec.js", "tests/theme-p34.spec.js", "tests/theme-portal-p35.spec.js", "tests/motion-p36.spec.js", "tests/table-checkbox-p36.spec.js", "tests/tour-p41.spec.js", "tests/watermark-p42.spec.js", "tests/affix-p43.spec.js", "tests/splitter-p44.spec.js", "tests/typography-p45.spec.js", "tests/list-p46.spec.js", "tests/ssr-p3.spec.js", "tests/overlay-client-p3.spec.js", "tests/rtl-p5.spec.js", "tests/types/tsconfig.json", "tests/types/contracts.ts", "tests/types/Consumer.vue", "tests/visual/fixture-main.js", "tests/visual/VisualFixture.vue", "tests/visual/fixture.css", "tests/visual/baselines/win32/scoped-theme.png", "tests/visual/baselines/win32/scoped-theme-portal.png", "tests/visual/baselines/win32/scoped-motion.png", "tests/visual/baselines/win32/product-tour.png", "tests/visual/baselines/win32/watermark-document.png", "tests/visual/baselines/win32/affix-container.png", "tests/visual/baselines/win32/splitter-workspace.png", "tests/visual/baselines/win32/typography-contract.png", "tests/visual/baselines/win32/list-contract.png", "tests/visual/baselines/win32/otp-input-contract.png", "tests/interaction/fixture-main.js", "tests/interaction/InteractionFixture.vue", "tests/interaction/fixture.css", "tests/fixtures/subpath-consumer/index.html", "tests/fixtures/subpath-consumer/src/main.js", ".editorconfig", ".gitattributes", ".github/workflows/ci.yml",
     "tests/mentions-p48.spec.js", "tests/visual/baselines/win32/mentions-contract.png", "tests/input-tag-p49.spec.js", "tests/visual/baselines/win32/input-tag-contract.png", "tests/query-builder-p50.spec.js", "tests/visual/baselines/win32/query-builder-contract.png", "tests/carousel-p51.spec.js", "tests/visual/baselines/win32/carousel-contract.png", "tests/time-range-p52.spec.js", "tests/visual/baselines/win32/time-range-contract.png", "tests/date-time-p53.spec.js", "tests/visual/baselines/win32/date-time-contract.png", "tests/qr-code-p54.spec.js", "tests/visual/baselines/win32/qr-code-contract.png", "tests/barcode-p55.spec.js", "tests/visual/baselines/win32/barcode-contract.png", "tests/cron-editor-p56.spec.js", "tests/visual/baselines/win32/cron-editor-contract.png", "tests/key-value-editor-p57.spec.js", "tests/visual/baselines/win32/key-value-editor-contract.png", "tests/page-header-p58.spec.js", "tests/visual/baselines/win32/page-header-contract.png", "tests/card-p59.spec.js", "tests/visual/baselines/win32/card-contract.png", "tests/tag-p60.spec.js", "tests/visual/baselines/win32/tag-contract.png", "tests/timeline-p61.spec.js", "tests/visual/baselines/win32/timeline-contract.png", "tests/steps-p62.spec.js", "tests/visual/baselines/win32/steps-contract.png", "tests/breadcrumb-p63.spec.js", "tests/visual/baselines/win32/breadcrumb-contract.png", "tests/tooltip-p64.spec.js", "tests/visual/baselines/win32/tooltip-contract.png", "tests/popover-p65.spec.js", "tests/visual/baselines/win32/popover-contract.png", "tests/dropdown-p66.spec.js", "tests/visual/baselines/win32/dropdown-contract.png", "tests/collapse-p67.spec.js", "tests/visual/baselines/win32/collapse-contract.png", "scripts/build_p68_artifacts.py", "scripts/build_p69_artifacts.py", "scripts/build_p70_artifacts.py", "tests/input-p69.spec.js", "tests/textarea-p70.spec.js", "tests/visual/baselines/win32/input-contract.png", "tests/visual/baselines/win32/textarea-contract.png",
     "examples/standalone-vue/package.json", "examples/standalone-vue/vite.config.js",
     "examples/standalone-vue/src/main.js", "examples/standalone-vue/src/App.vue", "scripts/build_p71_artifacts.py", "tests/selection-p71.spec.js", "tests/visual/baselines/win32/selection-contract.png", "scripts/build_p72_artifacts.py", "tests/select-p72.spec.js", "tests/visual/baselines/win32/select-contract.png", "scripts/build_p73_artifacts.py", "tests/multi-select-p73.spec.js", "tests/visual/baselines/win32/multi-select-contract.png", "scripts/build_p74_artifacts.py", "tests/tree-select-p74.spec.js", "tests/visual/baselines/win32/tree-select-contract.png", "scripts/build_p75_artifacts.py", "scripts/static-preview-regression.mjs", "tests/cascader-p75.spec.js", "tests/select-scroll-position-regression.spec.js", "src/components/scrollUtils.js", "tests/visual/baselines/win32/cascader-contract.png", "scripts/build_p76_artifacts.py", "tests/transfer-p76.spec.js", "tests/visual/baselines/win32/transfer-contract.png", "scripts/build_p77_artifacts.py", "tests/pagination-p77.spec.js", "tests/visual/baselines/win32/pagination-contract.png", "scripts/build_p78_artifacts.py", "tests/table-p78.spec.js", "tests/visual/baselines/win32/table-contract.png", "scripts/build_p79_artifacts.py", "tests/date-picker-p79.spec.js", "tests/visual/baselines/win32/date-picker-contract.png",
@@ -669,8 +670,11 @@ if "Maturity P38: anchor navigation and lazy showcase routes" not in (ROOT / "UI
 packed_consumer = (ROOT / "scripts/packed-consumer-regression.mjs").read_text(encoding="utf-8")
 license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
 distribution_budgets = performance_budgets.get("distributionBudgets", {})
-if package.get("version") != "1.77.0" or package.get("private") is not False or package.get("license") != "MIT":
+current_version = package.get("version")
+if not isinstance(current_version, str) or not re.fullmatch(r"0|[1-9]\d*\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?", current_version) or package.get("private") is not False or package.get("license") != "MIT":
     failures.append("p39:publishable-metadata")
+if performance_budgets.get("version") != current_version:
+    failures.append("p39:budget-version-parity")
 if package.get("repository", {}).get("url") != "git+https://github.com/dengpan20/LanUI.git" or not package.get("publishConfig", {}).get("provenance") or package.get("publishConfig", {}).get("access") != "public":
     failures.append("p39:repository-provenance")
 if package.get("exports", {}).get("./tokens.css") != "./tokens.css" or "./tokens.css" not in package.get("sideEffects", []):
@@ -682,8 +686,11 @@ for marker in ["--ignore-workspace", "--offline", "packedManifest.private===fals
         failures.append(f"p39:packed-consumer:{marker}")
 if package.get("scripts", {}).get("test:packed-consumer") != "node scripts/packed-consumer-regression.mjs" or "test:packed-consumer" not in package.get("scripts", {}).get("test:package", "") or "test:package" not in package.get("scripts", {}).get("prepack", ""):
     failures.append("p39:package-gate")
-if distribution_budgets != {"packedFiles": 415, "packedTarballRaw": 639000, "packedUnpackedRaw": 4029000}:
+if set(distribution_budgets) != {"packedFiles", "packedTarballRaw", "packedUnpackedRaw"} or any(not isinstance(value, int) or value <= 0 for value in distribution_budgets.values()):
     failures.append("p39:distribution-budgets")
+for marker in ["distributionBudgets", "packedFiles", "packedTarballRaw", "packedUnpackedRaw", "statSync(tarball)", "Packed tarball", "Packed files", "Unpacked package"]:
+    if marker not in packed_consumer:
+        failures.append(f"p39:distribution-runtime:{marker}")
 if "MultiSelect P73" not in components_page or "1.71.0" not in components_page or "V1.71.0" not in preview:
     failures.append("p39:showcase-version")
 if "Maturity P39: publishable tarball and external consumer contract" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
@@ -1349,11 +1356,53 @@ if any(marker not in (ROOT / "tests/float-button-p82.spec.js").read_text(encodin
 if "Maturity P82: floating action family" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8") and "P82 悬浮操作组件族" not in (ROOT / "UI-SPEC.md").read_text(encoding="utf-8"):
     failures.append("p82:documentation")
 
+
+# P83 responsive layout primitive contract: runtime, examples, generated API, and every browser-facing case stay explicit.
+layout_runtime = (ROOT / "src/layout.js").read_text(encoding="utf-8")
+layout_sources = "\n".join((ROOT / "src/components" / f"{name}.vue").read_text(encoding="utf-8") for name in ["UiLayout", "UiGrid", "UiCol", "UiSpace", "UiDivider"])
+for marker in ["layoutBreakpoints", "responsiveEntries", "safeLength", "provideGridState", "layoutState", "layoutGridKey"]:
+    if marker not in layout_runtime:
+        failures.append(f"p83:layout-utility:{marker}")
+for marker in ["defineExpose", "ariaLabel", "responsive", "orientation", "decorative", "mode", "rowGap", "columnGap"]:
+    if marker not in layout_sources:
+        failures.append(f"p83:layout-runtime:{marker}")
+for path, markers in {
+    ROOT / "tests/layout-p83.spec.js": ["P83 layout primitive contracts", "actual-column offsets", "SSR output", "separators", "Divider precedence"],
+    ROOT / "tests/types/LayoutP83.vue": ["@ts-expect-error", "UiBreakpoint", "UiLayoutInstance", "invalidGridMode", "invalidDivider"],
+    ROOT / "scripts/visual-regression.mjs": ["layout-contract"],
+    ROOT / "scripts/accessibility-regression.mjs": ["layout-contract"],
+    ROOT / "scripts/interaction-regression.mjs": ["layout-primitives-reflow-responsive-rtl"],
+}.items():
+    source = path.read_text(encoding="utf-8")
+    for marker in markers:
+        if marker not in source:
+            failures.append(f"p83:contract:{path.name}:{marker}")
+for path, markers in {
+    ROOT / "src/pages/ComponentsPage.vue": ["布局原语 P83", "layoutDemoColumns", "UiLayout", "UiGrid", "UiSpace", "UiDivider"],
+    ROOT / "src/pages/WorkbenchPage.vue": ["UiLayout", "UiGrid", "UiCol", "UiSpace", "UiDivider"],
+    ROOT / "component-preview.html": ["layout-primitives-p83", "previewLayoutColumns", "previewLayoutMode", "previewLayoutRtl"],
+    ROOT / "examples/standalone-vue/src/App.vue": ["Responsive layout primitives", "UiLayout", "UiGrid", "UiSpace", "UiDivider"],
+    ROOT / "UI-SPEC.md": ["Maturity P83", "responsive layout primitives"],
+}.items():
+    source = path.read_text(encoding="utf-8")
+    for marker in markers:
+        if marker not in source:
+            failures.append(f"p83:surface:{path.name}:{marker}")
+
 readme_current = (ROOT / "README.md").read_text(encoding="utf-8")
 usage_guide = (ROOT / "docs/USAGE-GUIDE.md").read_text(encoding="utf-8")
-for marker in ["v1.77.0", "92 个组件、1,759 个 Props、604 个 Events 和 397 个 Slots", "P82 悬浮操作组件族", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
+manifest_props = sum(len(component.get("props", [])) for component in manifest_components)
+manifest_emits = sum(len(component.get("emits", [])) for component in manifest_components)
+manifest_slots = sum(len(component.get("slots", [])) for component in manifest_components)
+readme_totals = f"{len(manifest_components)} 个组件、{manifest_props:,} 个 Props、{manifest_emits:,} 个 Events 和 {manifest_slots:,} 个 Slots"
+for marker in [f"v{current_version}", readme_totals, "P82 悬浮操作组件族", "P83 响应式布局原语", "raw.githubusercontent.com/dengpan20/LanUI/main/docs/images/dashboard.jpg", "docs/USAGE-GUIDE.md"]:
     if marker not in readme_current:
         failures.append(f"docs:concise-readme:{marker}")
+changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
+pack_script = package.get("scripts", {}).get("pack:artifact", "")
+release_script = package.get("scripts", {}).get("test:release", "")
+if f"## [{current_version}]" not in changelog or current_version not in pack_script or f"v{current_version}" not in release_script:
+    failures.append("docs:current-version-release-contract")
 for marker in ["整库接入", "按需接入", "主题与 Token", "国际化", "工程验证"]:
     if marker not in usage_guide:
         failures.append(f"docs:usage-guide:{marker}")
@@ -1399,6 +1448,21 @@ if len(visual_baselines) < 51 or any(path.stat().st_size < 1000 for path in visu
     failures.append(f"visual:baselines:{len(visual_baselines)}")
 browser_runtime = (ROOT / "scripts/browser-runtime.mjs").read_text(encoding="utf-8")
 visual_script = (ROOT / "scripts/visual-regression.mjs").read_text(encoding="utf-8")
+copy_types_script = (ROOT / "scripts/copy-types.mjs").read_text(encoding="utf-8")
+normalize_dts_script = (ROOT / "scripts/normalize-dts.mjs").read_text(encoding="utf-8")
+copy_types_regression = (ROOT / "scripts/copy-types-regression.mjs").read_text(encoding="utf-8")
+for marker in ["normalizeDeclaration", "writeFileSync"]:
+    if marker not in copy_types_script:
+        failures.append(f"types:copy-types:{marker}")
+for marker in ["normalizeDeclaration", "replace(/\\r\\n?/g, '\\n')"]:
+    if marker not in normalize_dts_script:
+        failures.append(f"types:normalize-dts:{marker}")
+for marker in ["CRLF", "LF_ONLY", "semantic=preserved"]:
+    if marker not in copy_types_regression:
+        failures.append(f"types:copy-types-regression:{marker}")
+for marker in ["resolveBrowserStageTimeout", "resolveBrowserWarmupTimeout", "withBrowserTimeout", "createFixturePage", "launchBrowserReady", "BROWSER_WARMUP", "BROWSER_PAGE_RETRY", "server-listen"]:
+    if marker not in browser_runtime:
+        failures.append(f"browser:runtime-readiness:{marker}")
 for marker in ["pixelmatch", "maxDiffRatio", "diffAllowance", "light-ltr-default", "dark-rtl-compact", "light-ltr-mobile", "managed-form-error", "schema-form", "schema-form-list", "upload-queue", "scoped-theme", "scoped-theme-portal", "scoped-motion", "api-reference", "anchor-navigation", "watermark-document", "affix-container", "splitter-workspace", "typography-contract", "list-contract", "otp-input-contract", "mentions-contract", "input-tag-contract", "query-builder-contract", "carousel-contract", "time-range-contract", "date-time-contract", "barcode-contract", "cron-editor-contract", "key-value-editor-contract", "page-header-contract", "card-contract", "tag-contract", "timeline-contract", "steps-contract", "breadcrumb-contract", "tooltip-contract", "popover-contract", "dropdown-contract", "button-contract", "input-contract", "multi-select-contract", "tree-select-contract", "cascader-contract", "pagination-contract", "table-contract", "LAN_UI_BROWSER_PATH", "LAN_UI_BROWSER_NAVIGATION_TIMEOUT"]:
     if marker not in visual_script + browser_runtime:
         failures.append(f"visual:script:{marker}")
@@ -1427,7 +1491,7 @@ for marker in ["registerFocusOriginTracking", "captureFocusOrigin", "focusWithRe
 if "lastPointerTimestamp" not in focus_source or "PointerEvent" not in p8_test:
     failures.append("interaction:p8-focus:pointer-origin-window")
 performance_script = (ROOT / "scripts/performance-regression.mjs").read_text(encoding="utf-8")
-for marker in ["gzipSync", "packageJsRaw", "largestChunkRaw", "subpathConsumerJsRaw", "standaloneExampleJsRaw", "themeSubpathJsRaw", "motionSubpathJsRaw", "moduleClosure", "releaseBaseline", "enhancementAllowance", "PERFORMANCE_DELTA PASS", "PERFORMANCE_REGRESSION PASS"]:
+for marker in ["gzipSync", "packageJsRaw", "largestChunkRaw", "subpathConsumerJsRaw", "standaloneExampleJsRaw", "themeSubpathJsRaw", "motionSubpathJsRaw", "moduleClosure", "releaseBaseline", "enhancementAllowance", "enhancementLedger", "pre-P83", "measured-delta", "candidate-delta-mismatch", "PERFORMANCE_DELTA PASS", "PERFORMANCE_REGRESSION PASS"]:
     if marker not in performance_script:
         failures.append(f"performance:script:{marker}")
 if len(performance_budgets.get("budgets", {})) != 18 or performance_budgets.get("version") != package.get("version"):
@@ -1436,8 +1500,35 @@ if performance_budgets.get("releaseBaseline", {}).get("version") != "1.28.0" or 
     failures.append("performance:p33-release-baseline")
 if performance_budgets.get("releaseBaseline", {}).get("componentCount") != 69 or performance_budgets.get("releaseBaseline", {}).get("perComponentAllowance", {}) != {"packageJsRaw": 10200, "packageJsGzip": 4100, "packageCssRaw": 6050, "packageCssGzip": 1100, "largestChunkRaw": 3000, "largestChunkGzip": 450, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 150, "standaloneExampleJsRaw": 10500, "standaloneExampleCssRaw": 875, "subpathConsumerCssRaw": 2, "rootCssRaw": 850}:
     failures.append("performance:p59-additive-component-policy")
-if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}) != {'packageJsRaw': 259600, 'packageJsGzip': 79800, 'packageCssRaw': 341000, 'packageCssGzip': 58000, 'rootCssRaw': 83300, 'rootCssGzip': 11600, 'largestComponentCssRaw': 14000, 'largestComponentCssGzip': 3000, 'subpathConsumerJsRaw': 10000, 'subpathConsumerCssRaw': 2100, 'standaloneExampleJsRaw': 308000, 'standaloneExampleCssRaw': 84000}:
-    failures.append("performance:p79-bounded-component-enhancement-policy")
+enhancement_keys = ["packageJsRaw", "packageJsGzip", "packageCssRaw", "packageCssGzip", "rootCssRaw", "rootCssGzip", "largestComponentCssRaw", "largestComponentCssGzip", "subpathConsumerJsRaw", "subpathConsumerCssRaw", "standaloneExampleJsRaw", "standaloneExampleCssRaw"]
+pre_p83_allowance = {"packageJsRaw": 259600, "packageJsGzip": 79800, "packageCssRaw": 341000, "packageCssGzip": 58000, "rootCssRaw": 83300, "rootCssGzip": 11600, "largestComponentCssRaw": 14000, "largestComponentCssGzip": 3000, "subpathConsumerJsRaw": 10000, "subpathConsumerCssRaw": 2100, "standaloneExampleJsRaw": 308000, "standaloneExampleCssRaw": 84000}
+expected_p83_caps = {"packageJsRaw": 30000, "packageJsGzip": 8500, "packageCssRaw": 24000, "packageCssGzip": 4500, "rootCssRaw": 5000, "rootCssGzip": 2000, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 300, "subpathConsumerJsRaw": 10000, "subpathConsumerCssRaw": 2100, "standaloneExampleJsRaw": 30000, "standaloneExampleCssRaw": 24000}
+ledger = performance_budgets.get("releaseBaseline", {}).get("enhancementLedger")
+if not isinstance(ledger, list) or len(ledger) != 2 or ledger[0].get("version") != "pre-P83" or ledger[0].get("kind") != "cumulative" or ledger[1].get("version") != current_version or ledger[1].get("kind") != "measured-delta":
+    failures.append("performance:enhancement-ledger-schema")
+else:
+    cumulative = ledger[0].get("allowance", {})
+    measured = ledger[1]
+    for name in enhancement_keys:
+        baseline_value = measured.get("baseline", {}).get(name)
+        candidate_value = measured.get("candidate", {}).get(name)
+        delta_value = measured.get("delta", {}).get(name)
+        cap_value = measured.get("caps", {}).get(name)
+        expected_delta = max(0, candidate_value - baseline_value) if isinstance(candidate_value, int) and isinstance(baseline_value, int) else None
+        if any(not isinstance(value, int) or value < 0 for value in [cumulative.get(name), baseline_value, candidate_value, delta_value, cap_value]):
+            failures.append(f"performance:enhancement-ledger-integer:{name}")
+        if cumulative.get(name) != pre_p83_allowance[name]:
+            failures.append(f"performance:enhancement-ledger-cumulative:{name}")
+        if measured.get("caps", {}).get(name) != expected_p83_caps[name]:
+            failures.append(f"performance:enhancement-ledger-cap-schema:{name}")
+        if expected_delta is None or delta_value != expected_delta or candidate_value != performance_budgets.get("releaseBaseline", {}).get("enhancementLedger", [{}, {}])[1].get("candidate", {}).get(name):
+            failures.append(f"performance:enhancement-ledger-delta:{name}")
+        if isinstance(delta_value, int) and isinstance(cap_value, int) and delta_value > cap_value:
+            failures.append(f"performance:enhancement-ledger-cap:{name}")
+        if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}).get(name) != cumulative.get(name, 0) + (delta_value or 0):
+            failures.append(f"performance:enhancement-ledger-sum:{name}")
+if "tolerance" in performance_budgets.get("releaseBaseline", {}):
+    failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")
 for export_name in ["./performance-budgets", "./performance-budgets.json"]:

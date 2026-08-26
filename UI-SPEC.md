@@ -1353,3 +1353,13 @@ P79 retains 91 public components and advances to 495 locale keys with generated 
 Compact `UiTable` select-all and row selection cells keep a minimum 24×28 interaction area. The project `UiCheckbox` indicator is explicitly centered on both axes and resets its shared 2px top margin to zero in the selection column, preserving keyboard focus and indeterminate semantics in LTR, RTL, light, dark and forced-colors themes.
 
 P80 retains 91 public components and 495 locale keys with generated coverage of 1,623 Props, 558 Events and 349 Slots. Release gates retain 52 visual baselines, 69 zero-violation Axe scenarios, 74 interactions per Chromium/Firefox/WebKit engine, 111 negative type assertions, an isolated tarball consumer and the existing 18 absolute performance ceilings.
+
+## 94. Maturity P83: responsive layout primitives
+
+`UiLayout`, `UiGrid`, `UiCol`, `UiSpace` and `UiDivider` retain every scalar default and legacy class while adding typed responsive values at xs/sm/md/lg/xl/xxl breakpoints. Missing breakpoints inherit the nearest lower value through CSS media queries, so SSR and hydration do not read the viewport during setup or render.
+
+Lengths are normalized to px for finite numbers and validated CSS strings for authored values. Grid columns, spans, row spans and offsets are clamped; `UiCol` resolves offsets against the provided fixed Grid column count and ignores offsets in auto-fit/auto-fill modes. DOM order remains the reading and tab order even when visual `order` is provided; logical properties keep RTL placement stable.
+
+`UiSpace` inserts typed separator slots or separator props only between rendered children, placing generated separators in an `aria-hidden` presentation wrapper. `UiDivider` supports semantic and decorative branches, orientation/variant precedence for legacy props, label slots and deterministic vertical labels. All five expose `root`, `getElement()`, `getState()` and `getRect()` instance methods with null-safe server behavior and no synthetic mutation events.
+
+P83 retains 92 public components and advances to version 1.78.0. Release gates include the dedicated layout unit/SSR/type contract, responsive visual/Axe/three-browser scenarios, static preview and standalone packed consumer coverage, with existing performance ceilings treated as hard limits.

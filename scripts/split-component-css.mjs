@@ -13,6 +13,9 @@ const sourceRoot=postcss.parse(source,{from:resolve(root,'styles.css')})
 const layers=sourceRoot.nodes.filter(node=>node.type==='atrule'&&node.name==='layer'&&node.params.trim()==='lan-ui')
 const layer=layers[0]
 if(!layer)throw new Error('Missing @layer lan-ui in styles.css')
+const sharedLayoutLayer=layers.find(candidate=>candidate.nodes?.some(node=>node.type==='comment'&&node.text.trim()==='P83 responsive layout primitives.'))
+const componentLayers=sharedLayoutLayer?layers.filter(candidate=>candidate!==sharedLayoutLayer):layers
+const sharedLayoutNodes=sharedLayoutLayer?sharedLayoutLayer.nodes.filter(node=>!(node.type==='comment'&&node.text.trim()==='P83 responsive layout primitives.')):[]
 
 const outputDir=resolve(root,'dist-lib/styles')
 rmSync(outputDir,{recursive:true,force:true})
@@ -101,19 +104,20 @@ const core=postcss.root()
 for(const node of postcss.parse(tokens).nodes)core.append(node.clone())
 const coreLayer=postcss.atRule({name:'layer',params:'lan-ui'})
 for(const node of layer.nodes.slice(0,baseEnd))coreLayer.append(node.clone())
-for(const sourceLayer of layers)for(const node of sourceLayer.nodes.filter(node=>node.type==='atrule'&&node.name==='keyframes'))coreLayer.append(node.clone())
+for(const sourceLayer of componentLayers)for(const node of sourceLayer.nodes.filter(node=>node.type==='atrule'&&node.name==='keyframes'))coreLayer.append(node.clone())
 core.append(coreLayer)
 const coreOutput=minifyCss(core.toString(),resolve(outputDir,'core.css'))
 writeFileSync(resolve(outputDir,'core.css'),coreOutput,'utf8')
 
 const allClasses=new Set()
 for(const record of records)for(const className of dependencies(record.file))allClasses.add(className)
-const rootNodes=layers.flatMap(sourceLayer=>relevantChildren(sourceLayer,allClasses))
+const rootNodes=componentLayers.flatMap(sourceLayer=>relevantChildren(sourceLayer,allClasses))
 const libraryRoot=postcss.root()
+if(sharedLayoutLayer)libraryRoot.append(postcss.atRule({name:'import',params:"'./styles/UiLayout.css'"}))
 for(const node of postcss.parse(tokens).nodes)libraryRoot.append(node.clone())
 const libraryLayer=postcss.atRule({name:'layer',params:'lan-ui'})
 for(const node of layer.nodes.slice(0,baseEnd))libraryLayer.append(node.clone())
-for(const sourceLayer of layers)for(const node of sourceLayer.nodes.filter(node=>node.type==='atrule'&&node.name==='keyframes'))libraryLayer.append(node.clone())
+for(const sourceLayer of componentLayers)for(const node of sourceLayer.nodes.filter(node=>node.type==='atrule'&&node.name==='keyframes'))libraryLayer.append(node.clone())
 for(const node of rootNodes)libraryLayer.append(node)
 libraryRoot.append(libraryLayer)
 const rootOutput=minifyCss(libraryRoot.toString(),resolve(root,'dist-lib/lan-ui.css'))
@@ -122,9 +126,15 @@ writeFileSync(resolve(root,'dist-lib/lan-ui.css'),rootOutput,'utf8')
 const manifest={schemaVersion:2,package:packageJson.name,version:packageJson.version,root:{subpath:'./style.css',bytes:Buffer.byteLength(rootOutput),rules:rootNodes.length,source:'component-union'},core:{subpath:'./styles/core.css',bytes:Buffer.byteLength(coreOutput)},components:[]}
 for(const record of records){
   const classes=dependencies(record.file)
-  const nodes=layers.flatMap(sourceLayer=>relevantChildren(sourceLayer,classes))
+  const nodes=[...componentLayers.flatMap(sourceLayer=>relevantChildren(sourceLayer,classes))]
+  const imports=["'./core.css'"]
+  // The responsive layout layer is a family implementation detail, not a
+  // dependency between subpath styles.  Keep each primitive self-contained
+  // so a consumer importing UiGrid (or UiCol/UiSpace/UiDivider) receives its
+  // effective rules and media cascade without inheriting UiLayout's rules.
+  if(sharedLayoutLayer)nodes.push(...relevantChildren(sharedLayoutLayer,classes))
   if(!nodes.length)throw new Error(`No component styles selected for ${record.name}`)
-  const componentRoot=postcss.root({nodes:[postcss.atRule({name:'import',params:"'./core.css'"})]})
+  const componentRoot=postcss.root({nodes:imports.map(params=>postcss.atRule({name:'import',params}))})
   const componentLayer=postcss.atRule({name:'layer',params:'lan-ui'})
   for(const node of nodes)componentLayer.append(node)
   componentRoot.append(componentLayer)

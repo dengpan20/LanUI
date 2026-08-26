@@ -96,6 +96,29 @@ for (const [name, budget] of Object.entries(config.budgets)) {
 
 const releaseBaseline=config.releaseBaseline
 const comparison={}
+const enhancementKeys=['packageJsRaw','packageJsGzip','packageCssRaw','packageCssGzip','rootCssRaw','rootCssGzip','largestComponentCssRaw','largestComponentCssGzip','subpathConsumerJsRaw','subpathConsumerCssRaw','standaloneExampleJsRaw','standaloneExampleCssRaw']
+const preP83Allowance={packageJsRaw:259600,packageJsGzip:79800,packageCssRaw:341000,packageCssGzip:58000,rootCssRaw:83300,rootCssGzip:11600,largestComponentCssRaw:14000,largestComponentCssGzip:3000,subpathConsumerJsRaw:10000,subpathConsumerCssRaw:2100,standaloneExampleJsRaw:308000,standaloneExampleCssRaw:84000}
+const ledger=releaseBaseline?.enhancementLedger
+const isNonNegativeInteger=value=>Number.isInteger(value)&&value>=0
+if(!Array.isArray(ledger)||ledger.length!==2||ledger[0]?.version!=='pre-P83'||ledger[0]?.kind!=='cumulative'||ledger[1]?.version!==config.version||ledger[1]?.kind!=='measured-delta'){
+  failures.push('enhancementLedger: schema/order/version')
+}else{
+  const cumulative=ledger[0].allowance||{}
+  const measured=ledger[1]
+  for(const name of enhancementKeys){
+    const baseline=measured.baseline?.[name]
+    const candidate=measured.candidate?.[name]
+    const delta=measured.delta?.[name]
+    const cap=measured.caps?.[name]
+    const expected=Math.max(0,candidate-baseline)
+    if(!isNonNegativeInteger(baseline)||!isNonNegativeInteger(candidate)||!isNonNegativeInteger(delta)||!isNonNegativeInteger(cap)) failures.push(`enhancementLedger:${name}:non-negative-integer`)
+    else if(candidate!==metrics[name]||delta!==expected) failures.push(`enhancementLedger:${name}:candidate-delta-mismatch`)
+    if(cumulative[name]!==preP83Allowance[name]) failures.push(`enhancementLedger:${name}:pre-P83-mismatch`)
+    if(delta>cap) failures.push(`enhancementLedger:${name}:cap-exceeded`)
+    if(releaseBaseline.enhancementAllowance?.[name]!==cumulative[name]+delta) failures.push(`enhancementLedger:${name}:allowance-sum-mismatch`)
+  }
+}
+if('tolerance' in (releaseBaseline||{})) failures.push('enhancementLedger:percent-tolerance-forbidden')
 if(releaseBaseline?.metrics){
   const currentComponentCount=(readFileSync(resolve(root,'src/components.js'),'utf8').match(/default as Ui/g)||[]).length
   const baselineComponentCount=Number(releaseBaseline.componentCount)||currentComponentCount

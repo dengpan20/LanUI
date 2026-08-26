@@ -1,27 +1,29 @@
 import { resolve } from 'node:path'
 import {
-  launchBrowser,
-  navigateFixture,
-  resolveBrowserNavigationTimeout,
-  startFixtureServer,
+  closeBrowserResource,
+  combineBrowserErrors,
+  createFixturePage,
+  launchBrowserReady,
+  startStaticFixtureServer,
 } from './browser-runtime.mjs'
 
 const root=resolve(import.meta.dirname,'..')
-const navigationTimeout=resolveBrowserNavigationTimeout()
-const {server,origin}=await startFixtureServer(root)
+const {server,origin}=await startStaticFixtureServer(root,{entry:'component-preview.html',outputDirName:'preview-fixture-dist'})
 let browser
+let context
+let primaryError
 
 function assert(condition,message){
   if(!condition)throw new Error(message)
 }
 
 try{
-  browser=await launchBrowser('chromium')
-  const page=await browser.newPage({viewport:{width:1440,height:1000}})
+  browser=await launchBrowserReady('chromium',{warmupUrl:`${origin}/component-preview.html#completion`,readySelector:'#previewCascaderTrigger',viewport:{width:1440,height:1000}})
+  context=await browser.newContext({viewport:{width:1440,height:1000},locale:'en-US',reducedMotion:'reduce'})
+  const page=await createFixturePage(context,`${origin}/component-preview.html#completion`,{readySelector:'#previewCascaderTrigger'})
   const pageErrors=[]
   page.on('pageerror',error=>pageErrors.push(String(error)))
 
-  await navigateFixture(page,`${origin}/component-preview.html#completion`,{timeout:navigationTimeout})
   await page.locator('#previewCascaderTrigger').click()
   const panelOpen=await page.locator('#previewCascaderPanel').evaluate(element=>!element.hidden)
   assert(panelOpen,'Cascader trigger should open the popup panel')
@@ -69,6 +71,15 @@ try{
   assert(await previewDate.inputValue()==='2026-08-25','DatePicker calendar selection should synchronize the field')
   await previewDate.press('ArrowDown');await page.locator('#previewDatePanel').press('Escape')
   assert(await page.locator('#previewDatePanel').evaluate(element=>element.hidden),'DatePicker Escape should close the panel')
+  const previewLayoutGrid=page.locator('#previewLayoutGrid'),previewLayoutState=page.locator('#previewLayoutState'),previewLayoutRtl=page.locator('#previewLayoutRtl')
+  await page.locator('#previewLayoutColumns').selectOption('8')
+  assert(await previewLayoutGrid.evaluate(element=>element.style.getPropertyValue('--grid-columns'))==='8','Layout preview columns should update the real grid variable')
+  await page.locator('#previewLayoutMode').selectOption('auto-fit')
+  assert(await previewLayoutGrid.getAttribute('class').then(value=>value.includes('mode-auto-fit')),'Layout preview should switch to auto-fit')
+  await previewLayoutRtl.click()
+  assert(await previewLayoutGrid.getAttribute('dir')==='rtl'&&(await previewLayoutState.textContent())?.includes('RTL'),'Layout preview RTL control should update direction and state')
+  assert(await page.locator('#previewLayoutRoot .ui-space-separator').count()===2,'Layout preview should keep separators between rendered items')
+
   await page.locator('#previewDateClear').dispatchEvent('click')
   assert(await previewDate.inputValue()===''&&(await page.locator('#previewDateState').textContent())?.includes('clear'),'DatePicker clear should publish empty state')
   const previewRangeStart=page.locator('#previewDateRangeStart'),previewRangeEnd=page.locator('#previewDateRangeEnd'),previewRangePanel=page.locator('#previewDateRangePanel'),previewRangeToggle=page.locator('#previewDateRangeToggle'),previewRangeState=page.locator('#previewDateRangeState')
@@ -96,8 +107,17 @@ try{
   assert((await previewFloatState.textContent())?.includes('back-top · activated'),'FloatButton back-to-top should publish activation state')
   assert(pageErrors.length===0,`Static preview emitted page errors: ${pageErrors.join(' | ')}`)
 
-  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 tableKeyboard=current+selected datePicker=keyboard+selection+escape+clear dateRange=preview+complete+preset+escape+clear floatButton=open+select+escape+backtop keyboard=pass minimum=invalid')
+  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 tableKeyboard=current+selected datePicker=keyboard+selection+escape+clear dateRange=preview+complete+preset+escape+clear floatButton=open+select+escape+backtop layout=columns+mode+rtl+separator keyboard=pass minimum=invalid')
+}catch(error){
+  primaryError=error
 }finally{
-  await browser?.close()
-  await server.close()
+  const cleanupErrors=[]
+  const contextCleanup=await closeBrowserResource(context,'preview-context')
+  if(contextCleanup)cleanupErrors.push(contextCleanup)
+  const browserCleanup=await closeBrowserResource(browser,'preview-browser')
+  if(browserCleanup)cleanupErrors.push(browserCleanup)
+  const serverCleanup=await closeBrowserResource(server,'preview-server')
+  if(serverCleanup)cleanupErrors.push(serverCleanup)
+  const combined=combineBrowserErrors(primaryError,cleanupErrors,'static preview regression')
+  if(combined)throw combined
 }

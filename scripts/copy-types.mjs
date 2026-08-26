@@ -1,11 +1,12 @@
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { normalizeDeclaration } from './normalize-dts.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const target = resolve(root, 'dist-lib/lan-ui.d.ts')
 mkdirSync(dirname(target), { recursive: true })
-copyFileSync(resolve(root, 'src/index.d.ts'), target)
+writeFileSync(target, normalizeDeclaration(readFileSync(resolve(root, 'src/index.d.ts'), 'utf8')), 'utf8')
 
 const registry = readFileSync(resolve(root, 'src/components.js'), 'utf8')
 const components = [...registry.matchAll(/export \{ default as (Ui\w+) \}/g)].map(([, name]) => name)

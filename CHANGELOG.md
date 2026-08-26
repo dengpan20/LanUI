@@ -4,6 +4,13 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.78.0] - 2026-08-25
+
+### Added
+
+- Expanded UiLayout, UiGrid, UiCol, UiSpace and UiDivider with responsive, typed, SSR-safe layout contracts, instance inspection APIs and accessible separator/divider semantics.
+
+
 ## [1.77.0] - 2026-08-25
 
 ### Added

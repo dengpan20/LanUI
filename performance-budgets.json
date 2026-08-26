@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.77.0",
+  "version": "1.78.0",
   "description": "Deterministic runtime, stylesheet, consumer-build and publishable-tarball budgets with previous-release improvement gates for Lan UI.",
   "baseline": {
     "version": "1.4.0",
@@ -17,29 +17,29 @@
     }
   },
   "budgets": {
-    "packageJsRaw": 964000,
-    "packageJsGzip": 344500,
-    "packageCssRaw": 918000,
-    "packageCssGzip": 187000,
+    "packageJsRaw": 976031,
+    "packageJsGzip": 350465,
+    "packageCssRaw": 934686,
+    "packageCssGzip": 189145,
     "largestChunkRaw": 75000,
     "largestChunkGzip": 14800,
-    "rootCssRaw": 290000,
-    "rootCssGzip": 44000,
+    "rootCssRaw": 287559,
+    "rootCssGzip": 45437,
     "largestComponentCssRaw": 79500,
     "largestComponentCssGzip": 11800,
     "subpathConsumerJsRaw": 102000,
     "subpathConsumerCssRaw": 10500,
-    "standaloneExampleJsRaw": 955000,
-    "standaloneExampleCssRaw": 292000,
+    "standaloneExampleJsRaw": 970331,
+    "standaloneExampleCssRaw": 294307,
     "themeSubpathJsRaw": 12000,
     "themeSubpathJsGzip": 4200,
     "motionSubpathJsRaw": 14000,
     "motionSubpathJsGzip": 5000
   },
   "distributionBudgets": {
-    "packedFiles": 415,
-    "packedTarballRaw": 639000,
-    "packedUnpackedRaw": 4029000
+    "packedFiles": 416,
+    "packedTarballRaw": 647671,
+    "packedUnpackedRaw": 4090408
   },
   "releaseBaseline": {
     "version": "1.28.0",
@@ -59,18 +59,18 @@
       "rootCssRaw": 850
     },
     "enhancementAllowance": {
-      "packageJsRaw": 259600,
-      "packageJsGzip": 79800,
-      "packageCssRaw": 341000,
-      "packageCssGzip": 58000,
-      "rootCssRaw": 83300,
-      "rootCssGzip": 11600,
+      "packageJsRaw": 272023,
+      "packageJsGzip": 84976,
+      "packageCssRaw": 359646,
+      "packageCssGzip": 60032,
+      "rootCssRaw": 83332,
+      "rootCssGzip": 11628,
       "largestComponentCssRaw": 14000,
       "largestComponentCssGzip": 3000,
       "subpathConsumerJsRaw": 10000,
       "subpathConsumerCssRaw": 2100,
-      "standaloneExampleJsRaw": 308000,
-      "standaloneExampleCssRaw": 84000
+      "standaloneExampleJsRaw": 322696,
+      "standaloneExampleCssRaw": 88794
     },
     "metrics": {
       "packageJsRaw": 467295,
@@ -87,6 +87,86 @@
       "subpathConsumerCssRaw": 8294,
       "standaloneExampleJsRaw": 410137,
       "standaloneExampleCssRaw": 183640
-    }
+    },
+    "enhancementLedger": [
+      {
+        "version": "pre-P83",
+        "kind": "cumulative",
+        "allowance": {
+          "packageJsRaw": 259600,
+          "packageJsGzip": 79800,
+          "packageCssRaw": 341000,
+          "packageCssGzip": 58000,
+          "rootCssRaw": 83300,
+          "rootCssGzip": 11600,
+          "largestComponentCssRaw": 14000,
+          "largestComponentCssGzip": 3000,
+          "subpathConsumerJsRaw": 10000,
+          "subpathConsumerCssRaw": 2100,
+          "standaloneExampleJsRaw": 308000,
+          "standaloneExampleCssRaw": 84000
+        }
+      },
+      {
+        "version": "1.78.0",
+        "kind": "measured-delta",
+        "baseline": {
+          "packageJsRaw": 961490,
+          "packageJsGzip": 343185,
+          "packageCssRaw": 913992,
+          "packageCssGzip": 185065,
+          "rootCssRaw": 285479,
+          "rootCssGzip": 43361,
+          "largestComponentCssRaw": 79325,
+          "largestComponentCssGzip": 11674,
+          "subpathConsumerJsRaw": 100677,
+          "subpathConsumerCssRaw": 9948,
+          "standaloneExampleJsRaw": 953587,
+          "standaloneExampleCssRaw": 287465
+        },
+        "candidate": {
+          "packageJsRaw": 973913,
+          "packageJsGzip": 348361,
+          "packageCssRaw": 932638,
+          "packageCssGzip": 187097,
+          "rootCssRaw": 285511,
+          "rootCssGzip": 43389,
+          "largestComponentCssRaw": 79325,
+          "largestComponentCssGzip": 11674,
+          "subpathConsumerJsRaw": 100677,
+          "subpathConsumerCssRaw": 9948,
+          "standaloneExampleJsRaw": 968283,
+          "standaloneExampleCssRaw": 292259
+        },
+        "delta": {
+          "packageJsRaw": 12423,
+          "packageJsGzip": 5176,
+          "packageCssRaw": 18646,
+          "packageCssGzip": 2032,
+          "rootCssRaw": 32,
+          "rootCssGzip": 28,
+          "largestComponentCssRaw": 0,
+          "largestComponentCssGzip": 0,
+          "subpathConsumerJsRaw": 0,
+          "subpathConsumerCssRaw": 0,
+          "standaloneExampleJsRaw": 14696,
+          "standaloneExampleCssRaw": 4794
+        },
+        "caps": {
+          "packageJsRaw": 30000,
+          "packageJsGzip": 8500,
+          "packageCssRaw": 24000,
+          "packageCssGzip": 4500,
+          "rootCssRaw": 5000,
+          "rootCssGzip": 2000,
+          "largestComponentCssRaw": 1500,
+          "largestComponentCssGzip": 300,
+          "subpathConsumerJsRaw": 10000,
+          "subpathConsumerCssRaw": 2100,
+          "standaloneExampleJsRaw": 30000,
+          "standaloneExampleCssRaw": 24000
+        }
+      }
+    ]
   }
 }

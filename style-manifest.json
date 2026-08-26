@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.77.0",
+  "version": "1.78.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 285479,
+    "bytes": 285511,
     "rules": 2232,
     "source": "component-union"
   },
@@ -106,8 +106,8 @@
     {
       "name": "UiCol",
       "subpath": "./styles/UiCol.css",
-      "bytes": 176,
-      "rules": 1
+      "bytes": 3528,
+      "rules": 8
     },
     {
       "name": "UiCollapse",
@@ -178,8 +178,8 @@
     {
       "name": "UiDivider",
       "subpath": "./styles/UiDivider.css",
-      "bytes": 488,
-      "rules": 4
+      "bytes": 3242,
+      "rules": 22
     },
     {
       "name": "UiDrawer",
@@ -232,8 +232,8 @@
     {
       "name": "UiGrid",
       "subpath": "./styles/UiGrid.css",
-      "bytes": 254,
-      "rules": 2
+      "bytes": 4046,
+      "rules": 12
     },
     {
       "name": "UiIcon",
@@ -268,8 +268,8 @@
     {
       "name": "UiLayout",
       "subpath": "./styles/UiLayout.css",
-      "bytes": 232,
-      "rules": 3
+      "bytes": 4900,
+      "rules": 11
     },
     {
       "name": "UiList",
@@ -424,8 +424,8 @@
     {
       "name": "UiSpace",
       "subpath": "./styles/UiSpace.css",
-      "bytes": 111,
-      "rules": 2
+      "bytes": 4159,
+      "rules": 11
     },
     {
       "name": "UiSpin",

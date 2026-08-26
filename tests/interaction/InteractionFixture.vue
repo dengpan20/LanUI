@@ -3,10 +3,10 @@ import { reactive, ref } from 'vue'
 import {
   UiAffix, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCarousel, UiCascader, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiDrawer, UiForm, UiFormItem, UiFormList, UiSchemaForm, UiInput, UiInputTag, UiMenu,
   UiCard, UiCheckbox, UiCheckboxGroup, UiCollapse, UiDropdown, UiImage, UiList, UiMentions, UiModal, UiMultiSelect, UiNumberInput, UiOtpInput, UiPagination, UiPopconfirm, UiPopover, UiQueryBuilder, UiRadio, UiRadioGroup, UiRate, UiSelect, UiSlider, UiSteps, UiSwitch, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiUpload,
-  UiTree, UiTreeSelect, UiStatistic,
+  UiTree, UiTreeSelect, UiStatistic, enUS,
   UiColorPicker,
   UiCommandPalette,
-  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiFloatButton, UiFloatButtonGroup, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark,
+  UiBarcode, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiFloatButton, UiFloatButtonGroup, UiKeyValueEditor, UiPageHeader, UiQRCode, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -194,6 +194,10 @@ async function runButtonAction(){buttonActionRuns+=1;await new Promise(resolve=>
 const floatGroupRef=ref(null)
 const floatOutput=ref('ready:closed')
 const floatBackTopVisible=ref(true)
+const layoutColumns=ref(4)
+const layoutMode=ref('fixed')
+const layoutDirection=ref('ltr')
+const layoutOutput=ref('ready')
 async function guardFloatOpen(open){await new Promise(resolve=>setTimeout(resolve,20));return open!==false}
 const inputRef=ref(null)
 const inputValue=ref('release draft')
@@ -378,7 +382,7 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
 </script>
 
 <template>
-  <UiConfigProvider id="interaction-fixture" class="interaction-fixture" tag="main" locale="en-US" :direction="direction">
+  <UiConfigProvider id="interaction-fixture" class="interaction-fixture" tag="main" :locale="enUS" :direction="direction">
     <ApiReferencePage v-if="state==='api-docs'" />
     <template v-else>
     <h1>Lan UI interaction regression fixture</h1>
@@ -901,7 +905,13 @@ function refreshStatistic(){statisticLoading.value=true;setTimeout(()=>{statisti
         <i id="float-release-target" />
         <output class="interaction-output" data-testid="float-button-output">{{ floatOutput }}</output>
       </section>
-      <section class="interaction-case interaction-wide interaction-input-case" data-input-state-contract="native ime formatter parser clear escape password controlled focus api rtl">
+        <section v-if="state==='layout'" class="interaction-case interaction-wide interaction-layout-case" data-layout-state-contract="responsive reflow fixed auto-fit auto-fill rtl order dom-focus">
+        <h2>Responsive layout primitives contract</h2>
+        <div class="interaction-row"><label>Columns <select id="interaction-layout-columns" v-model.number="layoutColumns"><option :value="4">4</option><option :value="8">8</option><option :value="12">12</option></select></label><label>Mode <select id="interaction-layout-mode" v-model="layoutMode"><option value="fixed">fixed</option><option value="auto-fit">auto-fit</option><option value="auto-fill">auto-fill</option></select></label><button id="interaction-layout-rtl" type="button" @click="layoutDirection=layoutDirection==='ltr'?'rtl':'ltr';layoutOutput='direction:'+layoutDirection">Toggle RTL</button></div>
+        <UiLayout :dir="layoutDirection" :gap="{ xs: 4, md: 8 }"><UiGrid id="interaction-layout-grid" :columns="layoutColumns" :mode="layoutMode" :gap="{ xs: 4, md: 8 }"><UiCol v-for="label in ['one','two','three','four']" :key="label" :span="1"><UiCard variant="filled" :title="label" /></UiCol></UiGrid><UiSpace separator="·" aria-label="Layout order"><span>one</span><span>two</span><span>three</span></UiSpace><UiDivider decorative /></UiLayout>
+        <output class="interaction-output" data-testid="layout-output">{{ layoutOutput }}</output>
+      </section>
+    <section class="interaction-case interaction-wide interaction-input-case" data-input-state-contract="native ime formatter parser clear escape password controlled focus api rtl">
         <h2>Input IME, parsing, clear and controlled password contract</h2>
         <div class="interaction-input-grid">
           <UiFormItem label="Release alias" required help="Composition commits once; Escape clears"><UiInput id="interaction-input" ref="inputRef" v-model.trim="inputValue" clearable clear-on-escape show-count :maxlength="24" name="releaseAlias" @input="(value,meta)=>inputOutput=`input:${meta.source}:${String(value)}`" @change="changeInput" @clear="(value,meta)=>inputOutput=`clear:${meta.source}:${String(value)}`" @enter="(value,_event,meta)=>inputOutput=`enter:${meta.source}:${String(value)}`"/></UiFormItem>
