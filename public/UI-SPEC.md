@@ -1362,4 +1362,4 @@ Lengths are normalized to px for finite numbers and validated CSS strings for au
 
 `UiSpace` inserts typed separator slots or separator props only between rendered children, placing generated separators in an `aria-hidden` presentation wrapper. `UiDivider` supports semantic and decorative branches, orientation/variant precedence for legacy props, label slots and deterministic vertical labels. All five expose `root`, `getElement()`, `getState()` and `getRect()` instance methods with null-safe server behavior and no synthetic mutation events.
 
-P83 retains 92 public components and advances to version 1.78.0. Release gates include the dedicated layout unit/SSR/type contract, responsive visual/Axe/three-browser scenarios, static preview and standalone packed consumer coverage, with existing performance ceilings treated as hard limits.
+P84 retains 92 public components and advances to version 1.79.0. UiSkeleton provides controlled loading/content states, normalized dimensions, localized status semantics, placeholder slots and SSR-safe inspection. Release gates include dedicated unit/SSR/type, visual/Axe/three-browser, static preview and packed consumer coverage.

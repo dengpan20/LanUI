@@ -1504,28 +1504,46 @@ enhancement_keys = ["packageJsRaw", "packageJsGzip", "packageCssRaw", "packageCs
 pre_p83_allowance = {"packageJsRaw": 259600, "packageJsGzip": 79800, "packageCssRaw": 341000, "packageCssGzip": 58000, "rootCssRaw": 83300, "rootCssGzip": 11600, "largestComponentCssRaw": 14000, "largestComponentCssGzip": 3000, "subpathConsumerJsRaw": 10000, "subpathConsumerCssRaw": 2100, "standaloneExampleJsRaw": 308000, "standaloneExampleCssRaw": 84000}
 expected_p83_caps = {"packageJsRaw": 30000, "packageJsGzip": 8500, "packageCssRaw": 24000, "packageCssGzip": 4500, "rootCssRaw": 5000, "rootCssGzip": 2000, "largestComponentCssRaw": 1500, "largestComponentCssGzip": 300, "subpathConsumerJsRaw": 10000, "subpathConsumerCssRaw": 2100, "standaloneExampleJsRaw": 30000, "standaloneExampleCssRaw": 24000}
 ledger = performance_budgets.get("releaseBaseline", {}).get("enhancementLedger")
-if not isinstance(ledger, list) or len(ledger) != 2 or ledger[0].get("version") != "pre-P83" or ledger[0].get("kind") != "cumulative" or ledger[1].get("version") != current_version or ledger[1].get("kind") != "measured-delta":
+def semver_key(value):
+    match = re.fullmatch(r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:[-+][0-9A-Za-z.-]+)?", value) if isinstance(value, str) else None
+    return tuple(int(part) for part in match.groups()) if match else None
+if not isinstance(ledger, list) or len(ledger) < 3 or ledger[0].get("version") != "pre-P83" or ledger[0].get("kind") != "cumulative":
     failures.append("performance:enhancement-ledger-schema")
 else:
     cumulative = ledger[0].get("allowance", {})
-    measured = ledger[1]
+    measured_entries = ledger[1:]
+    versions = [entry.get("version") for entry in measured_entries]
+    version_keys = [semver_key(version) for version in versions]
+    if any(entry.get("kind") != "measured-delta" for entry in measured_entries) or any(key is None for key in version_keys) or version_keys != sorted(version_keys) or versions[-1] != current_version:
+        failures.append("performance:enhancement-ledger-version-schema")
+    running = {name: cumulative.get(name) for name in enhancement_keys}
     for name in enhancement_keys:
-        baseline_value = measured.get("baseline", {}).get(name)
-        candidate_value = measured.get("candidate", {}).get(name)
-        delta_value = measured.get("delta", {}).get(name)
-        cap_value = measured.get("caps", {}).get(name)
-        expected_delta = max(0, candidate_value - baseline_value) if isinstance(candidate_value, int) and isinstance(baseline_value, int) else None
-        if any(not isinstance(value, int) or value < 0 for value in [cumulative.get(name), baseline_value, candidate_value, delta_value, cap_value]):
-            failures.append(f"performance:enhancement-ledger-integer:{name}")
         if cumulative.get(name) != pre_p83_allowance[name]:
             failures.append(f"performance:enhancement-ledger-cumulative:{name}")
-        if measured.get("caps", {}).get(name) != expected_p83_caps[name]:
-            failures.append(f"performance:enhancement-ledger-cap-schema:{name}")
-        if expected_delta is None or delta_value != expected_delta or candidate_value != performance_budgets.get("releaseBaseline", {}).get("enhancementLedger", [{}, {}])[1].get("candidate", {}).get(name):
-            failures.append(f"performance:enhancement-ledger-delta:{name}")
-        if isinstance(delta_value, int) and isinstance(cap_value, int) and delta_value > cap_value:
-            failures.append(f"performance:enhancement-ledger-cap:{name}")
-        if performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {}).get(name) != cumulative.get(name, 0) + (delta_value or 0):
+    for measured_index, measured in enumerate(measured_entries, start=1):
+        baseline_values = measured.get("baseline", {})
+        candidate_values = measured.get("candidate", {})
+        delta_values = measured.get("delta", {})
+        cap_values = measured.get("caps", {})
+        for name in enhancement_keys:
+            baseline_value = baseline_values.get(name)
+            candidate_value = candidate_values.get(name)
+            delta_value = delta_values.get(name)
+            cap_value = cap_values.get(name)
+            expected_delta = max(0, candidate_value - baseline_value) if isinstance(candidate_value, int) and isinstance(baseline_value, int) else None
+            if any(not isinstance(value, int) or value < 0 for value in [baseline_value, candidate_value, delta_value, cap_value]):
+                failures.append(f"performance:enhancement-ledger-integer:{measured_index}:{name}")
+            if cap_value != expected_p83_caps[name]:
+                failures.append(f"performance:enhancement-ledger-cap-schema:{measured_index}:{name}")
+            if expected_delta is None or delta_value != expected_delta:
+                failures.append(f"performance:enhancement-ledger-delta:{measured_index}:{name}")
+            if isinstance(delta_value, int) and isinstance(cap_value, int) and delta_value > cap_value:
+                failures.append(f"performance:enhancement-ledger-cap:{measured_index}:{name}")
+            if isinstance(running.get(name), int) and isinstance(delta_value, int):
+                running[name] += delta_value
+    allowance = performance_budgets.get("releaseBaseline", {}).get("enhancementAllowance", {})
+    for name in enhancement_keys:
+        if allowance.get(name) != running.get(name):
             failures.append(f"performance:enhancement-ledger-sum:{name}")
 if "tolerance" in performance_budgets.get("releaseBaseline", {}):
     failures.append("performance:p50-additive-policy-must-not-use-percent-tolerance")

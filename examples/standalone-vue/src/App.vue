@@ -32,6 +32,7 @@ import {
   UiFloatButton,
   UiFloatButtonGroup,
   UiSchemaForm,
+  UiSkeleton,
   UiInput,
   UiTextarea,
   UiInputTag,
@@ -293,6 +294,9 @@ const rows = computed(() => [
         </UiSpace>
         <UiDivider label="Layout boundary" />
       </UiLayout>
+    </UiCard>
+    <UiCard data-skeleton-state-contract title="Consumer loading/content" subtitle="The standalone package keeps one stable placeholder/content region.">
+      <UiSkeleton :loading="!standaloneCardSelected" :rows="2" avatar title round aria-label="Loading consumer data"><template #default><strong>Consumer data ready</strong></template></UiSkeleton>
     </UiCard>
 
     <UiCard data-breadcrumb-state-contract title="Consumer navigation path" subtitle="Semantic, collapsible and typed UiBreadcrumb from the packed dependency">

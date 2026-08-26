@@ -100,22 +100,41 @@ const enhancementKeys=['packageJsRaw','packageJsGzip','packageCssRaw','packageCs
 const preP83Allowance={packageJsRaw:259600,packageJsGzip:79800,packageCssRaw:341000,packageCssGzip:58000,rootCssRaw:83300,rootCssGzip:11600,largestComponentCssRaw:14000,largestComponentCssGzip:3000,subpathConsumerJsRaw:10000,subpathConsumerCssRaw:2100,standaloneExampleJsRaw:308000,standaloneExampleCssRaw:84000}
 const ledger=releaseBaseline?.enhancementLedger
 const isNonNegativeInteger=value=>Number.isInteger(value)&&value>=0
-if(!Array.isArray(ledger)||ledger.length!==2||ledger[0]?.version!=='pre-P83'||ledger[0]?.kind!=='cumulative'||ledger[1]?.version!==config.version||ledger[1]?.kind!=='measured-delta'){
+const parseSemver=value=>{
+  if(typeof value!=='string')return null
+  const match=/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:[-+][0-9A-Za-z.-]+)?$/.exec(value)
+  return match?[Number(match[1]),Number(match[2]),Number(match[3])]:null
+}
+const compareSemver=(left,right)=>{
+  const a=parseSemver(left),b=parseSemver(right)
+  if(!a||!b)return Number.NaN
+  for(let index=0;index<3;index++)if(a[index]!==b[index])return a[index]-b[index]
+  return 0
+}
+const measuredEntries=Array.isArray(ledger)?ledger.slice(1):[]
+const semverRegression=compareSemver('1.100.0','1.99.0')>0
+if(!semverRegression)failures.push('enhancementLedger:semver-comparator-regression')
+else console.log('PERFORMANCE_SEMVER PASS compare=1.100.0>1.99.0')
+if(!Array.isArray(ledger)||ledger.length<3||ledger[0]?.version!=='pre-P83'||ledger[0]?.kind!=='cumulative'||measuredEntries.some((entry,index)=>entry?.kind!=='measured-delta'||!parseSemver(entry.version)||(index>0&&compareSemver(entry.version,measuredEntries[index-1].version)<=0))||measuredEntries.at(-1)?.version!==config.version){
   failures.push('enhancementLedger: schema/order/version')
 }else{
   const cumulative=ledger[0].allowance||{}
-  const measured=ledger[1]
+  const running=Object.fromEntries(enhancementKeys.map(name=>[name,cumulative[name]]))
+  for(const name of enhancementKeys)if(running[name]!==preP83Allowance[name])failures.push(`enhancementLedger:${name}:pre-P83-mismatch`)
+  for(const measured of measuredEntries){
+    for(const name of enhancementKeys){
+      const baseline=measured.baseline?.[name],candidate=measured.candidate?.[name],delta=measured.delta?.[name],cap=measured.caps?.[name]
+      const expected=Math.max(0,candidate-baseline)
+      if(!isNonNegativeInteger(baseline)||!isNonNegativeInteger(candidate)||!isNonNegativeInteger(delta)||!isNonNegativeInteger(cap)) failures.push(`enhancementLedger:${measured.version}:${name}:non-negative-integer`)
+      else if(delta!==expected) failures.push(`enhancementLedger:${measured.version}:${name}:candidate-delta-mismatch`)
+      if(delta>cap) failures.push(`enhancementLedger:${measured.version}:${name}:cap-exceeded`)
+      running[name]+=delta
+    }
+  }
+  const latest=measuredEntries.at(-1)
   for(const name of enhancementKeys){
-    const baseline=measured.baseline?.[name]
-    const candidate=measured.candidate?.[name]
-    const delta=measured.delta?.[name]
-    const cap=measured.caps?.[name]
-    const expected=Math.max(0,candidate-baseline)
-    if(!isNonNegativeInteger(baseline)||!isNonNegativeInteger(candidate)||!isNonNegativeInteger(delta)||!isNonNegativeInteger(cap)) failures.push(`enhancementLedger:${name}:non-negative-integer`)
-    else if(candidate!==metrics[name]||delta!==expected) failures.push(`enhancementLedger:${name}:candidate-delta-mismatch`)
-    if(cumulative[name]!==preP83Allowance[name]) failures.push(`enhancementLedger:${name}:pre-P83-mismatch`)
-    if(delta>cap) failures.push(`enhancementLedger:${name}:cap-exceeded`)
-    if(releaseBaseline.enhancementAllowance?.[name]!==cumulative[name]+delta) failures.push(`enhancementLedger:${name}:allowance-sum-mismatch`)
+    if(latest.candidate?.[name]!==metrics[name])failures.push(`enhancementLedger:${name}:candidate-current-mismatch`)
+    if(releaseBaseline.enhancementAllowance?.[name]!==running[name])failures.push(`enhancementLedger:${name}:allowance-sum-mismatch`)
   }
 }
 if('tolerance' in (releaseBaseline||{})) failures.push('enhancementLedger:percent-tolerance-forbidden')

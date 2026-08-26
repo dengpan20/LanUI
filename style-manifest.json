@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "package": "lan-ui-design-system",
-  "version": "1.78.0",
+  "version": "1.79.0",
   "root": {
     "subpath": "./style.css",
-    "bytes": 285511,
-    "rules": 2232,
+    "bytes": 286154,
+    "rules": 2238,
     "source": "component-union"
   },
   "core": {
@@ -412,8 +412,8 @@
     {
       "name": "UiSkeleton",
       "subpath": "./styles/UiSkeleton.css",
-      "bytes": 601,
-      "rules": 6
+      "bytes": 1244,
+      "rules": 12
     },
     {
       "name": "UiSlider",

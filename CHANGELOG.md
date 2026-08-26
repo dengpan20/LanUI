@@ -4,6 +4,12 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.79.0] - 2026-08-26
+
+### Added
+
+- Expanded `UiSkeleton` with controlled loading/content rendering, normalized dimensions, placeholder slots, localized status semantics and SSR-safe instance inspection.
+
 ## [1.78.0] - 2026-08-25
 
 ### Added

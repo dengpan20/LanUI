@@ -52,7 +52,9 @@ const docs={
   categories,
   components,
 }
-const json=JSON.stringify(docs,null,2)+'\n'
+// The generated API JSON is a machine-readable package contract; compact
+// encoding keeps the packed artifact below its existing hard ceiling.
+const json=JSON.stringify(docs)+'\n'
 
 const escapeCell=value=>String(value??'—').replaceAll('|','\\|').replaceAll('\n',' ')
 const lines=[

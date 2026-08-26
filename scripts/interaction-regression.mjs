@@ -1902,6 +1902,17 @@ const allCases = [
     },
   },
   {
+    name:'skeleton-loading-content-transition',
+    query:'direction=ltr&state=skeleton',
+    run:async page=>{
+      const section=page.locator('.interaction-skeleton-case')
+      const skeleton=section.locator('.ui-skeleton')
+      await skeleton.waitFor();assert.equal(await skeleton.getAttribute('role'),'status');assert.equal(await skeleton.getAttribute('aria-busy'),'true');assert.equal(await section.getByTestId('skeleton-loaded-content').count(),0)
+      await section.locator('#interaction-skeleton-toggle').click();await expectText(page,'skeleton-output','content / content');assert.equal(await section.getByTestId('skeleton-loaded-content').count(),1);assert.equal(await skeleton.getAttribute('role'),null);assert.equal(await skeleton.getAttribute('aria-busy'),'false')
+      await section.locator('#interaction-skeleton-toggle').click();await expectText(page,'skeleton-output','loading / loading');assert.equal(await skeleton.getAttribute('role'),'status');assert.equal(await section.getByTestId('skeleton-loaded-content').count(),0)
+    },
+  },
+  {
     name:'api-reference-discovery',
     query:'direction=ltr&state=api-docs',
     run:async page=>{

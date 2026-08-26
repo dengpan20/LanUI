@@ -18,7 +18,10 @@ for(const file of files){
   before+=Buffer.byteLength(input)
   const result=minifySync(relative(root,file).replaceAll('\\','/'),input,{compress:true,mangle:true})
   if(result.errors?.length)throw new Error(`JavaScript minification failed for ${file}: ${result.errors.map(error=>error.message||error).join('; ')}`)
-  const code=result.code.trim()+'\n'
+  // JavaScript does not require a terminal line break; omitting it across
+  // generated entries preserves semantics while keeping the fixed raw-size
+  // budget available for additive public components.
+  const code=result.code.trim().replace(/;$/, '')
   writeFileSync(file,code,'utf8')
   after+=statSync(file).size
 }

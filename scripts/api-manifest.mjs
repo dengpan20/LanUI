@@ -190,7 +190,11 @@ const manifest={
   },
   components:componentEntries,
 }
-const output=JSON.stringify(manifest,null,2)+'\n'
+// Keep the published manifest semantically complete while avoiding repeated
+// indentation in the distribution archive. Consumers parse this JSON, and
+// compact output materially reduces the canonical package without changing
+// any API contract.
+const output=JSON.stringify(manifest)+'\n'
 const target=resolve(root,'api-manifest.json')
 
 if(process.argv.includes('--write')){

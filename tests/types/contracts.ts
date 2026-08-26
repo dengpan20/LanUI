@@ -47,6 +47,7 @@ import {
   UiRadioGroup,
   UiRate,
   UiSelect,
+  UiSkeleton,
   UiStatistic,
   UiStatusPage,
   UiSlider,

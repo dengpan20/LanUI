@@ -105,9 +105,16 @@ try{
   assert(await previewFloatActions.evaluate(element=>element.hidden),'FloatButton Escape should close the speed dial')
   await page.locator('#previewBackTop').click()
   assert((await previewFloatState.textContent())?.includes('back-top · activated'),'FloatButton back-to-top should publish activation state')
+  const previewSkeleton=page.locator('#previewSkeleton'),previewSkeletonToggle=page.locator('#previewSkeletonToggle'),previewSkeletonState=page.locator('#previewSkeletonState')
+  assert(await previewSkeleton.getAttribute('role')==='status'&&await previewSkeleton.getAttribute('aria-busy')==='true','Skeleton preview should expose status/busy semantics while loading')
+  await previewSkeletonToggle.click()
+  assert(await previewSkeleton.getAttribute('role')===null&&await previewSkeleton.getAttribute('aria-busy')==='false'&&await page.locator('#previewSkeletonLoaded').isVisible(),'Skeleton preview toggle should replace placeholder with loaded content')
+  assert((await previewSkeletonState.textContent())?.trim()==='content','Skeleton preview should publish content state')
+  await previewSkeletonToggle.click()
+  assert(await previewSkeleton.getAttribute('role')==='status'&&await previewSkeleton.getAttribute('aria-busy')==='true'&& (await previewSkeletonState.textContent())?.trim()==='loading','Skeleton preview should restore loading semantics')
   assert(pageErrors.length===0,`Static preview emitted page errors: ${pageErrors.join(' | ')}`)
 
-  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 tableKeyboard=current+selected datePicker=keyboard+selection+escape+clear dateRange=preview+complete+preset+escape+clear floatButton=open+select+escape+backtop layout=columns+mode+rtl+separator keyboard=pass minimum=invalid')
+  console.log('STATIC_PREVIEW_REGRESSION PASS pageErrors=0 cascaderSearch=1 cascaderNative=1 transferSearch=1 transferNative=2 paginationQuick=65/65 paginationSize=50 paginationNext=2/26 tableKeyboard=current+selected datePicker=keyboard+selection+escape+clear dateRange=preview+complete+preset+escape+clear floatButton=open+select+escape+backtop layout=columns+mode+rtl+separator skeleton=loading+content+loading keyboard=pass minimum=invalid')
 }catch(error){
   primaryError=error
 }finally{

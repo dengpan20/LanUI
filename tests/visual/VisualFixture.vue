@@ -4,7 +4,7 @@ import {
   UiAffix, UiAlert, UiAnchor, UiAutoComplete, UiBreadcrumb, UiButton, UiCalendar, UiCard, UiCarousel, UiConfigProvider, UiDatePicker, UiDateRangePicker, UiInput, UiInputTag, UiNumberInput, UiOtpInput, UiQueryBuilder,
   UiCascader, UiCheckbox, UiCheckboxGroup, UiDrawer, UiModal, UiMultiSelect, UiPagination, UiProgress, UiRadio, UiRadioGroup, UiSegmented, UiSwitch,
   UiImage, UiList, UiMentions, UiRate, UiSelect, UiSlider, UiStatistic, UiSteps, UiTable, UiTabs, UiTag, UiTimeline, UiTooltip, UiTransfer, UiTree, UiTreeSelect, UiColorPicker, UiCommandPalette,
-  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider, enUS,
+  UiBarcode, UiCollapse, UiCronEditor, UiDataGrid, UiDateTimePicker, UiDateTimeRangePicker, UiDropdown, UiFloatButton, UiFloatButtonGroup, UiForm, UiFormItem, UiFormList, UiKeyValueEditor, UiPageHeader, UiPopover, UiQRCode, UiSchemaForm, UiSkeleton, UiSplitter, UiStatusPage, UiTextarea, UiTimeRangePicker, UiTour, UiTypography, UiUpload, UiVirtualList, UiWatermark, UiLayout, UiGrid, UiCol, UiSpace, UiDivider, enUS,
 } from '../../src/index.js'
 import ApiReferencePage from '../../src/pages/ApiReferencePage.vue'
 
@@ -436,6 +436,13 @@ const tableRows=[
           <UiSpace :size="{ xs: 4, md: 8 }" separator="·" aria-label="Layout state labels"><UiTag color="blue">Responsive</UiTag><UiTag color="green">DOM order</UiTag><UiTag color="orange">Logical RTL</UiTag></UiSpace>
           <UiDivider label="Semantic boundary" />
         </UiLayout>
+      </div>
+    </UiCard>
+    <UiCard v-if="state==='skeleton'" title="Loading content contract" subtitle="Controlled content, normalized dimensions, placeholder slots and localized status semantics" title-tag="h2" class="visual-table-card visual-skeleton-showcase">
+      <div class="visual-skeleton-grid" data-skeleton-state-contract="loading content rows widths avatar title round dark rtl compact narrow ssr">
+        <UiSkeleton rows="3" avatar title round aria-label="Loading release evidence" />
+        <UiSkeleton :rows="2" :row-widths="[0,'64%']" :avatar-size="32" avatar-shape="square" :animated="false" />
+        <UiSkeleton :loading="false"><div class="visual-skeleton-loaded"><strong>Release evidence loaded</strong><span>Content replaces the placeholder without duplicate DOM.</span></div></UiSkeleton>
       </div>
     </UiCard>
     <UiCard v-if="state==='float-button'" title="Production floating actions" subtitle="Accessible standalone actions, speed dial and back-to-top behavior" title-tag="h2" class="visual-table-card visual-float-button-showcase">
