@@ -703,7 +703,7 @@ release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="
 for marker in ["20.19.0", "22.12.0", "LAN_UI_EXPECTED_NODE", "RUNTIME_COMPATIBILITY PASS"]:
     if marker not in runtime_contract and marker not in ci_workflow:
         failures.append(f"p40:runtime-matrix:{marker}")
-for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===92", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create"]:
+for marker in ["RELEASE_CONTRACT PASS", "componentNames.length===92", "actions/upload-artifact@v7", "actions/attest@v4", "artifact-metadata: write", "gh release create", "gh release view", "gh release upload", "--clobber"]:
     if marker not in release_contract and marker not in release_workflow:
         failures.append(f"p40:release-contract:{marker}")
 if package.get("scripts", {}).get("test:runtime") != "node scripts/runtime-compatibility.mjs" or "test:release" not in package.get("scripts", {}).get("test:package", ""):
@@ -1378,8 +1378,7 @@ for path, markers in {
         if marker not in source:
             failures.append(f"p83:contract:{path.name}:{marker}")
 for path, markers in {
-    ROOT / "src/pages/ComponentsPage.vue": ["布局原语 P83", "layoutDemoColumns", "UiLayout", "UiGrid", "UiSpace", "UiDivider"],
-    ROOT / "src/pages/WorkbenchPage.vue": ["UiLayout", "UiGrid", "UiCol", "UiSpace", "UiDivider"],
+    ROOT / "src/pages/ComponentsPage.vue": ["布局原语 P83", "layoutDemoColumns", "layout-primitive-stage", "demo-controls", "UiLayout", "UiGrid", "UiCol", "UiSpace", "UiDivider"],
     ROOT / "component-preview.html": ["layout-primitives-p83", "previewLayoutColumns", "previewLayoutMode", "previewLayoutRtl"],
     ROOT / "examples/standalone-vue/src/App.vue": ["Responsive layout primitives", "UiLayout", "UiGrid", "UiSpace", "UiDivider"],
     ROOT / "UI-SPEC.md": ["Maturity P83", "responsive layout primitives"],

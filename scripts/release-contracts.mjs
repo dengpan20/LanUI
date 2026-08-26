@@ -44,9 +44,17 @@ export function validateRelease({ref,tag=false,artifact,writeChecksum=true}={}){
     'subject-path:',
     'artifact-metadata: write',
     'gh release create',
+    'gh release view',
+    'gh release upload',
+    '--clobber',
     'pnpm run prepack',
     'version: 10.34.0',
   ])assert(workflow.includes(marker),`Release workflow is missing ${marker}`)
+  const releaseViewIndex=workflow.indexOf('gh release view')
+  const releaseCreateIndex=workflow.indexOf('gh release create')
+  const releaseUploadIndex=workflow.indexOf('gh release upload')
+  assert(releaseViewIndex<releaseCreateIndex&&releaseCreateIndex<releaseUploadIndex,'Release workflow must inspect, create when missing, then upload assets')
+  assert(/gh release upload[^\n]*--clobber/.test(workflow),'Release workflow must replace assets on duplicate tag runs')
   assert(typeof ref==='string'&&ref.length>0,'Release ref is required')
   assert(!/[\s\\]/.test(ref),'Release ref contains unsafe characters')
   if(tag)assert(ref===`v${version}`,`Tag ${ref} must exactly match package version v${version}`)
@@ -75,7 +83,7 @@ export function validateRelease({ref,tag=false,artifact,writeChecksum=true}={}){
     digest=createHash('sha256').update(readFileSync(absolute)).digest('hex')
     if(writeChecksum)writeFileSync(`${absolute}.sha256`,`${digest}  ${basename(absolute)}\n`,'utf8')
   }
-  const report={mode:tag?'tag':'dry-run',ref,version,artifact:artifact?basename(artifact):'none',sha256:digest,files:fileCount,workflow:'upload+attest+github-release'}
+  const report={mode:tag?'tag':'dry-run',ref,version,artifact:artifact?basename(artifact):'none',sha256:digest,files:fileCount,workflow:'upload+attest+idempotent-github-release'}
   return report
 }
 
