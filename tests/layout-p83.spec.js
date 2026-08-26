@@ -96,4 +96,14 @@ describe('P83 layout primitive contracts',()=>{
     expect(styles).toContain('.ui-divider.decorative')
     expect(styles).not.toMatch(/ui-layout[^\n]*transition:/)
   })
+
+  it('keeps the P83 showcase controls responsive and its horizontal grid flexible',()=>{
+    const page=fs.readFileSync('src/pages/ComponentsPage.vue','utf8')
+    const styles=fs.readFileSync('styles.css','utf8')
+    expect(page).toContain('data-layout-p83-demo')
+    expect(page).toContain('class="layout-primitive-stage"')
+    expect(styles).toMatch(/\.layout-demo-section\s*>\s*\.demo-controls\s*\{[^}]*display:\s*grid[^}]*grid-template-columns:\s*repeat\(4,minmax\(0,1fr\)\)\s+auto/)
+    expect(page).toContain(":direction=\"{xs:'vertical',md:layoutDemoDirection}\"")
+    expect(styles).toMatch(/@media\s*\(min-width:768px\)\s*\{\.layout-primitive-stage\.is-horizontal\s*>\s*\.ui-grid\s*\{[^}]*flex:\s*1 1 0/)
+  })
 })

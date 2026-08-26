@@ -1,20 +1,10 @@
 <script setup>
-import { ref } from 'vue'
 import AppIcon from '../components/AppIcon.vue'
 import UiPageHeader from '../components/UiPageHeader.vue'
 import UiAvatar from '../components/UiAvatar.vue'
 import MetricCard from '../components/MetricCard.vue'
 import UiCard from '../components/UiCard.vue'
-import UiFloatButton from '../components/UiFloatButton.vue'
-import UiFloatButtonGroup from '../components/UiFloatButtonGroup.vue'
-import UiLayout from '../components/UiLayout.vue'
-import UiGrid from '../components/UiGrid.vue'
-import UiCol from '../components/UiCol.vue'
-import UiSpace from '../components/UiSpace.vue'
-import UiDivider from '../components/UiDivider.vue'
-import UiSkeleton from '../components/UiSkeleton.vue'
 defineEmits(['notify','navigate'])
-const workbenchLoading=ref(true)
 
 const quick = [
   ['plus','新建订单'],['users','客户管理'],['file','经营报表'],['calendar','日程计划'],
@@ -31,8 +21,6 @@ const activities = [
 <template>
   <div class="page-container">
     <UiPageHeader title="我的工作台" description="集中处理待办、业务动态与常用功能" :breadcrumbs="[{label:'工作台',href:'#/workbench'},{label:'我的工作台'}]"><template #actions><button class="icon-btn outline" title="自定义工作台" @click="$emit('notify','工作台编辑模式已开启')"><AppIcon name="settings"/></button></template></UiPageHeader>
-    <UiLayout :gap="12" contained aria-label="工作台布局原语"><UiGrid :columns="{xs:1,md:4}" :gap="{xs:8,md:12}" mode="fixed"><UiCol :span="4"><UiSpace :size="6" :wrap="false"><span class="subtle">Responsive layout</span><UiDivider vertical decorative/></UiSpace></UiCol><UiCol :span="4"><span class="subtle">12 → 4 columns</span></UiCol><UiCol :span="4"><span class="subtle">RTL-safe logical gaps</span></UiCol></UiGrid></UiLayout>
-    <UiCard title="数据同步状态" style="margin-bottom:16px"><template #action><button class="card-action" type="button" @click="workbenchLoading=!workbenchLoading">{{ workbenchLoading?'显示内容':'模拟加载' }}</button></template><UiSkeleton :loading="workbenchLoading" :rows="2" title avatar aria-label="正在加载工作台数据"><template #default><div class="subtle">今日待办、公告和团队动态已加载，内容区域保持稳定尺寸。</div></template></UiSkeleton></UiCard>
     <div class="card welcome-card" style="margin-bottom:16px">
       <UiAvatar name="Admin User" size="lg" aria-label="Admin User avatar"/><div class="welcome-copy"><h2>早上好，Admin User 👋</h2><p>今天是 2026 年 8 月 10 日，星期一。你有 <strong class="text-brand">6 项待办</strong>需要处理。</p></div>
       <div class="welcome-weather"><AppIcon name="sun" :size="30" class="weather-icon"/><div><strong>29°C</strong><div class="subtle" style="font-size:10px">上海 · 晴</div></div></div>
@@ -46,6 +34,5 @@ const activities = [
       <UiCard title="我的待办"><template #action><button class="card-action" @click="$emit('navigate','/data')">查看全部</button></template><div class="table-wrap"><table class="data-table"><thead><tr><th>待办事项</th><th>业务模块</th><th>优先级</th><th>截止时间</th><th>操作</th></tr></thead><tbody><tr><td><span class="cell-title">审批华东区域采购申请</span></td><td>采购管理</td><td><span class="tag tag-red">紧急</span></td><td>今天 14:00</td><td><button class="btn btn-text btn-sm" @click="$emit('notify','已进入审批')">处理</button></td></tr><tr><td><span class="cell-title">确认 Q3 销售目标拆解</span></td><td>目标管理</td><td><span class="tag tag-orange">较高</span></td><td>今天 18:00</td><td><button class="btn btn-text btn-sm" @click="$emit('notify','已进入确认')">处理</button></td></tr><tr><td><span class="cell-title">更新重点客户跟进记录</span></td><td>客户管理</td><td><span class="tag tag-blue">普通</span></td><td>明天 12:00</td><td><button class="btn btn-text btn-sm" @click="$emit('notify','已打开客户记录')">处理</button></td></tr></tbody></table></div></UiCard>
       <UiCard title="团队动态"><template #action><button class="card-action" @click="$emit('notify','动态已刷新')"><AppIcon name="refresh" :size="14"/></button></template><div><div v-for="a in activities" :key="a[1]" class="activity-item"><UiAvatar :name="a[0]" :color="a[3]" size="sm"/><div class="activity-copy"><strong>{{ a[0] }}</strong> {{ a[1] }}<span class="activity-time">{{ a[2] }}</span></div></div></div></UiCard>
     </div>
-  <UiFloatButtonGroup trigger-label="工作台快捷操作" aria-label="工作台快捷操作" placement="top" @select="$emit('notify','工作台操作已打开')"><UiFloatButton icon="plus" label="新建订单" action-key="order"/><UiFloatButton icon="bell" label="查看通知" action-key="notice"/><UiFloatButton icon="arrowUp" label="返回顶部" back-top action-key="top"/></UiFloatButtonGroup>
   </div>
 </template>
