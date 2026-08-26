@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
-  "version": "1.80.0",
+  "version": "1.80.1",
   "description": "Deterministic runtime, stylesheet, consumer-build and publishable-tarball budgets with previous-release improvement gates for Lan UI.",
   "baseline": {
     "version": "1.4.0",
@@ -211,6 +211,66 @@
           "subpathConsumerCssRaw": 0,
         "standaloneExampleJsRaw": 96,
         "standaloneExampleCssRaw": 1015
+        },
+        "caps": {
+          "packageJsRaw": 30000,
+          "packageJsGzip": 8500,
+          "packageCssRaw": 24000,
+          "packageCssGzip": 4500,
+          "rootCssRaw": 5000,
+          "rootCssGzip": 2000,
+          "largestComponentCssRaw": 1500,
+          "largestComponentCssGzip": 300,
+          "subpathConsumerJsRaw": 10000,
+          "subpathConsumerCssRaw": 2100,
+          "standaloneExampleJsRaw": 30000,
+          "standaloneExampleCssRaw": 24000
+        }
+      },
+      {
+        "version": "1.80.1",
+        "kind": "measured-delta",
+        "baseline": {
+          "packageJsRaw": 975626,
+          "packageJsGzip": 350326,
+          "packageCssRaw": 934668,
+          "packageCssGzip": 187489,
+          "rootCssRaw": 286526,
+          "rootCssGzip": 43564,
+          "largestComponentCssRaw": 79325,
+          "largestComponentCssGzip": 11674,
+          "subpathConsumerJsRaw": 100715,
+          "subpathConsumerCssRaw": 9948,
+          "standaloneExampleJsRaw": 968379,
+          "standaloneExampleCssRaw": 293274
+        },
+        "candidate": {
+          "packageJsRaw": 975626,
+          "packageJsGzip": 350326,
+          "packageCssRaw": 934668,
+          "packageCssGzip": 187489,
+          "rootCssRaw": 286526,
+          "rootCssGzip": 43564,
+          "largestComponentCssRaw": 79325,
+          "largestComponentCssGzip": 11674,
+          "subpathConsumerJsRaw": 100715,
+          "subpathConsumerCssRaw": 9948,
+          "standaloneExampleJsRaw": 968379,
+          "standaloneExampleCssRaw": 293274
+        },
+        "delta": {
+          "packageJsRaw": 0,
+          "packageJsGzip": 0,
+          "packageCssRaw": 0,
+          "packageCssGzip": 0,
+          "rootCssRaw": 0,
+          "rootCssGzip": 0,
+          "largestComponentCssRaw": 0,
+          "largestComponentCssGzip": 0,
+          "subpathConsumerJsRaw": 0,
+          "subpathConsumerCssRaw": 0,
+          "standaloneExampleJsRaw": 0,
+          "standaloneExampleCssRaw": 0
         },
         "caps": {
           "packageJsRaw": 30000,

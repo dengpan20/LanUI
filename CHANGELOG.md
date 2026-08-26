@@ -4,6 +4,13 @@ All notable changes to Lan UI are documented here. The format follows Keep a Cha
 
 ## [Unreleased]
 
+## [1.80.1] - 2026-08-27
+
+### Fixed
+
+- Repaired the P83 layout-primitives showcase so responsive controls and the horizontal Grid/Space/Divider preview no longer collapse into a narrow column.
+- Added responsive P83 stacking and regression coverage, and removed obsolete maturity-only demo blocks from the workbench.
+
 ## [1.80.0] - 2026-08-26
 
 ### Added
